@@ -1,115 +1,58 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import { PrismaClient } from '@prisma/client'
 
-export default function Home() {
+
+export const getStaticProps = async () => {
+  const prisma = new PrismaClient()
+  const feed = await prisma.ttkweapons.findMany();
+
+  return {
+    props: {
+      feed:JSON.parse(JSON.stringify(feed))
+    }
+  };
+};
+
+export default function Home(props) {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>TTK Rolldice</title>
+    <link rel="icon" type="icon" href="/dice.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet"></link>
+        
       </Head>
 
       <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+      
+    <div className={styles.weaponsContainer}>
+        <button id="addWeaponButton">Új fegyver hozzáadása</button>
+        <form id="addWeaponForm" action="">
+            <label for="w_name" id="">Fegyver neve:</label>
+            <input type="text" name="w_name" class="newWeaponInput" id="w_name" placeholder="pl. Slan kard"/>
+            <label for="w_damage" id="">Sebzéskód:</label>
+            <input type="text" name="w_damage" class="newWeaponInput" id="w_damage" placeholder="pl. 3k5"/>
+            <label for="w_type" id="">Fegyver típusa:</label>
+            <select name="w_type" class="newWeaponInput" id="w_type" placeholder="pl. HP">
+                <option value="">Válassz típust!</option>
+            </select>
+        </form>
+        <button type="submit" name="submit" form="addWeaponForm" id="addWeaponFormSubmitButton">Elküld</button>
+        <label for="weapons" id="chosenWeapon">Választott fegyver:</label>
+          <select id="weapons" name="weapons">
+          {props.feed.map((e) => {
+                return <option id={e.w_id}>{e.w_name}</option>;
+              })}
+           {/*  <option value="">Válassz fegyvert:</option> */}
+        </select>
+        <label for="characters" id="chosenCharacter">Választott karakter:</label>
+        <select id="characters" name="characters">
+        </select>
+    </div>
       </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
     </div>
   )
 }

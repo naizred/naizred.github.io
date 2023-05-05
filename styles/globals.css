@@ -1,38 +1,362 @@
-html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
+    display: grid;
+    background-color: #000000;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    height: 52vw;
+    width: 64vw;
+    background-image: url('../public/parchmentPaper.jpg');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-family: 'MedievalSharp', cursive;
+    color: black;
+    -webkit-text-stroke: #f35900 0.1px;
+    font-size: 1.4vw;
+    text-shadow: 4px 4px 5px #682600;
+    padding-top: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 img {
-  max-width: 100%;
-  height: auto;
+    height: 16vw;
+    width: 12vw;
 }
 
-h1,
-h2,
-p,
-ul {
-  margin: 0;
-}
-
-ul {
-  padding: 0;
-  list-style: none;
+input,
+select {
+    background-image: url('../public/parchmentPaper.jpg');
+    background-size: 19.3vw 2vw;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  font-weight: bold;
+    display: grid;
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1vw;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 4px 4px 5px #000000;
+    border: 3px solid #680604;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+    background-image: url('../public/parchmentPaper.jpg');
+    background-size: 19.3vw 2vw;
+    text-decoration: none;
+    color: black;
+    -webkit-text-stroke: #f35900 0.1px;
+}
+
+.resultContainer {
+    background-color: none;
+    display: grid;
+    grid-column: 1 / 8;
+    grid-row: 1 / 8;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    height: 27vw;
+    width: 30vw;
+    margin: 0px 5px;
+    align-items: center;
+    border: 3px solid #680604;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+}
+
+.inNumber {
+    display: grid;
+    grid-row: 2 / 6;
+    grid-column: span 2;
+    font-size: 9vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.inText {
+    display: grid;
+    grid-row: 1 / 2;
+    grid-column: span 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.hitCheck {
+    display: grid;
+    grid-row: 6 / 7;
+    grid-column: span 4;
+    align-items: center;
+    justify-content: center;
+}
+
+.bodyPart {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-row: 7 / 11;
+    grid-column: span 4;
+    font-size: 4vw;
+}
+
+.weaponsContainer {
+    display: grid;
+    grid-column: 8 / 16;
+    grid-row: 1 / 8;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    height: 27vw;
+    width: 30vw;
+    align-items: center;
+    justify-content: center;
+}
+
+#addWeaponForm {
+    display: grid;
+    grid-column: 6 / 9;
+    grid-row: 2 / 5;
+    opacity: 1;
+    height: 0px;
+    font-size: 0px;
+    padding-right: 20px;
+}
+
+#addWeaponButton {
+    display: grid;
+    grid-column: 2 / 6;
+    grid-row: 3 / 5;
+    font-size: 2.4vw;
+    margin-right: 16px;
+    text-shadow: 4px 4px 5px #000000;
+    background-color: #e8d090;
+    background-image: url('../public/sword2.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-bottom: 10px;
+    border: 3px solid #680604;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+}
+
+#addWeaponButton:hover {
+    display: grid;
+    font-size: 2.4vw;
+    background-image: url('../public/sasuke.gif');
+    background-repeat: no-repeat;
+    background-size: 15vw 10vw;
+    text-shadow: 4px 4px 5px #000000;
+}
+
+#addWeaponButton:disabled {
+    display: grid;
+    grid-column: 2 / 6;
+    grid-row: 3 / 5;
+    font-size: 2.4vw;
+    background-image: url('../public/sasuke.gif');
+    background-repeat: no-repeat;
+    background-size: 15vw 10vw;
+    margin-right: 16px;
+    text-shadow: 4px 4px 5px #000000;
+    color: black;
+    -webkit-text-stroke: #f35900 0.3px;
+}
+
+#w_name,
+#w_damage,
+#w_type {
+    height: 0px;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#addWeaponFormSubmitButton {
+    display: none;
+    grid-column: 2 / 6;
+    grid-row: 3 / 5;
+    margin-right: 16px;
+    font-size: 2.4vw;
+    background-image: url('../public/sword2.png');
+    background-color: #e8d090;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: contain;
+    text-shadow: 4px 4px 5px #000000;
+    border: 3px solid #680604;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+    padding: 30px 0px;
+}
+
+#addWeaponFormSubmitButton:hover {
+    -webkit-box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+}
+
+#weapons {
+    display: grid;
+    grid-column: 5 / 8;
+    grid-row: 8 / 9;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#chosenWeapon {
+    font-size: 1vw;
+    display: grid;
+    grid-column: 5 / 8;
+    grid-row: 7 / 8;
+    align-self: flex-end;
+}
+
+#characters {
+    display: none;
+    grid-column: 5 / 8;
+    grid-row: 10 / 11;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#chosenCharacter {
+    font-size: 1vw;
+    display: none;
+    grid-column: 5 / 8;
+    grid-row: 9 / 10;
+    align-self: flex-start;
+}
+
+#bodyPartImg {
+    display: grid;
+    grid-column: 8 / 12;
+    grid-row: 5 / 9;
+    height: 16vw;
+    width: 12vw;
+    border: 3px solid #680604;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+    margin: 0px 5px;
+    background-image: url('../public/bodyParts/bodyPartsDefault.png');
+    background-size: 12vw 16vw;
+}
+
+.gifContainer {
+    grid-row: 8 / 16;
+    grid-column: 2 / 5;
+    align-items: center;
+    justify-content: center;
+    background-size: inherit;
+    background-repeat: no-repeat;
+    margin-top: 20px;
+    width: 7wv;
+    height: 18vw;
+    border: 3px solid #680604;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+}
+
+.rollButton {
+    display: grid;
+    grid-column: 8 / 11;
+    grid-row: 9 / 12;
+    font-size: 4.5vw;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 4px 4px 5px #000000;
+    border: 3px solid #680604;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+    background-image: url('../public/parchmentPaper.jpg');
+    background-size: 11.2vw 8vw;
+}
+
+.rollButton:hover {
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+}
+
+.rollButton:disabled {
+    color: black;
+}
+
+.loginForm {
+    display: grid;
+    grid-column: 12 / 17;
+    grid-row: 9 / 16;
+}
+
+.charStats {
+    display: grid;
+    grid-column: 12 / 14;
+    grid-row: 7 / 9;
+}
+
+#charAtkSumText{
+    display: grid;
+    grid-column: 8 / 11;
+    grid-row: 12 / 13;
+}
+
+#charAtkSum {
+    display: grid;
+    grid-column: 8 / 11;
+    grid-row: 13 / 16;
+}
+
+.welcomeUser {
+    font-size: 1.2vw;
+    display: none;
+    grid-column: 13 / 16;
+    grid-row: 1 / 2;
+}
+
+.statusMessage {
+    height: 0.5vw;
+    color: red;
+    font-size: 0.7vw;
+}
+
+.signOut {
+    display: none;
+}
+
+.register {
+    margin-top: 2vw;
+    display: grid;
+    font-size: 1vw;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 4px 4px 5px #000000;
+    border: 3px solid #680604;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+    background-image: url('../public/parchmentPaper.jpg');
+    background-size: 19.3vw 2vw;
+    text-decoration: none;
+    color: black;
+    -webkit-text-stroke: #f35900 0.1px;
+}
+
+#password {
+    margin-bottom: 2vw;
 }
