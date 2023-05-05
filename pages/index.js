@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css';
 import { PrismaClient } from '@prisma/client'
 
 
-export const getStaticProps = async () => {
+/* export const getStaticProps = async () => {
   const prisma = new PrismaClient()
   const feed = await prisma.ttkweapons.findMany();
 
@@ -12,7 +12,7 @@ export const getStaticProps = async () => {
       feed:JSON.parse(JSON.stringify(feed))
     }
   };
-};
+}; */
 
 export default function Home(props) {
   let bodyParts = ["bal láb", "jobb láb", "bal kar", "fegyverforgató kar", "fegyverforgató kar", "törzs", "törzs", "törzs", "törzs", "fej"];
