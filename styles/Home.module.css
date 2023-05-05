@@ -9,3 +9,57 @@
   align-items: center;
   justify-content: center;
 }
+
+.resultContainer {
+  background-color: none;
+  display: grid;
+  grid-column: 1 / 8;
+  grid-row: 1 / 8;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  height: 27vw;
+  width: 30vw;
+  margin: 0px 5px;
+  align-items: center;
+  border: 3px solid #680604;
+  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+}
+
+.bodyPart {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-row: 7 / 11;
+  grid-column: span 4;
+  font-size: 4vw;
+}
+
+.rollButton {
+  display: grid;
+  grid-column: 8 / 11;
+  grid-row: 9 / 12;
+  font-size: 4.5vw;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 4px 4px 5px #000000;
+  border: 3px solid #680604;
+  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  background-image: url('../public/parchmentPaper.jpg');
+  background-size: 11.2vw 8vw;
+}
+
+.rollButton:hover {
+  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+}
+
+.rollButton:disabled {
+  color: black;
+}
