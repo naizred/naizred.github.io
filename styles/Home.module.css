@@ -1,3 +1,24 @@
+.main {
+  display: grid;
+  background-color: #000000;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(16, 1fr);
+  height: 52vw;
+  width: 64vw;
+  background-image: url('../public/parchmentPaper.jpg');
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  font-family: 'MedievalSharp', cursive;
+  color: black;
+  -webkit-text-stroke: #f35900 0.1px;
+  font-size: 1.4vw;
+  text-shadow: 4px 4px 5px #682600;
+  padding-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
 .weaponsContainer {
   display: grid;
   grid-column: 8 / 16;
@@ -62,4 +83,21 @@
 
 .rollButton:disabled {
   color: black;
+}
+
+.gifContainer {
+  grid-row: 8 / 10;
+  grid-column: 2 / 5;
+  align-items: center;
+  justify-content: center;
+  background-size: inherit;
+  background-repeat: no-repeat;
+  margin-top: 20px;
+  width: 7wv;
+  height: 12.5vw;
+  border: 3px solid #680604;
+  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
 }
