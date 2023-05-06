@@ -54,7 +54,7 @@ export default function Home(props) {
     return bodyParts[lightDice - 1];
   }
 
-  function handleClick() {
+  async function handleClick() {
     bodyPartImg.innerHTML = "";
     charAtkSum.innerText = "";
     rollButton.disabled = true;
@@ -158,7 +158,7 @@ export default function Home(props) {
     setTimeout(() => {
       charAtkSum.animate([{ color: "white" }, { color: "black" }], 500);
     }, 4750);
-    damageResult.innerText = darkDice;
+
     bodyPart.innerText = hitChecker(lightDice);
 
     setTimeout(() => {
@@ -259,6 +259,35 @@ export default function Home(props) {
     setTimeout(() => {
       bodyPart.animate([{ color: "white" }, { color: "black" }], 500);
     }, 2500);
+
+    console.log(weapons.value);
+
+    await fetch(`../api/ttkweapons/${weapons.value}`)
+      .then((response) => {
+        console.log(response.status);
+        console.log(response.ok);
+        return response.json();
+      })
+      .then((parsedData) => {
+        return parsedData.w_damage;
+      })
+      .then((damage) => {
+        if (damage === "2k10") {
+          damageResult.innerText = darkDice + lightDice;
+        } else if (damage === "2k5") {
+          damageResult.innerText =
+            Math.ceil(darkDice / 2) + Math.ceil(lightDice / 2);
+        } else if (damage === "k5+1") {
+          damageResult.innerText = Math.ceil(darkDice / 2) + 1;
+        } else if (damage === "3k5") {
+          damageResult.innerText =
+            Math.ceil(darkDice / 2) * 2 + Math.ceil(lightDice / 2);
+        } else if (damage === "k5") {
+          damageResult.innerText = Math.ceil(darkDice / 2);
+        } else if (damage === "k10") {
+          damageResult.innerText = darkDice;
+        }
+      });
   }
 
   function handleWeaponAdd() {
@@ -269,7 +298,19 @@ export default function Home(props) {
       w_type.appendChild(typeOption);
     });
 
-    let damageArray = ["k2","2k2","k5","k5+1","k5+2","2k5","2k5+1","2k5+2","3k5","k10","2k10"];
+    let damageArray = [
+      "k2",
+      "2k2",
+      "k5",
+      "k5+1",
+      "k5+2",
+      "2k5",
+      "2k5+1",
+      "2k5+2",
+      "3k5",
+      "k10",
+      "2k10",
+    ];
     damageArray.forEach((element) => {
       let damageOption = document.createElement("option");
       damageOption.innerText = element;
@@ -301,33 +342,30 @@ export default function Home(props) {
       addWeaponFormSubmitButton.style.display = "grid";
     }, 100);
   }
-    async function handleWeaponSubmit (event) {
-        event.preventDefault();
-        
+  async function handleWeaponSubmit(event) {
+    event.preventDefault();
 
     const data = {
-        w_name: event.target.w_name.value,
-        w_damage: event.target.w_damage.value,
-        w_type: event.target.w_type.value
-      };
- 
-        const JSONdata = JSON.stringify(data);
+      w_name: event.target.w_name.value,
+      w_damage: event.target.w_damage.value,
+      w_type: event.target.w_type.value,
+    };
 
-      const endpoint = "../api/addNewWeapon";
-      const options = {
-     
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-           body: JSONdata,
-      };
-   
-        setTimeout(() => {
-            
-        window.location.reload()
-        }, 2000);
-      await fetch(endpoint, options);
+    const JSONdata = JSON.stringify(data);
+
+    const endpoint = "../api/addNewWeapon";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSONdata,
+    };
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+    await fetch(endpoint, options);
   }
 
   return (
@@ -373,27 +411,34 @@ export default function Home(props) {
               <option value="">Válassz típust!</option>
             </select>
           </form>
-          <label htmlFor="weapons" id="chosenWeapon">
+          <label htmlFor="weapons">
             Választott fegyver:
           </label>
           <select id="weapons" name="weapons">
             {props.feed.map((e) => {
-              return <option key={e.w_id}>{e.w_name}</option>;
+              return (
+                <option key={e.w_id} id={e.w_damage}>
+                  {e.w_name}
+                </option>
+              );
             })}
           </select>
+          <label htmlFor="profession">
+            Képzettség foka:
+                  </label>
+                  <select id="weapons" name="profession"></select>
+          <label htmlFor="weapons">
+            Pusztító adottság:
+                  </label>
+                  <select id="weapons" name="weapons"></select>
           <button
             type="submit"
             name="submit"
             form="addWeaponForm"
-                      id="addWeaponFormSubmitButton"
-                                >
+            id="addWeaponFormSubmitButton"
+          >
             Elküld
           </button>
-
-          <label htmlFor="characters" id="chosenCharacter">
-            Választott karakter:
-          </label>
-          <select id="characters" name="characters"></select>
         </div>
 
         <div id="bodyPartImg"></div>
