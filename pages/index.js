@@ -423,14 +423,14 @@ export default function Home(props) {
               );
             })}
           </select>
-          <label htmlFor="profession">
+          {/* <label htmlFor="profession">
             Képzettség foka:
                   </label>
                   <select id="weapons" name="profession"></select>
           <label htmlFor="weapons">
             Pusztító adottság:
                   </label>
-                  <select id="weapons" name="weapons"></select>
+                  <select id="weapons" name="weapons"></select> */}
           <button
             type="submit"
             name="submit"
