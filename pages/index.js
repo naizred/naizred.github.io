@@ -411,7 +411,7 @@ export default function Home(props) {
               <option value="">Válassz típust!</option>
             </select>
           </form>
-          <label htmlFor="weapons">
+          <label htmlFor="weapons" id="chosenWeapon">
             Választott fegyver:
           </label>
           <select id="weapons" name="weapons">
