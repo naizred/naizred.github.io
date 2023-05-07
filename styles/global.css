@@ -181,10 +181,14 @@ button {
     align-items: center;
     justify-content: center;
     margin-bottom: 30px;
+    height: 2.2vw;
+    width: 10vw;
+  font-size: 1.5vw;
+  font-family: 'MedievalSharp', cursive;
 }
 
 #chosenWeapon {
-    font-size: 1vw;
+    font-size: 1.2vw;
     display: grid;
     grid-column: 5 / 8;
     grid-row: 7 / 8;
@@ -243,6 +247,14 @@ button {
     display: grid;
     grid-column: 8 / 11;
     grid-row: 12 / 13;
+}
+
+#charAtk{
+    display: grid;
+    width: 3vw;
+    height: 2vw;
+    font-size: 1.5vw;
+    font-family: 'MedievalSharp', cursive;
 }
 
 #charAtkSum {
