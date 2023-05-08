@@ -167,104 +167,48 @@ export default function Home(props) {
       let tempImg = document.createElement("img");
       tempImg.classList.add("tempImg");
       bodyPartImg.appendChild(tempImg);
+       async function currentBodypart(bodypart) {
+        tempImg.src = "";
+        tempImg.src = `./bodyParts/${bodypart}`;
+        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
+        setTimeout(() => {
+          tempImg.style.opacity = "0";
+          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
+        }, 600);
+        setTimeout(() => {
+          tempImg.style.opacity = "0";
+          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
+          tempImg.style.opacity = "1";
+        }, 1200);
+       }
+      
       if (bodyPart.innerText == "bal láb") {
-        tempImg.src = "";
-        tempImg.src = "./bodyParts/LeftLeg.png";
-        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        }, 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-          tempImg.style.opacity = "1";
-        }, 1200);
-      }
-
-      if (bodyPart.innerText == "jobb láb") {
-        tempImg.src = "";
-        tempImg.src = "./bodyParts/RightLeg.png";
-        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        }, 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-          tempImg.style.opacity = "1";
-        }, 1200);
+currentBodypart("LeftLeg.png")
+      } if (bodyPart.innerText == "jobb láb") {
+        currentBodypart("RightLeg.png")
       }
 
       if (bodyPart.innerText == "bal kar") {
-        tempImg.src = "";
-        tempImg.src = "./bodyParts/LeftArm.png";
-        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        }, 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-          tempImg.style.opacity = "1";
-        }, 1200);
-      }
+        currentBodypart("LeftArm.png")
+         }
 
       if (bodyPart.innerText == "fegyverforgató kar") {
-        tempImg.src = "";
-        tempImg.src = "./bodyParts/RightArm.png";
-        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        }, 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-          tempImg.style.opacity = "1";
-        }, 1200);
+        currentBodypart("RightArm.png")
       }
 
       if (bodyPart.innerText == "törzs") {
-        tempImg.src = "";
-        tempImg.src = "./bodyParts/Torso.png";
-        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        }, 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-          tempImg.style.opacity = "1";
-        }, 1200);
-      }
+        currentBodypart("Torso.png")
+           }
 
       if (bodyPart.innerText == "fej") {
-        tempImg.src = "";
-        tempImg.src = "./bodyParts/Head.png";
-        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        }, 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-          tempImg.style.opacity = "1";
-        }, 1200);
+        currentBodypart("Head.png")
+
       }
     }, 2550);
 
     setTimeout(() => {
       bodyPart.animate([{ color: "white" }, { color: "black" }], 500);
     }, 2500);
-
-    console.log(destroyerLevelSelect.value)
-console.log(parseInt(destroyerLevelSelect.value));
-
 
        await fetch(`../api/ttkweapons/${weapons.value}`)
       .then((response) => {
