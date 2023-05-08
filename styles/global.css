@@ -18,6 +18,25 @@ body {
     align-items: center;
 }
 
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #000000;
+    text-shadow: 4px 4px 5px #682600;
+    -webkit-text-stroke: #f35900 0.1px;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
 img {
     height: 16vw;
     width: 12vw;
@@ -26,25 +45,14 @@ img {
 input,
 select {
     background-image: url('../public/parchmentPaper.jpg');
-    background-size: 19.3vw 2vw;
+    background-size: 19.3vw 2.5vw;
+    height: 2vw;
 }
 
 button {
     display: grid;
     font-family: 'MedievalSharp', cursive;
     font-size: 1vw;
-    align-items: center;
-    justify-content: center;
-    text-shadow: 4px 4px 5px #000000;
-    border: 3px solid #680604;
-    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-    border-radius: 20px;
-    background-image: url('../public/parchmentPaper.jpg');
-    background-size: 19.3vw 2vw;
-    text-decoration: none;
-    color: black;
     -webkit-text-stroke: #f35900 0.1px;
 }
 
@@ -73,85 +81,44 @@ button {
     justify-content: center;
 }
 
-.weaponsContainer {
-    display: grid;
-    grid-column: 8 / 16;
-    grid-row: 1 / 8;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(12, 1fr);
-    height: 27vw;
-    width: 30vw;
-    align-items: center;
-    justify-content: center;
-}
-
 #addWeaponForm {
     display: grid;
-    grid-column: 6 / 9;
-    grid-row: 2 / 5;
+    grid-column: 6 / 11;
+    grid-row: 2 / 8;
     opacity: 1;
-    height: 140px;
-    font-size: 18px;
+    height: 20vw;
+    font-size: 2.5vw;
     padding-right: 20px;
 }
 
-#manageWeaponsButton {
-    display: grid;
-    grid-column: 2 / 6;
-    grid-row: 3 / 5;
-    font-size: 2.4vw;
-    margin-right: 16px;
-    text-shadow: 4px 4px 5px #000000;
-    background-color: #e8d090;
-    background-image: url('../public/sword2.png');
-    background-position: left;
-    background-repeat: no-repeat;
-    background-size: contain;
-    padding-bottom: 10px;
-    border: 3px solid #680604;
-    -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-    border-radius: 20px;
-}
 
-#addWeaponButton:hover {
-    display: grid;
-    font-size: 2.4vw;
-    background-image: url('../public/sasuke.gif');
-    background-repeat: no-repeat;
-    background-size: 15vw 10vw;
-    text-shadow: 4px 4px 5px #000000;
-}
-
-#addWeaponButton:disabled {
-    display: grid;
-    grid-column: 2 / 6;
-    grid-row: 3 / 5;
-    font-size: 2.4vw;
-    background-image: url('../public/sasuke.gif');
-    background-repeat: no-repeat;
-    background-size: 15vw 10vw;
-    margin-right: 16px;
-    text-shadow: 4px 4px 5px #000000;
-    color: black;
-    -webkit-text-stroke: #f35900 0.3px;
-}
-
-#w_name,
-#w_damage,
-#w_type {
+#w_name
+ {
     display: inline-block;
-    height: 20px;
+    height: 2.5vw;
     border: 1px solid black;
     padding: 0px;
     margin: 2px;
+    font-size: 1.5vw;
+    font-family: 'MedievalSharp', cursive;
+}
+
+#w_damage,
+#w_type {
+    display: inline-block;
+    height: 2.5vw;
+    width: 6vw;
+    border: 1px solid black;
+    padding: 0px;
+    margin: 2px;
+    font-size: 1.5vw;
+    font-family: 'MedievalSharp', cursive;
 }
 
 #addWeaponFormSubmitButton {
     display: grid;
-    grid-column: 2 / 6;
-    grid-row: 3 / 5;
+    grid-column: 6 / 11;
+    grid-row: 8 / 10;
     margin-right: 16px;
     font-size: 2.4vw;
     background-image: url('../public/sword2.png');
@@ -173,88 +140,101 @@ button {
     -moz-box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
     box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
 }
-
-#weapons {
-    display: grid;
-    grid-column: 5 / 8;
-    grid-row: 8 / 9;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
-    height: 2.2vw;
-    width: 10vw;
-  font-size: 1.5vw;
-  font-family: 'MedievalSharp', cursive;
+#manageWeaponsButton:hover {
+    -webkit-box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
 }
 
 #chosenWeapon {
     font-size: 1.2vw;
     display: grid;
-    grid-column: 5 / 8;
-    grid-row: 7 / 8;
+    grid-column: 1 / 9;
+    grid-row: 1 / 2;
     align-self: flex-end;
+    margin-bottom: 0.5vw;
+}
+
+#weapons {
+    display: grid;
+    grid-column: 1 / 8;
+    grid-row: 2 / 3;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    height: 2.2vw;
+    width: 12vw;
+    margin-bottom: 1vw;
+  font-size: 1.2vw;
+  font-family: 'MedievalSharp', cursive;
 }
 
 #profession {
     font-size: 1.2vw;
     display: grid;
-    grid-column: 5 / 8;
-    grid-row: 8 / 9;
+    grid-column: 1 / 8;
+    grid-row: 3 / 4;
     align-self: flex-end;
+    margin-bottom: 0.5vw;
 }
 
 #professionLevelSelect {
     display: grid;
-    grid-column: 5 / 8;
-    grid-row: 9 / 10;
+    grid-column: 1 / 8;
+    grid-row: 4 / 5;
     align-self: center;
     align-items: center;
     justify-content: center;
     height: 2.2vw;
-    width: 10vw;
+    width: 5vw;
   font-size: 1.5vw;
+  margin-bottom: 1vw;
   font-family: 'MedievalSharp', cursive;
 }
 
 #destroyer {
     font-size: 1.2vw;
     display: grid;
-    grid-column: 5 / 8;
-    grid-row: 10 / 11;
+    grid-column: 1 / 8;
+    grid-row: 5 / 6;
     align-self: flex-end;
+    margin-bottom: 0.5vw;
 }
 
 #destroyerLevelSelect {
     display: grid;
-    grid-column: 5 / 8;
-    grid-row: 11 / 12;
+    grid-column: 1 / 8;
+    grid-row: 6 / 7;
     align-self: center;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
     height: 2.2vw;
-    width: 10vw;
+    width: 5vw;
   font-size: 1.5vw;
+  margin-bottom: 1vw;
   font-family: 'MedievalSharp', cursive;
 }
 
-#characters {
-    display: none;
-    grid-column: 5 / 8;
-    grid-row: 10 / 11;
+#charAtkLabel{
+    font-size: 1.2vw;
+    display: grid;
+    grid-column: 1 / 8;
+    grid-row: 7 / 8;
+    align-self: flex-end;
+    margin-bottom: 0.5vw;
+}
+
+#charAtk{
+    display: grid;
+    grid-column: 1 / 8;
+    grid-row: 8 / 9;
     align-self: center;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
-}
-
-#chosenCharacter {
-    font-size: 1vw;
-    display: none;
-    grid-column: 5 / 8;
-    grid-row: 9 / 10;
-    align-self: flex-start;
+    height: 2.2vw;
+    width: 5vw;
+  font-size: 2vw;
+  font-family: 'MedievalSharp', cursive;
 }
 
 #bodyPartImg {
@@ -273,33 +253,12 @@ button {
     background-size: 12vw 16vw;
 }
 
-
-
-.loginForm {
-    display: grid;
-    grid-column: 12 / 17;
-    grid-row: 9 / 16;
-}
-
-.charStats {
-    display: grid;
-    grid-column: 12 / 14;
-    grid-row: 7 / 9;
-}
-
 #charAtkSumText{
     display: grid;
     grid-column: 8 / 11;
     grid-row: 12 / 13;
 }
 
-#charAtk{
-    display: grid;
-    width: 3vw;
-    height: 2vw;
-    font-size: 1.5vw;
-    font-family: 'MedievalSharp', cursive;
-}
 
 #charAtkSum {
     display: grid;

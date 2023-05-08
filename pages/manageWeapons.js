@@ -1,11 +1,11 @@
-
 import styles from "../styles/Home.module.css";
-
 import React from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import Head from "next/head";
+import Navbar from "../Components/Navbar";
 
 export default function manageWeapons() {
-    const router = useRouter();
+  const router = useRouter();
   let typeArray = ["RP", "HP", "ZÚZ", "ÓP", "HAS", "SZÁ", "PAJ", "ÍJ", "SZÍ"];
 
   let damageArray = [
@@ -21,7 +21,6 @@ export default function manageWeapons() {
     "k10",
     "2k10",
   ];
-
 
   async function handleWeaponSubmit(event) {
     event.preventDefault();
@@ -48,10 +47,12 @@ export default function manageWeapons() {
     await fetch(endpoint, options);
   }
   return (
-      <>
+    <>
+      <Head>
+        <title>TTK Rolldice</title>
+      </Head>
           <main className={styles.main}>
-              <button id="manageWeaponsButton" onClick={()=>router.push('/')}>Vissza az előző oldalra</button>
-      <div id="weaponsContainer" className={styles.weaponsContainer}>
+          <Navbar />
         <form id="addWeaponForm" onSubmit={handleWeaponSubmit}>
           <label htmlFor="w_name" id="">
             Fegyver neve:
@@ -75,7 +76,7 @@ export default function manageWeapons() {
             Fegyver típusa:
           </label>
           <select name="w_type" className="newWeaponInput" id="w_type">
-          {typeArray.map((e) => {
+            {typeArray.map((e) => {
               return <option key={e}>{e}</option>;
             })}
           </select>
@@ -88,8 +89,7 @@ export default function manageWeapons() {
         >
           Elküld
         </button>
-              </div>
-              </main>
+      </main>
     </>
   );
 }

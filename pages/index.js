@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css";
 import prisma from "../prisma/client";
 import React from "react";
 import { useRouter } from 'next/router';
+import Navbar from "../Components/Navbar";
 
 export const getServerSideProps = async () => {
   const feed = await prisma.ttkweapons.findMany();
@@ -280,12 +281,13 @@ export default function Home(props) {
   const router = useRouter();
    
   return (
-    <div>
+    <>
       <Head>
         <title>TTK Rolldice</title>
       </Head>
 
       <main className={styles.main}>
+      <Navbar/>
         <div className={styles.resultContainer}>
           <div className="result inText">A dobás eredménye</div>
           <div id="rollResult" className="result inNumber"></div>
@@ -296,9 +298,6 @@ export default function Home(props) {
         </div>
      
         <div className={styles.weaponsContainer}>
-        <button id="manageWeaponsButton" onClick={()=>router.push('/manageWeapons')}>
-  Fegyverek kezelése
-</button>
           <label htmlFor="weapons" id="chosenWeapon">
             Választott fegyver:
           </label>
@@ -327,13 +326,10 @@ export default function Home(props) {
               return <option key={e}>{e}</option>;
             })}
           </select>
+          <label htmlFor="charAtk" id="charAtkLabel">Karakter TÉ</label>
+          <input type="text" name="charAtk" id="charAtk" />
           </div>
         <div id="bodyPartImg"></div>
-      
-        <div className="charStats">
-          <label htmlFor="charAtk">Karakter TÉ</label>
-          <input type="text" name="charAtk" id="charAtk" />
-        </div>
         <button
           id="rollButton"
           className={styles.rollButton}
@@ -348,8 +344,7 @@ export default function Home(props) {
           </div>
           <div id="charAtkSum" className={"result inNumber"}></div>
         </div>
-        {/* <img src="" alt="" className="gifContainer"/> */}
-      </main>
-    </div>
+       </main>
+    </>
   );
 }
