@@ -2,9 +2,9 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import prisma from "../prisma/client";
 import React from "react";
+import { useRouter } from 'next/router';
 
 export const getServerSideProps = async () => {
-  
   const feed = await prisma.ttkweapons.findMany();
 
   return {
@@ -15,8 +15,8 @@ export const getServerSideProps = async () => {
 };
 
 export default function Home(props) {
-  let destroyerLevel = [0, 1, 2, 3]
-  let professionLevel = [0,1,2,3,4,5]
+  let destroyerLevel = [0, 1, 2, 3];
+  let professionLevel = [0, 1, 2, 3, 4, 5];
   let bodyParts = [
     "bal láb",
     "jobb láb",
@@ -167,7 +167,7 @@ export default function Home(props) {
       let tempImg = document.createElement("img");
       tempImg.classList.add("tempImg");
       bodyPartImg.appendChild(tempImg);
-       async function currentBodypart(bodypart) {
+      async function currentBodypart(bodypart) {
         tempImg.src = "";
         tempImg.src = `./bodyParts/${bodypart}`;
         tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
@@ -180,29 +180,29 @@ export default function Home(props) {
           tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
           tempImg.style.opacity = "1";
         }, 1200);
-       }
-      
+      }
+
       if (bodyPart.innerText == "bal láb") {
-currentBodypart("LeftLeg.png")
-      } if (bodyPart.innerText == "jobb láb") {
-        currentBodypart("RightLeg.png")
+        currentBodypart("LeftLeg.png");
+      }
+      if (bodyPart.innerText == "jobb láb") {
+        currentBodypart("RightLeg.png");
       }
 
       if (bodyPart.innerText == "bal kar") {
-        currentBodypart("LeftArm.png")
-         }
+        currentBodypart("LeftArm.png");
+      }
 
       if (bodyPart.innerText == "fegyverforgató kar") {
-        currentBodypart("RightArm.png")
+        currentBodypart("RightArm.png");
       }
 
       if (bodyPart.innerText == "törzs") {
-        currentBodypart("Torso.png")
-           }
+        currentBodypart("Torso.png");
+      }
 
       if (bodyPart.innerText == "fej") {
-        currentBodypart("Head.png")
-
+        currentBodypart("Head.png");
       }
     }, 2550);
 
@@ -210,7 +210,7 @@ currentBodypart("LeftLeg.png")
       bodyPart.animate([{ color: "white" }, { color: "black" }], 500);
     }, 2500);
 
-       await fetch(`../api/ttkweapons/${weapons.value}`)
+    await fetch(`../api/ttkweapons/${weapons.value}`)
       .then((response) => {
         console.log(response.status);
         console.log(response.ok);
@@ -221,103 +221,64 @@ currentBodypart("LeftLeg.png")
       })
       .then((damage) => {
         if (damage === "2k10") {
-          damageResult.innerText = darkDice + lightDice + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
+          damageResult.innerText =
+            darkDice +
+            lightDice +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value);
         } else if (damage === "2k5") {
           damageResult.innerText =
-            Math.ceil(darkDice / 2) + Math.ceil(lightDice / 2) + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
+            Math.ceil(darkDice / 2) +
+            Math.ceil(lightDice / 2) +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value);
         } else if (damage === "2k5+1") {
           damageResult.innerText =
-            Math.ceil(darkDice / 2) + Math.ceil(lightDice / 2) + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value) + 1;
+            Math.ceil(darkDice / 2) +
+            Math.ceil(lightDice / 2) +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value) +
+            1;
+        } else if (damage === "2k5+2") {
+          damageResult.innerText =
+            Math.ceil(darkDice / 2) +
+            Math.ceil(lightDice / 2) +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value) +
+            2;
+        } else if (damage === "k5") {
+          damageResult.innerText =
+            Math.ceil(darkDice / 2) +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value);
         } else if (damage === "k5+1") {
-          damageResult.innerText = Math.ceil(darkDice / 2) + 1 + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
+          damageResult.innerText =
+            Math.ceil(darkDice / 2) +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value) +
+            1;
+        } else if (damage === "k5+2") {
+          damageResult.innerText =
+            Math.ceil(darkDice / 2) +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value) +
+            2;
         } else if (damage === "3k5") {
           damageResult.innerText =
-            Math.ceil(darkDice / 2) * 2 + Math.ceil(lightDice / 2) + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
-        } else if (damage === "k5") {
-          damageResult.innerText = Math.ceil(darkDice / 2) + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
+            Math.ceil(darkDice / 2) * 2 +
+            Math.ceil(lightDice / 2) +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value);
         } else if (damage === "k10") {
-          damageResult.innerText = darkDice + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
+          damageResult.innerText =
+            darkDice +
+            parseInt(destroyerLevelSelect.value) +
+            parseInt(professionLevelSelect.value);
         }
       });
   }
-
-  function handleWeaponAdd() {
-    let typeArray = ["RP", "HP", "ZÚZ", "ÓP", "HAS", "SZÁ", "PAJ", "ÍJ", "SZÍ"];
-    typeArray.forEach((element) => {
-      let typeOption = document.createElement("option");
-      typeOption.innerText = element;
-      w_type.appendChild(typeOption);
-    });
-
-    let damageArray = [
-      "k2",
-      "2k2",
-      "k5",
-      "k5+1",
-      "k5+2",
-      "2k5",
-      "2k5+1",
-      "2k5+2",
-      "3k5",
-      "k10",
-      "2k10",
-    ];
-    damageArray.forEach((element) => {
-      let damageOption = document.createElement("option");
-      damageOption.innerText = element;
-      w_damage.appendChild(damageOption);
-    });
-
-    addWeaponForm.animate([{ height: "0" }, { height: "140px" }], 1000);
-    addWeaponForm.animate([{ fontSize: "0" }, { fontSize: "18px" }], 1000);
-
-    addWeaponButton.disabled = true;
-    let newWeaponInput = document.querySelectorAll(".newWeaponInput");
-    for (let i = 0; i < newWeaponInput.length; i++) {
-      newWeaponInput[i].animate([{ height: "0" }, { height: "20px" }], 1000);
-      newWeaponInput[i].style.margin = "2px";
-      newWeaponInput[i].style.display = "inlineBlock";
-      newWeaponInput[i].style.height = "20px";
-      newWeaponInput[i].style.border = "1px solid black";
-    }
-
-    addWeaponForm.style.height = "140px";
-    addWeaponForm.style.fontSize = "18px";
-
-    setTimeout(() => {
-      weaponsContainer.removeChild(addWeaponButton);
-    }, 2000);
-
-    setTimeout(() => {
-      weaponsContainer.appendChild(addWeaponFormSubmitButton);
-      addWeaponFormSubmitButton.style.display = "grid";
-    }, 100);
-  }
-  async function handleWeaponSubmit(event) {
-    event.preventDefault();
-
-    const data = {
-      w_name: event.target.w_name.value,
-      w_damage: event.target.w_damage.value,
-      w_type: event.target.w_type.value,
-    };
-
-    const JSONdata = JSON.stringify(data);
-
-    const endpoint = "../api/addNewWeapon";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSONdata,
-    };
-    setTimeout(() => {
-      window.location.reload()
-    }, 1000); 
-    await fetch(endpoint, options)
-  }
-
+  const router = useRouter();
+   
   return (
     <div>
       <Head>
@@ -333,34 +294,11 @@ currentBodypart("LeftLeg.png")
           <div className="damage hitCheck">A találat helye</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
-        <div id="weaponsContainer" className={styles.weaponsContainer}>
-          <button id="addWeaponButton" onClick={handleWeaponAdd}>
-            Új fegyver hozzáadása
-          </button>
-          <form id="addWeaponForm" onSubmit={handleWeaponSubmit}>
-            <label htmlFor="w_name" id="">
-              Fegyver neve:
-            </label>
-            <input
-              type="text"
-              name="w_name"
-              className="newWeaponInput"
-              id="w_name"
-              placeholder="pl. Slan kard"
-            />
-            <label htmlFor="w_damage" id="">
-              Sebzéskód:
-            </label>
-            <select name="w_damage" className="newWeaponInput" id="w_damage">
-              <option value="">Válassz Sebzéskódot!</option>
-            </select>
-            <label htmlFor="w_type" id="">
-              Fegyver típusa:
-            </label>
-            <select name="w_type" className="newWeaponInput" id="w_type">
-              <option value="">Válassz típust!</option>
-            </select>
-          </form>
+     
+        <div className={styles.weaponsContainer}>
+        <button id="manageWeaponsButton" onClick={()=>router.push('/manageWeapons')}>
+  Fegyverek kezelése
+</button>
           <label htmlFor="weapons" id="chosenWeapon">
             Választott fegyver:
           </label>
@@ -373,31 +311,25 @@ currentBodypart("LeftLeg.png")
               );
             })}
           </select>
-           <label htmlFor="profession" id="profession">
+          <label htmlFor="profession" id="profession">
             Képzettség foka:
-                  </label>
-          <select id="professionLevelSelect" name="profession">{professionLevel.map((e) => {
-            return (<option>{e}</option>)
-          })}</select>
+          </label>
+          <select id="professionLevelSelect" name="profession">
+            {professionLevel.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
           <label htmlFor="destroyer" id="destroyer">
             Pusztító adottság:
-                  </label>
-          <select id="destroyerLevelSelect" name="destroyer">{destroyerLevel.map((e) => {
-            return (<option>{e}</option>)
-          }) }</select> 
-          <button
-            type="submit"
-            name="submit"
-            form="addWeaponForm"
-            id="addWeaponFormSubmitButton"
-          >
-            Elküld
-          </button>
-        </div>
-
+          </label>
+          <select id="destroyerLevelSelect" name="destroyer">
+            {destroyerLevel.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          </div>
         <div id="bodyPartImg"></div>
-        <div className="welcomeUser"></div>
-
+      
         <div className="charStats">
           <label htmlFor="charAtk">Karakter TÉ</label>
           <input type="text" name="charAtk" id="charAtk" />

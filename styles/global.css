@@ -90,12 +90,12 @@ button {
     grid-column: 6 / 9;
     grid-row: 2 / 5;
     opacity: 1;
-    height: 0px;
-    font-size: 0px;
+    height: 140px;
+    font-size: 18px;
     padding-right: 20px;
 }
 
-#addWeaponButton {
+#manageWeaponsButton {
     display: grid;
     grid-column: 2 / 6;
     grid-row: 3 / 5;
@@ -141,14 +141,15 @@ button {
 #w_name,
 #w_damage,
 #w_type {
-    height: 0px;
-    border: 0px;
+    display: inline-block;
+    height: 20px;
+    border: 1px solid black;
     padding: 0px;
-    margin: 0px;
+    margin: 2px;
 }
 
 #addWeaponFormSubmitButton {
-    display: none;
+    display: grid;
     grid-column: 2 / 6;
     grid-row: 3 / 5;
     margin-right: 16px;
