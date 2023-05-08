@@ -195,6 +195,49 @@ button {
     align-self: flex-end;
 }
 
+#profession {
+    font-size: 1.2vw;
+    display: grid;
+    grid-column: 5 / 8;
+    grid-row: 8 / 9;
+    align-self: flex-end;
+}
+
+#professionLevelSelect {
+    display: grid;
+    grid-column: 5 / 8;
+    grid-row: 9 / 10;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    height: 2.2vw;
+    width: 10vw;
+  font-size: 1.5vw;
+  font-family: 'MedievalSharp', cursive;
+}
+
+#destroyer {
+    font-size: 1.2vw;
+    display: grid;
+    grid-column: 5 / 8;
+    grid-row: 10 / 11;
+    align-self: flex-end;
+}
+
+#destroyerLevelSelect {
+    display: grid;
+    grid-column: 5 / 8;
+    grid-row: 11 / 12;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    height: 2.2vw;
+    width: 10vw;
+  font-size: 1.5vw;
+  font-family: 'MedievalSharp', cursive;
+}
+
 #characters {
     display: none;
     grid-column: 5 / 8;

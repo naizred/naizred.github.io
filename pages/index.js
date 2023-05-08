@@ -1,10 +1,10 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../prisma/client";
 import React from "react";
 
-export const getStaticProps = async () => {
-  const prisma = new PrismaClient();
+export const getServerSideProps = async () => {
+  
   const feed = await prisma.ttkweapons.findMany();
 
   return {
@@ -15,6 +15,8 @@ export const getStaticProps = async () => {
 };
 
 export default function Home(props) {
+  let destroyerLevel = [0, 1, 2, 3]
+  let professionLevel = [0,1,2,3,4,5]
   let bodyParts = [
     "bal láb",
     "jobb láb",
@@ -260,9 +262,11 @@ export default function Home(props) {
       bodyPart.animate([{ color: "white" }, { color: "black" }], 500);
     }, 2500);
 
-    console.log(weapons.value);
+    console.log(destroyerLevelSelect.value)
+console.log(parseInt(destroyerLevelSelect.value));
 
-    await fetch(`../api/ttkweapons/${weapons.value}`)
+
+       await fetch(`../api/ttkweapons/${weapons.value}`)
       .then((response) => {
         console.log(response.status);
         console.log(response.ok);
@@ -273,19 +277,22 @@ export default function Home(props) {
       })
       .then((damage) => {
         if (damage === "2k10") {
-          damageResult.innerText = darkDice + lightDice;
+          damageResult.innerText = darkDice + lightDice + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
         } else if (damage === "2k5") {
           damageResult.innerText =
-            Math.ceil(darkDice / 2) + Math.ceil(lightDice / 2);
+            Math.ceil(darkDice / 2) + Math.ceil(lightDice / 2) + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
+        } else if (damage === "2k5+1") {
+          damageResult.innerText =
+            Math.ceil(darkDice / 2) + Math.ceil(lightDice / 2) + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value) + 1;
         } else if (damage === "k5+1") {
-          damageResult.innerText = Math.ceil(darkDice / 2) + 1;
+          damageResult.innerText = Math.ceil(darkDice / 2) + 1 + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
         } else if (damage === "3k5") {
           damageResult.innerText =
-            Math.ceil(darkDice / 2) * 2 + Math.ceil(lightDice / 2);
+            Math.ceil(darkDice / 2) * 2 + Math.ceil(lightDice / 2) + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
         } else if (damage === "k5") {
-          damageResult.innerText = Math.ceil(darkDice / 2);
+          damageResult.innerText = Math.ceil(darkDice / 2) + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
         } else if (damage === "k10") {
-          damageResult.innerText = darkDice;
+          damageResult.innerText = darkDice + parseInt(destroyerLevelSelect.value) + parseInt(professionLevelSelect.value);
         }
       });
   }
@@ -361,11 +368,10 @@ export default function Home(props) {
       },
       body: JSONdata,
     };
-
     setTimeout(() => {
-      window.location.reload();
-    }, 2000);
-    await fetch(endpoint, options);
+      window.location.reload()
+    }, 1000); 
+    await fetch(endpoint, options)
   }
 
   return (
@@ -423,14 +429,18 @@ export default function Home(props) {
               );
             })}
           </select>
-          {/* <label htmlFor="profession">
+           <label htmlFor="profession" id="profession">
             Képzettség foka:
                   </label>
-                  <select id="weapons" name="profession"></select>
-          <label htmlFor="weapons">
+          <select id="professionLevelSelect" name="profession">{professionLevel.map((e) => {
+            return (<option>{e}</option>)
+          })}</select>
+          <label htmlFor="destroyer" id="destroyer">
             Pusztító adottság:
                   </label>
-                  <select id="weapons" name="weapons"></select> */}
+          <select id="destroyerLevelSelect" name="destroyer">{destroyerLevel.map((e) => {
+            return (<option>{e}</option>)
+          }) }</select> 
           <button
             type="submit"
             name="submit"

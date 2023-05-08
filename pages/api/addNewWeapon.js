@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../prisma/client";
 
 const newWeapon = async (req, res) => {
-const prisma = new PrismaClient()
    await prisma.ttkweapons.create({
     
         data: {
