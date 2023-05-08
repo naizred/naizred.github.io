@@ -20,6 +20,9 @@ body {
 
 a:link {
     text-decoration: none;
+    color: #000000;
+    text-shadow: 4px 4px 5px #682600;
+    -webkit-text-stroke: #f35900 0.1px;
 }
 
 a:visited {
@@ -35,6 +38,9 @@ a:hover {
 
 a:active {
     text-decoration: none;
+    color: #000000;
+    text-shadow: 4px 4px 5px #682600;
+    -webkit-text-stroke: #f35900 0.1px;
 }
 
 img {
