@@ -45,7 +45,7 @@ export default function manageWeapons() {
 
     const JSONdata = JSON.stringify(data);
 
-    const endpoint = "../api/addNewWeaponHu";
+    const endpoint = "../api/addNewWeaponHU";
     const options = {
       method: "POST",
       headers: {
