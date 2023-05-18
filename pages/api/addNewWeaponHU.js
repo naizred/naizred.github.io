@@ -1,7 +1,7 @@
 import prisma from "../../prisma/client";
 
-const newWeapon = async (req, res) => {
-   await prisma.ttkweaponsen.create({
+const newWeaponHu = async (req, res) => {
+   await prisma.ttkweaponshu.create({
     
         data: {
           w_name: req.body.w_name,
@@ -13,4 +13,4 @@ const newWeapon = async (req, res) => {
   res.status(200);
 };
 
-export default newWeapon;
+export default newWeaponHu;

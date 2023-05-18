@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Navbar from "../Components/Navbar";
 
 export const getServerSideProps = async () => {
-  const feed = await prisma.ttkweaponsen.findMany({
+  const feed = await prisma.ttkweaponshu.findMany({
     orderBy: [
       {
         w_name: "asc",
@@ -296,23 +296,23 @@ export default function Home(props) {
         <Navbar
           hunLink={"/indexHU"}
           engLink={"/"}
-          rollHelper={"Roll helper"}
-          manageWeapons={"Manage Weapons"}
-          rollHelperLink={"/"}
-          manageWeaponsLink={"/manageWeapons"}
+          rollHelper={"Dobássegítő"}
+          manageWeapons={"Fegyverek kezelése"}
+          rollHelperLink={"/indexHU"}
+          manageWeaponsLink={"/manageWeaponsHU"}
         />
         <div className={styles.resultContainer}>
-          <div className="result inText">Roll result</div>
+          <div className="result inText">A dobás eredménye</div>
           <div id="rollResult" className="result inNumber"></div>
-          <div className="damage inText">Damage dealt</div>
+          <div className="damage inText">A sebzés</div>
           <div id="damageResult" className="result inNumber"></div>
-          <div className="damage hitCheck">Bodypart hit</div>
+          <div className="damage hitCheck">A találat helye</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
 
         <div className={styles.weaponsContainer}>
           <label htmlFor="weapons" id="chosenWeapon">
-            Chosen weapon:
+            Választott fegyver:
           </label>
           <select id="weapons" name="weapons">
             {props.feed.map((e) => {
@@ -324,7 +324,7 @@ export default function Home(props) {
             })}
           </select>
           <label htmlFor="profession" id="profession">
-            Level of proficiency:
+            Képzettség foka:
           </label>
           <select id="professionLevelSelect" name="profession">
             {professionLevel.map((e) => {
@@ -332,7 +332,7 @@ export default function Home(props) {
             })}
           </select>
           <label htmlFor="destroyer" id="destroyer">
-            Level of Destoyer talent:
+            Pusztító adottság:
           </label>
           <select id="destroyerLevelSelect" name="destroyer">
             {destroyerLevel.map((e) => {
@@ -340,7 +340,7 @@ export default function Home(props) {
             })}
           </select>
           <label htmlFor="charAtk" id="charAtkLabel">
-            ATK of your character
+            Karakter TÉ
           </label>
           <input type="text" name="charAtk" id="charAtk" />
         </div>
@@ -350,12 +350,12 @@ export default function Home(props) {
           className={styles.rollButton}
           onClick={handleClick}
         >
-          Roll!
+          Dobj!
         </button>
 
         <div className={styles.gifContainer}>
           <div className="result inText" id="charAtkSumText">
-            Sum ATK
+            Össz TÉ
           </div>
           <div id="charAtkSum" className={"result inNumber"}></div>
         </div>

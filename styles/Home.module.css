@@ -1,7 +1,7 @@
 .main {
   display: grid;
   background-color: #000000;
-  grid-template-columns: repeat(16, 1fr);
+  grid-template-columns: repeat(17, 1fr);
   grid-template-rows: repeat(16, 1fr);
   height: 52vw;
   width: 64vw;
@@ -24,15 +24,15 @@
   grid-column: 1 / 16;
   grid-row: 1 / 2;
   grid-template-columns: repeat(16, 1fr);
-  grid-template-rows: repeat(1, 1fr)
+  grid-template-rows: repeat(2, 1fr)
 }
 
 .navbarItem1{
   color:#000000;
   display: grid;
   grid-column: 10 / 13;
+  grid-row: 2 / 3;
   margin-right: 1vw;
-  grid-row: 1;
   font-size: 1.2vw;
   text-shadow: 4px 4px 5px #000000;
   text-align: center;
@@ -51,7 +51,7 @@
 .navbarItem2{
   display: grid;
   grid-column: 13 / 17;
-  grid-row: 1;
+  grid-row: 2/3;
   font-size: 1.2vw;
   text-shadow: 4px 4px 5px #000000;
   text-align: center;
@@ -67,14 +67,15 @@
   border-radius: 20px;
 }
 
-.manageWeaponsButton {
+.langSelectButton1{
   display: grid;
-  grid-column: 1 / 8;
-  grid-row: 1 / 3;
-  font-size: 2.4vw;
+  grid-column: 17;
+  grid-row: 1;
+  font-size: 1vw;
   text-shadow: 4px 4px 5px #000000;
+  text-align: center;
+  align-self: center;
   background-color: #e8d090;
-  background-image: url('../public/sword2.png');
   background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
@@ -82,7 +83,25 @@
   -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  border-radius: 20px;
+  margin-left: 0.5vw;
+}
+.langSelectButton2{
+  display: grid;
+  grid-column: 17;
+  grid-row: 2;
+  font-size: 1vw;
+  text-shadow: 4px 4px 5px #000000;
+  text-align: center;
+  align-self: center;
+  background-color: #e8d090;
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
+   border: 3px solid #680604;
+  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  margin-left: 0.5vw;
 }
 
 .weaponsContainer {

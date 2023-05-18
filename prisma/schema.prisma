@@ -8,7 +8,14 @@ datasource db {
   relationMode = "prisma"
 }
 
-model ttkweapons {
+model ttkweaponshu {
+  w_id     Int     @id @default(autoincrement())
+  w_name   String? @db.VarChar(255)
+  w_damage String? @db.VarChar(255)
+  w_type   String? @db.VarChar(255)
+}
+
+model ttkweaponsen {
   w_id     Int     @id @default(autoincrement())
   w_name   String? @db.VarChar(255)
   w_damage String? @db.VarChar(255)
