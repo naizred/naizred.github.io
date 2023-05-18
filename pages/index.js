@@ -6,7 +6,11 @@ import { useRouter } from 'next/router';
 import Navbar from "../Components/Navbar";
 
 export const getServerSideProps = async () => {
-  const feed = await prisma.ttkweapons.findMany();
+  const feed = await prisma.ttkweapons.findMany({  orderBy: [
+      {
+      w_name: 'asc',
+    },
+  ]});
 
   return {
     props: {
@@ -19,16 +23,16 @@ export default function Home(props) {
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
   let bodyParts = [
-    "bal láb",
-    "jobb láb",
-    "bal kar",
-    "fegyverforgató kar",
-    "fegyverforgató kar",
-    "törzs",
-    "törzs",
-    "törzs",
-    "törzs",
-    "fej",
+    "left leg",
+    "right leg",
+    "left arm",
+    "primary arm",
+    "primary arm",
+    "torso",
+    "torso",
+    "torso",
+    "torso",
+    "head",
   ];
 
   let darkDice = 0;
@@ -183,26 +187,26 @@ export default function Home(props) {
         }, 1200);
       }
 
-      if (bodyPart.innerText == "bal láb") {
+      if (bodyPart.innerText == "left leg") {
         currentBodypart("LeftLeg.png");
       }
-      if (bodyPart.innerText == "jobb láb") {
+      if (bodyPart.innerText == "right leg") {
         currentBodypart("RightLeg.png");
       }
 
-      if (bodyPart.innerText == "bal kar") {
+      if (bodyPart.innerText == "left arm") {
         currentBodypart("LeftArm.png");
       }
 
-      if (bodyPart.innerText == "fegyverforgató kar") {
+      if (bodyPart.innerText == "primary arm") {
         currentBodypart("RightArm.png");
       }
 
-      if (bodyPart.innerText == "törzs") {
+      if (bodyPart.innerText == "torso") {
         currentBodypart("Torso.png");
       }
 
-      if (bodyPart.innerText == "fej") {
+      if (bodyPart.innerText == "head") {
         currentBodypart("Head.png");
       }
     }, 2550);
@@ -289,17 +293,17 @@ export default function Home(props) {
       <main className={styles.main}>
       <Navbar/>
         <div className={styles.resultContainer}>
-          <div className="result inText">A dobás eredménye</div>
+          <div className="result inText">Roll result</div>
           <div id="rollResult" className="result inNumber"></div>
-          <div className="damage inText">A sebzés</div>
+          <div className="damage inText">Damage dealt</div>
           <div id="damageResult" className="result inNumber"></div>
-          <div className="damage hitCheck">A találat helye</div>
+          <div className="damage hitCheck">Bodypart hit</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
      
         <div className={styles.weaponsContainer}>
           <label htmlFor="weapons" id="chosenWeapon">
-            Választott fegyver:
+            Chosen weapon:
           </label>
           <select id="weapons" name="weapons">
             {props.feed.map((e) => {
@@ -311,7 +315,7 @@ export default function Home(props) {
             })}
           </select>
           <label htmlFor="profession" id="profession">
-            Képzettség foka:
+            Level of proficiency:
           </label>
           <select id="professionLevelSelect" name="profession">
             {professionLevel.map((e) => {
@@ -319,14 +323,14 @@ export default function Home(props) {
             })}
           </select>
           <label htmlFor="destroyer" id="destroyer">
-            Pusztító adottság:
+            Level of Destoyer talent:
           </label>
           <select id="destroyerLevelSelect" name="destroyer">
             {destroyerLevel.map((e) => {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <label htmlFor="charAtk" id="charAtkLabel">Karakter TÉ</label>
+          <label htmlFor="charAtk" id="charAtkLabel">ATK of your character</label>
           <input type="text" name="charAtk" id="charAtk" />
           </div>
         <div id="bodyPartImg"></div>
@@ -335,12 +339,12 @@ export default function Home(props) {
           className={styles.rollButton}
           onClick={handleClick}
         >
-          Dobj!
+          Roll!
         </button>
 
         <div className={styles.gifContainer}>
           <div className="result inText" id="charAtkSumText">
-            Össz TÉ
+            Sum ATK
           </div>
           <div id="charAtkSum" className={"result inNumber"}></div>
         </div>

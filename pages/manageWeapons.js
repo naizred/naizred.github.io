@@ -6,20 +6,23 @@ import Navbar from "../Components/Navbar";
 
 export default function manageWeapons() {
   const router = useRouter();
-  let typeArray = ["RP", "HP", "ZÚZ", "ÓP", "HAS", "SZÁ", "PAJ", "ÍJ", "SZÍ"];
+  let typeArray = ["SB", "LB", "CRS", "GB", "CHP", "PIK", "SHI", "BOW", "CRB"];
+
+  let typeExplainArray = ["Short Blade", "Long Blade", "Crushing", "Giant Blade", "Chopping", "Pikes", "Shield", "Bow", "Crossbow"]
+
 
   let damageArray = [
-    "k2",
-    "2k2",
-    "k5",
-    "k5+1",
-    "k5+2",
-    "2k5",
-    "2k5+1",
-    "2k5+2",
-    "3k5",
-    "k10",
-    "2k10",
+    "1d2",
+    "2d2",
+    "1d5",
+    "1d5+1",
+    "1d5+2",
+    "2d5",
+    "2d5+1",
+    "2d5+2",
+    "3d5",
+    "1d10",
+    "2d10",
   ];
 
   async function handleWeaponSubmit(event) {
@@ -55,17 +58,16 @@ export default function manageWeapons() {
           <Navbar />
         <form id="addWeaponForm" onSubmit={handleWeaponSubmit}>
           <label htmlFor="w_name" id="">
-            Fegyver neve:
+            Weapon name:
           </label>
           <input
             type="text"
             name="w_name"
             className="newWeaponInput"
             id="w_name"
-            placeholder="pl. Slan kard"
           />
           <label htmlFor="w_damage" id="">
-            Sebzéskód:
+            Damage:
           </label>
           <select name="w_damage" className="newWeaponInput" id="w_damage">
             {damageArray.map((e) => {
@@ -73,10 +75,10 @@ export default function manageWeapons() {
             })}
           </select>
           <label htmlFor="w_type" id="">
-            Fegyver típusa:
+            Weapon type:
           </label>
           <select name="w_type" className="newWeaponInput" id="w_type">
-            {typeArray.map((e) => {
+            {typeArray.sort().map((e) => {
               return <option key={e}>{e}</option>;
             })}
           </select>
@@ -87,8 +89,19 @@ export default function manageWeapons() {
           form="addWeaponForm"
           id="addWeaponFormSubmitButton"
         >
-          Elküld
+          Send
         </button>
+          <span id="explanationTitle">Explanation of weapon types:</span>
+        <div id="typeDiv">
+{  typeArray.sort().map((e,i) => {
+  return <span key={e}>{e} ===</span>;
+            })}
+        </div>
+        <div id="explanationDiv">
+{  typeExplainArray.sort().map((e,i) => {
+  return <span key={e}>{e}</span>;
+            })}
+        </div>
       </main>
     </>
   );
