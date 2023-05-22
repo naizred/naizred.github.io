@@ -21,17 +21,17 @@ export default function manageWeapons() {
   ];
 
   let damageArray = [
-    "1d2",
-    "2d2",
-    "1d5",
-    "1d5+1",
-    "1d5+2",
-    "2d5",
-    "2d5+1",
-    "2d5+2",
-    "3d5",
-    "1d10",
-    "2d10",
+    "1k2",
+    "2k2",
+    "1k5",
+    "1k5+1",
+    "1k5+2",
+    "2k5",
+    "2k5+1",
+    "2k5+2",
+    "3k5",
+    "1k10",
+    "2k10",
   ];
 
   async function handleWeaponSubmit(event) {

@@ -13,8 +13,8 @@
   color: black;
   -webkit-text-stroke: #f35900 0.1px;
   font-size: 1.4vw;
-  text-shadow: 4px 4px 5px #682600;
-  padding-top: 20px;
+  text-shadow: 0.3vw 0.3vw 0.4vw #682600;
+  padding-top: 1vw;
   justify-content: center;
   align-items: center;
 }
@@ -34,18 +34,18 @@
   grid-row: 2 / 3;
   margin-right: 1vw;
   font-size: 1.2vw;
-  text-shadow: 4px 4px 5px #000000;
+  text-shadow: 0.3vw 0.3vw 0.4vw #000000;
   text-align: center;
   align-self: center;
   background-color: #e8d090;
   background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
-   border: 3px solid #680604;
-  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  border-radius: 20px;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
 }
 
 .navbarItem2{
@@ -53,18 +53,18 @@
   grid-column: 13 / 17;
   grid-row: 2/3;
   font-size: 1.2vw;
-  text-shadow: 4px 4px 5px #000000;
+  text-shadow: 0.3vw 0.3vw 0.4vw #000000;
   text-align: center;
   align-self: center;
   background-color: #e8d090;
   background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
-   border: 3px solid #680604;
-  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  border-radius: 20px;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
 }
 
 .langSelectButton1{
@@ -72,17 +72,17 @@
   grid-column: 17;
   grid-row: 1;
   font-size: 1vw;
-  text-shadow: 4px 4px 5px #000000;
+  text-shadow: 0.3vw 0.3vw 0.4vw #000000;
   text-align: center;
   align-self: center;
   background-color: #e8d090;
   background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
-   border: 3px solid #680604;
-  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   margin-left: 0.5vw;
 }
 .langSelectButton2{
@@ -90,17 +90,17 @@
   grid-column: 17;
   grid-row: 2;
   font-size: 1vw;
-  text-shadow: 4px 4px 5px #000000;
+  text-shadow: 0.3vw 0.3vw 0.4vw #000000;
   text-align: center;
   align-self: center;
   background-color: #e8d090;
   background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
-   border: 3px solid #680604;
-  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   margin-left: 0.5vw;
 }
 
@@ -125,13 +125,13 @@
   grid-template-rows: repeat(10, 1fr);
   height: 27vw;
   width: 30vw;
-  margin: 0px 5px;
+  margin: 0px 0.4vw;
   align-items: center;
-  border: 3px solid #680604;
-  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  border-radius: 20px;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
 }
 
 .bodyPart {
@@ -140,7 +140,7 @@
   justify-content: center;
   grid-row: 7 / 11;
   grid-column: span 4;
-  font-size: 4vw;
+  font-size: 3.2vw;
 }
 
 .rollButton {
@@ -150,20 +150,20 @@
   font-size: 4.5vw;
   align-items: center;
   justify-content: center;
-  text-shadow: 4px 4px 5px #000000;
-  border: 3px solid #680604;
-  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  border-radius: 20px;
+  text-shadow: 0.3vw 0.3vw 0.4vw #000000;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
   background-image: url('../public/parchmentPaper.jpg');
   background-size: 11.2vw 8vw;
 }
 
 .rollButton:hover {
-  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
 }
 
 .rollButton:disabled {
@@ -171,18 +171,21 @@
 }
 
 .gifContainer {
-  grid-row: 8 / 10;
-  grid-column: 2 / 5;
+  display: grid;
+  grid-row: 8 / 11;
+  grid-column: 2 / 7;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   align-items: center;
   justify-content: center;
   background-size: inherit;
   background-repeat: no-repeat;
-  margin-top: 20px;
+  margin-top: 2vw;
   width: 7wv;
-  height: 12.5vw;
-  border: 3px solid #680604;
-  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.75);
-  border-radius: 20px;
+  height: 19vw;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
 }
