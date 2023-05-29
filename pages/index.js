@@ -78,6 +78,9 @@ export default function Home(props) {
     if (lightDice == 0) {
       lightDice = 10
     }
+    if (Math.floor(parseInt(charStr.value) / 2) > darkDice) {
+      darkDice = Math.floor(parseInt(charStr.value) / 2)
+} 
 
     return result;
     
@@ -98,13 +101,7 @@ export default function Home(props) {
 
     rollResult.innerText = ttkRoll();
     setTimeout(() => {
-      if (charAtk.value == "") {
-        charAtkSum.innerText = rollResult.innerText;
-      } else {
-        charAtkSum.innerText =
-          parseInt(rollResult.innerText) + parseInt(charAtk.value);
-      }
-      charAtkSum.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
+        charAtkSum.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
     }, 3250);
     rollResult.style.opacity = "0";
     damageResult.innerText = "";
@@ -159,7 +156,7 @@ const specialCases3 = [8,9]
         charAtkSum.innerText = rollResult.innerText;
       } else {
         charAtkSum.innerText =
-          parseInt(rollResult.innerText) + parseInt(charAtk.value);
+          parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
       }
 
       if (lightDice == darkDice && specialCases1.includes(darkDice)) {
@@ -257,7 +254,7 @@ const specialCases3 = [8,9]
 
     setTimeout(() => {
       bodyPart.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 2500);
+    }, 2500); 
 
     await fetch(`../api/ttkweaponsen/${weapons.value}`)
       .then((response) => {
@@ -383,6 +380,10 @@ const specialCases3 = [8,9]
             ATK of your character
           </label>
           <input type="text" name="charAtk" id="charAtk" />
+          <label htmlFor="charStr" id="charStrLabel">
+            STR of your character
+          </label>
+          <input type="text" name="charStr" id="charStr" />
         </div>
         <div id="bodyPartImg"></div>
         <button

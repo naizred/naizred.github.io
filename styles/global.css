@@ -272,6 +272,28 @@ button {
   font-family: 'MedievalSharp', cursive;
 }
 
+#charStrLabel{
+    font-size: 1.2vw;
+    display: grid;
+    grid-column: 1 / 8;
+    grid-row: 9 / 10;
+    align-self: flex-end;
+    margin-bottom: 0.5vw;
+}
+
+#charStr{
+    display: grid;
+    grid-column: 1 / 8;
+    grid-row: 10 / 11;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    height: 2.2vw;
+    width: 5vw;
+  font-size: 2vw;
+  font-family: 'MedievalSharp', cursive;
+}
+
 #bodyPartImg {
     display: grid;
     grid-column: 8 / 12;
