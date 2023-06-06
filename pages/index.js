@@ -43,8 +43,8 @@ export default function Home(props) {
 
   function ttkRoll() {
     let result = 0;
-    darkDice = Math.floor(Math.random() * 9);
-    lightDice = Math.floor(Math.random() * 9);
+    darkDice = Math.floor(Math.random() * 10);
+    lightDice = Math.floor(Math.random() * 10);
   /*   if (darkDice > lightDice) {
       result = darkDice * 10 + lightDice;
     } else if (darkDice < lightDice) {
