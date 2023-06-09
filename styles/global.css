@@ -326,12 +326,15 @@ button {
     display: grid;
     grid-column: 2 / 8;
     grid-row: 3 / 4;
+    text-align: center;
+    align-items: center;
 }
 
 #specialEffect{
     display: grid;
     grid-column: 1 / 9;
     grid-row: 4 / 6;
-    font-size: 1.5vw;
+    font-size: 1.4vw;
     margin-top: 1vw;
+    align-items: center;
   }

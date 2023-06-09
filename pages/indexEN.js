@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Navbar from "../Components/Navbar";
 
 export const getServerSideProps = async () => {
-  const feed = await prisma.ttkweaponshu.findMany({
+  const feed = await prisma.ttkweaponsen.findMany({
     orderBy: [
       {
         w_name: "asc",
@@ -25,18 +25,19 @@ export default function Home(props) {
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
   let bodyParts = [
-    "bal láb",
-    "jobb láb",
-    "bal kar",
-    "fegyverforgató kar",
-    "fegyverforgató kar",
-    "törzs",
-    "törzs",
-    "törzs",
-    "törzs",
-    "fej",
+    "left leg",
+    "right leg",
+    "left arm",
+    "primary arm",
+    "primary arm",
+    "torso",
+    "torso",
+    "torso",
+    "torso",
+    "head",
   ];
 
+  
   let darkDice = 0;
   let lightDice = 0;
 
@@ -44,8 +45,7 @@ export default function Home(props) {
     let result = 0;
     darkDice = Math.floor(Math.random() * 10);
     lightDice = Math.floor(Math.random() * 10);
-
-/*   if (darkDice > lightDice) {
+  /*   if (darkDice > lightDice) {
       result = darkDice * 10 + lightDice;
     } else if (darkDice < lightDice) {
       result = lightDice * 10 + darkDice;
@@ -58,35 +58,32 @@ export default function Home(props) {
     lightDice == 0 ? (lightDice = 10) : (lightDice = lightDice);
     return result;
   }*/
-        
-    /* lightDice = 10
-    darkDice = 10
-    -- ez a felső két sor a dobások tesztelésére van */
+   
+      console.log(darkDice,lightDice)
+    if (darkDice > lightDice) {
+      result = darkDice;
+
+    } else if (darkDice < lightDice) {
     
-  console.log(darkDice,lightDice)
-  if (darkDice > lightDice) {
-    result = darkDice;
+      result = lightDice;
+    } else if (darkDice == 0 && lightDice == 0) {
+      result = 10;
+    } else if (darkDice == lightDice) {
+      result = darkDice;
+    }    
 
-  } else if (darkDice < lightDice) {
-  
-    result = lightDice;
-  } else if (darkDice == 0 && lightDice == 0) {
-    result = 10;
-  } else if (darkDice == lightDice) {
-    result = darkDice;
-  }    
-
-  if (darkDice == 0) {
-    darkDice = 10
-  }
-  if (lightDice == 0) {
-    lightDice = 10
-  }
+    if (darkDice == 0) {
+      darkDice = 10
+    }
+    if (lightDice == 0) {
+      lightDice = 10
+    }
     if (Math.floor(parseInt(charStr.value) / 2) > darkDice) {
       darkDice = Math.floor(parseInt(charStr.value) / 2)
-    }
-    
+} 
+
     return result;
+    
   }
 
   function hitChecker(lightDice) {
@@ -96,7 +93,7 @@ export default function Home(props) {
   async function handleClick() {
     bodyPartImg.innerHTML = "";
     charAtkSum.innerText = "";
-    specialEffect.innerText = "nincs";
+    specialEffect.innerText = "none";
     rollButton.disabled = true;
     setTimeout(() => {
       rollButton.disabled = false;
@@ -104,7 +101,7 @@ export default function Home(props) {
 
     rollResult.innerText = ttkRoll();
     setTimeout(() => {
-      charAtkSum.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
+        charAtkSum.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
     }, 3250);
     rollResult.style.opacity = "0";
     damageResult.innerText = "";
@@ -149,11 +146,11 @@ export default function Home(props) {
       rollButton.disabled = false;
     }, 3500);
 
-    const specialModifiers = ["Veszítesz 3 cselekedetet", "Egy ellenfél veszít 1 cselekedetet", "Kapsz 1 cselekedetet","Kapsz 2 cselekedetet","Kapsz 3 cselekedetet"]
+    const specialModifiers = ["You lose 3 actions", "Your opponent loses 1 action", "You gain 1 action","You gain 2 actions","You gain 3 actions"]
 const specialCases1 = [2,3,4]
 const specialCases2 = [5,6,7]
 const specialCases3 = [8,9]
-
+   
     setTimeout(() => {
       if (charAtk.value == "") {
         charAtkSum.innerText = rollResult.innerText;
@@ -231,94 +228,92 @@ const specialCases3 = [8,9]
         }, 1200);
       }
 
-      if (bodyPart.innerText == "bal láb") {
+      if (bodyPart.innerText == "left leg") {
         currentBodypart("LeftLeg.png");
       }
-      if (bodyPart.innerText == "jobb láb") {
+      if (bodyPart.innerText == "right leg") {
         currentBodypart("RightLeg.png");
       }
 
-      if (bodyPart.innerText == "bal kar") {
+      if (bodyPart.innerText == "left arm") {
         currentBodypart("LeftArm.png");
       }
 
-      if (bodyPart.innerText == "fegyverforgató kar") {
+      if (bodyPart.innerText == "primary arm") {
         currentBodypart("RightArm.png");
       }
 
-      if (bodyPart.innerText == "törzs") {
+      if (bodyPart.innerText == "torso") {
         currentBodypart("Torso.png");
       }
 
-      if (bodyPart.innerText == "fej") {
+      if (bodyPart.innerText == "head") {
         currentBodypart("Head.png");
       }
     }, 2550);
 
     setTimeout(() => {
       bodyPart.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 2500);
+    }, 2500); 
 
-    await fetch(`../api/ttkweaponshu/${weapons.value}`)
+    await fetch(`../api/ttkweaponsen/${weapons.value}`)
       .then((response) => {
-        console.log(response.status);
-        console.log(response.ok);
-        return response.json();
+          return response.json();
       })
       .then((parsedData) => {
         return parsedData.w_damage;
       })
       .then((damage) => {
-        if (damage === "2k10") {
+        if (damage === "2d10") {
           damageResult.innerText =
             darkDice +
             lightDice +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value);
-        } else if (damage === "2k5") {
+        } else if (damage === "2d5") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             Math.ceil(lightDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value);
-        } else if (damage === "2k5+1") {
+        } else if (damage === "2d5+1") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             Math.ceil(lightDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value) +
             1;
-        } else if (damage === "2k5+2") {
+        } else if (damage === "2d5+2") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             Math.ceil(lightDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value) +
             2;
-        } else if (damage === "1k5") {
+        } else if (damage === "1d5") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value);
-        } else if (damage === "1k5+1") {
+        } else if (damage === "1d5+1") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value) +
             1;
-        } else if (damage === "1k5+2") {
+        } else if (damage === "1d5+2") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value) +
             2;
-        } else if (damage === "3k5") {
+        } else if (damage === "3d5") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) * 2 +
             Math.ceil(lightDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value);
-        } else if (damage === "1k10") {
+        } else if (damage === "1d10") {
           damageResult.innerText =
             darkDice +
             parseInt(destroyerLevelSelect.value) +
@@ -336,25 +331,25 @@ const specialCases3 = [8,9]
 
       <main className={styles.main}>
         <Navbar
-          hunLink={"/indexHU"}
-          engLink={"/"}
-          rollHelper={"Dobássegítő"}
-          manageWeapons={"Fegyverek kezelése"}
-          rollHelperLink={"/indexHU"}
-          manageWeaponsLink={"/manageWeaponsHU"}
+          hunLink={"/"}
+          engLink={"/indexEN"}
+          rollHelper={"Roll helper"}
+          manageWeapons={"Manage Weapons"}
+          rollHelperLink={"/indexEN"}
+          manageWeaponsLink={"/manageWeaponsEN"}
         />
         <div className={styles.resultContainer}>
-          <div className="result inText">A dobás eredménye</div>
+          <div className="result inText">Roll result</div>
           <div id="rollResult" className="result inNumber"></div>
-          <div className="damage inText">A sebzés</div>
+          <div className="damage inText">Damage dealt</div>
           <div id="damageResult" className="result inNumber"></div>
-          <div className="damage hitCheck">A találat helye</div>
+          <div className="damage hitCheck">Bodypart hit</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
 
         <div className={styles.weaponsContainer}>
           <label htmlFor="weapons" id="chosenWeapon">
-            Választott fegyver:
+            Chosen weapon:
           </label>
           <select id="weapons" name="weapons">
             {props.feed.map((e) => {
@@ -366,7 +361,7 @@ const specialCases3 = [8,9]
             })}
           </select>
           <label htmlFor="profession" id="profession">
-            Képzettség foka:
+            Level of proficiency:
           </label>
           <select id="professionLevelSelect" name="profession">
             {professionLevel.map((e) => {
@@ -374,7 +369,7 @@ const specialCases3 = [8,9]
             })}
           </select>
           <label htmlFor="destroyer" id="destroyer">
-            Pusztító adottság:
+            Level of Destoyer talent:
           </label>
           <select id="destroyerLevelSelect" name="destroyer">
             {destroyerLevel.map((e) => {
@@ -382,11 +377,11 @@ const specialCases3 = [8,9]
             })}
           </select>
           <label htmlFor="charAtk" id="charAtkLabel">
-            Karakter TÉO
+            ATK of your character
           </label>
           <input type="text" name="charAtk" id="charAtk" />
           <label htmlFor="charStr" id="charStrLabel">
-            Karakter Erő
+            STR of your character
           </label>
           <input type="text" name="charStr" id="charStr" />
         </div>
@@ -396,16 +391,16 @@ const specialCases3 = [8,9]
           className={styles.rollButton}
           onClick={handleClick}
         >
-          Dobj
+          Roll
         </button>
 
         <div className={styles.gifContainer}>
           <div className="result inText" id="charAtkSumText">
-            Össz TÉO
+            Sum ATK
           </div>
           <div id="charAtkSum" className={"result inNumber"}></div>
-          <div id="specialEffectText" className="result inText">Különleges hatás:</div>
-          <div id="specialEffect" className="result inText">nincs</div>
+          <div id="specialEffectText" className="result inText">Special effect:</div>
+          <div id="specialEffect" className="result inText">none</div>
         </div>
       </main>
     </>

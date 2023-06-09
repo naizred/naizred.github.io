@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Navbar from "../Components/Navbar";
 
 export const getServerSideProps = async () => {
-  const feed = await prisma.ttkweaponsen.findMany({
+  const feed = await prisma.ttkweaponshu.findMany({
     orderBy: [
       {
         w_name: "asc",
@@ -25,19 +25,18 @@ export default function Home(props) {
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
   let bodyParts = [
-    "left leg",
-    "right leg",
-    "left arm",
-    "primary arm",
-    "primary arm",
-    "torso",
-    "torso",
-    "torso",
-    "torso",
-    "head",
+    "bal láb",
+    "jobb láb",
+    "bal kar",
+    "fegyverforgató kar",
+    "fegyverforgató kar",
+    "törzs",
+    "törzs",
+    "törzs",
+    "törzs",
+    "fej",
   ];
 
-  
   let darkDice = 0;
   let lightDice = 0;
 
@@ -45,112 +44,64 @@ export default function Home(props) {
     let result = 0;
     darkDice = Math.floor(Math.random() * 10);
     lightDice = Math.floor(Math.random() * 10);
-  /*   if (darkDice > lightDice) {
-      result = darkDice * 10 + lightDice;
-    } else if (darkDice < lightDice) {
-      result = lightDice * 10 + darkDice;
-    } else if (darkDice == 0 && lightDice == 0) {
-      result += 100;
-    } else if (darkDice == lightDice) {
-      result = darkDice * 10 + lightDice;
-    }
-    darkDice == 0 ? (darkDice = 10) : (darkDice = darkDice);
-    lightDice == 0 ? (lightDice = 10) : (lightDice = lightDice);
-    return result;
-  }*/
-   
-      console.log(darkDice,lightDice)
-    if (darkDice > lightDice) {
-      result = darkDice;
-
-    } else if (darkDice < lightDice) {
+        
+/*      lightDice = 3
+    darkDice = 3 */
+    /* -- ez a felső két sor a dobások tesztelésére van  */
     
-      result = lightDice;
-    } else if (darkDice == 0 && lightDice == 0) {
-      result = 10;
-    } else if (darkDice == lightDice) {
-      result = darkDice;
-    }    
+  console.log(darkDice,lightDice)
+  if (darkDice > lightDice) {
+    result = darkDice;
 
-    if (darkDice == 0) {
-      darkDice = 10
-    }
-    if (lightDice == 0) {
-      lightDice = 10
-    }
+  } else if (darkDice < lightDice) {
+  
+    result = lightDice;
+  } else if (darkDice == 0 && lightDice == 0) {
+    result = 10;
+  } else if (darkDice == lightDice) {
+    result = darkDice;
+  }    
+
+  if (darkDice == 0) {
+    darkDice = 10
+  }
+  if (lightDice == 0) {
+    lightDice = 10
+  }
     if (Math.floor(parseInt(charStr.value) / 2) > darkDice) {
       darkDice = Math.floor(parseInt(charStr.value) / 2)
-} 
-
-    return result;
+    }
     
+    return result;
   }
 
   function hitChecker(lightDice) {
     return bodyParts[lightDice - 1];
   }
 
+  console.log(hitChecker(3))
+
   async function handleClick() {
     bodyPartImg.innerHTML = "";
     charAtkSum.innerText = "";
-    specialEffect.innerText = "none";
+    specialEffect.innerText = "nincs";
     rollButton.disabled = true;
-    setTimeout(() => {
-      rollButton.disabled = false;
-    }, 3500);
 
     rollResult.innerText = ttkRoll();
-    setTimeout(() => {
-        charAtkSum.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
-    }, 3250);
-    rollResult.style.opacity = "0";
+
     damageResult.innerText = "";
-    damageResult.style.opacity = "0";
+
     bodyPart.innerText = "";
-    bodyPart.style.opacity = "0";
 
-    rollResult.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
-
-    setTimeout(() => {
-      damageResult.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
-    }, 500);
-
-    setTimeout(() => {
-      bodyPart.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
-    }, 1000);
-
-    setTimeout(() => {
-      rollResult.style.opacity = "1";
-    }, 1500);
-
-    setTimeout(() => {
-      damageResult.style.opacity = "1";
-    }, 2000);
-
-    setTimeout(() => {
-      bodyPart.style.opacity = "1";
-    }, 2500);
-
-    setTimeout(() => {
-      rollResult.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 1500);
-
-    setTimeout(() => {
-      damageResult.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 2000);
-
-    setTimeout(() => {
-      charAtkSum.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 4750);
     setTimeout(() => {
       rollButton.disabled = false;
-    }, 3500);
+    }, 350);
 
-    const specialModifiers = ["You lose 3 actions", "Your opponent loses 1 action", "You gain 1 action","You gain 2 actions","You gain 3 actions"]
+    const specialModifiers = ["Veszítesz 3 cselekedetet", "Egy ellenfél veszít 1 cselekedetet", "Kapsz 1 cselekedetet","Kapsz 2 cselekedetet","Kapsz 3 cselekedetet"]
 const specialCases1 = [2,3,4]
 const specialCases2 = [5,6,7]
 const specialCases3 = [8,9]
-   
+
     setTimeout(() => {
       if (charAtk.value == "") {
         charAtkSum.innerText = rollResult.innerText;
@@ -171,41 +122,8 @@ const specialCases3 = [8,9]
         specialEffect.innerText = specialModifiers[4]
       }
 
-      charAtkSum.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
-    }, 3250);
-    rollResult.style.opacity = "0";
+    }, 200);
     damageResult.innerText = "";
-    damageResult.style.opacity = "0";
-    bodyPart.innerText = "";
-    bodyPart.style.opacity = "0";
-
-    rollResult.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
-
-    setTimeout(() => {
-      damageResult.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
-    }, 500);
-    setTimeout(() => {
-      bodyPart.animate([{ opacity: "0" }, { opacity: "1" }], 1500);
-    }, 1000);
-    setTimeout(() => {
-      rollResult.style.opacity = "1";
-    }, 1500);
-    setTimeout(() => {
-      damageResult.style.opacity = "1";
-    }, 2000);
-    setTimeout(() => {
-      bodyPart.style.opacity = "1";
-    }, 2500);
-    setTimeout(() => {
-      rollResult.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 1500);
-    setTimeout(() => {
-      damageResult.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 2000);
-
-    setTimeout(() => {
-      charAtkSum.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 4750);
 
     bodyPart.innerText = hitChecker(lightDice);
 
@@ -216,104 +134,94 @@ const specialCases3 = [8,9]
       async function currentBodypart(bodypart) {
         tempImg.src = "";
         tempImg.src = `./bodyParts/${bodypart}`;
-        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-        }, 600);
-        setTimeout(() => {
-          tempImg.style.opacity = "0";
-          tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 600);
-          tempImg.style.opacity = "1";
-        }, 1200);
+        tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 100);
       }
 
-      if (bodyPart.innerText == "left leg") {
+      if (bodyPart.innerText == "bal láb") {
         currentBodypart("LeftLeg.png");
       }
-      if (bodyPart.innerText == "right leg") {
+      if (bodyPart.innerText == "jobb láb") {
         currentBodypart("RightLeg.png");
       }
 
-      if (bodyPart.innerText == "left arm") {
+      if (bodyPart.innerText == "bal kar") {
         currentBodypart("LeftArm.png");
       }
 
-      if (bodyPart.innerText == "primary arm") {
+      if (bodyPart.innerText == "fegyverforgató kar") {
         currentBodypart("RightArm.png");
       }
 
-      if (bodyPart.innerText == "torso") {
+      if (bodyPart.innerText == "törzs") {
         currentBodypart("Torso.png");
       }
 
-      if (bodyPart.innerText == "head") {
+      if (bodyPart.innerText == "fej") {
         currentBodypart("Head.png");
       }
-    }, 2550);
+    }, 250);
 
-    setTimeout(() => {
-      bodyPart.animate([{ color: "white" }, { color: "black" }], 500);
-    }, 2500); 
 
-    await fetch(`../api/ttkweaponsen/${weapons.value}`)
+    await fetch(`../api/ttkweaponshu/${weapons.value}`)
       .then((response) => {
-          return response.json();
+        console.log(response.status);
+        console.log(response.ok);
+        return response.json();
       })
       .then((parsedData) => {
         return parsedData.w_damage;
       })
       .then((damage) => {
-        if (damage === "2d10") {
+        if (damage === "2k10") {
           damageResult.innerText =
             darkDice +
             lightDice +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value);
-        } else if (damage === "2d5") {
+        } else if (damage === "2k5") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             Math.ceil(lightDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value);
-        } else if (damage === "2d5+1") {
+        } else if (damage === "2k5+1") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             Math.ceil(lightDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value) +
             1;
-        } else if (damage === "2d5+2") {
+        } else if (damage === "2k5+2") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             Math.ceil(lightDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value) +
             2;
-        } else if (damage === "1d5") {
+        } else if (damage === "1k5") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value);
-        } else if (damage === "1d5+1") {
+        } else if (damage === "1k5+1") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value) +
             1;
-        } else if (damage === "1d5+2") {
+        } else if (damage === "1k5+2") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value) +
             2;
-        } else if (damage === "3d5") {
+        } else if (damage === "3k5") {
           damageResult.innerText =
             Math.ceil(darkDice / 2) * 2 +
             Math.ceil(lightDice / 2) +
             parseInt(destroyerLevelSelect.value) +
             parseInt(professionLevelSelect.value);
-        } else if (damage === "1d10") {
+        } else if (damage === "1k10") {
           damageResult.innerText =
             darkDice +
             parseInt(destroyerLevelSelect.value) +
@@ -331,25 +239,25 @@ const specialCases3 = [8,9]
 
       <main className={styles.main}>
         <Navbar
-          hunLink={"/indexHU"}
-          engLink={"/"}
-          rollHelper={"Roll helper"}
-          manageWeapons={"Manage Weapons"}
+          hunLink={"/"}
+          engLink={"/indexEN"}
+          rollHelper={"Dobássegítő"}
+          manageWeapons={"Fegyverek kezelése"}
           rollHelperLink={"/"}
           manageWeaponsLink={"/manageWeapons"}
         />
         <div className={styles.resultContainer}>
-          <div className="result inText">Roll result</div>
+          <div className="result inText">A dobás eredménye</div>
           <div id="rollResult" className="result inNumber"></div>
-          <div className="damage inText">Damage dealt</div>
+          <div className="damage inText">A sebzés</div>
           <div id="damageResult" className="result inNumber"></div>
-          <div className="damage hitCheck">Bodypart hit</div>
+          <div className="damage hitCheck">A találat helye</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
 
         <div className={styles.weaponsContainer}>
           <label htmlFor="weapons" id="chosenWeapon">
-            Chosen weapon:
+            Választott fegyver:
           </label>
           <select id="weapons" name="weapons">
             {props.feed.map((e) => {
@@ -361,7 +269,7 @@ const specialCases3 = [8,9]
             })}
           </select>
           <label htmlFor="profession" id="profession">
-            Level of proficiency:
+            Képzettség foka:
           </label>
           <select id="professionLevelSelect" name="profession">
             {professionLevel.map((e) => {
@@ -369,7 +277,7 @@ const specialCases3 = [8,9]
             })}
           </select>
           <label htmlFor="destroyer" id="destroyer">
-            Level of Destoyer talent:
+            Pusztító adottság:
           </label>
           <select id="destroyerLevelSelect" name="destroyer">
             {destroyerLevel.map((e) => {
@@ -377,11 +285,11 @@ const specialCases3 = [8,9]
             })}
           </select>
           <label htmlFor="charAtk" id="charAtkLabel">
-            ATK of your character
+            Karakter TÉO
           </label>
           <input type="text" name="charAtk" id="charAtk" />
           <label htmlFor="charStr" id="charStrLabel">
-            STR of your character
+            Karakter Erő
           </label>
           <input type="text" name="charStr" id="charStr" />
         </div>
@@ -391,16 +299,16 @@ const specialCases3 = [8,9]
           className={styles.rollButton}
           onClick={handleClick}
         >
-          Roll
+          Dobj
         </button>
 
         <div className={styles.gifContainer}>
           <div className="result inText" id="charAtkSumText">
-            Sum ATK
+            Össz TÉO
           </div>
           <div id="charAtkSum" className={"result inNumber"}></div>
-          <div id="specialEffectText" className="result inText">Special effect:</div>
-          <div id="specialEffect" className="result inText">none</div>
+          <div id="specialEffectText" className="result inText">Különleges hatás:</div>
+          <div id="specialEffect" className="result inText">nincs</div>
         </div>
       </main>
     </>

@@ -6,32 +6,32 @@ import Navbar from "../Components/Navbar";
 
 export default function manageWeapons() {
   const router = useRouter();
-  let typeArray = ["SB", "LB", "CRS", "GB", "CHP", "PIK", "SHI", "BOW", "CRB"];
+  let typeArray = ["RP", "HP", "ZÚZ", "ÓP", "HAS", "SZÁ", "PAJ", "ÍJ", "SZÍ"];
 
   let typeExplainArray = [
-    "Short Blade",
-    "Long Blade",
-    "Crushing",
-    "Giant Blade",
-    "Chopping",
-    "Pikes",
-    "Shield",
-    "Bow",
-    "Crossbow",
+    "Rövid penge",
+    "Hosszú penge",
+    "Zúzó",
+    "Óriás penge",
+    "Hasító",
+    "Szálfegyver",
+    "Pajzs",
+    "Íj",
+    "Számszeríj",
   ];
 
   let damageArray = [
-    "1d2",
-    "2d2",
-    "1d5",
-    "1d5+1",
-    "1d5+2",
-    "2d5",
-    "2d5+1",
-    "2d5+2",
-    "3d5",
-    "1d10",
-    "2d10",
+    "1k2",
+    "2k2",
+    "1k5",
+    "1k5+1",
+    "1k5+2",
+    "2k5",
+    "2k5+1",
+    "2k5+2",
+    "3k5",
+    "1k10",
+    "2k10",
   ];
 
   async function handleWeaponSubmit(event) {
@@ -45,7 +45,7 @@ export default function manageWeapons() {
 
     const JSONdata = JSON.stringify(data);
 
-    const endpoint = "../api/addNewWeapon";
+    const endpoint = "../api/addNewWeaponHU";
     const options = {
       method: "POST",
       headers: {
@@ -65,16 +65,16 @@ export default function manageWeapons() {
       </Head>
       <main className={styles.main}>
         <Navbar
-          hunLink={"/manageWeaponsHU"}
-          engLink={"/manageWeapons"}
-          rollHelper={"Roll helper"}
-          manageWeapons={"Manage Weapons"}
+          hunLink={"/manageWeapons"}
+          engLink={"/manageWeaponsEN"}
+          rollHelper={"Dobássegítő"}
+          manageWeapons={"Fegyverek kezelése"}
           rollHelperLink={"/"}
           manageWeaponsLink={"/manageWeapons"}
         />
         <form id="addWeaponForm" onSubmit={handleWeaponSubmit}>
           <label htmlFor="w_name" id="">
-            Weapon name:
+            Fegyver neve:
           </label>
           <input
             type="text"
@@ -83,7 +83,7 @@ export default function manageWeapons() {
             id="w_name"
           />
           <label htmlFor="w_damage" id="">
-            Damage:
+            Sebzéskód:
           </label>
           <select name="w_damage" className="newWeaponInput" id="w_damage">
             {damageArray.map((e) => {
@@ -91,7 +91,7 @@ export default function manageWeapons() {
             })}
           </select>
           <label htmlFor="w_type" id="">
-            Weapon type:
+            Fegyver típusa:
           </label>
           <select name="w_type" className="newWeaponInput" id="w_type">
             {typeArray.map((e) => {
@@ -105,9 +105,9 @@ export default function manageWeapons() {
           form="addWeaponForm"
           id="addWeaponFormSubmitButton"
         >
-          Send
+          Elküld
         </button>
-        <span id="explanationTitle">Explanation of weapon types:</span>
+        <span id="explanationTitle">Fegyvertípus rövidítések:</span>
         <div id="typeDiv">
           {typeArray.map((e) => {
             return <span key={e}>{e} ===</span>;
