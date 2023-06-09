@@ -5,7 +5,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import Navbar from "../Components/Navbar";
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const feed = await prisma.ttkweaponsen.findMany({
     orderBy: [
       {
