@@ -16,7 +16,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      feed: JSON.parse(JSON.stringify(feed)),
+      feed
     },
   };
 };
@@ -228,7 +228,7 @@ const specialCases3 = [8,9]
         }
       });
   }
-  const router = useRouter();
+  useRouter();
 
   return (
     <>
