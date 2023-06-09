@@ -123,7 +123,6 @@ const specialCases3 = [8,9]
       }
 
     }, 200);
-    damageResult.innerText = "";
 
     bodyPart.innerText = hitChecker(lightDice);
 
