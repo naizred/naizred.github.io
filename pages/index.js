@@ -108,8 +108,7 @@ export default function Home(props) {
     const specialCases2 = [5, 6, 7];
     const specialCases3 = [8, 9];
 
-    setTimeout(() => {
-      if (charAtk.value == "") {
+          if (charAtk.value == "") {
         charAtkSum.innerText = rollResult.innerText;
       } else {
         charAtkSum.innerText =
@@ -126,16 +125,15 @@ export default function Home(props) {
         specialEffect.innerText = specialModifiers[0];
       } else if (lightDice == darkDice && darkDice == 10) {
         specialEffect.innerText = specialModifiers[4];
-      }
-    }, 200);
+      };
 
     bodyPart.innerText = hitChecker(lightDice);
 
-    setTimeout(() => {
+    
       let tempImg = document.createElement("img");
       tempImg.classList.add("tempImg");
       bodyPartImg.appendChild(tempImg);
-      async function currentBodypart(bodypart) {
+      function currentBodypart(bodypart) {
         tempImg.src = "";
         tempImg.src = `./bodyParts/${bodypart}`;
         tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 100);
@@ -162,8 +160,7 @@ export default function Home(props) {
 
       if (bodyPart.innerText == "fej") {
         currentBodypart("Head.png");
-      }
-    }, 250);
+      };
 
     const result = props.feed.find(
       (name) => name.w_name === `${weapons.value}`
