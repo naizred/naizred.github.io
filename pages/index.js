@@ -1,27 +1,31 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import prisma from "../prisma/client";
 import React from "react";
-import { useRouter } from "next/router";
-import Navbar from "../Components/Navbar";
+import path from "path";
+/* function fileReader(fileName){
+  let object = fs.readFileSync(fileName)
+
+  return object.skills[1]
+}
+
+console.log(fileReader("weapons.json")); */
 
 export const getStaticProps = async () => {
-  const feed = await prisma.ttkweaponshu.findMany({
-    orderBy: [
-      {
-        w_name: "asc",
-      },
-    ],
-  });
+  const fs = require("fs");
+  const jsonDirectory = path.join(process.cwd(), "json");
+  const feed = (JSON.parse(
+    fs.readFileSync(jsonDirectory + "/data.json")
+  ));
 
   return {
     props: {
-      feed
+      feed,
     },
   };
 };
 
 export default function Home(props) {
+
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
   let bodyParts = [
@@ -44,42 +48,38 @@ export default function Home(props) {
     let result = 0;
     darkDice = Math.floor(Math.random() * 10);
     lightDice = Math.floor(Math.random() * 10);
-        
-/*      lightDice = 3
-    darkDice = 3 */
+
+    /*      lightDice = 3
+    darkDice = 0 */
     /* -- ez a felső két sor a dobások tesztelésére van  */
-    
-  console.log(darkDice,lightDice)
-  if (darkDice > lightDice) {
-    result = darkDice;
 
-  } else if (darkDice < lightDice) {
-  
-    result = lightDice;
-  } else if (darkDice == 0 && lightDice == 0) {
-    result = 10;
-  } else if (darkDice == lightDice) {
-    result = darkDice;
-  }    
-
-  if (darkDice == 0) {
-    darkDice = 10
-  }
-  if (lightDice == 0) {
-    lightDice = 10
-  }
-    if (Math.floor(parseInt(charStr.value) / 2) > darkDice) {
-      darkDice = Math.floor(parseInt(charStr.value) / 2)
+    console.log(darkDice, lightDice);
+    if (darkDice > lightDice) {
+      result = darkDice;
+    } else if (darkDice < lightDice) {
+      result = lightDice;
+    } else if (darkDice == 0 && lightDice == 0) {
+      result = 10;
+    } else if (darkDice == lightDice) {
+      result = darkDice;
     }
-    
+
+    if (darkDice == 0) {
+      darkDice = 10;
+    }
+    if (lightDice == 0) {
+      lightDice = 10;
+    }
+    if (Math.floor(parseInt(charStr.value) / 2) > darkDice) {
+      darkDice = Math.floor(parseInt(charStr.value) / 2);
+    }
+
     return result;
   }
 
   function hitChecker(lightDice) {
     return bodyParts[lightDice - 1];
   }
-
-  console.log(hitChecker(3))
 
   async function handleClick() {
     bodyPartImg.innerHTML = "";
@@ -97,10 +97,16 @@ export default function Home(props) {
       rollButton.disabled = false;
     }, 350);
 
-    const specialModifiers = ["Veszítesz 3 cselekedetet", "Egy ellenfél veszít 1 cselekedetet", "Kapsz 1 cselekedetet","Kapsz 2 cselekedetet","Kapsz 3 cselekedetet"]
-const specialCases1 = [2,3,4]
-const specialCases2 = [5,6,7]
-const specialCases3 = [8,9]
+    const specialModifiers = [
+      "Veszítesz 3 cselekedetet",
+      "Egy ellenfél veszít 1 cselekedetet",
+      "Kapsz 1 cselekedetet",
+      "Kapsz 2 cselekedetet",
+      "Kapsz 3 cselekedetet",
+    ];
+    const specialCases1 = [2, 3, 4];
+    const specialCases2 = [5, 6, 7];
+    const specialCases3 = [8, 9];
 
     setTimeout(() => {
       if (charAtk.value == "") {
@@ -111,17 +117,16 @@ const specialCases3 = [8,9]
       }
 
       if (lightDice == darkDice && specialCases1.includes(darkDice)) {
-        specialEffect.innerText = specialModifiers[1]
+        specialEffect.innerText = specialModifiers[1];
       } else if (lightDice == darkDice && specialCases2.includes(darkDice)) {
-        specialEffect.innerText = specialModifiers[2]
+        specialEffect.innerText = specialModifiers[2];
       } else if (lightDice == darkDice && specialCases3.includes(darkDice)) {
-        specialEffect.innerText = specialModifiers[3]
+        specialEffect.innerText = specialModifiers[3];
       } else if (lightDice == darkDice && darkDice == 1) {
-        specialEffect.innerText = specialModifiers[0]
+        specialEffect.innerText = specialModifiers[0];
       } else if (lightDice == darkDice && darkDice == 10) {
-        specialEffect.innerText = specialModifiers[4]
+        specialEffect.innerText = specialModifiers[4];
       }
-
     }, 200);
 
     bodyPart.innerText = hitChecker(lightDice);
@@ -160,75 +165,93 @@ const specialCases3 = [8,9]
       }
     }, 250);
 
+    const result = props.feed.find(
+      (name) => name.w_name === `${weapons.value}`
+    );
+    console.log(result.w_damage);
 
-    await fetch(`../api/ttkweaponshu/${weapons.value}`)
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.ok);
-        return response.json();
-      })
-      .then((parsedData) => {
-        return parsedData.w_damage;
-      })
-      .then((damage) => {
-        if (damage === "2k10") {
-          damageResult.innerText =
-            darkDice +
-            lightDice +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value);
-        } else if (damage === "2k5") {
-          damageResult.innerText =
-            Math.ceil(darkDice / 2) +
-            Math.ceil(lightDice / 2) +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value);
-        } else if (damage === "2k5+1") {
-          damageResult.innerText =
-            Math.ceil(darkDice / 2) +
-            Math.ceil(lightDice / 2) +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value) +
-            1;
-        } else if (damage === "2k5+2") {
-          damageResult.innerText =
-            Math.ceil(darkDice / 2) +
-            Math.ceil(lightDice / 2) +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value) +
-            2;
-        } else if (damage === "1k5") {
-          damageResult.innerText =
-            Math.ceil(darkDice / 2) +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value);
-        } else if (damage === "1k5+1") {
-          damageResult.innerText =
-            Math.ceil(darkDice / 2) +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value) +
-            1;
-        } else if (damage === "1k5+2") {
-          damageResult.innerText =
-            Math.ceil(darkDice / 2) +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value) +
-            2;
-        } else if (damage === "3k5") {
-          damageResult.innerText =
-            Math.ceil(darkDice / 2) * 2 +
-            Math.ceil(lightDice / 2) +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value);
-        } else if (damage === "1k10") {
-          damageResult.innerText =
-            darkDice +
-            parseInt(destroyerLevelSelect.value) +
-            parseInt(professionLevelSelect.value);
-        }
-      });
+    if (result.w_damage === "2k10") {
+      damageResult.innerText =
+        darkDice +
+        lightDice +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value);
+    } else if (result.w_damage === "2k5") {
+      damageResult.innerText =
+        Math.ceil(darkDice / 2) +
+        Math.ceil(lightDice / 2) +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value);
+    } else if (result.w_damage === "2k5+1") {
+      damageResult.innerText =
+        Math.ceil(darkDice / 2) +
+        Math.ceil(lightDice / 2) +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value) +
+        1;
+    } else if (result.w_damage === "2k5+2") {
+      damageResult.innerText =
+        Math.ceil(darkDice / 2) +
+        Math.ceil(lightDice / 2) +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value) +
+        2;
+    } else if (result.w_damage === "1k5") {
+      damageResult.innerText =
+        Math.ceil(darkDice / 2) +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value);
+    } else if (result.w_damage === "1k5+1") {
+      damageResult.innerText =
+        Math.ceil(darkDice / 2) +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value) +
+        1;
+    } else if (result.w_damage === "1k5+2") {
+      damageResult.innerText =
+        Math.ceil(darkDice / 2) +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value) +
+        2;
+    } else if (result.w_damage === "3k5") {
+      damageResult.innerText =
+        Math.ceil(darkDice / 2) * 2 +
+        Math.ceil(lightDice / 2) +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value);
+    } else if (result.w_damage === "1k10") {
+      damageResult.innerText =
+        darkDice +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value);
+    } else if (result.w_damage === "1k2") {
+      if (darkDice > 5) {
+        darkDice = 2;
+      } else {
+        darkDice = 1;
+      }
+      damageResult.innerText =
+        darkDice +
+        parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value);
+    } else if (result.w_damage === "2k2") {
+      if (darkDice > 5) {
+        darkDice = 2;
+      } else {
+        darkDice = 1;
+      }
+
+      if (lightDice > 5) {
+        lightDice = 2;
+      } else {
+        lightDice = 1;
+      }
+
+      damageResult.innerText = darkDice + lightDice;
+      parseInt(destroyerLevelSelect.value) +
+        parseInt(professionLevelSelect.value);
+    }
   }
-  useRouter();
 
   return (
     <>
@@ -237,14 +260,6 @@ const specialCases3 = [8,9]
       </Head>
 
       <main className={styles.main}>
-        <Navbar
-          hunLink={"/"}
-          engLink={"/indexEN"}
-          rollHelper={"Dobássegítő"}
-          manageWeapons={"Fegyverek kezelése"}
-          rollHelperLink={"/"}
-          manageWeaponsLink={"/manageWeapons"}
-        />
         <div className={styles.resultContainer}>
           <div className="result inText">A dobás eredménye</div>
           <div id="rollResult" className="result inNumber"></div>
@@ -306,8 +321,12 @@ const specialCases3 = [8,9]
             Össz TÉO
           </div>
           <div id="charAtkSum" className={"result inNumber"}></div>
-          <div id="specialEffectText" className="result inText">Különleges hatás:</div>
-          <div id="specialEffect" className="result inText">nincs</div>
+          <div id="specialEffectText" className="result inText">
+            Különleges hatás:
+          </div>
+          <div id="specialEffect" className="result inText">
+            nincs
+          </div>
         </div>
       </main>
     </>
