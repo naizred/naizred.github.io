@@ -16,6 +16,11 @@ body {
     padding-top: 0.5vw;
     justify-content: center;
     align-items: center;
+
+}
+
+datalist{
+    display: none;
 }
 
 a:link {
