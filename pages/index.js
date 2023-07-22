@@ -231,8 +231,8 @@ OrderFunc(props.feed)
 }
 
   function handleWeaponChange() {
-    destroyerLevelSelect.value = 0;
-    professionLevelSelect.value = 0;
+   // destroyerLevelSelect.value = 0;
+   // professionLevelSelect.value = 0;
     handleFileRead();
     setTimeout(() => {
       damageEvaluator()
