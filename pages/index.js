@@ -299,10 +299,18 @@ OrderFunc(props.feed)
         )
         let filteredArrayByType = JSON.parse(reader.result).skills.filter((name)=>name.name == "Fegyverhasználat" && typeOfCurrentlySelectedWeapon.w_type.includes(name.subSkill))
         let filteredArrayByAptitude = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
-    
+        console.log(filteredArrayByType)
+        
+        let allLevelsArray = []
+
         if (filteredArrayByType.length != 0) {
-     
-          professionLevelSelect.value = parseInt(filteredArrayByType[0].level)
+          
+          for (let i = 0; i < filteredArrayByType.length; i++) {
+            allLevelsArray.push(filteredArrayByType[i].level)
+          }
+       
+     //filteredArrayByType = filteredArrayByType.filter()
+          professionLevelSelect.value = parseInt(Math.max(...allLevelsArray))
         } else {
           professionLevelSelect.value = 0
         }
@@ -314,7 +322,6 @@ OrderFunc(props.feed)
           destroyerLevelSelect.value = 0
         }
       },
-      
     );    
 
     if (file) {
