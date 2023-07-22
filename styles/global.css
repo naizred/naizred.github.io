@@ -3,8 +3,8 @@ body {
     background-color: #000000;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: repeat(16, 1fr);
-    height: 52vw;
-    width: 64vw;
+    height: 42vw;
+    width: 54vw;
     background-position: left;
     background-repeat: no-repeat;
     background-size: contain;
@@ -17,6 +17,11 @@ body {
     justify-content: center;
     align-items: center;
 
+}
+
+#__next{
+    height: 42vw;
+    width: 54vw;
 }
 
 datalist{
@@ -49,15 +54,14 @@ a:active {
 }
 
 img {
-    height: 16vw;
-    width: 12vw;
+    height: 14vw;
+    width: 10vw;
 }
 
 input,
 select {
     background-image: url('../public/parchmentPaper.jpg');
     background-size: 19.3vw 2.5vw;
-    height: 2vw;
 }
 
 button {
@@ -71,7 +75,7 @@ button {
     display: grid;
     grid-row: 2 / 6;
     grid-column: span 2;
-    font-size: 9vw;
+    font-size: 7.6vw;
     align-items: center;
     justify-content: center;
 }
@@ -94,11 +98,11 @@ button {
 
 #addWeaponForm {
     display: grid;
-    grid-column: 8 / 13;
-    grid-row: 3 / 9;
+    grid-column: 3 / 17;
+    grid-row: 2 / 10;
     opacity: 1;
-    height: 20vw;
-    font-size: 2.5vw;
+    height: 30vw;
+    font-size: 2.2vw;
 }
 
 #explanationTitle{
@@ -122,44 +126,21 @@ button {
     border-right: 0.2vw solid black;
 }
 
-#typeDiv{
-    display: grid;
-    grid-column: 2 / 4;
-    grid-row: 2 / 14;
-    opacity: 1;
-    height: 30vw;
-    font-size: 1vw;
-    text-align: right; 
-    
-}
-
-#w_name
- {
+.newCharInput {
     display: inline-block;
-    height: 2.5vw;
     border: 0.1vw solid black;
-    padding: 0px;
-    margin: 0.2vw;
-    font-size: 1.5vw;
-    font-family: 'MedievalSharp', cursive;
-}
-
-#w_damage,
-#w_type {
-    display: inline-block;
-    height: 2.5vw;
-    width: 6vw;
-    border: 0.1vw solid black;
-    padding: 0px;
-    margin: 0.2vw;
-    font-size: 1.5vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.3vw;
+    padding: 0.2vw;
+ height:2.4vw;
+    font-size: 1.2vw;
     font-family: 'MedievalSharp', cursive;
 }
 
 #addWeaponFormSubmitButton {
     display: grid;
     grid-column: 8 / 13;
-    grid-row: 9 / 11;
+    grid-row: 12 / 15;
     font-size: 2.4vw;
     background-image: url('../public/sword2.png');
     background-color: #e8d090;
@@ -172,7 +153,7 @@ button {
     -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
     box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
     border-radius: 1vw;
-    padding: 1.5vw 0px;
+    padding: 1.2vw 0px;
 }
 
 #addWeaponFormSubmitButton:hover {
@@ -203,7 +184,7 @@ button {
     align-items: center;
     justify-content: center;
     height: 2.2vw;
-    width: 12vw;
+    width: 10vw;
     margin-bottom: 1vw;
   font-size: 1.2vw;
   font-family: 'MedievalSharp', cursive;
@@ -313,6 +294,14 @@ button {
      margin: 0vw 0.4vw; 
     background-image: url('../public/bodyParts/bodyPartsDefault.png');
     background-size: 12vw 16vw;
+}
+
+.tempImg {
+    display: grid;
+    grid-column: 8 / 12;
+    grid-row: 5 / 9;
+    height: 16vw;
+    width: 12vw;
 }
 
 #charAtkSumText{

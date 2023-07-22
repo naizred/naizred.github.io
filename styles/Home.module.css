@@ -1,20 +1,21 @@
 .main {
   display: grid;
   background-color: #000000;
-  grid-template-columns: repeat(17, 1fr);
+  grid-template-columns: repeat(16, 1fr);
   grid-template-rows: repeat(16, 1fr);
-  height: 52vw;
-  width: 64vw;
+  height: 45vw;
+  width: 70vw;
   background-image: url('../public/parchmentPaper.jpg');
   background-position: left;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 70vw 45vw;
   font-family: 'MedievalSharp', cursive;
   color: black;
   -webkit-text-stroke: #f35900 0.1px;
   font-size: 1.4vw;
   text-shadow: 0.3vw 0.3vw 0.4vw #682600;
   padding-top: 1vw;
+  padding-left: 2vw;
   justify-content: center;
   align-items: center;
 }
@@ -110,8 +111,8 @@
   grid-row: 1 / 9;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(12, 1fr);
-  height: 15vw;
-  width: 12vw;
+  height: 17vw;
+  width: 10vw;
   align-items: center;
   justify-content: center;
 }
@@ -119,12 +120,13 @@
 .resultContainer {
   background-color: none;
   display: grid;
+  padding-left: 2vw;
   grid-column: 1 / 8;
   grid-row: 1 / 8;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  height: 27vw;
-  width: 30vw;
+  height: 25vw;
+  width: 28vw;
   margin: 0px 0.4vw;
   align-items: center;
   border: 0.23vw solid #680604;
@@ -133,6 +135,8 @@
   box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   border-radius: 1vw;
 }
+
+
 
 .bodyPart {
   display: grid;
@@ -157,7 +161,7 @@
   box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   border-radius: 1vw;
   background-image: url('../public/parchmentPaper.jpg');
-  background-size: 11.2vw 8vw;
+  background-size: 15.2vw 8vw;
 }
 
 .rollButton:hover {
@@ -180,9 +184,8 @@
   justify-content: center;
   background-size: inherit;
   background-repeat: no-repeat;
-  margin-top: 2vw;
-  width: 7wv;
-  height: 19vw;
+  margin-top: 1vw;
+  height: 15.3vw;
   border: 0.23vw solid #680604;
   -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
