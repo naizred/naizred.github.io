@@ -3,14 +3,6 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 
-/* function fileReader(fileName){
-  let object = fs.readFileSync(fileName)
-
-  return object.skills[1]
-}
-
-console.log(fileReader("weapons.json")); */
-
 export const getStaticProps = async () => {
   
   const fs = require("fs");
@@ -137,12 +129,9 @@ OrderFunc(props.feed)
       if (Math.floor(parseInt(charStr.value) / 2) > darkDice) {
         darkDice = Math.floor(parseInt(charStr.value) / 2);
       }
-    }
-       
-        return result;
-      
-      }
-    
+    }   
+        return result;     
+     }   
   }
 
   function hitChecker(lightDice) {
@@ -150,11 +139,14 @@ OrderFunc(props.feed)
   }
 
  async function damageEvaluator() {
-  
+   if (diceRolled==false) {
+    return
+  }
     const damageOfCurrentWeapon = props.feed.find(
       (name) => name.w_name === `${weapons.value}`
     );
     console.log(damageOfCurrentWeapon.w_damage);
+    console.log(damageOfCurrentWeapon.w_type);
   if (damageOfCurrentWeapon.w_damage === "2k10") {
     damageResult.innerText =
       originalDarkDice +
@@ -248,7 +240,7 @@ OrderFunc(props.feed)
   }
 
   function handleFileRead() {
-    
+    let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
    
@@ -261,7 +253,7 @@ OrderFunc(props.feed)
         let typeOfCurrentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
         )
-        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name)=>name.name == "Fegyverhasználat" && name.subSkill == typeOfCurrentlySelectedWeapon.w_type)
+        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name)=>name.name == "Fegyverhasználat" && typeOfCurrentlySelectedWeapon.w_type.includes(name.subSkill))
         let filteredArrayByAptitude = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
     
         if (filteredArrayByType.length != 0) {
@@ -271,7 +263,7 @@ OrderFunc(props.feed)
           professionLevelSelect.value = 0
         }
     
-        if (filteredArrayByAptitude.length != 0) {
+        if (filteredArrayByAptitude.length != 0 && !rangedWeaponsArray.includes(typeOfCurrentlySelectedWeapon.w_type)) {
           
           destroyerLevelSelect.value = parseInt(filteredArrayByAptitude[0].level)
         } else {
@@ -286,9 +278,11 @@ OrderFunc(props.feed)
     }
    
 }
-  
+
+  let diceRolled = false;
   
   async function handleClick() {
+ 
     bodyPartImg.innerHTML = "";
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
@@ -308,7 +302,7 @@ OrderFunc(props.feed)
       rollResult.innerText = ttkRoll(true);
     }
     
-  
+    diceRolled = true
       
     damageResult.innerText = "";
 
@@ -359,90 +353,6 @@ OrderFunc(props.feed)
     
     damageEvaluator()
 
-  
-
-    //----------------- régi sebzés kalkulátor ---------------------------
-    // if (damageOfCurrentWeapon.w_damage === "2k10") {
-    //   damageResult.innerText =
-    //     darkDice +
-    //     lightDice +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value);
-    // } else if (damageOfCurrentWeapon.w_damage === "2k5") {
-    //   damageResult.innerText =
-    //     Math.ceil(darkDice / 2) +
-    //     Math.ceil(lightDice / 2) +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value);
-    // } else if (damageOfCurrentWeapon.w_damage === "2k5+1") {
-    //   damageResult.innerText =
-    //     Math.ceil(darkDice / 2) +
-    //     Math.ceil(lightDice / 2) +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value) +
-    //     1;
-    // } else if (damageOfCurrentWeapon.w_damage === "2k5+2") {
-    //   damageResult.innerText =
-    //     Math.ceil(darkDice / 2) +
-    //     Math.ceil(lightDice / 2) +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value) +
-    //     2;
-    // } else if (damageOfCurrentWeapon.w_damage === "1k5") {
-    //   damageResult.innerText =
-    //     Math.ceil(darkDice / 2) +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value);
-    // } else if (damageOfCurrentWeapon.w_damage === "1k5+1") {
-    //   damageResult.innerText =
-    //     Math.ceil(darkDice / 2) +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value) +
-    //     1;
-    // } else if (damageOfCurrentWeapon.w_damage === "1k5+2") {
-    //   damageResult.innerText =
-    //     Math.ceil(darkDice / 2) +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value) +
-    //     2;
-    // } else if (damageOfCurrentWeapon.w_damage === "3k5") {
-    //   damageResult.innerText =
-    //     Math.ceil(darkDice / 2) * 2 +
-    //     Math.ceil(lightDice / 2) +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value);
-    // } else if (damageOfCurrentWeapon.w_damage === "1k10") {
-    //   damageResult.innerText =
-    //     darkDice +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value);
-    // } else if (damageOfCurrentWeapon.w_damage === "1k2") {
-    //   if (darkDice > 5) {
-    //     darkDice = 2;
-    //   } else {
-    //     darkDice = 1;
-    //   }
-    //   damageResult.innerText =
-    //     darkDice +
-    //     parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value);
-    // } else if (damageOfCurrentWeapon.w_damage === "2k2") {
-    //   if (darkDice > 5) {
-    //     darkDice = 2;
-    //   } else {
-    //     darkDice = 1;
-    //   }
-
-    //   if (lightDice > 5) {
-    //     lightDice = 2;
-    //   } else {
-    //     lightDice = 1;
-    //   }
-
-    //   damageResult.innerText = darkDice + lightDice;
-    //   parseInt(destroyerLevelSelect.value) +
-    //     parseInt(professionLevelSelect.value);
-    // }
   }
 
   return (
@@ -460,8 +370,11 @@ OrderFunc(props.feed)
           <div className="damage hitCheck">A találat helye</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
-
-        <input type="file" id="inputFile" accept=".txt" onChange={handleFileRead}/>
+<div className="fileInputWrapper">
+  <button className="customFileButton">Karakter importálása</button>
+  <input type="file" id="inputFile" accept=".txt" onChange={handleFileRead}/>
+</div>
+    
 
         <div className={styles.weaponsContainer}>
           <label htmlFor="weapons" id="chosenWeapon">
