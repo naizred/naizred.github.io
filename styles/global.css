@@ -2,7 +2,7 @@ body {
     display: grid;
     background-color: #000000;
     grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(16, 1fr);
+    grid-template-rows: repeat(11, 1fr);
     height: 42vw;
     width: 54vw;
     background-position: left;
@@ -22,10 +22,6 @@ body {
 #__next{
     height: 42vw;
     width: 54vw;
-}
-
-datalist{
-    display: none;
 }
 
 a:link {
@@ -67,8 +63,16 @@ select {
 button {
     display: grid;
     font-family: 'MedievalSharp', cursive;
-    font-size: 1vw;
     -webkit-text-stroke: #f35900 0.01vw;
+    background-image: url('../public/parchmentPaper.jpg');
+    background-size: 5.2vw 5vw;
+    border: 0.05vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 0.4vw;
+    align-self: center;
+    justify-self: center;
 }
 
 .fileInputWrapper {
@@ -79,7 +83,6 @@ button {
     margin-top: 3.5vw;
   }
   
-  /* The custom style for the visible file button */
   .customFileButton {
     display: grid;
 padding: 0.7vw;
@@ -107,6 +110,87 @@ padding: 0.7vw;
     cursor: pointer;
   }
 
+  #rollResultWrapper{
+    display: grid;
+    grid-column: 12 / 16;
+    grid-row: 9 / 14;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(4,1fr);
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #useLegendPointCheckBox{
+    display: none;
+    grid-column:4 / 6;
+    grid-row: 3 / 5;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+  }
+  #useLegendPointCheckBoxlabel{
+    display: grid;
+    grid-row: 1 / 3;
+    grid-column: 4 / 6;
+    font-size: 1.2vw;
+    margin-left: 0.2vw;
+  }
+
+  #lightDiceResult, #darkDiceResult{
+    display: grid;
+    grid-row: 2 span;
+    grid-column: 2 / 3;
+    font-size: 1.1vw;
+    margin: 0.3vw 0vw;
+  }
+
+  #lightDiceResultSelect, #darkDiceResultSelect{
+    display: grid;
+    margin-right: 1vw;
+    padding: 0;
+    margin: 0;
+    grid-row: 2 span;
+    grid-column: 3 / 4;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    width: 3.5vw;
+  font-size: 1.2vw;
+  font-family: 'MedievalSharp', cursive;
+  margin-left: 1.3vw;
+  }
+
+  #darkDiceRerollByCounterLP, #lightDiceRerollByCounterLP{
+    display: none;
+    grid-column: 1 / 2;
+    width: 1.5vw;
+    height: 1.5vw;
+    padding: 0;
+    margin: 0;
+  }
+
+  #darkDiceRerollByCounterLP:hover, #lightDiceRerollByCounterLP:hover{
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  }
+  #darkDiceRerollByCounterLP{
+grid-row:1/3
+  }
+
+  #lightDiceRerollByCounterLP{
+    grid-row:3/5
+  }
+
+  #lightDiceResultSelect:disabled, #darkDiceResultSelect:disabled{
+    display: grid;
+    opacity: 0.7;
+    color: #000000;
+  }
+
+
+
 .inNumber {
     display: grid;
     grid-row: 2 / 6;
@@ -132,76 +216,6 @@ padding: 0.7vw;
     justify-content: center;
 }
 
-#addWeaponForm {
-    display: grid;
-    grid-column: 3 / 17;
-    grid-row: 2 / 10;
-    opacity: 1;
-    height: 30vw;
-    font-size: 2.2vw;
-}
-
-#explanationTitle{
-    display: grid;
-    grid-column: 2 / 7;
-    grid-row: 2 / 3;
-    opacity: 1;
-    font-size: 1.3vw;
-    height: 2vw;
-    padding-top: 1.5vw;
-}
-
-#explanationDiv{
-    display: grid;
-    grid-column: 4 / 7;
-    grid-row: 2 / 14;
-    opacity: 1;
-    height: 30vw;
-    font-size: 1vw;
-    padding-left: 0.5vw;
-    border-right: 0.2vw solid black;
-}
-
-.newCharInput {
-    display: inline-block;
-    border: 0.1vw solid black;
-    margin-top: 0.5vw;
-    margin-bottom: 0.3vw;
-    padding: 0.2vw;
- height:2.4vw;
-    font-size: 1.2vw;
-    font-family: 'MedievalSharp', cursive;
-}
-
-#addWeaponFormSubmitButton {
-    display: grid;
-    grid-column: 8 / 13;
-    grid-row: 12 / 15;
-    font-size: 2.4vw;
-    background-image: url('../public/sword2.png');
-    background-color: #e8d090;
-    background-position: left;
-    background-repeat: no-repeat;
-    background-size: contain;
-    text-shadow: 0.3vw 0.3vw 0.4vw #000000;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    padding: 1.2vw 0px;
-}
-
-#addWeaponFormSubmitButton:hover {
-    -webkit-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-}
-#manageWeaponsButton:hover {
-    -webkit-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-}
 
 #chosenWeapon {
     font-size: 1.2vw;
@@ -243,7 +257,7 @@ padding: 0.7vw;
     align-items: center;
     justify-content: center;
     height: 2.2vw;
-    width: 5vw;
+    width: 4vw;
   font-size: 1.5vw;
   margin-bottom: 1vw;
   font-family: 'MedievalSharp', cursive;
@@ -266,7 +280,7 @@ padding: 0.7vw;
     align-items: center;
     justify-content: center;
     height: 2.2vw;
-    width: 5vw;
+    width: 4vw;
   font-size: 1.5vw;
   margin-bottom: 1vw;
   font-family: 'MedievalSharp', cursive;

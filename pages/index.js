@@ -3,6 +3,9 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 
+var MersenneTwister = require('mersenne-twister');
+var generator = new MersenneTwister();
+
 export const getStaticProps = async () => {
   
   const fs = require("fs");
@@ -46,6 +49,7 @@ OrderFunc(props.feed)
   
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
+  let rollOptions = [0,1,2,3,4,5,6,7,8,9]
   let bodyParts = [
     "bal láb",
     "jobb láb",
@@ -60,48 +64,52 @@ OrderFunc(props.feed)
   ];
 
 
-  let darkDice = 0;
-  let lightDice = 0;
+  let darkDice;
+  let lightDice;
   let originalDarkDice = 0;
   let originalLightDice = 0;
 
 //------------------------------------------------------------------------
   //-------A dobás ------
 
-  function ttkRoll(strBonus) {
+  function ttkRoll(strBonus, darkDice, lightDice) {
 
 
     if(strBonus==false || strBonus == true){
     let result = 0;
 
-    darkDice = Math.floor(Math.random() * 10);
-    lightDice = Math.floor(Math.random() * 10);
-     
+      if (darkDice == undefined || lightDice==undefined) {
+        darkDice = Math.floor(generator.random() * 10);
+        lightDice = Math.floor(generator.random() * 10);
+        darkDiceResultSelect.value = darkDice
+        lightDiceResultSelect.value = lightDice
+      }
+    
     /*      lightDice = 3
     darkDice = 0 */
     /* -- ez a felső két sor a dobások tesztelésére van  */
 
-    console.log(darkDice, lightDice);
+      console.log(darkDice, lightDice);
+
     if (darkDice > lightDice) {
       result = darkDice;
     } else if (darkDice < lightDice) {
       result = lightDice;
-    } else if (darkDice == 0 && lightDice == 0) {
-      result = 10;
     } else if (darkDice == lightDice) {
       result = darkDice;
-    }
+    } else if (darkDice == 0 && lightDice == 0) {
+      result = 10;
+    } 
 
-    if (darkDice == 0) {
-      darkDice = 10;
-    }
-    if (lightDice == 0) {
-      lightDice = 10;
-    }
+      if (darkDice == 0) {
+        darkDice = 10;
+      }
+      if (lightDice == 0) {
+        lightDice = 10;
+      }
 
-    originalDarkDice = darkDice
-    originalLightDice = lightDice
-      
+      originalDarkDice = darkDice
+      originalLightDice = lightDice
     const specialModifiers = [
       "Veszítesz 3 cselekedetet",
       "Egy ellenfél veszít 1 cselekedetet",
@@ -127,81 +135,84 @@ OrderFunc(props.feed)
 
     if (strBonus == true) {
       if (Math.floor(parseInt(charStr.value) / 2) > darkDice) {
-        darkDice = Math.floor(parseInt(charStr.value) / 2);
+        originalDarkDice = Math.floor(parseInt(charStr.value) / 2);
       }
     }   
         return result;     
      }   
   }
 
-  function hitChecker(lightDice) {
-    return bodyParts[lightDice - 1];
-  }
-
- async function damageEvaluator() {
-   if (diceRolled==false) {
-    return
-  }
-    const damageOfCurrentWeapon = props.feed.find(
+  async function damageEvaluator() {
+    const currentWeapon = props.feed.find(
       (name) => name.w_name === `${weapons.value}`
     );
-    console.log(damageOfCurrentWeapon.w_damage);
-    console.log(damageOfCurrentWeapon.w_type);
-  if (damageOfCurrentWeapon.w_damage === "2k10") {
+
+  if (rangedWeaponsArray.includes(currentWeapon.w_type)) {
+    destroyerLevelSelect.value = 0
+    
+  } 
+
+   if (diceRolled == false) {
+    return
+  }
+     
+    console.log(currentWeapon.w_damage);
+    console.log(currentWeapon.w_type);
+  if (currentWeapon.w_damage === "2k10") {
     damageResult.innerText =
       originalDarkDice +
       originalLightDice +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value);
-  } else if (damageOfCurrentWeapon.w_damage === "2k5") {
+  } else if (currentWeapon.w_damage === "2k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value);
-  } else if (damageOfCurrentWeapon.w_damage === "2k5+1") {
+  } else if (currentWeapon.w_damage === "2k5+1") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value) +
       1;
-  } else if (damageOfCurrentWeapon.w_damage === "2k5+2") {
+  } else if (currentWeapon.w_damage === "2k5+2") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value) +
       2;
-  } else if (damageOfCurrentWeapon.w_damage === "1k5") {
+  } else if (currentWeapon.w_damage === "1k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value);
-  } else if (damageOfCurrentWeapon.w_damage === "1k5+1") {
+  } else if (currentWeapon.w_damage === "1k5+1") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value) +
       1;
-  } else if (damageOfCurrentWeapon.w_damage === "1k5+2") {
+  } else if (currentWeapon.w_damage === "1k5+2") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value) +
       2;
-  } else if (damageOfCurrentWeapon.w_damage === "3k5") {
+  } else if (currentWeapon.w_damage === "3k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) * 2 +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value);
-  } else if (damageOfCurrentWeapon.w_damage === "1k10") {
+  } else if (currentWeapon.w_damage === "1k10") {
     damageResult.innerText =
       originalDarkDice +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value);
-  } else if (damageOfCurrentWeapon.w_damage === "1k2") {
+  } else if (currentWeapon.w_damage === "1k2") {
     if (originalDarkDice > 5) {
       darkDice = 2;
     } else {
@@ -211,7 +222,7 @@ OrderFunc(props.feed)
       darkDice +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionLevelSelect.value);
-  } else if (damageOfCurrentWeapon.w_damage === "2k2") {
+  } else if (currentWeapon.w_damage === "2k2") {
     if (originalDarkDice > 5) {
       darkDice = 2;
     } else {
@@ -230,25 +241,58 @@ OrderFunc(props.feed)
   }
 }
 
+  
+  function handleCheckBox() {
+    if (useLegendPointCheckBox.checked == true && diceRolled == true) {
+      darkDiceResultSelect.disabled = false
+      lightDiceResultSelect.disabled = false
+      rollButton.disabled = true
+      // darkDiceRerollByCounterLP.disabled = false
+      // lightDiceRerollByCounterLP.disabled = false
+
+      if (useLegendPointCheckBox.checked == false) {
+        rollButton.disabled = false
+      }
+    } else {
+      darkDiceResultSelect.disabled = true
+      lightDiceResultSelect.disabled = true
+    }
+  }
+  
+  function handleWhenLegendPointIsUsed() {
+    let lpModifiedDarkDice = darkDiceResultSelect.value
+    let lpModifiedLightDice = lightDiceResultSelect.value
+
+    if (darkDiceResultSelect.value == 0) {
+      lpModifiedDarkDice=10
+    }
+
+    if (lightDiceResultSelect.value == 0) {
+      lpModifiedLightDice=10
+    }
+
+    handleClick(parseInt(lpModifiedDarkDice), parseInt(lpModifiedLightDice))
+    useLegendPointCheckBox.style.display = "none"
+    darkDiceResultSelect.disabled = true
+    lightDiceResultSelect.disabled = true
+    rollButton.disabled = false
+  }
+  
   function handleWeaponChange() {
-   // destroyerLevelSelect.value = 0;
-   // professionLevelSelect.value = 0;
     handleFileRead();
     setTimeout(() => {
       damageEvaluator()
     }, 100); 
   }
 
+  let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
   function handleFileRead() {
-    let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
    
     reader.addEventListener(
       "load",
       () => {
-        
-        // This will log the file content to the console
       
         let typeOfCurrentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
@@ -279,9 +323,16 @@ OrderFunc(props.feed)
    
 }
 
+//   function handleBossCounterLP() {
+
+//       darkDiceResultSelect.value=Math.floor(generator.random() * 10)
+//    handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
+  
+// }
+  
   let diceRolled = false;
   
-  async function handleClick() {
+  async function handleClick(darkDice, lightDice) {
  
     bodyPartImg.innerHTML = "";
     charAtkSum.innerText = "";
@@ -289,21 +340,28 @@ OrderFunc(props.feed)
   
     //-----------------------megnézni, hogy van-e erő sebzés 
 
-    const evalCurrentWeaponStrBonus = props.feed.find(
+    const currentWeaponSelected = props.feed.find(
       (name) => name.w_name === `${weapons.value}`
     )
     
-    if (evalCurrentWeaponStrBonus.strBonusDmg == "false") {
-      rollResult.innerText = ttkRoll(false);
-    } else if (evalCurrentWeaponStrBonus.strBonusDmg == "true" && charStr.value == "") {
+    
+    if (currentWeaponSelected.strBonusDmg == "false") {
+      rollResult.innerText = ttkRoll(false, darkDice, lightDice);
+    } else if (currentWeaponSelected.strBonusDmg == "true" && charStr.value == "") {
       alert("Ez egy erő sebzéssel rendelkező fegyver, írd be az erődet!")
       return
-    } else if (evalCurrentWeaponStrBonus.strBonusDmg == "true" && charStr.value != "") {
-      rollResult.innerText = ttkRoll(true);
+    } else if (currentWeaponSelected.strBonusDmg == "true" && charStr.value != "") {
+      rollResult.innerText = ttkRoll(true, darkDice, lightDice);
     }
     
     diceRolled = true
-      
+    useLegendPointCheckBox.style.display = "grid"
+    useLegendPointCheckBox.checked = false
+    // darkDiceRerollByCounterLP.style.display = "grid"
+    // lightDiceRerollByCounterLP.style.display = "grid"
+    // darkDiceRerollByCounterLP.disabled = true
+    // lightDiceRerollByCounterLP.disabled = true
+
     damageResult.innerText = "";
 
     bodyPart.innerText = "";
@@ -315,9 +373,12 @@ OrderFunc(props.feed)
         parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
     }
 
+    
+  function hitChecker(originalLightDice) {
+    return bodyParts[originalLightDice - 1];
+  }
 
-
-    bodyPart.innerText = hitChecker(lightDice);
+    bodyPart.innerText = hitChecker(originalLightDice);
 
     let tempImg = document.createElement("img");
     tempImg.classList.add("tempImg");
@@ -413,6 +474,28 @@ OrderFunc(props.feed)
             Karakter Erő
           </label>
           <input type="text" name="charStr" id="charStr" />
+        </div>
+        <div id="rollResultWrapper">
+          <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
+            Sötét kocka:
+          </label>
+          <select id="darkDiceResultSelect" name="" onChange={handleWhenLegendPointIsUsed} disabled={true}>
+            {rollOptions.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <label htmlFor="lightDiceResultSelect" id="lightDiceResult">
+            Világos kocka:
+          </label>
+          <select id="lightDiceResultSelect" name="" onChange={handleWhenLegendPointIsUsed} disabled={true}>
+            {rollOptions.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <label id="useLegendPointCheckBoxlabel" htmlFor="useLegendPointCheckBox">Legenda pontot használok!</label>
+          <input type="checkBox" id="useLegendPointCheckBox" onChange={handleCheckBox} />
+          {/* <button id="darkDiceRerollByCounterLP" onClick={handleBossCounterLP}></button>
+          <button id="lightDiceRerollByCounterLP"></button> */}
         </div>
         <div id="bodyPartImg"></div>
         <button type=""

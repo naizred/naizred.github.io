@@ -2,7 +2,7 @@
   display: grid;
   background-color: #000000;
   grid-template-columns: repeat(16, 1fr);
-  grid-template-rows: repeat(16, 1fr);
+  grid-template-rows: repeat(11, 1fr);
   height: 45vw;
   width: 70vw;
   background-image: url('../public/parchmentPaper.jpg');
@@ -111,8 +111,7 @@
   grid-row: 1 / 9;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(12, 1fr);
-  height: 17vw;
-  width: 10vw;
+  height: 26vw;
   align-items: center;
   justify-content: center;
 }
@@ -172,6 +171,7 @@
 
 .rollButton:disabled {
   color: black;
+  opacity: 0.6;
 }
 
 .gifContainer {
