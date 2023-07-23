@@ -281,9 +281,14 @@ OrderFunc(props.feed)
   
   function handleWeaponChange() {
     handleFileRead();
-    setTimeout(() => {
-      damageEvaluator()
-    }, 100); 
+    // setTimeout(() => {
+    //   damageEvaluator()
+    // }, 100); 
+    rollResult.innerText = ""
+    damageResult.innerText = ""
+    bodyPart.innerText = ""
+    charAtkSum.innerText = ""
+    specialEffect.innerText = "nincs"
   }
 
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
