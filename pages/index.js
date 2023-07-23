@@ -289,6 +289,7 @@ OrderFunc(props.feed)
     bodyPart.innerText = ""
     charAtkSum.innerText = ""
     specialEffect.innerText = "nincs"
+    useLegendPointCheckBox.style.display = "none"
   }
 
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
