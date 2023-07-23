@@ -148,7 +148,7 @@
 
 .rollButton {
   display: grid;
-  grid-column: 8 / 11;
+  grid-column: 8 / 12;
   grid-row: 9 / 12;
   font-size: 4.5vw;
   align-items: center;
@@ -161,6 +161,8 @@
   border-radius: 1vw;
   background-image: url('../public/parchmentPaper.jpg');
   background-size: 15.2vw 8vw;
+  margin-bottom: 2vw;
+  margin-right: 1vw;
 }
 
 .rollButton:hover {

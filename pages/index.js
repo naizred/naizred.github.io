@@ -12,15 +12,17 @@ export const getStaticProps = async () => {
   const jsonDirectory = path.join(process.cwd(), "json");
   let feed = JSON.parse(
     fs.readFileSync(jsonDirectory + "/data.json", "utf8"));
+    let chars = JSON.parse(
+      fs.readFileSync(jsonDirectory + "/chars.json", "utf8"));
   return {
     props: {
       feed,
+      chars
     },
   };
 };
 
 export default function Home(props) {
-
     
 //custom sort function to sort data by name
 
@@ -142,20 +144,20 @@ OrderFunc(props.feed)
      }   
   }
 
+//-------------- Megnézi a sebzéskódot, és számol sebzést ------------
+  
   async function damageEvaluator() {
     const currentWeapon = props.feed.find(
       (name) => name.w_name === `${weapons.value}`
     );
 
   if (rangedWeaponsArray.includes(currentWeapon.w_type)) {
-    destroyerLevelSelect.value = 0
-    
+    destroyerLevelSelect.value = 0  
   } 
 
    if (diceRolled == false) {
     return
   }
-     
     console.log(currentWeapon.w_damage);
     console.log(currentWeapon.w_type);
   if (currentWeapon.w_damage === "2k10") {
@@ -241,7 +243,6 @@ OrderFunc(props.feed)
   }
 }
 
-  
   function handleCheckBox() {
     if (useLegendPointCheckBox.checked == true && diceRolled == true) {
       darkDiceResultSelect.disabled = false
@@ -286,6 +287,7 @@ OrderFunc(props.feed)
   }
 
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
+
   function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
@@ -294,12 +296,12 @@ OrderFunc(props.feed)
       "load",
       () => {
       
-        let typeOfCurrentlySelectedWeapon = props.feed.find(
+        let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
         )
-        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name)=>name.name == "Fegyverhasználat" && typeOfCurrentlySelectedWeapon.w_type.includes(name.subSkill))
-        let filteredArrayByAptitude = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
-        console.log(filteredArrayByType)
+        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name)=>name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill))
+        let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
+        let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
         
         let allLevelsArray = []
 
@@ -308,21 +310,101 @@ OrderFunc(props.feed)
           for (let i = 0; i < filteredArrayByType.length; i++) {
             allLevelsArray.push(filteredArrayByType[i].level)
           }
-       
-     //filteredArrayByType = filteredArrayByType.filter()
           professionLevelSelect.value = parseInt(Math.max(...allLevelsArray))
         } else {
           professionLevelSelect.value = 0
         }
     
-        if (filteredArrayByAptitude.length != 0 && !rangedWeaponsArray.includes(typeOfCurrentlySelectedWeapon.w_type)) {
+        if (filteredArrayIfHasDestroyer.length != 0 && !rangedWeaponsArray.includes(currentlySelectedWeapon.w_type)) {
           
-          destroyerLevelSelect.value = parseInt(filteredArrayByAptitude[0].level)
+          destroyerLevelSelect.value = parseInt(filteredArrayIfHasDestroyer[0].level)
         } else {
           destroyerLevelSelect.value = 0
         }
-      },
-    );    
+        
+        charClass.innerText = JSON.parse(reader.result).classKey 
+        charName.innerText = JSON.parse(reader.result).charName
+
+        let currentChar = props.chars.find(
+          (name) => name.classKey == JSON.parse(reader.result).classKey
+        )
+
+        let attrSpreadArray = Object.values(JSON.parse(reader.result).attrSpread)
+        let atkModifier = attrSpreadArray[0] + attrSpreadArray[1] + attrSpreadArray[2]
+        let aimModifier = attrSpreadArray[2] + attrSpreadArray[7] + attrSpreadArray[9]
+        
+        function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
+          let attrBuyingObj = JSON.parse(reader.result).attrBuying
+        let boughtAttributesThatIncreaseAtk = 0
+          
+        for (let i = 0; i < attrBuyingObj.length; i++) {
+          for (let j = 0; j < attrBuyingObj[i].length; j++) {
+            if (attrBuyingObj[i][j] == attr1) {
+              boughtAttributesThatIncreaseAtk++
+            } else if (attrBuyingObj[i][j] == attr2) {
+              boughtAttributesThatIncreaseAtk++
+            } else if (attrBuyingObj[i][j] == attr3) {
+              boughtAttributesThatIncreaseAtk++
+            }else {
+              continue
+            }
+          }
+        }
+  return boughtAttributesThatIncreaseAtk
+      }
+
+let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
+
+        let baseAtk = JSON.parse(reader.result).stats.TÉ + JSON.parse(currentChar.atk) + atkModifier
+          + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") + sumAtkAutomaticallyGainedByLevel
+        +JSON.parse(reader.result).spentHm.TÉ
+        let baseAim = JSON.parse(reader.result).stats.CÉ + JSON.parse(currentChar.aim) + aimModifier 
+          + findAndCountAttributesThatModifyStats("Ügy", "Aka", "Érz")
+          +JSON.parse(reader.result).spentHm.CÉ
+        
+        let masterWeaponModifier = 0
+        
+        if (filteredArrayIfHasMasterWep.length!=0) {
+          masterWeaponModifier = parseInt(filteredArrayIfHasMasterWep[0].level)
+        } else {
+          masterWeaponModifier = 0
+        }
+        console.log(masterWeaponModifier)
+          console.log(baseAim)
+        console.log(baseAtk)
+        let atkWithProfession = baseAtk+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
+        let aimWithProfession = baseAim+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
+
+        
+        function teoCalculator(atkOrAim) {
+          let calculatedTEO = 0
+          if (atkOrAim % 10 == 0) {
+            calculatedTEO = atkOrAim / 10
+          } else if (atkOrAim % 5 == 0) {
+            calculatedTEO = atkOrAim / 10 + 0.5
+          } else if (atkOrAim % 10 > 5) {
+            calculatedTEO = (atkOrAim - atkOrAim % 10) / 10 + 0.5
+          } else if (atkOrAim % 10 < 5) {
+            calculatedTEO = (atkOrAim - (atkOrAim % 10)) / 10
+          }
+          return calculatedTEO
+        }
+      
+        console.log(aimWithProfession)
+        console.log(atkWithProfession)
+        console.log(teoCalculator(atkWithProfession))
+        if (!rangedWeaponsArray.includes(currentlySelectedWeapon.w_type)) {
+          charAtk.value = teoCalculator(atkWithProfession)
+        } else {
+          charAtk.value = teoCalculator(aimWithProfession)
+        }
+        
+        console.log(teoCalculator(atkWithProfession))
+
+        },
+        );    
+        
+
 
     if (file) {
       reader.readAsText(file);
@@ -438,6 +520,10 @@ OrderFunc(props.feed)
           <div className="damage hitCheck">A találat helye</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
+        <div id="charInfoWrapper">
+          <div id="charName"></div>
+          <div id="charClass"></div>
+          </div>
 <div className="fileInputWrapper">
   <button className="customFileButton">Karakter importálása</button>
   <input type="file" id="inputFile" accept=".txt" onChange={handleFileRead}/>
@@ -474,7 +560,7 @@ OrderFunc(props.feed)
             })}
           </select>
           <label htmlFor="charAtk" id="charAtkLabel">
-            Karakter TÉO
+            Karakter TÉO/CÉO
           </label>
           <input type="text" name="charAtk" id="charAtk" />
           <label htmlFor="charStr" id="charStrLabel">

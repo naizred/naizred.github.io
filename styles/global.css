@@ -78,14 +78,15 @@ button {
 .fileInputWrapper {
     position: relative;
     display: grid;
-    grid-column: 8 / 11;
-    grid-row: 2 / 4;
-    margin-top: 3.5vw;
+    grid-column: 8 / 12;
+    grid-row: 3 / 5;
+    margin-top: 3vw;
+    margin-right: 1.5vw;
   }
   
   .customFileButton {
     display: grid;
-padding: 0.7vw;
+margin-left: 1vw;
     font-family: 'MedievalSharp', cursive;
     font-size: 1.5vw;
     -webkit-text-stroke: #f35900 0.01vw;
@@ -97,7 +98,7 @@ padding: 0.7vw;
   box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   border-radius: 1vw;
   background-image: url('../public/parchmentPaper.jpg');
-  background-size: 15.2vw 8vw;
+  background-size: 15vw 6vw;
   }
 
   #inputFile {
@@ -110,6 +111,27 @@ padding: 0.7vw;
     cursor: pointer;
   }
 
+#charInfoWrapper {
+  display: grid;
+  grid-column: 8 / 12;
+  grid-row: 1 / 3;
+  grid-template-rows: repeat(3,1fr);
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 2vw;
+  text-align: center;
+}
+
+#charName{
+display: grid;
+grid-row: 1 / 3;
+}
+
+#charClass{
+    display: grid;
+grid-row: 3 / 4;
+}
   #rollResultWrapper{
     display: grid;
     grid-column: 12 / 16;
@@ -334,16 +356,17 @@ grid-row:1/3
     display: grid;
     grid-column: 8 / 12;
     grid-row: 5 / 9;
-    height: 16vw;
-    width: 12vw;
+    height: 14vw;
+    width: 10vw;
     border: 0.2vw solid #680604;
     -webkit-box-shadow: 0.15vw 0.15vw 0.4vw 0.15vw rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0.15vw 0.15vw 0.4vw 0.15vw rgba(0, 0, 0, 0.75);
     box-shadow: 0.15vw 0.15vw 0.4vw 0.15vw rgba(0, 0, 0, 0.75);
     border-radius: 1vw;
-     margin: 0vw 0.4vw; 
+     margin-left: 3vw;
+     margin-top: 1vw; 
     background-image: url('../public/bodyParts/bodyPartsDefault.png');
-    background-size: 12vw 16vw;
+    background-size: 10vw 14vw;
 }
 
 .tempImg {
