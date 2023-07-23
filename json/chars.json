@@ -1,5 +1,6 @@
 [{"classKey":"Kardművész", "atk":36, "aim":34, "str":11, "atkPerLvl":2},
 {"classKey":"Fejvadász", "atk":35, "aim":35, "str":10, "atkPerLvl":1},
 {"classKey":"Darton paplovag", "atk":33, "aim":30, "str":11, "atkPerLvl":2},
+{"classKey":"Arel pap", "atk":33, "aim":35, "str":10, "atkPerLvl":1},
 {"classKey":"Uwel paplovag", "atk":33, "aim":30, "str":11, "atkPerLvl":2}
 ]
