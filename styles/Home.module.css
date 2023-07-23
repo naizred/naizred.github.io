@@ -106,6 +106,7 @@
 }
 
 .weaponsContainer {
+  margin-left: 2vw;
   display: grid;
   grid-column: 12 / 15;
   grid-row: 1 / 9;
@@ -162,7 +163,7 @@
   background-image: url('../public/parchmentPaper.jpg');
   background-size: 15.2vw 8vw;
   margin-bottom: 2vw;
-  margin-right: 1vw;
+margin-left: 1vw;
 }
 
 .rollButton:hover {

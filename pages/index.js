@@ -328,8 +328,9 @@ OrderFunc(props.feed)
         let currentChar = props.chars.find(
           (name) => name.classKey == JSON.parse(reader.result).classKey
         )
-
+//------ Ez itt csúnyán van hardcodolva, keresés kéne az attrSpreadArray object entries-be majd
         let attrSpreadArray = Object.values(JSON.parse(reader.result).attrSpread)
+//--------------------------------------------------------------------------------
         let atkModifier = attrSpreadArray[0] + attrSpreadArray[1] + attrSpreadArray[2]
         let aimModifier = attrSpreadArray[2] + attrSpreadArray[7] + attrSpreadArray[9]
         
@@ -369,13 +370,10 @@ let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * current
         } else {
           masterWeaponModifier = 0
         }
-        console.log(masterWeaponModifier)
-          console.log(baseAim)
-        console.log(baseAtk)
+   
         let atkWithProfession = baseAtk+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
         let aimWithProfession = baseAim+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
 
-        
         function teoCalculator(atkOrAim) {
           let calculatedTEO = 0
           if (atkOrAim % 10 == 0) {
@@ -390,22 +388,17 @@ let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * current
           return calculatedTEO
         }
       
-        console.log(aimWithProfession)
-        console.log(atkWithProfession)
-        console.log(teoCalculator(atkWithProfession))
-        if (!rangedWeaponsArray.includes(currentlySelectedWeapon.w_type)) {
+         if (!rangedWeaponsArray.includes(currentlySelectedWeapon.w_type)) {
           charAtk.value = teoCalculator(atkWithProfession)
         } else {
           charAtk.value = teoCalculator(aimWithProfession)
-        }
+         }
+         
+charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesThatModifyStats("Erő")
         
-        console.log(teoCalculator(atkWithProfession))
-
-        },
-        );    
+      },
+    );    
         
-
-
     if (file) {
       reader.readAsText(file);
     }
