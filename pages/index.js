@@ -97,11 +97,11 @@ OrderFunc(props.feed)
       result = darkDice;
     } else if (darkDice < lightDice) {
       result = lightDice;
-    } else if (darkDice == lightDice) {
-      result = darkDice;
     } else if (darkDice == 0 && lightDice == 0) {
       result = 10;
-    } 
+    } else if (darkDice == lightDice) {
+      result = darkDice;
+    }  
 
       if (darkDice == 0) {
         darkDice = 10;
@@ -263,14 +263,6 @@ OrderFunc(props.feed)
   function handleWhenLegendPointIsUsed() {
     let lpModifiedDarkDice = darkDiceResultSelect.value
     let lpModifiedLightDice = lightDiceResultSelect.value
-
-    if (darkDiceResultSelect.value == 0) {
-      lpModifiedDarkDice=10
-    }
-
-    if (lightDiceResultSelect.value == 0) {
-      lpModifiedLightDice=10
-    }
 
     handleClick(parseInt(lpModifiedDarkDice), parseInt(lpModifiedLightDice))
     useLegendPointCheckBox.style.display = "none"
