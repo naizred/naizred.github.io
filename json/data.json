@@ -30,5 +30,9 @@
   { "w_name": "Könnyű nyílpuska", "w_id": 24, "w_damage": "2k5", "w_type": "SZÍ", "strBonusDmg":"false" , "weaponAtk":8},
   { "w_name": "Bóla", "w_id": 26, "w_damage": "2k2", "w_type": "VET" , "strBonusDmg":"false", "weaponAtk":3},
   { "w_name": "Lasszó", "w_id": 27, "w_damage": "1k2", "w_type": "VET", "strBonusDmg":"false" , "weaponAtk":2},
+  { "w_name": "Sequor", "w_id": 33, "w_damage": "1k10", "w_type": "RP", "strBonusDmg":"false" , "weaponAtk":6},
+  { "w_name": "Nehéz nyílpuska", "w_id": 34, "w_damage": "2k5+2", "w_type": "SZÍ", "strBonusDmg":"false" , "weaponAtk":7},
+  { "w_name": "Rövidkard", "w_id": 35, "w_damage": "1k10", "w_type": "HP/RP", "strBonusDmg":"false" , "weaponAtk":5},
+  { "w_name": "Shadoni nyílpuska", "w_id": 36, "w_damage": "2k10", "w_type": "SZÍ", "strBonusDmg":"false" , "weaponAtk":8},
   { "w_name": "Parittya", "w_id": 28, "w_damage": "1k5+1", "w_type": "VET", "strBonusDmg":"true" , "weaponAtk":3}
 ]
