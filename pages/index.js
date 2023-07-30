@@ -333,6 +333,7 @@ OrderFunc(props.feed)
         let atkModifier = attrSpreadArray[0] + attrSpreadArray[1] + attrSpreadArray[2]
         let aimModifier = attrSpreadArray[2] + attrSpreadArray[7] + attrSpreadArray[9]
         
+
         function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
           let attrBuyingObj = JSON.parse(reader.result).attrBuying
         let boughtAttributesThatIncreaseAtk = 0
@@ -354,7 +355,7 @@ OrderFunc(props.feed)
       }
 
 let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
-
+        
         let baseAtk = JSON.parse(reader.result).stats.TÉ + JSON.parse(currentChar.atk) + atkModifier
           + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") + sumAtkAutomaticallyGainedByLevel
         +JSON.parse(reader.result).spentHm.TÉ
