@@ -297,7 +297,8 @@ OrderFunc(props.feed)
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
         )
-        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name)=>name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill))
+        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill))
+        
         let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
         let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
         
