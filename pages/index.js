@@ -26,7 +26,7 @@ export default function Home(props) {
     
 //custom sort function to sort data by name
 
-    let alphabets = ["A", "Á","B", "C", "D","E","É","F","G","H","I","J","K","L","M","N","O","Ó","Ö","Ő","P","Q","R","S",
+    let alphabets = ["A", "Á","B", "C", "D","E","É","F","G","H","I","Í","J","K","L","M","N","O","Ó","Ö","Ő","P","Q","R","S",
                 "T","U","Ú","Ü","Ű","V","W","X","Z"];
 
 let aChar;
