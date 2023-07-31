@@ -144,6 +144,14 @@ OrderFunc(props.feed)
      }   
   }
 
+  function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
+    for (let i = 0; i < rangedWeaponsArray.length; i++) {
+      if (currentlySelectedWeaponType.includes(rangedWeaponsArray[i])) {
+        return true
+      } 
+    }return false
+  }
+
 //-------------- Megnézi a sebzéskódot, és számol sebzést ------------
   
   async function damageEvaluator() {
@@ -151,10 +159,10 @@ OrderFunc(props.feed)
       (name) => name.w_name === `${weapons.value}`
     );
 
-  if (rangedWeaponsArray.includes(currentWeapon.w_type)) {
+  if (checkIfWeaponIsRanged(currentWeapon.w_type)) {
     destroyerLevelSelect.value = 0  
   } 
-
+console.log()
    if (diceRolled == false) {
     return
   }
@@ -313,8 +321,10 @@ OrderFunc(props.feed)
         } else {
           professionLevelSelect.value = 0
         }
-    
-        if (filteredArrayIfHasDestroyer.length != 0 && !rangedWeaponsArray.includes(currentlySelectedWeapon.w_type)) {
+        console.log(currentlySelectedWeapon.w_type)
+        
+console.log(checkIfWeaponIsRanged(currentlySelectedWeapon.w_type))
+        if (filteredArrayIfHasDestroyer.length != 0 && !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           
           destroyerLevelSelect.value = parseInt(filteredArrayIfHasDestroyer[0].level)
         } else {
@@ -388,7 +398,7 @@ let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * current
           return calculatedTEO
         }
       
-         if (!rangedWeaponsArray.includes(currentlySelectedWeapon.w_type)) {
+         if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           charAtk.value = teoCalculator(atkWithProfession)
         } else {
           charAtk.value = teoCalculator(aimWithProfession)
