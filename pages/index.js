@@ -162,7 +162,7 @@ OrderFunc(props.feed)
   if (checkIfWeaponIsRanged(currentWeapon.w_type)) {
     destroyerLevelSelect.value = 0  
   } 
-console.log()
+
    if (diceRolled == false) {
     return
   }
@@ -256,8 +256,6 @@ console.log()
       darkDiceResultSelect.disabled = false
       lightDiceResultSelect.disabled = false
       rollButton.disabled = true
-      // darkDiceRerollByCounterLP.disabled = false
-      // lightDiceRerollByCounterLP.disabled = false
 
       if (useLegendPointCheckBox.checked == false) {
         rollButton.disabled = false
@@ -269,14 +267,28 @@ console.log()
   }
   
   function handleWhenLegendPointIsUsed() {
-    let lpModifiedDarkDice = darkDiceResultSelect.value
-    let lpModifiedLightDice = lightDiceResultSelect.value
+   // let lpModifiedDarkDice = darkDiceResultSelect.value
+   // let lpModifiedLightDice = lightDiceResultSelect.value
 
-    handleClick(parseInt(lpModifiedDarkDice), parseInt(lpModifiedLightDice))
+   darkDiceRerollByCounterLP.style.display = "grid"
+   lightDiceRerollByCounterLP.style.display = "grid"
+    
+    if (darkDiceResultSelect.value != originalDarkDice) {
+      lightDiceRerollByCounterLP.style.display = "none"
+    } else if (lightDiceResultSelect.value != originalLightDice) {
+      darkDiceRerollByCounterLP.style.display = "none"
+    }
+    
+    handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
     useLegendPointCheckBox.style.display = "none"
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
     rollButton.disabled = false
+  }
+
+  function handleMouseEnter() {
+    darkDiceRerollByCounterLP.style.display = "none"
+    lightDiceRerollByCounterLP.style.display = "none"
   }
   
   function handleWeaponChange() {
@@ -291,6 +303,22 @@ console.log()
     specialEffect.innerText = "nincs"
     useLegendPointCheckBox.style.display = "none"
   }
+
+  function handleBossCounterLPdark() {
+       darkDiceResultSelect.value=Math.floor(generator.random() * 10)
+     handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
+     useLegendPointCheckBox.style.display = "none"
+    darkDiceRerollByCounterLP.style.display = "none"
+    lightDiceRerollByCounterLP.style.display = "none"
+  }
+  
+  function handleBossCounterLPlight() {
+    lightDiceResultSelect.value=Math.floor(generator.random() * 10)
+  handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
+  useLegendPointCheckBox.style.display = "none"
+ darkDiceRerollByCounterLP.style.display = "none"
+ lightDiceRerollByCounterLP.style.display = "none"
+}
 
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
 
@@ -412,15 +440,7 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
     if (file) {
       reader.readAsText(file);
     }
-   
 }
-
-//   function handleBossCounterLP() {
-
-//       darkDiceResultSelect.value=Math.floor(generator.random() * 10)
-//    handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
-  
-// }
   
   let diceRolled = false;
   
@@ -451,8 +471,6 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
     useLegendPointCheckBox.checked = false
     // darkDiceRerollByCounterLP.style.display = "grid"
     // lightDiceRerollByCounterLP.style.display = "grid"
-    // darkDiceRerollByCounterLP.disabled = true
-    // lightDiceRerollByCounterLP.disabled = true
 
     damageResult.innerText = "";
 
@@ -590,14 +608,15 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
           </select>
           <label id="useLegendPointCheckBoxlabel" htmlFor="useLegendPointCheckBox">Legenda pontot használok!</label>
           <input type="checkBox" id="useLegendPointCheckBox" onChange={handleCheckBox} />
-          {/* <button id="darkDiceRerollByCounterLP" onClick={handleBossCounterLP}></button>
-          <button id="lightDiceRerollByCounterLP"></button> */}
+          <button id="darkDiceRerollByCounterLP" onClick={handleBossCounterLPdark}></button>
+          <button id="lightDiceRerollByCounterLP" onClick={handleBossCounterLPlight}></button>
         </div>
         <div id="bodyPartImg"></div>
         <button type=""
           id="rollButton"
           className={styles.rollButton}
           onClick={handleClick}
+          onMouseEnter={handleMouseEnter}
         >
           Dobj
         </button>
