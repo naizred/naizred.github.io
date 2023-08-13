@@ -370,7 +370,7 @@ console.log(checkIfWeaponIsRanged(currentlySelectedWeapon.w_type))
 //--------------------------------------------------------------------------------
         let atkModifier = attrSpreadArray[0] + attrSpreadArray[1] + attrSpreadArray[2]
         let aimModifier = attrSpreadArray[2] + attrSpreadArray[7] + attrSpreadArray[9]
-        
+        let defModifier = attrSpreadArray[1] + attrSpreadArray[2] + attrSpreadArray[9]
 
         function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
           let attrBuyingObj = JSON.parse(reader.result).attrBuying
@@ -392,14 +392,20 @@ console.log(checkIfWeaponIsRanged(currentlySelectedWeapon.w_type))
   return boughtAttributesThatIncreaseAtk
       }
 
-let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
+        let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
+        let sumDefAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.defPerLvl
         
-        let baseAtk = JSON.parse(reader.result).stats.TÉ + JSON.parse(currentChar.atk) + atkModifier
+        console.log(currentChar.str + currentChar.spd + currentChar.dex)
+        console.log(currentChar.dex + currentChar.wll + currentChar.per)
+        let baseAtk = JSON.parse(reader.result).stats.TÉ + currentChar.str+currentChar.spd+currentChar.dex + atkModifier
           + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") + sumAtkAutomaticallyGainedByLevel
-        +JSON.parse(reader.result).spentHm.TÉ
-        let baseAim = JSON.parse(reader.result).stats.CÉ + JSON.parse(currentChar.aim) + aimModifier 
+          + JSON.parse(reader.result).spentHm.TÉ
+        let baseAim = JSON.parse(reader.result).stats.CÉ + currentChar.dex + currentChar.wll + currentChar.per + aimModifier 
           + findAndCountAttributesThatModifyStats("Ügy", "Aka", "Érz")
           +JSON.parse(reader.result).spentHm.CÉ
+        let baseDef = JSON.parse(reader.result).stats.VÉ + currentChar.spd + currentChar.dex + currentChar.per + 60 + defModifier 
+          + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Érz") + sumDefAutomaticallyGainedByLevel
+          +JSON.parse(reader.result).spentHm.VÉ
         
         let masterWeaponModifier = 0
         
@@ -411,27 +417,30 @@ let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * current
    
         let atkWithProfession = baseAtk+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
         let aimWithProfession = baseAim+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
-
-        function teoCalculator(atkOrAim) {
-          let calculatedTEO = 0
-          if (atkOrAim % 10 == 0) {
-            calculatedTEO = atkOrAim / 10
-          } else if (atkOrAim % 5 == 0) {
-            calculatedTEO = atkOrAim / 10 + 0.5
-          } else if (atkOrAim % 10 > 5) {
-            calculatedTEO = (atkOrAim - atkOrAim % 10) / 10 + 0.5
-          } else if (atkOrAim % 10 < 5) {
-            calculatedTEO = (atkOrAim - (atkOrAim % 10)) / 10
+        let defWithProfession = baseDef+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponDef + masterWeaponModifier)
+     
+        function tvcoCalculator(atkAimDef) {
+          let calculatedTVCO = 0
+          if (atkAimDef % 10 == 0) {
+            calculatedTVCO = atkAimDef / 10
+          } else if (atkAimDef % 5 == 0) {
+            calculatedTVCO = Math.floor(atkAimDef / 10) + 0.5
+          } else if (atkAimDef % 10 > 5) {
+            calculatedTVCO = Math.floor((atkAimDef - atkAimDef % 10)) / 10 + 0.5
+          } else if (atkAimDef % 10 < 5) {
+            calculatedTVCO = (atkAimDef - (atkAimDef % 10)) / 10
           }
-          return calculatedTEO
+          return calculatedTVCO
         }
       
          if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-          charAtk.value = teoCalculator(atkWithProfession)
+          charAtk.value = tvcoCalculator(atkWithProfession)
         } else {
-          charAtk.value = teoCalculator(aimWithProfession)
+          charAtk.value = tvcoCalculator(aimWithProfession)
          }
-         
+         console.log(defWithProfession)
+        charDef.value = tvcoCalculator(defWithProfession)
+        
 charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesThatModifyStats("Erő")
         
       },
@@ -584,6 +593,10 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
             Karakter TÉO/CÉO
           </label>
           <input type="text" name="charAtk" id="charAtk" />
+          <label htmlFor="charDef" id="charDefLabel">
+            Karakter VÉO
+          </label>
+          <input type="text" name="charDef" id="charDef"/>
           <label htmlFor="charStr" id="charStrLabel">
             Karakter Erő
           </label>

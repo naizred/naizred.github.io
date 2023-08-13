@@ -1,7 +1,13 @@
-[{"classKey":"Kardművész", "atk":36, "aim":34, "str":11, "atkPerLvl":2},
-{"classKey":"Fejvadász", "atk":35, "aim":35, "str":10, "atkPerLvl":1},
-{"classKey":"Darton paplovag", "atk":33, "aim":30, "str":11, "atkPerLvl":2},
-{"classKey":"Arel pap", "atk":33, "aim":35, "str":10, "atkPerLvl":1},
-{"classKey":"Harcművész", "atk":36, "aim":36, "str":12, "atkPerLvl":1},
-{"classKey":"Uwel paplovag", "atk":33, "aim":30, "str":11, "atkPerLvl":2}
+[{"classKey":"Kardművész", "str":11, "spd":13, "dex":12, "con":12, "vit":11, 
+"cha":9, "int":10, "wll":11, "ast":10, "per":11, "atkPerLvl":2, "defPerLvl":1},
+{"classKey":"Fejvadász", "str":10, "spd":13, "dex":12, "con":11, "vit":11, 
+"cha":9, "int":10, "wll":11, "ast":11, "per":12, "atkPerLvl":1, "defPerLvl":1},
+{"classKey":"Darton paplovag", "str":11, "spd":9, "dex":13, "con":11, "vit":10, 
+"cha":12, "int":11, "wll":11, "ast":12, "per":10, "atkPerLvl":2, "defPerLvl":2},
+{"classKey":"Arel pap", "str":10, "spd":10, "dex":13, "con":9, "vit":11, 
+"cha":12, "int":12, "wll":11, "ast":11, "per":11, "atkPerLvl":1, "defPerLvl":1},
+{"classKey":"Harcművész", "str":12, "spd":11, "dex":13, "con":11, "vit":10, 
+"cha":9, "int":10, "wll":11, "ast":11, "per":12, "atkPerLvl":1, "defPerLvl":2},
+{"classKey":"Uwel paplovag", "str":11, "spd":9, "dex":13, "con":11, "vit":10, 
+"cha":12, "int":11, "wll":11, "ast":12, "per":10, "atkPerLvl":2, "defPerLvl":2}
 ]
