@@ -76,11 +76,12 @@ OrderFunc(props.feed)
 
   function ttkRoll(strBonus, darkDice, lightDice) {
 
-
     if(strBonus==false || strBonus == true){
     let result = 0;
 
-      if (darkDice == undefined || lightDice==undefined) {
+      if (darkDice == undefined || lightDice == undefined) {
+        darkDiceRerollByCounterLP.style.display = "none"
+        lightDiceRerollByCounterLP.style.display = "none"
         darkDice = Math.floor(generator.random() * 10);
         lightDice = Math.floor(generator.random() * 10);
         darkDiceResultSelect.value = darkDice
@@ -141,7 +142,7 @@ OrderFunc(props.feed)
       }
     }   
         return result;     
-     }   
+    }
   }
 
   function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
@@ -256,13 +257,12 @@ OrderFunc(props.feed)
       darkDiceResultSelect.disabled = false
       lightDiceResultSelect.disabled = false
       rollButton.disabled = true
-
-      if (useLegendPointCheckBox.checked == false) {
-        rollButton.disabled = false
-      }
     } else {
       darkDiceResultSelect.disabled = true
       lightDiceResultSelect.disabled = true
+    }
+    if (useLegendPointCheckBox.checked == false) {
+      rollButton.disabled = false
     }
   }
   
@@ -273,23 +273,25 @@ OrderFunc(props.feed)
    darkDiceRerollByCounterLP.style.display = "grid"
    lightDiceRerollByCounterLP.style.display = "grid"
     
-    if (darkDiceResultSelect.value != originalDarkDice) {
-      lightDiceRerollByCounterLP.style.display = "none"
-    } else if (lightDiceResultSelect.value != originalLightDice) {
-      darkDiceRerollByCounterLP.style.display = "none"
-    }
+    // if (darkDiceResultSelect.value != originalDarkDice) {
+    //   lightDiceRerollByCounterLP.style.display = "none"
+    // } else if (lightDiceResultSelect.value != originalLightDice) {
+    //   darkDiceRerollByCounterLP.style.display = "none"
+    // }
     
     handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
     useLegendPointCheckBox.style.display = "none"
+    // darkDiceRerollByCounterLP.style.display = "none"
+    // lightDiceRerollByCounterLP.style.display = "none"
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
     rollButton.disabled = false
   }
 
-  function handleMouseEnter() {
-    darkDiceRerollByCounterLP.style.display = "none"
-    lightDiceRerollByCounterLP.style.display = "none"
-  }
+  //  function handleMouseEnter() {
+  //    darkDiceRerollByCounterLP.style.display = "none"
+  //   lightDiceRerollByCounterLP.style.display = "none"
+  //  }
   
   function handleWeaponChange() {
     handleFileRead();
@@ -322,6 +324,8 @@ OrderFunc(props.feed)
 
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
 
+  let fileFirstLoaded = true
+
   function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
@@ -329,7 +333,11 @@ OrderFunc(props.feed)
     reader.addEventListener(
       "load",
       () => {
-      
+
+        if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[0]!= undefined) {
+          weapons.value = JSON.parse(reader.result).weaponSets[0].rightWeapon
+          fileFirstLoaded = false
+        } 
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
         )
@@ -337,7 +345,7 @@ OrderFunc(props.feed)
         
         let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
         let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
-        
+
         let allLevelsArray = []
 
         if (filteredArrayByType.length != 0) {
@@ -351,7 +359,6 @@ OrderFunc(props.feed)
         }
         console.log(currentlySelectedWeapon.w_type)
         
-console.log(checkIfWeaponIsRanged(currentlySelectedWeapon.w_type))
         if (filteredArrayIfHasDestroyer.length != 0 && !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           
           destroyerLevelSelect.value = parseInt(filteredArrayIfHasDestroyer[0].level)
@@ -442,7 +449,6 @@ console.log(checkIfWeaponIsRanged(currentlySelectedWeapon.w_type))
         charDef.value = tvcoCalculator(defWithProfession)
         
 charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesThatModifyStats("Erő")
-        
       },
     );    
         
@@ -464,7 +470,6 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
     const currentWeaponSelected = props.feed.find(
       (name) => name.w_name === `${weapons.value}`
     )
-    
     
     if (currentWeaponSelected.strBonusDmg == "false") {
       rollResult.innerText = ttkRoll(false, darkDice, lightDice);
@@ -629,7 +634,7 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
           id="rollButton"
           className={styles.rollButton}
           onClick={handleClick}
-          onMouseEnter={handleMouseEnter}
+          //onMouseEnter={handleMouseEnter}
         >
           Dobj
         </button>
