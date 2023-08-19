@@ -51,7 +51,9 @@ OrderFunc(props.feed)
   
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
-  let rollOptions = [0,1,2,3,4,5,6,7,8,9]
+  let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
+  let skillCheckSuccFailModifiers = [0, 1, 2, 3, -1, -2, -3];
   let bodyParts = [
     "bal láb",
     "jobb láb",
@@ -76,14 +78,15 @@ OrderFunc(props.feed)
 
   function ttkRoll(strBonus, darkDice, lightDice) {
 
-    if(strBonus==false || strBonus == true){
     let result = 0;
 
       if (darkDice == undefined || lightDice == undefined) {
         darkDiceRerollByCounterLP.style.display = "none"
         lightDiceRerollByCounterLP.style.display = "none"
-        darkDice = Math.floor(generator.random() * 10);
-        lightDice = Math.floor(generator.random() * 10);
+        for (let i = 0; i < 8; i++) {
+          darkDice = Math.floor(generator.random() * 10);
+          lightDice = Math.floor(generator.random() * 10);
+        }
         darkDiceResultSelect.value = darkDice
         lightDiceResultSelect.value = lightDice
       }
@@ -142,7 +145,6 @@ OrderFunc(props.feed)
       }
     }   
         return result;     
-    }
   }
 
   function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
@@ -167,8 +169,7 @@ OrderFunc(props.feed)
    if (diceRolled == false) {
     return
   }
-    console.log(currentWeapon.w_damage);
-    console.log(currentWeapon.w_type);
+
   if (currentWeapon.w_damage === "2k10") {
     damageResult.innerText =
       originalDarkDice +
@@ -288,16 +289,8 @@ OrderFunc(props.feed)
     rollButton.disabled = false
   }
 
-  //  function handleMouseEnter() {
-  //    darkDiceRerollByCounterLP.style.display = "none"
-  //   lightDiceRerollByCounterLP.style.display = "none"
-  //  }
-  
   function handleWeaponChange() {
     handleFileRead();
-    // setTimeout(() => {
-    //   damageEvaluator()
-    // }, 100); 
     rollResult.innerText = ""
     damageResult.innerText = ""
     bodyPart.innerText = ""
@@ -325,11 +318,11 @@ OrderFunc(props.feed)
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
 
   let fileFirstLoaded = true
+  let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
 
   function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
-   
     reader.addEventListener(
       "load",
       () => {
@@ -372,6 +365,11 @@ OrderFunc(props.feed)
         let currentChar = props.chars.find(
           (name) => name.classKey == JSON.parse(reader.result).classKey
         )
+
+        let currentCharBaseAttributeValues = Object.values(currentChar).slice(1, 11)
+        console.log(currentCharBaseAttributeValues)
+        let currentCharFinalAttributeValues = [];
+
 //------ Ez itt csúnyán van hardcodolva, keresés kéne az attrSpreadArray object entries-be majd
         let attrSpreadArray = Object.values(JSON.parse(reader.result).attrSpread)
 //--------------------------------------------------------------------------------
@@ -381,24 +379,28 @@ OrderFunc(props.feed)
 
         function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
           let attrBuyingObj = JSON.parse(reader.result).attrBuying
-        let boughtAttributesThatIncreaseAtk = 0
-          
+        let numberOfBoughtAttributes = 0
+          console.log(attrBuyingObj)
         for (let i = 0; i < attrBuyingObj.length; i++) {
           for (let j = 0; j < attrBuyingObj[i].length; j++) {
             if (attrBuyingObj[i][j] == attr1) {
-              boughtAttributesThatIncreaseAtk++
+              numberOfBoughtAttributes++
             } else if (attrBuyingObj[i][j] == attr2) {
-              boughtAttributesThatIncreaseAtk++
+              numberOfBoughtAttributes++
             } else if (attrBuyingObj[i][j] == attr3) {
-              boughtAttributesThatIncreaseAtk++
-            }else {
-              continue
+              numberOfBoughtAttributes++
             }
           }
         }
-  return boughtAttributesThatIncreaseAtk
+  return numberOfBoughtAttributes
       }
-
+      
+      for (let i = 0; i < 10; i++) {
+        let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i] + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`)
+        currentCharFinalAttributeValues.push(currentAttribute)
+        }
+        console.log(currentCharFinalAttributeValues)
+        
         let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
         let sumDefAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.defPerLvl
         
@@ -547,6 +549,7 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
       </Head>
 
       <main className="main">
+        <div id="atkRollWrapper">
         <div className={styles.resultContainer}>
           <div className="result inText">A dobás eredménye</div>
           <div id="rollResult" className="result inNumber"></div>
@@ -650,6 +653,50 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
           <div id="specialEffect" className="result inText">
             nincs
           </div>
+          </div>
+        </div>
+        <img id="dividingLine" src="/divider.png"></img>
+        <div id="skillCheckWrapper">
+        <label htmlFor="skills" id="skillsLabel" className="skillCheckLabel">
+            Választott képzettség:
+          </label>
+          <select id="skills" name="skills" className="skillCheckSelect">
+          </select>
+          <label htmlFor="attributes" id="attributesLabel" className="skillCheckLabel">
+            Választott tulajdonság:
+          </label>
+          <select id="attributes" name="attributes" className="skillCheckSelect">
+          </select>
+          <label htmlFor="rollModifier" id="rollModifierLabel" className="skillCheckLabel">
+            Dobásmódosító:
+          </label>
+          <select id="rollModifier" name="rollModifier" className="skillCheckSelect">
+          {skillCheckRollModifiers.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <label htmlFor="succFailModifier" id="succFailModifierLabel" className="skillCheckLabel">
+            Extra Siker-/Kudarcszint:
+          </label>
+          <select id="succFailModifier" name="succFailModifier" className="skillCheckSelect">
+          {skillCheckSuccFailModifiers.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <div id="skillCheckBaseLabel">Próba alap:</div>
+          <div id="skillCheckBase">12</div>
+          <button type=""
+            id="skillCheckRollButton"
+            className={styles.rollButton}
+          // onClick={handleSkillCheck}
+          //onMouseEnter={handleMouseEnter}
+        >
+          Dobj
+          </button>
+          <div id="skillCheckResultLabel">Próba végső produktuma:</div>
+          <div id="skillCheckResult">12</div>
+          <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
+          <input type="checkBox" id="skillCheckStressCheckbox" />
         </div>
       </main>
     </>

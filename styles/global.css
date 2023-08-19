@@ -1,8 +1,6 @@
 body {
     display: grid;
     background-color: #000000;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(11, 1fr);
     height: 100vw;
     width: 70vw;
     /* background-position: left; */
@@ -22,8 +20,6 @@ body {
 .main {
   display: grid;
   background-color: #000000;
-  grid-template-columns: repeat(16, 1fr);
-  grid-template-rows: repeat(11, 1fr);
   height: 100vw;
   width: 70vw;
   background-image: url('../public/parchmentPaper.jpg');
@@ -41,11 +37,136 @@ body {
   align-items: center;
 }
 
-#__next{
+/* #__next{
     height: 100vw;
     width: 70vw;
+} */
+
+#atkRollWrapper {
+  display: grid;
+  grid-template-columns: repeat(16,1fr);
+  grid-template-rows: repeat(10,1fr);
+  height: 45vw;
+  width: 70vw;
 }
 
+#dividingLine {
+  display: grid;
+  height: 3vw;
+  width: 70vw;
+}
+
+#skillCheckWrapper {
+  display: grid;
+  grid-template-columns: repeat(16,1fr);
+  grid-template-rows: repeat(10,1fr);
+  height: 45vw;
+  width: 70vw;
+}
+
+.skillCheckLabel {
+  font-size: 1.1vw;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  grid-row: 1 / 2;
+}
+
+.skillCheckSelect{
+  margin: 0vw 1vw;
+  height: 3vw;
+  grid-row: 2 / 3;
+}
+
+#skillsLabel{
+display: grid;
+grid-column: 1/9;
+}
+#skills {
+  display: grid;
+  grid-column: 1/9;
+}
+#attributesLabel {
+  display: grid;
+grid-column: 9/12;
+}
+#attributes {
+  display: grid;
+grid-column: 9/12;
+}
+#rollModifierLabel {
+  display: grid;
+  grid-column: 12/14;
+}
+#rollModifier {
+  display: grid;
+  grid-column: 12/14;
+}
+#succFailModifierLabel {
+  display: grid;
+  grid-column: 14/16;
+}
+#succFailModifier {
+  display: grid;
+  grid-column: 14/16;   
+}
+#skillCheckBaseLabel {
+  display: grid;
+  grid-row: 3/5;
+  grid-column: 1/3;
+  align-items: center;
+  text-align: center;
+  font-size: 2vw;
+}
+#skillCheckBase {
+  display: grid;
+  grid-row: 3/5;
+  grid-column: 3/5;
+  align-items: flex-end;
+  text-align: center;
+  font-size: 6vw;
+}
+#skillCheckRollButton{
+  display: grid;
+  grid-row: 3/5;
+  grid-column: 7 / 10;
+  align-self: flex-end;
+  margin: 0vw;
+}
+#skillCheckResultLabel{
+  display: grid;
+  grid-row: 6/7;
+  grid-column: 7 / 10;
+  align-self: flex-end;
+  text-align: center;
+  margin: 0vw;
+}
+#skillCheckResult {
+  display: grid;
+  grid-row: 7/10;
+  grid-column: 7 / 10;
+  align-self: center;
+  text-align: center;
+  margin: 0vw;
+  font-size: 10vw;
+}
+#skillCheckStressCheckboxLabel {
+  display: grid;
+  grid-row: 3/4;
+  grid-column: 10 / 14;
+  align-self: center;
+  text-align: center;
+  margin: 0vw;
+  font-size: 2vw;
+}
+#skillCheckStressCheckbox {
+  display: grid;
+  grid-row: 4/5;
+  grid-column: 12 / 13;
+  align-self: center;
+  justify-content: center;
+  margin: 0vw;
+}
 a:link {
     text-decoration: none;
     color: #000000;
@@ -79,7 +200,7 @@ img {
 input,
 select {
     background-image: url('../public/parchmentPaper.jpg');
-    background-size: 19.3vw 2.5vw;
+    background-size: 40vw 5vw;
 }
 
 button {
@@ -102,7 +223,6 @@ button {
     display: grid;
     grid-column: 8 / 12;
     grid-row: 3 / 5;
-    margin-top: 3vw;
     margin-left: 0.5vw;
   }
   
