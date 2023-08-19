@@ -3,9 +3,9 @@ body {
     background-color: #000000;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: repeat(11, 1fr);
-    height: 42vw;
-    width: 54vw;
-    background-position: left;
+    height: 100vw;
+    width: 70vw;
+    /* background-position: left; */
     background-repeat: no-repeat;
     background-size: contain;
     font-family: 'MedievalSharp', cursive;
@@ -19,9 +19,31 @@ body {
 
 }
 
+.main {
+  display: grid;
+  background-color: #000000;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+  height: 100vw;
+  width: 70vw;
+  background-image: url('../public/parchmentPaper.jpg');
+  /* background-position: left; */
+  background-repeat: no-repeat;
+  background-size: 70vw 100vw;
+  font-family: 'MedievalSharp', cursive;
+  color: black;
+  -webkit-text-stroke: #f35900 0.1px;
+  font-size: 1.4vw;
+  text-shadow: 0.3vw 0.3vw 0.4vw #682600;
+  padding-top: 1vw;
+  padding-left: 2vw;
+  justify-content: center;
+  align-items: center;
+}
+
 #__next{
-    height: 42vw;
-    width: 54vw;
+    height: 100vw;
+    width: 70vw;
 }
 
 a:link {

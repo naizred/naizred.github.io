@@ -546,7 +546,7 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
         <title>TTK Rolldice</title>
       </Head>
 
-      <main className={styles.main}>
+      <main className="main">
         <div className={styles.resultContainer}>
           <div className="result inText">A dobás eredménye</div>
           <div id="rollResult" className="result inNumber"></div>
