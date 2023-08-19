@@ -331,21 +331,23 @@ function removeAllSkillOptions() {
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
   let fileFirstLoaded = true
   let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
+  let currentCharFinalAttributes = []
 //   function handleFileImportClick() {
 //     fileFirstLoaded = true
 // }
   function handleFileRead() {
+    
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
     reader.addEventListener(
       "load",
       () => {
+        currentCharFinalAttributes = []
         removeAllAttributeOptions()
         removeAllSkillOptions()
 
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[0]!= undefined) {
           weapons.value = JSON.parse(reader.result).weaponSets[0].rightWeapon
-          fileFirstLoaded = false
         } 
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
@@ -414,6 +416,7 @@ function removeAllSkillOptions() {
         attrOption.innerText = charAttributes[i];
         attrOption.value = currentAttribute;
         attributes.appendChild(attrOption);
+        currentCharFinalAttributes.push(currentAttribute)
         }
 
         for (let i = 0; JSON.parse(reader.result).skills[i].name != null; i++) {
@@ -478,6 +481,30 @@ function removeAllSkillOptions() {
         charDef.value = tvcoCalculator(defWithProfession)
         
         charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesThatModifyStats("Erő")               
+        if (fileFirstLoaded == true) {
+          for (let i = 0; i < 5; i++) {
+            let physicalAttributeNameDiv = document.createElement("div")
+            let physicalAttributeValueDiv = document.createElement("div")
+            physicalAttributeNameDiv.classList.add("physicalAttributeName")
+            physicalAttributeValueDiv.classList.add("physicalAttributeValue")
+            physicalAttributeNameDiv.innerText = charAttributes[i] + ":"
+            physicalAttributeValueDiv.innerText = currentCharFinalAttributes[i]
+            skillCheckLeftSideWrapper.appendChild(physicalAttributeNameDiv)
+            skillCheckLeftSideWrapper.appendChild(physicalAttributeValueDiv)
+          }
+          for (let i = 5; i < 10; i++) {
+            let spiritualAttributeNameDiv = document.createElement("div")
+            let spiritualAttributeValueDiv = document.createElement("div")
+            spiritualAttributeNameDiv.classList.add("spiritualAttributeName")
+            spiritualAttributeValueDiv.classList.add("spiritualAttributeValue")
+            spiritualAttributeNameDiv.innerText = charAttributes[i] + ":"
+            spiritualAttributeValueDiv.innerText = currentCharFinalAttributes[i]
+            skillCheckRightSideWrapper.appendChild(spiritualAttributeNameDiv)
+            skillCheckRightSideWrapper.appendChild(spiritualAttributeValueDiv)
+          }
+        }
+        fileFirstLoaded = false
+        evaluateSkillCheckBase()
       },
     );    
         
@@ -485,7 +512,7 @@ function removeAllSkillOptions() {
       reader.readAsText(file);
     }
 }
-  
+
 function evaluateSkillCheckBase() {
   skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
   if (attributes.value % 2 == 1) {
@@ -493,6 +520,7 @@ function evaluateSkillCheckBase() {
   } else if (attributes.value % 2 == 0){
     rollModifier.value = 0
   }
+  skillCheckResult.innerText = ""
 }
   
   function handleSkillCheck() {
@@ -742,6 +770,7 @@ skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckRoll
           </select>
           <div id="skillCheckBaseLabel">Próba alap:</div>
           <div id="skillCheckBase"></div>
+          <div id="physicalAttributesLabel">Fizikai tulajdonságok:</div>
           <button type=""
             id="skillCheckRollButton"
             className={styles.rollButton}
@@ -750,10 +779,13 @@ skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckRoll
         >
           Dobj
           </button>
-          <div id="skillCheckResultLabel">Próba végső produktuma:</div>
+          <div id="skillCheckResultLabel">Próba végső eredménye:</div>
           <div id="skillCheckResult"></div>
           <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
           <input type="checkBox" id="skillCheckStressCheckbox" />
+          <div id="spiritualAttributesLabel">Szellemi tulajdonságok:</div>
+          <div id="skillCheckLeftSideWrapper"></div>
+          <div id="skillCheckRightSideWrapper"></div>
         </div>
       </main>
     </>

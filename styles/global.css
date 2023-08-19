@@ -59,7 +59,7 @@ body {
 #skillCheckWrapper {
   display: grid;
   grid-template-columns: repeat(16,1fr);
-  grid-template-rows: repeat(10,1fr);
+  grid-template-rows: repeat(11,1fr);
   height: 45vw;
   width: 70vw;
 }
@@ -75,6 +75,7 @@ body {
 }
 
 .skillCheckSelect{
+  font-size: 1.3vw;
   margin: 0vw 1vw;
   height: 3vw;
   grid-row: 2 / 3;
@@ -132,6 +133,16 @@ grid-column: 9/12;
   text-align: center;
   font-size: 6vw;
 }
+
+#physicalAttributesLabel {
+  display: grid;
+  grid-row: 5/6;
+  grid-column: 1/6;
+  align-items: center;
+  text-align: center;
+  font-size: 2vw;
+}
+
 #skillCheckRollButton{
   display: grid;
   grid-row: 3/5;
@@ -159,7 +170,7 @@ grid-column: 9/12;
 #skillCheckStressCheckboxLabel {
   display: grid;
   grid-row: 3/4;
-  grid-column: 10 / 14;
+  grid-column: 11 / 15;
   align-self: center;
   text-align: center;
   margin: 0vw;
@@ -168,10 +179,66 @@ grid-column: 9/12;
 #skillCheckStressCheckbox {
   display: grid;
   grid-row: 4/5;
-  grid-column: 12 / 13;
+  grid-column: 13 / 14;
   align-self: center;
   justify-content: center;
   margin: 0vw;
+}
+#spiritualAttributesLabel {
+  display: grid;
+  grid-row: 5/6;
+  grid-column: 11/16;
+  align-items: center;
+  text-align: center;
+  font-size: 2vw;
+}
+#skillCheckLeftSideWrapper {
+  display: grid;
+  grid-row: 6 / 11;
+  grid-column: 1/6;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5,1fr);
+}
+#skillCheckRightSideWrapper {
+  display: grid;
+  grid-row: 6 / 11;
+  grid-column: 11/16;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5,1fr);
+}
+.physicalAttributeName{
+  display: grid;
+  grid-row: span 1;
+  grid-column: span 1;
+  text-align: right;
+  align-self: flex-start;
+  font-size: 2vw;
+}
+.physicalAttributeValue{
+  display: grid;
+  grid-row: span 1;
+  grid-column: span 1;
+  text-align: left;
+  align-self: flex-start;
+  font-size: 2vw;
+  margin-left: 3vw;
+}
+.spiritualAttributeName{
+  display: grid;
+  grid-row: span 1;
+  grid-column: span 1;
+  text-align: right;
+  align-self: flex-start;
+  font-size: 2vw;
+}
+.spiritualAttributeValue{
+  display: grid;
+  grid-row: span 1;
+  grid-column: span 1;
+  text-align: left;
+  align-self: flex-start;
+  font-size: 2vw;
+  margin-left: 3vw;
 }
 a:link {
     text-decoration: none;
