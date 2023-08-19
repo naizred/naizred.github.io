@@ -315,17 +315,33 @@ OrderFunc(props.feed)
  lightDiceRerollByCounterLP.style.display = "none"
 }
 
+function removeAllAttributeOptions() {
+  const selectElement = document.getElementById('attributes');
+  while (selectElement.firstChild) {
+    selectElement.removeChild(selectElement.firstChild);
+  }
+}
+function removeAllSkillOptions() {
+  const selectElement = document.getElementById('skills');
+  while (selectElement.firstChild) {
+    selectElement.removeChild(selectElement.firstChild);
+  }
+}
+  
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
-
   let fileFirstLoaded = true
   let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
-
+//   function handleFileImportClick() {
+//     fileFirstLoaded = true
+// }
   function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
     reader.addEventListener(
       "load",
       () => {
+        removeAllAttributeOptions()
+        removeAllSkillOptions()
 
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[0]!= undefined) {
           weapons.value = JSON.parse(reader.result).weaponSets[0].rightWeapon
@@ -367,8 +383,6 @@ OrderFunc(props.feed)
         )
 
         let currentCharBaseAttributeValues = Object.values(currentChar).slice(1, 11)
-        console.log(currentCharBaseAttributeValues)
-        let currentCharFinalAttributeValues = [];
 
 //------ Ez itt csúnyán van hardcodolva, keresés kéne az attrSpreadArray object entries-be majd
         let attrSpreadArray = Object.values(JSON.parse(reader.result).attrSpread)
@@ -380,7 +394,6 @@ OrderFunc(props.feed)
         function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
           let attrBuyingObj = JSON.parse(reader.result).attrBuying
         let numberOfBoughtAttributes = 0
-          console.log(attrBuyingObj)
         for (let i = 0; i < attrBuyingObj.length; i++) {
           for (let j = 0; j < attrBuyingObj[i].length; j++) {
             if (attrBuyingObj[i][j] == attr1) {
@@ -397,9 +410,23 @@ OrderFunc(props.feed)
       
       for (let i = 0; i < 10; i++) {
         let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i] + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`)
-        currentCharFinalAttributeValues.push(currentAttribute)
+        let attrOption = document.createElement('option');
+        attrOption.innerText = charAttributes[i];
+        attrOption.value = currentAttribute;
+        attributes.appendChild(attrOption);
         }
-        console.log(currentCharFinalAttributeValues)
+
+        for (let i = 0; JSON.parse(reader.result).skills[i].name != null; i++) {
+          let skillOption = document.createElement('option');
+          skillOption.value = JSON.parse(reader.result).skills[i].level;
+        if (JSON.parse(reader.result).skills[i].subSkill) {
+          skillOption.innerText = JSON.parse(reader.result).skills[i].name + " " + "(" + JSON.parse(reader.result).skills[i].subSkill + ")";
+        } else {
+          skillOption.innerText = JSON.parse(reader.result).skills[i].name;
+        }
+          
+        skills.appendChild(skillOption);
+        }
         
         let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
         let sumDefAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.defPerLvl
@@ -447,16 +474,46 @@ OrderFunc(props.feed)
         } else {
           charAtk.value = tvcoCalculator(aimWithProfession)
          }
-         console.log(defWithProfession)
+         
         charDef.value = tvcoCalculator(defWithProfession)
         
-charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesThatModifyStats("Erő")
+        charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesThatModifyStats("Erő")               
       },
     );    
         
     if (file) {
       reader.readAsText(file);
     }
+}
+  
+function evaluateSkillCheckBase() {
+  skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
+  if (attributes.value % 2 == 1) {
+    rollModifier.value = 1
+  } else if (attributes.value % 2 == 0){
+    rollModifier.value = 0
+  }
+}
+  
+  function handleSkillCheck() {
+    let zeroArray = [1, 2, 3, 4];
+    let oneArray = [5, 6, 7];
+    let twoArray = [8, 9];
+    let skillCheckRollResult = Math.floor(generator.random() * 10)
+    if (skillCheckRollResult == 0) {
+      skillCheckRollResult = 10;
+    }
+    skillCheckRollResult += parseInt(rollModifier.value)
+    if (skillCheckRollResult >= 10) {
+  skillCheckRollResult = 3
+    } else if (twoArray.includes(skillCheckRollResult)) {
+      skillCheckRollResult = 2
+    } else if (oneArray.includes(skillCheckRollResult)) {
+      skillCheckRollResult = 1
+    } else if (zeroArray.includes(skillCheckRollResult) || skillCheckRollResult<0) {
+      skillCheckRollResult = 0
+    }
+skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckRollResult
 }
   
   let diceRolled = false;
@@ -660,12 +717,12 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
         <label htmlFor="skills" id="skillsLabel" className="skillCheckLabel">
             Választott képzettség:
           </label>
-          <select id="skills" name="skills" className="skillCheckSelect">
+          <select id="skills" name="skills" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
           </select>
           <label htmlFor="attributes" id="attributesLabel" className="skillCheckLabel">
             Választott tulajdonság:
           </label>
-          <select id="attributes" name="attributes" className="skillCheckSelect">
+          <select id="attributes" name="attributes" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
           </select>
           <label htmlFor="rollModifier" id="rollModifierLabel" className="skillCheckLabel">
             Dobásmódosító:
@@ -678,23 +735,23 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
           <label htmlFor="succFailModifier" id="succFailModifierLabel" className="skillCheckLabel">
             Extra Siker-/Kudarcszint:
           </label>
-          <select id="succFailModifier" name="succFailModifier" className="skillCheckSelect">
+          <select id="succFailModifier" name="succFailModifier" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
           {skillCheckSuccFailModifiers.map((e) => {
               return <option key={e}>{e}</option>;
             })}
           </select>
           <div id="skillCheckBaseLabel">Próba alap:</div>
-          <div id="skillCheckBase">12</div>
+          <div id="skillCheckBase"></div>
           <button type=""
             id="skillCheckRollButton"
             className={styles.rollButton}
-          // onClick={handleSkillCheck}
+           onClick={handleSkillCheck}
           //onMouseEnter={handleMouseEnter}
         >
           Dobj
           </button>
           <div id="skillCheckResultLabel">Próba végső produktuma:</div>
-          <div id="skillCheckResult">12</div>
+          <div id="skillCheckResult"></div>
           <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
           <input type="checkBox" id="skillCheckStressCheckbox" />
         </div>

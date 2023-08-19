@@ -70,12 +70,16 @@ body {
   justify-content: center;
   text-align: center;
   grid-row: 1 / 2;
+  font-family: 'MedievalSharp', cursive;
+  -webkit-text-stroke: #f35900 0.01vw;
 }
 
 .skillCheckSelect{
   margin: 0vw 1vw;
   height: 3vw;
   grid-row: 2 / 3;
+  font-family: 'MedievalSharp', cursive;
+  -webkit-text-stroke: #f35900 0.01vw;
 }
 
 #skillsLabel{
@@ -101,6 +105,7 @@ grid-column: 9/12;
 #rollModifier {
   display: grid;
   grid-column: 12/14;
+  text-align: center;
 }
 #succFailModifierLabel {
   display: grid;
@@ -108,7 +113,8 @@ grid-column: 9/12;
 }
 #succFailModifier {
   display: grid;
-  grid-column: 14/16;   
+  grid-column: 14/16;
+  text-align: center;
 }
 #skillCheckBaseLabel {
   display: grid;
