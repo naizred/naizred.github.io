@@ -76,14 +76,15 @@ OrderFunc(props.feed)
 
   function ttkRoll(strBonus, darkDice, lightDice) {
 
-    if(strBonus==false || strBonus == true){
     let result = 0;
 
       if (darkDice == undefined || lightDice == undefined) {
         darkDiceRerollByCounterLP.style.display = "none"
         lightDiceRerollByCounterLP.style.display = "none"
-        darkDice = Math.floor(generator.random() * 10);
-        lightDice = Math.floor(generator.random() * 10);
+        for (let i = 0; i < 8; i++) {
+          darkDice = Math.floor(generator.random() * 10);
+          lightDice = Math.floor(generator.random() * 10);
+        }
         darkDiceResultSelect.value = darkDice
         lightDiceResultSelect.value = lightDice
       }
@@ -142,7 +143,6 @@ OrderFunc(props.feed)
       }
     }   
         return result;     
-    }
   }
 
   function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
