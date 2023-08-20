@@ -70,8 +70,6 @@ OrderFunc(props.feed)
 
   let darkDice;
   let lightDice;
-  let skillCheckLightDice;
-  let skillCheckDarkDice;
   let originalDarkDice = 0;
   let originalLightDice = 0;
 
@@ -271,8 +269,12 @@ OrderFunc(props.feed)
   }
   function handleSkillCheckUseLegendPointCheckBox() {
     if (skillCheckUseLegendPointCheckBox.checked == true && skillCheckRolled == true) {
-      skillCheckDarkDiceResultSelect.disabled = false
       skillCheckLightDiceResultSelect.disabled = false
+      if (skillCheckStressCheckbox.checked == false) {
+        skillCheckDarkDiceResultSelect.disabled = true 
+      } else if (skillCheckStressCheckbox.checked == true) {
+        skillCheckDarkDiceResultSelect.disabled = false
+      }
       skillCheckRollButton.disabled = true
     } else {
       skillCheckDarkDiceResultSelect.disabled = true
@@ -296,8 +298,13 @@ OrderFunc(props.feed)
   }
 
   function handleWhenSkillCheckLegendPointIsUsed() {
-   skillCheckDarkDiceRerollByCounterLP.style.display = "grid"
     skillCheckLightDiceRerollByCounterLP.style.display = "grid"
+    if (skillCheckStressCheckbox.checked == false) {
+      skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+    } else if (skillCheckStressCheckbox.checked == true) {
+      skillCheckDarkDiceRerollByCounterLP.style.display = "grid"
+    }
+    
    handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value))
    skillCheckUseLegendPointCheckBox.checked == false
    skillCheckUseLegendPointCheckBox.style.display = "none"
@@ -330,6 +337,26 @@ OrderFunc(props.feed)
   useLegendPointCheckBox.style.display = "none"
  darkDiceRerollByCounterLP.style.display = "none"
  lightDiceRerollByCounterLP.style.display = "none"
+  }
+  
+  function skillCheckHandleBossCounterLPdark() {
+    for (let i = 0; i < 8; i++) {
+      skillCheckDarkDiceResultSelect.value=Math.floor(generator.random() * 10)
+    }
+    handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value));
+     skillCheckUseLegendPointCheckBox.style.display = "none"
+     skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+     skillCheckLightDiceRerollByCounterLP.style.display = "none"
+  }
+  
+  function skillCheckHandleBossCounterLPlight() {
+    for (let i = 0; i < 8; i++) {
+      skillCheckLightDiceResultSelect.value=Math.floor(generator.random() * 10)         
+    }
+    handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value));
+    skillCheckUseLegendPointCheckBox.style.display = "none"
+    skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+    skillCheckLightDiceRerollByCounterLP.style.display = "none"
 }
 
 function removeAllAttributeOptions() {
@@ -644,7 +671,7 @@ function evaluateSkillCheckBase() {
     skillCheckRolled = true
     skillCheckUseLegendPointCheckBox.style.display = "grid"
       
-      if (skillCheckStressCheckbox.checked == true || skillCheckUseLegendPointCheckBox.checked == true) {
+      if (skillCheckStressCheckbox.checked == true) {
       stressCheck = true
     } else if (skillCheckStressCheckbox.checked == false) {
       stressCheck = false
@@ -900,8 +927,8 @@ function evaluateSkillCheckBase() {
           </select>
           <label id="skillCheckUseLegendPointCheckBoxlabel" htmlFor="skillCheckUseLegendPointCheckBox">Legenda pontot használok!</label>
           <input type="checkBox" id="skillCheckUseLegendPointCheckBox" onChange={handleSkillCheckUseLegendPointCheckBox}/>
-          <button id="skillCheckDarkDiceRerollByCounterLP" ></button>
-          <button id="skillCheckLightDiceRerollByCounterLP" ></button>
+          <button id="skillCheckDarkDiceRerollByCounterLP" onClick={skillCheckHandleBossCounterLPdark}></button>
+          <button id="skillCheckLightDiceRerollByCounterLP" onClick={skillCheckHandleBossCounterLPlight}></button>
         </div>
           <div id="physicalAttributesLabel">Fizikai tulajdonságok:</div>
           <button type=""
