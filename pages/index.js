@@ -269,48 +269,41 @@ OrderFunc(props.feed)
       rollButton.disabled = false
     }
   }
+  function handleSkillCheckUseLegendPointCheckBox() {
+    if (skillCheckUseLegendPointCheckBox.checked == true && skillCheckRolled == true) {
+      skillCheckDarkDiceResultSelect.disabled = false
+      skillCheckLightDiceResultSelect.disabled = false
+      skillCheckRollButton.disabled = true
+    } else {
+      skillCheckDarkDiceResultSelect.disabled = true
+      skillCheckLightDiceResultSelect.disabled = true
+    }
+    if (skillCheckUseLegendPointCheckBox.checked == false) {
+      skillCheckRollButton.disabled = false
+    }
+  }
   
   function handleWhenLegendPointIsUsed() {
-   // let lpModifiedDarkDice = darkDiceResultSelect.value
-   // let lpModifiedLightDice = lightDiceResultSelect.value
 
    darkDiceRerollByCounterLP.style.display = "grid"
    lightDiceRerollByCounterLP.style.display = "grid"
-    
-    // if (darkDiceResultSelect.value != originalDarkDice) {
-    //   lightDiceRerollByCounterLP.style.display = "none"
-    // } else if (lightDiceResultSelect.value != originalLightDice) {
-    //   darkDiceRerollByCounterLP.style.display = "none"
-    // }
-    
+        
     handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
     useLegendPointCheckBox.style.display = "none"
-    // darkDiceRerollByCounterLP.style.display = "none"
-    // lightDiceRerollByCounterLP.style.display = "none"
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
     rollButton.disabled = false
   }
-  function handleWhenSkillCheckLegendPointIsUsed() {
-   // let lpModifiedDarkDice = darkDiceResultSelect.value
-   // let lpModifiedLightDice = lightDiceResultSelect.value
 
-   SkillCheckDarkDiceRerollByCounterLP.style.display = "grid"
-   SkillCheckLightDiceRerollByCounterLP.style.display = "grid"
-    
-    // if (darkDiceResultSelect.value != originalDarkDice) {
-    //   lightDiceRerollByCounterLP.style.display = "none"
-    // } else if (lightDiceResultSelect.value != originalLightDice) {
-    //   darkDiceRerollByCounterLP.style.display = "none"
-    // }
-    
-    handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
-    useLegendPointCheckBox.style.display = "none"
-    // darkDiceRerollByCounterLP.style.display = "none"
-    // lightDiceRerollByCounterLP.style.display = "none"
-    darkDiceResultSelect.disabled = true
-    lightDiceResultSelect.disabled = true
-    rollButton.disabled = false
+  function handleWhenSkillCheckLegendPointIsUsed() {
+   skillCheckDarkDiceRerollByCounterLP.style.display = "grid"
+    skillCheckLightDiceRerollByCounterLP.style.display = "grid"
+   handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value))
+   skillCheckUseLegendPointCheckBox.checked == false
+   skillCheckUseLegendPointCheckBox.style.display = "none"
+    skillCheckDarkDiceResultSelect.disabled = true
+    skillCheckLightDiceResultSelect.disabled = true
+ skillCheckRollButton.disabled = false
   }
 
   function handleWeaponChange() {
@@ -359,13 +352,14 @@ function removeAllSkillOptions() {
 //   function handleFileImportClick() {
 //     fileFirstLoaded = true
 // }
+  
   function handleFileRead() {
-    
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
     reader.addEventListener(
       "load",
       () => {
+        skillCheckRollButton.style.display = "grid"
         currentCharFinalAttributes = []
         removeAllAttributeOptions()
         removeAllSkillOptions()
@@ -392,7 +386,6 @@ function removeAllSkillOptions() {
         } else {
           professionLevelSelect.value = 0
         }
-        console.log(currentlySelectedWeapon.w_type)
         
         if (filteredArrayIfHasDestroyer.length != 0 && !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           
@@ -546,12 +539,13 @@ function evaluateSkillCheckBase() {
 }
   
   function skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+    
     let zeroArray = [1, 2, 3, 4];
     let oneArray = [5, 6, 7];
     let twoArray = [8, 9];
     let skillCheckCalculatedResultFromRoll = 0;
     if (stressCheck == false) {
-
+  
     if (skillCheckLightDice == undefined) {
       skillCheckLightDice = Math.floor(generator.random() * 10)
     } 
@@ -579,6 +573,7 @@ function evaluateSkillCheckBase() {
       skillCheckLightDiceResultSelect.value = skillCheckLightDice
       skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
     } else if (stressCheck == true) {
+    
       if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
         skillCheckLightDice = Math.floor(generator.random() * 10)
         skillCheckDarkDice = Math.floor(generator.random() * 10)
@@ -591,22 +586,16 @@ function evaluateSkillCheckBase() {
         skillCheckDarkDice = 10;
       }
 
-      console.log(skillCheckLightDice)
-      console.log("---------------------------------")
-       let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value)
-      console.log(skillCheckLightDicePlusRollMod)
-      console.log(skillCheckDarkDice)
-
+      let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value)
+      
       if (skillCheckLightDicePlusRollMod >= 10) {
         skillCheckLightDicePlusRollMod = 10
       }
 //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
-      if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0) {
+      
+      if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0 && skillCheckLightDice !=1) {
   skillCheckLightDicePlusRollMod = skillCheckLightDice
       }
-      
-      console.log(skillCheckLightDicePlusRollMod)
-      console.log(skillCheckDarkDice)
       
     if (skillCheckLightDicePlusRollMod>skillCheckDarkDice) {
       if (skillCheckLightDicePlusRollMod == 10) {
@@ -648,22 +637,25 @@ function evaluateSkillCheckBase() {
       skillCheckLightDiceResultSelect.value = skillCheckLightDicePlusRollMod
       skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
   }
-    
-    skillCheckUseLegendPointCheckBox.style.display = "grid"
   }
-  
-  function handleSkillCheck() {
-    let stressCheck = false
-    if (skillCheckStressCheckbox.checked == false) {
-      stressCheck = false
-    } else if (skillCheckStressCheckbox.checked == true) {
+ //let stressCheck = false 
+  function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+    
+    skillCheckRolled = true
+    skillCheckUseLegendPointCheckBox.style.display = "grid"
+      
+      if (skillCheckStressCheckbox.checked == true || skillCheckUseLegendPointCheckBox.checked == true) {
       stressCheck = true
+    } else if (skillCheckStressCheckbox.checked == false) {
+      stressCheck = false
     }
+    skillCheckUseLegendPointCheckBox.checked = false
     skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
 }
   
   let diceRolled = false;
-  
+  let skillCheckRolled = false
+
   async function handleClick(darkDice, lightDice) {
  
     bodyPartImg.innerHTML = "";
@@ -893,7 +885,7 @@ function evaluateSkillCheckBase() {
           <label htmlFor="skillCheckDarkDiceResultSelect" id="skillCheckDarkDiceResultLabel">
             Sötét kocka:
           </label>
-          <select id="skillCheckDarkDiceResultSelect" name="" disabled={true}>
+          <select id="skillCheckDarkDiceResultSelect" name="" disabled={true} onChange={handleWhenSkillCheckLegendPointIsUsed}>
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
@@ -901,24 +893,20 @@ function evaluateSkillCheckBase() {
           <label htmlFor="skillCheckLightDiceResultSelect" id="skillCheckLightDiceResultLabel">
             Világos kocka:
           </label>
-          <select id="skillCheckLightDiceResultSelect" name="" disabled={true}>
+          <select id="skillCheckLightDiceResultSelect" name="" disabled={true} onChange={handleWhenSkillCheckLegendPointIsUsed}>
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
           </select>
           <label id="skillCheckUseLegendPointCheckBoxlabel" htmlFor="skillCheckUseLegendPointCheckBox">Legenda pontot használok!</label>
-          <input type="checkBox" id="skillCheckUseLegendPointCheckBox"/>
+          <input type="checkBox" id="skillCheckUseLegendPointCheckBox" onChange={handleSkillCheckUseLegendPointCheckBox}/>
           <button id="skillCheckDarkDiceRerollByCounterLP" ></button>
           <button id="skillCheckLightDiceRerollByCounterLP" ></button>
         </div>
-          {/* <div id="skillCheckRollResultLabel">A dobás eredménye:</div>
-          <div id="skillCheckRollResult"></div> */}
           <div id="physicalAttributesLabel">Fizikai tulajdonságok:</div>
           <button type=""
             id="skillCheckRollButton"
-            className={styles.rollButton}
-           onClick={handleSkillCheck}
-          //onMouseEnter={handleMouseEnter}
+            onClick={handleSkillCheck}
         >
           Dobj
           </button>
