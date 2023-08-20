@@ -51,7 +51,9 @@ OrderFunc(props.feed)
   
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
-  let rollOptions = [0,1,2,3,4,5,6,7,8,9]
+  let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
+  let skillCheckSuccFailModifiers = [0, 1, 2, 3, -1, -2, -3];
   let bodyParts = [
     "bal láb",
     "jobb láb",
@@ -68,11 +70,17 @@ OrderFunc(props.feed)
 
   let darkDice;
   let lightDice;
+  let skillCheckLightDice;
+  let skillCheckDarkDice;
   let originalDarkDice = 0;
   let originalLightDice = 0;
 
 //------------------------------------------------------------------------
   //-------A dobás ------
+  const specialCases1 = [2, 3, 4];
+  const specialCases2 = [5, 6, 7];
+  const specialCases3 = [8, 9];
+
 
   function ttkRoll(strBonus, darkDice, lightDice) {
 
@@ -121,9 +129,6 @@ OrderFunc(props.feed)
       "Kapsz 2 cselekedetet",
       "Kapsz 3 cselekedetet",
     ];
-    const specialCases1 = [2, 3, 4];
-    const specialCases2 = [5, 6, 7];
-    const specialCases3 = [8, 9];
 
     if (lightDice == darkDice && specialCases1.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[1];
@@ -167,8 +172,7 @@ OrderFunc(props.feed)
    if (diceRolled == false) {
     return
   }
-    console.log(currentWeapon.w_damage);
-    console.log(currentWeapon.w_type);
+
   if (currentWeapon.w_damage === "2k10") {
     damageResult.innerText =
       originalDarkDice +
@@ -265,39 +269,45 @@ OrderFunc(props.feed)
       rollButton.disabled = false
     }
   }
+  function handleSkillCheckUseLegendPointCheckBox() {
+    if (skillCheckUseLegendPointCheckBox.checked == true && skillCheckRolled == true) {
+      skillCheckDarkDiceResultSelect.disabled = false
+      skillCheckLightDiceResultSelect.disabled = false
+      skillCheckRollButton.disabled = true
+    } else {
+      skillCheckDarkDiceResultSelect.disabled = true
+      skillCheckLightDiceResultSelect.disabled = true
+    }
+    if (skillCheckUseLegendPointCheckBox.checked == false) {
+      skillCheckRollButton.disabled = false
+    }
+  }
   
   function handleWhenLegendPointIsUsed() {
-   // let lpModifiedDarkDice = darkDiceResultSelect.value
-   // let lpModifiedLightDice = lightDiceResultSelect.value
 
    darkDiceRerollByCounterLP.style.display = "grid"
    lightDiceRerollByCounterLP.style.display = "grid"
-    
-    // if (darkDiceResultSelect.value != originalDarkDice) {
-    //   lightDiceRerollByCounterLP.style.display = "none"
-    // } else if (lightDiceResultSelect.value != originalLightDice) {
-    //   darkDiceRerollByCounterLP.style.display = "none"
-    // }
-    
+        
     handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
     useLegendPointCheckBox.style.display = "none"
-    // darkDiceRerollByCounterLP.style.display = "none"
-    // lightDiceRerollByCounterLP.style.display = "none"
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
     rollButton.disabled = false
   }
 
-  //  function handleMouseEnter() {
-  //    darkDiceRerollByCounterLP.style.display = "none"
-  //   lightDiceRerollByCounterLP.style.display = "none"
-  //  }
-  
+  function handleWhenSkillCheckLegendPointIsUsed() {
+   skillCheckDarkDiceRerollByCounterLP.style.display = "grid"
+    skillCheckLightDiceRerollByCounterLP.style.display = "grid"
+   handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value))
+   skillCheckUseLegendPointCheckBox.checked == false
+   skillCheckUseLegendPointCheckBox.style.display = "none"
+    skillCheckDarkDiceResultSelect.disabled = true
+    skillCheckLightDiceResultSelect.disabled = true
+ skillCheckRollButton.disabled = false
+  }
+
   function handleWeaponChange() {
     handleFileRead();
-    // setTimeout(() => {
-    //   damageEvaluator()
-    // }, 100); 
     rollResult.innerText = ""
     damageResult.innerText = ""
     bodyPart.innerText = ""
@@ -322,21 +332,40 @@ OrderFunc(props.feed)
  lightDiceRerollByCounterLP.style.display = "none"
 }
 
+function removeAllAttributeOptions() {
+  const selectElement = document.getElementById('attributes');
+  while (selectElement.firstChild) {
+    selectElement.removeChild(selectElement.firstChild);
+  }
+}
+function removeAllSkillOptions() {
+  const selectElement = document.getElementById('skills');
+  while (selectElement.firstChild) {
+    selectElement.removeChild(selectElement.firstChild);
+  }
+}
+  
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
-
   let fileFirstLoaded = true
-
+  let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
+  let currentCharFinalAttributes = []
+//   function handleFileImportClick() {
+//     fileFirstLoaded = true
+// }
+  
   function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
-   
     reader.addEventListener(
       "load",
       () => {
+        skillCheckRollButton.style.display = "grid"
+        currentCharFinalAttributes = []
+        removeAllAttributeOptions()
+        removeAllSkillOptions()
 
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[0]!= undefined) {
           weapons.value = JSON.parse(reader.result).weaponSets[0].rightWeapon
-          fileFirstLoaded = false
         } 
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
@@ -357,7 +386,6 @@ OrderFunc(props.feed)
         } else {
           professionLevelSelect.value = 0
         }
-        console.log(currentlySelectedWeapon.w_type)
         
         if (filteredArrayIfHasDestroyer.length != 0 && !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           
@@ -372,6 +400,9 @@ OrderFunc(props.feed)
         let currentChar = props.chars.find(
           (name) => name.classKey == JSON.parse(reader.result).classKey
         )
+
+        let currentCharBaseAttributeValues = Object.values(currentChar).slice(1, 11)
+
 //------ Ez itt csúnyán van hardcodolva, keresés kéne az attrSpreadArray object entries-be majd
         let attrSpreadArray = Object.values(JSON.parse(reader.result).attrSpread)
 //--------------------------------------------------------------------------------
@@ -381,29 +412,45 @@ OrderFunc(props.feed)
 
         function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
           let attrBuyingObj = JSON.parse(reader.result).attrBuying
-        let boughtAttributesThatIncreaseAtk = 0
-          
+        let numberOfBoughtAttributes = 0
         for (let i = 0; i < attrBuyingObj.length; i++) {
           for (let j = 0; j < attrBuyingObj[i].length; j++) {
             if (attrBuyingObj[i][j] == attr1) {
-              boughtAttributesThatIncreaseAtk++
+              numberOfBoughtAttributes++
             } else if (attrBuyingObj[i][j] == attr2) {
-              boughtAttributesThatIncreaseAtk++
+              numberOfBoughtAttributes++
             } else if (attrBuyingObj[i][j] == attr3) {
-              boughtAttributesThatIncreaseAtk++
-            }else {
-              continue
+              numberOfBoughtAttributes++
             }
           }
         }
-  return boughtAttributesThatIncreaseAtk
+  return numberOfBoughtAttributes
       }
+      
+      for (let i = 0; i < 10; i++) {
+        let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i] + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`)
+        let attrOption = document.createElement('option');
+        attrOption.innerText = charAttributes[i];
+        attrOption.value = currentAttribute;
+        attributes.appendChild(attrOption);
+        currentCharFinalAttributes.push(currentAttribute)
+        }
 
+        for (let i = 0; JSON.parse(reader.result).skills[i].name != null; i++) {
+          let skillOption = document.createElement('option');
+          skillOption.value = JSON.parse(reader.result).skills[i].level;
+        if (JSON.parse(reader.result).skills[i].subSkill) {
+          skillOption.innerText = JSON.parse(reader.result).skills[i].name + " " + "(" + JSON.parse(reader.result).skills[i].subSkill + ")";
+        } else {
+          skillOption.innerText = JSON.parse(reader.result).skills[i].name;
+        }
+          
+        skills.appendChild(skillOption);
+        }
+        
         let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
         let sumDefAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.defPerLvl
         
-        console.log(currentChar.str + currentChar.spd + currentChar.dex)
-        console.log(currentChar.dex + currentChar.wll + currentChar.per)
         let baseAtk = JSON.parse(reader.result).stats.TÉ + currentChar.str+currentChar.spd+currentChar.dex + atkModifier
           + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") + sumAtkAutomaticallyGainedByLevel
           + JSON.parse(reader.result).spentHm.TÉ
@@ -445,10 +492,34 @@ OrderFunc(props.feed)
         } else {
           charAtk.value = tvcoCalculator(aimWithProfession)
          }
-         console.log(defWithProfession)
+         
         charDef.value = tvcoCalculator(defWithProfession)
         
-charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesThatModifyStats("Erő")
+        charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesThatModifyStats("Erő")               
+        if (fileFirstLoaded == true) {
+          for (let i = 0; i < 5; i++) {
+            let physicalAttributeNameDiv = document.createElement("div")
+            let physicalAttributeValueDiv = document.createElement("div")
+            physicalAttributeNameDiv.classList.add("physicalAttributeName")
+            physicalAttributeValueDiv.classList.add("physicalAttributeValue")
+            physicalAttributeNameDiv.innerText = charAttributes[i] + ":"
+            physicalAttributeValueDiv.innerText = currentCharFinalAttributes[i]
+            skillCheckLeftSideWrapper.appendChild(physicalAttributeNameDiv)
+            skillCheckLeftSideWrapper.appendChild(physicalAttributeValueDiv)
+          }
+          for (let i = 5; i < 10; i++) {
+            let spiritualAttributeNameDiv = document.createElement("div")
+            let spiritualAttributeValueDiv = document.createElement("div")
+            spiritualAttributeNameDiv.classList.add("spiritualAttributeName")
+            spiritualAttributeValueDiv.classList.add("spiritualAttributeValue")
+            spiritualAttributeNameDiv.innerText = charAttributes[i] + ":"
+            spiritualAttributeValueDiv.innerText = currentCharFinalAttributes[i]
+            skillCheckRightSideWrapper.appendChild(spiritualAttributeNameDiv)
+            skillCheckRightSideWrapper.appendChild(spiritualAttributeValueDiv)
+          }
+        }
+        fileFirstLoaded = false
+        evaluateSkillCheckBase()
       },
     );    
         
@@ -456,9 +527,135 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
       reader.readAsText(file);
     }
 }
+
+function evaluateSkillCheckBase() {
+  skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
+  if (attributes.value % 2 == 1) {
+    rollModifier.value = 1
+  } else if (attributes.value % 2 == 0){
+    rollModifier.value = 0
+  }
+  skillCheckResult.innerText = ""
+}
+  
+  function skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+    
+    let zeroArray = [1, 2, 3, 4];
+    let oneArray = [5, 6, 7];
+    let twoArray = [8, 9];
+    let skillCheckCalculatedResultFromRoll = 0;
+    if (stressCheck == false) {
+  
+    if (skillCheckLightDice == undefined) {
+      skillCheckLightDice = Math.floor(generator.random() * 10)
+    } 
+    
+    if (skillCheckLightDice == 0) {
+      skillCheckLightDice = 10;
+    }
+      skillCheckLightDice += parseInt(rollModifier.value)
+    
+    if (skillCheckLightDice >= 10) {
+      skillCheckCalculatedResultFromRoll = 3
+    } else if (twoArray.includes(skillCheckLightDice)) {
+      skillCheckCalculatedResultFromRoll = 2
+    } else if (oneArray.includes(skillCheckLightDice)) {
+      skillCheckCalculatedResultFromRoll = 1
+    } else if (zeroArray.includes(skillCheckLightDice) || skillCheckLightDice<0) {
+      skillCheckCalculatedResultFromRoll = 0
+    }
+    
+    if (skillCheckLightDice >= 10) {
+      skillCheckLightDice = 0
+    } else if (skillCheckLightDice <= 0) {
+      skillCheckLightDice = 1
+      }
+      skillCheckLightDiceResultSelect.value = skillCheckLightDice
+      skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
+    } else if (stressCheck == true) {
+    
+      if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
+        skillCheckLightDice = Math.floor(generator.random() * 10)
+        skillCheckDarkDice = Math.floor(generator.random() * 10)
+        skillCheckDarkDiceResultSelect.value = skillCheckDarkDice
+      } 
+      if (skillCheckLightDice == 0) {
+        skillCheckLightDice = 10;
+      }
+      if (skillCheckDarkDice == 0) {
+        skillCheckDarkDice = 10;
+      }
+
+      let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value)
+      
+      if (skillCheckLightDicePlusRollMod >= 10) {
+        skillCheckLightDicePlusRollMod = 10
+      }
+//---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
+      
+      if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0 && skillCheckLightDice !=1) {
+  skillCheckLightDicePlusRollMod = skillCheckLightDice
+      }
+      
+    if (skillCheckLightDicePlusRollMod>skillCheckDarkDice) {
+      if (skillCheckLightDicePlusRollMod == 10) {
+        skillCheckCalculatedResultFromRoll = 3
+      } else if (twoArray.includes(skillCheckLightDicePlusRollMod)) {
+        skillCheckCalculatedResultFromRoll = 2
+      } else if (oneArray.includes(skillCheckLightDicePlusRollMod)) {
+        skillCheckCalculatedResultFromRoll = 1
+      } else if (zeroArray.includes(skillCheckLightDicePlusRollMod) || skillCheckLightDicePlusRollMod<0) {
+        skillCheckCalculatedResultFromRoll = 0
+      }
+    } else if (skillCheckLightDicePlusRollMod<skillCheckDarkDice) {
+      if (skillCheckDarkDice == 10) {
+        skillCheckCalculatedResultFromRoll = -3
+      } else if (twoArray.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = -2
+      } else if (oneArray.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = -1
+      } else if (zeroArray.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = 0
+      }
+    } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases1.includes(skillCheckDarkDice)) {
+      skillCheckCalculatedResultFromRoll = 3;
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases2.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = 4;
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases3.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = 5;;
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 1) {
+        skillCheckCalculatedResultFromRoll = -6;
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 10) {
+        skillCheckCalculatedResultFromRoll = 6;
+      }
+
+      if (skillCheckLightDicePlusRollMod >= 10) {
+        skillCheckLightDicePlusRollMod = 0
+      } else if (skillCheckLightDicePlusRollMod <= 0) {
+        skillCheckLightDicePlusRollMod = 1
+      } 
+      skillCheckLightDiceResultSelect.value = skillCheckLightDicePlusRollMod
+      skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
+  }
+  }
+ //let stressCheck = false 
+  function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+    
+    skillCheckRolled = true
+    skillCheckUseLegendPointCheckBox.style.display = "grid"
+      
+      if (skillCheckStressCheckbox.checked == true || skillCheckUseLegendPointCheckBox.checked == true) {
+      stressCheck = true
+    } else if (skillCheckStressCheckbox.checked == false) {
+      stressCheck = false
+    }
+    skillCheckUseLegendPointCheckBox.checked = false
+    skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
+}
   
   let diceRolled = false;
-  
+  let skillCheckRolled = false
+
   async function handleClick(darkDice, lightDice) {
  
     bodyPartImg.innerHTML = "";
@@ -546,7 +743,8 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
         <title>TTK Rolldice</title>
       </Head>
 
-      <main className={styles.main}>
+      <main className="main">
+        <div id="atkRollWrapper">
         <div className={styles.resultContainer}>
           <div className="result inText">A dobás eredménye</div>
           <div id="rollResult" className="result inNumber"></div>
@@ -650,6 +848,75 @@ charStr.value = currentChar.str + attrSpreadArray[0] + findAndCountAttributesTha
           <div id="specialEffect" className="result inText">
             nincs
           </div>
+          </div>
+        </div>
+        <img id="dividingLine" src="/divider.png"></img>
+        <div id="skillCheckWrapper">
+        <label htmlFor="skills" id="skillsLabel" className="skillCheckLabel">
+            Választott képzettség:
+          </label>
+          <select id="skills" name="skills" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
+          </select>
+          <label htmlFor="attributes" id="attributesLabel" className="skillCheckLabel">
+            Választott tulajdonság:
+          </label>
+          <select id="attributes" name="attributes" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
+          </select>
+          <label htmlFor="rollModifier" id="rollModifierLabel" className="skillCheckLabel">
+            Dobásmódosító:
+          </label>
+          <select id="rollModifier" name="rollModifier" className="skillCheckSelect">
+          {skillCheckRollModifiers.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <label htmlFor="succFailModifier" id="succFailModifierLabel" className="skillCheckLabel">
+            Extra Siker-/Kudarcszint:
+          </label>
+          <select id="succFailModifier" name="succFailModifier" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
+          {skillCheckSuccFailModifiers.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <div id="skillCheckBaseLabel">Próba alap:</div>
+          <div id="skillCheckBase"></div>
+
+          <div id="skillCheckRollResultWrapper">
+          <label htmlFor="skillCheckDarkDiceResultSelect" id="skillCheckDarkDiceResultLabel">
+            Sötét kocka:
+          </label>
+          <select id="skillCheckDarkDiceResultSelect" name="" disabled={true} onChange={handleWhenSkillCheckLegendPointIsUsed}>
+            {rollOptions.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <label htmlFor="skillCheckLightDiceResultSelect" id="skillCheckLightDiceResultLabel">
+            Világos kocka:
+          </label>
+          <select id="skillCheckLightDiceResultSelect" name="" disabled={true} onChange={handleWhenSkillCheckLegendPointIsUsed}>
+            {rollOptions.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <label id="skillCheckUseLegendPointCheckBoxlabel" htmlFor="skillCheckUseLegendPointCheckBox">Legenda pontot használok!</label>
+          <input type="checkBox" id="skillCheckUseLegendPointCheckBox" onChange={handleSkillCheckUseLegendPointCheckBox}/>
+          <button id="skillCheckDarkDiceRerollByCounterLP" ></button>
+          <button id="skillCheckLightDiceRerollByCounterLP" ></button>
+        </div>
+          <div id="physicalAttributesLabel">Fizikai tulajdonságok:</div>
+          <button type=""
+            id="skillCheckRollButton"
+            onClick={handleSkillCheck}
+        >
+          Dobj
+          </button>
+          <div id="skillCheckResultLabel">Próba végső eredménye:</div>
+          <div id="skillCheckResult"></div>
+          <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
+          <input type="checkBox" id="skillCheckStressCheckbox" />
+          <div id="spiritualAttributesLabel">Szellemi tulajdonságok:</div>
+          <div id="skillCheckLeftSideWrapper"></div>
+          <div id="skillCheckRightSideWrapper"></div>
         </div>
       </main>
     </>
