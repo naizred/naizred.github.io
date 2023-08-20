@@ -70,11 +70,17 @@ OrderFunc(props.feed)
 
   let darkDice;
   let lightDice;
+  let skillCheckLightDice;
+  let skillCheckDarkDice;
   let originalDarkDice = 0;
   let originalLightDice = 0;
 
 //------------------------------------------------------------------------
   //-------A dobás ------
+  const specialCases1 = [2, 3, 4];
+  const specialCases2 = [5, 6, 7];
+  const specialCases3 = [8, 9];
+
 
   function ttkRoll(strBonus, darkDice, lightDice) {
 
@@ -123,9 +129,6 @@ OrderFunc(props.feed)
       "Kapsz 2 cselekedetet",
       "Kapsz 3 cselekedetet",
     ];
-    const specialCases1 = [2, 3, 4];
-    const specialCases2 = [5, 6, 7];
-    const specialCases3 = [8, 9];
 
     if (lightDice == darkDice && specialCases1.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[1];
@@ -288,6 +291,27 @@ OrderFunc(props.feed)
     lightDiceResultSelect.disabled = true
     rollButton.disabled = false
   }
+  function handleWhenSkillCheckLegendPointIsUsed() {
+   // let lpModifiedDarkDice = darkDiceResultSelect.value
+   // let lpModifiedLightDice = lightDiceResultSelect.value
+
+   SkillCheckDarkDiceRerollByCounterLP.style.display = "grid"
+   SkillCheckLightDiceRerollByCounterLP.style.display = "grid"
+    
+    // if (darkDiceResultSelect.value != originalDarkDice) {
+    //   lightDiceRerollByCounterLP.style.display = "none"
+    // } else if (lightDiceResultSelect.value != originalLightDice) {
+    //   darkDiceRerollByCounterLP.style.display = "none"
+    // }
+    
+    handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
+    useLegendPointCheckBox.style.display = "none"
+    // darkDiceRerollByCounterLP.style.display = "none"
+    // lightDiceRerollByCounterLP.style.display = "none"
+    darkDiceResultSelect.disabled = true
+    lightDiceResultSelect.disabled = true
+    rollButton.disabled = false
+  }
 
   function handleWeaponChange() {
     handleFileRead();
@@ -434,8 +458,6 @@ function removeAllSkillOptions() {
         let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
         let sumDefAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.defPerLvl
         
-        console.log(currentChar.str + currentChar.spd + currentChar.dex)
-        console.log(currentChar.dex + currentChar.wll + currentChar.per)
         let baseAtk = JSON.parse(reader.result).stats.TÉ + currentChar.str+currentChar.spd+currentChar.dex + atkModifier
           + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") + sumAtkAutomaticallyGainedByLevel
           + JSON.parse(reader.result).spentHm.TÉ
@@ -523,25 +545,121 @@ function evaluateSkillCheckBase() {
   skillCheckResult.innerText = ""
 }
   
-  function handleSkillCheck() {
+  function skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
     let zeroArray = [1, 2, 3, 4];
     let oneArray = [5, 6, 7];
     let twoArray = [8, 9];
-    let skillCheckRollResult = Math.floor(generator.random() * 10)
-    if (skillCheckRollResult == 0) {
-      skillCheckRollResult = 10;
+    let skillCheckCalculatedResultFromRoll = 0;
+    if (stressCheck == false) {
+
+    if (skillCheckLightDice == undefined) {
+      skillCheckLightDice = Math.floor(generator.random() * 10)
+    } 
+    
+    if (skillCheckLightDice == 0) {
+      skillCheckLightDice = 10;
     }
-    skillCheckRollResult += parseInt(rollModifier.value)
-    if (skillCheckRollResult >= 10) {
-  skillCheckRollResult = 3
-    } else if (twoArray.includes(skillCheckRollResult)) {
-      skillCheckRollResult = 2
-    } else if (oneArray.includes(skillCheckRollResult)) {
-      skillCheckRollResult = 1
-    } else if (zeroArray.includes(skillCheckRollResult) || skillCheckRollResult<0) {
-      skillCheckRollResult = 0
+      skillCheckLightDice += parseInt(rollModifier.value)
+    
+    if (skillCheckLightDice >= 10) {
+      skillCheckCalculatedResultFromRoll = 3
+    } else if (twoArray.includes(skillCheckLightDice)) {
+      skillCheckCalculatedResultFromRoll = 2
+    } else if (oneArray.includes(skillCheckLightDice)) {
+      skillCheckCalculatedResultFromRoll = 1
+    } else if (zeroArray.includes(skillCheckLightDice) || skillCheckLightDice<0) {
+      skillCheckCalculatedResultFromRoll = 0
     }
-skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckRollResult
+    
+    if (skillCheckLightDice >= 10) {
+      skillCheckLightDice = 0
+    } else if (skillCheckLightDice <= 0) {
+      skillCheckLightDice = 1
+      }
+      skillCheckLightDiceResultSelect.value = skillCheckLightDice
+      skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
+    } else if (stressCheck == true) {
+      if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
+        skillCheckLightDice = Math.floor(generator.random() * 10)
+        skillCheckDarkDice = Math.floor(generator.random() * 10)
+        skillCheckDarkDiceResultSelect.value = skillCheckDarkDice
+      } 
+      if (skillCheckLightDice == 0) {
+        skillCheckLightDice = 10;
+      }
+      if (skillCheckDarkDice == 0) {
+        skillCheckDarkDice = 10;
+      }
+
+      console.log(skillCheckLightDice)
+      console.log("---------------------------------")
+       let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value)
+      console.log(skillCheckLightDicePlusRollMod)
+      console.log(skillCheckDarkDice)
+
+      if (skillCheckLightDicePlusRollMod >= 10) {
+        skillCheckLightDicePlusRollMod = 10
+      }
+//---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
+      if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0) {
+  skillCheckLightDicePlusRollMod = skillCheckLightDice
+      }
+      
+      console.log(skillCheckLightDicePlusRollMod)
+      console.log(skillCheckDarkDice)
+      
+    if (skillCheckLightDicePlusRollMod>skillCheckDarkDice) {
+      if (skillCheckLightDicePlusRollMod == 10) {
+        skillCheckCalculatedResultFromRoll = 3
+      } else if (twoArray.includes(skillCheckLightDicePlusRollMod)) {
+        skillCheckCalculatedResultFromRoll = 2
+      } else if (oneArray.includes(skillCheckLightDicePlusRollMod)) {
+        skillCheckCalculatedResultFromRoll = 1
+      } else if (zeroArray.includes(skillCheckLightDicePlusRollMod) || skillCheckLightDicePlusRollMod<0) {
+        skillCheckCalculatedResultFromRoll = 0
+      }
+    } else if (skillCheckLightDicePlusRollMod<skillCheckDarkDice) {
+      if (skillCheckDarkDice == 10) {
+        skillCheckCalculatedResultFromRoll = -3
+      } else if (twoArray.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = -2
+      } else if (oneArray.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = -1
+      } else if (zeroArray.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = 0
+      }
+    } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases1.includes(skillCheckDarkDice)) {
+      skillCheckCalculatedResultFromRoll = 3;
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases2.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = 4;
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases3.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = 5;;
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 1) {
+        skillCheckCalculatedResultFromRoll = -6;
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 10) {
+        skillCheckCalculatedResultFromRoll = 6;
+      }
+
+      if (skillCheckLightDicePlusRollMod >= 10) {
+        skillCheckLightDicePlusRollMod = 0
+      } else if (skillCheckLightDicePlusRollMod <= 0) {
+        skillCheckLightDicePlusRollMod = 1
+      } 
+      skillCheckLightDiceResultSelect.value = skillCheckLightDicePlusRollMod
+      skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
+  }
+    
+    skillCheckUseLegendPointCheckBox.style.display = "grid"
+  }
+  
+  function handleSkillCheck() {
+    let stressCheck = false
+    if (skillCheckStressCheckbox.checked == false) {
+      stressCheck = false
+    } else if (skillCheckStressCheckbox.checked == true) {
+      stressCheck = true
+    }
+    skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
 }
   
   let diceRolled = false;
@@ -770,6 +888,31 @@ skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckRoll
           </select>
           <div id="skillCheckBaseLabel">Próba alap:</div>
           <div id="skillCheckBase"></div>
+
+          <div id="skillCheckRollResultWrapper">
+          <label htmlFor="skillCheckDarkDiceResultSelect" id="skillCheckDarkDiceResultLabel">
+            Sötét kocka:
+          </label>
+          <select id="skillCheckDarkDiceResultSelect" name="" disabled={true}>
+            {rollOptions.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <label htmlFor="skillCheckLightDiceResultSelect" id="skillCheckLightDiceResultLabel">
+            Világos kocka:
+          </label>
+          <select id="skillCheckLightDiceResultSelect" name="" disabled={true}>
+            {rollOptions.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+          </select>
+          <label id="skillCheckUseLegendPointCheckBoxlabel" htmlFor="skillCheckUseLegendPointCheckBox">Legenda pontot használok!</label>
+          <input type="checkBox" id="skillCheckUseLegendPointCheckBox"/>
+          <button id="skillCheckDarkDiceRerollByCounterLP" ></button>
+          <button id="skillCheckLightDiceRerollByCounterLP" ></button>
+        </div>
+          {/* <div id="skillCheckRollResultLabel">A dobás eredménye:</div>
+          <div id="skillCheckRollResult"></div> */}
           <div id="physicalAttributesLabel">Fizikai tulajdonságok:</div>
           <button type=""
             id="skillCheckRollButton"
