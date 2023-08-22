@@ -285,11 +285,12 @@ OrderFunc(props.feed)
     }
   }
   
-  function handleWhenLegendPointIsUsed() {
-
-   darkDiceRerollByCounterLP.style.display = "grid"
-   lightDiceRerollByCounterLP.style.display = "grid"
-        
+  function handleWhenLegendPointIsUsed(event) {
+    if (event.target.id == "darkDiceResultSelect") {
+      darkDiceRerollByCounterLP.style.display = "grid"
+} else if (event.target.id == "lightDiceResultSelect") {
+  lightDiceRerollByCounterLP.style.display = "grid"
+}
     handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
     useLegendPointCheckBox.style.display = "none"
     darkDiceResultSelect.disabled = true
@@ -297,14 +298,21 @@ OrderFunc(props.feed)
     rollButton.disabled = false
   }
 
-  function handleWhenSkillCheckLegendPointIsUsed() {
-    skillCheckLightDiceRerollByCounterLP.style.display = "grid"
-    if (skillCheckStressCheckbox.checked == false) {
-      skillCheckDarkDiceRerollByCounterLP.style.display = "none"
-    } else if (skillCheckStressCheckbox.checked == true) {
+  function handleCheckBoxChange () {
+  if (skillCheckStressCheckbox.checked == true) {
+    skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+    skillCheckLightDiceRerollByCounterLP.style.display = "none"
+  }
+  }
+
+  function handleWhenSkillCheckLegendPointIsUsed(event) {
+    console.log(event.target.id)
+    if (event.target.id == "skillCheckDarkDiceResultSelect") {
       skillCheckDarkDiceRerollByCounterLP.style.display = "grid"
-    }
-    
+} else if (event.target.id == "skillCheckLightDiceResultSelect") {
+  skillCheckLightDiceRerollByCounterLP.style.display = "grid"
+}
+
    handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value))
    skillCheckUseLegendPointCheckBox.checked == false
    skillCheckUseLegendPointCheckBox.style.display = "none"
@@ -940,7 +948,7 @@ function evaluateSkillCheckBase() {
           <div id="skillCheckResultLabel">Próba végső eredménye:</div>
           <div id="skillCheckResult"></div>
           <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
-          <input type="checkBox" id="skillCheckStressCheckbox" />
+          <input type="checkBox" id="skillCheckStressCheckbox" onChange={handleCheckBoxChange}/>
           <div id="spiritualAttributesLabel">Szellemi tulajdonságok:</div>
           <div id="skillCheckLeftSideWrapper"></div>
           <div id="skillCheckRightSideWrapper"></div>
