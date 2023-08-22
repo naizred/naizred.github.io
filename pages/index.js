@@ -285,11 +285,12 @@ OrderFunc(props.feed)
     }
   }
   
-  function handleWhenLegendPointIsUsed() {
-
-   darkDiceRerollByCounterLP.style.display = "grid"
-   lightDiceRerollByCounterLP.style.display = "grid"
-        
+  function handleWhenLegendPointIsUsed(event) {
+    if (event.target.id == "darkDiceResultSelect") {
+      darkDiceRerollByCounterLP.style.display = "grid"
+} else if (event.target.id == "lightDiceResultSelect") {
+  lightDiceRerollByCounterLP.style.display = "grid"
+}
     handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
     useLegendPointCheckBox.style.display = "none"
     darkDiceResultSelect.disabled = true
@@ -941,7 +942,7 @@ function evaluateSkillCheckBase() {
           <div id="skillCheckResultLabel">Próba végső eredménye:</div>
           <div id="skillCheckResult"></div>
           <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
-          <input type="checkBox" id="skillCheckStressCheckbox" />
+          <input type="checkBox" id="skillCheckStressCheckbox" onChange={handleCheckBoxChange}/>
           <div id="spiritualAttributesLabel">Szellemi tulajdonságok:</div>
           <div id="skillCheckLeftSideWrapper"></div>
           <div id="skillCheckRightSideWrapper"></div>
