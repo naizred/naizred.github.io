@@ -298,19 +298,18 @@ OrderFunc(props.feed)
   }
 
   function handleWhenSkillCheckLegendPointIsUsed() {
+   handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value))
+   skillCheckUseLegendPointCheckBox.checked == false
+   skillCheckUseLegendPointCheckBox.style.display = "none"
+    skillCheckDarkDiceResultSelect.disabled = true
+    skillCheckLightDiceResultSelect.disabled = true
+    skillCheckRollButton.disabled = false
     skillCheckLightDiceRerollByCounterLP.style.display = "grid"
     if (skillCheckStressCheckbox.checked == false) {
       skillCheckDarkDiceRerollByCounterLP.style.display = "none"
     } else if (skillCheckStressCheckbox.checked == true) {
       skillCheckDarkDiceRerollByCounterLP.style.display = "grid"
     }
-    
-   handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value))
-   skillCheckUseLegendPointCheckBox.checked == false
-   skillCheckUseLegendPointCheckBox.style.display = "none"
-    skillCheckDarkDiceResultSelect.disabled = true
-    skillCheckLightDiceResultSelect.disabled = true
- skillCheckRollButton.disabled = false
   }
 
   function handleWeaponChange() {
@@ -667,7 +666,7 @@ function evaluateSkillCheckBase() {
   }
  //let stressCheck = false 
   function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
-    
+
     skillCheckRolled = true
     skillCheckUseLegendPointCheckBox.style.display = "grid"
       
@@ -678,6 +677,8 @@ function evaluateSkillCheckBase() {
     }
     skillCheckUseLegendPointCheckBox.checked = false
     skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
+    skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+    skillCheckLightDiceRerollByCounterLP.style.display = "none"
 }
   
   let diceRolled = false;
