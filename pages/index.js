@@ -665,7 +665,15 @@ function evaluateSkillCheckBase() {
       skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
   }
   }
- //let stressCheck = false 
+ //let stressCheck = false
+  
+  function handleCheckBoxChange() {
+    if (skillCheckStressCheckbox.checked == true) {
+      skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+    skillCheckLightDiceRerollByCounterLP.style.display = "none"
+    }
+  }
+  
   function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
 
     skillCheckRolled = true
