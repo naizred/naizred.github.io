@@ -67,7 +67,7 @@ OrderFunc(props.feed)
     "fej",
   ];
 
-
+let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"]
   let darkDice;
   let lightDice;
   let originalDarkDice = 0;
@@ -466,12 +466,12 @@ function removeAllSkillOptions() {
         for (let i = 0; JSON.parse(reader.result).skills[i].name != null; i++) {
           let skillOption = document.createElement('option');
           skillOption.value = JSON.parse(reader.result).skills[i].level;
-        if (JSON.parse(reader.result).skills[i].subSkill) {
-          skillOption.innerText = JSON.parse(reader.result).skills[i].name + " " + "(" + JSON.parse(reader.result).skills[i].subSkill + ")";
+          let tempLevelNameStore = parseInt(JSON.parse(reader.result).skills[i].level);
+          if (JSON.parse(reader.result).skills[i].subSkill) {
+          skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${JSON.parse(reader.result).skills[i].subSkill}) (${skillLevelsMeaning[tempLevelNameStore-1]})`;
         } else {
-          skillOption.innerText = JSON.parse(reader.result).skills[i].name;
+          skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${skillLevelsMeaning[tempLevelNameStore-1]})`;
         }
-          
         skills.appendChild(skillOption);
         }
         
