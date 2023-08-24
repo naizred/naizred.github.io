@@ -48,7 +48,7 @@ function CharCompare(a, b, index) {
 
 //custom sort function call
 OrderFunc(props.feed)
-let damageOfFists = "no value"
+let damageOfFists = "1k10"
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
   let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -173,7 +173,7 @@ let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"]
     //ez a két változó csak az ökölharc miatt kell
     let professionDamageBonus = professionLevelSelect.value
 let currentWeaponDamage = currentWeapon.w_damage
-if (currentWeapon.w_name == "Ököl") {
+if (currentWeapon.w_type == "Ökölharc") {
   currentWeaponDamage = damageOfFists
   professionDamageBonus = Math.ceil(professionLevelSelect.value / 2);
     }
@@ -405,7 +405,7 @@ function removeAllSkillOptions() {
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
         )
-        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill) || name.name == "Ökölharc" && currentlySelectedWeapon.w_name == "Ököl")
+        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill) || name.name == "Ökölharc" && currentlySelectedWeapon.w_type == "Ökölharc")
         console.log(filteredArrayByType)
         let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
         let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
@@ -568,7 +568,7 @@ function removeAllSkillOptions() {
           fistAtkDivider = 4
         }
 
-        if (currentlySelectedWeapon.w_name == "Ököl") {
+        if (currentlySelectedWeapon.w_type == "Ökölharc") {
           //megnézi a legmagasabb tul-t és elosztja az ököl osztóval, ami a harcművész adottsággal változhat
           let fistAtk = Math.floor(Math.max(currentCharFinalAttributes[0], currentCharFinalAttributes[1], currentCharFinalAttributes[2])/fistAtkDivider);
           let fistDef = Math.floor(Math.max(currentCharFinalAttributes[1], currentCharFinalAttributes[2])/fistAtkDivider);
