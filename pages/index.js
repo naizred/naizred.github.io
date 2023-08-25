@@ -163,8 +163,8 @@ let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"]
 
   if (checkIfWeaponIsRanged(currentWeapon.w_type)) {
     destroyerLevelSelect.value = 0  
-  } 
-
+    } 
+    
    if (diceRolled == false) {
     return
     }
