@@ -99,8 +99,6 @@ let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"]
     darkDice = 0 */
     /* -- ez a felső két sor a dobások tesztelésére van  */
 
-      console.log(darkDice, lightDice);
-
     if (darkDice > lightDice) {
       result = darkDice;
     } else if (darkDice < lightDice) {
@@ -176,9 +174,10 @@ let currentWeaponDamage = currentWeapon.w_damage
 if (currentWeapon.w_type == "Ökölharc") {
   currentWeaponDamage = damageOfFists
   professionDamageBonus = Math.ceil(professionLevelSelect.value / 2);
+  if (currentWeapon.w_name == "Vasököl") {
+    professionDamageBonus +=1
+  }
     }
-    console.log("itt vagyok")
-    console.log(damageOfFists)
   if (currentWeaponDamage === "2k10") {
     damageResult.innerText =
       originalDarkDice +
@@ -405,8 +404,7 @@ function removeAllSkillOptions() {
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
         )
-        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill) || name.name == "Ökölharc" && currentlySelectedWeapon.w_type == "Ökölharc")
-        console.log(filteredArrayByType)
+        let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill) || name.name == "Ökölharc" && currentlySelectedWeapon.w_type == "Ökölharc");
         let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
         let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
         let filteredArrayIfHasWarriorMonk = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Harcművész");
