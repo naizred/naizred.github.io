@@ -400,7 +400,6 @@ function removeAllSkillOptions() {
         
         let indexOfFirstWeapon = 0
         for (indexOfFirstWeapon; indexOfFirstWeapon < JSON.parse(reader.result).weaponSets.length; indexOfFirstWeapon++) {
-          console.log(JSON.parse(reader.result).weaponSets[indexOfFirstWeapon])
           if (JSON.parse(reader.result).weaponSets[indexOfFirstWeapon]!=null) {
             break;
           } 
