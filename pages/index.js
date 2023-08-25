@@ -397,9 +397,16 @@ function removeAllSkillOptions() {
         currentCharFinalAttributes = []
         removeAllAttributeOptions()
         removeAllSkillOptions()
-
-        if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[0]!= undefined) {
-          weapons.value = JSON.parse(reader.result).weaponSets[0].rightWeapon
+        
+        let indexOfFirstWeapon = 0
+        for (indexOfFirstWeapon; indexOfFirstWeapon < JSON.parse(reader.result).weaponSets.length; indexOfFirstWeapon++) {
+          console.log(JSON.parse(reader.result).weaponSets[indexOfFirstWeapon])
+          if (JSON.parse(reader.result).weaponSets[indexOfFirstWeapon]!=null) {
+            break;
+          } 
+        }
+        if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null) {
+          weapons.value = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon
         } 
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
