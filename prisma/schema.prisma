@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model characterStatsThatChange {
+  charId    Int     @id @default(autoincrement())
+  charName  String @unique
+  currentFp Int
+  currentEp Int
+  currentPp Int
+  currentMp Int
+  currentLp Int
+}
