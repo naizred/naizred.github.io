@@ -56,7 +56,7 @@ function CharacterDetails() {
         <p id='maxLp'></p>
         <input id='currentLp' />
       </div>
-      <button type='submit'>Karakteradatok frissítése</button> 
+      <button type='submit'>Karakteradatok mentése</button> 
     </form>
   );
 }
