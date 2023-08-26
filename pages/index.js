@@ -2,9 +2,28 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
+import CharacterDetails from "../Components/CharacterDetails";
 
 var MersenneTwister = require('mersenne-twister');
 var generator = new MersenneTwister();
+
+export async function fetchCharacterData(currentCharName) {
+  await fetch(`../api/characterStatsThatChange/${currentCharName}`).then((response) => {
+    console.log(response.status);
+    console.log(response.ok);
+    return response.json();
+  }).then((parsedData) => {
+    console.log(parsedData)
+    if (!parsedData) {
+      return
+    }
+    currentFp.value = parsedData.currentFp;
+    currentEp.value = parsedData.currentEp;
+    currentPp.value = parsedData.currentPp;
+    currentMp.value = parsedData.currentMp;
+    currentLp.value = parsedData.currentLp;
+  })
+}
 
 export const getStaticProps = async () => {
   
@@ -22,8 +41,9 @@ export const getStaticProps = async () => {
   };
 };
 
+let fileFirstLoaded = true
 export default function Home(props) {
-    
+
 //custom sort function to sort data by name
 
     let alphabets = ["A", "Á","B", "C", "D","E","É","F","G","H","I","Í","J","K","L","M","N","O","Ó","Ö","Ő","P","Q","R","S",
@@ -74,7 +94,7 @@ let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"]
   let originalLightDice = 0;
 
 //------------------------------------------------------------------------
-  //-------A dobás ------
+//-------A dobás ------
   const specialCases1 = [2, 3, 4];
   const specialCases2 = [5, 6, 7];
   const specialCases3 = [8, 9];
@@ -305,19 +325,23 @@ if (currentWeapon.w_type == "Ökölharc") {
     rollButton.disabled = false
   }
 
-  function handleWhenSkillCheckLegendPointIsUsed() {
+  function handleWhenSkillCheckLegendPointIsUsed(event) {
    handleSkillCheck(true, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value))
    skillCheckUseLegendPointCheckBox.checked == false
    skillCheckUseLegendPointCheckBox.style.display = "none"
     skillCheckDarkDiceResultSelect.disabled = true
     skillCheckLightDiceResultSelect.disabled = true
     skillCheckRollButton.disabled = false
-    skillCheckLightDiceRerollByCounterLP.style.display = "grid"
     if (skillCheckStressCheckbox.checked == false) {
+      skillCheckLightDiceRerollByCounterLP.style.display = "grid"
       skillCheckDarkDiceRerollByCounterLP.style.display = "none"
     } else if (skillCheckStressCheckbox.checked == true) {
-      skillCheckDarkDiceRerollByCounterLP.style.display = "grid"
-    }
+      if (event.target.id == "skillCheckDarkDiceResultSelect") {
+        skillCheckDarkDiceRerollByCounterLP.style.display = "grid"
+  } else if (event.target.id == "skillCheckLightDiceResultSelect") {
+    skillCheckLightDiceRerollByCounterLP.style.display = "grid"
+  }
+    } 
   }
 
   function handleWeaponChange() {
@@ -380,19 +404,18 @@ function removeAllSkillOptions() {
 }
   
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
-  let fileFirstLoaded = true
   let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
   let currentCharFinalAttributes = []
 //   function handleFileImportClick() {
 //     fileFirstLoaded = true
 // }
   
-  function handleFileRead() {
+ async function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
     reader.addEventListener(
       "load",
-      () => {
+      async () => {
         skillCheckRollButton.style.display = "grid"
         currentCharFinalAttributes = []
         removeAllAttributeOptions()
@@ -414,6 +437,7 @@ function removeAllSkillOptions() {
         let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
         let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
         let filteredArrayIfHasWarriorMonk = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Harcművész");
+        let filteredArrayIfHasVigorous = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Életerős");
 //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
         let allLevelsArray = []
 
@@ -433,7 +457,7 @@ function removeAllSkillOptions() {
         } else {
           destroyerLevelSelect.value = 0
         }
-        
+        //--- karakter neve és kasztja
         charClass.innerText = JSON.parse(reader.result).classKey 
         charName.innerText = JSON.parse(reader.result).charName
 
@@ -488,9 +512,13 @@ function removeAllSkillOptions() {
         skills.appendChild(skillOption);
         }
         
+        ///----- a karakter szintjéből adódó értékek
         let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
         let sumDefAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.defPerLvl
-        
+        let sumFpAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.fpPerLvl
+        let sumPpAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.ppPerLvl
+        let sumMpAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.mpPerLvl
+                
         let baseAtk = JSON.parse(reader.result).stats.TÉ + currentChar.str+currentChar.spd+currentChar.dex + atkModifier
           + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") + sumAtkAutomaticallyGainedByLevel
           + JSON.parse(reader.result).spentHm.TÉ
@@ -552,10 +580,9 @@ function removeAllSkillOptions() {
             skillCheckRightSideWrapper.appendChild(spiritualAttributeValueDiv)
           }
         }
-        fileFirstLoaded = false;
         //--- kiszámolja a képzettségpróba alapját.
-        //evaluateSkillCheckBase();
-// az ökölhöz tartozó legmagasabb tulajdonságokat alapból 4-el kell osztani alapból
+// az ökölhöz tartozó legmagasabb tulajdonságokat alapból 4-el kell osztani alapból *********************
+        
         let fistAtkDivider = 4
         let charStrWithWarriorMonkAptitude = currentCharFinalAttributes[0]
 // van-e harcművész adottság?
@@ -571,7 +598,7 @@ function removeAllSkillOptions() {
         else {
           fistAtkDivider = 4
         }
-
+       
         if (currentlySelectedWeapon.w_type == "Ökölharc") {
           //megnézi a legmagasabb tul-t és elosztja az ököl osztóval, ami a harcművész adottsággal változhat
           let fistAtk = Math.floor(Math.max(currentCharFinalAttributes[0], currentCharFinalAttributes[1], currentCharFinalAttributes[2])/fistAtkDivider);
@@ -608,6 +635,47 @@ function removeAllSkillOptions() {
           damageOfFists = "3k5"  
         }
         evaluateSkillCheckBase()
+        
+
+        //-------- mana, fp és pszi számítás kell
+        let lowestStatForPsiPoints = Math.min(currentCharFinalAttributes[6], currentCharFinalAttributes[7], currentCharFinalAttributes[8])
+        let filterIfThereIsPsiSkill = JSON.parse(reader.result).skills.filter((name) => name.name == "Pszi")
+        let psiMultiplier = parseFloat(filterIfThereIsPsiSkill[0].level / 2)
+        let psiPoints = Math.floor(lowestStatForPsiPoints * psiMultiplier + JSON.parse(reader.result).stats.Pp) + sumPpAutomaticallyGainedByLevel
+        let fpPoints = JSON.parse(reader.result).stats.Fp + sumFpAutomaticallyGainedByLevel + currentCharFinalAttributes[3] + currentCharFinalAttributes[7]
+        console.log("pszipontok", psiPoints)
+        console.log("fp", fpPoints)
+  
+        if (fileFirstLoaded == true) {
+          const data = {
+            charName: charName.innerText,
+            currentFp: fpPoints,
+            currentEp: currentCharFinalAttributes[4] + parseInt(filteredArrayIfHasVigorous[0].level)*2,
+            currentPp: psiPoints,
+            currentMp: 0,
+            currentLp: 3
+          };
+      
+          maxFp.innerText = fpPoints,
+          maxEp.innerText = currentCharFinalAttributes[4] + parseInt(filteredArrayIfHasVigorous[0].level)*2,
+          maxPp.innerText = psiPoints,
+          maxMp.innerText = 0,
+          maxLp.innerText = 3
+
+          const JSONdata = JSON.stringify(data);
+          const endpoint = "/api/createCharacter";
+          const options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSONdata,
+          };
+         
+          const response = await fetch(endpoint, options);
+          fetchCharacterData(charName.innerText)
+        } 
+        fileFirstLoaded = false;
       },
     );    
     
@@ -616,7 +684,8 @@ function removeAllSkillOptions() {
     }
   }
 
-function evaluateSkillCheckBase() {
+ async function evaluateSkillCheckBase() {
+
   skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
   if (attributes.value % 2 == 1) {
     rollModifier.value = 1
@@ -1016,6 +1085,7 @@ function evaluateSkillCheckBase() {
           <div id="skillCheckLeftSideWrapper"></div>
           <div id="skillCheckRightSideWrapper"></div>
         </div>
+        <CharacterDetails />
       </main>
     </>
   );

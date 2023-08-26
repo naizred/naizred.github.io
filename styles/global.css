@@ -1,8 +1,6 @@
 body {
-    display: grid;
     background-color: #000000;
-    height: 100vw;
-    width: 70vw;
+
     /* background-position: left; */
     background-repeat: no-repeat;
     background-size: contain;
@@ -19,13 +17,17 @@ body {
 
 .main {
   display: grid;
+  grid-template-columns: repeat(21,1fr);
+  grid-template-rows: repeat(21,1fr);
   background-color: #000000;
   height: 100vw;
-  width: 70vw;
+  width: 95vw;
+  margin: 0vw;
+  padding: 0vw;
   background-image: url('../public/parchmentPaper.jpg');
   /* background-position: left; */
   background-repeat: no-repeat;
-  background-size: 70vw 100vw;
+  background-size: 97vw 100vw;
   font-family: 'MedievalSharp', cursive;
   color: black;
   -webkit-text-stroke: #f35900 0.1px;
@@ -37,13 +39,14 @@ body {
   align-items: center;
 }
 
-/* #__next{
+#__next{
     height: 100vw;
-    width: 70vw;
-} */
+}
 
 #atkRollWrapper {
   display: grid;
+  grid-row: 1/11;
+  grid-column: 1/16;
   grid-template-columns: repeat(16,1fr);
   grid-template-rows: repeat(10,1fr);
   height: 45vw;
@@ -52,12 +55,16 @@ body {
 
 #dividingLine {
   display: grid;
+  grid-row: 11/12;
+  grid-column: 1/16;
   height: 3vw;
   width: 70vw;
 }
 
 #skillCheckWrapper {
   display: grid;
+  grid-row: 12/22;
+  grid-column: 1/16;
   grid-template-columns: repeat(16,1fr);
   grid-template-rows: repeat(11,1fr);
   height: 45vw;

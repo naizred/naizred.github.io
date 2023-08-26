@@ -7,7 +7,6 @@
   grid-row: 1 / 9;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(12, 1fr);
-  height: 26vw;
   width: 13vw;
   align-items: center;
   justify-content: center;
@@ -21,8 +20,8 @@
   grid-row: 1 / 8;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  height: 25vw;
-  width: 28vw;
+  
+ 
   margin: 0px 0.4vw;
   align-items: center;
   border: 0.23vw solid #680604;
