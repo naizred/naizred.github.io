@@ -86,7 +86,8 @@ let damageOfFists = "1k10"
     "törzs",
     "fej",
   ];
-  let schoolsOfMagic = ["Magas mágia", "Bárdmágia", "Boszorkánymágia", "Borszorkánymesteri mágia", "Tűzvarázslói mágia", "Szakrális mágia"];
+  let schoolsOfMagic = ["Magas Mágia", "Bárdmágia", "Boszorkánymágia", "Borszorkánymesteri mágia", "Tűzvarázslói mágia", "Szakrális mágia"];
+  let attributeIndexesForSchoolsOfMagic = [6,5,8,7,7,5]
   let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"];
   let darkDice;
   let lightDice;
@@ -407,10 +408,11 @@ function removeAllSkillOptions() {
   let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
   let currentCharFinalAttributes = []
 //   function handleFileImportClick() {
-//     fileFirstLoaded = true
+//     window.location.reload();
 // }
-  
- async function handleFileRead() {
+// ********************************** Fájlbeolvasó függvény *************************
+  async function handleFileRead() {
+    
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
     reader.addEventListener(
@@ -430,16 +432,18 @@ function removeAllSkillOptions() {
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null) {
           weapons.value = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon
         } 
+//--- itt nézi meg az épp kiválasztott fegyver tulajdonságait a data.json-ból 
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
         )
-        //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
+//---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
         let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill) || name.name == "Ökölharc" && currentlySelectedWeapon.w_type == "Ökölharc");
-        //-----szűrés különböző adottságokra
+//-----szűrés különböző adottságokra
         let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
         let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
         let filteredArrayIfHasWarriorMonk = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Harcművész");
         let filteredArrayIfHasVigorous = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Életerős");
+        let filteredArrayIfHasMagicallyAttuned = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Varázstudó");
         //----szűrés mágikus képzettségekre
         let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
         console.log(filteredArrayIfHasAnyMagicSkill)
@@ -447,7 +451,6 @@ function removeAllSkillOptions() {
         let allLevelsArray = []
 
         if (filteredArrayByType.length != 0) {
-          
           for (let i = 0; i < filteredArrayByType.length; i++) {
             allLevelsArray.push(filteredArrayByType[i].level)
           }
@@ -457,7 +460,6 @@ function removeAllSkillOptions() {
         }
         
         if (filteredArrayIfHasDestroyer.length != 0 && !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-          
           destroyerLevelSelect.value = parseInt(filteredArrayIfHasDestroyer[0].level)
         } else {
           destroyerLevelSelect.value = 0
@@ -641,13 +643,54 @@ function removeAllSkillOptions() {
         }
         evaluateSkillCheckBase()
         
-
         //-------- mana, fp és pszi számítás kell
+        //-----pszi
         let lowestStatForPsiPoints = Math.min(currentCharFinalAttributes[6], currentCharFinalAttributes[7], currentCharFinalAttributes[8])
         let filterIfThereIsPsiSkill = JSON.parse(reader.result).skills.filter((name) => name.name == "Pszi")
         let psiMultiplier = parseFloat(filterIfThereIsPsiSkill[0].level / 2)
+        console.log(psiMultiplier)
         let psiPoints = Math.floor(lowestStatForPsiPoints * psiMultiplier + JSON.parse(reader.result).stats.Pp) + sumPpAutomaticallyGainedByLevel
+        //-------fp
         let fpPoints = JSON.parse(reader.result).stats.Fp + sumFpAutomaticallyGainedByLevel + currentCharFinalAttributes[3] + currentCharFinalAttributes[7]
+        console.log(JSON.parse(reader.result).stats.Fp)
+        //------------------ mana
+        let attributeNeededToCalculateManaPoints = 0
+        let highestMagicSkillLevel = 0
+        let highestMagicSkillName = ""
+        let modifierByMagicallyAttunedAptitude = 0;
+        //------ varázstudó adottságból jövő tulajdonság módosító
+        if (filteredArrayIfHasMagicallyAttuned.length!=0) {
+          if (filteredArrayIfHasMagicallyAttuned[0].level == 2) {
+            modifierByMagicallyAttunedAptitude = 3
+          } else if (filteredArrayIfHasMagicallyAttuned[0].level == 3) {
+            modifierByMagicallyAttunedAptitude = 6
+          }
+        }
+
+        if (filteredArrayIfHasAnyMagicSkill.length != 0) {
+          let allMagicSkillLevelsArray = []
+          for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
+            allMagicSkillLevelsArray.push(filteredArrayIfHasAnyMagicSkill[i].level)
+          }
+          highestMagicSkillLevel = parseInt(Math.max(...allMagicSkillLevelsArray))
+        } 
+        //------ a legmagasabb mágikus képzettség neve is kell a mana számításhoz
+        let filteredArrayForNameOfHighestMagicalSkill = filteredArrayIfHasAnyMagicSkill.filter((skill) => skill.level == highestMagicSkillLevel);
+        if (filteredArrayForNameOfHighestMagicalSkill[0] != null) {
+          highestMagicSkillName = filteredArrayForNameOfHighestMagicalSkill[0].name
+        } else {
+          highestMagicSkillName = ""
+       }
+for (let i = 0; i < schoolsOfMagic.length; i++) {
+  if (highestMagicSkillName == schoolsOfMagic[i]) {
+    attributeNeededToCalculateManaPoints = currentCharFinalAttributes[attributeIndexesForSchoolsOfMagic[i]] + modifierByMagicallyAttunedAptitude;
+    break
+  }
+        }
+        console.log(attributeNeededToCalculateManaPoints)
+        let manaPoints = attributeNeededToCalculateManaPoints * highestMagicSkillLevel + sumMpAutomaticallyGainedByLevel + JSON.parse(reader.result).stats.Mp
+
+        console.log("manapontok", manaPoints)
         console.log("pszipontok", psiPoints)
         console.log("fp", fpPoints)
   
@@ -664,14 +707,14 @@ function removeAllSkillOptions() {
             currentFp: fpPoints,
             currentEp: currentCharFinalAttributes[4] + vigorousModifier*2,
             currentPp: psiPoints,
-            currentMp: 0,
+            currentMp: manaPoints,
             currentLp: 3
           };
       
           maxFp.innerText = fpPoints,
           maxEp.innerText = currentCharFinalAttributes[4] + vigorousModifier*2,
           maxPp.innerText = psiPoints,
-          maxMp.innerText = 0,
+          maxMp.innerText = manaPoints,
           maxLp.innerText = 3
 
           const JSONdata = JSON.stringify(data);
