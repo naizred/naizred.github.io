@@ -86,8 +86,8 @@ let damageOfFists = "1k10"
     "törzs",
     "fej",
   ];
-
-let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"]
+  let schoolsOfMagic = ["Magas mágia", "Bárdmágia", "Boszorkánymágia", "Borszorkánymesteri mágia", "Tűzvarázslói mágia", "Szakrális mágia"];
+  let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"];
   let darkDice;
   let lightDice;
   let originalDarkDice = 0;
@@ -433,11 +433,16 @@ function removeAllSkillOptions() {
         let currentlySelectedWeapon = props.feed.find(
           (name) => name.w_name === `${weapons.value}`
         )
+        //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
         let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill) || name.name == "Ökölharc" && currentlySelectedWeapon.w_type == "Ökölharc");
+        //-----szűrés különböző adottságokra
         let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
         let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
         let filteredArrayIfHasWarriorMonk = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Harcművész");
         let filteredArrayIfHasVigorous = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Életerős");
+        //----szűrés mágikus képzettségekre
+        let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
+        console.log(filteredArrayIfHasAnyMagicSkill)
 //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
         let allLevelsArray = []
 
@@ -646,18 +651,25 @@ function removeAllSkillOptions() {
         console.log("pszipontok", psiPoints)
         console.log("fp", fpPoints)
   
+        let vigorousModifier = 0
+        if (filteredArrayIfHasVigorous.length!=0) {
+          vigorousModifier = parseInt(filteredArrayIfHasVigorous[0].level)
+        } else {
+          masterWeaponModifier = 0
+        }
+
         if (fileFirstLoaded == true) {
           const data = {
             charName: charName.innerText,
             currentFp: fpPoints,
-            currentEp: currentCharFinalAttributes[4] + parseInt(filteredArrayIfHasVigorous[0].level)*2,
+            currentEp: currentCharFinalAttributes[4] + vigorousModifier*2,
             currentPp: psiPoints,
             currentMp: 0,
             currentLp: 3
           };
       
           maxFp.innerText = fpPoints,
-          maxEp.innerText = currentCharFinalAttributes[4] + parseInt(filteredArrayIfHasVigorous[0].level)*2,
+          maxEp.innerText = currentCharFinalAttributes[4] + vigorousModifier*2,
           maxPp.innerText = psiPoints,
           maxMp.innerText = 0,
           maxLp.innerText = 3
