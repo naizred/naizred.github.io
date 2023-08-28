@@ -641,7 +641,7 @@ function removeAllSkillOptions() {
         } else if (charStrWithWarriorMonkAptitude >= 27) {
           damageOfFists = "3k5"  
         }
-        evaluateSkillCheckBase()
+        evaluateSkillOrAttributeCheckBase()
         
         //-------- mana, fp és pszi számítás kell
         //-----pszi
@@ -739,19 +739,30 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
     }
   }
 
- async function evaluateSkillCheckBase() {
+ async function evaluateSkillOrAttributeCheckBase() {
 
-  skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
-  if (attributes.value % 2 == 1) {
-    rollModifier.value = 1
-  } else if (attributes.value % 2 == 0){
-    rollModifier.value = 0
-  }
+   if (checkTypeIsSkillCheck.checked == true) {  
+    skills.disabled = false
+     skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
+     if (attributes.value % 2 == 1) {
+       rollModifier.value = 1
+      } else if (attributes.value % 2 == 0){
+        rollModifier.value = 0
+      }
+    } else if (checkTypeIsAttributeCheck.checked == true) {
+     skillCheckBase.innerText = attributes.value
+     skills.disabled = true
+     rollModifier.value = 0
+    }
   skillCheckResult.innerText = ""
 }
-  
-  function skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
-    
+  // function handleCheckTypeIsSkillCheck() {
+  //   skills.disabled = false
+  // }
+  // function handleCheckTypeIsAttributeCheck() {
+  //   skills.disabled = true
+  // }
+  function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
     let zeroArray = [1, 2, 3, 4];
     let oneArray = [5, 6, 7];
     let twoArray = [8, 9];
@@ -870,7 +881,7 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
       stressCheck = false
     }
     skillCheckUseLegendPointCheckBox.checked = false
-    skillCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
+    skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
     skillCheckDarkDiceRerollByCounterLP.style.display = "none"
     skillCheckLightDiceRerollByCounterLP.style.display = "none"
 }
@@ -1077,12 +1088,12 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
         <label htmlFor="skills" id="skillsLabel" className="skillCheckLabel">
             Választott képzettség:
           </label>
-          <select id="skills" name="skills" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
+          <select id="skills" name="skills" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
           </select>
           <label htmlFor="attributes" id="attributesLabel" className="skillCheckLabel">
             Választott tulajdonság:
           </label>
-          <select id="attributes" name="attributes" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
+          <select id="attributes" name="attributes" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
           </select>
           <label htmlFor="rollModifier" id="rollModifierLabel" className="skillCheckLabel">
             Dobásmódosító:
@@ -1095,7 +1106,7 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
           <label htmlFor="succFailModifier" id="succFailModifierLabel" className="skillCheckLabel">
             Extra Siker-/Kudarcszint:
           </label>
-          <select id="succFailModifier" name="succFailModifier" className="skillCheckSelect" onChange={evaluateSkillCheckBase}>
+          <select id="succFailModifier" name="succFailModifier" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
           {skillCheckSuccFailModifiers.map((e) => {
               return <option key={e}>{e}</option>;
             })}
@@ -1132,6 +1143,12 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
         >
           Dobj
           </button>
+          <div id="checkTypeWrapper">
+            <label htmlFor="checkTypeIsSkillCheck" id="checkTypeIsSkillCheckLabel">Képzettségpróba</label>
+            <input type="radio" name="checkType" id="checkTypeIsSkillCheck" defaultChecked={true} onChange={evaluateSkillOrAttributeCheckBase}/>
+            <label htmlFor="checkTypeIsAttributeCheck" id="checkTypeIsAttributeCheckLabel">Tulajdonságpróba</label>
+            <input type="radio" name="checkType" id="checkTypeIsAttributeCheck" onChange={evaluateSkillOrAttributeCheckBase}/>
+          </div>
           <div id="skillCheckResultLabel">Próba végső eredménye:</div>
           <div id="skillCheckResult"></div>
           <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
