@@ -67,7 +67,7 @@ function CharCompare(a, b, index) {
 }
 
 //custom sort function call
-OrderFunc(props.feed)
+  OrderFunc(props.feed)
 let damageOfFists = "1k10"
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
@@ -419,6 +419,7 @@ function removeAllSkillOptions() {
       "load",
       async () => {
         skillCheckRollButton.style.display = "grid"
+        actionsWrapper.style.display = "grid"
         currentCharFinalAttributes = []
         removeAllAttributeOptions()
         removeAllSkillOptions()
@@ -446,7 +447,6 @@ function removeAllSkillOptions() {
         let filteredArrayIfHasMagicallyAttuned = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Varázstudó");
         //----szűrés mágikus képzettségekre
         let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
-        console.log(filteredArrayIfHasAnyMagicSkill)
 //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
         let allLevelsArray = []
 
@@ -520,20 +520,22 @@ function removeAllSkillOptions() {
         }
         
         ///----- a karakter szintjéből adódó értékek
-        let sumAtkAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
-        let sumDefAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.defPerLvl
-        let sumFpAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.fpPerLvl
-        let sumPpAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.ppPerLvl
-        let sumMpAutomaticallyGainedByLevel = JSON.parse(reader.result).level * currentChar.mpPerLvl
+        let sumAtkGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
+        let sumDefGainedByLevel = JSON.parse(reader.result).level * currentChar.defPerLvl
+        let sumAimGainedByLevel = JSON.parse(reader.result).level * currentChar.aimPerLvl
+        let sumFpGainedByLevel = JSON.parse(reader.result).level * currentChar.fpPerLvl
+        let sumPpGainedByLevel = JSON.parse(reader.result).level * currentChar.ppPerLvl
+        let sumMpGainedByLevel = JSON.parse(reader.result).level * currentChar.mpPerLvl
+        let sumInitiativeGainedByLevel = JSON.parse(reader.result).level * currentChar.initPerLvl
                 
         let baseAtk = JSON.parse(reader.result).stats.TÉ + currentChar.str+currentChar.spd+currentChar.dex + atkModifier
-          + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") + sumAtkAutomaticallyGainedByLevel
+          + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") + sumAtkGainedByLevel
           + JSON.parse(reader.result).spentHm.TÉ
         let baseAim = JSON.parse(reader.result).stats.CÉ + currentChar.dex + currentChar.wll + currentChar.per + aimModifier 
-          + findAndCountAttributesThatModifyStats("Ügy", "Aka", "Érz")
+          + findAndCountAttributesThatModifyStats("Ügy", "Aka", "Érz") + sumAimGainedByLevel
           +JSON.parse(reader.result).spentHm.CÉ
         let baseDef = JSON.parse(reader.result).stats.VÉ + currentChar.spd + currentChar.dex + currentChar.per + 60 + defModifier 
-          + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Érz") + sumDefAutomaticallyGainedByLevel
+          + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Érz") + sumDefGainedByLevel
           +JSON.parse(reader.result).spentHm.VÉ
         
         let masterWeaponModifier = 0
@@ -543,7 +545,7 @@ function removeAllSkillOptions() {
         } else {
           masterWeaponModifier = 0
         }
-   
+   //----- TÉ/VÉ/CÉ számítás a fegyver értékekkel együtt
         let atkWithProfession = baseAtk+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
         let aimWithProfession = baseAim+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
         let defWithProfession = baseDef+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponDef + masterWeaponModifier)
@@ -563,7 +565,9 @@ function removeAllSkillOptions() {
         }
          
         //--- külön az erő tulajdonság, ami az oldalon megjelenik
-        charStr.value = currentCharFinalAttributes[0]               
+        charStr.value = currentCharFinalAttributes[0] 
+        initiative.innerText = currentCharFinalAttributes[1] + currentCharFinalAttributes[6] + currentCharFinalAttributes[9] + sumInitiativeGainedByLevel + JSON.parse(reader.result).stats.KÉ;
+
         
         if (fileFirstLoaded == true) {
           for (let i = 0; i < 5; i++) {
@@ -649,9 +653,9 @@ function removeAllSkillOptions() {
         let filterIfThereIsPsiSkill = JSON.parse(reader.result).skills.filter((name) => name.name == "Pszi")
         let psiMultiplier = parseFloat(filterIfThereIsPsiSkill[0].level / 2)
         console.log(psiMultiplier)
-        let psiPoints = Math.floor(lowestStatForPsiPoints * psiMultiplier + JSON.parse(reader.result).stats.Pp) + sumPpAutomaticallyGainedByLevel
+        let psiPoints = Math.floor(lowestStatForPsiPoints * psiMultiplier + JSON.parse(reader.result).stats.Pp) + sumPpGainedByLevel
         //-------fp
-        let fpPoints = JSON.parse(reader.result).stats.Fp + sumFpAutomaticallyGainedByLevel + currentCharFinalAttributes[3] + currentCharFinalAttributes[7]
+        let fpPoints = JSON.parse(reader.result).stats.Fp + sumFpGainedByLevel + currentCharFinalAttributes[3] + currentCharFinalAttributes[7]
         console.log(JSON.parse(reader.result).stats.Fp)
         //------------------ mana
         let attributeNeededToCalculateManaPoints = 0
@@ -688,7 +692,7 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
   }
         }
         console.log(attributeNeededToCalculateManaPoints)
-        let manaPoints = attributeNeededToCalculateManaPoints * highestMagicSkillLevel + sumMpAutomaticallyGainedByLevel + JSON.parse(reader.result).stats.Mp
+        let manaPoints = attributeNeededToCalculateManaPoints * highestMagicSkillLevel + sumMpGainedByLevel + JSON.parse(reader.result).stats.Mp
 
         console.log("manapontok", manaPoints)
         console.log("pszipontok", psiPoints)
@@ -1055,7 +1059,7 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <label id="useLegendPointCheckBoxlabel" htmlFor="useLegendPointCheckBox">Legenda pontot használok!</label>
+          <label id="useLegendPointCheckBoxlabel" htmlFor="useLegendPointCheckBox">LP-t használok!</label>
           <input type="checkBox" id="useLegendPointCheckBox" onChange={handleCheckBox} />
           <button id="darkDiceRerollByCounterLP" onClick={handleBossCounterLPdark}></button>
           <button id="lightDiceRerollByCounterLP" onClick={handleBossCounterLPlight}></button>
@@ -1131,7 +1135,7 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <label id="skillCheckUseLegendPointCheckBoxlabel" htmlFor="skillCheckUseLegendPointCheckBox">Legenda pontot használok!</label>
+          <label id="skillCheckUseLegendPointCheckBoxlabel" htmlFor="skillCheckUseLegendPointCheckBox">LP-t használok!</label>
           <input type="checkBox" id="skillCheckUseLegendPointCheckBox" onChange={handleSkillCheckUseLegendPointCheckBox}/>
           <button id="skillCheckDarkDiceRerollByCounterLP" onClick={skillCheckHandleBossCounterLPdark}></button>
           <button id="skillCheckLightDiceRerollByCounterLP" onClick={skillCheckHandleBossCounterLPlight}></button>

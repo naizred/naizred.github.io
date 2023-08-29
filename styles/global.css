@@ -1,6 +1,5 @@
 body {
     background-color: #000000;
-
     /* background-position: left; */
     background-repeat: no-repeat;
     background-size: contain;
@@ -18,7 +17,7 @@ body {
 .main {
   display: grid;
   grid-template-columns: repeat(21,1fr);
-  grid-template-rows: repeat(21,1fr);
+  grid-template-rows: repeat(22,1fr);
   background-color: #000000;
   height: 100vw;
   width: 95vw;
@@ -55,7 +54,7 @@ body {
 
 #dividingLine {
   display: grid;
-  grid-row: 11/12;
+  grid-row: 12/13;
   grid-column: 1/16;
   height: 3vw;
   width: 70vw;
@@ -63,7 +62,7 @@ body {
 
 #skillCheckWrapper {
   display: grid;
-  grid-row: 12/22;
+  grid-row: 13/23;
   grid-column: 1/16;
   grid-template-columns: repeat(16,1fr);
   grid-template-rows: repeat(11,1fr);
@@ -449,9 +448,10 @@ select {
 button {
     display: grid;
     font-family: 'MedievalSharp', cursive;
+    font-size: 1.5vw;
     -webkit-text-stroke: #f35900 0.01vw;
     background-image: url('../public/parchmentPaper.jpg');
-    background-size: 5.2vw 5vw;
+    background-size: 15vw 5vw;
     border: 0.05vw solid #680604;
     -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
@@ -459,7 +459,15 @@ button {
     border-radius: 0.4vw;
     align-self: center;
     justify-self: center;
+    text-align: center;
+    justify-content: center;
 }
+
+button:hover {
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  }
 
 .fileInputWrapper {
     position: relative;
@@ -525,8 +533,8 @@ grid-row: 3 / 4;
 }
   #rollResultWrapper{
     display: grid;
-    grid-column: 12 / 16;
-    grid-row: 9 / 14;
+    grid-column: 12 / 15;
+    grid-row: 8 / 11;
     grid-template-columns: repeat(5,1fr);
     grid-template-rows: repeat(4,1fr);
     align-self: center;
