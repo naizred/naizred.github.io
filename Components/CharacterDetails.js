@@ -1,6 +1,7 @@
 // components/CharacterDetails.js
 import styles from '../styles/styles.module.css';
 import { rollOptions } from '../pages';
+import { filteredArrayIfHasExtraReaction } from '../pages';
 var MersenneTwister = require('mersenne-twister');
 var generator = new MersenneTwister();
 
@@ -10,14 +11,33 @@ function CharacterDetails() {
     useLegendPointForInitiativeRollCheckBox.style.display = 'grid'
     useLegendPointForInitiativeRollCheckBox.checked = false
     let initiativeRollResult = Math.floor(generator.random() * 10)
+    let extraReaction = false
+    if (filteredArrayIfHasExtraReaction.length!=0) {
+      let extraReactionLevel = parseInt(filteredArrayIfHasExtraReaction[0].level);
+      if (extraReactionLevel == 1) {
+        if ([1, 2].includes(initiativeRollResult)) {
+          extraReaction = true
+        }
+      } else if (extraReactionLevel == 2) {
+        if ([1, 2, 3, 4].includes(initiativeRollResult)) {
+          extraReaction = true
+        }
+      } else if (extraReactionLevel == 3) {
+        if ([1, 2, 3, 4, 5, 6].includes(initiativeRollResult)) {
+          extraReaction = true
+        }
+      }
+    } else {
+      extraReaction = false
+    }
     initiativeRollResultSelect.value = initiativeRollResult
-    if (initiativeRollResult == 0) {
+    if (initiativeRollResult == 0 || extraReaction == true) {
       initiativeRollResult = 10;
     }
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + initiativeRollResult;
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
     adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a dobógomb value értékébe van elmentve a max cselekedetszám
-    rollInitButton.style.display = "none"
+    rollInitButton.style.display = "grid"
     initRolled = true
   }
 

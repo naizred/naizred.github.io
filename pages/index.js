@@ -41,6 +41,7 @@ export const getStaticProps = async () => {
   };
 };
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+export let filteredArrayIfHasExtraReaction
 let fileFirstLoaded = true
 export default function Home(props) {
 
@@ -440,6 +441,7 @@ function removeAllSkillOptions() {
         let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill) || name.name == "Ökölharc" && currentlySelectedWeapon.w_type == "Ökölharc");
 //-----szűrés különböző adottságokra
         let filteredArrayIfHasDestroyer = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Pusztító");
+        filteredArrayIfHasExtraReaction = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Extra reakció");
         let filteredArrayIfHasMasterWep = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Mesterfegyver" && JSON.parse(reader.result).masterWeapon == `${currentlySelectedWeapon.w_name}`);
         let filteredArrayIfHasWarriorMonk = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Harcművész");
         let filteredArrayIfHasVigorous = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Életerős");
@@ -701,7 +703,7 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
         if (filteredArrayIfHasVigorous.length!=0) {
           vigorousModifier = parseInt(filteredArrayIfHasVigorous[0].level)
         } else {
-          masterWeaponModifier = 0
+          vigorousModifier = 0
         }
 
         if (fileFirstLoaded == true) {
