@@ -1,38 +1,91 @@
 // components/CharacterDetails.js
 import styles from '../styles/styles.module.css';
-
+import { rollOptions } from '../pages';
 var MersenneTwister = require('mersenne-twister');
 var generator = new MersenneTwister();
 
 function CharacterDetails() {
   let initRolled = false
   function handleInitiativeRoll() {
+    useLegendPointForInitiativeRollCheckBox.style.display = 'grid'
+    useLegendPointForInitiativeRollCheckBox.checked = false
     let initiativeRollResult = Math.floor(generator.random() * 10)
+    initiativeRollResultSelect.value = initiativeRollResult
     if (initiativeRollResult == 0) {
       initiativeRollResult = 10;
     }
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + initiativeRollResult;
-    numberOfActions.innerText = Math.floor(parseInt(parseInt(initiative.innerText) + initiativeRollResult) / 10) + 1
+    numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
     adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a dobógomb value értékébe van elmentve a max cselekedetszám
     rollInitButton.style.display = "none"
     initRolled = true
   }
 
+  function handleInitWhenLPisUsed() {
+    initiativeRerollByCounterLP.style.display = 'grid'
+    let initRollChangedByLP = parseInt(initiativeRollResultSelect.value)
+    if (initRollChangedByLP == 0) {
+      initRollChangedByLP = 10
+    }
+    initiativeWithRoll.innerText = parseInt(initiative.innerText) + parseInt(initRollChangedByLP)
+    numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
+    initiativeRollResultSelect.disabled = true
+    useLegendPointForInitiativeRollCheckBox.style.display = 'none'
+  }
+
+  function handleBossInitCounterLP() {
+    let rerolledValue = Math.floor(generator.random() * 10)
+    initiativeRollResultSelect.value = rerolledValue
+    if (rerolledValue == 0) {
+      rerolledValue = 10
+    }
+    initiativeWithRoll.innerText = parseInt(initiative.innerText) + parseInt(rerolledValue)
+    numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
+    initiativeRerollByCounterLP.style.display = 'none'
+  }
+
+  function handleInitLPCheckBox() {
+    if (useLegendPointForInitiativeRollCheckBox.checked == true)
+    {
+      initiativeRollResultSelect.disabled = false
+    }
+    if (useLegendPointForInitiativeRollCheckBox.checked == false) {
+      initiativeRollResultSelect.disabled = true
+    }
+  }
+
   function handleAdjustActionsPositive() {
     if (initRolled == true) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1
-      if (parseInt(numberOfActions.innerText) > adjustActionsPositive.value) {
-        numberOfActions.innerText = adjustActionsPositive.value
+      if (parseInt(numberOfActions.innerText) > parseInt(adjustActionsPositive.value) + 1) {
+        numberOfActions.innerText = parseInt(adjustActionsPositive.value) + 1
       }
     }
   }
+
   function handleAdjustActionsNegative() {
     if (initRolled == true) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
     }
-  }
+    }
+    
+  function handleAdjustReactionsPositive() {
+      if (parseInt(numberOfActions.innerText)>0) {
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
+        numberOfReactions.innerText = parseInt(numberOfReactions.innerText) + 1
+      }
+    }
+
+    function handleAdjustReactionsNegative() {
+      if (parseInt(numberOfReactions.innerText)>0) {
+        numberOfReactions.innerText = parseInt(numberOfReactions.innerText) - 1
+      }
+    }
 
   function handleEndOfRound() {
+    numberOfReactions.innerText = 0
+    useLegendPointForInitiativeRollCheckBox.style.display = 'none'
+    initiativeRerollByCounterLP.style.display = 'none'
     if (initRolled == true) {
       if (parseInt(numberOfActions.innerText) >= 0) {
         numberOfActions.innerText = adjustActionsPositive.value
@@ -40,12 +93,15 @@ function CharacterDetails() {
         numberOfActions.innerText = parseInt(adjustActionsPositive.value) + parseInt(numberOfActions.innerText)
       }
     }
+    numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + "."
   }
 
   function handleEndOfCombat() {
+    numberOfReactions.innerText = 0
     rollInitButton.style.display = "grid"
     numberOfActions.innerText = ""
     initiativeWithRoll.innerText = ""
+    numberOfCurrentRound.innerText = 1.
 }
 
   async function handleDataToBeSent(event) {
@@ -105,6 +161,8 @@ function CharacterDetails() {
       </div>
     </form>
     <div id="actionsWrapper" className={styles.actionsWrapper}>
+        <label className={styles.currentRound}>Kör</label>
+        <div id='numberOfCurrentRound' className={styles.currentRound}>1.</div>
         <div className={styles.init}>KÉ:</div>
         <div className={styles.stats}>CSA:</div>
         <div className={styles.stats} id='initiative'></div>
@@ -122,7 +180,19 @@ function CharacterDetails() {
           Dobj
         </button>
         <button onClick={handleEndOfRound}>Kör vége</button>
+        <button id='initiativeRerollByCounterLP' onClick={handleBossInitCounterLP} className={styles.initiativeRerollByCounterLP}></button>
         <button className={styles.endOfCombatButton} onClick={handleEndOfCombat}>Harc vége</button>
+        <div >Reakc. száma:</div>
+        <div id="numberOfReactions" className={styles.numberOfActions}>0</div>
+        <button id='adjustReactionsPositive' className={styles.adjustActions} onClick={handleAdjustReactionsPositive}>+</button>
+        <button id='adjustReactionsNegative' className={styles.adjustActions} onClick={handleAdjustReactionsNegative}>-</button>
+        <label className={styles.useLegendPointForInitiativeRollLabel}>LP-t használok!</label>
+        <select onChange={handleInitWhenLPisUsed} id='initiativeRollResultSelect' className={styles.initiativeRollResultSelect} disabled = {true}>
+        {rollOptions.map((e) => {
+              return <option key={e}>{e}</option>;
+            })}
+        </select>
+        <input type='checkbox' id='useLegendPointForInitiativeRollCheckBox' className={styles.useLegendPointForInitiativeRollCheckBox} onChange={handleInitLPCheckBox}/>
     </div>
     </>
   );

@@ -43,7 +43,7 @@
 .rollButton {
   display: grid;
   grid-column: 8 / 12;
-  grid-row: 9 / 12;
+  grid-row: 8 / 11;
   font-size: 4.5vw;
   align-items: center;
   justify-content: center;

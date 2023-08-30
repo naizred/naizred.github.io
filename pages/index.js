@@ -40,7 +40,7 @@ export const getStaticProps = async () => {
     },
   };
 };
-
+export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 let fileFirstLoaded = true
 export default function Home(props) {
 
@@ -71,7 +71,6 @@ function CharCompare(a, b, index) {
 let damageOfFists = "1k10"
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
-  let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
   let skillCheckSuccFailModifiers = [0, 1, 2, 3, -1, -2, -3];
   let bodyParts = [
@@ -743,14 +742,14 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
     }
   }
 
- async function evaluateSkillOrAttributeCheckBase() {
+ async function evaluateSkillOrAttributeCheckBase(event) {
 
    if (checkTypeIsSkillCheck.checked == true) {  
     skills.disabled = false
      skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
      if (attributes.value % 2 == 1) {
        rollModifier.value = 1
-      } else if (attributes.value % 2 == 0){
+      } else if (attributes.value % 2 == 0 && event.target.id == 'attributes'){
         rollModifier.value = 0
       }
     } else if (checkTypeIsAttributeCheck.checked == true) {

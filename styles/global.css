@@ -442,7 +442,12 @@ img {
 input,
 select {
     background-image: url('../public/parchmentPaper.jpg');
-    background-size: 40vw 5vw;
+    background-size: 40vw 10vw;
+    /* font-family: 'MedievalSharp', cursive;
+    color: black;
+    -webkit-text-stroke: #f35900 0.01vw;
+    text-shadow: 0.3vw 0.3vw 0.4vw #682600;
+    font-size: 1.8vw; */
 }
 
 button {
