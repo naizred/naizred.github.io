@@ -33,10 +33,13 @@ export const getStaticProps = async () => {
     fs.readFileSync(jsonDirectory + "/data.json", "utf8"));
     let chars = JSON.parse(
       fs.readFileSync(jsonDirectory + "/chars.json", "utf8"));
+    let races = JSON.parse(
+      fs.readFileSync(jsonDirectory + "/races.json", "utf8"));
   return {
     props: {
       feed,
-      chars
+      chars,
+      races
     },
   };
 };
@@ -472,11 +475,16 @@ function removeAllSkillOptions() {
         let currentChar = props.chars.find(
           (name) => name.classKey == JSON.parse(reader.result).classKey
         )
-
+//adott karakter(kaszt) alap statjai
         let currentCharBaseAttributeValues = Object.values(currentChar).slice(1, 11)
-
-//------ Ez itt csúnyán van hardcodolva, keresés kéne az attrSpreadArray object entries-be majd
+        
+        //------ Ez itt csúnyán van hardcodolva, keresés kéne az attrSpreadArray object entries-be majd
         let attrSpreadArray = Object.values(JSON.parse(reader.result).attrSpread)
+        let currentRace = props.races.find(
+          (name) => name.raceKey == JSON.parse(reader.result).raceKey
+        )
+        // faji módosító objektum értékei
+        let currentRaceModifiers = Object.values(currentRace).slice(1, 11);
 //--------------------------------------------------------------------------------
         let atkModifier = attrSpreadArray[0] + attrSpreadArray[1] + attrSpreadArray[2]
         let aimModifier = attrSpreadArray[2] + attrSpreadArray[7] + attrSpreadArray[9]
@@ -500,11 +508,14 @@ function removeAllSkillOptions() {
       }
       
       for (let i = 0; i < 10; i++) {
-        let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i] + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`)
+        let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i]
+          + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) + currentRaceModifiers[i]
+        console.log(charAttributes[i], currentRaceModifiers[i], currentAttribute)
         let attrOption = document.createElement('option');
         attrOption.innerText = charAttributes[i];
         attrOption.value = currentAttribute;
         attributes.appendChild(attrOption);
+        //itt kerülnek meghatározásra a végső tulajdonság értékek
         currentCharFinalAttributes.push(currentAttribute)
         }
 
@@ -647,7 +658,7 @@ function removeAllSkillOptions() {
           damageOfFists = "3k5"  
         }
         evaluateSkillOrAttributeCheckBase()
-        
+        console.log(currentCharFinalAttributes)
         //-------- mana, fp és pszi számítás kell
         //-----pszi
         let lowestStatForPsiPoints = Math.min(currentCharFinalAttributes[6], currentCharFinalAttributes[7], currentCharFinalAttributes[8])
@@ -751,7 +762,7 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
      skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
      if (attributes.value % 2 == 1) {
        rollModifier.value = 1
-      } else if (attributes.value % 2 == 0 && event.target.id == 'attributes'){
+      } else if (attributes.value % 2 == 0 && event && event.target.id == 'attributes'){
         rollModifier.value = 0
       }
     } else if (checkTypeIsAttributeCheck.checked == true) {
