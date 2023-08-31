@@ -43,5 +43,7 @@
   { "w_name": "Vasököl", "w_id": 43, "w_damage": "", "w_type": "Ökölharc", "strBonusDmg":"true" , "weaponAtk":0, "weaponDef":0},
   { "w_name": "Láb", "w_id": 44, "w_damage": "", "w_type": "Ökölharc", "strBonusDmg":"false" , "weaponAtk":0, "weaponDef":0},
   { "w_name": "Tőrkard", "w_id": 45, "w_damage": "1k10", "w_type": "HP", "strBonusDmg":"false" , "weaponAtk":5, "weaponDef":7},
+  { "w_name": "Szablya", "w_id": 46, "w_damage": "2k5", "w_type": "HP", "strBonusDmg":"false" , "weaponAtk":5, "weaponDef":6},
+  { "w_name": "Rövid íj", "w_id": 47, "w_damage": "1k5+1", "w_type": "ÍJ", "strBonusDmg":"false" , "weaponAtk":3, "weaponDef":0},
   { "w_name": "Parittya", "w_id": 28, "w_damage": "1k5+1", "w_type": "VET", "strBonusDmg":"true" , "weaponAtk":3, "weaponDef":0}
 ]
