@@ -863,11 +863,11 @@ function removeAllSkillOptions() {
         skillCheckLightDicePlusRollMod = 10
       }
 //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
-      
+      console.log(skillCheckLightDice, skillCheckDarkDice)
       if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0 && skillCheckLightDice !=1) {
   skillCheckLightDicePlusRollMod = skillCheckLightDice
       }
-      
+      console.log(skillCheckLightDice, skillCheckDarkDice)
     if (skillCheckLightDicePlusRollMod>skillCheckDarkDice) {
       if (skillCheckLightDicePlusRollMod == 10) {
         skillCheckCalculatedResultFromRoll = 3
@@ -1116,7 +1116,7 @@ function removeAllSkillOptions() {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <label id="useLegendPointCheckBoxlabel" htmlFor="useLegendPointCheckBox">LP-t használok!</label>
+          <label id="useLegendPointCheckBoxlabel" htmlFor="useLegendPointCheckBox">Lp-t használok!</label>
           <input type="checkBox" id="useLegendPointCheckBox" onChange={handleCheckBox} />
           <button id="darkDiceRerollByCounterLP" onClick={handleBossCounterLPdark}></button>
           <button id="lightDiceRerollByCounterLP" onClick={handleBossCounterLPlight}></button>
@@ -1192,7 +1192,7 @@ function removeAllSkillOptions() {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <label id="skillCheckUseLegendPointCheckBoxlabel" htmlFor="skillCheckUseLegendPointCheckBox">LP-t használok!</label>
+          <label id="skillCheckUseLegendPointCheckBoxlabel" htmlFor="skillCheckUseLegendPointCheckBox">Lp-t használok!</label>
           <input type="checkBox" id="skillCheckUseLegendPointCheckBox" onChange={handleSkillCheckUseLegendPointCheckBox}/>
           <button id="skillCheckDarkDiceRerollByCounterLP" onClick={skillCheckHandleBossCounterLPdark}></button>
           <button id="skillCheckLightDiceRerollByCounterLP" onClick={skillCheckHandleBossCounterLPlight}></button>

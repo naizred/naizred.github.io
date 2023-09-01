@@ -66,8 +66,8 @@
   .actionsWrapper {
     display: none;
     grid-row: 8/15;
-    grid-column: 7/20;
-    grid-template-columns: repeat(13, 1fr);
+    grid-column: 5/20;
+    grid-template-columns: repeat(15, 1fr);
     grid-template-rows: repeat(2,1fr);
     grid-auto-flow: column;
     font-size: 1.5vw;
@@ -143,12 +143,12 @@
   color: black;
   -webkit-text-stroke: #f35900 0.01vw;
   text-shadow: 0.3vw 0.3vw 0.4vw #682600;
-  grid-column: 12/14;
+  grid-column: 14/16;
   grid-row: 1/2;
 }
 .useLegendPointForInitiativeRollCheckBox{
   display: none;
-  grid-column: 13/14;
+  grid-column: 15/16;
   grid-row: 2/3;
   width: 1.5vw;
   height: 1.5vw;
@@ -159,15 +159,18 @@
   color: black;
   -webkit-text-stroke: #f35900 0.01vw;
   text-shadow: 0.3vw 0.3vw 0.4vw #682600;
-  grid-column: 12/13;
+  grid-column: 14/15;
   grid-row: 2/3;
 }
 .initiativeRerollByCounterLP{
   display: none;
-  grid-column: 7/8;
+  grid-column: 9/10;
   grid-row: 2/3;
   width: 2.5vw;
   height: 2.5vw;
+}
+.rollInitButton{
+  grid-column: 9/10;
 }
 .adjustReactions{
   width: 2.5vw;

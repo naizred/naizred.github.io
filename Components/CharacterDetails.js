@@ -37,7 +37,7 @@ function CharacterDetails() {
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + initiativeRollResult;
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
     adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a dobógomb value értékébe van elmentve a max cselekedetszám
-    rollInitButton.style.display = "grid"
+    rollInitButton.style.display = "none"
     initRolled = true
   }
 
@@ -81,11 +81,17 @@ function CharacterDetails() {
         numberOfActions.innerText = parseInt(adjustActionsPositive.value) + 1
       }
     }
+    if (parseInt(numberOfActions.innerText) >= 2) {
+      tacticsButton.disabled = false
+    }
   }
 
   function handleAdjustActionsNegative() {
     if (initRolled == true) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
+    }
+    if (parseInt(numberOfActions.innerText) < 2) {
+      tacticsButton.disabled = true
     }
     }
     
@@ -101,7 +107,7 @@ function CharacterDetails() {
         numberOfReactions.innerText = parseInt(numberOfReactions.innerText) - 1
       }
     }
-
+let tacticsUsed = false
   function handleEndOfRound() {
     numberOfReactions.innerText = 0
     useLegendPointForInitiativeRollCheckBox.style.display = 'none'
@@ -112,8 +118,23 @@ function CharacterDetails() {
       } else if (parseInt(numberOfActions.innerText) < 0) {
         numberOfActions.innerText = parseInt(adjustActionsPositive.value) + parseInt(numberOfActions.innerText)
       }
+      if (tacticsUsed == true) {
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1
+        tacticsUsed = false
+      }
+      if (parseInt(numberOfActions.innerText) >= 2) {
+        tacticsButton.disabled = false
+      } else if (parseInt(numberOfActions.innerText) < 2) {
+        tacticsButton.disabled = true
+      }
     }
     numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + "."
+  }
+
+  function handleWhenTacticsUsed() {
+    numberOfActions.innerText = 0
+    tacticsUsed = true
+    tacticsButton.disabled = true
   }
 
   function handleEndOfCombat() {
@@ -122,6 +143,7 @@ function CharacterDetails() {
     numberOfActions.innerText = ""
     initiativeWithRoll.innerText = ""
     numberOfCurrentRound.innerText = 1.
+    tacticsButton.disabled = false
 }
 
   async function handleDataToBeSent(event) {
@@ -193,12 +215,13 @@ function CharacterDetails() {
         <button id='adjustActionsNegative' className={styles.adjustActions} onClick={handleAdjustActionsNegative}>-</button>
         <button type=""
           id="rollInitButton"
-          className={styles.rollButton}
+          className={styles.rollInitButton}
           onClick={handleInitiativeRoll}
           disabled = {false}
         >
           Dobj
         </button>
+        <button id='tacticsButton' onClick={handleWhenTacticsUsed} className={styles.endOfCombatButton}>Taktika</button>
         <button onClick={handleEndOfRound}>Kör vége</button>
         <button id='initiativeRerollByCounterLP' onClick={handleBossInitCounterLP} className={styles.initiativeRerollByCounterLP}></button>
         <button className={styles.endOfCombatButton} onClick={handleEndOfCombat}>Harc vége</button>
@@ -206,7 +229,7 @@ function CharacterDetails() {
         <div id="numberOfReactions" className={styles.numberOfActions}>0</div>
         <button id='adjustReactionsPositive' className={styles.adjustActions} onClick={handleAdjustReactionsPositive}>+</button>
         <button id='adjustReactionsNegative' className={styles.adjustActions} onClick={handleAdjustReactionsNegative}>-</button>
-        <label className={styles.useLegendPointForInitiativeRollLabel}>LP-t használok!</label>
+        <label className={styles.useLegendPointForInitiativeRollLabel}>Lp-t használok!</label>
         <select onChange={handleInitWhenLPisUsed} id='initiativeRollResultSelect' className={styles.initiativeRollResultSelect} disabled = {true}>
         {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
