@@ -432,12 +432,7 @@ function removeAllSkillOptions() {
           } 
         }
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null) {
-          weapons.value = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon
-          try {
-            offHand.value = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].leftWeapon
-          } catch (error) {
-            offHand.value = "Alkarvédő"
-          }
+          weapons.value = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon  
         } 
 //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból 
         let currentlySelectedWeapon = props.weapons.find(
