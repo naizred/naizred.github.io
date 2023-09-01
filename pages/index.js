@@ -638,9 +638,7 @@ function removeAllSkillOptions() {
           atkWithProfession = baseAtk + parseInt(professionLevelSelect.value) * (fistAtk);
           defWithProfession = baseDef + parseInt(professionLevelSelect.value) * (fistDef);
         }
-
-        console.log(defWithProfession)
-        console.log(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))
+     
         let reducedMgtByParrySkill = currentlySelectedOffHand.mgt
         if (filteredArrayIfHasParry.length != 0) {
           reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level
