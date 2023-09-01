@@ -466,7 +466,7 @@ function removeAllSkillOptions() {
         } else {
           professionLevelSelect.value = 0
         }
-        console.log(filteredArrayByType)
+        
         if (filteredArrayIfHasDestroyer.length != 0 && !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           destroyerLevelSelect.value = parseInt(filteredArrayIfHasDestroyer[0].level)
         } else {
@@ -638,13 +638,16 @@ function removeAllSkillOptions() {
           atkWithProfession = baseAtk + parseInt(professionLevelSelect.value) * (fistAtk);
           defWithProfession = baseDef + parseInt(professionLevelSelect.value) * (fistDef);
         }
+
+        console.log(defWithProfession)
+        console.log(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))
         let reducedMgtByParrySkill = currentlySelectedOffHand.mgt
         if (filteredArrayIfHasParry.length != 0) {
           reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level
           if (reducedMgtByParrySkill < 0) {
             reducedMgtByParrySkill = 0
           }
-          charDefWithParry.value = tvcoCalculator(defWithProfession + currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2)) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2
+          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2
         } else {
           charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2
         }
@@ -667,7 +670,7 @@ function removeAllSkillOptions() {
           }
         }
         charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
-console.log(defWithProfession)
+
         // erő alapján alap ököl sebzés kiszámítása
 
         if (charStrWithWarriorMonkAptitude <= 5) {
@@ -735,16 +738,12 @@ console.log(defWithProfession)
             break;
           }
         }
-       // console.log(attributeNeededToCalculateManaPoints)
+
         let manaPoints = attributeNeededToCalculateManaPoints * highestMagicSkillLevel + sumMpGainedByLevel + JSON.parse(reader.result).stats.Mp
         if (filteredArrayIfHasMagicallyAttuned.length !=0 && filteredArrayIfHasMagicallyAttuned[0].level == 0) {
           manaPoints = 0;
         }
-        
-        // console.log("manapontok", manaPoints)
-        // console.log("pszipontok", psiPoints)
-        // console.log("fp", fpPoints)
-  
+         
         let vigorousModifier = 0
         if (filteredArrayIfHasVigorous.length!=0) {
           vigorousModifier = parseInt(filteredArrayIfHasVigorous[0].level)
