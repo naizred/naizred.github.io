@@ -1,15 +1,20 @@
 
 
 .weaponsContainer {
-  margin-left: 2vw;
+  margin: 0vw 1vw 1vw 1vw;
+  padding: 1vw;
   display: grid;
-  grid-column: 12 / 17;
-  grid-row: 1 / 9;
+  grid-column: 12 / 16;
+  grid-row: 1 / 10;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(12, 1fr);
-  width: 13vw;
+  grid-template-rows: repeat(10, 1fr);
   align-items: center;
   justify-content: center;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
 }
 
 .resultContainer {

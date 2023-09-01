@@ -13,7 +13,6 @@ export async function fetchCharacterData(currentCharName) {
     console.log(response.ok);
     return response.json();
   }).then((parsedData) => {
-    console.log(parsedData)
     if (!parsedData) {
       return
     }
@@ -29,15 +28,15 @@ export const getStaticProps = async () => {
   
   const fs = require("fs");
   const jsonDirectory = path.join(process.cwd(), "json");
-  let feed = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/data.json", "utf8"));
+  let weapons = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/weapons.json", "utf8"));
     let chars = JSON.parse(
       fs.readFileSync(jsonDirectory + "/chars.json", "utf8"));
     let races = JSON.parse(
       fs.readFileSync(jsonDirectory + "/races.json", "utf8"));
   return {
     props: {
-      feed,
+      weapons,
       chars,
       races
     },
@@ -45,6 +44,7 @@ export const getStaticProps = async () => {
 };
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
+let filteredArrayIfHasParry
 let fileFirstLoaded = true
 export default function Home(props) {
 
@@ -56,7 +56,7 @@ export default function Home(props) {
 let aChar;
 let bChar;
 function OrderFunc(){
-   props.feed.sort(function (a, b) {
+   props.weapons.sort(function (a, b) {
        return CharCompare(a.w_name, b.w_name, 0);
    });
 }
@@ -71,7 +71,7 @@ function CharCompare(a, b, index) {
 }
 
 //custom sort function call
-  OrderFunc(props.feed)
+  OrderFunc(props.weapons)
 let damageOfFists = "1k10"
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
@@ -163,8 +163,8 @@ let damageOfFists = "1k10"
     }
 
     if (strBonus == true) {
-      if (Math.floor(parseInt(charStr.value) / 2) > darkDice) {
-        originalDarkDice = Math.floor(parseInt(charStr.value) / 2);
+      if (Math.floor(parseInt(Erő.innerText) / 2) > darkDice) {
+        originalDarkDice = Math.floor(parseInt(Erő.innerText) / 2);
       }
     }   
         return result;     
@@ -181,14 +181,13 @@ let damageOfFists = "1k10"
 //-------------- Megnézi a sebzéskódot, és számol sebzést ------------
   
   async function damageEvaluator() {
-    const currentWeapon = props.feed.find(
+    const currentWeapon = props.weapons.find(
       (name) => name.w_name === `${weapons.value}`
     );
 
   if (checkIfWeaponIsRanged(currentWeapon.w_type)) {
     destroyerLevelSelect.value = 0  
     } 
-    
    if (diceRolled == false) {
     return
     }
@@ -348,7 +347,7 @@ if (currentWeapon.w_type == "Ökölharc") {
     } 
   }
 
-  function handleWeaponChange() {
+  function handleWeaponOrShieldChange() {
     handleFileRead();
     rollResult.innerText = ""
     damageResult.innerText = ""
@@ -406,7 +405,7 @@ function removeAllSkillOptions() {
     selectElement.removeChild(selectElement.firstChild);
   }
 }
-  
+    
   let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
   let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
   let currentCharFinalAttributes = []
@@ -423,9 +422,8 @@ function removeAllSkillOptions() {
       async () => {
         skillCheckRollButton.style.display = "grid"
         actionsWrapper.style.display = "grid"
-        currentCharFinalAttributes = []
-        removeAllAttributeOptions()
-        removeAllSkillOptions()
+       // removeAllAttributeOptions()
+       // removeAllSkillOptions()
         
         let indexOfFirstWeapon = 0
         for (indexOfFirstWeapon; indexOfFirstWeapon < JSON.parse(reader.result).weaponSets.length; indexOfFirstWeapon++) {
@@ -435,10 +433,18 @@ function removeAllSkillOptions() {
         }
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null) {
           weapons.value = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon
+          try {
+            offHand.value = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].leftWeapon
+          } catch (error) {
+            offHand.value = "Alkarvédő"
+          }
         } 
-//--- itt nézi meg az épp kiválasztott fegyver tulajdonságait a data.json-ból 
-        let currentlySelectedWeapon = props.feed.find(
+//--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból 
+        let currentlySelectedWeapon = props.weapons.find(
           (name) => name.w_name === `${weapons.value}`
+        )
+        let currentlySelectedOffHand = props.weapons.find(
+          (name) => name.w_name === `${offHand.value}`
         )
 //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
         let filteredArrayByType = JSON.parse(reader.result).skills.filter((name) => name.name == "Fegyverhasználat" && currentlySelectedWeapon.w_type.includes(name.subSkill) || name.name == "Ökölharc" && currentlySelectedWeapon.w_type == "Ökölharc");
@@ -449,8 +455,11 @@ function removeAllSkillOptions() {
         let filteredArrayIfHasWarriorMonk = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Harcművész");
         let filteredArrayIfHasVigorous = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Életerős");
         let filteredArrayIfHasMagicallyAttuned = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Varázstudó");
-        //----szűrés mágikus képzettségekre
+        let filteredArrayIfHasNimble = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Fürge");
+        //----szűrés képzettségekre
+        let filteredArrayIfHasPsi = JSON.parse(reader.result).skills.filter((name) => name.name == "Pszi")
         let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
+        filteredArrayIfHasParry = JSON.parse(reader.result).skills.filter((name) => name.name == "Hárítás")
 //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
         let allLevelsArray = []
 
@@ -462,7 +471,7 @@ function removeAllSkillOptions() {
         } else {
           professionLevelSelect.value = 0
         }
-        
+        console.log(filteredArrayByType)
         if (filteredArrayIfHasDestroyer.length != 0 && !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           destroyerLevelSelect.value = parseInt(filteredArrayIfHasDestroyer[0].level)
         } else {
@@ -505,31 +514,34 @@ function removeAllSkillOptions() {
           }
         }
   return numberOfBoughtAttributes
-      }
-      
-      for (let i = 0; i < 10; i++) {
-        let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i]
-          + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) + currentRaceModifiers[i]
-        console.log(charAttributes[i], currentRaceModifiers[i], currentAttribute)
-        let attrOption = document.createElement('option');
-        attrOption.innerText = charAttributes[i];
-        attrOption.value = currentAttribute;
-        attributes.appendChild(attrOption);
-        //itt kerülnek meghatározásra a végső tulajdonság értékek
-        currentCharFinalAttributes.push(currentAttribute)
         }
-
+        //---------------------- betölti a tul. értékeket és képzettségeket
+        //------------------------------------------------------------
+      if (fileFirstLoaded == true) {
+        
+        for (let i = 0; i < 10; i++) {
+          let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i]
+          + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) + currentRaceModifiers[i]
+          let attrOption = document.createElement('option');
+          attrOption.innerText = charAttributes[i];
+          attrOption.value = currentAttribute;
+          attributes.appendChild(attrOption);
+          //itt kerülnek meghatározásra a végső tulajdonság értékek
+          currentCharFinalAttributes.push(currentAttribute)
+        }
+        
         for (let i = 0; JSON.parse(reader.result).skills[i].name != null; i++) {
           let skillOption = document.createElement('option');
           skillOption.value = JSON.parse(reader.result).skills[i].level;
           let tempLevelNameStore = parseInt(JSON.parse(reader.result).skills[i].level);
           if (JSON.parse(reader.result).skills[i].subSkill) {
-          skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${JSON.parse(reader.result).skills[i].subSkill}) (${skillLevelsMeaning[tempLevelNameStore-1]})`;
-        } else {
-          skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${skillLevelsMeaning[tempLevelNameStore-1]})`;
+            skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${JSON.parse(reader.result).skills[i].subSkill}) (${skillLevelsMeaning[tempLevelNameStore-1]})`;
+          } else {
+            skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${skillLevelsMeaning[tempLevelNameStore-1]})`;
+          }
+          skills.appendChild(skillOption);
         }
-        skills.appendChild(skillOption);
-        }
+      }
         
         ///----- a karakter szintjéből adódó értékek
         let sumAtkGainedByLevel = JSON.parse(reader.result).level * currentChar.atkPerLvl
@@ -577,21 +589,23 @@ function removeAllSkillOptions() {
         }
          
         //--- külön az erő tulajdonság, ami az oldalon megjelenik
-        charStr.value = currentCharFinalAttributes[0] 
+
         initiative.innerText = currentCharFinalAttributes[1] + currentCharFinalAttributes[6] + currentCharFinalAttributes[9] + sumInitiativeGainedByLevel + JSON.parse(reader.result).stats.KÉ;
 
-        
+        // legenerálja a fizikai tulajdonságok nevét és értékét
         if (fileFirstLoaded == true) {
           for (let i = 0; i < 5; i++) {
             let physicalAttributeNameDiv = document.createElement("div")
             let physicalAttributeValueDiv = document.createElement("div")
             physicalAttributeNameDiv.classList.add("physicalAttributeName")
             physicalAttributeValueDiv.classList.add("physicalAttributeValue")
+            physicalAttributeValueDiv.setAttribute('id', `${charAttributes[i]}`)
             physicalAttributeNameDiv.innerText = charAttributes[i] + ":"
             physicalAttributeValueDiv.innerText = currentCharFinalAttributes[i]
             skillCheckLeftSideWrapper.appendChild(physicalAttributeNameDiv)
             skillCheckLeftSideWrapper.appendChild(physicalAttributeValueDiv)
           }
+          // legenerálja a szellemi tulajdonságok nevét és értékét
           for (let i = 5; i < 10; i++) {
             let spiritualAttributeNameDiv = document.createElement("div")
             let spiritualAttributeValueDiv = document.createElement("div")
@@ -629,13 +643,36 @@ function removeAllSkillOptions() {
           atkWithProfession = baseAtk + parseInt(professionLevelSelect.value) * (fistAtk);
           defWithProfession = baseDef + parseInt(professionLevelSelect.value) * (fistDef);
         }
-
-        if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-          charAtk.value = tvcoCalculator(atkWithProfession)
+        let reducedMgtByParrySkill = currentlySelectedOffHand.mgt
+        if (filteredArrayIfHasParry.length != 0) {
+          reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level
+          if (reducedMgtByParrySkill < 0) {
+            reducedMgtByParrySkill = 0
+          }
+          charDefWithParry.value = tvcoCalculator(defWithProfession + currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2)) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2
         } else {
-          charAtk.value = tvcoCalculator(aimWithProfession)
+          charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2
         }
-        charDef.value = tvcoCalculator(defWithProfession)
+        
+        if (filteredArrayIfHasNimble.length != 0) {
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5*parseInt(filteredArrayIfHasNimble[0].level) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
+        } else if (filteredArrayIfHasNimble.length == 0) {
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
+        }
+        
+        if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
+          charAtk.value = tvcoCalculator(atkWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
+          if (charAtk.value < 0) {
+            charAtk.value = 0
+          }
+        } else {
+          charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2
+          if (charAtk.value < 0) {
+            charAtk.value = 0
+          }
+        }
+        charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
+console.log(defWithProfession)
         // erő alapján alap ököl sebzés kiszámítása
 
         if (charStrWithWarriorMonkAptitude <= 5) {
@@ -658,17 +695,16 @@ function removeAllSkillOptions() {
           damageOfFists = "3k5"  
         }
         evaluateSkillOrAttributeCheckBase()
-        console.log(currentCharFinalAttributes)
         //-------- mana, fp és pszi számítás kell
         //-----pszi
         let lowestStatForPsiPoints = Math.min(currentCharFinalAttributes[6], currentCharFinalAttributes[7], currentCharFinalAttributes[8])
-        let filterIfThereIsPsiSkill = JSON.parse(reader.result).skills.filter((name) => name.name == "Pszi")
-        let psiMultiplier = parseFloat(filterIfThereIsPsiSkill[0].level / 2)
-        console.log(psiMultiplier)
+        let psiMultiplier = 0
+        if (filteredArrayIfHasPsi.length !=0) {
+          psiMultiplier = parseFloat(filteredArrayIfHasPsi[0].level / 2)
+        }
         let psiPoints = Math.floor(lowestStatForPsiPoints * psiMultiplier + JSON.parse(reader.result).stats.Pp) + sumPpGainedByLevel
-        //-------fp
+        //--------------------fp
         let fpPoints = JSON.parse(reader.result).stats.Fp + sumFpGainedByLevel + currentCharFinalAttributes[3] + currentCharFinalAttributes[7]
-        console.log(JSON.parse(reader.result).stats.Fp)
         //------------------ mana
         let attributeNeededToCalculateManaPoints = 0
         let highestMagicSkillLevel = 0
@@ -697,18 +733,22 @@ function removeAllSkillOptions() {
         } else {
           highestMagicSkillName = ""
        }
-for (let i = 0; i < schoolsOfMagic.length; i++) {
-  if (highestMagicSkillName == schoolsOfMagic[i]) {
-    attributeNeededToCalculateManaPoints = currentCharFinalAttributes[attributeIndexesForSchoolsOfMagic[i]] + modifierByMagicallyAttunedAptitude;
-    break
-  }
+        for (let i = 0; i < schoolsOfMagic.length; i++){
+          if (highestMagicSkillName == schoolsOfMagic[i])
+          {
+            attributeNeededToCalculateManaPoints = currentCharFinalAttributes[attributeIndexesForSchoolsOfMagic[i]] + modifierByMagicallyAttunedAptitude;
+            break;
+          }
         }
-        console.log(attributeNeededToCalculateManaPoints)
+       // console.log(attributeNeededToCalculateManaPoints)
         let manaPoints = attributeNeededToCalculateManaPoints * highestMagicSkillLevel + sumMpGainedByLevel + JSON.parse(reader.result).stats.Mp
-
-        console.log("manapontok", manaPoints)
-        console.log("pszipontok", psiPoints)
-        console.log("fp", fpPoints)
+        if (filteredArrayIfHasMagicallyAttuned.length !=0 && filteredArrayIfHasMagicallyAttuned[0].level == 0) {
+          manaPoints = 0;
+        }
+        
+        // console.log("manapontok", manaPoints)
+        // console.log("pszipontok", psiPoints)
+        // console.log("fp", fpPoints)
   
         let vigorousModifier = 0
         if (filteredArrayIfHasVigorous.length!=0) {
@@ -913,16 +953,13 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
   
     //-----------------------megnézni, hogy van-e erő sebzés 
 
-    const currentWeaponSelected = props.feed.find(
+    const currentWeaponSelected = props.weapons.find(
       (name) => name.w_name === `${weapons.value}`
     )
     
     if (currentWeaponSelected.strBonusDmg == "false") {
       rollResult.innerText = ttkRoll(false, darkDice, lightDice);
-    } else if (currentWeaponSelected.strBonusDmg == "true" && charStr.value == "") {
-      alert("Ez egy erő sebzéssel rendelkező fegyver, írd be az erődet!")
-      return
-    } else if (currentWeaponSelected.strBonusDmg == "true" && charStr.value != "") {
+    } else if (currentWeaponSelected.strBonusDmg == "true") {
       rollResult.innerText = ttkRoll(true, darkDice, lightDice);
     }
     
@@ -1016,8 +1053,8 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
           <label htmlFor="weapons" id="chosenWeapon">
             Választott fegyver:
           </label>
-          <select id="weapons" name="weapons" onChange={handleWeaponChange}>
-             {props.feed.map((e) => {
+          <select id="weapons" name="weapons" onChange={handleWeaponOrShieldChange}>
+             {props.weapons.map((e) => {
               return (
                 <option key={e.w_id}>
                   {e.w_name}
@@ -1049,10 +1086,26 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
             Karakter VÉO
           </label>
           <input type="text" name="charDef" id="charDef"/>
-          <label htmlFor="charStr" id="charStrLabel">
-            Karakter Erő (erősebzéshez)
+          <label htmlFor="charDefWithEvasion" id="charDefWithEvasionLabel">
+            Karakter VÉO (kitérés)
           </label>
-          <input type="text" name="charStr" id="charStr" />
+          <input type="text" name="charDefWithEvasion" id="charDefWithEvasion" />
+          <label htmlFor="charDefWithParry" id="charDefWithParryLabel">
+            Karakter VÉO (hárítás)
+          </label>
+            <input type="text" name="charDefWithParry" id="charDefWithParry" />
+            <label htmlFor="offHand" id="chosenOffHand">
+            Választott hárítófegyver:
+          </label>
+            <select id="offHand" name="offHand" onChange={handleWeaponOrShieldChange}>
+             {props.weapons.filter((e)=>e.w_type == "PAJ").map((e) => {
+              return (
+                <option key={e.w_id}>
+                  {e.w_name}
+                </option>
+              );
+            })}  
+          </select>
         </div>
         <div id="rollResultWrapper">
           <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
@@ -1099,7 +1152,7 @@ for (let i = 0; i < schoolsOfMagic.length; i++) {
           </div>
           </div>
         </div>
-        <img id="dividingLine" src="/divider.png"></img>
+        {/* <img id="dividingLine" src="/divider.png"></img> */}
         <div id="skillCheckWrapper">
         <label htmlFor="skills" id="skillsLabel" className="skillCheckLabel">
             Választott képzettség:
