@@ -67,8 +67,14 @@ body {
   grid-column: 1/16;
   grid-template-columns: repeat(16,1fr);
   grid-template-rows: repeat(11,1fr);
-  height: 45vw;
+  height: 42vw;
   width: 70vw;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  margin-top: 1vw;
 }
 
 .skillCheckLabel {
@@ -277,7 +283,7 @@ margin-left: 1vw;
 #spiritualAttributesLabel {
   display: grid;
   grid-row: 5/6;
-  grid-column: 11/16;
+  grid-column: 11/17;
   align-items: center;
   text-align: center;
   font-size: 2vw;

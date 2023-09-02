@@ -41,6 +41,7 @@
     justify-content: center;
     width: 4vw;
     height: 4vw;
+    text-align: right;
   }
   .character-details p {
     font-size: 3vw;
