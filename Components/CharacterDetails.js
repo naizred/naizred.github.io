@@ -8,6 +8,7 @@ var generator = new MersenneTwister();
 function CharacterDetails() {
   let initRolled = false
   function handleInitiativeRoll() {
+    tacticsButton.disabled = false
     useLegendPointForInitiativeRollCheckBox.style.display = 'grid'
     useLegendPointForInitiativeRollCheckBox.checked = false
     let initiativeRollResult = Math.floor(generator.random() * 10)
@@ -99,7 +100,10 @@ function CharacterDetails() {
       if (parseInt(numberOfActions.innerText)>0) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
         numberOfReactions.innerText = parseInt(numberOfReactions.innerText) + 1
-      }
+    }
+    if (parseInt(numberOfActions.innerText) < 2) {
+      tacticsButton.disabled = true
+    }
     }
 
     function handleAdjustReactionsNegative() {
@@ -132,9 +136,11 @@ let tacticsUsed = false
   }
 
   function handleWhenTacticsUsed() {
-    numberOfActions.innerText = 0
-    tacticsUsed = true
-    tacticsButton.disabled = true
+    if (initRolled == true) {
+      numberOfActions.innerText = 0
+      tacticsUsed = true
+      tacticsButton.disabled = true
+    }
   }
 
   function handleEndOfCombat() {
@@ -143,7 +149,7 @@ let tacticsUsed = false
     numberOfActions.innerText = ""
     initiativeWithRoll.innerText = ""
     numberOfCurrentRound.innerText = 1.
-    tacticsButton.disabled = false
+    tacticsButton.disabled = true
 }
 
   async function handleDataToBeSent(event) {
