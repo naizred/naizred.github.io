@@ -1,13 +1,11 @@
-
-
 .weaponsContainer {
   margin: 0vw 1vw 1vw 1vw;
   padding: 1vw;
   display: grid;
-  grid-column: 12 / 16;
-  grid-row: 1 / 10;
+  grid-column: 4 / 8;
+  grid-row: 1 / 13;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-rows: repeat(11, 1fr);
   align-items: center;
   justify-content: center;
   border: 0.23vw solid #680604;
@@ -20,35 +18,33 @@
 .resultContainer {
   background-color: none;
   display: grid;
-  padding-left: 2vw;
-  grid-column: 1 / 8;
-  grid-row: 1 / 8;
+  grid-column: 8 / 12;
+  grid-row: 4 / 8;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(10, 1fr);
-  margin: 0px 0.4vw;
+  grid-template-rows: repeat(6, 1fr);
+  margin: 0vw 0.4vw;
   align-items: center;
   border: 0.23vw solid #680604;
   -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   border-radius: 1vw;
+  text-align: center;
 }
-
-
 
 .bodyPart {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-row: 7 / 11;
+  grid-row: 7 / 9;
   grid-column: span 4;
-  font-size: 3.2vw;
+  font-size: 2vw;
 }
 
 .rollButton {
   display: grid;
   grid-column: 8 / 12;
-  grid-row: 8 / 11;
+  grid-row: 1 / 4;
   font-size: 4.5vw;
   align-items: center;
   justify-content: center;
@@ -60,8 +56,7 @@
   border-radius: 1vw;
   background-image: url('../public/parchmentPaper.jpg');
   background-size: 15.2vw 8vw;
-  margin-bottom: 2vw;
-margin-left: 0vw;
+  margin-left: 0vw;
 }
 
 .rollButton:hover {
@@ -75,18 +70,17 @@ margin-left: 0vw;
   opacity: 0.6;
 }
 
-.gifContainer {
+.charSumAtkContainer {
   display: grid;
-  grid-row: 8 / 11;
-  grid-column: 2 / 7;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(8, 1fr);
+  grid-row: 8 / 13;
+  grid-column: 8 / 12;
   align-items: center;
+  align-self: center;
   justify-content: center;
   background-size: inherit;
   background-repeat: no-repeat;
-  margin-top: 1vw;
-  height: 15.3vw;
+  margin:1vw 2vw;
+  padding-bottom: 0.5vw;
   border: 0.23vw solid #680604;
   -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);

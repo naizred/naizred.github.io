@@ -1,5 +1,5 @@
 // components/CharacterDetails.js
-import styles from '../styles/styles.module.css';
+import styles from '../styles/chardetails.module.css';
 import { rollOptions } from '../pages';
 import { filteredArrayIfHasExtraReaction } from '../pages';
 var MersenneTwister = require('mersenne-twister');
@@ -228,7 +228,7 @@ let tacticsUsed = false
           Dobj
         </button>
         <button id='tacticsButton' onClick={handleWhenTacticsUsed} className={styles.endOfCombatButton}>Taktika</button>
-        <button onClick={handleEndOfRound}>Kör vége</button>
+        <button onClick={handleEndOfRound} className={styles.endOfRoundButton}>Kör vége</button>
         <button id='initiativeRerollByCounterLP' onClick={handleBossInitCounterLP} className={styles.initiativeRerollByCounterLP}></button>
         <button className={styles.endOfCombatButton} onClick={handleEndOfCombat}>Harc vége</button>
         <div >Reakc. száma:</div>

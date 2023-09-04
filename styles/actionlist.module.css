@@ -1,0 +1,18 @@
+.actionsWrapper{
+    display: grid;
+    grid-column: 16 / 22;
+    grid-row: 1/13;
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    height: 38vw;
+    width: 24vw;
+    padding: 0.5vw;
+    background-image: url(../public/listOfManouvers.png);
+    background-size: 25vw 37vw;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position-y: 2vw;
+}

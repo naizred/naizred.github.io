@@ -3,9 +3,12 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails from "../Components/CharacterDetails";
+import ActionList from "../Components/ActionsList";
+import ArmorDetails from "../Components/ArmorDetails";
+import LegendRoll from "../Components/LegendRoll";
 
 var MersenneTwister = require('mersenne-twister');
-var generator = new MersenneTwister();
+export var generator = new MersenneTwister();
 
 export async function fetchCharacterData(currentCharName) {
   await fetch(`../api/characterStatsThatChange/${currentCharName}`).then((response) => {
@@ -144,7 +147,7 @@ let damageOfFists = "1k10"
       originalLightDice = lightDice
     const specialModifiers = [
       "Veszítesz 3 cselekedetet",
-      "Egy ellenfél veszít 1 cselekedetet",
+      "Aki ellen dobták, veszít 1 cselekedetet",
       "Kapsz 1 cselekedetet",
       "Kapsz 2 cselekedetet",
       "Kapsz 3 cselekedetet",
@@ -414,7 +417,6 @@ function removeAllSkillOptions() {
 // }
 // ********************************** Fájlbeolvasó függvény *************************
   async function handleFileRead() {
-    
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
     reader.addEventListener(
@@ -474,6 +476,8 @@ function removeAllSkillOptions() {
         }
         //--- karakter neve és kasztja
         charClass.innerText = JSON.parse(reader.result).classKey 
+        charLevel.innerText = `${JSON.parse(reader.result).level}. szintű`
+        charRace.innerText = JSON.parse(reader.result).raceKey
         charName.innerText = JSON.parse(reader.result).charName
 
         let currentChar = props.chars.find(
@@ -938,7 +942,10 @@ function removeAllSkillOptions() {
   let skillCheckRolled = false
 
   async function handleClick(darkDice, lightDice) {
- 
+    if (charRace.innerText == "") {
+      alert('Importálj egy karaktert!')
+      return
+    }
     bodyPartImg.innerHTML = "";
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
@@ -971,7 +978,6 @@ function removeAllSkillOptions() {
       charAtkSum.innerText =
         parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
     }
-
     
   function hitChecker(originalLightDice) {
     return bodyParts[originalLightDice - 1];
@@ -1024,15 +1030,17 @@ function removeAllSkillOptions() {
       <main className="main">
         <div id="atkRollWrapper">
         <div className={styles.resultContainer}>
-          <div className="result inText">A dobás eredménye</div>
-          <div id="rollResult" className="result inNumber"></div>
-          <div className="damage inText">A sebzés</div>
-          <div id="damageResult" className="result inNumber"></div>
-          <div className="damage hitCheck">A találat helye</div>
+          <div className="inText">A dobás eredménye:</div>
+          <div id="rollResult" className="inNumber"></div>
+          <div className="damage inText">A sebzés:</div>
+          <div id="damageResult" className="inNumber"></div>
+          <div className="damage hitCheck">A találat helye:</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
         <div id="charInfoWrapper">
           <div id="charName"></div>
+          <div id="charLevel"></div>
+          <div id="charRace"></div>
           <div id="charClass"></div>
           </div>
 <div className="fileInputWrapper">
@@ -1125,13 +1133,13 @@ function removeAllSkillOptions() {
         <button type=""
           id="rollButton"
           className={styles.rollButton}
-          onClick={handleClick}
+            onClick={handleClick}
           //onMouseEnter={handleMouseEnter}
         >
           Dobj
         </button>
 
-        <div className={styles.gifContainer}>
+        <div className={styles.charSumAtkContainer}>
           <div className="result inText" id="charAtkSumText">
             Össz TÉO
           </div>
@@ -1143,6 +1151,10 @@ function removeAllSkillOptions() {
             nincs
           </div>
           </div>
+          <LegendRoll />
+          <ArmorDetails />
+          <CharacterDetails />
+          <ActionList />
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}
         <div id="skillCheckWrapper">
@@ -1218,7 +1230,6 @@ function removeAllSkillOptions() {
           <div id="skillCheckLeftSideWrapper"></div>
           <div id="skillCheckRightSideWrapper"></div>
         </div>
-        <CharacterDetails />
       </main>
     </>
   );

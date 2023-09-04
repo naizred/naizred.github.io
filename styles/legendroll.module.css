@@ -1,0 +1,29 @@
+.legendRollWrapper {
+    display: grid;
+    grid-column: 12 / 16;
+    grid-row: 7 / 9;
+    grid-template-columns: repeat(3,1fr);
+    grid-auto-flow: column;
+    height: 7vw;
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    margin: 0.5vw;
+}
+.legendRollWrapper button {
+font-size: 2vw;
+}
+.legendRollWrapper div {
+margin-top: 2vw;
+    font-size: 1vw;
+  
+}
+.legendRollWrapper p {
+
+font-size: 3vw;
+text-align: center;
+margin-block-start: 0.75em;
+margin-block-end: 0.5em;
+}
