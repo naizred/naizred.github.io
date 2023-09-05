@@ -125,7 +125,7 @@
 }
 .endOfRoundButton {
   width: 3.5vw;
-  height: 3.5vw;
+  height: 2.5vw;
   font-size: 1vw;
   }
 
@@ -173,7 +173,7 @@
   height: 2vw;
 }
 .rollInitButton{
-  grid-column: 9/10;
+  grid-column: 8/9;
 }
 .adjustReactions{
   width: 1.7vw;

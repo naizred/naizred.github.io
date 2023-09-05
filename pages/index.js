@@ -620,7 +620,7 @@ function removeAllSkillOptions() {
         let atkWithProfession = baseAtk+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
         let aimWithProfession = baseAim+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
         let defWithProfession = baseDef+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponDef + masterWeaponModifier)
-     
+    
         function tvcoCalculator(atkAimDef) {
           let calculatedTVCO = 0
           if (atkAimDef % 10 == 0) {
@@ -692,34 +692,39 @@ function removeAllSkillOptions() {
         }
      
         let reducedMgtByParrySkill = currentlySelectedOffHand.mgt
+        let anyOtherHmoModifierValue = anyOtherHmoModifier.value
+        if (anyOtherHmoModifier.value == "") {
+          anyOtherHmoModifierValue = 0
+        }
+
         if (filteredArrayIfHasParry.length != 0) {
           reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level
           if (reducedMgtByParrySkill < 0) {
             reducedMgtByParrySkill = 0
           }
-          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2
+          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseInt(anyOtherHmoModifierValue)
         } else {
-          charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2
+          charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseInt(anyOtherHmoModifierValue)
         }
         
         if (filteredArrayIfHasNimble.length != 0) {
-          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5*parseInt(filteredArrayIfHasNimble[0].level) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5*parseInt(filteredArrayIfHasNimble[0].level) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
         } else if (filteredArrayIfHasNimble.length == 0) {
-          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
         }
         
         if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-          charAtk.value = tvcoCalculator(atkWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
+          charAtk.value = tvcoCalculator(atkWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
           if (charAtk.value < 0) {
             charAtk.value = 0
           }
         } else {
-          charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2
+          charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
           if (charAtk.value < 0) {
             charAtk.value = 0
           }
         }
-        charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2
+        charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
 
         // erő alapján alap ököl sebzés kiszámítása
 
@@ -846,6 +851,10 @@ function removeAllSkillOptions() {
       reader.readAsText(file);
     }
   }
+
+function handleAnyOtherHmoModifier(){
+    
+}
 
  async function evaluateSkillOrAttributeCheckBase(event) {
 
@@ -1161,7 +1170,11 @@ function removeAllSkillOptions() {
                 </option>
               );
             })}  
-          </select>
+            </select>
+            <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel">
+            Egyéb +/- HMO:
+          </label>
+            <input type="text" name="anyOtherHmoModifier" id="anyOtherHmoModifier" onBlur={handleFileRead}/>
         </div>
         <div id="rollResultWrapper">
           <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
