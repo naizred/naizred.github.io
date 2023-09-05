@@ -12,8 +12,6 @@ export var generator = new MersenneTwister();
 
 export async function fetchCharacterData(currentCharName) {
   await fetch(`../api/characterStatsThatChange/${currentCharName}`).then((response) => {
-    console.log(response.status);
-    console.log(response.ok);
     return response.json();
   }).then((parsedData) => {
     if (!parsedData) {
@@ -37,11 +35,14 @@ export const getStaticProps = async () => {
       fs.readFileSync(jsonDirectory + "/chars.json", "utf8"));
     let races = JSON.parse(
       fs.readFileSync(jsonDirectory + "/races.json", "utf8"));
+    let gods = JSON.parse(
+      fs.readFileSync(jsonDirectory + "/gods.json", "utf8"));
   return {
     props: {
       weapons,
       chars,
-      races
+      races,
+      gods
     },
   };
 };
@@ -187,7 +188,9 @@ let damageOfFists = "1k10"
     const currentWeapon = props.weapons.find(
       (name) => name.w_name === `${weapons.value}`
     );
-
+    console.log("Fegyver típus:", currentWeapon.w_type);
+    console.log("Fegyver sebzéskód:", currentWeapon.w_damage);
+    console.log("Erősebzés?:", currentWeapon.strBonusDmg);
   if (checkIfWeaponIsRanged(currentWeapon.w_type)) {
     destroyerLevelSelect.value = 0  
     } 
@@ -284,7 +287,10 @@ if (currentWeapon.w_type == "Ökölharc") {
     damageResult.innerText = darkDice + lightDice+
     parseInt(destroyerLevelSelect.value) +
       parseInt(professionDamageBonus);
-  }
+    }
+    if (currentWeapon.w_name == "Fúvócső") {
+      damageResult.innerText = 1
+    }
 }
 
   function handleCheckBox() {
@@ -409,7 +415,7 @@ function removeAllSkillOptions() {
   }
 }
     
-  let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ"]
+  let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ", "Fúvócső"]
   let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
   let currentCharFinalAttributes = []
 //   function handleFileImportClick() {
@@ -434,7 +440,16 @@ function removeAllSkillOptions() {
           } 
         }
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null) {
-          weapons.value = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon  
+          for (let i = 0; i < props.weapons.length; i++) {
+            if (props.weapons[i].w_name.includes(JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon)) {
+              weapons.value = props.weapons[i].w_name
+              if (props.weapons[i].w_name.includes('egykézzel'))
+              {
+                weapons.value = props.weapons[i+1].w_name
+              }
+              break
+            }
+          }
         } 
 //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból 
         let currentlySelectedWeapon = props.weapons.find(
@@ -732,11 +747,19 @@ function removeAllSkillOptions() {
           highestMagicSkillName = filteredArrayForNameOfHighestMagicalSkill[0].name
         } else {
           highestMagicSkillName = ""
-       }
+        }
+        
+
         for (let i = 0; i < schoolsOfMagic.length; i++){
           if (highestMagicSkillName == schoolsOfMagic[i])
           {
             attributeNeededToCalculateManaPoints = currentCharFinalAttributes[attributeIndexesForSchoolsOfMagic[i]] + modifierByMagicallyAttunedAptitude;
+            for (let j = 0; j < props.gods.length; j++) {
+              if (currentChar.classKey.includes(props.gods[j].nameOfGod)) {
+                attributeNeededToCalculateManaPoints = currentCharFinalAttributes[props.gods[j].attributeIndex] + modifierByMagicallyAttunedAptitude;
+                break
+              }
+            }
             break;
           }
         }
@@ -867,11 +890,11 @@ function removeAllSkillOptions() {
         skillCheckLightDicePlusRollMod = 10
       }
 //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
-      console.log(skillCheckLightDice, skillCheckDarkDice)
+      console.log("Stresszpróba DM előtt", skillCheckLightDice, skillCheckDarkDice)
       if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0 && skillCheckLightDice !=1) {
   skillCheckLightDicePlusRollMod = skillCheckLightDice
       }
-      console.log(skillCheckLightDice, skillCheckDarkDice)
+      console.log("Stresszpróba DM után", skillCheckLightDice, skillCheckDarkDice)
     if (skillCheckLightDicePlusRollMod>skillCheckDarkDice) {
       if (skillCheckLightDicePlusRollMod == 10) {
         skillCheckCalculatedResultFromRoll = 3

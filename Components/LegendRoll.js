@@ -5,6 +5,7 @@ function LegendRoll() {
     function handleTenSidedDiceRoll() {
         tenSidedDiceRollResult.innerText = ""
         tenSidedDiceRollResult.innerText = Math.floor(generator.random() * 10);
+        tenSidedDiceRollResult.animate([{color: "white"}, {color:"black"}],200)
     }
     return (
         <div className={styles.legendRollWrapper}>

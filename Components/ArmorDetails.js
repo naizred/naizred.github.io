@@ -2,6 +2,8 @@ import styles from '../styles/armordetails.module.css';
 
 function ArmorDetails() {
     return (
+        <>
+            <div className={styles.underConstruction}>FEJLESZTÉS ALATT</div>
         <div className={styles.armorDetailsWrapper}>
             <div className={styles.currentArmorDetails}>
                 <div >
@@ -39,7 +41,8 @@ function ArmorDetails() {
             </div>
         <div className={styles.currentArmorImg}>
             </div>
-        </div>
+            </div>
+            </>
     )
 }
 
