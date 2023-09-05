@@ -23,6 +23,7 @@
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(6, 1fr);
   margin: 0vw 0.4vw;
+  height: 13vw;
   align-items: center;
   border: 0.23vw solid #680604;
   -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
@@ -36,7 +37,7 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-row: 7 / 9;
+  grid-row: 5 / 7;
   grid-column: span 4;
   font-size: 2vw;
 }
@@ -75,6 +76,7 @@
   grid-row: 8 / 13;
   grid-column: 8 / 12;
   align-items: center;
+  height: 11vw;
   align-self: center;
   justify-content: center;
   background-size: inherit;

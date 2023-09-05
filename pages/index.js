@@ -1099,7 +1099,7 @@ function handleAnyOtherHmoModifier(){
           <div id="rollResult" className="inNumber"></div>
           <div className="damage inText">A sebzés:</div>
           <div id="damageResult" className="inNumber"></div>
-          <div className="damage hitCheck">A találat helye:</div>
+          <div className="hitCheck">A találat helye:</div>
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
         <div id="charInfoWrapper">
