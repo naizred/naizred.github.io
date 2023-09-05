@@ -124,7 +124,7 @@ let damageOfFists = "1k10"
       }
     
     //lightDice = 3
-    darkDice = 0 
+    //darkDice = 0 
     /* -- ez a felső két sor a dobások tesztelésére van  */
 
     if (darkDice > lightDice) {
@@ -292,27 +292,34 @@ if (currentWeapon.w_type == "Ökölharc") {
       damageResult.innerText = 1
     }
 
-    // if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) && currentWeapon.w_name != "Fúvócső") {
-    //   let archeryBonusDmg = 0
-    //   let counter = 0
-    //   while (Math.floor(generator.random() * 10) == 0) {
-    //     console.log(Math.floor(generator.random() * 10))
-    //     counter += 1
-    //   }
-      
-    //   if (currentWeapon.w_damage.includes('k10')) {
-    //     archeryBonusDmg = counter *10 + Math.floor(generator.random() * 10)
-    //     damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
-    //   } else if (currentWeapon.w_damage.includes('k5')) {
-    //     archeryBonusDmg = counter *5 + Math.ceil(Math.floor(generator.random() * 10)/2)
-    //     damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
-    //   } else if (currentWeapon.w_damage.includes('k2')) {
-    //     archeryBonusDmg = counter *2 + Math.ceil(Math.floor(generator.random() * 10)/5)
-    //     damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
-    //   }
-    //   console.log("íjász szabály:",counter, archeryBonusDmg)
-    // }
-    // console.log("Sötét:", originalDarkDice, "Világos:", originalLightDice)
+    if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) && currentWeapon.w_name != "Fúvócső") {
+      let archeryBonusDmg = 0
+
+      for (let i = 0; i < 3; i++) {
+        let currentRandomArcheryBonusRoll = Math.floor(generator.random() * 10)
+        if (currentRandomArcheryBonusRoll == 0) {
+          currentRandomArcheryBonusRoll = 10
+          if (currentWeapon.w_damage.includes('k5')) {
+               currentRandomArcheryBonusRoll = 5
+          } else if (currentWeapon.w_damage.includes('k2')) {
+            currentRandomArcheryBonusRoll = 2
+             }
+          archeryBonusDmg += currentRandomArcheryBonusRoll
+        } else if (currentRandomArcheryBonusRoll != 0) {
+          if (currentWeapon.w_damage.includes('k5')) {
+            currentRandomArcheryBonusRoll = Math.ceil(currentRandomArcheryBonusRoll/2)
+          } else if (currentWeapon.w_damage.includes('k2')) {
+            currentRandomArcheryBonusRoll = Math.ceil(currentRandomArcheryBonusRoll/5)
+          }
+          archeryBonusDmg += currentRandomArcheryBonusRoll
+          break
+        }
+      }
+      damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
+
+      console.log("íjász szabály:",archeryBonusDmg)
+    }
+    console.log("Sötét:", originalDarkDice, "Világos:", originalLightDice)
 }
 
   function handleCheckBox() {
