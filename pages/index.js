@@ -123,8 +123,8 @@ let damageOfFists = "1k10"
         lightDiceResultSelect.value = lightDice
       }
     
-    /*      lightDice = 3
-    darkDice = 0 */
+    //lightDice = 3
+    darkDice = 0 
     /* -- ez a felső két sor a dobások tesztelésére van  */
 
     if (darkDice > lightDice) {
@@ -291,6 +291,28 @@ if (currentWeapon.w_type == "Ökölharc") {
     if (currentWeapon.w_name == "Fúvócső") {
       damageResult.innerText = 1
     }
+
+    // if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) && currentWeapon.w_name != "Fúvócső") {
+    //   let archeryBonusDmg = 0
+    //   let counter = 0
+    //   while (Math.floor(generator.random() * 10) == 0) {
+    //     console.log(Math.floor(generator.random() * 10))
+    //     counter += 1
+    //   }
+      
+    //   if (currentWeapon.w_damage.includes('k10')) {
+    //     archeryBonusDmg = counter *10 + Math.floor(generator.random() * 10)
+    //     damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
+    //   } else if (currentWeapon.w_damage.includes('k5')) {
+    //     archeryBonusDmg = counter *5 + Math.ceil(Math.floor(generator.random() * 10)/2)
+    //     damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
+    //   } else if (currentWeapon.w_damage.includes('k2')) {
+    //     archeryBonusDmg = counter *2 + Math.ceil(Math.floor(generator.random() * 10)/5)
+    //     damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
+    //   }
+    //   console.log("íjász szabály:",counter, archeryBonusDmg)
+    // }
+    // console.log("Sötét:", originalDarkDice, "Világos:", originalLightDice)
 }
 
   function handleCheckBox() {

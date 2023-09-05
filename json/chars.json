@@ -57,7 +57,7 @@
 "cha":12, "int":12, "wll":11, "ast":13, "per":11, "atkPerLvl":1, "defPerLvl":1, "aimPerLvl":0, "initPerLvl":0, "fpPerLvl":1, "ppPerLvl":0, "mpPerLvl":2},
 {"classKey":"Tooma pap", "str":10, "spd":10, "dex":12, "con":9, "vit":11, 
 "cha":11, "int":12, "wll":11, "ast":13, "per":11, "atkPerLvl":1, "defPerLvl":1, "aimPerLvl":0, "initPerLvl":0, "fpPerLvl":1, "ppPerLvl":0, "mpPerLvl":2},
-{"classKey":"Narmiaren pap", "str":10, "spd":11, "dex":12, "con":9, "vit":11, 
+{"classKey":"Narmiraen pap", "str":10, "spd":11, "dex":12, "con":9, "vit":11, 
 "cha":12, "int":12, "wll":11, "ast":11, "per":11, "atkPerLvl":1, "defPerLvl":1, "aimPerLvl":1, "initPerLvl":0, "fpPerLvl":1, "ppPerLvl":0, "mpPerLvl":2},
 {"classKey":"Tyssa L'imenel pap", "str":10, "spd":11, "dex":12, "con":9, "vit":11, 
 "cha":12, "int":12, "wll":11, "ast":11, "per":11, "atkPerLvl":1, "defPerLvl":1, "aimPerLvl":1, "initPerLvl":0, "fpPerLvl":1, "ppPerLvl":0, "mpPerLvl":2},

@@ -96,5 +96,5 @@
   { "w_name": "Elf íj (aura tárgy)", "w_id": 96, "w_damage": "1k10", "w_type": "ÍJ", "strBonusDmg":"false" , "weaponAtk":7, "weaponDef":0, "mgt":0},
   { "w_name": "Kahrei nyílpuska", "w_id": 97, "w_damage": "1k5", "w_type": "SZÍ", "strBonusDmg":"false" , "weaponAtk":7, "weaponDef":0, "mgt":0},
   { "w_name": "Fúvócső", "w_id": 98, "w_damage": "1k2", "w_type": "Fúvócső", "strBonusDmg":"false" , "weaponAtk":5, "weaponDef":0, "mgt":0},
-  { "w_name": "Parittya", "w_id": 28, "w_damage": "1k5+1", "w_type": "VET", "strBonusDmg":"true" , "weaponAtk":3, "weaponDef":0}
+  { "w_name": "Parittya", "w_id": 28, "w_damage": "1k5+1", "w_type": "VET", "strBonusDmg":"true" , "weaponAtk":3, "weaponDef":0, "mgt":0}
 ]
