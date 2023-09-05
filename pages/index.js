@@ -472,9 +472,13 @@ function removeAllSkillOptions() {
           for (let i = 0; i < props.weapons.length; i++) {
             if (props.weapons[i].w_name.includes(JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon)) {
               weapons.value = props.weapons[i].w_name
-              if (props.weapons[i].w_name.includes('egykézzel'))
-              {
-                weapons.value = props.weapons[i+1].w_name
+              if (props.weapons[i].w_name.includes('egykézzel') || props.weapons[i].w_name.includes('dobva')){
+                for (let j = i; j < props.weapons.length; j++) {
+                  if (props.weapons[j].w_name.includes('kétkézzel')) {
+                    weapons.value = props.weapons[j].w_name;
+                    break
+                  }  
+                }
               }
               break
             }
