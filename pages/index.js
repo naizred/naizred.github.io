@@ -903,6 +903,7 @@ function handleAnyOtherHmoModifier(){
       }
       skillCheckLightDiceResultSelect.value = skillCheckLightDice
       skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
+      skillCheckResult.animate([{color: "white"}, {color:"black"}],200)
     } else if (stressCheck == true) {
     
       if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
@@ -967,6 +968,7 @@ function handleAnyOtherHmoModifier(){
       } 
       skillCheckLightDiceResultSelect.value = skillCheckLightDicePlusRollMod
       skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
+      skillCheckResult.animate([{color: "white"}, {color:"black"}],200)
   }
   }
  //let stressCheck = false
