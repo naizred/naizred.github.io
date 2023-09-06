@@ -468,9 +468,12 @@ function removeAllSkillOptions() {
             break;
           } 
         }
+
+
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null) {
           for (let i = 0; i < props.weapons.length; i++) {
             if (props.weapons[i].w_name.includes(JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon)) {
+              console.log(props.weapons[i].w_name)
               weapons.value = props.weapons[i].w_name
               if (props.weapons[i].w_name.includes('egykézzel') || props.weapons[i].w_name.includes('dobva')){
                 for (let j = i; j < props.weapons.length; j++) {
@@ -484,6 +487,8 @@ function removeAllSkillOptions() {
             }
           }
         } 
+        //console.log(JSON.parse(reader.result).armourSet.pieces)
+
 //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból 
         let currentlySelectedWeapon = props.weapons.find(
           (name) => name.w_name === `${weapons.value}`

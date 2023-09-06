@@ -81,7 +81,7 @@
   { "w_name": "Dipada", "w_id": 77, "w_damage": "2k5", "w_type": "SZÁ", "strBonusDmg":"true" , "weaponAtk":6, "weaponDef":6, "mgt":0},
   { "w_name": "Horgaskard", "w_id": 78, "w_damage": "2k5+2", "w_type": "SZÁ", "strBonusDmg":"false" , "weaponAtk":7, "weaponDef":6, "mgt":0},
   { "w_name": "Hosszúbot (egykézzel)", "w_id": 91, "w_damage": "1k10", "w_type": "SZÁ", "strBonusDmg":"false" , "weaponAtk":5, "weaponDef":7, "mgt":0},
-  { "w_name": "Hosszúbot (kézkézzel)", "w_id": 83, "w_damage": "1k10", "w_type": "SZÁ", "strBonusDmg":"true" , "weaponAtk":5, "weaponDef":7, "mgt":0},
+  { "w_name": "Hosszúbot (kétkézzel)", "w_id": 83, "w_damage": "1k10", "w_type": "SZÁ", "strBonusDmg":"true" , "weaponAtk":5, "weaponDef":7, "mgt":0},
   { "w_name": "Szigony (egykézzel)", "w_id": 84, "w_damage": "2k5+1", "w_type": "SZÁ", "strBonusDmg":"false" , "weaponAtk":5, "weaponDef":7, "mgt":0},
   { "w_name": "Szigony (kétkézzel)", "w_id": 85, "w_damage": "2k5+1", "w_type": "SZÁ", "strBonusDmg":"true" , "weaponAtk":5, "weaponDef":7, "mgt":0},
   { "w_name": "Szigony (dobva)", "w_id": 86, "w_damage": "2k5+1", "w_type": "SZÁ", "strBonusDmg":"true" , "weaponAtk":5, "weaponDef":8, "mgt":0},

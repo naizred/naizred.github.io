@@ -1,6 +1,12 @@
 import styles from '../styles/armordetails.module.css';
 
 function ArmorDetails() {
+    function handleArmorRemove(event) {
+       event.target.style.opacity = 0
+    }
+    function handleArmorAdd(event) {
+       event.target.style.opacity = 1
+    }
     return (
         <>
             <div className={styles.underConstruction}>FEJLESZTÉS ALATT</div>
@@ -39,7 +45,8 @@ function ArmorDetails() {
                     </p>
                 </div>
             </div>
-        <div className={styles.currentArmorImg}>
+                <div className={styles.currentArmorImg}>
+                        {/* <img className={styles.currentArmorPartImg} src='./armorParts/chestArmorSteel.png' onClick={handleArmorRemove} onDoubleClick={handleArmorAdd}/> */}
             </div>
             </div>
             </>

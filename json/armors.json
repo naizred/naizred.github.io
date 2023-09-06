@@ -1,0 +1,4 @@
+[
+    {"armorId":1, "nameOfArmor": "Sodronying", "dmgReduction":3, "kit":"6-9", "mgt":2, "extent":"törzs, fej"},
+    {"armorId":2, "nameOfArmor": "Rákozott csataszoknya", "dmgReduction":5, "kit":"1-2", "mgt":1, "extent":"jobb láb, bal láb"}
+]
