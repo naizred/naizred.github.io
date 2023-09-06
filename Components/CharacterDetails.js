@@ -50,6 +50,7 @@ function CharacterDetails() {
     }
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + parseInt(initRollChangedByLP)
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
+    adjustActionsPositive.value = parseInt(numberOfActions.innerText)
     initiativeRollResultSelect.disabled = true
     useLegendPointForInitiativeRollCheckBox.style.display = 'none'
   }
@@ -62,6 +63,7 @@ function CharacterDetails() {
     }
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + parseInt(rerolledValue)
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
+    adjustActionsPositive.value = parseInt(numberOfActions.innerText)
     initiativeRerollByCounterLP.style.display = 'none'
   }
 
