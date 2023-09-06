@@ -167,7 +167,7 @@
 }
 .initiativeRerollByCounterLP{
   display: none;
-  grid-column: 9/10;
+  grid-column: 8/9;
   grid-row: 2/3;
   width: 2vw;
   height: 2vw;

@@ -96,8 +96,6 @@ let damageOfFists = "1k10"
   let schoolsOfMagic = ["Magas Mágia", "Bárdmágia", "Boszorkánymágia", "Borszorkánymesteri mágia", "Tűzvarázslói mágia", "Szakrális mágia"];
   let attributeIndexesForSchoolsOfMagic = [6,5,8,7,7,5]
   let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"];
-  let darkDice;
-  let lightDice;
   let originalDarkDice = 0;
   let originalLightDice = 0;
 
@@ -107,6 +105,7 @@ let damageOfFists = "1k10"
   const specialCases2 = [5, 6, 7];
   const specialCases3 = [8, 9];
 
+  let darkDiceWasChangedToHalfOfStr = false
 
   function ttkRoll(strBonus, darkDice, lightDice) {
 
@@ -165,10 +164,11 @@ let damageOfFists = "1k10"
     } else if (lightDice == darkDice && darkDice == 10) {
       specialEffect.innerText = specialModifiers[4];
     }
-
+    console.log("Sötét eredeti:", originalDarkDice, "Világos:", originalLightDice)
     if (strBonus == true) {
       if (Math.floor(parseInt(Erő.innerText) / 2) > darkDice) {
         originalDarkDice = Math.floor(parseInt(Erő.innerText) / 2);
+        darkDiceWasChangedToHalfOfStr = true
       }
     }   
         return result;     
@@ -262,29 +262,13 @@ if (currentWeapon.w_type == "Ökölharc") {
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionDamageBonus);
   } else if (currentWeaponDamage === "1k2") {
-    if (originalDarkDice > 5) {
-      darkDice = 2;
-    } else {
-      darkDice = 1;
-    }
     damageResult.innerText =
-      darkDice +
+    Math.ceil(originalDarkDice / 5) +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionDamageBonus);
   } else if (currentWeaponDamage === "2k2") {
-    if (originalDarkDice > 5) {
-      darkDice = 2;
-    } else {
-      darkDice = 1;
-    }
-
-    if (originalLightDice > 5) {
-      lightDice = 2;
-    } else {
-      lightDice = 1;
-    }
-
-    damageResult.innerText = darkDice + lightDice+
+    damageResult.innerText = Math.ceil(originalDarkDice / 5) +
+    Math.ceil(originalLightDice / 5) +
     parseInt(destroyerLevelSelect.value) +
       parseInt(professionDamageBonus);
     }
@@ -292,7 +276,7 @@ if (currentWeapon.w_type == "Ökölharc") {
       damageResult.innerText = 1
     }
 
-    if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) && currentWeapon.w_name != "Fúvócső") {
+    if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) && currentWeapon.w_name != "Fúvócső" && darkDiceWasChangedToHalfOfStr == false) {
       let archeryBonusDmg = 0
 
       for (let i = 0; i < 3; i++) {
@@ -316,10 +300,11 @@ if (currentWeapon.w_type == "Ökölharc") {
         }
       }
       damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
-
+      
       console.log("íjász szabály:",archeryBonusDmg)
     }
-    console.log("Sötét:", originalDarkDice, "Világos:", originalLightDice)
+    console.log("Sötét erősebzés:", originalDarkDice, "Világos:", originalLightDice)
+    darkDiceWasChangedToHalfOfStr = false
 }
 
   function handleCheckBox() {
@@ -706,29 +691,29 @@ function removeAllSkillOptions() {
           if (reducedMgtByParrySkill < 0) {
             reducedMgtByParrySkill = 0
           }
-          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseInt(anyOtherHmoModifierValue)
+          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
         } else {
-          charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseInt(anyOtherHmoModifierValue)
+          charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
         }
         
         if (filteredArrayIfHasNimble.length != 0) {
-          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5*parseInt(filteredArrayIfHasNimble[0].level) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5*parseInt(filteredArrayIfHasNimble[0].level) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
         } else if (filteredArrayIfHasNimble.length == 0) {
-          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
         }
         
         if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-          charAtk.value = tvcoCalculator(atkWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
+          charAtk.value = tvcoCalculator(atkWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
           if (charAtk.value < 0) {
             charAtk.value = 0
           }
         } else {
-          charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
+          charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
           if (charAtk.value < 0) {
             charAtk.value = 0
           }
         }
-        charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseInt(anyOtherHmoModifierValue)
+        charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
 
         // erő alapján alap ököl sebzés kiszámítása
 
@@ -1134,7 +1119,7 @@ function handleAnyOtherHmoModifier(){
           <label htmlFor="professionLevelSelect" id="profession">
             Képzettség foka:
           </label>
-          <select id="professionLevelSelect" name="profession" onChange={damageEvaluator}>
+          <select id="professionLevelSelect" name="profession" disabled = {true}>
             {professionLevel.map((e) => {
               return <option key={e}>{e}</option>;
             })}
@@ -1142,7 +1127,7 @@ function handleAnyOtherHmoModifier(){
           <label htmlFor="destroyerLevelSelect" id="destroyer">
             Pusztító adottság:
           </label>
-          <select id="destroyerLevelSelect" name="destroyer" onChange={damageEvaluator}>
+          <select id="destroyerLevelSelect" name="destroyer" disabled = {true}>
             {destroyerLevel.map((e) => {
               return <option key={e}>{e}</option>;
             })}
