@@ -300,11 +300,13 @@ if (currentWeapon.w_type == "Ökölharc") {
         }
       }
       damageResult.innerText = parseInt(damageResult.innerText) + archeryBonusDmg
+      damageResult.animate([{color: "white"}, {color:"black"}],200)
       
       console.log("íjász szabály:",archeryBonusDmg)
     }
     console.log("Sötét erősebzés:", originalDarkDice, "Világos:", originalLightDice)
     darkDiceWasChangedToHalfOfStr = false
+    damageResult.animate([{color: "white"}, {color:"black"}],200)
 }
 
   function handleCheckBox() {
@@ -1012,8 +1014,10 @@ function handleAnyOtherHmoModifier(){
     
     if (currentWeaponSelected.strBonusDmg == "false") {
       rollResult.innerText = ttkRoll(false, darkDice, lightDice);
+      rollResult.animate([{color: "white"}, {color:"black"}],200)
     } else if (currentWeaponSelected.strBonusDmg == "true") {
       rollResult.innerText = ttkRoll(true, darkDice, lightDice);
+      rollResult.animate([{color: "white"}, {color:"black"}],200)
     }
     
     diceRolled = true
@@ -1028,9 +1032,11 @@ function handleAnyOtherHmoModifier(){
 
     if (charAtk.value == "") {
       charAtkSum.innerText = rollResult.innerText;
+      charAtkSum.animate([{color: "white"}, {color:"black"}],200)
     } else {
       charAtkSum.innerText =
         parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
+        charAtkSum.animate([{color: "white"}, {color:"black"}],200)
     }
     
   function hitChecker(originalLightDice) {
@@ -1070,7 +1076,7 @@ function handleAnyOtherHmoModifier(){
     if (bodyPart.innerText == "fej") {
       currentBodypart("Head.png");
     }
-    
+    bodyPart.animate([{color: "white"}, {color:"black"}],200)
     damageEvaluator()
 
   }
