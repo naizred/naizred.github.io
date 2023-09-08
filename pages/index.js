@@ -80,7 +80,7 @@ let damageOfFists = "1k10"
   let destroyerLevel = [0, 1, 2, 3];
   let professionLevel = [0, 1, 2, 3, 4, 5];
   let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
-  let skillCheckSuccFailModifiers = [0, 1, 2, 3, -1, -2, -3];
+  let skillCheckSuccFailModifiers = [0, 1, 2, 3, 4, 5, -1, -2, -3, -4, -5];
   let bodyParts = [
     "bal láb",
     "jobb láb",
@@ -848,7 +848,8 @@ function handleAnyOtherHmoModifier(){
 }
 
  async function evaluateSkillOrAttributeCheckBase(event) {
-
+  skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+  skillCheckLightDiceRerollByCounterLP.style.display = "none"
    if (checkTypeIsSkillCheck.checked == true) {  
     skills.disabled = false
      skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
@@ -974,10 +975,9 @@ function handleAnyOtherHmoModifier(){
  //let stressCheck = false
   
   function handleCheckBoxChange() {
-    if (skillCheckStressCheckbox.checked == true) {
-      skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+  
+    skillCheckDarkDiceRerollByCounterLP.style.display = "none"
     skillCheckLightDiceRerollByCounterLP.style.display = "none"
-    }
   }
   
   function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
@@ -1237,7 +1237,8 @@ function handleAnyOtherHmoModifier(){
           <label htmlFor="rollModifier" id="rollModifierLabel" className="skillCheckLabel">
             Dobásmódosító:
           </label>
-          <select id="rollModifier" name="rollModifier" className="skillCheckSelect" onChange={()=>skillCheckResult.innerText = ""}>
+          <select id="rollModifier" name="rollModifier" className="skillCheckSelect" onChange={()=>{skillCheckResult.innerText = ""; skillCheckDarkDiceRerollByCounterLP.style.display = "none";
+    skillCheckLightDiceRerollByCounterLP.style.display = "none"}}>
           {skillCheckRollModifiers.map((e) => {
               return <option key={e}>{e}</option>;
             })}
