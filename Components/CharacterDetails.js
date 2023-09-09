@@ -83,18 +83,20 @@ function CharacterDetails() {
       if (parseInt(numberOfActions.innerText) > parseInt(adjustActionsPositive.value) + 1) {
         numberOfActions.innerText = parseInt(adjustActionsPositive.value) + 1
       }
-    }
-    if (parseInt(numberOfActions.innerText) >= 2) {
-      tacticsButton.disabled = false
+    
+      if (parseInt(numberOfActions.innerText) >= 2) {
+        tacticsButton.disabled = false
+      }
     }
   }
 
   function handleAdjustActionsNegative() {
     if (initRolled == true) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
-    }
-    if (parseInt(numberOfActions.innerText) < 2) {
-      tacticsButton.disabled = true
+    
+      if (parseInt(numberOfActions.innerText) < 2) {
+        tacticsButton.disabled = true
+      }
     }
     }
     
@@ -150,7 +152,7 @@ let tacticsUsed = false
     rollInitButton.style.display = "grid"
     numberOfActions.innerText = ""
     initiativeWithRoll.innerText = ""
-    numberOfCurrentRound.innerText = 1.
+    numberOfCurrentRound.innerText = "1."
     tacticsButton.disabled = true
 }
 
