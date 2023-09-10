@@ -6,6 +6,8 @@ import CharacterDetails from "../Components/CharacterDetails";
 import ActionList from "../Components/ActionsList";
 import ArmorDetails from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
+import { checkWhereItIsWorn } from "../Components/ArmorDetails";
+
 
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
@@ -37,12 +39,15 @@ export const getStaticProps = async () => {
       fs.readFileSync(jsonDirectory + "/races.json", "utf8"));
     let gods = JSON.parse(
       fs.readFileSync(jsonDirectory + "/gods.json", "utf8"));
+    let armors = JSON.parse(
+      fs.readFileSync(jsonDirectory + "/armors.json", "utf8"));
   return {
     props: {
       weapons,
       chars,
       races,
-      gods
+      gods,
+      armors
     },
   };
 };
@@ -474,8 +479,30 @@ function removeAllSkillOptions() {
             }
           }
         } 
-        //console.log(JSON.parse(reader.result).armourSet.pieces)
-
+  let filteredArrayIfHasHeavyArmorSkill = JSON.parse(reader.result).skills.filter((name) => name.name == "Vértviselet")
+        function armorHandler() {
+          if (JSON.parse(reader.result).armourSet == null) {
+            return
+          }
+          let armorPieces = JSON.parse(reader.result).armourSet.pieces
+          console.log(armorPieces)
+          for (let i = 0; i < armorPieces.length; i++) {
+            let currentPieceOfArmor = armorPieces[i]
+            for (let j = 0; j < props.armors.length; j++) {
+              if (currentPieceOfArmor == props.armors[j].nameOfArmor) {
+                let mgtCompensation = 0
+                if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
+                  mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
+                }
+                checkWhereItIsWorn(props.armors[j], mgtCompensation)
+                break
+              } else {
+                continue
+              }
+            }
+          }
+        }
+armorHandler()
 //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból 
         let currentlySelectedWeapon = props.weapons.find(
           (name) => name.w_name === `${weapons.value}`
@@ -656,7 +683,6 @@ function removeAllSkillOptions() {
             skillCheckRightSideWrapper.appendChild(spiritualAttributeValueDiv)
           }
         }
-        //--- kiszámolja a képzettségpróba alapját.
 // az ökölhöz tartozó legmagasabb tulajdonságokat alapból 4-el kell osztani alapból *********************
         
         let fistAtkDivider = 4
@@ -694,29 +720,29 @@ function removeAllSkillOptions() {
           if (reducedMgtByParrySkill < 0) {
             reducedMgtByParrySkill = 0
           }
-          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
+          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
         } else {
-          charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
-        }
+          charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+        } 
         
         if (filteredArrayIfHasNimble.length != 0) {
-          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5*parseInt(filteredArrayIfHasNimble[0].level) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5*parseInt(filteredArrayIfHasNimble[0].level) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
         } else if (filteredArrayIfHasNimble.length == 0) {
-          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
         }
         
         if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-          charAtk.value = tvcoCalculator(atkWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
-          if (charAtk.value < 0) {
-            charAtk.value = 0
-          }
+          charAtk.value = tvcoCalculator(atkWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+          // if (charAtk.value < 0) {
+          //   charAtk.value = 0
+          // }
         } else {
-          charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
-          if (charAtk.value < 0) {
-            charAtk.value = 0
-          }
+          charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+          // if (charAtk.value < 0) {
+          //   charAtk.value = 0
+          // }
         }
-        charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue)
+        charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
 
         // erő alapján alap ököl sebzés kiszámítása
 
@@ -1033,7 +1059,7 @@ function handleAnyOtherHmoModifier(){
 
     bodyPart.innerText = "";
 
-    if (charAtk.value == "") {
+    if (charAtk.value < 0) {
       charAtkSum.innerText = rollResult.innerText;
       charAtkSum.animate([{color: "white"}, {color:"black"}],200)
     } else {
