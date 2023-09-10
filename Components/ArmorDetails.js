@@ -16,6 +16,7 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
      currentHelmetLi.value = currentHelmetMgt
      currentHelmetCheckBox.value = 10
      currentHelmetCheckBox.checked = true
+     currentHelmetDmgReduction.innerText = armorPiece.dmgReduction
      totalMgt += currentHelmetMgt
      helmetWorn = true
     }
@@ -26,6 +27,7 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
      currentChestLi.value = currentChestMgt
      currentChestCheckBox.value = 6
      currentChestCheckBox.checked = true
+     currentChestDmgReduction.innerText = armorPiece.dmgReduction
      totalMgt += currentChestMgt
      chestWorn = true
     }
@@ -36,6 +38,7 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
      currentArmsLi.value = currentArmsMgt
      currentArmsCheckBox.value = 3
      currentArmsCheckBox.checked = true
+     currentArmsDmgReduction.innerText = armorPiece.dmgReduction
      totalMgt += currentArmsMgt
      armsWorn = true
     }
@@ -46,6 +49,7 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
      currentLeggingsLi.value = currentLeggingsMgt
      currentLeggingsCheckBox.value = 2
      currentLeggingsCheckBox.checked = true
+     currentLeggingsDmgReduction.innerText = armorPiece.dmgReduction
      totalMgt += currentLeggingsMgt
      leggingsWorn = true
     }
@@ -55,7 +59,7 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
 function ArmorDetails() {
     function handleArmorOnOrOff(event) {
 
-        function armorEquipper(currentPiece, currentImg, currentListItem) {
+        function armorEquipper(currentPiece, currentImg, currentListItem, currentDmgReductionId) {
             if (event.target.value.includes(currentPiece) && currentImg.style.opacity == 1 && event.target.checked == false) {
                 currentImg.style.opacity = 0
                 charAtk.value = parseFloat(charAtk.value) + parseFloat(currentListItem.value / 2)
@@ -63,6 +67,7 @@ function ArmorDetails() {
                 charDefWithParry.value = parseFloat(charDefWithParry.value) + parseFloat(currentListItem.value / 2)
                 charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + parseFloat(currentListItem.value / 2)
                 totalMgtOfArmorSet.innerText = parseInt(totalMgtOfArmorSet.innerText) - currentListItem.value
+                currentDmgReductionId.style.display = 'none'
             }
             if (event.target.value.includes(currentPiece) && currentImg.style.opacity == 0 && event.target.checked == true) {
                 currentImg.style.opacity = 1
@@ -71,16 +76,17 @@ function ArmorDetails() {
                 charDefWithParry.value = parseFloat(charDefWithParry.value) - parseFloat(currentListItem.value / 2)
                 charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - parseFloat(currentListItem.value / 2)
                 totalMgtOfArmorSet.innerText = parseInt(totalMgtOfArmorSet.innerText) + currentListItem.value
+                currentDmgReductionId.style.display = 'grid'
             }
         }
         if (event.target.value.includes(10)) {
-            armorEquipper(10, currentHelmetImg, currentHelmetLi)
+            armorEquipper(10, currentHelmetImg, currentHelmetLi, currentHelmetDmgReduction)
         } else if (event.target.value.includes(6)) {
-            armorEquipper(6, currentChestImg, currentChestLi)
+            armorEquipper(6, currentChestImg, currentChestLi, currentChestDmgReduction)
         } else if (event.target.value.includes(3)) {
-            armorEquipper(3, currentArmsImg, currentArmsLi)
+            armorEquipper(3, currentArmsImg, currentArmsLi, currentArmsDmgReduction)
         } else if (event.target.value.includes(2)) {
-            armorEquipper(2, currentLeggingsImg, currentLeggingsLi)
+            armorEquipper(2, currentLeggingsImg, currentLeggingsLi, currentLeggingsDmgReduction)
         }
     }
 
@@ -118,10 +124,15 @@ function ArmorDetails() {
                 </div>
             </div>
                 <div className={styles.currentArmorImg}>
-                        <img id='currentLeggingsImg' className={styles.currentLeggingsImg} src='./armorParts/leggingsSteel.png'/>
-                        <img id='currentChestImg' className={styles.currentChestImg} src='./armorParts/chestSteel.png'/>
+                    <div id='dmgReduction' className={styles.dmgReduction}>SFÉ:</div>
                         <img id='currentHelmetImg' className={styles.currentHelmetImg} src='./armorParts/helmetSteel.png'/>
+                        <img id='currentChestImg' className={styles.currentChestImg} src='./armorParts/chestSteel.png'/>
                         <img id='currentArmsImg' className={styles.currentArmsImg} src='./armorParts/armsSteel.png'/>
+                        <img id='currentLeggingsImg' className={styles.currentLeggingsImg} src='./armorParts/leggingsSteel.png'/>
+                    <li id='currentHelmetDmgReduction' className={styles.currentHelmetDmgReduction}></li>
+                    <li id='currentChestDmgReduction' className={styles.currentChestDmgReduction}></li>
+                    <li id='currentArmsDmgReduction' className={styles.currentArmsDmgReduction}></li>
+                    <li id='currentLeggingsDmgReduction' className={styles.currentLeggingsDmgReduction}></li>
             </div>
             </div>
             </>

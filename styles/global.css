@@ -3,7 +3,6 @@ body {
     background-repeat: no-repeat;
     font-family: 'MedievalSharp', cursive;
     color: black;
-    -webkit-text-stroke: #f35900 0.01vw;
     font-size: 1.4vw;
     text-shadow: 0.3vw 0.3vw 0.4vw #682600;
     justify-content: center;
@@ -36,9 +35,9 @@ ul{
   padding: 0vw;
   font-family: 'MedievalSharp', cursive;
   color: black;
-  -webkit-text-stroke: #f35900 0.1px;
+  /* -webkit-text-stroke: #f35900 0.1px; */
   font-size: 1.4vw;
-  text-shadow: 0.3vw 0.3vw 0.4vw #682600;
+  /* text-shadow: 0.3vw 0.3vw 0.4vw #682600; */
   padding-left: 2vw;
   justify-content: center;
 }
