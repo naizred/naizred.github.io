@@ -6,7 +6,7 @@
     {"armorId":5, "nameOfArmor": "Teljes láncvért", "dmgReduction":3, "kit":[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "mgt":4, "material":"steel"},
     {"armorId":6, "nameOfArmor": "Sodronying", "dmgReduction":3, "kit":[3, 4, 5, 6, 7, 8, 9, 10], "mgt":2, "material":"steel"},
     {"armorId":7, "nameOfArmor": "Teljes sodronyvért", "dmgReduction":3, "kit":[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "mgt":3, "material":"steel"},
-    {"armorId":8, "nameOfArmor": "Pikkely mellvért", "dmgReduction":4, "kit":[6, 7, 8, 9], "mgt":2, "material":"steel"},
+    {"armorId":8, "nameOfArmor": "Pikkelyvért", "dmgReduction":4, "kit":[6, 7, 8, 9], "mgt":2, "material":"steel"},
     {"armorId":9, "nameOfArmor": "Rákozott félvért", "dmgReduction":5, "kit":[3, 4, 5, 6, 7, 8, 9, 10], "mgt":6, "material":"steel"},
     {"armorId":10, "nameOfArmor": "Mellvért", "dmgReduction":6, "kit":[6, 7, 8, 9], "mgt":4, "material":"steel"},
     {"armorId":11, "nameOfArmor": "Merev félvért", "dmgReduction":6, "kit":[3, 4, 5, 6, 7, 8, 9, 10], "mgt":8, "material":"steel"},
