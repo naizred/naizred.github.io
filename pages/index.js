@@ -479,27 +479,39 @@ function removeAllSkillOptions() {
             }
           }
         } 
-  let filteredArrayIfHasHeavyArmorSkill = JSON.parse(reader.result).skills.filter((name) => name.name == "Vértviselet")
+        let filteredArrayIfHasHeavyArmorSkill = JSON.parse(reader.result).skills.filter((name) => name.name == "Vértviselet")
+        let extentOfCurrentArmorSet = 0
+        let armorSetMgt = 0
         function armorHandler() {
           if (JSON.parse(reader.result).armourSet == null) {
             return
           }
           let armorPieces = JSON.parse(reader.result).armourSet.pieces
-          console.log(armorPieces)
+          let armorObject = []
           for (let i = 0; i < armorPieces.length; i++) {
             let currentPieceOfArmor = armorPieces[i]
             for (let j = 0; j < props.armors.length; j++) {
               if (currentPieceOfArmor == props.armors[j].nameOfArmor) {
-                let mgtCompensation = 0
-                if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
-                  mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
-                }
-                checkWhereItIsWorn(props.armors[j], mgtCompensation)
+                extentOfCurrentArmorSet += props.armors[j].kit.length
+                armorObject.push(props.armors[j])
                 break
               } else {
                 continue
               }
             }
+            if (extentOfCurrentArmorSet>=10) {
+              extentOfCurrentArmorSet = 10
+            }
+            console.log(armorObject)
+          }
+          for (let i = 0; i < armorObject.length; i++) {
+            armorSetMgt += Math.round(parseInt(armorObject[i].mgt) * parseInt(armorObject[i].kit) / 10)
+            console.log(armorSetMgt)
+            let mgtCompensation = 0
+            if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
+              mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
+            }
+            checkWhereItIsWorn(armorObject[i], mgtCompensation,extentOfCurrentArmorSet,armorSetMgt)
           }
         }
 armorHandler()

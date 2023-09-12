@@ -8,54 +8,63 @@ let currentChestMgt = 0
 let currentArmsMgt = 0
 let currentLeggingsMgt = 0
 let totalMgt = 0
-export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
+export function checkWhereItIsWorn(armorPiece, mgtCompensation, extentOfCurrentArmorSet, armorSetMgt) {
  if (armorPiece.kit.includes(10) && helmetWorn == false) {
      currentHelmetName.innerText = `Fej: ${armorPiece.nameOfArmor}`
      currentHelmetImg.style.opacity = 1
-     currentHelmetMgt = Math.round((armorPiece.mgt) * (1 / armorPiece.kit.length)- mgtCompensation/10)
+     currentHelmetMgt = Math.round((armorPiece.mgt) * 1 / extentOfCurrentArmorSet) - Math.round(mgtCompensation * 1 / extentOfCurrentArmorSet)
+     if (currentHelmetMgt <= 0) {
+        currentHelmetMgt = 0
+     }
      currentHelmetLi.value = currentHelmetMgt
      currentHelmetCheckBox.value = 10
      currentHelmetCheckBox.checked = true
      currentHelmetDmgReduction.innerText = armorPiece.dmgReduction
      totalMgt += currentHelmetMgt
      helmetWorn = true
-     console.log(armorPiece.kit.length)
     }
  if (armorPiece.kit.includes(6) && chestWorn == false) {
      currentChestName.innerText = `Törzs: ${armorPiece.nameOfArmor}`
      currentChestImg.style.opacity = 1
-     currentChestMgt = Math.round((armorPiece.mgt) * (4 / armorPiece.kit.length)- mgtCompensation*4/10)
+     currentChestMgt = Math.ceil((armorPiece.mgt) * 4 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 4 / extentOfCurrentArmorSet))
+     if (currentChestMgt <= 0) {
+        currentChestMgt = 0
+     }
      currentChestLi.value = currentChestMgt
      currentChestCheckBox.value = 6
      currentChestCheckBox.checked = true
      currentChestDmgReduction.innerText = armorPiece.dmgReduction
      totalMgt += currentChestMgt
      chestWorn = true
-     console.log(armorPiece.kit.length)
     }
  if (armorPiece.kit.includes(3) && armsWorn == false) {
      currentArmsName.innerText = `Karok: ${armorPiece.nameOfArmor}`
      currentArmsImg.style.opacity = 1
-     currentArmsMgt = Math.round((armorPiece.mgt) * (3 / armorPiece.kit.length)- mgtCompensation*3/10)
+     currentArmsMgt = Math.round((armorPiece.mgt) * 3 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 3 / extentOfCurrentArmorSet))
+     if (currentArmsMgt <= 0) {
+        currentArmsMgt = 0
+     }
      currentArmsLi.value = currentArmsMgt
      currentArmsCheckBox.value = 3
      currentArmsCheckBox.checked = true
      currentArmsDmgReduction.innerText = armorPiece.dmgReduction
      totalMgt += currentArmsMgt
      armsWorn = true
-     console.log(armorPiece.kit.length)
     }
  if (armorPiece.kit.includes(2) && leggingsWorn == false) {
      currentLeggingsName.innerText = `Lábak: ${armorPiece.nameOfArmor}`
      currentLeggingsImg.style.opacity = 1
-     currentLeggingsMgt = Math.round((armorPiece.mgt) * (2 / armorPiece.kit.length)- mgtCompensation*2/10)
+     currentLeggingsMgt = Math.round((armorPiece.mgt) * 2 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 2 / extentOfCurrentArmorSet))
+     console.log(extentOfCurrentArmorSet)
+     if (currentLeggingsMgt <= 0) {
+        currentLeggingsMgt = 0
+     }
      currentLeggingsLi.value = currentLeggingsMgt
      currentLeggingsCheckBox.value = 2
      currentLeggingsCheckBox.checked = true
      currentLeggingsDmgReduction.innerText = armorPiece.dmgReduction
      totalMgt += currentLeggingsMgt
      leggingsWorn = true
-     console.log(armorPiece.kit.length)
     }
     totalMgtOfArmorSet.innerText = totalMgt
 }
