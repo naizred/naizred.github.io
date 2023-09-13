@@ -40,7 +40,7 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation, extentOfCurrentA
  if (armorPiece.kit.includes(3) && armsWorn == false) {
      currentArmsName.innerText = `Karok: ${armorPiece.nameOfArmor}`
      currentArmsImg.style.opacity = 1
-     currentArmsMgt = Math.round((armorPiece.mgt) * 3 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 3 / extentOfCurrentArmorSet))
+     currentArmsMgt = Math.ceil((armorPiece.mgt) * 3 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 3 / extentOfCurrentArmorSet))
      if (currentArmsMgt <= 0) {
         currentArmsMgt = 0
      }
@@ -54,7 +54,7 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation, extentOfCurrentA
  if (armorPiece.kit.includes(2) && leggingsWorn == false) {
      currentLeggingsName.innerText = `Lábak: ${armorPiece.nameOfArmor}`
      currentLeggingsImg.style.opacity = 1
-     currentLeggingsMgt = Math.round((armorPiece.mgt) * 2 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 2 / extentOfCurrentArmorSet))
+     currentLeggingsMgt = Math.floor((armorPiece.mgt) * 2 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 2 / extentOfCurrentArmorSet))
      console.log(extentOfCurrentArmorSet)
      if (currentLeggingsMgt <= 0) {
         currentLeggingsMgt = 0
