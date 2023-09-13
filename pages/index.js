@@ -502,11 +502,9 @@ function removeAllSkillOptions() {
             if (extentOfCurrentArmorSet>=10) {
               extentOfCurrentArmorSet = 10
             }
-            console.log(armorObject)
           }
           for (let i = 0; i < armorObject.length; i++) {
-            armorSetMgt += Math.round(parseInt(armorObject[i].mgt) * parseInt(armorObject[i].kit) / 10)
-            console.log(armorSetMgt)
+            armorSetMgt += Math.round(parseInt(armorObject[i].mgt) * parseInt(armorObject[i].kit.length) / 10)
             let mgtCompensation = 0
             if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
               mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
@@ -900,7 +898,11 @@ function handleAnyOtherHmoModifier(){
     } else if (checkTypeIsAttributeCheck.checked == true) {
      skillCheckBase.innerText = attributes.value
      skills.disabled = true
-     rollModifier.value = 0
+     if (attributes.value % 2 == 1) {
+      rollModifier.value = 1
+     } else if (attributes.value % 2 == 0 && event && event.target.id == 'attributes'){
+       rollModifier.value = 0
+     }
     }
   skillCheckResult.innerText = ""
 }
