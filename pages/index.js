@@ -568,12 +568,26 @@ armorHandler()
         let currentRace = props.races.find(
           (name) => name.raceKey == JSON.parse(reader.result).raceKey
         )
+        let agingArray = Object.values(JSON.parse(reader.result).ageing.distribution)
+        console.log(agingArray)
         // faji módosító objektum értékei
         let currentRaceModifiers = Object.values(currentRace).slice(1, 11);
 //--------------------------------------------------------------------------------
-        let atkModifier = attrSpreadArray[0] + attrSpreadArray[1] + attrSpreadArray[2]
-        let aimModifier = attrSpreadArray[2] + attrSpreadArray[7] + attrSpreadArray[9]
-        let defModifier = attrSpreadArray[1] + attrSpreadArray[2] + attrSpreadArray[9]
+
+// let atkModifier = attrSpreadArray[0] + attrSpreadArray[1] + attrSpreadArray[2] - agingArray[0] - agingArray[1] - agingArray[2] + currentRaceModifiers[0] + currentRaceModifiers[1] + currentRaceModifiers[2]
+// let aimModifier = attrSpreadArray[2] + attrSpreadArray[7] + attrSpreadArray[9] - agingArray[2] - agingArray[7] - agingArray[9] + currentRaceModifiers[2] + currentRaceModifiers[7] + currentRaceModifiers[9]
+// let defModifier = attrSpreadArray[1] + attrSpreadArray[2] + attrSpreadArray[9] - agingArray[1] - agingArray[2] - agingArray[9] + currentRaceModifiers[1] + currentRaceModifiers[2] + currentRaceModifiers[9]
+
+function modifierCalculator(index1, index2, index3) {
+  let currentModifier = 0
+  currentModifier += (attrSpreadArray[index1] - agingArray[index1] + currentRaceModifiers[index1]);
+  currentModifier += (attrSpreadArray[index2] - agingArray[index2] + currentRaceModifiers[index2]);
+  currentModifier += (attrSpreadArray[index3] - agingArray[index3] + currentRaceModifiers[index3]);
+  return currentModifier
+}
+let atkModifier = modifierCalculator(0,1,2)
+let aimModifier = modifierCalculator(2,7,9)
+let defModifier = modifierCalculator(1,2,9)
 
         function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
           let attrBuyingObj = JSON.parse(reader.result).attrBuying
@@ -597,7 +611,7 @@ armorHandler()
         
         for (let i = 0; i < 10; i++) {
           let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i]
-          + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) + currentRaceModifiers[i]
+          + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) + currentRaceModifiers[i] - agingArray[i]
           let attrOption = document.createElement('option');
           attrOption.innerText = charAttributes[i];
           attrOption.value = currentAttribute;
@@ -637,7 +651,7 @@ armorHandler()
         let baseDef = JSON.parse(reader.result).stats.VÉ + currentChar.spd + currentChar.dex + currentChar.per + 60 + defModifier 
           + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Érz") + sumDefGainedByLevel
           +JSON.parse(reader.result).spentHm.VÉ
-        
+        console.log(baseAtk, baseDef, baseAim)
         let masterWeaponModifier = 0
         
         if (filteredArrayIfHasMasterWep.length!=0) {
@@ -649,7 +663,7 @@ armorHandler()
         let atkWithProfession = baseAtk+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
         let aimWithProfession = baseAim+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
         let defWithProfession = baseDef+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponDef + masterWeaponModifier)
-    
+        console.log(atkWithProfession, defWithProfession, aimWithProfession)
         function tvcoCalculator(atkAimDef) {
           let calculatedTVCO = 0
           if (atkAimDef % 10 == 0) {
