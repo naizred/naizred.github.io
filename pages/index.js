@@ -1212,7 +1212,7 @@ function handleAnyOtherHmoModifier(){
             <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel">
             Egyéb +/- HMO:
           </label>
-            <input type="text" name="anyOtherHmoModifier" id="anyOtherHmoModifier" onBlur={handleFileRead}/>
+            <input type="number" name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead}/>
         </div>
         <div id="rollResultWrapper">
           <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
