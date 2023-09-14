@@ -467,8 +467,8 @@ input[type="checkbox" i] {
   box-sizing: border-box;
   padding: initial;
   border: initial;
-  width: 1vw;
-  height: 1vw
+  width: 0.8vw;
+  height: 0.8vw
 }
 
 button {

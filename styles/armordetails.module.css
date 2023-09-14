@@ -59,18 +59,17 @@
       grid-column: span 2;
       padding: 0vw;
       margin: 0vw;
-      grid-template-columns: repeat(6,1fr);
-      grid-template-rows:repeat(10,1fr) ;
+      grid-template-columns: repeat(16,1fr);
+      grid-template-rows:repeat(22,1fr) ;
       border: 0.2vw solid #680604;
       -webkit-box-shadow: 0.15vw 0.15vw 0.4vw 0.15vw rgba(0, 0, 0, 0.75);
       -moz-box-shadow: 0.15vw 0.15vw 0.4vw 0.15vw rgba(0, 0, 0, 0.75);
       box-shadow: 0.15vw 0.15vw 0.4vw 0.15vw rgba(0, 0, 0, 0.75);
       border-radius: 1vw;
-      background-image: url('../public/armorParts/armorPartsDefault.png');
+      background-image: url('../public/armorParts/assassinArmorPartsDefault.png');
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 6vw 12vw;
-      background-position-x: 0.28vw;
+      background-size: 4vw 11vw;
       width: 6vw;
       height: 12vw;
       align-items: center;
@@ -80,52 +79,90 @@
       justify-self: center;
   }
 
-.currentChestImg, .currentLeggingsImg, .currentHelmetImg, .currentArmsImg{
+.currentLowerTorsoImg, .currentUpperTorsoImg, .currentLeggingsImg, .currentHelmetImg, .currentArmsImg{
   display: grid;
-  grid-row: 1/11;
-  grid-column: 1/7;
-  width: 6vw;
-  height: 12vw;
+  grid-row: 1/23;
+  grid-column: 1/17;
+  width: 4vw;
+  height: 11vw;
   opacity: 0;
+  align-self: center;
+  justify-self: center;
 }
+
+/* .currentHelmetImg {
+  height: 1.8vw;
+  width: 1.7vw;
+  grid-row: 3/5;
+  grid-column: 1/17;
+  margin-top: 0.2vw;
+  opacity: 1;
+}
+
+.currentUpperTorsoImg {
+  height: 1.3vw;
+  width: 3.1vw;
+  grid-row: 4/7;
+  grid-column: 1/17;
+  opacity: 1;
+}
+.currentLowerTorsoImg {
+  height: 2vw;
+  width: 1.8vw;
+  grid-row: 7/8;
+  grid-column: 1/17;
+  opacity: 1;
+}
+.currentArmsImg {
+  height: 3.3vw;
+  width: 3.5vw;
+  grid-row: 4/7;
+  grid-column: 1/17;
+  opacity: 1;
+}
+.currentLeggingsImg {
+  height: 6.2vw;
+  width: 3.4vw;
+  grid-row: 12/23;
+  grid-column: 1/17;
+  opacity: 1;
+} */
 
 .dmgReduction{
   display: grid;
-  grid-row: 1/2;
+  grid-row: 1/3;
   grid-column: 1/3;
   font-size: 1vw;
 }
-.currentHelmetDmgReduction {
+
+.currentHelmetDmgReduction, .currentUpperTorsoDmgReduction, .currentLowerTorsoDmgReduction,
+.currentArmsDmgReduction, .currentLeggingsDmgReduction {
   display: grid;
-  grid-row: 1/2;
-  grid-column: 4/5;
   font-size: 1vw;
-  color: white;
-  text-shadow:none
+  color: black;
+  text-shadow:none;
+  background-image: url('../public/straightLineBackground.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 5vw 0.1vw;
+  background-position-x: 0.7vw;
+  grid-column: 1/9;
 }
-.currentChestDmgReduction {
-  display: grid;
-  grid-row: 3/4;
-  grid-column: 4/5;
-  font-size: 1vw;
-  color: white;
-  text-shadow:none
+
+.currentHelmetDmgReduction {
+  grid-row: 3/5;
+}
+.currentUpperTorsoDmgReduction {
+  grid-row: 5/7;
+}
+.currentLowerTorsoDmgReduction {
+  grid-row: 8/10;
 }
 .currentArmsDmgReduction {
-  display: grid;
-  grid-row: 4/5;
-  grid-column: 3/4;
-  font-size: 1vw;
-  color: white;
-  text-shadow:none
+  grid-row: 6/8;
 }
 .currentLeggingsDmgReduction {
-  display: grid;
-  grid-row: 7/8;
-  grid-column: 4/5;
-  font-size: 1vw;
-  color: white;
-  text-shadow:none
+  grid-row: 14/16;
 }
 
 #armorList {
@@ -136,21 +173,21 @@
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(1, 1fr);
-  font-size: 1vw;
+  font-size: 0.7vw;
   list-style-type: none;
   text-align: left;
 }
 
 .currentArmorName {
   display: grid;
-  grid-column: 3 / 10;
+  grid-column: 2 / 11;
   text-align: left;
   align-content: center;
 }
 
 .currentArmorCheckBox {
   display: grid;
-  grid-column: 1 / 3;
+  grid-column: 1 / 2;
 }
 
 .underConstruction {

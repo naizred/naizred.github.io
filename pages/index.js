@@ -56,6 +56,7 @@ export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
 let filteredArrayIfHasParry
 let fileFirstLoaded = true
+let legendPointUsedOnDarkDice = false
 export default function Home(props) {
 
 //custom sort function to sort data by name
@@ -282,7 +283,9 @@ if (currentWeapon.w_type == "Ökölharc") {
       damageResult.innerText = 1
     }
 
-    if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) && currentWeapon.w_name != "Fúvócső" && darkDiceWasChangedToHalfOfStr == false) {
+    if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) &&
+      currentWeapon.w_name != "Fúvócső" && currentWeapon.w_name != "Célzott mágia" &&
+      darkDiceWasChangedToHalfOfStr == false && legendPointUsedOnDarkDice == false) {
       let archeryBonusDmg = 0
 
       for (let i = 0; i < 3; i++) {
@@ -348,6 +351,7 @@ if (currentWeapon.w_type == "Ökölharc") {
   
   function handleWhenLegendPointIsUsed(event) {
     if (event.target.id == "darkDiceResultSelect") {
+      legendPointUsedOnDarkDice = true
       darkDiceRerollByCounterLP.style.display = "grid"
 } else if (event.target.id == "lightDiceResultSelect") {
   lightDiceRerollByCounterLP.style.display = "grid"
@@ -357,6 +361,7 @@ if (currentWeapon.w_type == "Ökölharc") {
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
     rollButton.disabled = false
+    legendPointUsedOnDarkDice = false
   }
 
   function handleWhenSkillCheckLegendPointIsUsed(event) {
@@ -437,7 +442,7 @@ function removeAllSkillOptions() {
   }
 }
     
-  let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ", "Fúvócső"]
+  let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ", "Fúvócső", "MÁGIA"]
   let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
   let currentCharFinalAttributes = []
 //   function handleFileImportClick() {

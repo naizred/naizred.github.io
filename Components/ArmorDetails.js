@@ -1,10 +1,12 @@
 import styles from '../styles/armordetails.module.css';
 let helmetWorn = false
-let chestWorn = false
+let upperTorsoWorn = false
+let lowerTorsoWorn = false
 let armsWorn = false
 let leggingsWorn = false
 let currentHelmetMgt = 0
-let currentChestMgt = 0
+let currentUpperTorsoMgt = 0
+let currentLowerTorsoMgt = 0
 let currentArmsMgt = 0
 let currentLeggingsMgt = 0
 let totalMgt = 0
@@ -23,19 +25,33 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation, extentOfCurrentA
      totalMgt += currentHelmetMgt
      helmetWorn = true
     }
- if (armorPiece.kit.includes(6) && chestWorn == false) {
-     currentChestName.innerText = `Törzs: ${armorPiece.nameOfArmor}`
-     currentChestImg.style.opacity = 1
-     currentChestMgt = Math.ceil((armorPiece.mgt) * 4 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 4 / extentOfCurrentArmorSet))
-     if (currentChestMgt <= 0) {
-        currentChestMgt = 0
+ if (armorPiece.kit.includes(8) && upperTorsoWorn == false) {
+     currentUpperTorsoName.innerText = `Mellkas: ${armorPiece.nameOfArmor}`
+     currentUpperTorsoImg.style.opacity = 1
+     currentUpperTorsoMgt = Math.round((armorPiece.mgt - mgtCompensation) * 2 / extentOfCurrentArmorSet)
+     if (currentUpperTorsoMgt <= 0) {
+        currentUpperTorsoMgt = 0
      }
-     currentChestLi.value = currentChestMgt
-     currentChestCheckBox.value = 6
-     currentChestCheckBox.checked = true
-     currentChestDmgReduction.innerText = armorPiece.dmgReduction
-     totalMgt += currentChestMgt
-     chestWorn = true
+     currentUpperTorsoLi.value = currentUpperTorsoMgt
+     currentUpperTorsoCheckBox.value = 8
+     currentUpperTorsoCheckBox.checked = true
+     currentUpperTorsoDmgReduction.innerText = armorPiece.dmgReduction
+     totalMgt += currentUpperTorsoMgt
+     upperTorsoWorn = true
+    }
+ if (armorPiece.kit.includes(6) && lowerTorsoWorn == false) {
+     currentLowerTorsoName.innerText = `Has: ${armorPiece.nameOfArmor}`
+     currentLowerTorsoImg.style.opacity = 1
+     currentLowerTorsoMgt = Math.round((armorPiece.mgt) * 2 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 2 / extentOfCurrentArmorSet))
+     if (currentLowerTorsoMgt <= 0) {
+        currentLowerTorsoMgt = 0
+     }
+     currentLowerTorsoLi.value = currentLowerTorsoMgt
+     currentLowerTorsoCheckBox.value = 6
+     currentLowerTorsoCheckBox.checked = true
+     currentLowerTorsoDmgReduction.innerText = armorPiece.dmgReduction
+     totalMgt += currentLowerTorsoMgt
+     lowerTorsoWorn = true
     }
  if (armorPiece.kit.includes(3) && armsWorn == false) {
      currentArmsName.innerText = `Karok: ${armorPiece.nameOfArmor}`
@@ -55,7 +71,6 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation, extentOfCurrentA
      currentLeggingsName.innerText = `Lábak: ${armorPiece.nameOfArmor}`
      currentLeggingsImg.style.opacity = 1
      currentLeggingsMgt = Math.floor((armorPiece.mgt) * 2 / extentOfCurrentArmorSet - Math.round(mgtCompensation * 2 / extentOfCurrentArmorSet))
-     console.log(extentOfCurrentArmorSet)
      if (currentLeggingsMgt <= 0) {
         currentLeggingsMgt = 0
      }
@@ -94,8 +109,10 @@ function ArmorDetails() {
         }
         if (event.target.value.includes(10)) {
             armorEquipper(10, currentHelmetImg, currentHelmetLi, currentHelmetDmgReduction)
+        } else if (event.target.value.includes(8)) {
+            armorEquipper(8, currentUpperTorsoImg, currentUpperTorsoLi, currentUpperTorsoDmgReduction)
         } else if (event.target.value.includes(6)) {
-            armorEquipper(6, currentChestImg, currentChestLi, currentChestDmgReduction)
+            armorEquipper(6, currentLowerTorsoImg, currentLowerTorsoLi, currentLowerTorsoDmgReduction)
         } else if (event.target.value.includes(3)) {
             armorEquipper(3, currentArmsImg, currentArmsLi, currentArmsDmgReduction)
         } else if (event.target.value.includes(2)) {
@@ -116,8 +133,11 @@ function ArmorDetails() {
                             <li id='currentHelmetLi' className={styles.armorListItem}>
                                 <input id='currentHelmetCheckBox' type='checkBox' onChange={handleArmorOnOrOff} className={styles.currentArmorCheckBox}/><span className={styles.currentArmorName} id='currentHelmetName'>Fej: Nincs</span>
                             </li>
-                            <li id='currentChestLi' className={styles.armorListItem}>
-                                <input id='currentChestCheckBox' type='checkBox' onChange={handleArmorOnOrOff} className={styles.currentArmorCheckBox}/><span className={styles.currentArmorName} id='currentChestName'>Törzs: Nincs</span>
+                            <li id='currentUpperTorsoLi' className={styles.armorListItem}>
+                                <input id='currentUpperTorsoCheckBox' type='checkBox' onChange={handleArmorOnOrOff} className={styles.currentArmorCheckBox}/><span className={styles.currentArmorName} id='currentUpperTorsoName'>Mellkas: Nincs</span>
+                            </li>
+                            <li id='currentLowerTorsoLi' className={styles.armorListItem}>
+                                <input id='currentLowerTorsoCheckBox' type='checkBox' onChange={handleArmorOnOrOff} className={styles.currentArmorCheckBox}/><span className={styles.currentArmorName} id='currentLowerTorsoName'>Has: Nincs</span>
                             </li>
                             <li id='currentArmsLi' className={styles.armorListItem}>
                                 <input id='currentArmsCheckBox' type='checkBox' onChange={handleArmorOnOrOff} className={styles.currentArmorCheckBox}/><span className={styles.currentArmorName} id='currentArmsName'>Karok: Nincs</span>
@@ -138,14 +158,16 @@ function ArmorDetails() {
             </div>
                 <div className={styles.currentArmorImg}>
                     <div id='dmgReduction' className={styles.dmgReduction}>SFÉ:</div>
-                        <img id='currentHelmetImg' className={styles.currentHelmetImg} src='./armorParts/helmetSteel.png'/>
-                        <img id='currentChestImg' className={styles.currentChestImg} src='./armorParts/chestSteel.png'/>
-                        <img id='currentArmsImg' className={styles.currentArmsImg} src='./armorParts/armsSteel.png'/>
-                        <img id='currentLeggingsImg' className={styles.currentLeggingsImg} src='./armorParts/leggingsSteel.png'/>
                     <li id='currentHelmetDmgReduction' className={styles.currentHelmetDmgReduction}></li>
-                    <li id='currentChestDmgReduction' className={styles.currentChestDmgReduction}></li>
+                    <li id='currentUpperTorsoDmgReduction' className={styles.currentUpperTorsoDmgReduction}></li>
+                    <li id='currentLowerTorsoDmgReduction' className={styles.currentLowerTorsoDmgReduction}></li>
                     <li id='currentArmsDmgReduction' className={styles.currentArmsDmgReduction}></li>
                     <li id='currentLeggingsDmgReduction' className={styles.currentLeggingsDmgReduction}></li>
+                        <img id='currentHelmetImg' className={styles.currentHelmetImg} src='./armorParts/helmetAssassin.png'/>
+                        <img id='currentUpperTorsoImg' className={styles.currentUpperTorsoImg} src='./armorParts/upperTorsoAssassin.png'/>
+                        <img id='currentLowerTorsoImg' className={styles.currentLowerTorsoImg} src='./armorParts/lowerTorsoAssassin.png'/>
+                        <img id='currentArmsImg' className={styles.currentArmsImg} src='./armorParts/armsAssassin.png'/>
+                        <img id='currentLeggingsImg' className={styles.currentLeggingsImg} src='./armorParts/leggingsAssassin.png'/>
             </div>
             </div>
             </>
