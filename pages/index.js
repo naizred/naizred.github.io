@@ -284,7 +284,7 @@ if (currentWeapon.w_type == "Ökölharc") {
     }
 
     if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) &&
-      currentWeapon.w_name != "Fúvócső" && currentWeapon.w_name != "Célzott mágia" &&
+      currentWeapon.w_name != "Fúvócső" && currentWeapon.w_name != "Célzott mágian" &&
       darkDiceWasChangedToHalfOfStr == false && legendPointUsedOnDarkDice == false) {
       let archeryBonusDmg = 0
 
@@ -455,6 +455,7 @@ function removeAllSkillOptions() {
     reader.addEventListener(
       "load",
       async () => {
+        anyOtherHmoModifier.disabled = false
         skillCheckRollButton.style.display = "grid"
         actionsWrapper.style.display = "grid"
        // removeAllAttributeOptions()
@@ -1231,7 +1232,7 @@ function handleAnyOtherHmoModifier(){
             <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel">
             Egyéb +/- HMO:
           </label>
-            <input type="number" name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead}/>
+            <input type="number" name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead} disabled={true} />
         </div>
         <div id="rollResultWrapper">
           <label htmlFor="darkDiceResultSelect" id="darkDiceResult">

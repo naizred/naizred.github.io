@@ -156,10 +156,11 @@
   grid-row: 5/7;
 }
 .currentLowerTorsoDmgReduction {
-  grid-row: 8/10;
+  grid-row: 7/10;
 }
 .currentArmsDmgReduction {
-  grid-row: 6/8;
+  grid-row: 9/12;
+  background-size: 0.7vw 0.1vw;
 }
 .currentLeggingsDmgReduction {
   grid-row: 14/16;
