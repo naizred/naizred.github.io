@@ -31,32 +31,38 @@ export const getStaticProps = async () => {
   
   const fs = require("fs");
   const jsonDirectory = path.join(process.cwd(), "json");
-  let weapons = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/weapons.json", "utf8"));
+  let armors = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/armors.json", "utf8"));
     let chars = JSON.parse(
       fs.readFileSync(jsonDirectory + "/chars.json", "utf8"));
-    let races = JSON.parse(
-      fs.readFileSync(jsonDirectory + "/races.json", "utf8"));
-    let gods = JSON.parse(
-      fs.readFileSync(jsonDirectory + "/gods.json", "utf8"));
-    let armors = JSON.parse(
-      fs.readFileSync(jsonDirectory + "/armors.json", "utf8"));
+      let gods = JSON.parse(
+        fs.readFileSync(jsonDirectory + "/gods.json", "utf8"));
+        let races = JSON.parse(
+          fs.readFileSync(jsonDirectory + "/races.json", "utf8"));
+        let allSkills = JSON.parse(
+          fs.readFileSync(jsonDirectory + "/allSkills.json", "utf8"));
+  let weapons = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/weapons.json", "utf8"));
   return {
     props: {
       weapons,
       chars,
       races,
       gods,
-      armors
+      armors,
+      allSkills
     },
   };
 };
 
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
+let filteredArrayIfHasAnyAffinity
 let filteredArrayIfHasParry
 let fileFirstLoaded = true
 let legendPointUsedOnDarkDice = false
+
+// --- itt kezdődik az oldal maga
 export default function Home(props) {
 
 //custom sort function to sort data by name
@@ -536,6 +542,8 @@ armorHandler()
         let filteredArrayIfHasVigorous = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Életerős");
         let filteredArrayIfHasMagicallyAttuned = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Varázstudó");
         let filteredArrayIfHasNimble = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Fürge");
+        filteredArrayIfHasAnyAffinity = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude.includes("affinitás"));
+        console.log(filteredArrayIfHasAnyAffinity)
         //----szűrés képzettségekre
         let filteredArrayIfHasPsi = JSON.parse(reader.result).skills.filter((name) => name.name == "Pszi")
         let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
@@ -628,12 +636,12 @@ let defModifier = modifierCalculator(1,2,9)
         
         for (let i = 0; JSON.parse(reader.result).skills[i].name != null; i++) {
           let skillOption = document.createElement('option');
-          skillOption.value = JSON.parse(reader.result).skills[i].level;
+          skillOption.value = [JSON.parse(reader.result).skills[i].level, JSON.parse(reader.result).skills[i].name];
           let tempLevelNameStore = parseInt(JSON.parse(reader.result).skills[i].level);
           if (JSON.parse(reader.result).skills[i].subSkill) {
-            skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${JSON.parse(reader.result).skills[i].subSkill}) (${skillLevelsMeaning[tempLevelNameStore-1]})`;
+            skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${JSON.parse(reader.result).skills[i].subSkill}) (${skillLevelsMeaning[tempLevelNameStore - 1]})`;
           } else {
-            skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${skillLevelsMeaning[tempLevelNameStore-1]})`;
+            skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${skillLevelsMeaning[tempLevelNameStore - 1]})`;
           }
           skills.appendChild(skillOption);
         }
@@ -795,7 +803,6 @@ let defModifier = modifierCalculator(1,2,9)
         } else if (charStrWithWarriorMonkAptitude >= 27) {
           damageOfFists = "3k5"  
         }
-        evaluateSkillOrAttributeCheckBase()
         //-------- mana, fp és pszi számítás kell
         //-----pszi
         let lowestStatForPsiPoints = Math.min(currentCharFinalAttributes[6], currentCharFinalAttributes[7], currentCharFinalAttributes[8])
@@ -892,6 +899,7 @@ let defModifier = modifierCalculator(1,2,9)
           fetchCharacterData(charName.innerText)
         } 
         fileFirstLoaded = false;
+        evaluateSkillOrAttributeCheckBase()
       },
     );    
     
@@ -907,14 +915,34 @@ function handleAnyOtherHmoModifier(){
  async function evaluateSkillOrAttributeCheckBase(event) {
   skillCheckDarkDiceRerollByCounterLP.style.display = "none"
   skillCheckLightDiceRerollByCounterLP.style.display = "none"
-   if (checkTypeIsSkillCheck.checked == true) {  
+   if (checkTypeIsSkillCheck.checked == true) { 
     skills.disabled = false
-     skillCheckBase.innerText = skills.value * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
+     skillCheckBase.innerText = skills.value[0] * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
      if (attributes.value % 2 == 1) {
        rollModifier.value = 1
       } else if (attributes.value % 2 == 0 && event && event.target.id == 'attributes'){
         rollModifier.value = 0
-      }
+     }
+     if (filteredArrayIfHasAnyAffinity.length != 0) {
+         for (let i = 0; i < props.allSkills.length; i++) {
+           let categoryOfCurrentSkill = ""
+           if (skills.value.includes(props.allSkills[i].nameOfSkill)) {
+             categoryOfCurrentSkill = props.allSkills[i].category
+             console.log(skills.value)
+             console.log(skills.value.includes(props.allSkills[i].nameOfSkill))
+            for (let j = 0; j < filteredArrayIfHasAnyAffinity.length; j++) {
+              if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill)) {
+                rollModifier.value = filteredArrayIfHasAnyAffinity[j].level
+                break
+              }
+             }
+             break
+           } else {
+             continue
+           }
+         }     
+     }
+
     } else if (checkTypeIsAttributeCheck.checked == true) {
      skillCheckBase.innerText = attributes.value
      skills.disabled = true

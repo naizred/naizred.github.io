@@ -1,0 +1,10 @@
+[
+    {"skillId":1, "nameOfSkill": "Álcázás/álruha", "category":"Alvilági"},
+    {"skillId":2, "nameOfSkill": "Éberség", "category":"Alvilági"},
+    {"skillId":3, "nameOfSkill": "Kutatás/elrejtés", "category":"Alvilági"},
+    {"skillId":4, "nameOfSkill": "Leszerelés/feltörés", "category":"Alvilági"},
+    {"skillId":5, "nameOfSkill": "Lopódzás", "category":"Alvilági"},
+    {"skillId":6, "nameOfSkill": "Orvtámadás", "category":"Alvilági"},
+    {"skillId":7, "nameOfSkill": "Rejtőzködés", "category":"Alvilági"},
+    {"skillId":8, "nameOfSkill": "Trükk", "category":"Alvilági"}
+]
