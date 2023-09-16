@@ -638,7 +638,9 @@ let defModifier = modifierCalculator(1,2,9)
           currentCharFinalAttributes.push(currentAttribute)
         }
         
-        for (let i = 0; JSON.parse(reader.result).skills[i].name != null; i++) {
+        for (let i = 0; i < JSON.parse(reader.result).skills.length; i++) {
+          if (JSON.parse(reader.result).skills[i].name != null) {          
+          console.log(JSON.parse(reader.result).skills[i])
           let skillOption = document.createElement('option');
           skillOption.value = [JSON.parse(reader.result).skills[i].level, JSON.parse(reader.result).skills[i].name];
           let tempLevelNameStore = parseInt(JSON.parse(reader.result).skills[i].level);
@@ -648,6 +650,9 @@ let defModifier = modifierCalculator(1,2,9)
             skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${skillLevelsMeaning[tempLevelNameStore - 1]})`;
           }
           skills.appendChild(skillOption);
+          } else {
+            continue
+          }
         }
       }
         
@@ -925,20 +930,19 @@ function handleAnyOtherHmoModifier(){
      skillCheckBase.innerText = skills.value[0] * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
      if (attributes.value % 2 == 1) {
        rollModifier.value = 1
-      } else if (attributes.value % 2 == 0 && event && event.target.id == 'attributes'){
+      } else if (attributes.value % 2 == 0){
         rollModifier.value = 0
      }
      if (filteredArrayIfHasAnyAffinity.length != 0) {
        for (let i = 0; i < props.allSkills.length; i++) {
-           let categoryOfCurrentSkill = ""
+         let categoryOfCurrentSkill = ""
+         console.log(skills.value)
            if (skills.value.includes(props.allSkills[i].nameOfSkill)) {
              categoryOfCurrentSkill = props.allSkills[i].category
-             console.log(skills.value)
-             console.log(skills.value.includes(props.allSkills[i].nameOfSkill))
             for (let j = 0; j < filteredArrayIfHasAnyAffinity.length; j++) {
               if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill) && rollModifier.value < filteredArrayIfHasAnyAffinity[j].level) {
                 rollModifier.value = filteredArrayIfHasAnyAffinity[j].level
-                console.log(j)
+                console.log(filteredArrayIfHasAnyAffinity[j].aptitude, filteredArrayIfHasAnyAffinity[j].level)
                 break
               } 
              }
@@ -954,7 +958,7 @@ function handleAnyOtherHmoModifier(){
      skills.disabled = true
      if (attributes.value % 2 == 1) {
       rollModifier.value = 1
-     } else if (attributes.value % 2 == 0 && event && event.target.id == 'attributes'){
+     } else if (attributes.value % 2 == 0){
        rollModifier.value = 0
      }
     }
@@ -1020,7 +1024,7 @@ function handleAnyOtherHmoModifier(){
         skillCheckLightDicePlusRollMod = 10
       }
 //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
-      console.log("Stresszpróba DM előtt", skillCheckLightDicePlusRollMod, skillCheckDarkDice)
+      console.log("Stresszpróba DM előtt", skillCheckLightDice, skillCheckDarkDice)
       if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0 && skillCheckLightDice !=1) {
   skillCheckLightDicePlusRollMod = skillCheckLightDice
       }
