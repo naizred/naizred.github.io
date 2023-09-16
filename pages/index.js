@@ -920,6 +920,7 @@ function handleAnyOtherHmoModifier(){
   skillCheckDarkDiceRerollByCounterLP.style.display = "none"
   skillCheckLightDiceRerollByCounterLP.style.display = "none"
    if (checkTypeIsSkillCheck.checked == true) { 
+    rollModifier.value = 0
     skills.disabled = false
      skillCheckBase.innerText = skills.value[0] * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
      if (attributes.value % 2 == 1) {
@@ -928,17 +929,18 @@ function handleAnyOtherHmoModifier(){
         rollModifier.value = 0
      }
      if (filteredArrayIfHasAnyAffinity.length != 0) {
-         for (let i = 0; i < props.allSkills.length; i++) {
+       for (let i = 0; i < props.allSkills.length; i++) {
            let categoryOfCurrentSkill = ""
            if (skills.value.includes(props.allSkills[i].nameOfSkill)) {
              categoryOfCurrentSkill = props.allSkills[i].category
              console.log(skills.value)
              console.log(skills.value.includes(props.allSkills[i].nameOfSkill))
             for (let j = 0; j < filteredArrayIfHasAnyAffinity.length; j++) {
-              if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill)) {
+              if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill) && rollModifier.value < filteredArrayIfHasAnyAffinity[j].level) {
                 rollModifier.value = filteredArrayIfHasAnyAffinity[j].level
+                console.log(j)
                 break
-              }
+              } 
              }
              break
            } else {
@@ -948,7 +950,7 @@ function handleAnyOtherHmoModifier(){
      }
 
     } else if (checkTypeIsAttributeCheck.checked == true) {
-     skillCheckBase.innerText = attributes.value
+     skillCheckBase.innerText = parseInt(attributes.value) + parseInt(succFailModifier.value)
      skills.disabled = true
      if (attributes.value % 2 == 1) {
       rollModifier.value = 1
@@ -1018,11 +1020,11 @@ function handleAnyOtherHmoModifier(){
         skillCheckLightDicePlusRollMod = 10
       }
 //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
-      console.log("Stresszpróba DM előtt", skillCheckLightDice, skillCheckDarkDice)
+      console.log("Stresszpróba DM előtt", skillCheckLightDicePlusRollMod, skillCheckDarkDice)
       if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0 && skillCheckLightDice !=1) {
   skillCheckLightDicePlusRollMod = skillCheckLightDice
       }
-      console.log("Stresszpróba DM után", skillCheckLightDice, skillCheckDarkDice)
+      console.log("Stresszpróba DM után", skillCheckLightDicePlusRollMod, skillCheckDarkDice)
     if (skillCheckLightDicePlusRollMod>skillCheckDarkDice) {
       if (skillCheckLightDicePlusRollMod == 10) {
         skillCheckCalculatedResultFromRoll = 3
