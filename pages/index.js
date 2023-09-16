@@ -542,7 +542,11 @@ armorHandler()
         let filteredArrayIfHasVigorous = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Életerős");
         let filteredArrayIfHasMagicallyAttuned = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Varázstudó");
         let filteredArrayIfHasNimble = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude == "Fürge");
-        filteredArrayIfHasAnyAffinity = JSON.parse(reader.result).aptitudes.filter((name) => name.aptitude.includes("affinitás"));
+        filteredArrayIfHasAnyAffinity = JSON.parse(reader.result).aptitudes.filter((name) => {
+          if (name.aptitude != null) {
+            return name.aptitude.includes("affinitás") 
+          }
+        });
         console.log(filteredArrayIfHasAnyAffinity)
         //----szűrés képzettségekre
         let filteredArrayIfHasPsi = JSON.parse(reader.result).skills.filter((name) => name.name == "Pszi")
