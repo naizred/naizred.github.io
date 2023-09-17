@@ -275,6 +275,11 @@ if (currentWeapon.w_type == "Ökölharc") {
       originalDarkDice +
       parseInt(destroyerLevelSelect.value) +
       parseInt(professionDamageBonus);
+  } else if (currentWeaponDamage === "1k10+1") {
+    damageResult.innerText =
+      originalDarkDice +
+      parseInt(destroyerLevelSelect.value) +
+      parseInt(professionDamageBonus)+1;
   } else if (currentWeaponDamage === "1k2") {
     damageResult.innerText =
     Math.ceil(originalDarkDice / 5) +
@@ -291,7 +296,7 @@ if (currentWeapon.w_type == "Ökölharc") {
     }
 
     if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) &&
-      currentWeapon.w_name != "Fúvócső" && currentWeapon.w_name != "Célzott mágian" &&
+      currentWeapon.w_name != "Fúvócső" && currentWeapon.w_name != "Célzott mágia" &&
       darkDiceWasChangedToHalfOfStr == false && legendPointUsedOnDarkDice == false) {
       let archeryBonusDmg = 0
 
@@ -475,7 +480,6 @@ function removeAllSkillOptions() {
           } 
         }
 
-
         if (fileFirstLoaded == true && JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null) {
           for (let i = 0; i < props.weapons.length; i++) {
             if (props.weapons[i].w_name.includes(JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].rightWeapon)) {
@@ -505,7 +509,6 @@ function removeAllSkillOptions() {
             mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
           }
           equippedOrNot.checked = true
-          console.log(armorPieces)
           
             for (let j = 0; j < props.armors.length; j++) {
               if (armorPieces[0] == props.armors[j].nameOfArmor) {
@@ -514,14 +517,9 @@ function removeAllSkillOptions() {
               } else {
                 continue
               }
-            }
-          
-          
+            }                    
           // for (let i = 0; i < armorObject.length; i++) {
-          //   //armorSetMgt += Math.round(armorObject[i].materialIndex * armorObject[i].kit.length)
-            
-
-            
+          //   //armorSetMgt += Math.round(armorObject[i].materialIndex * armorObject[i].kit.length)           
           // }
         }
 armorHandler()
@@ -1153,26 +1151,21 @@ function handleAnyOtherHmoModifier(){
       tempImg.src = `./bodyParts/${bodypart}`;
       tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 100);
     }
-
     if (bodyPart.innerText == "bal láb") {
       currentBodypart("LeftLeg.png");
     }
     if (bodyPart.innerText == "jobb láb") {
       currentBodypart("RightLeg.png");
     }
-
     if (bodyPart.innerText == "bal kar") {
       currentBodypart("LeftArm.png");
     }
-
     if (bodyPart.innerText == "fegyverforgató kar") {
       currentBodypart("RightArm.png");
     }
-
     if (bodyPart.innerText == "törzs") {
       currentBodypart("Torso.png");
     }
-
     if (bodyPart.innerText == "fej") {
       currentBodypart("Head.png");
     }
