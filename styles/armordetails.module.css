@@ -177,10 +177,12 @@
   font-size: 0.7vw;
   list-style-type: none;
   text-align: left;
+  margin: 0.2vw 0vw;
 }
 
 .currentArmorName {
   display: grid;
+  grid-row: 1/2;
   grid-column: 2 / 11;
   text-align: left;
   align-content: center;
@@ -188,7 +190,8 @@
 
 .currentArmorCheckBox {
   display: grid;
-  grid-column: 1 / 2;
+  grid-row: 1/2;
+  grid-column: 7 / 8;
 }
 
 .underConstruction {

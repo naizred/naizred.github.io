@@ -55,6 +55,7 @@ export const getStaticProps = async () => {
   };
 };
 
+export let mgtCompensation = 0
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
 let filteredArrayIfHasAnyAffinity
@@ -499,30 +500,29 @@ function removeAllSkillOptions() {
             return
           }
           let armorPieces = JSON.parse(reader.result).armourSet.pieces
-          let armorObject = []
-          for (let i = 0; i < armorPieces.length; i++) {
-            let currentPieceOfArmor = armorPieces[i]
+         // let armorObject = []
+          if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
+            mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
+          }
+          equippedOrNot.checked = true
+          console.log(armorPieces)
+          
             for (let j = 0; j < props.armors.length; j++) {
-              if (currentPieceOfArmor == props.armors[j].nameOfArmor) {
-                extentOfCurrentArmorSet += props.armors[j].kit.length
-                armorObject.push(props.armors[j])
+              if (armorPieces[0] == props.armors[j].nameOfArmor) {
+                checkWhereItIsWorn(props.armors[j], mgtCompensation)
                 break
               } else {
                 continue
               }
             }
-            if (extentOfCurrentArmorSet>=10) {
-              extentOfCurrentArmorSet = 10
-            }
-          }
-          for (let i = 0; i < armorObject.length; i++) {
-            armorSetMgt += Math.round(parseInt(armorObject[i].mgt) * parseInt(armorObject[i].kit.length) / 10)
-            let mgtCompensation = 0
-            if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
-              mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
-            }
-            checkWhereItIsWorn(armorObject[i], mgtCompensation,extentOfCurrentArmorSet,armorSetMgt)
-          }
+          
+          
+          // for (let i = 0; i < armorObject.length; i++) {
+          //   //armorSetMgt += Math.round(armorObject[i].materialIndex * armorObject[i].kit.length)
+            
+
+            
+          // }
         }
 armorHandler()
 //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból 
@@ -640,7 +640,6 @@ let defModifier = modifierCalculator(1,2,9)
         
         for (let i = 0; i < JSON.parse(reader.result).skills.length; i++) {
           if (JSON.parse(reader.result).skills[i].name != null) {          
-          console.log(JSON.parse(reader.result).skills[i])
           let skillOption = document.createElement('option');
           skillOption.value = [JSON.parse(reader.result).skills[i].level, JSON.parse(reader.result).skills[i].name];
           let tempLevelNameStore = parseInt(JSON.parse(reader.result).skills[i].level);
@@ -1270,7 +1269,7 @@ function handleAnyOtherHmoModifier(){
             <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel">
             Egyéb +/- HMO:
           </label>
-            <input type="number" name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead} disabled={true} />
+            <input type="number" step={0.5} name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead} disabled={true} />
         </div>
         <div id="rollResultWrapper">
           <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
