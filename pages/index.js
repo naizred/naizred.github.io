@@ -1137,11 +1137,7 @@ function handleAnyOtherHmoModifier(){
         charAtkSum.animate([{color: "white"}, {color:"black"}],200)
     }
     
-  function hitChecker(originalLightDice) {
-    return bodyParts[originalLightDice - 1];
-  }
-
-    bodyPart.innerText = hitChecker(originalLightDice);
+    bodyPart.innerText = bodyParts[originalLightDice - 1];
 
     let tempImg = document.createElement("img");
     tempImg.classList.add("tempImg");
