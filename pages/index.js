@@ -701,7 +701,6 @@ let defModifier = modifierCalculator(1,2,9)
         //--- külön az erő tulajdonság, ami az oldalon megjelenik
 
         initiative.innerText = currentCharFinalAttributes[1] + currentCharFinalAttributes[6] + currentCharFinalAttributes[9] + sumInitiativeGainedByLevel + JSON.parse(reader.result).stats.KÉ;
-
         // legenerálja a fizikai tulajdonságok nevét és értékét
         if (fileFirstLoaded == true) {
           for (let i = 0; i < 5; i++) {

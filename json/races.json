@@ -15,6 +15,6 @@
 "chaMod":0, "intMod":1, "wllMod":1, "astMod":0, "perMod":0},
 {"raceKey":"Khál", "strMod":2, "spdMod":1, "dexMod":0, "conMod":1, "vitMod":1, 
 "chaMod":-2, "intMod":-2, "wllMod":0, "astMod":-2, "perMod":1},
-{"raceKey":"Wier", "strMod":-1, "spdMod":1, "dexMod":0, "conMod":0, "vitMod":0, 
+{"raceKey":"Wier", "strMod":0, "spdMod":0, "dexMod":0, "conMod":0, "vitMod":0, 
 "chaMod":0, "intMod":0, "wllMod":0, "astMod":0, "perMod":0}
 ]
