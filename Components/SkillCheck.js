@@ -4,10 +4,6 @@ let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
 let skillCheckSuccFailModifiers = [0, 1, 2, 3, 4, 5, -1, -2, -3, -4, -5];
 let skillCheckRolled = false
 
-export function handleNameChangeToEvalSkillCheckBase() {
-    evaluateSkillOrAttributeCheckBase(onChange)
-}
-
 function SkillCheck(props) {
     function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
 
@@ -238,12 +234,13 @@ function SkillCheck(props) {
         <label htmlFor="skills" id="skillsLabel" className="skillCheckLabel">
             Választott képzettség:
           </label>
-          <select id="skills" name="skills" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
+            <select id="skills" name="skills" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
+            <option>Válassz képzettséget</option>
           </select>
           <label htmlFor="attributes" id="attributesLabel" className="skillCheckLabel">
             Választott tulajdonság:
           </label>
-          <select id="attributes" name="attributes" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
+            <select id="attributes" name="attributes" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
           </select>
           <label htmlFor="rollModifier" id="rollModifierLabel" className="skillCheckLabel">
             Dobásmódosító:

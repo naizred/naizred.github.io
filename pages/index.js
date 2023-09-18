@@ -7,7 +7,7 @@ import ActionList from "../Components/ActionsList";
 import ArmorDetails from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
-import SkillCheck, { handleNameChangeToEvalSkillCheckBase } from "../Components/SkillCheck";
+import SkillCheck from "../Components/SkillCheck";
 
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
@@ -847,6 +847,7 @@ let defModifier = modifierCalculator(1,2,9)
           fetchCharacterData(charName.innerText)
         } 
         fileFirstLoaded = false;
+
         //evaluateSkillOrAttributeCheckBase()
       },
     );    
@@ -963,7 +964,7 @@ function handleAnyOtherHmoModifier(){
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
         <div id="charInfoWrapper">
-          <div id="charName" onChange={handleNameChangeToEvalSkillCheckBase}></div>
+          <div id="charName"></div>
           <div id="charLevel"></div>
           <div id="charRace"></div>
           <div id="charClass"></div>
