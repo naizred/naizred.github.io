@@ -4,6 +4,7 @@
   grid-auto-flow:row;
     grid-row: 6/15;
     grid-column: 1/4;
+    height: 30vw;
     font-family: 'MedievalSharp', cursive;
     color: black;
     -webkit-text-stroke: #f35900 0.01vw;
