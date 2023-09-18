@@ -68,7 +68,7 @@ ul{
 
 #skillCheckWrapper {
   display: grid;
-  grid-row: 15/25;
+  grid-row: 13/25;
   grid-column: 1/16;
   grid-template-columns: repeat(16,1fr);
   grid-template-rows: repeat(11,1fr);

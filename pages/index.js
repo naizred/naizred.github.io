@@ -7,8 +7,7 @@ import ActionList from "../Components/ActionsList";
 import ArmorDetails from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
-import { evaluateSkillOrAttributeCheckBase } from "./functions/evaluateSkillCheckBase";
-import SkillCheck from "../Components/SkillCheck";
+import SkillCheck, { handleNameChangeToEvalSkillCheckBase } from "../Components/SkillCheck";
 
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
@@ -60,6 +59,9 @@ export let mgtCompensation = 0
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
 export let filteredArrayIfHasAnyAffinity
+export const specialCases1 = [2, 3, 4];
+export const specialCases2 = [5, 6, 7];
+export const specialCases3 = [8, 9];
 let filteredArrayIfHasParry
 let fileFirstLoaded = true
 let legendPointUsedOnDarkDice = false
@@ -114,9 +116,6 @@ let damageOfFists = "1k10"
 
 //------------------------------------------------------------------------
 //-------A dobás ------
-  const specialCases1 = [2, 3, 4];
-  const specialCases2 = [5, 6, 7];
-  const specialCases3 = [8, 9];
 
   let darkDiceWasChangedToHalfOfStr = false
 
@@ -848,7 +847,7 @@ let defModifier = modifierCalculator(1,2,9)
           fetchCharacterData(charName.innerText)
         } 
         fileFirstLoaded = false;
-        evaluateSkillOrAttributeCheckBase()
+        //evaluateSkillOrAttributeCheckBase()
       },
     );    
     
@@ -964,7 +963,7 @@ function handleAnyOtherHmoModifier(){
           <div id="bodyPart" className={styles.bodyPart}></div>
         </div>
         <div id="charInfoWrapper">
-          <div id="charName"></div>
+          <div id="charName" onChange={handleNameChangeToEvalSkillCheckBase}></div>
           <div id="charLevel"></div>
           <div id="charRace"></div>
           <div id="charClass"></div>
@@ -1085,10 +1084,9 @@ function handleAnyOtherHmoModifier(){
           <ArmorDetails />
           <CharacterDetails />
           <ActionList />
-          <SkillCheck />
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}
-       
+          <SkillCheck {...props} />
       </main>
     </>
   );
