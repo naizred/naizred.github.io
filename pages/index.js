@@ -452,7 +452,7 @@ function removeAllSkillOptions() {
             mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
           }
           equippedOrNot.checked = true
-          
+          console.log(armorPieces)
             for (let j = 0; j < props.armors.length; j++) {
               if (armorPieces[0] == props.armors[j].nameOfArmor) {
                 checkWhereItIsWorn(props.armors[j], mgtCompensation)

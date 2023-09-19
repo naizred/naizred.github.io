@@ -11,7 +11,7 @@
     {"armorId":10, "nameOfArmor": "Mellvért", "dmgReduction":6, "kit":[6, 7, 8, 9], "mgt":4, "materialIndex":1},
     {"armorId":11, "nameOfArmor": "Merev félvért", "dmgReduction":6, "kit":[3, 4, 5, 6, 7, 8, 9, 10], "mgt":8, "materialIndex":1},
     {"armorId":12, "nameOfArmor": "Teljesvért", "dmgReduction":6, "kit":[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "mgt":10, "materialIndex":1},
-    {"armorId":13, "nameOfArmor": "Gladiátorvért", "dmgReduction":3, "kit":[3, 4, 5, 8, 9], "mgt":2, "materialIndex":0.3},
+    {"armorId":13, "nameOfArmor": "Gladiátor vért", "dmgReduction":3, "kit":[3, 4, 5, 8, 9], "mgt":2, "materialIndex":0.3},
     {"armorId":14, "nameOfArmor": "Kráni vért", "dmgReduction":4, "kit":[3, 4, 5, 8, 9], "mgt":3, "materialIndex":0.5},
     {"armorId":15, "nameOfArmor": "Kardművész vért", "dmgReduction":4, "kit":[3, 4, 5, 6, 7, 8, 9], "mgt":4, "materialIndex":0.5},
     {"armorId":16, "nameOfArmor": "Rákozott csataszoknya", "dmgReduction":5, "kit":[1, 2], "mgt":1, "materialIndex":"steel"},
