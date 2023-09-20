@@ -1029,7 +1029,7 @@ if(numberOfClicks > 1){setTimeout(() => {
     body: JSONdata,
   };  
   fetch(endpoint, options);
-}, 5000);
+}, 500);
     }
     setTimeout(() => {
       numberOfClicks = 0
