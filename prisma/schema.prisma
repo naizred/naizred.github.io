@@ -16,4 +16,6 @@ model characterStatsThatChange {
   currentPp Int
   currentMp Int
   currentLp Int
+  atkRollResult Int? @default(0)
+  skillCheckResult Int? @default(0)
 }

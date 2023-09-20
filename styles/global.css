@@ -358,8 +358,10 @@ margin-left: 1vw;
 
 #skillCheckUseLegendPointCheckBox{
   display: none;
-  grid-column:4 / 6;
+  grid-column:5 / 6;
   grid-row: 3 / 5;
+  height: 1vw;
+  width: 1vw;
   align-self: center;
   align-items: center;
   justify-content: center;
@@ -586,11 +588,12 @@ grid-row: 5 / 6;
 
   #useLegendPointCheckBox{
     display: none;
-    grid-column:4 / 6;
+    grid-column:5 / 6;
     grid-row: 3 / 5;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
+    height: 1vw;
+    width: 1vw;
+    align-self: right;
+    align-items: right;
   }
   #useLegendPointCheckBoxlabel{
     display: grid;

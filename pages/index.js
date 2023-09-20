@@ -11,7 +11,7 @@ import SkillCheck from "../Components/SkillCheck";
 
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
-
+let skillCheckResult
 export async function fetchCharacterData(currentCharName) {
   await fetch(`../api/characterStatsThatChange/${currentCharName}`).then((response) => {
     return response.json();
@@ -24,6 +24,14 @@ export async function fetchCharacterData(currentCharName) {
     currentPp.value = parsedData.currentPp;
     currentMp.value = parsedData.currentMp;
     currentLp.value = parsedData.currentLp;
+let atkRollResult = document.getElementById('atkRollResult')
+    if (atkRollResult !=undefined) {
+      atkRollResult.value = parsedData.atkRollResult;
+    }
+    let skillCheckResult = document.getElementById('skillCheckResult')
+    if (skillCheckResult !=undefined) {
+      skillCheckResult.value = parsedData.skillCheckResult;
+    }
   })
 }
 
@@ -944,7 +952,26 @@ function handleAnyOtherHmoModifier(){
     }
     bodyPart.animate([{color: "white"}, {color:"black"}],200)
     damageEvaluator()
+    const data = {
+      charName: charName.innerText,
+      currentFp: parseInt(currentFp.value),
+      currentEp: parseInt(currentEp.value),
+      currentPp: parseInt(currentPp.value),
+      currentMp: parseInt(currentMp.value),
+      currentLp: parseInt(currentLp.value),
+      atkRollResult: parseInt(rollResult.innerText)
+    };
 
+    const JSONdata = JSON.stringify(data);
+    const endpoint = "/api/updateCharacter";
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSONdata,
+    };  
+    await fetch(endpoint, options);
   }
 
   return (

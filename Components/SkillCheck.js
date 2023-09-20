@@ -21,7 +21,7 @@ function SkillCheck(props) {
         skillCheckLightDiceRerollByCounterLP.style.display = "none"
     }
 
-    function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+    async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
         let zeroArray = [1, 2, 3, 4];
         let oneArray = [5, 6, 7];
         let twoArray = [8, 9];
@@ -119,7 +119,29 @@ function SkillCheck(props) {
           } 
           skillCheckLightDiceResultSelect.value = skillCheckLightDicePlusRollMod
           skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
-          skillCheckResult.animate([{color: "white"}, {color:"black"}],200)
+          skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200)
+          
+          const data = {
+            charName: charName.innerText,
+            currentFp: parseInt(currentFp.value),
+            currentEp: parseInt(currentEp.value),
+            currentPp: parseInt(currentPp.value),
+            currentMp: parseInt(currentMp.value),
+            currentLp: parseInt(currentLp.value),
+            skillCheckResult: parseInt(skillCheckResult.innerText)
+          };
+      
+          const JSONdata = JSON.stringify(data);
+          const endpoint = "/api/updateCharacter";
+          const options = {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSONdata,
+          };  
+          await fetch(endpoint, options);
+
       }
     }
     
