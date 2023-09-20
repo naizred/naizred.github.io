@@ -11,7 +11,6 @@ import SkillCheck from "../Components/SkillCheck";
 
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
-let skillCheckResult
 export async function fetchCharacterData(currentCharName) {
   await fetch(`../api/characterStatsThatChange/${currentCharName}`).then((response) => {
     return response.json();
@@ -19,19 +18,54 @@ export async function fetchCharacterData(currentCharName) {
     if (!parsedData) {
       return
     }
+    console.log(parsedData)
     currentFp.value = parsedData.currentFp;
     currentEp.value = parsedData.currentEp;
     currentPp.value = parsedData.currentPp;
     currentMp.value = parsedData.currentMp;
     currentLp.value = parsedData.currentLp;
-let atkRollResult = document.getElementById('atkRollResult')
+    let atkRollResult = document.getElementById('atkRollResult');
     if (atkRollResult !=undefined) {
       atkRollResult.value = parsedData.atkRollResult;
     }
-    let skillCheckResult = document.getElementById('skillCheckResult')
+    let atkRollResultAfter5sec = document.getElementById('atkRollResultAfter5sec');
+    if (atkRollResultAfter5sec !=undefined) {
+      atkRollResultAfter5sec.value = parsedData.atkRollResultAfter5sec;
+    }
+    let skillCheckResult = document.getElementById('skillCheckResultOfCurrentPlayer');
     if (skillCheckResult !=undefined) {
       skillCheckResult.value = parsedData.skillCheckResult;
     }
+    let skillCheckResultAfter5sec = document.getElementById('skillCheckResultAfter5sec');
+    if (skillCheckResultAfter5sec !=undefined) {
+      skillCheckResultAfter5sec.value = parsedData.skillCheckResultAfter5sec;
+    }
+    let atkRollDice = document.getElementById('atkRollDice');
+    if (atkRollDice !=undefined) {
+      atkRollDice.value = parsedData.atkRollDice;
+    }
+    let atkRollDiceAfter5sec = document.getElementById('atkRollDiceAfter5sec');
+    if (atkRollDiceAfter5sec !=undefined) {
+      atkRollDiceAfter5sec.value = parsedData.atkRollDiceAfter5sec;
+    }
+    let skillCheckDice = document.getElementById('skillCheckDice');
+    if (skillCheckDice !=undefined) {
+      skillCheckDice.value = parsedData.skillCheckDice;
+    }
+    let skillCheckDiceAfter5sec = document.getElementById('skillCheckDiceAfter5sec');
+    if (skillCheckDiceAfter5sec !=undefined) {
+      skillCheckDiceAfter5sec.value = parsedData.skillCheckDiceAfter5sec;
+    }
+
+    // atkRollResult Int? @default(0)
+    // atkRollResultAfter5sec Int? @default(0)
+    // skillCheckResult Int? @default(0)
+    // skillCheckResultAfter5sec Int? @default(0)
+    // atkRollDice String? @default("")
+    // atkRollDiceAfter5sec String? @default("")
+    // skillCheckDice String? @default("")
+    // skillCheckDiceAfter5sec String? @default("")
+
   })
 }
 
@@ -879,12 +913,13 @@ function handleAnyOtherHmoModifier(){
  //let stressCheck = false
 
   let diceRolled = false;
-
+let numberOfClicks = 0
   async function handleClick(darkDice, lightDice) {
     if (charRace.innerText == "") {
       alert('Importálj egy karaktert!')
       return
     }
+    numberOfClicks++
     bodyPartImg.innerHTML = "";
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
@@ -952,14 +987,18 @@ function handleAnyOtherHmoModifier(){
     }
     bodyPart.animate([{color: "white"}, {color:"black"}],200)
     damageEvaluator()
-    const data = {
+    if (numberOfClicks == 1) {
+      const data = {
       charName: charName.innerText,
       currentFp: parseInt(currentFp.value),
       currentEp: parseInt(currentEp.value),
       currentPp: parseInt(currentPp.value),
       currentMp: parseInt(currentMp.value),
       currentLp: parseInt(currentLp.value),
-      atkRollResult: parseInt(rollResult.innerText)
+      atkRollResult: parseInt(rollResult.innerText),
+        atkRollDice: `"Sötét:", ${originalDarkDice}, "Világos:", ${originalLightDice}`,
+        atkRollResultAfter5sec: parseInt(rollResult.innerText),
+        atkRollDiceAfter5sec: `"Sötét:", ${originalDarkDice}, "Világos:", ${originalLightDice}`
     };
 
     const JSONdata = JSON.stringify(data);
@@ -971,7 +1010,30 @@ function handleAnyOtherHmoModifier(){
       },
       body: JSONdata,
     };  
-    await fetch(endpoint, options);
+      await fetch(endpoint, options);
+    }
+if(numberOfClicks > 1){setTimeout(() => {
+  const data = {
+    charName: charName.innerText,
+    atkRollResultAfter5sec: parseInt(rollResult.innerText),
+    atkRollDiceAfter5sec: `"Sötét:", ${originalDarkDice}, "Világos:", ${originalLightDice}`
+  };
+
+  const JSONdata = JSON.stringify(data);
+  const endpoint = "/api/updateCharacter";
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSONdata,
+  };  
+  fetch(endpoint, options);
+}, 5000);
+    }
+    setTimeout(() => {
+      numberOfClicks = 0
+    }, 5000);
   }
 
   return (

@@ -3,52 +3,59 @@ import { fetchCharacterData } from '.';
     
 function Kalandmester() {
     function handleCharacterNameSubmit(event) {
-        event.preventDefault()
         fetchCharacterData(characterName.value)
     }
     return (
-<form id='characterDetails' className={styles['character-details']}>
-                <label htmlFor='characterName' id='characterNameLabel'>Keresett karakter neve:</label>
+<div id='characterDetails' className={styles['character-details']}>
+        <div>
+                <label htmlFor='characterName' id='characterNameLabel'className={styles.characterNameLabel}>Keresett karakter neve:</label>
                 <input id='characterName' className={styles.characterName} name='characterName'/>
-            <div>
-        <button className={styles.saveButton} onClick={handleCharacterNameSubmit} type='button' form='characterDetails'>Adatok lekérése</button>
-        <p id='maxValues'>Max</p>
-        <p id='currentValues'>Akt</p>
-        </div>
-      <div>
-        <label>Fp:</label>
-        <p id='maxFp'></p>
-        <input id='currentFp' />
-        </div>
-      <div>
+          <span>
+        <button className={styles.saveButton} onClick={handleCharacterNameSubmit} type='button'>Adatok lekérése</button>
+        </span>
+      <span>
+        <label >Fp:</label>
+        <input id='currentFp' name='currentFp' className={styles.currentPlayerInput}/>
+        </span>
+      <span>
         <label>Ép:</label>
-        <p id='maxEp'></p>
-        <input id='currentEp' />
-      </div>
-      <div>
+        <input id='currentEp' name='currentEp' className={styles.currentPlayerInput}/>
+      </span>
+      <span>
         <label>Pp:</label>
-        <p id='maxPp'></p>
-        <input id='currentPp' />
-      </div>
-      <div>
+        <input id='currentPp' name='currentPp' className={styles.currentPlayerInput}/>
+      </span>
+      <span>
         <label>Mp:</label>
-        <p id='maxMp'></p>
-        <input id='currentMp' />
-      </div>
-      <div>
+        <input id='currentMp' name='currentMp' className={styles.currentPlayerInput}/>
+      </span>
+      <span>
         <label>Lp:</label>
-        <p id='maxLp'></p>
-        <input id='currentLp' />
-      </div>
-      <div>
+            <input id='currentLp' name='currentLp' className={styles.currentPlayerInput} />
+            <label className={styles.diceLabel}>Kockák:</label>
+      </span>
+      <span>
         <label className={styles.skillCheckResultLabel}>Támadó dobás eredménye:</label>
-        <input id='atkRollResult' />
-      </div>
-      <div>
+        <input id='atkRollResult'  />
+            <input id='atkRollDice'  className={styles.lastRollDice } />
+          </span>
+          <span>
+        <label className={styles.skillCheckResultLabel}>Támadó dobás eredménye 5sec múlva:</label>
+        <input id='atkRollResultAfter5sec'  />
+            <input id='atkRollDiceAfter5sec'  className={styles.lastRollDice } />
+      </span>
+      <span>
         <label className={styles.skillCheckResultLabel}>Képzettségpróba végeredménye:</label>
-        <input id='skillCheckResult' />
-      </div>
-    </form>
+        <input id='skillCheckResultOfCurrentPlayer'/>
+        <input id='skillCheckDice' className={styles.lastRollDice }/>
+          </span>
+      <span>
+        <label className={styles.skillCheckResultLabel}>Képzettségpróba végeredménye 5sec múlva:</label>
+        <input id='skillCheckResultAfter5sec'/>
+        <input id='skillCheckDiceAfter5sec' className={styles.lastRollDice }/>
+          </span>
+        </div>
+    </div>
     )
 }
 

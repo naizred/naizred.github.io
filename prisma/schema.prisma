@@ -17,5 +17,11 @@ model characterStatsThatChange {
   currentMp Int
   currentLp Int
   atkRollResult Int? @default(0)
+  atkRollResultAfter5sec Int? @default(0)
   skillCheckResult Int? @default(0)
+  skillCheckResultAfter5sec Int? @default(0)
+  atkRollDice String? @default("")
+  atkRollDiceAfter5sec String? @default("")
+  skillCheckDice String? @default("")
+  skillCheckDiceAfter5sec String? @default("")
 }
