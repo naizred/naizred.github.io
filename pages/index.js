@@ -1012,7 +1012,7 @@ let numberOfClicks = 0
     };  
       await fetch(endpoint, options);
     }
-if(numberOfClicks > 1){setTimeout(() => {
+if(numberOfClicks > 1) {
   const data = {
     charName: charName.innerText,
     atkRollResultAfter5sec: parseInt(rollResult.innerText),
@@ -1028,8 +1028,7 @@ if(numberOfClicks > 1){setTimeout(() => {
     },
     body: JSONdata,
   };  
-  fetch(endpoint, options);
-}, 500);
+  await fetch(endpoint, options);
     }
     setTimeout(() => {
       numberOfClicks = 0
