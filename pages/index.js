@@ -1029,7 +1029,7 @@ fetch(endpoint, options);
 }, 50);
     setTimeout(() => {
       numberOfClicks = 0
-    }, 5000);
+    }, 7000);
     }
     playerChecker()
   }
