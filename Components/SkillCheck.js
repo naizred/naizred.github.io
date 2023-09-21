@@ -18,10 +18,11 @@ function SkillCheck(props) {
         skillCheckUseLegendPointCheckBox.checked = false
         skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
         skillCheckDarkDiceRerollByCounterLP.style.display = "none"
-        skillCheckLightDiceRerollByCounterLP.style.display = "none"
+      skillCheckLightDiceRerollByCounterLP.style.display = "none"
     }
-
-    async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+    let numberOfClicksAtSkillCheck = 0
+  async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+    numberOfClicksAtSkillCheck++
         let zeroArray = [1, 2, 3, 4];
         let oneArray = [5, 6, 7];
         let twoArray = [8, 9];
@@ -54,7 +55,56 @@ function SkillCheck(props) {
           }
           skillCheckLightDiceResultSelect.value = skillCheckLightDice
           skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
-          skillCheckResult.animate([{color: "white"}, {color:"black"}],200)
+          skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200)
+          
+          if (numberOfClicksAtSkillCheck == 1) {
+            const data = {
+              charName: charName.innerText,
+              currentFp: parseInt(currentFp.value),
+              currentEp: parseInt(currentEp.value),
+              currentPp: parseInt(currentPp.value),
+              currentMp: parseInt(currentMp.value),
+              currentLp: parseInt(currentLp.value),
+               skillCheckResult: parseInt(skillCheckResult.innerText),
+               skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
+               skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+               skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
+            };
+
+            const JSONdata = JSON.stringify(data);
+            const endpoint = "/api/updateCharacter";
+            const options = {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSONdata,
+            };
+            await fetch(endpoint, options);
+          }
+          if(numberOfClicksAtSkillCheck > 1) setTimeout(() => {{
+            const data = {
+              charName: charName.innerText,
+              skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+              skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
+            };
+          
+            const JSONdata = JSON.stringify(data);
+            const endpoint = "/api/updateCharacter";
+            const options = {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSONdata,
+            };  
+          fetch(endpoint, options);
+          }
+          }, 50);
+          setTimeout(() => {
+            numberOfClicksAtSkillCheck = 0
+          }, 5000);
+
         } else if (stressCheck == true) {
         
           if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
@@ -111,7 +161,7 @@ function SkillCheck(props) {
           } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 10) {
             skillCheckCalculatedResultFromRoll = 6;
           }
-    
+
           if (skillCheckLightDicePlusRollMod >= 10) {
             skillCheckLightDicePlusRollMod = 0
           } else if (skillCheckLightDicePlusRollMod <= 0) {
@@ -120,28 +170,53 @@ function SkillCheck(props) {
           skillCheckLightDiceResultSelect.value = skillCheckLightDicePlusRollMod
           skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
           skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200)
-          
-          const data = {
-            charName: charName.innerText,
-            currentFp: parseInt(currentFp.value),
-            currentEp: parseInt(currentEp.value),
-            currentPp: parseInt(currentPp.value),
-            currentMp: parseInt(currentMp.value),
-            currentLp: parseInt(currentLp.value),
-            skillCheckResult: parseInt(skillCheckResult.innerText)
-          };
-      
-          const JSONdata = JSON.stringify(data);
-          const endpoint = "/api/updateCharacter";
-          const options = {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSONdata,
-          };  
-          await fetch(endpoint, options);
+          if (numberOfClicksAtSkillCheck == 1) {
+            const data = {
+              charName: charName.innerText,
+              currentFp: parseInt(currentFp.value),
+              currentEp: parseInt(currentEp.value),
+              currentPp: parseInt(currentPp.value),
+              currentMp: parseInt(currentMp.value),
+              currentLp: parseInt(currentLp.value),
+               skillCheckResult: parseInt(skillCheckResult.innerText),
+               skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
+               skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+               skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
+            };
 
+            const JSONdata = JSON.stringify(data);
+            const endpoint = "/api/updateCharacter";
+            const options = {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSONdata,
+            };
+            await fetch(endpoint, options);
+          }
+          if(numberOfClicksAtSkillCheck > 1) setTimeout(() => {{
+            const data = {
+              charName: charName.innerText,
+              skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+              skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
+            };
+          
+            const JSONdata = JSON.stringify(data);
+            const endpoint = "/api/updateCharacter";
+            const options = {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSONdata,
+            };  
+          fetch(endpoint, options);
+          }
+          }, 50);
+          setTimeout(() => {
+            numberOfClicksAtSkillCheck = 0
+          }, 5000);
       }
     }
     

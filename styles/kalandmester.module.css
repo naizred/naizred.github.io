@@ -24,7 +24,7 @@
     .character-details div {
       display: grid;
       grid-row: span 6;
-      grid-column: span 2;
+      grid-column: span 3;
     padding: 0vw;
     margin: 0vw;
   }
@@ -52,8 +52,8 @@
     .character-details span .lastRollDice{
       display: grid;
       grid-column: span 2;
-      width: 16vw;
-      font-size: 1.3vw;
+      width: 22vw;
+      font-size: 1vw;
     }
 
     .character-details p {

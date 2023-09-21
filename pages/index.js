@@ -32,9 +32,9 @@ export async function fetchCharacterData(currentCharName) {
     if (atkRollResultAfter5sec !=undefined) {
       atkRollResultAfter5sec.value = parsedData.atkRollResultAfter5sec;
     }
-    let skillCheckResult = document.getElementById('skillCheckResultOfCurrentPlayer');
-    if (skillCheckResult !=undefined) {
-      skillCheckResult.value = parsedData.skillCheckResult;
+    let skillCheckResultOfCurrentPlayer = document.getElementById('skillCheckResultOfCurrentPlayer');
+    if (skillCheckResultOfCurrentPlayer !=undefined) {
+      skillCheckResultOfCurrentPlayer.value = parsedData.skillCheckResult;
     }
     let skillCheckResultAfter5sec = document.getElementById('skillCheckResultAfter5sec');
     if (skillCheckResultAfter5sec !=undefined) {
@@ -56,16 +56,6 @@ export async function fetchCharacterData(currentCharName) {
     if (skillCheckDiceAfter5sec !=undefined) {
       skillCheckDiceAfter5sec.value = parsedData.skillCheckDiceAfter5sec;
     }
-
-    // atkRollResult Int? @default(0)
-    // atkRollResultAfter5sec Int? @default(0)
-    // skillCheckResult Int? @default(0)
-    // skillCheckResultAfter5sec Int? @default(0)
-    // atkRollDice String? @default("")
-    // atkRollDiceAfter5sec String? @default("")
-    // skillCheckDice String? @default("")
-    // skillCheckDiceAfter5sec String? @default("")
-
   })
 }
 
@@ -987,7 +977,7 @@ let numberOfClicks = 0
     }
     bodyPart.animate([{color: "white"}, {color:"black"}],200)
     damageEvaluator()
-    if (numberOfClicks == 1) {
+   async function playerChecker (){ if (numberOfClicks == 1) {
       const data = {
       charName: charName.innerText,
       currentFp: parseInt(currentFp.value),
@@ -996,9 +986,13 @@ let numberOfClicks = 0
       currentMp: parseInt(currentMp.value),
       currentLp: parseInt(currentLp.value),
       atkRollResult: parseInt(rollResult.innerText),
-        atkRollDice: `"Sötét:", ${originalDarkDice}, "Világos:", ${originalLightDice}`,
-        atkRollResultAfter5sec: parseInt(rollResult.innerText),
-        atkRollDiceAfter5sec: `"Sötét:", ${originalDarkDice}, "Világos:", ${originalLightDice}`
+      atkRollDice: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
+      atkRollResultAfter5sec: parseInt(rollResult.innerText),
+      atkRollDiceAfter5sec: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
+    //  skillCheckResult: parseInt(skillCheckResult.innerText),
+    //  skillCheckDice: `Sötét kocka: ${skillCheckDarkDice}, Világos kocka + DM: ${skillCheckLightDicePlusRollMod}`,
+    //  skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+    //  skillCheckDiceAfter5sec:  `Sötét kocka: ${skillCheckDarkDice}, Világos kocka + DM: ${skillCheckLightDicePlusRollMod}`
     };
 
     const JSONdata = JSON.stringify(data);
@@ -1012,11 +1006,13 @@ let numberOfClicks = 0
     };  
       await fetch(endpoint, options);
     }
-if(numberOfClicks > 1) {
+if(numberOfClicks > 1) setTimeout(() => {{
   const data = {
     charName: charName.innerText,
     atkRollResultAfter5sec: parseInt(rollResult.innerText),
-    atkRollDiceAfter5sec: `"Sötét:", ${originalDarkDice}, "Világos:", ${originalLightDice}`
+    atkRollDiceAfter5sec: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
+   // skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+   // skillCheckDiceAfter5sec:  `Sötét kocka: ${skillCheckDarkDice}, Világos kocka + DM: ${skillCheckLightDicePlusRollMod}`
   };
 
   const JSONdata = JSON.stringify(data);
@@ -1028,11 +1024,14 @@ if(numberOfClicks > 1) {
     },
     body: JSONdata,
   };  
-  await fetch(endpoint, options);
-    }
+fetch(endpoint, options);
+}
+}, 50);
     setTimeout(() => {
       numberOfClicks = 0
     }, 5000);
+    }
+    playerChecker()
   }
 
   return (
