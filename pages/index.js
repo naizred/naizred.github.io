@@ -985,9 +985,9 @@ let numberOfClicks = 0
       currentPp: parseInt(currentPp.value),
       currentMp: parseInt(currentMp.value),
       currentLp: parseInt(currentLp.value),
-      atkRollResult: parseInt(rollResult.innerText),
+      atkRollResult: parseInt(charAtkSum.innerText),
       atkRollDice: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
-      atkRollResultAfter5sec: parseInt(rollResult.innerText),
+      atkRollResultAfter5sec: parseInt(charAtkSum.innerText),
       atkRollDiceAfter5sec: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
     //  skillCheckResult: parseInt(skillCheckResult.innerText),
     //  skillCheckDice: `Sötét kocka: ${skillCheckDarkDice}, Világos kocka + DM: ${skillCheckLightDicePlusRollMod}`,
@@ -1009,10 +1009,8 @@ let numberOfClicks = 0
 if(numberOfClicks > 1) setTimeout(() => {{
   const data = {
     charName: charName.innerText,
-    atkRollResultAfter5sec: parseInt(rollResult.innerText),
+    atkRollResultAfter5sec: parseInt(charAtkSum.innerText),
     atkRollDiceAfter5sec: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
-   // skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-   // skillCheckDiceAfter5sec:  `Sötét kocka: ${skillCheckDarkDice}, Világos kocka + DM: ${skillCheckLightDicePlusRollMod}`
   };
 
   const JSONdata = JSON.stringify(data);
