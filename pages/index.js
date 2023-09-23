@@ -126,8 +126,8 @@ function CharCompare(a, b, index) {
 //custom sort function call
   OrderFunc(props.weapons)
 let damageOfFists = "1k10"
-  let destroyerLevel = [0, 1, 2, 3];
-  let professionLevel = [0, 1, 2, 3, 4, 5];
+  let destroyerLevel
+  let professionLevel
   let bodyParts = [
     "bal láb",
     "jobb láb",
@@ -236,90 +236,90 @@ let damageOfFists = "1k10"
     console.log("Fegyver sebzéskód:", currentWeapon.w_damage);
     console.log("Erősebzés?:", currentWeapon.strBonusDmg);
   if (checkIfWeaponIsRanged(currentWeapon.w_type)) {
-    destroyerLevelSelect.value = 0  
+    destroyerLevel = 0  
     } 
    if (diceRolled == false) {
     return
     }
     //ez a két változó csak az ökölharc miatt kell
-    let professionDamageBonus = professionLevelSelect.value
+    //let professionLevel = professionLevelSelect.value
 let currentWeaponDamage = currentWeapon.w_damage
 if (currentWeapon.w_type == "Ökölharc") {
   currentWeaponDamage = damageOfFists
-  professionDamageBonus = Math.ceil(professionLevelSelect.value / 2);
+  professionLevel = Math.ceil(professionLevel / 2);
   if (currentWeapon.w_name == "Vasököl") {
-    professionDamageBonus +=1
+    professionLevel +=1
   }
     }
   if (currentWeaponDamage === "2k10") {
     damageResult.innerText =
       originalDarkDice +
       originalLightDice +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus);
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel);
   } else if (currentWeaponDamage === "2k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus);
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel);
   } else if (currentWeaponDamage === "2k5+1") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus) +
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel) +
       1;
   } else if (currentWeaponDamage === "2k5+2") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus) +
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel) +
       2;
   } else if (currentWeaponDamage === "1k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus);
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel);
   } else if (currentWeaponDamage === "1k5+1") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus) +
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel) +
       1;
   } else if (currentWeaponDamage === "1k5+2") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus) +
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel) +
       2;
   } else if (currentWeaponDamage === "3k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) * 2 +
       Math.ceil(originalLightDice / 2) +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus);
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel);
   } else if (currentWeaponDamage === "1k10") {
     damageResult.innerText =
       originalDarkDice +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus);
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel);
   } else if (currentWeaponDamage === "1k10+1") {
     damageResult.innerText =
       originalDarkDice +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus)+1;
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel)+1;
   } else if (currentWeaponDamage === "1k2") {
     damageResult.innerText =
     Math.ceil(originalDarkDice / 5) +
-      parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus);
+      parseInt(destroyerLevel) +
+      parseInt(professionLevel);
   } else if (currentWeaponDamage === "2k2") {
     damageResult.innerText = Math.ceil(originalDarkDice / 5) +
     Math.ceil(originalLightDice / 5) +
-    parseInt(destroyerLevelSelect.value) +
-      parseInt(professionDamageBonus);
+    parseInt(destroyerLevel) +
+      parseInt(professionLevel);
     }
     if (currentWeapon.w_name == "Fúvócső") {
       damageResult.innerText = 1
@@ -532,15 +532,15 @@ armorHandler()
           for (let i = 0; i < filteredArrayByType.length; i++) {
             allLevelsArray.push(filteredArrayByType[i].level)
           }
-          professionLevelSelect.value = parseInt(Math.max(...allLevelsArray))
+          professionLevel = parseInt(Math.max(...allLevelsArray))
         } else {
-          professionLevelSelect.value = 0
+          professionLevel = 0
         }
         
         if (filteredArrayIfHasDestroyer.length != 0 && !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-          destroyerLevelSelect.value = parseInt(filteredArrayIfHasDestroyer[0].level)
+          destroyerLevel = parseInt(filteredArrayIfHasDestroyer[0].level)
         } else {
-          destroyerLevelSelect.value = 0
+          destroyerLevel = 0
         }
         //--- karakter neve és kasztja
         charClass.innerText = JSON.parse(reader.result).classKey 
@@ -560,7 +560,6 @@ armorHandler()
           (name) => name.raceKey == JSON.parse(reader.result).raceKey
         )
         let agingArray = Object.values(JSON.parse(reader.result).ageing.distribution)
-        console.log(agingArray)
         // faji módosító objektum értékei
         let currentRaceModifiers = Object.values(currentRace).slice(1, 11);
 //--------------------------------------------------------------------------------
@@ -655,9 +654,9 @@ let defModifier = modifierCalculator(1,2,9)
           masterWeaponModifier = 0
         }
    //----- TÉ/VÉ/CÉ számítás a fegyver értékekkel együtt
-        let atkWithProfession = baseAtk+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
-        let aimWithProfession = baseAim+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
-        let defWithProfession = baseDef+parseInt(professionLevelSelect.value) * (currentlySelectedWeapon.weaponDef + masterWeaponModifier)
+        let atkWithProfession = baseAtk+parseInt(professionLevel) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
+        let aimWithProfession = baseAim+parseInt(professionLevel) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier)
+        let defWithProfession = baseDef+parseInt(professionLevel) * (currentlySelectedWeapon.weaponDef + masterWeaponModifier)
         console.log(atkWithProfession, defWithProfession, aimWithProfession)
         function tvcoCalculator(atkAimDef) {
           let calculatedTVCO = 0
@@ -723,8 +722,8 @@ let defModifier = modifierCalculator(1,2,9)
           //megnézi a legmagasabb tul-t és elosztja az ököl osztóval, ami a harcművész adottsággal változhat
           let fistAtk = Math.floor(Math.max(currentCharFinalAttributes[0], currentCharFinalAttributes[1], currentCharFinalAttributes[2])/fistAtkDivider);
           let fistDef = Math.floor(Math.max(currentCharFinalAttributes[1], currentCharFinalAttributes[2])/fistAtkDivider);
-          atkWithProfession = baseAtk + parseInt(professionLevelSelect.value) * (fistAtk);
-          defWithProfession = baseDef + parseInt(professionLevelSelect.value) * (fistDef);
+          atkWithProfession = baseAtk + parseInt(professionLevel) * (fistAtk);
+          defWithProfession = baseDef + parseInt(professionLevel) * (fistDef);
         }
      
         let reducedMgtByParrySkill = currentlySelectedOffHand.mgt
@@ -1073,7 +1072,7 @@ fetch(endpoint, options);
               );
             })} 
           </select>
-          <label htmlFor="professionLevelSelect" id="profession">
+          {/* <label htmlFor="professionLevelSelect" id="profession">
             Képzettség foka:
           </label>
           <select id="professionLevelSelect" name="profession" disabled = {true}>
@@ -1088,7 +1087,7 @@ fetch(endpoint, options);
             {destroyerLevel.map((e) => {
               return <option key={e}>{e}</option>;
             })}
-          </select>
+          </select> */}
           <label htmlFor="charAtk" id="charAtkLabel">
             Karakter TÉO/CÉO
           </label>

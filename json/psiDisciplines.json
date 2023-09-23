@@ -1,0 +1,16 @@
+[
+    {"psiDiscId":1, "psiDiscName":"Dinamikus ellenállás", "requiredPsiSkillLevel": "If",
+"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 1, "castTime": 1, "duration": "folyamatos", "benefit":[0,1,2,3,4]},
+    {"psiDiscId":2, "psiDiscName":"Fájdalomtűrés", "requiredPsiSkillLevel": "If",
+"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": "változó", "castTime": 10, "duration": [1,2,5,12,24], "benefit":"Fp pajzs"},
+    {"psiDiscId":3, "psiDiscName":"Chi-harc", "requiredPsiSkillLevel": "Af",
+"psiSchool": "Slan", "psiPointCost": "1/kör", "castTime": 1, "duration": "változó", "benefit":[{"ATK/DEF":0.5, "damage":1}, {"ATK/DEF":1, "damage":2}, {"ATK/DEF":1.5, "damage":3}, {"ATK/DEF":2, "damage":5}]},
+    {"psiDiscId":4, "psiDiscName":"Érzékélesítés", "requiredPsiSkillLevel": "Af",
+"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 5, "castTime": 10, "duration": "folyamatos", "benefit":[1,2,3,4]},
+    {"psiDiscId":5, "psiDiscName":"Levitáció", "requiredPsiSkillLevel": "Af",
+"psiSchool": "Slan", "psiPointCost": "1/kör", "castTime": 10, "duration": "folyamatos", 
+"benefit":["A lebegés arasznyival a felszín fölött fix helyen történik. Alapvető ruházaton és fegyveren túl más súly megemelésére nem alkalmas.", 
+"Az előző fokozathoz képest akár már saját testmagasságával azonos távolságba is képes a felszín fölé emelkedni, ráadásul már akkora súllyal képes a slan együtt levitálni, amekkorát normál állapotban cipelni bír.",
+"A lebegés vertikálisan már 20 láb magasságot képes elérni. Az emelkedés vagy süllyedés maximális sebessége egy sétáló emberével azonos.",
+"Az alkalmazó már a tér minden irányába képes irányítani a lebegést. A maximális magasság 100 lábra módosul, de a sebesség nem változik."]}
+]

@@ -3,9 +3,9 @@
   padding: 1vw;
   display: grid;
   grid-column: 4 / 8;
-  grid-row: 1 / 13;
+  grid-row: 1 / 11;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(11, 1fr);
+  grid-template-rows: repeat(9, 1fr);
   align-items: center;
   justify-content: center;
   border: 0.23vw solid #680604;

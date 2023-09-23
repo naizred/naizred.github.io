@@ -6,7 +6,7 @@
     grid-column: 1/4;
     font-family: 'MedievalSharp', cursive;
     color: black;
-    -webkit-text-stroke: #f35900 0.01vw;
+
     text-shadow: 0.3vw 0.3vw 0.4vw #682600;
   /* height: 40vw;
   padding: 0vw;
@@ -55,7 +55,7 @@
     width: 2.5vw;
     height: 2.5vw;
     font-family: 'MedievalSharp', cursive;
-    -webkit-text-stroke: #f35900 0.01vw;
+
     text-align: center;
   }
   .character-details button:hover {
@@ -143,7 +143,6 @@
 .useLegendPointForInitiativeRollLabel{
   font-family: 'MedievalSharp', cursive;
   color: black;
-  -webkit-text-stroke: #f35900 0.01vw;
   text-shadow: 0.3vw 0.3vw 0.4vw #682600;
   grid-column: 13/15;
   grid-row: 1/2;
@@ -159,7 +158,6 @@
   font-size: 1.4vw;
   font-family: 'MedievalSharp', cursive;
   color: black;
-  -webkit-text-stroke: #f35900 0.01vw;
   text-shadow: 0.3vw 0.3vw 0.4vw #682600;
   grid-column: 13/14;
   grid-row: 2/3;
