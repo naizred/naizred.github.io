@@ -12,20 +12,24 @@ let numberOfClicks = 0
 function PsiDisciplines(props) {
     function psiPointCostChecker() {
         if (parseInt(selectedPsiDisciplineObj[0].psiPointCost) > currentPp.value || parseInt(currentPp.value) == 0) {
+            psiPointCostInput.disabled = true
             if (selectedPsiDisciplineObj[0].psiPointCost == 'All') {
                 psiPointCostInput.value = parseInt(currentPp.value)
             } else {
                 psiPointCostInput.value = parseInt(selectedPsiDisciplineObj[0].psiPointCost)
-            }
-            psiActivateButton.disabled = true
-        } else {
+            } psiActivateButton.disabled = true
+        } else if (selectedPsiDisciplineObj[0].canBeModified == false){
             if (selectedPsiDisciplineObj[0].psiPointCost == 'All') {
                 psiPointCostInput.value = parseInt(currentPp.value)
             } else {
                 psiPointCostInput.value = parseInt(selectedPsiDisciplineObj[0].psiPointCost)
             }
             psiActivateButton.disabled = false
+        } else if (selectedPsiDisciplineObj[0].canBeModified == true) {
+            psiPointCostInput.disabled = false
+            psiActivateButton.disabled = false
         }
+        console.log(selectedPsiDisciplineObj[0].canBeModified)
     }
     let filteredPsiDisciplines = []
     function handleListPsi() {
@@ -51,7 +55,7 @@ function PsiDisciplines(props) {
         psiPointCostInput.style.display = "grid"
         psiActivateButton.style.display = "grid"
         listPsiButton.style.display = "none"
-        
+        psiPointCostChecker()        
     }
     function handlePsiDisciplineSelect(event) {
      //   numberOfClicks = 0
@@ -125,7 +129,7 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
             <label htmlFor='psiDisciplinesSelect' id='psiDisciplinesSelectLabel' className={styles.psiDisciplinesSelectLabel}>Pszi Diszciplína</label>
         <select id='psiDisciplinesSelect' name='psiDisciplinesSelect' className={styles.psiDisciplinesSelect} onChange={handlePsiDisciplineSelect}>
             </select>
-            <input id='psiPointCostInput' className={ styles.psiPointCostInput } />
+            <input id='psiPointCostInput' className={ styles.psiPointCostInput} disabled = {true} />
             <button id='listPsiButton' className={styles.listPsiButton} onClick={handleListPsi}>Listázás</button>
             <button id='psiActivateButton' className={styles.psiActivateButton} onClick={handleDisciplineActivation}>Mehet</button>
             <div className={styles.psiPoints }>Pp</div>
