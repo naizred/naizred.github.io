@@ -24,6 +24,7 @@ function PsiDisciplines(props) {
             } else {
                 psiPointCostInput.value = parseInt(selectedPsiDisciplineObj[0].psiPointCost)
             }
+            psiPointCostInput.disabled = true
             psiActivateButton.disabled = false
         } else if (selectedPsiDisciplineObj[0].canBeModified == true) {
             psiPointCostInput.disabled = false
@@ -68,7 +69,6 @@ function PsiDisciplines(props) {
       //  numberOfClicks++
 const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
         currentPp.value -= parseInt(psiPointCostInput.value)
-        psiPointCostChecker()
         let skillIndex = 0
 
         for (let i = 0; i < filteredArrayIfHasPsi.length; i++) {
@@ -110,7 +110,7 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                     } else if (selectedPsiDisciplineObj[0].psiDiscName == "Pszi Roham" && checkAllActiveBuffs('Roham') == false) {
                         specialAtkModifierFromPsiAssault = Math.floor(parseInt(savePsiPoinCostValueForPsiAssault) / 5)
                         availableNumberOfAttacksFromPsiAssault = parseInt(selectedPsiDisciplineObj[0].benefit[skillIndex - 1])
-                        allActiveBuffs[i].innerText = `${selectedPsiDisciplineObj[0].psiDiscName} (Speciális TÉO módosító:+${specialAtkModifierFromPsiAssault} ${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]} - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
+                        allActiveBuffs[i].innerText = `${selectedPsiDisciplineObj[0].psiDiscName} Speciális TÉO módosító:+${specialAtkModifierFromPsiAssault}, ${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]} - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
                         break
                     } 
                 }
@@ -119,7 +119,8 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                     allActiveBuffs[i].innerText = `${selectedPsiDisciplineObj[0].psiDiscName} (+${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]}) - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
                     break
                 } 
-            }
+        }
+        psiPointCostChecker()
     console.log(specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat)
     }
 

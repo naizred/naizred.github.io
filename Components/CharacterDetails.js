@@ -2,11 +2,11 @@
 import styles from '../styles/chardetails.module.css';
 import { rollOptions } from '../pages';
 import { filteredArrayIfHasExtraReaction } from '../pages';
+export let initRolled = false
 var MersenneTwister = require('mersenne-twister');
 var generator = new MersenneTwister();
 
 function CharacterDetails() {
-  let initRolled = false
   function handleInitiativeRoll() {
     tacticsButton.disabled = false
     useLegendPointForInitiativeRollCheckBox.style.display = 'grid'
@@ -154,7 +154,13 @@ let tacticsUsed = false
     initiativeWithRoll.innerText = ""
     numberOfCurrentRound.innerText = "1."
     tacticsButton.disabled = true
-}
+  }
+  
+  function checkIfPsiIsUseable() {
+    if (parseInt(currentPp.value) >= parseInt(psiPointCostInput.value)) {
+      psiActivateButton.disabled = false
+    }
+  }
 
   async function handleDataToBeSent(event) {
     event.preventDefault();
@@ -199,7 +205,7 @@ let tacticsUsed = false
       <div>
         <label>Pp:</label>
         <p id='maxPp'></p>
-        <input id='currentPp' />
+        <input id='currentPp' onBlur={checkIfPsiIsUseable}/>
       </div>
       <div>
         <label>Mp:</label>
