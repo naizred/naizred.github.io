@@ -8,6 +8,8 @@ import ArmorDetails from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
 import SkillCheck from "../Components/SkillCheck";
+import PsiDisciplines from "../Components/PsiDisciplines";
+import { specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault } from "../Components/PsiDisciplines";
 
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
@@ -18,7 +20,6 @@ export async function fetchCharacterData(currentCharName) {
     if (!parsedData) {
       return
     }
-    console.log(parsedData)
     currentFp.value = parsedData.currentFp;
     currentEp.value = parsedData.currentEp;
     currentPp.value = parsedData.currentPp;
@@ -63,26 +64,29 @@ export const getStaticProps = async () => {
   
   const fs = require("fs");
   const jsonDirectory = path.join(process.cwd(), "json");
+  let allSkills = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/allSkills.json", "utf8"));
   let armors = JSON.parse(
     fs.readFileSync(jsonDirectory + "/armors.json", "utf8"));
     let chars = JSON.parse(
       fs.readFileSync(jsonDirectory + "/chars.json", "utf8"));
       let gods = JSON.parse(
         fs.readFileSync(jsonDirectory + "/gods.json", "utf8"));
+      let psiDisciplines = JSON.parse(
+        fs.readFileSync(jsonDirectory + "/psiDisciplines.json", "utf8"));
         let races = JSON.parse(
           fs.readFileSync(jsonDirectory + "/races.json", "utf8"));
-        let allSkills = JSON.parse(
-          fs.readFileSync(jsonDirectory + "/allSkills.json", "utf8"));
   let weapons = JSON.parse(
     fs.readFileSync(jsonDirectory + "/weapons.json", "utf8"));
   return {
     props: {
-      weapons,
-      chars,
-      races,
-      gods,
+      allSkills,
       armors,
-      allSkills
+      chars,
+      gods,
+      psiDisciplines,
+      races,
+      weapons
     },
   };
 };
@@ -91,11 +95,12 @@ export let mgtCompensation = 0
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
 export let filteredArrayIfHasAnyAffinity
+export let filteredArrayIfHasPsi
 export const specialCases1 = [2, 3, 4];
 export const specialCases2 = [5, 6, 7];
 export const specialCases3 = [8, 9];
+export let fileFirstLoaded = true
 let filteredArrayIfHasParry
-let fileFirstLoaded = true
 let legendPointUsedOnDarkDice = false
 
 // --- itt kezdődik az oldal maga
@@ -214,7 +219,14 @@ let damageOfFists = "1k10"
         originalDarkDice = Math.floor(parseInt(Erő.innerText) / 2);
         darkDiceWasChangedToHalfOfStr = true
       }
-    }   
+    }
+
+    if (numberOfClicksForAttacks <= availableNumberOfAttacksFromPsiAssault) {
+      result += specialAtkModifierFromPsiAssault
+      if (result >=10) {
+        result = 10
+      }
+    }
         return result;     
   }
 
@@ -445,8 +457,7 @@ function removeAllSkillOptions() {
         anyOtherHmoModifier.disabled = false
         skillCheckRollButton.style.display = "grid"
         actionsWrapper.style.display = "grid"
-       // removeAllAttributeOptions()
-       // removeAllSkillOptions()
+
         
         let indexOfFirstWeapon = 0
         for (indexOfFirstWeapon; indexOfFirstWeapon < JSON.parse(reader.result).weaponSets.length; indexOfFirstWeapon++) {
@@ -522,7 +533,15 @@ armorHandler()
         });
         console.log(filteredArrayIfHasAnyAffinity)
         //----szűrés képzettségekre
-        let filteredArrayIfHasPsi = JSON.parse(reader.result).skills.filter((name) => name.name == "Pszi")
+        filteredArrayIfHasPsi = JSON.parse(reader.result).skills.filter((name) => {
+          if (name.name != null) {
+            return name.name.includes("Pszi") 
+          }
+        });
+        console.log(filteredArrayIfHasPsi)
+        if (filteredArrayIfHasPsi.length != 0) {
+          psiDisciplinesSelectWrapper.style.display = "grid"
+        }
         let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
         filteredArrayIfHasParry = JSON.parse(reader.result).skills.filter((name) => name.name == "Hárítás")
 //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
@@ -563,10 +582,6 @@ armorHandler()
         // faji módosító objektum értékei
         let currentRaceModifiers = Object.values(currentRace).slice(1, 11);
 //--------------------------------------------------------------------------------
-
-// let atkModifier = attrSpreadArray[0] + attrSpreadArray[1] + attrSpreadArray[2] - agingArray[0] - agingArray[1] - agingArray[2] + currentRaceModifiers[0] + currentRaceModifiers[1] + currentRaceModifiers[2]
-// let aimModifier = attrSpreadArray[2] + attrSpreadArray[7] + attrSpreadArray[9] - agingArray[2] - agingArray[7] - agingArray[9] + currentRaceModifiers[2] + currentRaceModifiers[7] + currentRaceModifiers[9]
-// let defModifier = attrSpreadArray[1] + attrSpreadArray[2] + attrSpreadArray[9] - agingArray[1] - agingArray[2] - agingArray[9] + currentRaceModifiers[1] + currentRaceModifiers[2] + currentRaceModifiers[9]
 
 function modifierCalculator(index1, index2, index3) {
   let currentModifier = 0
@@ -878,8 +893,6 @@ let defModifier = modifierCalculator(1,2,9)
           fetchCharacterData(charName.innerText)
         } 
         fileFirstLoaded = false;
-
-        //evaluateSkillOrAttributeCheckBase()
       },
     );    
     
@@ -888,27 +901,16 @@ let defModifier = modifierCalculator(1,2,9)
     }
   }
 
-function handleAnyOtherHmoModifier(){
-    
-}
-
-  // function handleCheckTypeIsSkillCheck() {
-  //   skills.disabled = false
-  // }
-  // function handleCheckTypeIsAttributeCheck() {
-  //   skills.disabled = true
-  // }
-
- //let stressCheck = false
-
   let diceRolled = false;
 let numberOfClicks = 0
+let numberOfClicksForAttacks = 0
   async function handleClick(darkDice, lightDice) {
     if (charRace.innerText == "") {
       alert('Importálj egy karaktert!')
       return
     }
     numberOfClicks++
+    numberOfClicksForAttacks++
     bodyPartImg.innerHTML = "";
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
@@ -930,8 +932,6 @@ let numberOfClicks = 0
     diceRolled = true
     useLegendPointCheckBox.style.display = "grid"
     useLegendPointCheckBox.checked = false
-    // darkDiceRerollByCounterLP.style.display = "grid"
-    // lightDiceRerollByCounterLP.style.display = "grid"
 
     damageResult.innerText = "";
 
@@ -988,10 +988,6 @@ let numberOfClicks = 0
       atkRollDice: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
       atkRollResultAfter5sec: parseInt(charAtkSum.innerText),
       atkRollDiceAfter5sec: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
-    //  skillCheckResult: parseInt(skillCheckResult.innerText),
-    //  skillCheckDice: `Sötét kocka: ${skillCheckDarkDice}, Világos kocka + DM: ${skillCheckLightDicePlusRollMod}`,
-    //  skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-    //  skillCheckDiceAfter5sec:  `Sötét kocka: ${skillCheckDarkDice}, Világos kocka + DM: ${skillCheckLightDicePlusRollMod}`
     };
 
     const JSONdata = JSON.stringify(data);
@@ -1003,9 +999,10 @@ let numberOfClicks = 0
       },
       body: JSONdata,
     };  
-      await fetch(endpoint, options);
+     const response = await fetch(endpoint, options);
+     console.log(response)
     }
-if(numberOfClicks > 1) setTimeout(() => {{
+if(numberOfClicks > 1) {
   const data = {
     charName: charName.innerText,
     atkRollResultAfter5sec: parseInt(charAtkSum.innerText),
@@ -1021,9 +1018,10 @@ if(numberOfClicks > 1) setTimeout(() => {{
     },
     body: JSONdata,
   };  
-fetch(endpoint, options);
+  const response = await fetch(endpoint, options);
+  console.log(response)
 }
-}, 50);
+
     setTimeout(() => {
       numberOfClicks = 0
     }, 7000);
@@ -1057,7 +1055,6 @@ fetch(endpoint, options);
   <button className="customFileButton">Karakter importálása</button>
   <input type="file" id="inputFile" accept=".txt" onChange={handleFileRead}/>
 </div>
-    
 
         <div className={styles.weaponsContainer}>
           <label htmlFor="weapons" id="chosenWeapon">
@@ -1072,22 +1069,6 @@ fetch(endpoint, options);
               );
             })} 
           </select>
-          {/* <label htmlFor="professionLevelSelect" id="profession">
-            Képzettség foka:
-          </label>
-          <select id="professionLevelSelect" name="profession" disabled = {true}>
-            {professionLevel.map((e) => {
-              return <option key={e}>{e}</option>;
-            })}
-          </select>
-          <label htmlFor="destroyerLevelSelect" id="destroyer">
-            Pusztító adottság:
-          </label>
-          <select id="destroyerLevelSelect" name="destroyer" disabled = {true}>
-            {destroyerLevel.map((e) => {
-              return <option key={e}>{e}</option>;
-            })}
-          </select> */}
           <label htmlFor="charAtk" id="charAtkLabel">
             Karakter TÉO/CÉO
           </label>
@@ -1119,7 +1100,7 @@ fetch(endpoint, options);
             <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel">
             Egyéb +/- HMO:
           </label>
-            <input type="number" step={0.5} name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead} disabled={true} />
+            <input type="number" step={0.5} name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead} disabled={true} defaultValue={0}/>
         </div>
         <div id="rollResultWrapper">
           <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
@@ -1169,6 +1150,7 @@ fetch(endpoint, options);
           <ArmorDetails />
           <CharacterDetails />
           <ActionList />
+          <PsiDisciplines {...props}/>
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}
           <SkillCheck {...props} />

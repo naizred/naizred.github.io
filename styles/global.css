@@ -23,6 +23,7 @@ ul{
   margin-block-end: 0px;
   margin: 0vw;
   padding: 0vw;
+  list-style-type: none
 }
 
 .main {

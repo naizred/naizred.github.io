@@ -10,5 +10,5 @@ export default async function updateCharStats(req, res) {
           atkRollResultAfter5sec, skillCheckResult, skillCheckResultAfter5sec, atkRollDice,
           atkRollDiceAfter5sec, skillCheckDice, skillCheckDiceAfter5sec }
       });
-    res.status(200).json(characterStats);
+    res.json(characterStats);
 }
