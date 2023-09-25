@@ -127,6 +127,7 @@
   width: 3.5vw;
   height: 2.5vw;
   font-size: 1vw;
+  grid-row: 2/3;
   }
 
 .stats {
@@ -184,4 +185,37 @@
   display: grid;
   grid-column: span 2;
   font-size: 2vw;
+}
+
+.chiCombatContinuePopupWindow{
+display: none;
+grid-column: 9/14;
+grid-row: 13/15;
+grid-template-rows: repeat(2, 1fr);
+border: 0.23vw solid #680604;
+-webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+-moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+border-radius: 1vw;
+grid-auto-flow: column;
+margin-right: -1vw;
+background-image: url('../public/parchmentPaper.jpg');
+
+/* background-position: left; */
+background-repeat: no-repeat;
+background-size: 30vw 20vw;
+}
+ .chiCombatContinuePopupWindowText{
+  display: grid;
+  grid-column: span 2;
+  text-align: center;
+} 
+.chiCombatContinuePopupWindowYesButton, .chiCombatContinuePopupWindowNoButton {
+  display: grid;
+  font-size: 2.5vw;
+}
+.chiCombatContinuePopupWindowOKButton {
+  display: none;
+  grid-column: span 2;
+  font-size: 2.5vw;
 }

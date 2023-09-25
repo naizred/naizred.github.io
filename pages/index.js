@@ -9,8 +9,8 @@ import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
 import SkillCheck from "../Components/SkillCheck";
 import PsiDisciplines from "../Components/PsiDisciplines";
-import { specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault } from "../Components/PsiDisciplines";
-
+import { specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat } from "../Components/PsiDisciplines";
+import { chiCombatEndedDueToLackOfPsiPoints } from "../Components/CharacterDetails";
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
 export async function fetchCharacterData(currentCharName) {
@@ -102,6 +102,7 @@ export const specialCases3 = [8, 9];
 export let fileFirstLoaded = true
 let filteredArrayIfHasParry
 let legendPointUsedOnDarkDice = false
+let bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
 
 // --- itt kezdődik az oldal maga
 export default function Home(props) {
@@ -253,6 +254,18 @@ let damageOfFists = "1k10"
    if (diceRolled == false) {
     return
     }
+    if ((activeBuff1.innerText.includes('Chi') || activeBuff2.innerText.includes('Chi') || activeBuff3.innerText.includes('Chi'))) {
+      bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
+    } else {
+      bonusDamageFromChiCombatSave = 0
+    }
+
+    // if (chiCombatEndedDueToLackOfPsiPoints == true) {
+    //   bonusDamageFromChiCombatSave = 0
+    // }
+    // if (chiCombatEndedDueToLackOfPsiPoints == false) {
+    //   bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
+    // }
     //ez a két változó csak az ökölharc miatt kell
     //let professionLevel = professionLevelSelect.value
 let currentWeaponDamage = currentWeapon.w_damage
@@ -268,70 +281,70 @@ if (currentWeapon.w_type == "Ökölharc") {
       originalDarkDice +
       originalLightDice +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel);
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
   } else if (currentWeaponDamage === "2k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel);
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
   } else if (currentWeaponDamage === "2k5+1") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel) +
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave +
       1;
   } else if (currentWeaponDamage === "2k5+2") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel) +
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave +
       2;
   } else if (currentWeaponDamage === "1k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel);
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
   } else if (currentWeaponDamage === "1k5+1") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel) +
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave +
       1;
   } else if (currentWeaponDamage === "1k5+2") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel) +
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave +
       2;
   } else if (currentWeaponDamage === "3k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) * 2 +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel);
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
   } else if (currentWeaponDamage === "1k10") {
     damageResult.innerText =
       originalDarkDice +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel);
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
   } else if (currentWeaponDamage === "1k10+1") {
     damageResult.innerText =
       originalDarkDice +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+1;
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave+1;
   } else if (currentWeaponDamage === "1k2") {
     damageResult.innerText =
     Math.ceil(originalDarkDice / 5) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel);
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
   } else if (currentWeaponDamage === "2k2") {
     damageResult.innerText = Math.ceil(originalDarkDice / 5) +
     Math.ceil(originalLightDice / 5) +
     parseInt(destroyerLevel) +
-      parseInt(professionLevel);
+      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
     }
     if (currentWeapon.w_name == "Fúvócső") {
       damageResult.innerText = 1

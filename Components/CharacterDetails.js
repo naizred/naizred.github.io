@@ -2,7 +2,9 @@
 import styles from '../styles/chardetails.module.css';
 import { rollOptions } from '../pages';
 import { filteredArrayIfHasExtraReaction } from '../pages';
+import { psiAtkDefModifier, theRoundChiCombatWasUsedIn } from './PsiDisciplines';
 export let initRolled = false
+export let chiCombatEndedDueToLackOfPsiPoints = false
 var MersenneTwister = require('mersenne-twister');
 var generator = new MersenneTwister();
 
@@ -135,8 +137,52 @@ let tacticsUsed = false
       } else if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true
       }
+      numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + "."
     }
-    numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + "."
+  }
+  function handleChiCombatBeforeEndOfRound() {
+    if ((activeBuff1.innerText.includes('Chi') || activeBuff2.innerText.includes('Chi') || activeBuff3.innerText.includes('Chi')) && initRolled == true) {
+      chiCombatContinuePopupWindowText.innerText = 'Folytatod a Chi-harcot?'
+      psiDisciplinesSelect.value = "Chi-harc"
+      psiPointCostInput.value = Math.pow(2, (parseInt(numberOfCurrentRound.innerText) - parseInt(theRoundChiCombatWasUsedIn)) + 1)
+      chiCombatContinuePopupWindow.style.display = "grid"
+      chiCombatContinuePopupWindowNoButton.style.display = "grid"
+      chiCombatContinuePopupWindowYesButton.style.display = "grid"
+      if (parseInt(currentPp.value) < parseInt(psiPointCostInput.value)) {
+        chiCombatContinuePopupWindowText.innerText = 'Nincs elég Pszi pontod a Chi-harc folytatásához.'
+        chiCombatContinuePopupWindowNoButton.style.display = "none"
+        chiCombatContinuePopupWindowYesButton.style.display = "none"
+        chiCombatContinuePopupWindowOKButton.style.display = "grid"
+      }
+    }
+  }
+  function handleChiCombatContinue(){
+    currentPp.value = parseInt(currentPp.value) - parseInt(psiPointCostInput.value)
+    handleEndOfRound()
+    chiCombatContinuePopupWindow.style.display = "none"
+  }
+  function handleChiCombatCancel() {
+    if (activeBuff1.innerText.includes('Chi')) {
+      activeBuff1.innerText = ''
+    }
+    if (activeBuff2.innerText.includes('Chi')) {
+      activeBuff1.innerText = ''
+    }
+    if (activeBuff3.innerText.includes('Chi')) {
+      activeBuff1.innerText = ''
+    }
+    charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
+    charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;
+    charDefWithParry.value = parseFloat(charDefWithParry.value) - psiAtkDefModifier;
+    charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - psiAtkDefModifier;
+    handleEndOfRound()
+    chiCombatContinuePopupWindow.style.display = "none"
+    chiCombatContinuePopupWindowOKButton.style.display = "none"
+    chiCombatEndedDueToLackOfPsiPoints = true
+    psiPointCostInput.value = 1
+    if (parseInt(currentPp.value) < parseInt(psiPointCostInput.value)) {
+      psiActivateButton.disabled = true
+    }
   }
 
   function handleWhenTacticsUsed() {
@@ -217,7 +263,7 @@ let tacticsUsed = false
         <p id='maxLp'></p>
         <input id='currentLp' />
       </div>
-    </form>
+      </form>
     <div id="actionsWrapper" className={styles.actionsWrapper}>
         <label className={styles.currentRound}>Kör</label>
         <div id='numberOfCurrentRound' className={styles.currentRound}>1.</div>
@@ -238,7 +284,7 @@ let tacticsUsed = false
           Dobj
         </button>
         <button id='tacticsButton' onClick={handleWhenTacticsUsed} className={styles.endOfCombatButton}>Taktika</button>
-        <button onClick={handleEndOfRound} className={styles.endOfRoundButton}>Kör vége</button>
+        <button onClick={handleEndOfRound} className={styles.endOfRoundButton} onMouseEnter={handleChiCombatBeforeEndOfRound} >Kör vége</button>
         <button id='initiativeRerollByCounterLP' onClick={handleBossInitCounterLP} className={styles.initiativeRerollByCounterLP}></button>
         <button className={styles.endOfCombatButton} onClick={handleEndOfCombat}>Harc vége</button>
         <div >Reakc. száma:</div>
@@ -252,7 +298,13 @@ let tacticsUsed = false
             })}
         </select>
         <input type='checkbox' id='useLegendPointForInitiativeRollCheckBox' className={styles.useLegendPointForInitiativeRollCheckBox} onChange={handleInitLPCheckBox}/>
-    </div>
+      </div>
+      <div id='chiCombatContinuePopupWindow' className={styles.chiCombatContinuePopupWindow} onMouseLeave={() => chiCombatContinuePopupWindow.style.display = "none"}>
+        <div id='chiCombatContinuePopupWindowText' className={styles.chiCombatContinuePopupWindowText}>Folytatod a Chi-harcot?</div> 
+        <button id='chiCombatContinuePopupWindowNoButton' className={styles.chiCombatContinuePopupWindowNoButton} onClick={handleChiCombatCancel}>Nem</button>
+        <button id='chiCombatContinuePopupWindowYesButton' className={styles.chiCombatContinuePopupWindowYesButton} onClick={handleChiCombatContinue}>Igen</button>
+        <button id='chiCombatContinuePopupWindowOKButton' className={styles.chiCombatContinuePopupWindowOKButton} onClick={handleChiCombatCancel}>OK</button>
+      </div>
     </>
   );
 }

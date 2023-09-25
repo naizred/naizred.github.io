@@ -6,7 +6,7 @@
     {"psiDiscId":3, "psiDiscName":"Chi-harc", "requiredPsiSkillLevel": 2,
 "psiSchool": "Slan", "psiPointCost": 1, "canBeModified":false, "castTime": 1, "duration": ["1 kör", "1 kör", "1 kör", "1 kör", "1 kör"], "benefit":[{"atkAndDef":0.5, "damage":1}, {"atkAndDef":1, "damage":2}, {"atkAndDef":1.5, "damage":3}, {"atkAndDef":2, "damage":5}]},
     {"psiDiscId":4, "psiDiscName":"Érzékélesítés", "requiredPsiSkillLevel": 2,
-"psiSchool": "PyarroninSlannKyr", "psiPointCost": 5, "canBeModified":false, "castTime": 10, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], "benefit":[0,"1 Sikerszint","2 Sikerszint","3 Sikerszint","4 Sikerszint"]},
+"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 5, "canBeModified":false, "castTime": 10, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], "benefit":[0,"1 Sikerszint","2 Sikerszint","3 Sikerszint","4 Sikerszint"]},
     {"psiDiscId":5, "psiDiscName":"Levitáció", "requiredPsiSkillLevel": 2,
 "psiSchool": "Slan", "psiPointCost": 1, "canBeModified":false, "castTime": 10, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], 
 "benefit":[0,"A lebegés arasznyival a felszín fölött fix helyen történik. Alapvető ruházaton és fegyveren túl más súly megemelésére nem alkalmas.", 
