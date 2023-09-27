@@ -51,7 +51,7 @@ function PsiDisciplines(props) {
                 psiDisciplineOption.innerText = filteredPsiDisciplines[k].psiDiscName
                 psiDisciplinesSelect.appendChild(psiDisciplineOption)
         }
-        
+
         selectedPsiDisciplineObj = filteredPsiDisciplines.filter((discipline)=>psiDisciplinesSelect.value==discipline.psiDiscName)
 
         psiPointCostInput.value = parseInt(selectedPsiDisciplineObj[0].psiPointCost)
@@ -87,8 +87,7 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
             }
         }
 
-        console.log(skillIndex, selectedPsiDisciplineObj[0].psiSchool, selectedPsiDisciplineObj[0].psiDiscName)
-        allActiveBuffs = document.getElementsByClassName('activeBuff')
+        allActiveBuffs = document.querySelectorAll("ul#listOfCurrentlyActiveBuffs li")
         function checkAllActiveBuffs(name) {
             for (let i = 0; i < allActiveBuffs.length; i++){
                 if (allActiveBuffs[i].innerText.includes(name)) {
@@ -118,7 +117,7 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                         charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + psiAtkDefModifier;
                         chiCombatIsActive = true
                         break
-                    } else if (selectedPsiDisciplineObj[0].psiDiscName == "Pszi Roham" && checkAllActiveBuffs('Roham') == false) {
+                    } else if (selectedPsiDisciplineObj[0].psiDiscName == "Pszi Roham" ) {
                         specialAtkModifierFromPsiAssault = Math.floor(parseInt(savePsiPoinCostValueForPsiAssault) / 5)
                         availableNumberOfAttacksFromPsiAssault = parseInt(selectedPsiDisciplineObj[0].benefit[skillIndex - 1])
                         allActiveBuffs[i].innerText = `${selectedPsiDisciplineObj[0].psiDiscName} Speciális TÉO módosító:+${specialAtkModifierFromPsiAssault}, ${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]} - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
@@ -150,11 +149,11 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
             <div className={styles.psiPoints }>Pp</div>
         </div>
         <div className={styles.currentlyActiveBuffsWrapper}>
-            <div className={styles.listOfCurrentlyActiveBuffs}> Jelenleg aktív diszciplínák és varázslatok
-                <div id='activeBuff1' class='activeBuff' className={styles.activeBuff}></div>
-                <div id='activeBuff2' class='activeBuff' className={styles.activeBuff}></div>
-                <div id='activeBuff3' class='activeBuff' className={styles.activeBuff}></div>
-            </div>
+            <ul id='listOfCurrentlyActiveBuffs' className={styles.listOfCurrentlyActiveBuffs}> Jelenleg aktív diszciplínák és varázslatok
+                <li id='activeBuff1' className={styles.activeBuff}></li>
+                <li id='activeBuff2' className={styles.activeBuff}></li>
+                <li id='activeBuff3' className={styles.activeBuff}></li>
+            </ul>
         </div>
         </>
     )

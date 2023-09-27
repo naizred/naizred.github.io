@@ -166,10 +166,10 @@ let tacticsUsed = false
       activeBuff1.innerText = ''
     }
     if (activeBuff2.innerText.includes('Chi')) {
-      activeBuff1.innerText = ''
+      activeBuff2.innerText = ''
     }
     if (activeBuff3.innerText.includes('Chi')) {
-      activeBuff1.innerText = ''
+      activeBuff3.innerText = ''
     }
     charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
     charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;

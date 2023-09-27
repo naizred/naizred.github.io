@@ -1,6 +1,6 @@
 [
     {"psiDiscId":1, "psiDiscName":"Dinamikus ellenállás", "requiredPsiSkillLevel": 1,
-"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 1, "canBeModified":false, "castTime": 1, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], "benefit":[0,"1 DM","2 DM","3 DM","4 DM"]},
+"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 1, "canBeModified":false, "castTime": 1, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], "benefit":["Az alkalmazót irányító fél dönthet úgy, hogy Stressz- helyett inkább Normál-próbát dob az ellenállásra.","1 DM","2 DM","3 DM","4 DM"]},
     {"psiDiscId":2, "psiDiscName":"Fájdalomtűrés", "requiredPsiSkillLevel": 1,
 "psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 2, "canBeModified":true, "castTime": 10, "duration": ["1 óra","2 óra","5 óra","12 óra","24 óra"], "benefit":"Fp pajzs"},
     {"psiDiscId":3, "psiDiscName":"Chi-harc", "requiredPsiSkillLevel": 2,

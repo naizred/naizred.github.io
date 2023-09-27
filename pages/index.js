@@ -8,9 +8,9 @@ import ArmorDetails from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
 import SkillCheck from "../Components/SkillCheck";
-import PsiDisciplines from "../Components/PsiDisciplines";
+import PsiDisciplines, { currentlyActiveBuffs } from "../Components/PsiDisciplines";
 import { specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat } from "../Components/PsiDisciplines";
-import { chiCombatEndedDueToLackOfPsiPoints } from "../Components/CharacterDetails";
+import { chiCombatEndedAtCharacterDetailsComponent } from "../Components/CharacterDetails";
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
 export async function fetchCharacterData(currentCharName) {

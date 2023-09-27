@@ -42,7 +42,7 @@
   { "w_name": "Ívkard", "w_id": 38, "w_damage": "2k5", "w_type": "HP/Óvó szél", "strBonusDmg":"false" , "weaponAtk":8, "weaponDef":6, "mgt":0},
   { "w_name": "Hollókard", "w_id": 39, "w_damage": "1k10", "w_type": "HP/Óvó szél", "strBonusDmg":"false" , "weaponAtk":5, "weaponDef":6, "mgt":0},
   { "w_name": "Sryn tőr", "w_id": 40, "w_damage": "1k5+1", "w_type": "RP/Óvó szél/Sárga kolostor", "strBonusDmg":"false" , "weaponAtk":6, "weaponDef":1, "mgt":0},
-  { "w_name": "Slan csillag", "w_id": 41, "w_damage": "1k5", "w_type": "PD/Óvó szél/Sárga kolostor", "strBonusDmg":"false" , "weaponAtk":5, "weaponDef":0, "mgt":0},
+  { "w_name": "Slan csillag", "w_id": 41, "w_damage": "1k5", "w_type": "PD/Óvó szél/Sárga kolostor/Kardművész", "strBonusDmg":"false" , "weaponAtk":5, "weaponDef":0, "mgt":0},
   { "w_name": "Ököl", "w_id": 42, "w_damage": "", "w_type": "Ökölharc", "strBonusDmg":"false" , "weaponAtk":0, "weaponDef":0, "mgt":0},
   { "w_name": "Vasököl", "w_id": 43, "w_damage": "", "w_type": "Ökölharc", "strBonusDmg":"true" , "weaponAtk":0, "weaponDef":0, "mgt":0},
   { "w_name": "Láb", "w_id": 44, "w_damage": "", "w_type": "Ökölharc", "strBonusDmg":"false" , "weaponAtk":0, "weaponDef":0, "mgt":0},
