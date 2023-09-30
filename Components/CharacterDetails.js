@@ -2,7 +2,8 @@
 import styles from '../styles/chardetails.module.css';
 import { rollOptions } from '../pages';
 import { filteredArrayIfHasExtraReaction } from '../pages';
-import { psiAtkDefModifier, theRoundChiCombatWasUsedIn } from './PsiDisciplines';
+import { psiAtkDefModifier, theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker } from './PsiDisciplines';
+//import * as psiDisciplinesComponent from './PsiDisciplines'
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 var MersenneTwister = require('mersenne-twister');
@@ -141,7 +142,7 @@ let tacticsUsed = false
     }
   }
   function handleChiCombatBeforeEndOfRound() {
-    if ((activeBuff1.innerText.includes('Chi') || activeBuff2.innerText.includes('Chi') || activeBuff3.innerText.includes('Chi')) && initRolled == true) {
+    if (activeBuffsArray.includes('Chi-harc') && initRolled == true) {
       chiCombatContinuePopupWindowText.innerText = 'Folytatod a Chi-harcot?'
       psiDisciplinesSelect.value = "Chi-harc"
       psiPointCostInput.value = Math.pow(2, (parseInt(numberOfCurrentRound.innerText) - parseInt(theRoundChiCombatWasUsedIn)) + 1)
@@ -162,15 +163,7 @@ let tacticsUsed = false
     chiCombatContinuePopupWindow.style.display = "none"
   }
   function handleChiCombatCancel() {
-    if (activeBuff1.innerText.includes('Chi')) {
-      activeBuff1.innerText = ''
-    }
-    if (activeBuff2.innerText.includes('Chi')) {
-      activeBuff2.innerText = ''
-    }
-    if (activeBuff3.innerText.includes('Chi')) {
-      activeBuff3.innerText = ''
-    }
+    buffRemoverFromActiveBuffArrayAndTextList('Chi-harc')
     charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
     charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;
     charDefWithParry.value = parseFloat(charDefWithParry.value) - psiAtkDefModifier;
@@ -205,6 +198,10 @@ let tacticsUsed = false
   function checkIfPsiIsUseable() {
     if (parseInt(currentPp.value) >= parseInt(psiPointCostInput.value)) {
       psiActivateButton.disabled = false
+    }
+    if (listPsiButton.style.display == 'none') {
+      psiPointCostChecker()
+      
     }
   }
 

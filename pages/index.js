@@ -2,15 +2,16 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
-import CharacterDetails from "../Components/CharacterDetails";
+import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
 import ActionList from "../Components/ActionsList";
 import ArmorDetails from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
 import SkillCheck from "../Components/SkillCheck";
-import PsiDisciplines, { currentlyActiveBuffs } from "../Components/PsiDisciplines";
-import { specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat } from "../Components/PsiDisciplines";
-import { chiCombatEndedAtCharacterDetailsComponent } from "../Components/CharacterDetails";
+import PsiDisciplines, {
+  specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat, activeBuffsArray,
+  buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, psiAtkDefModifier
+} from "../Components/PsiDisciplines";
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
 export async function fetchCharacterData(currentCharName) {
@@ -221,13 +222,17 @@ let damageOfFists = "1k10"
         darkDiceWasChangedToHalfOfStr = true
       }
     }
-
+console.log(numberOfClicksForAttacks, availableNumberOfAttacksFromPsiAssault)
     if (numberOfClicksForAttacks <= availableNumberOfAttacksFromPsiAssault) {
       result += specialAtkModifierFromPsiAssault
       if (result >=10) {
         result = 10
       }
+    } else if (numberOfClicksForAttacks > availableNumberOfAttacksFromPsiAssault) {
+      buffRemoverFromActiveBuffArrayAndTextList('Pszi Roham')
+      numberOfClicksForAttacks = 0
     }
+
         return result;     
   }
 
@@ -254,18 +259,20 @@ let damageOfFists = "1k10"
    if (diceRolled == false) {
     return
     }
-    if ((activeBuff1.innerText.includes('Chi') || activeBuff2.innerText.includes('Chi') || activeBuff3.innerText.includes('Chi'))) {
+    if (activeBuffsArray.includes('Chi-harc')) {
       bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
     } else {
       bonusDamageFromChiCombatSave = 0
     }
+    // ha nem történt kezdeményező dobás, akkor csak 1 támadásig érvényes a chi harc
+    if (initiativeWithRoll.innerText == '' && activeBuffsArray.includes('Chi-harc')) {
+      buffRemoverFromActiveBuffArrayAndTextList('Chi-harc')
+      charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
+      charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;
+      charDefWithParry.value = parseFloat(charDefWithParry.value) - psiAtkDefModifier;
+      charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - psiAtkDefModifier;
+    }
 
-    // if (chiCombatEndedDueToLackOfPsiPoints == true) {
-    //   bonusDamageFromChiCombatSave = 0
-    // }
-    // if (chiCombatEndedDueToLackOfPsiPoints == false) {
-    //   bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
-    // }
     //ez a két változó csak az ökölharc miatt kell
     //let professionLevel = professionLevelSelect.value
 let currentWeaponDamage = currentWeapon.w_damage
