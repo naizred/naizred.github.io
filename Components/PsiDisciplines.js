@@ -183,19 +183,21 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
     }
 
     function handleDeleteBuff (event) {
-            console.log(event.target.parentElement.firstChild.lastChild.value)
+            if (event.target.parentElement.firstChild.lastChild) {
+                console.log(event.target.parentElement.firstChild.lastChild.value)
+                if (event.target.parentElement.lastChild.value == 'Chi-harc') {
+                    charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
+                    charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;
+                    charDefWithParry.value = parseFloat(charDefWithParry.value) - psiAtkDefModifier;
+                    charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - psiAtkDefModifier;
+                }
+                event.target.parentElement.firstChild.innerText = ''
+                console.log(activeBuffsArray)
+                if (event.target.parentElement.lastChild.value == 'Fájdalomtűrés') {
+                   currentFp.value = parseInt(currentFp.value) - parseInt(fpShield)
+                }
+            }
         buffRemoverFromActiveBuffArray(event.target.parentElement.lastChild.value)
-        if (event.target.parentElement.lastChild.value == 'Chi-harc') {
-            charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
-            charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;
-            charDefWithParry.value = parseFloat(charDefWithParry.value) - psiAtkDefModifier;
-            charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - psiAtkDefModifier;
-        }
-        event.target.parentElement.firstChild.innerText = ''
-        console.log(activeBuffsArray)
-        if (event.target.parentElement.lastChild.value == 'Fájdalomtűrés') {
-           currentFp.value = parseInt(currentFp.value) - parseInt(fpShield)
-        }
         }
     
 
