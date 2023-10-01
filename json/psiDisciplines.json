@@ -21,5 +21,11 @@
 "benefit":[0,"1 DM","2 DM","3 DM","4 DM"]},
     {"psiDiscId":10, "psiDiscName":"Aranyharang", "canBeModified":true, "requiredPsiSkillLevel": 3,
 "psiSchool": "Slan", "psiPointCost": 3, "castTime": 5, "duration": ["", "", "3 kör", "1 perc", "5 perc"], 
-"benefit":[0,0,"maximum 3-as SFÉ", "maximum 4-es SFÉ", "maximum 5-ös SFÉ"]}
+"benefit":[0,0,"maximum 3-as SFÉ", "maximum 4-es SFÉ", "maximum 5-ös SFÉ"]},
+    {"psiDiscId":11, "psiDiscName":"Energiagyűjtés - Átalakítás", "canBeModified":true, "requiredPsiSkillLevel": 2,
+"psiSchool": "Kyr", "psiPointCost": 1, "castTime": 1, "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"], 
+"benefit":[]},
+    {"psiDiscId":12, "psiDiscName":"Energiagyűjtés - Kivonás", "canBeModified":true, "requiredPsiSkillLevel": 2,
+"psiSchool": "Kyr", "psiPointCost": 1, "castTime": 10, "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"], 
+"benefit":[]}
 ]

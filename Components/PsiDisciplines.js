@@ -162,7 +162,25 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                     allActiveBuffs[i].innerText = `${selectedPsiDisciplineObj[0].psiDiscName}: ${psiPointCostInput.value} kg-nyi ${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]}, - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
                     allActiveBuffs[i].parentElement.lastChild.value = selectedPsiDisciplineObj[0].psiDiscName
                         break
-                } else if (selectedPsiDisciplineObj[0].psiDiscName == "Dinamikus ellenállás" && !activeBuffsArray.includes("Dinamikus ellenállás")) {
+                } else if (selectedPsiDisciplineObj[0].psiDiscName == "Energiagyűjtés - Átalakítás" && !activeBuffsArray.includes("Energiagyűjtés - Átalakítás")) {
+                    activeBuffsArray.push(selectedPsiDisciplineObj[0].psiDiscName)
+                    allActiveBuffs[i].innerText = `Energiagyűjtés - Átalakítással nyert mana: ${psiPointCostInput.value} - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
+                    currentMp.value = parseInt(currentMp.value) + parseInt(psiPointCostInput.value)
+                    if (parseInt(maxMp.innerText)<=parseInt(currentMp.value)) {
+                        currentMp.value = parseInt(maxMp.innerText)
+                    }
+                    allActiveBuffs[i].parentElement.lastChild.value = selectedPsiDisciplineObj[0].psiDiscName
+                        break
+                } else if (selectedPsiDisciplineObj[0].psiDiscName == "Energiagyűjtés - Kivonás" && !activeBuffsArray.includes("Energiagyűjtés - Kivonás")) {
+                    activeBuffsArray.push(selectedPsiDisciplineObj[0].psiDiscName) 
+                    allActiveBuffs[i].innerText = `Energiagyűjtés - Kivonással nyert mana: ${parseInt(psiPointCostInput.value)*3} - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
+                    currentMp.value = parseInt(currentMp.value) + parseInt(psiPointCostInput.value)*3
+                    if (parseInt(maxMp.innerText)<=parseInt(currentMp.value)) {
+                        currentMp.value = parseInt(maxMp.innerText)
+                    }
+                    allActiveBuffs[i].parentElement.lastChild.value = selectedPsiDisciplineObj[0].psiDiscName
+                        break
+                }else if (selectedPsiDisciplineObj[0].psiDiscName == "Dinamikus ellenállás" && !activeBuffsArray.includes("Dinamikus ellenállás")) {
                    // activeBuffsArray.push(selectedPsiDisciplineObj[0].psiDiscName)
                         allActiveBuffs[i].innerText = `${selectedPsiDisciplineObj[0].psiDiscName} (+${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]}) - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
                         break
