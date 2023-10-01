@@ -103,7 +103,7 @@ function SkillCheck(props) {
           }, 50);
           setTimeout(() => {
             numberOfClicksAtSkillCheck = 0
-          }, 7000);
+          }, 6000);
 
         } else if (stressCheck == true) {
         
@@ -216,7 +216,7 @@ function SkillCheck(props) {
           }, 50);
           setTimeout(() => {
             numberOfClicksAtSkillCheck = 0
-          }, 7000);
+          }, 6000);
       }
     }
     

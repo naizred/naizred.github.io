@@ -1,0 +1,23 @@
+.aimedAttackWrapper {
+    display: grid;
+    grid-column: 14 / 16;
+    grid-row: 3 / 7;
+    font-size: 0.6vw;
+}
+.aimedAttackWrapper .aimedAttackBodyPartCheckBox {
+    width: 0.7vw;
+    height: 0.7vw;
+}
+
+.underConstruction {
+    display: grid;
+    grid-column: 14 / 16;
+    grid-row: 3 / 7;
+    align-self: center;
+    justify-content: center;
+    text-align: center;
+    transform: rotate(-45deg);
+    font-size: 2.7vw;
+color: red;
+  font-weight: bold;
+  }

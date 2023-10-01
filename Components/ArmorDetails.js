@@ -126,7 +126,7 @@ function ArmorDetails() {
 
     return (
         <>
-            <div className={styles.underConstruction}>FEJLESZTÉS ALATT</div>
+            
         <div className={styles.armorDetailsWrapper}>
             <div className={styles.currentArmorDetails}>
                 <div >

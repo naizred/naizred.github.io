@@ -194,15 +194,3 @@
   grid-column: 7 / 8;
 }
 
-.underConstruction {
-    display: none;
-    grid-column: 12 / 16;
-    grid-row: 9 / 13;
-    align-self: center;
-    justify-content: center;
-    text-align: center;
-    transform: rotate(-45deg);
-    font-size: 2.7vw;
-color: red;
-  font-weight: bold;
-  }

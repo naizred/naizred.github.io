@@ -12,6 +12,8 @@ import PsiDisciplines, {
   specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat, activeBuffsArray,
   buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, psiAtkDefModifier
 } from "../Components/PsiDisciplines";
+import AimedAttack from "../Components/AimedAttack";
+import { bodyPartIndexModifiedByAimedAttack } from "../Components/AimedAttack";
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
 export async function fetchCharacterData(currentCharName) {
@@ -101,6 +103,8 @@ export const specialCases1 = [2, 3, 4];
 export const specialCases2 = [5, 6, 7];
 export const specialCases3 = [8, 9];
 export let fileFirstLoaded = true
+export let originalDarkDice = 0;
+export let originalLightDice = 0;
 let filteredArrayIfHasParry
 let legendPointUsedOnDarkDice = false
 let bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
@@ -150,8 +154,6 @@ let damageOfFists = "1k10"
   let schoolsOfMagic = ["Magas Mágia", "Bárdmágia", "Boszorkánymágia", "Borszorkánymesteri mágia", "Tűzvarázslói mágia", "Szakrális mágia"];
   let attributeIndexesForSchoolsOfMagic = [6,5,8,7,7,5]
   let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"];
-  let originalDarkDice = 0;
-  let originalLightDice = 0;
 
 //------------------------------------------------------------------------
 //-------A dobás ------
@@ -971,28 +973,28 @@ let numberOfClicksForAttacks = 0
     let tempImg = document.createElement("img");
     tempImg.classList.add("tempImg");
     bodyPartImg.appendChild(tempImg);
-    function currentBodypart(bodypart) {
+    function currentBodypartHit(bodypart) {
       tempImg.src = "";
       tempImg.src = `./bodyParts/${bodypart}`;
       tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 100);
     }
     if (bodyPart.innerText == "bal láb") {
-      currentBodypart("LeftLeg.png");
+      currentBodypartHit("LeftLeg.png");
     }
     if (bodyPart.innerText == "jobb láb") {
-      currentBodypart("RightLeg.png");
+      currentBodypartHit("RightLeg.png");
     }
     if (bodyPart.innerText == "bal kar") {
-      currentBodypart("LeftArm.png");
+      currentBodypartHit("LeftArm.png");
     }
     if (bodyPart.innerText == "fegyverforgató kar") {
-      currentBodypart("RightArm.png");
+      currentBodypartHit("RightArm.png");
     }
     if (bodyPart.innerText == "törzs") {
-      currentBodypart("Torso.png");
+      currentBodypartHit("Torso.png");
     }
     if (bodyPart.innerText == "fej") {
-      currentBodypart("Head.png");
+      currentBodypartHit("Head.png");
     }
     bodyPart.animate([{color: "white"}, {color:"black"}],200)
     damageEvaluator()
@@ -1044,7 +1046,7 @@ if(numberOfClicks > 1) {
 
     setTimeout(() => {
       numberOfClicks = 0
-    }, 7000);
+    }, 5000);
     }
     playerChecker()
   }
@@ -1144,7 +1146,8 @@ if(numberOfClicks > 1) {
           <button id="darkDiceRerollByCounterLP" onClick={handleBossCounterLPdark}></button>
           <button id="lightDiceRerollByCounterLP" onClick={handleBossCounterLPlight}></button>
         </div>
-        <div id="bodyPartImg"></div>
+          <div id="bodyPartImg"></div>
+          <AimedAttack />
         <button type=""
           id="rollButton"
           className={styles.rollButton}
