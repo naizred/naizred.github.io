@@ -3,14 +3,15 @@
     grid-column: 14 / 16;
     grid-row: 3 / 7;
     font-size: 0.6vw;
+    margin-top: 0.7vw;
 }
-.aimedAttackWrapper .aimedAttackBodyPartCheckBox {
+.aimedAttackWrapper .aimedAttackBodyPartRadioButton {
     width: 0.7vw;
     height: 0.7vw;
 }
 
 .underConstruction {
-    display: grid;
+    display: none;
     grid-column: 14 / 16;
     grid-row: 3 / 7;
     align-self: center;

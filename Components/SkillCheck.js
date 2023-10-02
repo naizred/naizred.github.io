@@ -332,7 +332,8 @@ function SkillCheck(props) {
             Választott képzettség:
           </label>
             <select defaultValue="" id="skills" name="skills" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
-            <option value='' disabled>Válassz képzettséget</option>
+          <option value='' disabled>Válassz képzettséget</option>
+          <option value={0} >Képzetlen</option>
           </select>
           <label htmlFor="attributes" id="attributesLabel" className="skillCheckLabel">
             Választott tulajdonság:

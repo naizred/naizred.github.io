@@ -13,7 +13,7 @@ import PsiDisciplines, {
   buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, psiAtkDefModifier
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
-import { bodyPartIndexModifiedByAimedAttack } from "../Components/AimedAttack";
+import { bodyParts } from "../Components/AimedAttack";
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
 export async function fetchCharacterData(currentCharName) {
@@ -105,6 +105,7 @@ export const specialCases3 = [8, 9];
 export let fileFirstLoaded = true
 export let originalDarkDice = 0;
 export let originalLightDice = 0;
+export let defaultCharAtkValue
 let filteredArrayIfHasParry
 let legendPointUsedOnDarkDice = false
 let bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
@@ -139,18 +140,6 @@ function CharCompare(a, b, index) {
 let damageOfFists = "1k10"
   let destroyerLevel
   let professionLevel
-  let bodyParts = [
-    "bal láb",
-    "jobb láb",
-    "bal kar",
-    "fegyverforgató kar",
-    "fegyverforgató kar",
-    "törzs",
-    "törzs",
-    "törzs",
-    "törzs",
-    "fej",
-  ];
   let schoolsOfMagic = ["Magas Mágia", "Bárdmágia", "Boszorkánymágia", "Borszorkánymesteri mágia", "Tűzvarázslói mágia", "Szakrális mágia"];
   let attributeIndexesForSchoolsOfMagic = [6,5,8,7,7,5]
   let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"];
@@ -426,6 +415,10 @@ if (currentWeapon.w_type == "Ökölharc") {
 
   function handleWeaponOrShieldChange() {
     handleFileRead();
+    let allAimedBodyParts = document.querySelectorAll('ul#aimedAttackList li input')
+    for (let i = 0; i < allAimedBodyParts.length; i++) {
+     allAimedBodyParts[i].checked = false      
+    }
     rollResult.innerText = ""
     damageResult.innerText = ""
     bodyPart.innerText = ""
@@ -915,6 +908,7 @@ let defModifier = modifierCalculator(1,2,9)
           fetchCharacterData(charName.innerText)
         } 
         fileFirstLoaded = false;
+        defaultCharAtkValue = parseFloat(charAtk.value)
       },
     );    
     
@@ -978,22 +972,22 @@ let numberOfClicksForAttacks = 0
       tempImg.src = `./bodyParts/${bodypart}`;
       tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 100);
     }
-    if (bodyPart.innerText == "bal láb") {
+    if (bodyPart.innerText == "Bal láb") {
       currentBodypartHit("LeftLeg.png");
     }
-    if (bodyPart.innerText == "jobb láb") {
+    if (bodyPart.innerText == "Jobb láb") {
       currentBodypartHit("RightLeg.png");
     }
-    if (bodyPart.innerText == "bal kar") {
+    if (bodyPart.innerText == "Bal kar") {
       currentBodypartHit("LeftArm.png");
     }
-    if (bodyPart.innerText == "fegyverforgató kar") {
+    if (bodyPart.innerText == "Fegyverforgató kar") {
       currentBodypartHit("RightArm.png");
     }
-    if (bodyPart.innerText == "törzs") {
+    if (bodyPart.innerText == "Törzs") {
       currentBodypartHit("Torso.png");
     }
-    if (bodyPart.innerText == "fej") {
+    if (bodyPart.innerText == "Fej") {
       currentBodypartHit("Head.png");
     }
     bodyPart.animate([{color: "white"}, {color:"black"}],200)
