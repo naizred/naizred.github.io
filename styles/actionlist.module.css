@@ -1,18 +1,141 @@
 .actionsWrapper{
     display: grid;
     grid-column: 16 / 22;
-    grid-row: 1/13;
+    grid-row: 1/14;
     border: 0.23vw solid #680604;
     -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
     box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
     border-radius: 1vw;
     height: 38vw;
-    width: 24vw;
+    width: 25vw;
     padding: 0.5vw;
-    background-image: url(../public/listOfManouvers.png);
+    /* background-image: url(../public/listOfManouvers.png); */
     background-size: 25vw 37vw;
     background-repeat: no-repeat;
     background-position: center;
     background-position-y: 2vw;
 }
+.ammoWrapper{
+    display: none;
+    grid-column: 16 / 19;
+    grid-row: 11/12;
+    width: 4vw;
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    font-size: 0.8vw;
+}
+.spellInputWrapper{
+    display: none;
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    grid-column: 17 / 20;
+    grid-row: 10/12;
+    width: 12vw;
+    background-image: url('../public/parchmentPaper.jpg');
+
+    /* background-position: left; */
+    background-repeat: no-repeat;
+    background-size: 20vw 20vw;
+    background-position: center;
+}
+.spellInputWrapper li{
+    display: grid;
+    grid-auto-flow: column;
+    width: 12vw;
+    grid-template-columns: repeat(3,1fr);
+    align-items: center;
+}
+.spellInputWrapper li button{
+    display: grid;
+    width: 3vw;
+}
+.spellInputWrapper li input{
+    display: grid;
+    height: 2vw;
+    width: 4vw;
+    text-align: center;
+    font-size: 1.5vw;
+}
+.spellInputWrapper button{
+    display: grid;
+    font-size: 1vw;
+}
+.ammoWrapper input{
+    display: grid;
+    width: 3vw;
+    height: 1vw;
+    font-size: 0.8vw;
+    text-align: center;
+}
+.ammoWrapper button{
+    display: grid;
+    width: 4vw;
+    height: 1vw;
+    font-size: 0.8vw;
+}
+.actionsWrapper li{
+    font-size: 0.8vw;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(6, 1fr);
+}
+.actionsWrapper button{
+    font-size: 0.8vw;
+    display: grid;
+    grid-column: 6/7;
+}
+.actionsWrapper span{
+    font-size: 0.8vw;
+    display: grid;
+    grid-column: 2/6;
+}
+.actionsWrapper ul{
+    font-size: 1vw;
+    margin-left: 1vw;
+}
+.actionsWrapper ul li{
+    margin-left: 1.5vw;
+}
+.actionsWrapper .otherManeuversLabel {
+    font-size: 1vw;
+    display: grid;
+    grid-column: 1/6;
+}
+.actionsWrapper input {
+    width: 0.7vw;
+    height: 0.7vw;
+    grid-column: 6/7;
+}
+.spellTypeQuestionWindow{
+    display: none;
+    grid-column: 8/12;
+    grid-row: 5/7;
+    grid-template-rows: repeat(2, 1fr);
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    grid-auto-flow: column;
+    background-image: url('../public/parchmentPaper.jpg');
+    
+    /* background-position: left; */
+    background-repeat: no-repeat;
+    background-size: 30vw 20vw;
+    }
+     .spellTypeQuestionWindowText{
+      display: grid;
+      grid-column: span 2;
+      text-align: center;
+    } 
+    .spellTypeQuestionWindowYesButton, .spellTypeQuestionWindowNoButton {
+      display: grid;
+      font-size: 2.5vw;
+    }

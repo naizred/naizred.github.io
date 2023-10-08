@@ -3,14 +3,14 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
-import ActionList from "../Components/ActionsList";
-import ArmorDetails from "../Components/ArmorDetails";
+import ActionList, { actionsNeededToBeAbleToCastAgain, actionsSpentSinceLastCast, actionsSpentSinceLastCastAdder, assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting } from "../Components/ActionsList";
+import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
-import SkillCheck from "../Components/SkillCheck";
+import SkillCheck, {skillOrAttributeCheckRoll, handleSkillCheck, evaluateSkillOrAttributeCheckBase} from "../Components/SkillCheck";
 import PsiDisciplines, {
   specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat, activeBuffsArray,
-  buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, psiAtkDefModifier
+  buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, psiAtkDefModifier, bonusDamageFromChiCombatNullifier
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
@@ -63,8 +63,9 @@ export async function fetchCharacterData(currentCharName) {
   })
 }
 
+
 export const getStaticProps = async () => {
-  
+
   const fs = require("fs");
   const jsonDirectory = path.join(process.cwd(), "json");
   let allSkills = JSON.parse(
@@ -89,16 +90,23 @@ export const getStaticProps = async () => {
       gods,
       psiDisciplines,
       races,
-      weapons
+      weapons,
+
     },
   };
 };
+// ki kellett importálni az alap CÉ-t a varázsláshoz
+export let baseAimWithTeoCalculator = 0
 
 export let mgtCompensation = 0
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
 export let filteredArrayIfHasAnyAffinity
 export let filteredArrayIfHasPsi
+export let filteredArrayIfHasCombination
+export let filteredArrayIfHasQuickShot
+export let filteredArrayIfHasTwoWeaponAttack
+export let filteredArrayIfHasAssassination
 export const specialCases1 = [2, 3, 4];
 export const specialCases2 = [5, 6, 7];
 export const specialCases3 = [8, 9];
@@ -106,9 +114,55 @@ export let fileFirstLoaded = true
 export let originalDarkDice = 0;
 export let originalLightDice = 0;
 export let defaultCharAtkValue
+export let twoWeaponAttackModifiers = [-3, -2, -1, 0, 1, 2]
+export let twoWeaponAttackModifiersIndex = 0
+export let quickShotModifiers = [-5, -4, -3, -2, -1, 0]
+export let quickShotModifiersIndex = 0
+export let combinationModifiers = [-4, -3, -2, -1, 0, 1]
+export let combinationModifiersIndex = 0
 let filteredArrayIfHasParry
+let mainHandWeaponWhenTwoWeaponAttackIsUsed
 let legendPointUsedOnDarkDice = false
+let legendPointUsedOnLightDice = false
 let bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
+let bonusDamageFromAssassination = 0
+export let arrayOfAllComplexMaeuvers 
+export let currentlySelectedWeapon
+export let weaponsOptions
+
+export let combinationWasUsedThisRound = false
+export function combinationWasUsedThisRoundSetToFalse() {
+  combinationWasUsedThisRound = false
+}
+export let disarmWasUsedThisRound = false
+export let chargeWasUsedThisRound = false
+export function chargeWasUsedThisRoundToFalse() {
+  chargeWasUsedThisRound=false
+}
+export let twoWeaponAttackWasUsedThisRound = false
+export function twoWeaponAttackWasUsedThisRoundToFalse() {
+  twoWeaponAttackWasUsedThisRound=false
+}
+
+export let diceRolled = false;
+export function setDiceRolledToFalse() {
+    diceRolled = false
+}
+export let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ", "Fúvócső", "MÁGIA"]
+export let reloadIsNeeded = false
+export function reloadIsNeededSetToFalse(){
+  reloadIsNeeded = false
+}
+export function reloadIsNeededSetToTrue(){
+  reloadIsNeeded = true
+}
+export function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
+  for (let i = 0; i < rangedWeaponsArray.length; i++) {
+    if (currentlySelectedWeaponType.includes(rangedWeaponsArray[i])) {
+      return true
+    } 
+  }return false
+}
 
 // --- itt kezdődik az oldal maga
 export default function Home(props) {
@@ -164,7 +218,7 @@ let damageOfFists = "1k10"
         lightDiceResultSelect.value = lightDice
       }
     
-    //lightDice = 3
+    //lightDice = 0
     //darkDice = 0 
     /* -- ez a felső két sor a dobások tesztelésére van  */
 
@@ -194,17 +248,33 @@ let damageOfFists = "1k10"
       "Kapsz 2 cselekedetet",
       "Kapsz 3 cselekedetet",
     ];
-
+// Itt vannak a nevezetes dobások
     if (lightDice == darkDice && specialCases1.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[1];
     } else if (lightDice == darkDice && specialCases2.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[2];
+      if (initRolled == true && disarmRadioButton.checked == false && weaponBreakRadioButton.checked == false)
+      {
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1
+      }
     } else if (lightDice == darkDice && specialCases3.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[3];
+      if (initRolled == true && disarmRadioButton.checked == false && weaponBreakRadioButton.checked == false)
+      {
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) + 2
+      }
     } else if (lightDice == darkDice && darkDice == 1) {
       specialEffect.innerText = specialModifiers[0];
+      if (initRolled == true && disarmRadioButton.checked == false && weaponBreakRadioButton.checked == false)
+      {
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) - 3
+      }
     } else if (lightDice == darkDice && darkDice == 10) {
       specialEffect.innerText = specialModifiers[4];
+      if (initRolled == true && disarmRadioButton.checked == false && weaponBreakRadioButton.checked == false)
+      {
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) + 3
+      }
     }
     console.log("Sötét eredeti:", originalDarkDice, "Világos:", originalLightDice)
     if (strBonus == true) {
@@ -213,7 +283,12 @@ let damageOfFists = "1k10"
         darkDiceWasChangedToHalfOfStr = true
       }
     }
-console.log(numberOfClicksForAttacks, availableNumberOfAttacksFromPsiAssault)
+    if (currentlySelectedWeapon.assassinWeapon == true && assassinationRadioButton.checked == true){
+      if (Math.floor(parseInt(Ügy.innerText) / 2) > darkDice) {
+        originalDarkDice = Math.floor(parseInt(Ügy.innerText) / 2);
+      }
+      }
+
     if (numberOfClicksForAttacks <= availableNumberOfAttacksFromPsiAssault) {
       result += specialAtkModifierFromPsiAssault
       if (result >=10) {
@@ -223,38 +298,28 @@ console.log(numberOfClicksForAttacks, availableNumberOfAttacksFromPsiAssault)
       buffRemoverFromActiveBuffArrayAndTextList('Pszi Roham')
       numberOfClicksForAttacks = 0
     }
-
         return result;     
-  }
-
-  function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
-    for (let i = 0; i < rangedWeaponsArray.length; i++) {
-      if (currentlySelectedWeaponType.includes(rangedWeaponsArray[i])) {
-        return true
-      } 
-    }return false
   }
 
 //-------------- Megnézi a sebzéskódot, és számol sebzést ------------
   
   async function damageEvaluator() {
-    const currentWeapon = props.weapons.find(
-      (name) => name.w_name === `${weapons.value}`
-    );
-    console.log("Fegyver típus:", currentWeapon.w_type);
-    console.log("Fegyver sebzéskód:", currentWeapon.w_damage);
-    console.log("Erősebzés?:", currentWeapon.strBonusDmg);
-  if (checkIfWeaponIsRanged(currentWeapon.w_type)) {
-    destroyerLevel = 0  
-    } 
+    console.log("Fegyver típus:", currentlySelectedWeapon.w_type);
+    console.log("Fegyver sebzéskód:", currentlySelectedWeapon.w_damage);
+    console.log("Erősebzés?:", currentlySelectedWeapon.strBonusDmg);
    if (diceRolled == false) {
     return
     }
-    if (activeBuffsArray.includes('Chi-harc')) {
-      bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
-    } else {
-      bonusDamageFromChiCombatSave = 0
+    if (!activeBuffsArray.includes('Chi-harc')) {
+      bonusDamageFromChiCombatNullifier()
+    } 
+    if (assassinationRadioButton.checked == true) {
+      bonusDamageFromAssassination = filteredArrayIfHasAssassination[0].level
     }
+    if (assassinationRadioButton.checked == false) {
+      bonusDamageFromAssassination = 0
+    }
+    
     // ha nem történt kezdeményező dobás, akkor csak 1 támadásig érvényes a chi harc
     if (initiativeWithRoll.innerText == '' && activeBuffsArray.includes('Chi-harc')) {
       buffRemoverFromActiveBuffArrayAndTextList('Chi-harc')
@@ -264,13 +329,13 @@ console.log(numberOfClicksForAttacks, availableNumberOfAttacksFromPsiAssault)
       charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - psiAtkDefModifier;
     }
 
-    //ez a két változó csak az ökölharc miatt kell
-    //let professionLevel = professionLevelSelect.value
-let currentWeaponDamage = currentWeapon.w_damage
-if (currentWeapon.w_type == "Ökölharc") {
+    //ez a két változó csak az ökölharc miatt kell:
+    //professionLevel és currentWeaponDamage
+let currentWeaponDamage = currentlySelectedWeapon.w_damage
+if (currentlySelectedWeapon.w_type == "Ökölharc") {
   currentWeaponDamage = damageOfFists
   professionLevel = Math.ceil(professionLevel / 2);
-  if (currentWeapon.w_name == "Vasököl") {
+  if (currentlySelectedWeapon.w_name == "Vasököl") {
     professionLevel +=1
   }
     }
@@ -279,77 +344,89 @@ if (currentWeapon.w_type == "Ökölharc") {
       originalDarkDice +
       originalLightDice +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
+      parseInt(professionLevel)+bonusDamageFromChiCombat+
+      bonusDamageFromAssassination;
   } else if (currentWeaponDamage === "2k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
+      parseInt(professionLevel)+bonusDamageFromChiCombat+
+      bonusDamageFromAssassination;
   } else if (currentWeaponDamage === "2k5+1") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave +
+    parseInt(professionLevel) + bonusDamageFromChiCombat +
+    bonusDamageFromAssassination +
       1;
   } else if (currentWeaponDamage === "2k5+2") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave +
+    parseInt(professionLevel) + bonusDamageFromChiCombat +
+    bonusDamageFromAssassination+
       2;
   } else if (currentWeaponDamage === "1k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
+      parseInt(professionLevel)+bonusDamageFromChiCombat+
+      bonusDamageFromAssassination;
   } else if (currentWeaponDamage === "1k5+1") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave +
+    parseInt(professionLevel) + bonusDamageFromChiCombat +
+    bonusDamageFromAssassination+
       1;
   } else if (currentWeaponDamage === "1k5+2") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave +
+    parseInt(professionLevel) + bonusDamageFromChiCombat +
+    bonusDamageFromAssassination +
       2;
   } else if (currentWeaponDamage === "3k5") {
     damageResult.innerText =
       Math.ceil(originalDarkDice / 2) * 2 +
       Math.ceil(originalLightDice / 2) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
+      parseInt(professionLevel)+bonusDamageFromChiCombat+
+      bonusDamageFromAssassination;
   } else if (currentWeaponDamage === "1k10") {
     damageResult.innerText =
       originalDarkDice +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
+      parseInt(professionLevel)+bonusDamageFromChiCombat+
+      bonusDamageFromAssassination;
   } else if (currentWeaponDamage === "1k10+1") {
     damageResult.innerText =
       originalDarkDice +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave+1;
+      parseInt(professionLevel) + bonusDamageFromChiCombat +
+      bonusDamageFromAssassination + 1;
   } else if (currentWeaponDamage === "1k2") {
     damageResult.innerText =
     Math.ceil(originalDarkDice / 5) +
       parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
+      parseInt(professionLevel)+bonusDamageFromChiCombat+
+      bonusDamageFromAssassination;
   } else if (currentWeaponDamage === "2k2") {
     damageResult.innerText = Math.ceil(originalDarkDice / 5) +
     Math.ceil(originalLightDice / 5) +
     parseInt(destroyerLevel) +
-      parseInt(professionLevel)+bonusDamageFromChiCombatSave;
+      parseInt(professionLevel)+bonusDamageFromChiCombat+
+      bonusDamageFromAssassination;
     }
-    if (currentWeapon.w_name == "Fúvócső") {
+    if (currentlySelectedWeapon.w_name == "Fúvócső") {
       damageResult.innerText = 1
     }
 
-    if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentWeapon.w_type) &&
-      currentWeapon.w_name != "Fúvócső" && currentWeapon.w_name != "Célzott mágia" &&
+    if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) &&
+      currentlySelectedWeapon.w_name != "Fúvócső" && currentlySelectedWeapon.w_name != "Célzott mágia" &&
       darkDiceWasChangedToHalfOfStr == false && legendPointUsedOnDarkDice == false) {
       let archeryBonusDmg = 0
 
@@ -357,16 +434,16 @@ if (currentWeapon.w_type == "Ökölharc") {
         let currentRandomArcheryBonusRoll = Math.floor(generator.random() * 10)
         if (currentRandomArcheryBonusRoll == 0) {
           currentRandomArcheryBonusRoll = 10
-          if (currentWeapon.w_damage.includes('k5')) {
+          if (currentlySelectedWeapon.w_damage.includes('k5')) {
                currentRandomArcheryBonusRoll = 5
-          } else if (currentWeapon.w_damage.includes('k2')) {
+          } else if (currentlySelectedWeapon.w_damage.includes('k2')) {
             currentRandomArcheryBonusRoll = 2
              }
           archeryBonusDmg += currentRandomArcheryBonusRoll
         } else if (currentRandomArcheryBonusRoll != 0) {
-          if (currentWeapon.w_damage.includes('k5')) {
+          if (currentlySelectedWeapon.w_damage.includes('k5')) {
             currentRandomArcheryBonusRoll = Math.ceil(currentRandomArcheryBonusRoll/2)
-          } else if (currentWeapon.w_damage.includes('k2')) {
+          } else if (currentlySelectedWeapon.w_damage.includes('k2')) {
             currentRandomArcheryBonusRoll = Math.ceil(currentRandomArcheryBonusRoll/5)
           }
           archeryBonusDmg += currentRandomArcheryBonusRoll
@@ -388,12 +465,16 @@ if (currentWeapon.w_type == "Ökölharc") {
       darkDiceResultSelect.disabled = false
       lightDiceResultSelect.disabled = false
       rollButton.disabled = true
+      if (disarmWasUsedThisRound == true) {
+        disarmRadioButton.checked = true
+      }
     } else {
       darkDiceResultSelect.disabled = true
       lightDiceResultSelect.disabled = true
     }
     if (useLegendPointCheckBox.checked == false) {
       rollButton.disabled = false
+      disarmRadioButton.checked = false
     }
   }
 
@@ -402,22 +483,35 @@ if (currentWeapon.w_type == "Ökölharc") {
     if (event.target.id == "darkDiceResultSelect") {
       legendPointUsedOnDarkDice = true
       darkDiceRerollByCounterLP.style.display = "grid"
-} else if (event.target.id == "lightDiceResultSelect") {
-  lightDiceRerollByCounterLP.style.display = "grid"
-}
+    } else if (event.target.id == "lightDiceResultSelect") {
+      legendPointUsedOnLightDice = true
+      lightDiceRerollByCounterLP.style.display = "grid"
+    }
+
     handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
+    if (numberOfClicksAtTwoWeaponAttack == 1) {
+    }
+    disarmRadioButton.checked = false
+    disarmWasUsedThisRound = false
     useLegendPointCheckBox.style.display = "none"
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
     rollButton.disabled = false
+    if (useLegendPointCheckBox.checked == false && initRolled == true && diceRolled == true) {
+      rollButton.disabled = true
+    }
+    if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true || numberOfClicksAtTwoWeaponAttack==1) {
+      rollButton.disabled = false
+    }
     legendPointUsedOnDarkDice = false
+    legendPointUsedOnLightDice = false
   }
 
   function handleWeaponOrShieldChange() {
     handleFileRead();
     let allAimedBodyParts = document.querySelectorAll('ul#aimedAttackList li input')
     for (let i = 0; i < allAimedBodyParts.length; i++) {
-     allAimedBodyParts[i].checked = false      
+     allAimedBodyParts[i].checked = false 
     }
     rollResult.innerText = ""
     damageResult.innerText = ""
@@ -425,6 +519,12 @@ if (currentWeapon.w_type == "Ökölharc") {
     charAtkSum.innerText = ""
     specialEffect.innerText = "nincs"
     useLegendPointCheckBox.style.display = "none"
+    if (initRolled == true) {
+      weapons.disabled = true
+      offHand.disabled = true
+      manipulationButton.disabled = false
+      reloadIsNeeded = false
+    }
   }
 
   function handleBossCounterLPdark() {
@@ -456,7 +556,7 @@ function removeAllSkillOptions() {
   }
 }
     
-  let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ", "Fúvócső", "MÁGIA"]
+  
   let charAttributes = ["Erő", "Gyo", "Ügy", "Áll", "Egé", "Kar", "Int", "Aka", "Asz", "Érz"]
   let currentCharFinalAttributes = []
 //   function handleFileImportClick() {
@@ -504,12 +604,19 @@ function removeAllSkillOptions() {
           if (JSON.parse(reader.result).armourSet == null) {
             return
           }
+
           let armorPieces = JSON.parse(reader.result).armourSet.pieces
+          if (armorPieces.length == 0) {
+            equippedOrNot.style.display = 'none'
+            return
+          }
          // let armorObject = []
           if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
             mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
           }
-          equippedOrNot.checked = true
+          if (equippedOrNotSetToManual == false) {
+            equippedOrNot.checked = true
+          
           console.log(armorPieces)
             for (let j = 0; j < props.armors.length; j++) {
               if (armorPieces[0] == props.armors[j].nameOfArmor) {
@@ -518,6 +625,7 @@ function removeAllSkillOptions() {
               } else {
                 continue
               }
+            }
             }                    
           // for (let i = 0; i < armorObject.length; i++) {
           //   //armorSetMgt += Math.round(armorObject[i].materialIndex * armorObject[i].kit.length)           
@@ -525,7 +633,7 @@ function removeAllSkillOptions() {
         }
 armorHandler()
 //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból 
-        let currentlySelectedWeapon = props.weapons.find(
+        currentlySelectedWeapon = props.weapons.find(
           (name) => name.w_name === `${weapons.value}`
         )
         let currentlySelectedOffHand = props.weapons.find(
@@ -546,19 +654,36 @@ armorHandler()
             return name.aptitude.includes("affinitás") 
           }
         });
-        console.log(filteredArrayIfHasAnyAffinity)
         //----szűrés képzettségekre
         filteredArrayIfHasPsi = JSON.parse(reader.result).skills.filter((name) => {
           if (name.name != null) {
             return name.name.includes("Pszi") 
           }
         });
-        console.log(filteredArrayIfHasPsi)
+ 
         if (filteredArrayIfHasPsi.length != 0) {
           psiDisciplinesSelectWrapper.style.display = "grid"
         }
+        filteredArrayIfHasCombination = JSON.parse(reader.result).skills.filter((name) => name.name == "Kombináció")
+        filteredArrayIfHasQuickShot = JSON.parse(reader.result).skills.filter((name) => name.name == "Kapáslövés")
+        filteredArrayIfHasTwoWeaponAttack = JSON.parse(reader.result).skills.filter((name) => name.name == "Kétkezes harc")
+
+        if (filteredArrayIfHasCombination.length != 0) {
+          combinationModifiersIndex = filteredArrayIfHasCombination[0].level
+      }
+      if (filteredArrayIfHasQuickShot.length != 0) {
+          quickShotModifiersIndex = filteredArrayIfHasQuickShot[0].level
+      }
+      if (filteredArrayIfHasTwoWeaponAttack.length != 0) {
+        twoWeaponAttackModifiersIndex = filteredArrayIfHasTwoWeaponAttack[0].level
+      }
         let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
         filteredArrayIfHasParry = JSON.parse(reader.result).skills.filter((name) => name.name == "Hárítás")
+        let filteredArrayIfHasRunning = JSON.parse(reader.result).skills.filter((name) => name.name == "Futás")
+        filteredArrayIfHasAssassination = JSON.parse(reader.result).skills.filter((name) => name.name == "Orvtámadás")
+        if (filteredArrayIfHasAssassination.length != 0) {
+          bonusDamageFromAssassination = filteredArrayIfHasAssassination[0].level
+        }
 //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
         let allLevelsArray = []
 
@@ -634,12 +759,12 @@ let defModifier = modifierCalculator(1,2,9)
           + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) + currentRaceModifiers[i] - agingArray[i]
           let attrOption = document.createElement('option');
           attrOption.innerText = charAttributes[i];
-          attrOption.value = currentAttribute;
+          attrOption.value = [currentAttribute, charAttributes[i]];
           attributes.appendChild(attrOption);
           //itt kerülnek meghatározásra a végső tulajdonság értékek
           currentCharFinalAttributes.push(currentAttribute)
         }
-        
+        // itt rakja be az összes skillt a skillCheck komponensbe
         for (let i = 0; i < JSON.parse(reader.result).skills.length; i++) {
           if (JSON.parse(reader.result).skills[i].name != null) {          
           let skillOption = document.createElement('option');
@@ -676,6 +801,7 @@ let defModifier = modifierCalculator(1,2,9)
           + findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Érz") + sumDefGainedByLevel
           +JSON.parse(reader.result).spentHm.VÉ
         console.log(baseAtk, baseDef, baseAim)
+        
         let masterWeaponModifier = 0
         
         if (filteredArrayIfHasMasterWep.length!=0) {
@@ -701,7 +827,8 @@ let defModifier = modifierCalculator(1,2,9)
           }
           return calculatedTVCO
         }
-         
+        // ki kellett menteni a varázslatokhoz
+        baseAimWithTeoCalculator = tvcoCalculator(baseAim)
         //--- külön az erő tulajdonság, ami az oldalon megjelenik
 
         initiative.innerText = currentCharFinalAttributes[1] + currentCharFinalAttributes[6] + currentCharFinalAttributes[9] + sumInitiativeGainedByLevel + JSON.parse(reader.result).stats.KÉ;
@@ -791,6 +918,19 @@ let defModifier = modifierCalculator(1,2,9)
         }
         charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
 
+        //********************************************************************************************** */
+        // Kiszámolja a maximális és cselekedetenkénti mozgás távot. Ez függ az MGT-től, ezért van ennyire lent
+        // *********************************************************************************************
+        let speedBonusFromRunningSkill = 0
+        if (filteredArrayIfHasRunning.length !=0) {
+          speedBonusFromRunningSkill = filteredArrayIfHasRunning[0].level *2
+        }
+        let correctedSpeedValueForMovementCalculation = currentCharFinalAttributes[1]+speedBonusFromRunningSkill-currentlySelectedWeapon.mgt-reducedMgtByParrySkill-parseInt(totalMgtOfArmorSet.innerText)
+        maxMove.innerText = `Max táv: ${(correctedSpeedValueForMovementCalculation)*4} láb`
+        movePerAction.innerText = `/akció táv: ${Math.ceil((correctedSpeedValueForMovementCalculation*4)/(1+Math.ceil((parseInt(initiative.innerText)+1)/10)))} láb`
+
+
+// *******************************************************************
         // erő alapján alap ököl sebzés kiszámítása
 
         if (charStrWithWarriorMonkAptitude <= 5) {
@@ -851,7 +991,6 @@ let defModifier = modifierCalculator(1,2,9)
           highestMagicSkillName = ""
         }
         
-
         for (let i = 0; i < schoolsOfMagic.length; i++){
           if (highestMagicSkillName == schoolsOfMagic[i])
           {
@@ -909,6 +1048,63 @@ let defModifier = modifierCalculator(1,2,9)
         } 
         fileFirstLoaded = false;
         defaultCharAtkValue = parseFloat(charAtk.value)
+        //***************************************************************************************** */
+        //*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása
+        //***************************************************************************************** */
+        arrayOfAllComplexMaeuvers = document.querySelectorAll('ul#selectableComplexManeuversList li input')
+        weaponsOptions = document.querySelectorAll("select#weapons option")
+
+        if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
+          combinationRadioButton.disabled = true
+          quickShotRadioButton.disabled = false
+          for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+            arrayOfAllComplexMaeuvers[i].disabled = true
+          }
+          if(combinationWasUsedThisRound == true){
+            hmoModifier(quickShotModifiers[quickShotModifiersIndex])
+          }
+        }
+        if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
+          combinationRadioButton.disabled = false
+          quickShotRadioButton.disabled = true
+          for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+            arrayOfAllComplexMaeuvers[i].disabled = false
+          }
+          if(combinationWasUsedThisRound == true){
+            hmoModifier(combinationModifiers[combinationModifiersIndex])
+          }
+        }
+        if (chargeWasUsedThisRound == true) {
+          charDef.value = parseFloat(charDef.value) -1
+          charDefWithParry.value = parseFloat(charDefWithParry.value) -1
+          charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) -1
+        }
+        if (twoWeaponAttackWasUsedThisRound==true) {
+          hmoModifier(twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
+        }
+        if (initRolled == false && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
+          for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+            arrayOfAllComplexMaeuvers[i].disabled = true
+            if (arrayOfAllComplexMaeuvers[i].value == 'Fegyvertörés' ||
+              arrayOfAllComplexMaeuvers[i].value == 'Lefegyverzés' || 
+              arrayOfAllComplexMaeuvers[i].value == 'Orvtámadás') {
+                arrayOfAllComplexMaeuvers[i].disabled = false
+            }
+          }
+        }
+        if (!weapons.value.includes('Ököl')) {
+          wrestlingRadioButton.disabled = true
+        }
+        if (weapons.value.includes('Ököl')) {
+          wrestlingRadioButton.disabled = false
+        }
+        if (reloadIsNeeded == false) {
+          reloadButton.disabled = true
+          warningWindow.innerText = ""
+        }
+        if (maxMp.innerText == 0) {
+          spellCastingAction.style.display = 'none'
+        }
       },
     );    
     
@@ -916,35 +1112,48 @@ let defModifier = modifierCalculator(1,2,9)
       reader.readAsText(file);
     }
   }
-
-  let diceRolled = false;
-let numberOfClicks = 0
-let numberOfClicksForAttacks = 0
+// ez a csalás ellen van
+  let numberOfClicks = 0
+  // ez a számláló a pszi roham miatt van
+  let numberOfClicksForAttacks = 0
+  //ez pedig a kétkezes harc miatt
+  let numberOfClicksAtTwoWeaponAttack = 0
+  
+  //************************************************************************ */
+  //------------------a támadó dobás
+  //************************************************************************ */
   async function handleClick(darkDice, lightDice) {
     if (charRace.innerText == "") {
       alert('Importálj egy karaktert!')
       return
     }
+
     numberOfClicks++
-    numberOfClicksForAttacks++
+    //*********************************************************************** */
+    //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
+    if (legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
+      numberOfClicksForAttacks++
+    }
+
+    if (twoWeaponAttackRadioButton.checked == true && legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
+      numberOfClicksAtTwoWeaponAttack++
+    }
+
     bodyPartImg.innerHTML = "";
+    charAtkSumText.innerText = "Össz TÉO"
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
+    chosenWeapon.innerText = "Választott fegyver:"
   
     //-----------------------megnézni, hogy van-e erő sebzés 
-
-    const currentWeaponSelected = props.weapons.find(
-      (name) => name.w_name === `${weapons.value}`
-    )
     
-    if (currentWeaponSelected.strBonusDmg == "false") {
+    if (currentlySelectedWeapon.strBonusDmg == false) {
       rollResult.innerText = ttkRoll(false, darkDice, lightDice);
       rollResult.animate([{color: "white"}, {color:"black"}],200)
-    } else if (currentWeaponSelected.strBonusDmg == "true") {
+    } else if (currentlySelectedWeapon.strBonusDmg == true) {
       rollResult.innerText = ttkRoll(true, darkDice, lightDice);
       rollResult.animate([{color: "white"}, {color:"black"}],200)
     }
-    
     diceRolled = true
     useLegendPointCheckBox.style.display = "grid"
     useLegendPointCheckBox.checked = false
@@ -970,7 +1179,6 @@ let numberOfClicksForAttacks = 0
     function currentBodypartHit(bodypart) {
       tempImg.src = "";
       tempImg.src = `./bodyParts/${bodypart}`;
-      tempImg.animate([{ opacity: "0" }, { opacity: "1" }], 100);
     }
     if (bodyPart.innerText == "Bal láb") {
       currentBodypartHit("LeftLeg.png");
@@ -1015,8 +1223,7 @@ let numberOfClicksForAttacks = 0
       },
       body: JSONdata,
     };  
-     const response = await fetch(endpoint, options);
-     console.log(response)
+     const response = await fetch(endpoint, options);   
     }
 if(numberOfClicks > 1) {
   const data = {
@@ -1035,7 +1242,6 @@ if(numberOfClicks > 1) {
     body: JSONdata,
   };  
   const response = await fetch(endpoint, options);
-  console.log(response)
 }
 
     setTimeout(() => {
@@ -1043,6 +1249,202 @@ if(numberOfClicks > 1) {
     }, 5000);
     }
     playerChecker()
+
+    // ********************************************************************************************************************
+    // ---- megnézi, hogy van-e kiválasztva összetett manőver és először a képzettségeket veszi figyelembe, és próbát is dob
+    //**********************************************************************************************************************
+    //******************************************************************************************************************* */
+    
+    let selectAllSkillOptions = document.querySelectorAll('select#skills option')
+    let selectAllAttributeOptions = document.querySelectorAll('select#attributes option')
+    for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+      if (arrayOfAllComplexMaeuvers[i].checked == true && arrayOfAllComplexMaeuvers[i].value=='Fegyvertörés') {
+        for (let j = 0; j < selectAllSkillOptions.length; j++) {
+          if (selectAllSkillOptions[j].value.includes('Fegyvertörés')) {
+            skills.value = selectAllSkillOptions[j].value
+            break
+          }
+          skills.value = 0
+        }
+      for (let i = 0; i < selectAllAttributeOptions.length; i++) {
+        if (selectAllAttributeOptions[i].innerText == "Erő") {
+          attributes.value = selectAllAttributeOptions[i].value
+        }
+      }
+        evaluateSkillOrAttributeCheckBase()
+        handleSkillCheck(false, originalLightDice)
+        damageResult.innerText = "";
+        bodyPart.innerText = "";
+        rollResult.innerText = "";
+        tempImg.style.opacity = 0
+        charAtkSumText.innerText = "Próba végeredménye:"
+        specialEffect.innerText = "nincs";
+        charAtkSum.innerText = skillCheckResult.innerText
+        break
+      }
+      if (arrayOfAllComplexMaeuvers[i].checked == true && arrayOfAllComplexMaeuvers[i].value == 'Lefegyverzés') {
+        disarmWasUsedThisRound = true
+        for (let j = 0; j < selectAllSkillOptions.length; j++) {
+          if (selectAllSkillOptions[j].value.includes('Lefegyverzés')) {
+            skills.value = selectAllSkillOptions[j].value
+            break
+          }
+          skills.value = 0
+        }
+        for (let i = 0; i < selectAllAttributeOptions.length; i++) {
+          if (selectAllAttributeOptions[i].innerText == "Ügy") {
+            attributes.value = selectAllAttributeOptions[i].value
+          }
+        }
+        if (currentlySelectedWeapon.disarmingWeapon == true) {
+          succFailModifier.value = 1
+        }
+        if (currentlySelectedWeapon.disarmingWeapon == false) {
+          succFailModifier.value = 0
+        }
+        evaluateSkillOrAttributeCheckBase()
+        handleSkillCheck(false, originalLightDice)
+        damageResult.innerText = "";
+        bodyPart.innerText = "";
+        rollResult.innerText = "";
+        tempImg.style.opacity = 0
+        charAtkSumText.innerText = "Próba végeredménye:"
+        specialEffect.innerText = "nincs";
+        charAtkSum.innerText = skillCheckResult.innerText
+        break
+      }
+    }
+    if (spellNeedsAimRoll == true) {
+      diceRolled = false
+      setTimeout(() => {
+        weapons.value = weaponBeforeCasting
+        charAtk.value = charAtkValueSave
+      }, 500);
+    }
+    //ha volt kezdeményező dobás
+    if (initRolled == true) {
+      initiativeRerollByCounterLP.style.display = 'none'
+      for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+        if (arrayOfAllComplexMaeuvers[i].checked == true) {
+          totalActionCostSetter(arrayOfAllComplexMaeuvers[i].parentElement.value)
+        }
+      }
+      if (combinationRadioButton.checked == false && quickShotRadioButton.checked == false && spellNeedsAimRoll==false) {
+        rollButton.disabled = true
+      }
+      if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true) {
+        rollButton.disabled = false
+      }
+      if (numberOfClicksAtTwoWeaponAttack == 1) {
+        rollButton.disabled = false
+      }
+      //************************************************************************************************************************** */
+      //Ebben a körben volt kombináció vagy kapáslövés használva, ezért a minusz HMO-k maradnak
+      //*************************************************************************************************************************** */
+      if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
+        combinationRadioButton.disabled = true
+        quickShotRadioButton.disabled = false
+      }
+      if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
+        combinationRadioButton.disabled = false
+        quickShotRadioButton.disabled = true
+      }
+      if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true) {
+        
+          combinationRadioButton.disabled = true
+          quickShotRadioButton.disabled = true  
+        
+        combinationWasUsedThisRound = true
+      }
+      if((legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) && spellNeedsAimRoll == false && attackOfOpportunityOn == false){
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) - totalActionCost
+        actionsSpentSinceLastCastAdder(totalActionCost)
+        if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
+          spellCastingActionButton.disabled = false
+        }
+      }
+      if (parseInt(numberOfActions.innerText) < 2) {
+        tacticsButton.disabled = true
+      }
+      //************************************************************************************************************************** */
+      //Ebben a körben volt roham használva, ezért a minusz VÉO-k maradnak, de a +TÉO elveszik, mert csak 1 támadásra volt érvényes
+      //*************************************************************************************************************************** */
+      if (chargeRadioButton.checked == true) {
+        chargeWasUsedThisRound = true
+        chargeRadioButton.disabled = true
+        setTimeout(() => {
+          charAtk.value = parseFloat(charAtk.value) - 1
+        }, 1000);
+      }
+      // kétkezes harc bejelölésével az első kattintásra a twoWeaponAttackWasUsedThisRound változó igaz lesz, ezért ez alapján módosíthatjuk a 2.dobás körülményeit,
+      // mintha az lenne a másik kéz
+      
+      if (numberOfClicksAtTwoWeaponAttack == 2 && twoWeaponAttackWasUsedThisRound == true &&legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
+        weapons.disabled = true
+        twoWeaponAttackRadioButton.disabled = false
+        weapons.value = mainHandWeaponWhenTwoWeaponAttackIsUsed
+        
+        numberOfClicksAtTwoWeaponAttack = 0
+        if (combinationWasUsedThisRound == true) {
+          totalActionCostSetter(+1)
+        }
+        handleFileRead();
+      }
+      if (numberOfClicksAtTwoWeaponAttack==1) {
+        twoWeaponAttackWasUsedThisRound = true
+      }
+      
+      if (diceRolled == true && numberOfClicksAtTwoWeaponAttack == 1 && legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
+        weapons.disabled = false
+        chosenWeapon.innerText = "Kétk.harc másik kéz:"
+        twoWeaponAttackRadioButton.disabled = true
+        
+        mainHandWeaponWhenTwoWeaponAttackIsUsed = currentlySelectedWeapon.w_name
+        if (combinationWasUsedThisRound == true) {
+          totalActionCostSetter(-1)
+        }
+      }
+
+      setTimeout(() => {
+        if (parseInt(numberOfActions.innerText) < totalActionCost) {
+          rollButton.disabled = true
+        }
+      }, 200);
+      if (legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
+        if (assassinationRadioButton.checked == true) {
+          charAtk.value = parseFloat(charAtk.value) - filteredArrayIfHasAssassination[0].level
+          assassinationToFalse()
+        }
+        if (findWeakSpotOn == true) {
+          charAtk.value = parseFloat(charAtk.value) - 0.5
+          findWeakSpotOnToFalse()
+          findWeakSpotButton.disabled = false
+        }
+        if (attackOfOpportunityOn == true) {
+          attackOfOpportunityOnSetToFalse()
+          handleFileRead()
+          attackOfOpportunityButton.disabled = false
+        }
+        for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+          if (arrayOfAllComplexMaeuvers[i].checked == true) {
+            arrayOfAllComplexMaeuvers[i].checked = false
+            totalActionCostSetter(-arrayOfAllComplexMaeuvers[i].parentElement.value)
+          }
+        }
+        if (numberOfClicksAtTwoWeaponAttack ==1) {
+          twoWeaponAttackRadioButton.checked = true
+        }
+      }
+      if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==true && currentlySelectedWeapon.w_type != "MÁGIA"&&spellNeedsAimRoll==false) {
+        reloadIsNeeded = true
+        rollButton.disabled = true
+        reloadButton.disabled = false
+        warningWindow.innerText = `Újra kell töltened ${currentlySelectedWeapon.reloadTime} CS`
+       // ammoAmountInput.value--
+      }
+    }
+    spellNeedsAimRollSetToFalse()
+    console.log("totalActionCost",totalActionCost)
   }
 
   return (
@@ -1066,6 +1468,10 @@ if(numberOfClicks > 1) {
           <div id="charLevel"></div>
           <div id="charRace"></div>
           <div id="charClass"></div>
+          </div>
+          <div id="charMovementWrapper">
+            <span id="maxMove"></span>
+            <span id="movePerAction"></span>
           </div>
 <div className="fileInputWrapper">
   <button className="customFileButton">Karakter importálása</button>
@@ -1116,7 +1522,7 @@ if(numberOfClicks > 1) {
             <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel">
             Egyéb +/- HMO:
           </label>
-            <input type="number" step={0.5} name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead} disabled={true} defaultValue={0}/>
+            <input type='number' step={0.5} name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={handleFileRead} disabled={true} defaultValue={0}/>
         </div>
         <div id="rollResultWrapper">
           <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
@@ -1150,7 +1556,7 @@ if(numberOfClicks > 1) {
         >
           Dobj
         </button>
-
+        <div id="warningWindow"></div>
         <div className={styles.charSumAtkContainer}>
           <div className="result inText" id="charAtkSumText">
             Össz TÉO
@@ -1166,7 +1572,7 @@ if(numberOfClicks > 1) {
           <LegendRoll />
           <ArmorDetails />
           <CharacterDetails />
-          <ActionList />
+          <ActionList {...props} />
           <PsiDisciplines {...props}/>
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}

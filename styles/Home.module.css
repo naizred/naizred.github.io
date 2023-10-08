@@ -19,7 +19,7 @@
   background-color: none;
   display: grid;
   grid-column: 8 / 12;
-  grid-row: 4 / 8;
+  grid-row: 5 / 9;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(6, 1fr);
   margin: 0vw 0.4vw;
@@ -58,6 +58,7 @@
   background-image: url('../public/parchmentPaper.jpg');
   background-size: 15.2vw 8vw;
   margin-left: 0vw;
+  margin-bottom: 1vw;
 }
 
 .rollButton:hover {
@@ -73,7 +74,7 @@
 
 .charSumAtkContainer {
   display: grid;
-  grid-row: 8 / 13;
+  grid-row: 9 / 13;
   grid-column: 8 / 12;
   align-items: center;
   height: 11vw;

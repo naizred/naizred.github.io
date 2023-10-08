@@ -1,4 +1,5 @@
 import styles from '../styles/armordetails.module.css';
+export let equippedOrNotSetToManual = false
 let helmetWorn = false
 let upperTorsoWorn = false
 let lowerTorsoWorn = false
@@ -54,6 +55,7 @@ if (armorPiece.mgt - mgtCompensation <= 0) {
 
 function ArmorDetails() {
     function handleArmorOnOrOff(event) {
+        equippedOrNotSetToManual = true
         if (event.target.checked == false) {
             if (currentArmorPiece.kit.includes(10)) {
                 currentHelmetImg.style.opacity = 0

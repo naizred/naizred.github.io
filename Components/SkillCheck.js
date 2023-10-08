@@ -3,267 +3,266 @@ import { specialCases1, specialCases2, specialCases3 } from '../pages';
 let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
 let skillCheckSuccFailModifiers = [0, 1, 2, 3, 4, 5, -1, -2, -3, -4, -5];
 let skillCheckRolled = false
-
-function SkillCheck(props) {
-    function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
-
-        skillCheckRolled = true
-        skillCheckUseLegendPointCheckBox.style.display = "grid"
-          
-          if (skillCheckStressCheckbox.checked == true) {
-          stressCheck = true
-        } else if (skillCheckStressCheckbox.checked == false) {
-          stressCheck = false
-        }
-        skillCheckUseLegendPointCheckBox.checked = false
-        skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
-        skillCheckDarkDiceRerollByCounterLP.style.display = "none"
-      skillCheckLightDiceRerollByCounterLP.style.display = "none"
-    }
-    let numberOfClicksAtSkillCheck = 0
-  async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
-    numberOfClicksAtSkillCheck++
-        let zeroArray = [1, 2, 3, 4];
-        let oneArray = [5, 6, 7];
-        let twoArray = [8, 9];
-        let skillCheckCalculatedResultFromRoll = 0;
-        if (stressCheck == false) {
+export let numberOfClicksAtSkillCheck = 0
+  
+export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+  numberOfClicksAtSkillCheck++
+      let zeroArray = [1, 2, 3, 4];
+      let oneArray = [5, 6, 7];
+      let twoArray = [8, 9];
+      let skillCheckCalculatedResultFromRoll = 0;
+      if (stressCheck == false) {
+    
+      if (skillCheckLightDice == undefined) {
+        skillCheckLightDice = Math.floor(generator.random() * 10)
+      } 
       
-        if (skillCheckLightDice == undefined) {
-          skillCheckLightDice = Math.floor(generator.random() * 10)
-        } 
+      if (skillCheckLightDice == 0) {
+        skillCheckLightDice = 10;
+      }
+        skillCheckLightDice += parseInt(rollModifier.value)
+      
+      if (skillCheckLightDice >= 10) {
+        skillCheckCalculatedResultFromRoll = 3
+      } else if (twoArray.includes(skillCheckLightDice)) {
+        skillCheckCalculatedResultFromRoll = 2
+      } else if (oneArray.includes(skillCheckLightDice)) {
+        skillCheckCalculatedResultFromRoll = 1
+      } else if (zeroArray.includes(skillCheckLightDice) || skillCheckLightDice<0) {
+        skillCheckCalculatedResultFromRoll = 0
+      }
+      
+      if (skillCheckLightDice >= 10) {
+        skillCheckLightDice = 0
+      } else if (skillCheckLightDice <= 0) {
+        skillCheckLightDice = 1
+        }
+        skillCheckLightDiceResultSelect.value = skillCheckLightDice
+        skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
+        skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200)
         
+        if (numberOfClicksAtSkillCheck == 1) {
+          const data = {
+            charName: charName.innerText,
+            currentFp: parseInt(currentFp.value),
+            currentEp: parseInt(currentEp.value),
+            currentPp: parseInt(currentPp.value),
+            currentMp: parseInt(currentMp.value),
+            currentLp: parseInt(currentLp.value),
+             skillCheckResult: parseInt(skillCheckResult.innerText),
+             skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
+             skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+             skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
+          };
+
+          const JSONdata = JSON.stringify(data);
+          const endpoint = "/api/updateCharacter";
+          const options = {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSONdata,
+          };
+          await fetch(endpoint, options);
+        }
+        if(numberOfClicksAtSkillCheck > 1) setTimeout(() => {{
+          const data = {
+            charName: charName.innerText,
+            skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+            skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
+          };
+        
+          const JSONdata = JSON.stringify(data);
+          const endpoint = "/api/updateCharacter";
+          const options = {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSONdata,
+          };  
+        fetch(endpoint, options);
+        }
+        }, 50);
+        setTimeout(() => {
+          numberOfClicksAtSkillCheck = 0
+        }, 6000);
+
+      } else if (stressCheck == true) {
+      
+        if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
+          skillCheckLightDice = Math.floor(generator.random() * 10)
+          skillCheckDarkDice = Math.floor(generator.random() * 10)
+          skillCheckDarkDiceResultSelect.value = skillCheckDarkDice
+        } 
         if (skillCheckLightDice == 0) {
           skillCheckLightDice = 10;
         }
-          skillCheckLightDice += parseInt(rollModifier.value)
+        if (skillCheckDarkDice == 0) {
+          skillCheckDarkDice = 10;
+        }
+  
+        let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value)
         
-        if (skillCheckLightDice >= 10) {
+        if (skillCheckLightDicePlusRollMod >= 10) {
+          skillCheckLightDicePlusRollMod = 10
+        }
+  //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
+        console.log("Stresszpróba DM előtt", skillCheckLightDice, skillCheckDarkDice)
+        if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0 && skillCheckLightDice !=1) {
+    skillCheckLightDicePlusRollMod = skillCheckLightDice
+        }
+        console.log("Stresszpróba DM után", skillCheckLightDicePlusRollMod, skillCheckDarkDice)
+      if (skillCheckLightDicePlusRollMod>skillCheckDarkDice) {
+        if (skillCheckLightDicePlusRollMod == 10) {
           skillCheckCalculatedResultFromRoll = 3
-        } else if (twoArray.includes(skillCheckLightDice)) {
+        } else if (twoArray.includes(skillCheckLightDicePlusRollMod)) {
           skillCheckCalculatedResultFromRoll = 2
-        } else if (oneArray.includes(skillCheckLightDice)) {
+        } else if (oneArray.includes(skillCheckLightDicePlusRollMod)) {
           skillCheckCalculatedResultFromRoll = 1
-        } else if (zeroArray.includes(skillCheckLightDice) || skillCheckLightDice<0) {
+        } else if (zeroArray.includes(skillCheckLightDicePlusRollMod) || skillCheckLightDicePlusRollMod<0) {
           skillCheckCalculatedResultFromRoll = 0
         }
+      } else if (skillCheckLightDicePlusRollMod<skillCheckDarkDice) {
+        if (skillCheckDarkDice == 10) {
+          skillCheckCalculatedResultFromRoll = -3
+        } else if (twoArray.includes(skillCheckDarkDice)) {
+          skillCheckCalculatedResultFromRoll = -2
+        } else if (oneArray.includes(skillCheckDarkDice)) {
+          skillCheckCalculatedResultFromRoll = -1
+        } else if (zeroArray.includes(skillCheckDarkDice)) {
+          skillCheckCalculatedResultFromRoll = 0
+        }
+      } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases1.includes(skillCheckDarkDice)) {
+        skillCheckCalculatedResultFromRoll = 3;
+        } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases2.includes(skillCheckDarkDice)) {
+          skillCheckCalculatedResultFromRoll = 4;
+        } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases3.includes(skillCheckDarkDice)) {
+          skillCheckCalculatedResultFromRoll = 5;;
+        } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 1) {
+          skillCheckCalculatedResultFromRoll = -6;
+        } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 10) {
+          skillCheckCalculatedResultFromRoll = 6;
+        }
+
+        if (skillCheckLightDicePlusRollMod >= 10) {
+          skillCheckLightDicePlusRollMod = 0
+        } else if (skillCheckLightDicePlusRollMod <= 0) {
+          skillCheckLightDicePlusRollMod = 1
+        } 
+        skillCheckLightDiceResultSelect.value = skillCheckLightDicePlusRollMod
+        skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
+        skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200)
+        if (numberOfClicksAtSkillCheck == 1) {
+          const data = {
+            charName: charName.innerText,
+            currentFp: parseInt(currentFp.value),
+            currentEp: parseInt(currentEp.value),
+            currentPp: parseInt(currentPp.value),
+            currentMp: parseInt(currentMp.value),
+            currentLp: parseInt(currentLp.value),
+             skillCheckResult: parseInt(skillCheckResult.innerText),
+             skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
+             skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+             skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
+          };
+
+          const JSONdata = JSON.stringify(data);
+          const endpoint = "/api/updateCharacter";
+          const options = {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSONdata,
+          };
+          await fetch(endpoint, options);
+        }
+        if(numberOfClicksAtSkillCheck > 1) setTimeout(() => {{
+          const data = {
+            charName: charName.innerText,
+            skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+            skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
+          };
         
-        if (skillCheckLightDice >= 10) {
-          skillCheckLightDice = 0
-        } else if (skillCheckLightDice <= 0) {
-          skillCheckLightDice = 1
-          }
-          skillCheckLightDiceResultSelect.value = skillCheckLightDice
-          skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
-          skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200)
-          
-          if (numberOfClicksAtSkillCheck == 1) {
-            const data = {
-              charName: charName.innerText,
-              currentFp: parseInt(currentFp.value),
-              currentEp: parseInt(currentEp.value),
-              currentPp: parseInt(currentPp.value),
-              currentMp: parseInt(currentMp.value),
-              currentLp: parseInt(currentLp.value),
-               skillCheckResult: parseInt(skillCheckResult.innerText),
-               skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
-               skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-               skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
-            };
-
-            const JSONdata = JSON.stringify(data);
-            const endpoint = "/api/updateCharacter";
-            const options = {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSONdata,
-            };
-            await fetch(endpoint, options);
-          }
-          if(numberOfClicksAtSkillCheck > 1) setTimeout(() => {{
-            const data = {
-              charName: charName.innerText,
-              skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-              skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
-            };
-          
-            const JSONdata = JSON.stringify(data);
-            const endpoint = "/api/updateCharacter";
-            const options = {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSONdata,
-            };  
-          fetch(endpoint, options);
-          }
-          }, 50);
-          setTimeout(() => {
-            numberOfClicksAtSkillCheck = 0
-          }, 6000);
-
-        } else if (stressCheck == true) {
-        
-          if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
-            skillCheckLightDice = Math.floor(generator.random() * 10)
-            skillCheckDarkDice = Math.floor(generator.random() * 10)
-            skillCheckDarkDiceResultSelect.value = skillCheckDarkDice
-          } 
-          if (skillCheckLightDice == 0) {
-            skillCheckLightDice = 10;
-          }
-          if (skillCheckDarkDice == 0) {
-            skillCheckDarkDice = 10;
-          }
-    
-          let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value)
-          
-          if (skillCheckLightDicePlusRollMod >= 10) {
-            skillCheckLightDicePlusRollMod = 10
-          }
-    //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
-          console.log("Stresszpróba DM előtt", skillCheckLightDice, skillCheckDarkDice)
-          if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value)>0 && skillCheckLightDice !=1) {
-      skillCheckLightDicePlusRollMod = skillCheckLightDice
-          }
-          console.log("Stresszpróba DM után", skillCheckLightDicePlusRollMod, skillCheckDarkDice)
-        if (skillCheckLightDicePlusRollMod>skillCheckDarkDice) {
-          if (skillCheckLightDicePlusRollMod == 10) {
-            skillCheckCalculatedResultFromRoll = 3
-          } else if (twoArray.includes(skillCheckLightDicePlusRollMod)) {
-            skillCheckCalculatedResultFromRoll = 2
-          } else if (oneArray.includes(skillCheckLightDicePlusRollMod)) {
-            skillCheckCalculatedResultFromRoll = 1
-          } else if (zeroArray.includes(skillCheckLightDicePlusRollMod) || skillCheckLightDicePlusRollMod<0) {
-            skillCheckCalculatedResultFromRoll = 0
-          }
-        } else if (skillCheckLightDicePlusRollMod<skillCheckDarkDice) {
-          if (skillCheckDarkDice == 10) {
-            skillCheckCalculatedResultFromRoll = -3
-          } else if (twoArray.includes(skillCheckDarkDice)) {
-            skillCheckCalculatedResultFromRoll = -2
-          } else if (oneArray.includes(skillCheckDarkDice)) {
-            skillCheckCalculatedResultFromRoll = -1
-          } else if (zeroArray.includes(skillCheckDarkDice)) {
-            skillCheckCalculatedResultFromRoll = 0
-          }
-        } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases1.includes(skillCheckDarkDice)) {
-          skillCheckCalculatedResultFromRoll = 3;
-          } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases2.includes(skillCheckDarkDice)) {
-            skillCheckCalculatedResultFromRoll = 4;
-          } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && specialCases3.includes(skillCheckDarkDice)) {
-            skillCheckCalculatedResultFromRoll = 5;;
-          } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 1) {
-            skillCheckCalculatedResultFromRoll = -6;
-          } else if (skillCheckLightDicePlusRollMod == skillCheckDarkDice && skillCheckDarkDice == 10) {
-            skillCheckCalculatedResultFromRoll = 6;
-          }
-
-          if (skillCheckLightDicePlusRollMod >= 10) {
-            skillCheckLightDicePlusRollMod = 0
-          } else if (skillCheckLightDicePlusRollMod <= 0) {
-            skillCheckLightDicePlusRollMod = 1
-          } 
-          skillCheckLightDiceResultSelect.value = skillCheckLightDicePlusRollMod
-          skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
-          skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200)
-          if (numberOfClicksAtSkillCheck == 1) {
-            const data = {
-              charName: charName.innerText,
-              currentFp: parseInt(currentFp.value),
-              currentEp: parseInt(currentEp.value),
-              currentPp: parseInt(currentPp.value),
-              currentMp: parseInt(currentMp.value),
-              currentLp: parseInt(currentLp.value),
-               skillCheckResult: parseInt(skillCheckResult.innerText),
-               skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
-               skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-               skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
-            };
-
-            const JSONdata = JSON.stringify(data);
-            const endpoint = "/api/updateCharacter";
-            const options = {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSONdata,
-            };
-            await fetch(endpoint, options);
-          }
-          if(numberOfClicksAtSkillCheck > 1) setTimeout(() => {{
-            const data = {
-              charName: charName.innerText,
-              skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-              skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
-            };
-          
-            const JSONdata = JSON.stringify(data);
-            const endpoint = "/api/updateCharacter";
-            const options = {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSONdata,
-            };  
-          fetch(endpoint, options);
-          }
-          }, 50);
-          setTimeout(() => {
-            numberOfClicksAtSkillCheck = 0
-          }, 6000);
-      }
+          const JSONdata = JSON.stringify(data);
+          const endpoint = "/api/updateCharacter";
+          const options = {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSONdata,
+          };  
+        fetch(endpoint, options);
+        }
+        }, 50);
+        setTimeout(() => {
+          numberOfClicksAtSkillCheck = 0
+        }, 6000);
     }
-    
-    async function evaluateSkillOrAttributeCheckBase(event) {
-        skillCheckDarkDiceRerollByCounterLP.style.display = "none"
-        skillCheckLightDiceRerollByCounterLP.style.display = "none"
-         if (checkTypeIsSkillCheck.checked == true) { 
-          rollModifier.value = 0
-          skills.disabled = false
-           skillCheckBase.innerText = skills.value[0] * 2 + Math.floor(attributes.value / 2) + parseInt(succFailModifier.value);
-           if (attributes.value % 2 == 1) {
-             rollModifier.value = 1
-            } else if (attributes.value % 2 == 0){
-              rollModifier.value = 0
-           }
-           if (filteredArrayIfHasAnyAffinity.length != 0) {
-             for (let i = 0; i < props.allSkills.length; i++) {
-               let categoryOfCurrentSkill = ""
-               console.log(skills.value)
-                 if (skills.value.includes(props.allSkills[i].nameOfSkill)) {
-                   categoryOfCurrentSkill = props.allSkills[i].category
-                  for (let j = 0; j < filteredArrayIfHasAnyAffinity.length; j++) {
-                    if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill) && rollModifier.value < filteredArrayIfHasAnyAffinity[j].level) {
-                      rollModifier.value = filteredArrayIfHasAnyAffinity[j].level
-                      console.log(filteredArrayIfHasAnyAffinity[j].aptitude, filteredArrayIfHasAnyAffinity[j].level)
-                      break
-                    } 
-                   }
-                   break
-                 } else {
-                   continue
-                 }
-               }     
-           }
-      
-          } else if (checkTypeIsAttributeCheck.checked == true) {
-           skillCheckBase.innerText = parseInt(attributes.value) + parseInt(succFailModifier.value)
-           skills.disabled = true
-           if (attributes.value % 2 == 1) {
-            rollModifier.value = 1
-           } else if (attributes.value % 2 == 0){
-             rollModifier.value = 0
-           }
-          }
-        skillCheckResult.innerText = ""
-      }
+  }
 
+export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+
+    skillCheckRolled = true
+    skillCheckUseLegendPointCheckBox.style.display = "grid"
+      
+      if (skillCheckStressCheckbox.checked == true) {
+      stressCheck = true
+    } else if (skillCheckStressCheckbox.checked == false) {
+      stressCheck = false
+    }
+    skillCheckUseLegendPointCheckBox.checked = false
+    skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice)
+    skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+  skillCheckLightDiceRerollByCounterLP.style.display = "none"
+}
+let allSkillProps
+export async function evaluateSkillOrAttributeCheckBase(event) {
+    skillCheckDarkDiceRerollByCounterLP.style.display = "none"
+    skillCheckLightDiceRerollByCounterLP.style.display = "none"
+     if (checkTypeIsSkillCheck.checked == true) { 
+      rollModifier.value = 0
+      skills.disabled = false
+       skillCheckBase.innerText = skills.value[0] * 2 + Math.floor(parseInt(attributes.value) / 2) + parseInt(succFailModifier.value);
+       if (parseInt(attributes.value) % 2 == 1) {
+         rollModifier.value = 1
+        } else if (parseInt(attributes.value) % 2 == 0){
+          rollModifier.value = 0
+       }
+       if (filteredArrayIfHasAnyAffinity.length != 0) {
+         for (let i = 0; i < allSkillProps.length; i++) {
+           let categoryOfCurrentSkill = ""
+             if (skills.value.includes(allSkillProps[i].nameOfSkill)) {
+               categoryOfCurrentSkill = allSkillProps[i].category
+              for (let j = 0; j < filteredArrayIfHasAnyAffinity.length; j++) {
+                if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill) && rollModifier.value < filteredArrayIfHasAnyAffinity[j].level) {
+                  rollModifier.value = filteredArrayIfHasAnyAffinity[j].level
+                  break
+                } 
+               }
+               break
+             } else {
+               continue
+             }
+           }     
+       }
+  
+      } else if (checkTypeIsAttributeCheck.checked == true) {
+       skillCheckBase.innerText = parseInt(attributes.value) + parseInt(succFailModifier.value)
+       skills.disabled = true
+       if (parseInt(attributes.value) % 2 == 1) {
+        rollModifier.value = 1
+       } else if (parseInt(attributes.value) % 2 == 0){
+         rollModifier.value = 0
+       }
+      }
+    skillCheckResult.innerText = ""
+  }
+function SkillCheck(props) {   
+ allSkillProps = props.allSkills
     function handleSkillCheckUseLegendPointCheckBox() {
         if (skillCheckUseLegendPointCheckBox.checked == true && skillCheckRolled == true) {
           skillCheckLightDiceResultSelect.disabled = false

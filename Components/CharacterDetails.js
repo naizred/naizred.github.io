@@ -1,16 +1,38 @@
-// components/CharacterDetails.js
 import styles from '../styles/chardetails.module.css';
-import { rollOptions } from '../pages';
-import { filteredArrayIfHasExtraReaction } from '../pages';
+import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse } from '../pages';
+import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex} from '../pages';
 import { psiAtkDefModifier, theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker } from './PsiDisciplines';
-//import * as psiDisciplinesComponent from './PsiDisciplines'
+import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCost, totalActionCostSetter, twoWeaponAttackToFalse, actionsNeededToBeAbleToCastAgain, actionsSpentSinceLastCast, actionsSpentSinceLastCastAdder, spellCastingSuccessful, spellCastingFailure } from './ActionsList';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 var MersenneTwister = require('mersenne-twister');
 var generator = new MersenneTwister();
-
+let actionsLostWithTacticsUsed = 0
 function CharacterDetails() {
   function handleInitiativeRoll() {
+    rollResult.innerText = ""
+    damageResult.innerText = ""
+    bodyPart.innerText = ""
+    charAtkSum.innerText = ""
+    specialEffect.innerText = "nincs"
+    for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+      if (arrayOfAllComplexMaeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==false) {
+        arrayOfAllComplexMaeuvers[i].disabled = false
+      } 
+      if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==true) {
+        arrayOfAllComplexMaeuvers[i].disabled == true
+      }
+      if (!weapons.value.includes('Ököl')) {
+        wrestlingRadioButton.disabled = true
+      }
+      if (weapons.value.includes('Ököl')) {
+        wrestlingRadioButton.disabled = false
+      }
+    }
+    reloadButton.disabled = true
+    weapons.disabled = true
+    offHand.disabled = true
+    setDiceRolledToFalse()
     tacticsButton.disabled = false
     useLegendPointForInitiativeRollCheckBox.style.display = 'grid'
     useLegendPointForInitiativeRollCheckBox.checked = false
@@ -40,7 +62,7 @@ function CharacterDetails() {
     }
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + initiativeRollResult;
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
-    adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a dobógomb value értékébe van elmentve a max cselekedetszám
+    adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
     rollInitButton.style.display = "none"
     initRolled = true
   }
@@ -96,10 +118,18 @@ function CharacterDetails() {
   function handleAdjustActionsNegative() {
     if (initRolled == true) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
-    
       if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true
+        rollButton.disabled = true
       }
+      if (combinationWasUsedThisRound == true && parseInt(numberOfActions.innerText) < 3) {
+        rollButton.disabled = true
+      }
+      actionsSpentSinceLastCastAdder(1)
+      if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
+        spellCastingActionButton.disabled = false
+      }
+      spellCastingFailure()
     }
     }
     
@@ -107,9 +137,18 @@ function CharacterDetails() {
       if (parseInt(numberOfActions.innerText)>0) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
         numberOfReactions.innerText = parseInt(numberOfReactions.innerText) + 1
+        actionsSpentSinceLastCastAdder(1)
+        if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
+          spellCastingActionButton.disabled = false
+        }
+        spellCastingFailure()
     }
     if (parseInt(numberOfActions.innerText) < 2) {
+      rollButton.disabled = true
       tacticsButton.disabled = true
+    }
+    if (combinationWasUsedThisRound == true && parseInt(numberOfActions.innerText) < 3) {
+      rollButton.disabled = true
     }
     }
 
@@ -117,15 +156,70 @@ function CharacterDetails() {
       if (parseInt(numberOfReactions.innerText)>0) {
         numberOfReactions.innerText = parseInt(numberOfReactions.innerText) - 1
       }
-    }
-let tacticsUsed = false
+      actionsSpentSinceLastCastAdder(1)
+      if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
+        spellCastingActionButton.disabled = false
+      }
+  }
+  
+  let tacticsUsed = false
+  //**************************************************************** */
+  // a köt végének kezelése
+  //****************************************************************** */
   function handleEndOfRound() {
+    if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true) {
+      totalActionCostSetter(-1)
+    }
+
+    if (chargeWasUsedThisRound == true) {
+      chargeWasUsedThisRoundToFalse()
+      charDef.value = parseFloat(charDef.value) +1
+      charDefWithParry.value = parseFloat(charDefWithParry.value) +1
+      charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + 1
+      chargeRadioButton.disabled = false
+    }
+    if (chargeWasUsedThisRound == false && chargeRadioButton.checked == true) {
+      charAtk.value = parseFloat(charAtk.value) -1
+      charDef.value = parseFloat(charDef.value) +1
+      charDefWithParry.value = parseFloat(charDefWithParry.value) +1
+      charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + 1
+    }
+    if (twoWeaponAttackWasUsedThisRound == true) {
+      twoWeaponAttackWasUsedThisRoundToFalse()
+      hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
+    }
+    if (twoWeaponAttackWasUsedThisRound == false && twoWeaponAttackRadioButton.checked == true) {
+      hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
+    }
+    twoWeaponAttackToFalse()
+    chargeToFalse()
+    setDiceRolledToFalse()
+    for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+      if (arrayOfAllComplexMaeuvers[i].checked == true) {
+        arrayOfAllComplexMaeuvers[i].checked = false
+      }     
+    }
+    actionsSpentSinceLastCastAdder(parseInt(numberOfReactions.innerText))
+    if (parseInt(numberOfActions.innerText)<0) {
+      actionsSpentSinceLastCastAdder(Math.abs(parseInt(numberOfActions.innerText)))
+    }
+    if (parseInt(numberOfActions.innerText) > 0) {
+      actionsSpentSinceLastCastAdder(parseInt(numberOfActions.innerText))
+    }
+    if (parseInt(numberOfActions.innerText) == 0 && tacticsUsed ==true) {
+      actionsSpentSinceLastCastAdder(parseInt(actionsLostWithTacticsUsed))
+    }
+    if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
+      spellCastingActionButton.disabled = false
+    }
     numberOfReactions.innerText = 0
     useLegendPointForInitiativeRollCheckBox.style.display = 'none'
     initiativeRerollByCounterLP.style.display = 'none'
     if (initRolled == true) {
       if (parseInt(numberOfActions.innerText) >= 0) {
         numberOfActions.innerText = adjustActionsPositive.value
+        //****************************************************************************************************** */
+        // ha az előző körben Megrendülés vagy dupla 1 miatt negatív az akciók száma, az átvivődik a kövi körre
       } else if (parseInt(numberOfActions.innerText) < 0) {
         numberOfActions.innerText = parseInt(adjustActionsPositive.value) + parseInt(numberOfActions.innerText)
       }
@@ -139,6 +233,33 @@ let tacticsUsed = false
         tacticsButton.disabled = true
       }
       numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + "."
+      rollButton.disabled = false
+      
+      // itt megnézi, volt-e használva a körben kombináció v kapáslövés, és az új körre nem viszi át a módosítókat
+      //******************************************************************************************************* */
+      if(combinationRadioButton.checked == true){
+        hmoModifier(-combinationModifiers[combinationModifiersIndex])
+      }
+      if(quickShotRadioButton.checked == true){
+        hmoModifier(-quickShotModifiers[quickShotModifiersIndex])
+      }
+      combinationRadioButton.checked = false
+      quickShotRadioButton.checked = false
+      quickShotRadioButton.disabled = true
+      combinationRadioButton.disabled = true
+      combinationWasUsedThisRoundSetToFalse()
+      hmoModifiedToFalse()
+      rollResult.innerText = ""
+      damageResult.innerText = ""
+      bodyPart.innerText = ""
+      charAtkSum.innerText = ""
+      specialEffect.innerText = "nincs"
+      if (warningWindow.innerText == "A varázslat létrejött!") {
+        warningWindow.innerText = ""
+      }
+      if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==true && currentlySelectedWeapon.w_type != "MÁGIA" && reloadIsNeeded == true) {
+        rollButton.disabled = true
+      }
     }
   }
   function handleChiCombatBeforeEndOfRound() {
@@ -180,19 +301,72 @@ let tacticsUsed = false
 
   function handleWhenTacticsUsed() {
     if (initRolled == true) {
+      rollButton.disabled = true
+spellCastingFailure()
+      actionsLostWithTacticsUsed = parseInt(numberOfActions.innerText)
       numberOfActions.innerText = 0
       tacticsUsed = true
       tacticsButton.disabled = true
+      if(combinationRadioButton.checked == true && combinationWasUsedThisRound == false){
+        hmoModifier(-combinationModifiers[combinationModifiersIndex])
+      }
+      if(quickShotRadioButton.checked == true && combinationWasUsedThisRound == false){
+        hmoModifier(-quickShotModifiers[quickShotModifiersIndex])
+      }
     }
   }
 
   function handleEndOfCombat() {
+    warningWindow.innerText = ""
+    spellCastingActionButton.disabled = false
+    setDiceRolledToFalse()
+    reloadIsNeededSetToFalse()
+    spellCastingSuccessful()
+    if (chargeWasUsedThisRound == true) {
+      chargeWasUsedThisRoundToFalse()
+      charDef.value = parseFloat(charDef.value) +1
+      charDefWithParry.value = parseFloat(charDefWithParry.value) +1
+      charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + 1
+      chargeRadioButton.disabled = false
+    }
+    if (twoWeaponAttackWasUsedThisRound == true) {
+      twoWeaponAttackWasUsedThisRoundToFalse()
+      hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
+    }
+    for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+      if (arrayOfAllComplexMaeuvers[i].checked == true) {
+        arrayOfAllComplexMaeuvers[i].checked = false
+      }     
+    }
+    if(hmoModified == true){
+      hmoModifier(-combinationModifiers[combinationModifiersIndex])
+    }
+    if (combinationRadioButton.checked == true || combinationRadioButton.checked == true) {
+      totalActionCostSetter(-1)
+    }
+    chargeRadioButton.disabled = false
+    combinationRadioButton.checked = false
+    combinationRadioButton.checked = false
+    combinationRadioButton.disabled = true
+    combinationRadioButton.disabled = true
+    chargeToFalse()
+    hmoModifiedToFalse()
+    combinationWasUsedThisRoundSetToFalse()
+    rollButton.disabled = false
+    weapons.disabled = false
+    offHand.disabled = false
     numberOfReactions.innerText = 0
     rollInitButton.style.display = "grid"
     numberOfActions.innerText = ""
     initiativeWithRoll.innerText = ""
     numberOfCurrentRound.innerText = "1."
     tacticsButton.disabled = true
+    initRolled = false
+    rollResult.innerText = ""
+    damageResult.innerText = ""
+    bodyPart.innerText = ""
+    charAtkSum.innerText = ""
+    specialEffect.innerText = "nincs"
   }
   
   function checkIfPsiIsUseable() {
@@ -286,8 +460,8 @@ let tacticsUsed = false
         <button className={styles.endOfCombatButton} onClick={handleEndOfCombat}>Harc vége</button>
         <div >Reakc. száma:</div>
         <div id="numberOfReactions" className={styles.numberOfActions}>0</div>
-        <button id='adjustReactionsPositive' className={styles.adjustActions} onClick={handleAdjustReactionsPositive}>+</button>
-        <button id='adjustReactionsNegative' className={styles.adjustActions} onClick={handleAdjustReactionsNegative}>-</button>
+        <button id='adjustReactionsPositive' className={styles.adjustReactions} onClick={handleAdjustReactionsPositive}>Tartalékolás / Készenlét</button>
+        {/* <button id='adjustReactionsNegative' className={styles.adjustReactions} onClick={handleAdjustReactionsNegative}>-</button> */}
         <label className={styles.useLegendPointForInitiativeRollLabel}>Lp-t használok!</label>
         <select onChange={handleInitWhenLPisUsed} id='initiativeRollResultSelect' className={styles.initiativeRollResultSelect} disabled = {true}>
         {rollOptions.map((e) => {

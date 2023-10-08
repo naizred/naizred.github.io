@@ -14,7 +14,6 @@ body {
   background-size: 105vw 105vw;
   background-position: center;
   margin-top: -0.5vw;
-
 }
 
 ul{
@@ -23,6 +22,10 @@ ul{
   margin-block-end: 0px;
   margin: 0vw;
   padding: 0vw;
+  list-style-type: none
+}
+
+li{
   list-style-type: none
 }
 
@@ -41,6 +44,7 @@ ul{
   /* text-shadow: 0.3vw 0.3vw 0.4vw #682600; */
   padding-left: 2vw;
   justify-content: center;
+  
 }
 
 /* #__next{
@@ -66,6 +70,16 @@ ul{
   height: 3vw;
   width: 70vw;
 } */
+
+#warningWindow {
+  display: grid;
+  grid-column: 8 / 12;
+  grid-row: 3 / 5;
+  text-align: center;
+ font-size: 1.8vw;
+ align-items: center;
+ text-decoration:underline;
+}
 
 #skillCheckWrapper {
   display: grid;
@@ -454,11 +468,8 @@ input,
 select {
     background-image: url('../public/parchmentPaper.jpg');
     background-size: 40vw 10vw;
-    /* font-family: 'MedievalSharp', cursive;
-    color: black;
-
-    text-shadow: 0.3vw 0.3vw 0.4vw #682600;
-    font-size: 1.8vw; */
+    font-family: 'MedievalSharp', cursive;
+    color: black;    
 }
 
 input[type="checkbox" i] {
@@ -535,8 +546,8 @@ margin-right: 0.5vw;
 #charInfoWrapper {
   display: grid;
   grid-column: 1 / 4;
-  grid-row: 3 / 6;
-  height: 8vw;
+  grid-row: 3 / 5;
+  height: 6.5vw;
   grid-template-rows: repeat(5,1fr);
   align-self: center;
   align-items: center;
@@ -569,6 +580,25 @@ grid-row: 4 / 5;
     display: grid;
 grid-row: 5 / 6;
 }
+
+#charMovementWrapper{
+  display: grid;
+  grid-column: 1 / 4;
+  grid-row: 5 / 7;
+  height: 5.5vw;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3vw;
+  text-shadow: 0.3vw 0.3vw 0.4vw #000000;
+  text-align: center;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+}
+
   #rollResultWrapper{
     display: grid;
     grid-column: 12 / 16;

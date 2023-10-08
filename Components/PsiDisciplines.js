@@ -3,6 +3,9 @@ import { filteredArrayIfHasPsi } from '../pages';
 export let specialAtkModifierFromPsiAssault = 0
 export let availableNumberOfAttacksFromPsiAssault = 0
 export let bonusDamageFromChiCombat = 0
+export function bonusDamageFromChiCombatNullifier() {
+    bonusDamageFromChiCombat = 0
+}
 export let theRoundChiCombatWasUsedIn
 export let psiAtkDefModifier = 0
 export let activeBuffsArray = []
@@ -105,7 +108,6 @@ export function PsiDisciplines(props) {
     }
 
     function handleDisciplineActivation() {
-        console.log()
       //  numberOfClicks++
 const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
         if (!buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)) {
@@ -130,7 +132,6 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
         for (let i = 0; i < allActiveBuffs.length; i++) {
             if (allActiveBuffs[i].innerText == '' || (allActiveBuffs[i].innerText != '' && allActiveBuffs[i].innerText.includes('folyamatos'))) {
 
-                let currentBuff = allActiveBuffs[i].innerText
                 if (selectedPsiDisciplineObj[0].psiDiscName == "Fájdalomtűrés" && !activeBuffsArray.includes("Fájdalomtűrés")) {
                     activeBuffsArray.push(selectedPsiDisciplineObj[0].psiDiscName)
                     fpShield = parseInt(psiPointCostInput.value / 2)

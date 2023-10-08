@@ -84,7 +84,7 @@ function AimedAttack() {
                 <li><input defaultValue={10} onClick={handleAimedAttackRadioButton} className={styles.aimedAttackBodyPartRadioButton} name='aimedAttackBodyPartRadioButton' type='radio' />Mégsem célzok                    
                 </li>
             </ul>
-            <div>---------------------------
+            <div>
                     <input id='aimedAttackBodyPartCheckBox' onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartCheckBox} type='checkBox' />
                     <span>Testrésznél kisebb terület megcélzása (pl.: szem, kéz, stb..)</span>
             </div>
