@@ -70,6 +70,7 @@ export function numberOfActionsSpentOnCastingCurrentSpellNullifier() {
     numberOfActionsSpentOnCastingCurrentSpell = 0
 }
 export function spellCastingSuccessful() {
+    if (spellIsBeingCast == true) {
     numberOfActionsSpentOnCastingCurrentSpell = 0
     blinkingText(warningWindow, "A varázslat létrejött!")
     spellTypeQuestionWindow.style.display = 'grid'
@@ -78,10 +79,11 @@ export function spellCastingSuccessful() {
     if (initRolled==true) {
         spellCastingActionButton.disabled = true   
     }
-    actionsSpentSinceLastCast = 0
+        actionsSpentSinceLastCast = 0
+    }
 }
 export function spellCastingFailure(anyOtherCondition=true) {
-    if (initRolled==true && numberOfActionsSpentOnCastingCurrentSpell >= 1 && anyOtherCondition) {
+    if (initRolled==true && numberOfActionsSpentOnCastingCurrentSpell >= 1 && anyOtherCondition && spellIsBeingCast == true) {
         numberOfActionsSpentOnCastingCurrentSpell = 0
         blinkingText(warningWindow, "A varázslat megszakadt!")
         spellIsBeingCast = false
@@ -332,7 +334,9 @@ function ActionList(props) {
             return
         }
         currentMp.value = parseInt(currentMp.value) - spellManaCostInput.value
+        spellIsBeingCast = true
         if (initRolled == false) {
+            spellInputWrapper.style.display = 'none'
             spellCastingSuccessful()
             return
         }
@@ -346,7 +350,8 @@ function ActionList(props) {
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
             numberOfActionsSpentOnCastingCurrentSpell++
         }
-        if (initRolled==true && numberOfActionsNeededForTheSpell==1) {
+        if (initRolled == true && numberOfActionsNeededForTheSpell == 1) {
+            spellIsBeingCast = true
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
             spellCastingSuccessful()
         }

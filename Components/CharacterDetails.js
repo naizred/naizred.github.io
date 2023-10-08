@@ -317,6 +317,7 @@ spellCastingFailure()
   }
 
   function handleEndOfCombat() {
+    initRolled = false
     warningWindow.innerText = ""
     spellCastingActionButton.disabled = false
     setDiceRolledToFalse()
@@ -361,7 +362,6 @@ spellCastingFailure()
     initiativeWithRoll.innerText = ""
     numberOfCurrentRound.innerText = "1."
     tacticsButton.disabled = true
-    initRolled = false
     rollResult.innerText = ""
     damageResult.innerText = ""
     bodyPart.innerText = ""
