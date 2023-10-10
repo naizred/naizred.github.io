@@ -174,7 +174,7 @@ width: 11vw;
 .initiativeRerollByCounterLP{
   display: none;
   grid-column: 8/9;
-  grid-row: 2/3;
+  grid-row: 1/2;
   width: 2vw;
   height: 2vw;
 }

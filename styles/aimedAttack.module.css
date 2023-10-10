@@ -1,5 +1,5 @@
 .aimedAttackWrapper {
-    display: grid;
+    display: none;
     grid-column: 14 / 16;
     grid-row: 3 / 7;
     font-size: 0.6vw;

@@ -1,31 +1,6 @@
 import styles from '../styles/aimedAttack.module.css';
-import { defaultCharAtkValue, fileFirstLoaded } from '../pages';
+import { fileFirstLoaded } from '../pages';
 export let bodyParts = [
-    "Bal láb",
-    "Jobb láb",
-    "Bal kar",
-    "Fegyverforgató kar",
-    "Fegyverforgató kar",
-    "Törzs",
-    "Törzs",
-    "Törzs",
-    "Törzs",
-    "Fej",
-];
-  
-function AimedAttack() {
-    function handleAimedAttackRadioButton(event) {
-        if (fileFirstLoaded == true) {
-            event.target.checked = false
-            return
-        }
-        charAtk.value = defaultCharAtkValue
-        aimedAttackBodyPartCheckBox.checked = false
-        bodyParts = [];
-
-        for (let i = 0; i < 10; i++) {
-            if (event.target.parentElement.innerText == 'Mégsem célzok') {
-                bodyParts = [
                     "Bal láb",
                     "Jobb láb",
                     "Bal kar",
@@ -36,20 +11,24 @@ function AimedAttack() {
                     "Törzs",
                     "Törzs",
                     "Fej",
-                ];
-                break
-            }
-            bodyParts.push(event.target.parentElement.innerText)           
-        }
-        charAtk.value = parseFloat(charAtk.value) - ((10 - event.target.value) / 2)
-        console.log(bodyParts)
-    }
+];
+let defaultCharAtkValue
+  
+function AimedAttack() {
     function handleAimedAttackCheckBox(event) {
+        charAtk.value = defaultCharAtkValue
         if (fileFirstLoaded == true) {
             event.target.checked = false
             return
         }
-        charAtk.value = defaultCharAtkValue
+
+        defaultCharAtkValue = parseFloat(charAtk.value) - ((10 - event.target.value) / 2)
+    }
+    function handleAimedAttackCheckBoxForSmallTarget(event) {
+        if (fileFirstLoaded == true) {
+            event.target.checked = false
+            return
+        }
         bodyParts = [];
         let allAimedBodyParts = document.querySelectorAll('ul#aimedAttackList li input')
         for (let i = 0; i < allAimedBodyParts.length; i++) {
@@ -61,31 +40,31 @@ function AimedAttack() {
         if (event.target.checked == true) {
             charAtk.value = parseFloat(charAtk.value) - 5    
         } else if (event.target.checked == false) {
-            charAtk.value = defaultCharAtkValue
+            charAtk.value = parseFloat(charAtk.value) + 5
         }
         
     }
     return (<>
             <div className={styles.underConstruction}>FEJLESZTÉS ALATT</div>
-        <div className={styles.aimedAttackWrapper}>Megcélzott testrész:
+        <div className={styles.aimedAttackWrapper}>Testrészek, amiket NEM akarsz eltalálni:
             <ul id='aimedAttackList' className={styles.aimedAttackList}>
-                <li><input defaultValue={1} onClick={handleAimedAttackRadioButton} className={styles.aimedAttackBodyPartRadioButton} name='aimedAttackBodyPartRadioButton' type='radio' />Fej                    
+                <li><input onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartRadioButton} type='checkbox' />(0) Fej
                 </li>
-                <li><input defaultValue={4} onClick={handleAimedAttackRadioButton} className={styles.aimedAttackBodyPartRadioButton} name='aimedAttackBodyPartRadioButton' type='radio' />Törzs                    
+                <li><input onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartRadioButton} type='checkbox' />(9, 8) Mellkas
                 </li>
-                <li><input defaultValue={2} onClick={handleAimedAttackRadioButton} className={styles.aimedAttackBodyPartRadioButton} name='aimedAttackBodyPartRadioButton' type='radio' />Fegyverforgató kar                    
+                <li><input onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartRadioButton} type='checkbox' />(7, 6)Has
                 </li>
-                <li><input defaultValue={1} onClick={handleAimedAttackRadioButton} className={styles.aimedAttackBodyPartRadioButton} name='aimedAttackBodyPartRadioButton' type='radio' />Bal kar                    
+                <li><input onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartRadioButton} type='checkbox' />(5, 4) Fegyverforgató kar
                 </li>
-                <li><input defaultValue={1} onClick={handleAimedAttackRadioButton} className={styles.aimedAttackBodyPartRadioButton} name='aimedAttackBodyPartRadioButton' type='radio' />Jobb láb                    
+                <li><input onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartRadioButton} type='checkbox' />(3) Bal kar
                 </li>
-                <li><input defaultValue={1} onClick={handleAimedAttackRadioButton} className={styles.aimedAttackBodyPartRadioButton} name='aimedAttackBodyPartRadioButton' type='radio' />Bal láb                    
+                <li><input onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartRadioButton} type='checkbox' />(2) Jobb láb
                 </li>
-                <li><input defaultValue={10} onClick={handleAimedAttackRadioButton} className={styles.aimedAttackBodyPartRadioButton} name='aimedAttackBodyPartRadioButton' type='radio' />Mégsem célzok                    
+                <li><input onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartRadioButton} type='checkbox' />(1) Bal láb
                 </li>
             </ul>
             <div>
-                    <input id='aimedAttackBodyPartCheckBox' onClick={handleAimedAttackCheckBox} className={styles.aimedAttackBodyPartCheckBox} type='checkBox' />
+                    <input id='aimedAttackBodyPartCheckBox' onClick={handleAimedAttackCheckBoxForSmallTarget} className={styles.aimedAttackBodyPartCheckBox} type='checkBox' />
                     <span>Testrésznél kisebb terület megcélzása (pl.: szem, kéz, stb..)</span>
             </div>
         </div>

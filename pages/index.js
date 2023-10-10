@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
-import ActionList, { actionsNeededToBeAbleToCastAgain, actionsSpentSinceLastCast, actionsSpentSinceLastCastAdder, assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting } from "../Components/ActionsList";
+import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, actionsNeededToBeAbleToCastAgain, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting, blinkingText } from "../Components/ActionsList";
 import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
@@ -112,8 +112,7 @@ export const specialCases2 = [5, 6, 7];
 export const specialCases3 = [8, 9];
 export let fileFirstLoaded = true
 export let originalDarkDice = 0;
-export let originalLightDice = 0;
-export let defaultCharAtkValue
+export let originalLightDice = 0; 
 export let twoWeaponAttackModifiers = [-3, -2, -1, 0, 1, 2]
 export let twoWeaponAttackModifiersIndex = 0
 export let quickShotModifiers = [-5, -4, -3, -2, -1, 0]
@@ -1047,7 +1046,6 @@ let defModifier = modifierCalculator(1,2,9)
           fetchCharacterData(charName.innerText)
         } 
         fileFirstLoaded = false;
-        defaultCharAtkValue = parseFloat(charAtk.value)
         //***************************************************************************************** */
         //*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása
         //***************************************************************************************** */
@@ -1358,10 +1356,8 @@ if(numberOfClicks > 1) {
       }
       if((legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) && spellNeedsAimRoll == false && attackOfOpportunityOn == false){
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - totalActionCost
-        actionsSpentSinceLastCastAdder(totalActionCost)
-        if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
-          spellCastingActionButton.disabled = false
-        }
+        actionsSpentSinceLastCastAdderCheckerAndNullifier(totalActionCost)
+        console.log(actionsNeededToBeAbleToCastAgain)
       }
       if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true
@@ -1412,7 +1408,7 @@ if(numberOfClicks > 1) {
       }, 200);
       if (legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
         if (assassinationRadioButton.checked == true) {
-          charAtk.value = parseFloat(charAtk.value) - filteredArrayIfHasAssassination[0].level
+          charAtk.value = parseFloat(charAtk.value) - filteredArrayIfHasAssassination[0].level - 3
           assassinationToFalse()
         }
         if (findWeakSpotOn == true) {
@@ -1439,7 +1435,7 @@ if(numberOfClicks > 1) {
         reloadIsNeeded = true
         rollButton.disabled = true
         reloadButton.disabled = false
-        warningWindow.innerText = `Újra kell töltened ${currentlySelectedWeapon.reloadTime} CS`
+        blinkingText(warningWindow, `Újra kell töltened ${currentlySelectedWeapon.reloadTime} CS`)
        // ammoAmountInput.value--
       }
     }

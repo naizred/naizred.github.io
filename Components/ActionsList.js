@@ -44,6 +44,16 @@ export let actionsSpentSinceLastCast = 0
 export function actionsSpentSinceLastCastAdder(numberOfActions=0) {
     actionsSpentSinceLastCast+=numberOfActions
 }
+export function actionsSpentSinceLastCastAdderCheckerAndNullifier(numberOfActions = 0) {
+    if (actionsNeededToBeAbleToCastAgain == 0) {
+        return
+    }
+    actionsSpentSinceLastCast+=numberOfActions
+    if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
+        spellCastingActionButton.disabled = false
+        actionsSpentSinceLastCast = 0
+    }
+}
 export let spellNeedsAimRoll = false
 export function spellNeedsAimRollSetToFalse() {
     spellNeedsAimRoll = false
@@ -92,6 +102,7 @@ export function spellCastingFailure(anyOtherCondition=true) {
 export function disableAllActionButtons() {
     document.querySelectorAll()
 }
+let currentActionExtraCost = 0
 let numberOfActionsNeededForTheSpell = 0
 let manaNeededForTheSpell = 0
 function ActionList(props) {
@@ -99,12 +110,11 @@ function ActionList(props) {
     function handleExtraAttackRadio(event) {
         if (diceRolled == false) {
             event.target.checked = false
-        }
+            }
         if (diceRolled == true && initRolled == true) {
             if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true && event.target.value == 'Kapáslövés') {
                 totalActionCost = 3
                 if (hmoModified == false) {
-
                     hmoModifier(quickShotModifiers[quickShotModifiersIndex])
                     hmoModified = true
                 }
@@ -112,8 +122,7 @@ function ActionList(props) {
                 console.log("reloadIsNeeded",reloadIsNeeded)
                 if (currentlySelectedWeapon.w_type != "MÁGIA" && reloadIsNeeded == true) {
                     rollButton.disabled = true
-                  }
-                
+                  }     
             } else if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false && event.target.value == 'Kombináció') {
                 totalActionCost = 3
                 if (hmoModified == false) {
@@ -125,6 +134,18 @@ function ActionList(props) {
         }
         }
     function handleComplexManeuverRadio(event) {
+        currentActionExtraCost = event.target.parentElement.value
+
+        if (numberOfActions.innerText != '' && parseInt(numberOfActions.innerText) < totalActionCost + currentActionExtraCost) {
+            rollButton.disabled = true
+        }
+        if (((numberOfActions.innerText != '' && parseInt(numberOfActions.innerText) >= totalActionCost + currentActionExtraCost) &&
+        (combinationRadioButton.checked ==true || quickShotRadioButton.checked == true))==true) {
+            rollButton.disabled = false
+        }
+        if ((event.target.value == 'Kétkezes harc' && parseInt(numberOfActions.innerText) < 4) || (event.target.value == 'Kétkezes harc' && combinationRadioButton.checked==true && parseInt(numberOfActions.innerText) < 5)) {
+            rollButton.disabled = true
+        }
         if (initRolled == true && event.target.value == 'Roham' && chargeOn == false && chargeWasUsedThisRound == false) {
             chargeOn = true
             charAtk.value = parseFloat(charAtk.value) + 1
@@ -145,7 +166,7 @@ function ActionList(props) {
             for (let i = 0; i < weaponsOptions.length; i++) {
                 if (weaponsOptions[i].innerText.includes('kétkézzel') || weaponsOptions[i].innerText.includes('Kétkezes') || weaponsOptions[i].innerText.includes('Pallos') || weaponsOptions[i].innerText.includes('Alabárd')) {
                     weaponsOptions[i].style.display = "none"
-                }                
+                }
             }
         }
         if (initRolled == true && event.target.value != 'Kétkezes harc' && twoWeaponAttackOn == true && twoWeaponAttackWasUsedThisRound == false) {
@@ -159,21 +180,15 @@ function ActionList(props) {
         }
 
         if (event.target.value == 'Orvtámadás' && assassinationOn==false && filteredArrayIfHasAssassination.length != 0) {
-            charAtk.value = parseFloat(charAtk.value) + filteredArrayIfHasAssassination[0].level
+            charAtk.value = parseFloat(charAtk.value) + filteredArrayIfHasAssassination[0].level + 3
             assassinationOn=true
         }
         if (event.target.value != 'Orvtámadás' && assassinationOn==true &&  filteredArrayIfHasAssassination.length != 0) {
-            charAtk.value = parseFloat(charAtk.value) - filteredArrayIfHasAssassination[0].level
+            charAtk.value = parseFloat(charAtk.value) - filteredArrayIfHasAssassination[0].level - 3
             assassinationOn=false
         }
 
-        if (numberOfActions.innerText != '' && parseInt(numberOfActions.innerText) < totalActionCost+event.target.parentElement.value) {
-            rollButton.disabled = true
-         } 
-        else if (((numberOfActions.innerText != '' && parseInt(numberOfActions.innerText) >= totalActionCost + event.target.parentElement.value) &&
-             (combinationRadioButton.checked ==true || quickShotRadioButton.checked == true))==true) {
-          rollButton.disabled = false
-         }
+
     }
 
     //****************************************************************************** *************************************************/
@@ -208,9 +223,6 @@ function ActionList(props) {
         }
         if (event.target.value == 'Kétkezes harc' && initRolled == true && twoWeaponAttackOn==true && twoWeaponAttackWasUsedThisRound == false) {
             hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
-            if (initRolled==true && diceRolled == true) {
-                rollButton.disabled = true
-            }
             twoWeaponAttackOn=false
         }
         if (event.target.value == 'Roham' && chargeOn == true) {
@@ -221,22 +233,27 @@ function ActionList(props) {
             charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + 1
         }
         if (event.target.value == 'Orvtámadás' && filteredArrayIfHasAssassination.length != 0 && assassinationOn==true) {
-            charAtk.value = parseFloat(charAtk.value) - filteredArrayIfHasAssassination[0].level
+            charAtk.value = parseFloat(charAtk.value) - filteredArrayIfHasAssassination[0].level - 3
             assassinationOn=false
         }
 
     }
     function handleOtherManeuvers(event) {
         let nameOfManeuver = event.target.parentElement.firstChild.innerText
-        if (initRolled==true ){
+        if (initRolled == true) {
+            if (totalActionCost <= parseInt(numberOfActions.innerText)) {
+                rollButton.disabled == true
+            }
             if (nameOfManeuver.includes('fegyverváltás') && parseInt(numberOfActions.innerText)!=0) {
                 weapons.disabled = false
                 offHand.disabled = false
                 numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
+                actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
                 event.target.disabled = true
             }
             if (nameOfManeuver.includes('Gyenge') && parseInt(numberOfActions.innerText) != 0 && findWeakSpotOn == false) {
                 numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
+                actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
                 charAtk.value = parseFloat(charAtk.value) + 0.5
                 findWeakSpotOn = true
                 findWeakSpotButton.disabled = true
@@ -244,6 +261,7 @@ function ActionList(props) {
             if ((nameOfManeuver.includes('Töltés') && parseInt(numberOfActions.innerText)!=0) || (nameOfManeuver.includes('Töltés') && currentlySelectedWeapon.reloadTime == 0)) {               
                 if (currentlySelectedWeapon.reloadTime != 0) {
                     numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
+                    actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
                     numberOfActionsSpentReloading++
                 }
 
@@ -287,13 +305,13 @@ function ActionList(props) {
                 }
             }
             console.log("akció kell", numberOfActionsNeededForTheSpell, "mana", manaNeededForTheSpell, "lecsengés", actionsNeededToBeAbleToCastAgain)
-            console.log("varázslásra költött akciók", numberOfActionsSpentOnCastingCurrentSpell, "lecsengésből eltelt", actionsSpentSinceLastCast)
+            console.log("lecsengésből eltelt", actionsSpentSinceLastCast)
         }
         spellCastingFailure(!nameOfManeuver.includes('Varázslás'))
 
         if (initRolled==true && parseInt(numberOfActions.innerText) != 0 && (nameOfManeuver.includes('Elterelés') || nameOfManeuver.includes('Mozgás'))) {
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
-            actionsSpentSinceLastCast++
+            actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
         }
         if (initRolled == true && (parseInt(numberOfActions.innerText) != 0 || parseInt(numberOfReactions.innerText) != 0) && (nameOfManeuver.includes('Hárítás') || nameOfManeuver.includes('Kitérés')
         || nameOfManeuver.includes('ösztön') || nameOfManeuver.includes('rutin'))) {
@@ -301,7 +319,7 @@ function ActionList(props) {
                 numberOfReactions.innerText = parseInt(numberOfReactions.innerText) - 1
             } else {
                 numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
-                actionsSpentSinceLastCast++
+                actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
             }
         }
         if (initRolled == true && (parseInt(numberOfActions.innerText) != 0 || parseInt(numberOfReactions.innerText) != 0) && nameOfManeuver.includes('Közbevágás') && attackOfOpportunityOn == false) {
@@ -309,8 +327,8 @@ function ActionList(props) {
             if (parseInt(numberOfReactions.innerText) >= 1) {
                 numberOfReactions.innerText = parseInt(numberOfReactions.innerText) - 1
             } else {
-                numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
-                actionsSpentSinceLastCast++
+                numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1          
+                actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
             }
             if (combinationWasUsedThisRound == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==false) {
                 hmoModifier(-combinationModifiers[combinationModifiersIndex])

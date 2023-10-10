@@ -2,7 +2,7 @@ import styles from '../styles/chardetails.module.css';
 import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex} from '../pages';
 import { psiAtkDefModifier, theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker } from './PsiDisciplines';
-import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCost, totalActionCostSetter, twoWeaponAttackToFalse, actionsNeededToBeAbleToCastAgain, actionsSpentSinceLastCast, actionsSpentSinceLastCastAdder, spellCastingSuccessful, spellCastingFailure } from './ActionsList';
+import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCost, totalActionCostSetter, twoWeaponAttackToFalse, actionsNeededToBeAbleToCastAgain, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, actionsSpentSinceLastCastCheckerAndNullifier } from './ActionsList';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 var MersenneTwister = require('mersenne-twister');
@@ -125,10 +125,7 @@ function CharacterDetails() {
       if (combinationWasUsedThisRound == true && parseInt(numberOfActions.innerText) < 3) {
         rollButton.disabled = true
       }
-      actionsSpentSinceLastCastAdder(1)
-      if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
-        spellCastingActionButton.disabled = false
-      }
+      actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
       spellCastingFailure()
     }
     }
@@ -137,10 +134,7 @@ function CharacterDetails() {
       if (parseInt(numberOfActions.innerText)>0) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
         numberOfReactions.innerText = parseInt(numberOfReactions.innerText) + 1
-        actionsSpentSinceLastCastAdder(1)
-        if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
-          spellCastingActionButton.disabled = false
-        }
+        actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
         spellCastingFailure()
     }
     if (parseInt(numberOfActions.innerText) < 2) {
@@ -151,16 +145,6 @@ function CharacterDetails() {
       rollButton.disabled = true
     }
     }
-
-    function handleAdjustReactionsNegative() {
-      if (parseInt(numberOfReactions.innerText)>0) {
-        numberOfReactions.innerText = parseInt(numberOfReactions.innerText) - 1
-      }
-      actionsSpentSinceLastCastAdder(1)
-      if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
-        spellCastingActionButton.disabled = false
-      }
-  }
   
   let tacticsUsed = false
   //**************************************************************** */
@@ -199,7 +183,7 @@ function CharacterDetails() {
         arrayOfAllComplexMaeuvers[i].checked = false
       }     
     }
-    actionsSpentSinceLastCastAdder(parseInt(numberOfReactions.innerText))
+   
     if (parseInt(numberOfActions.innerText)<0) {
       actionsSpentSinceLastCastAdder(Math.abs(parseInt(numberOfActions.innerText)))
     }
@@ -209,9 +193,7 @@ function CharacterDetails() {
     if (parseInt(numberOfActions.innerText) == 0 && tacticsUsed ==true) {
       actionsSpentSinceLastCastAdder(parseInt(actionsLostWithTacticsUsed))
     }
-    if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
-      spellCastingActionButton.disabled = false
-    }
+actionsSpentSinceLastCastAdderCheckerAndNullifier()
     numberOfReactions.innerText = 0
     useLegendPointForInitiativeRollCheckBox.style.display = 'none'
     initiativeRerollByCounterLP.style.display = 'none'
