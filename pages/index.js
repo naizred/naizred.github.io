@@ -128,6 +128,7 @@ let bonusDamageFromAssassination = 0
 export let arrayOfAllComplexMaeuvers 
 export let currentlySelectedWeapon
 export let weaponsOptions
+export let allActionBarButtons
 
 export let combinationWasUsedThisRound = false
 export function combinationWasUsedThisRoundSetToFalse() {
@@ -162,6 +163,7 @@ export function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
     } 
   }return false
 }
+export let tempImg
 
 // --- itt kezdődik az oldal maga
 export default function Home(props) {
@@ -518,6 +520,9 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     charAtkSum.innerText = ""
     specialEffect.innerText = "nincs"
     useLegendPointCheckBox.style.display = "none"
+    if (tempImg) {
+      tempImg.style.opacity = 0
+    }
     if (initRolled == true) {
       weapons.disabled = true
       offHand.disabled = true
@@ -571,7 +576,12 @@ function removeAllSkillOptions() {
         anyOtherHmoModifier.disabled = false
         skillCheckRollButton.style.display = "grid"
         actionsWrapper.style.display = "grid"
-
+        allActionBarButtons = document.querySelectorAll("div#actionsWrapper button")
+        for (let i = 0; i < allActionBarButtons.length; i++) {
+          if (allActionBarButtons[i].id != "rollInitButton") {
+            allActionBarButtons[i].style.display = 'none'
+          }
+        }
         
         let indexOfFirstWeapon = 0
         for (indexOfFirstWeapon; indexOfFirstWeapon < JSON.parse(reader.result).weaponSets.length; indexOfFirstWeapon++) {
@@ -1171,7 +1181,7 @@ let defModifier = modifierCalculator(1,2,9)
     
     bodyPart.innerText = bodyParts[originalLightDice - 1];
 
-    let tempImg = document.createElement("img");
+    tempImg = document.createElement("img");
     tempImg.classList.add("tempImg");
     bodyPartImg.appendChild(tempImg);
     function currentBodypartHit(bodypart) {

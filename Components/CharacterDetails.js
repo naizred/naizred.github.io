@@ -1,8 +1,8 @@
 import styles from '../styles/chardetails.module.css';
-import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse } from '../pages';
-import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex} from '../pages';
+import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, allActionBarButtons } from '../pages';
+import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, tempImg} from '../pages';
 import { psiAtkDefModifier, theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker } from './PsiDisciplines';
-import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCost, totalActionCostSetter, twoWeaponAttackToFalse, actionsNeededToBeAbleToCastAgain, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, actionsSpentSinceLastCastCheckerAndNullifier } from './ActionsList';
+import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure } from './ActionsList';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 var MersenneTwister = require('mersenne-twister');
@@ -15,6 +15,9 @@ function CharacterDetails() {
     bodyPart.innerText = ""
     charAtkSum.innerText = ""
     specialEffect.innerText = "nincs"
+    if (tempImg) {
+      tempImg.style.opacity = 0
+    }
     for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
       if (arrayOfAllComplexMaeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==false) {
         arrayOfAllComplexMaeuvers[i].disabled = false
@@ -29,6 +32,12 @@ function CharacterDetails() {
         wrestlingRadioButton.disabled = false
       }
     }
+    for (let i = 0; i < allActionBarButtons.length; i++) {
+      if (allActionBarButtons[i].id != "rollInitButton") {
+        allActionBarButtons[i].style.display = 'grid'
+      }
+    }
+    initiativeRerollByCounterLP.style.display = 'none'
     reloadButton.disabled = true
     weapons.disabled = true
     offHand.disabled = true
@@ -236,6 +245,9 @@ actionsSpentSinceLastCastAdderCheckerAndNullifier()
       bodyPart.innerText = ""
       charAtkSum.innerText = ""
       specialEffect.innerText = "nincs"
+      if (tempImg) {
+        tempImg.style.opacity = 0
+      }
       if (warningWindow.innerText == "A varázslat létrejött!") {
         warningWindow.innerText = ""
       }
@@ -302,6 +314,7 @@ spellCastingFailure()
     initRolled = false
     warningWindow.innerText = ""
     spellCastingActionButton.disabled = false
+    initiativeRerollByCounterLP.style.display = 'none'
     setDiceRolledToFalse()
     reloadIsNeededSetToFalse()
     spellCastingSuccessful()
@@ -349,6 +362,9 @@ spellCastingFailure()
     bodyPart.innerText = ""
     charAtkSum.innerText = ""
     specialEffect.innerText = "nincs"
+    if (tempImg) {
+      tempImg.style.opacity = 0
+    }
   }
   
   function checkIfPsiIsUseable() {

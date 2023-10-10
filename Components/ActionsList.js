@@ -135,7 +135,9 @@ function ActionList(props) {
         }
     function handleComplexManeuverRadio(event) {
         currentActionExtraCost = event.target.parentElement.value
-
+        if (parseInt(numberOfActions.innerText) < 4 && combinationWasUsedThisRound==false) {
+            combinationRadioButton.disabled = true
+        }
         if (numberOfActions.innerText != '' && parseInt(numberOfActions.innerText) < totalActionCost + currentActionExtraCost) {
             rollButton.disabled = true
         }
