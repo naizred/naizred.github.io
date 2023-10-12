@@ -196,15 +196,15 @@ function CharacterDetails() {
     }
    
     if (parseInt(numberOfActions.innerText)<0) {
-      actionsSpentSinceLastCastAdder(Math.abs(parseInt(numberOfActions.innerText)))
+      actionsSpentSinceLastCastAdderCheckerAndNullifier(Math.abs(parseInt(numberOfActions.innerText)))
     }
     if (parseInt(numberOfActions.innerText) > 0) {
-      actionsSpentSinceLastCastAdder(parseInt(numberOfActions.innerText))
+      actionsSpentSinceLastCastAdderCheckerAndNullifier(parseInt(numberOfActions.innerText))
     }
-    if (parseInt(numberOfActions.innerText) == 0 && tacticsUsed ==true) {
-      actionsSpentSinceLastCastAdder(parseInt(actionsLostWithTacticsUsed))
+    if (parseInt(numberOfActions.innerText) == 0 && tacticsUsed == true) {
+      actionsSpentSinceLastCastAdderCheckerAndNullifier(actionsLostWithTacticsUsed)
     }
-actionsSpentSinceLastCastAdderCheckerAndNullifier()
+
     numberOfReactions.innerText = 0
     useLegendPointForInitiativeRollCheckBox.style.display = 'none'
     initiativeRerollByCounterLP.style.display = 'none'

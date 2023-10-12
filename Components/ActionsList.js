@@ -48,10 +48,12 @@ export function actionsSpentSinceLastCastAdderCheckerAndNullifier(numberOfAction
     if (actionsNeededToBeAbleToCastAgain == 0) {
         return
     }
-    actionsSpentSinceLastCast+=numberOfActions
+    actionsSpentSinceLastCast += numberOfActions
+    console.log("utolsó varázslás óta akciók elköltve:", actionsSpentSinceLastCast)
     if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
         spellCastingActionButton.disabled = false
         actionsSpentSinceLastCast = 0
+        actionsNeededToBeAbleToCastAgain = 0
     }
 }
 export let spellNeedsAimRoll = false
@@ -301,7 +303,9 @@ toggleTwoHandedWeaponsDisplay('grid')
             }
             if (initRolled == true && spellIsBeingCast == true && parseInt(numberOfActions.innerText)!=0) {
                 numberOfActionsSpentOnCastingCurrentSpell++
+                blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell-numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`)
                 numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
+
                 if (numberOfActionsSpentOnCastingCurrentSpell == numberOfActionsNeededForTheSpell) {
                     spellCastingSuccessful()
                 }
@@ -369,6 +373,7 @@ toggleTwoHandedWeaponsDisplay('grid')
             spellIsBeingCast = true
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
             numberOfActionsSpentOnCastingCurrentSpell++
+            blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell-numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`)
         }
         if (initRolled == true && numberOfActionsNeededForTheSpell == 1) {
             spellIsBeingCast = true
@@ -383,6 +388,9 @@ toggleTwoHandedWeaponsDisplay('grid')
         spellTypeQuestionWindow.style.display = 'none'
         warningWindow.innerText = ""
         rollButton.disabled = false
+        if ((parseInt(numberOfActions.innerText) < 2) || (combinationWasUsedThisRound==true && parseInt(numberOfActions.innerText) < 3)) {
+            rollButton.disabled = true
+        }
     }
     function handleSpellTypeYesAimRoll() {
         spellNeedsAimRoll = true

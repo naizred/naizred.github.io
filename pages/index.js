@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
-import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, actionsNeededToBeAbleToCastAgain, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay } from "../Components/ActionsList";
+import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, actionsNeededToBeAbleToCastAgain, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay, spellIsBeingCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier } from "../Components/ActionsList";
 import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
@@ -1374,7 +1374,9 @@ if(numberOfClicks > 1) {
         
         combinationWasUsedThisRound = true
       }
-      if((legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) && spellNeedsAimRoll == false && attackOfOpportunityOn == false){
+      if ((legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) && spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
+          spellCastingFailure() 
+          numberOfActionsSpentOnCastingCurrentSpellNullifier()
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - totalActionCost
         actionsSpentSinceLastCastAdderCheckerAndNullifier(totalActionCost)
         console.log(actionsNeededToBeAbleToCastAgain)
