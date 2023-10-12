@@ -386,7 +386,7 @@ function SkillCheck(props) {
             id="skillCheckRollButton"
             onClick={handleSkillCheck}
         >
-          Dobj
+          Próba dobás
           </button>
           <div id="checkTypeWrapper">
             <label htmlFor="checkTypeIsSkillCheck" id="checkTypeIsSkillCheckLabel">Képzettségpróba</label>

@@ -1,5 +1,5 @@
 import styles from '../styles/chardetails.module.css';
-import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, allActionBarButtons } from '../pages';
+import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, tempImg} from '../pages';
 import { psiAtkDefModifier, theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker } from './PsiDisciplines';
 import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure } from './ActionsList';
@@ -10,6 +10,7 @@ var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0
 function CharacterDetails() {
   function handleInitiativeRoll() {
+    toggleAllallActionBarButtonsExceptInitRollDisplay('grid')
     rollResult.innerText = ""
     damageResult.innerText = ""
     bodyPart.innerText = ""
@@ -32,11 +33,7 @@ function CharacterDetails() {
         wrestlingRadioButton.disabled = false
       }
     }
-    for (let i = 0; i < allActionBarButtons.length; i++) {
-      if (allActionBarButtons[i].id != "rollInitButton") {
-        allActionBarButtons[i].style.display = 'grid'
-      }
-    }
+
     initiativeRerollByCounterLP.style.display = 'none'
     reloadButton.disabled = true
     weapons.disabled = true
@@ -296,7 +293,7 @@ actionsSpentSinceLastCastAdderCheckerAndNullifier()
   function handleWhenTacticsUsed() {
     if (initRolled == true) {
       rollButton.disabled = true
-spellCastingFailure()
+      spellCastingFailure()
       actionsLostWithTacticsUsed = parseInt(numberOfActions.innerText)
       numberOfActions.innerText = 0
       tacticsUsed = true
@@ -311,6 +308,7 @@ spellCastingFailure()
   }
 
   function handleEndOfCombat() {
+    toggleAllallActionBarButtonsExceptInitRollDisplay('none')
     initRolled = false
     warningWindow.innerText = ""
     spellCastingActionButton.disabled = false
@@ -450,7 +448,7 @@ spellCastingFailure()
           onClick={handleInitiativeRoll}
           disabled = {false}
         >
-          Dobj
+          Kezdeményező dobás
         </button>
         <button id='tacticsButton' onClick={handleWhenTacticsUsed} className={styles.endOfCombatButton}>Taktika</button>
         <button onClick={handleEndOfRound} className={styles.endOfRoundButton} onMouseEnter={handleChiCombatBeforeEndOfRound} >Kör vége</button>

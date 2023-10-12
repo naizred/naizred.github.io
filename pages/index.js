@@ -128,7 +128,15 @@ let bonusDamageFromAssassination = 0
 export let arrayOfAllComplexMaeuvers 
 export let currentlySelectedWeapon
 export let weaponsOptions
-export let allActionBarButtons
+export function toggleAllallActionBarButtonsExceptInitRollDisplay(display='none') {
+  const allActionBarButtons = document.querySelectorAll("div#actionsWrapper button")
+for (let i = 0; i < allActionBarButtons.length; i++) {
+  if (allActionBarButtons[i].id != "rollInitButton") {
+    allActionBarButtons[i].style.display = display
+  }
+  }
+}
+
 
 export let combinationWasUsedThisRound = false
 export function combinationWasUsedThisRoundSetToFalse() {
@@ -576,12 +584,6 @@ function removeAllSkillOptions() {
         anyOtherHmoModifier.disabled = false
         skillCheckRollButton.style.display = "grid"
         actionsWrapper.style.display = "grid"
-        allActionBarButtons = document.querySelectorAll("div#actionsWrapper button")
-        for (let i = 0; i < allActionBarButtons.length; i++) {
-          if (allActionBarButtons[i].id != "rollInitButton") {
-            allActionBarButtons[i].style.display = 'none'
-          }
-        }
         
         let indexOfFirstWeapon = 0
         for (indexOfFirstWeapon; indexOfFirstWeapon < JSON.parse(reader.result).weaponSets.length; indexOfFirstWeapon++) {
@@ -762,7 +764,8 @@ let defModifier = modifierCalculator(1,2,9)
         //---------------------- betölti a tul. értékeket és képzettségeket
         //------------------------------------------------------------
       if (fileFirstLoaded == true) {
-        
+        toggleAllallActionBarButtonsExceptInitRollDisplay()
+
         for (let i = 0; i < 10; i++) {
           let currentAttribute = currentCharBaseAttributeValues[i] + attrSpreadArray[i]
           + findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) + currentRaceModifiers[i] - agingArray[i]
@@ -1560,7 +1563,7 @@ if(numberOfClicks > 1) {
             onClick={handleClick}
           //onMouseEnter={handleMouseEnter}
         >
-          Dobj
+          Támadó / Célzó dobás
         </button>
         <div id="warningWindow"></div>
         <div className={styles.charSumAtkContainer}>

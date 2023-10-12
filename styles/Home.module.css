@@ -46,7 +46,7 @@
   display: grid;
   grid-column: 8 / 12;
   grid-row: 1 / 4;
-  font-size: 4.5vw;
+  font-size: 2vw;
   align-items: center;
   justify-content: center;
   text-shadow: 0.3vw 0.3vw 0.4vw #000000;
@@ -56,7 +56,7 @@
   box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
   border-radius: 1vw;
   background-image: url('../public/parchmentPaper.jpg');
-  background-size: 15.2vw 8vw;
+  background-size: 20vw 8vw;
   margin-left: 0vw;
   margin-bottom: 1vw;
 }
