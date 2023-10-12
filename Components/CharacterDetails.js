@@ -22,6 +22,11 @@ function CharacterDetails() {
     for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
       if (arrayOfAllComplexMaeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==false) {
         arrayOfAllComplexMaeuvers[i].disabled = false
+        if (weapons.value.includes('kétkézzel') || weapons.value.includes('Kétkezes') || weapons.value.includes('Pallos') || weapons.value.includes('Alabárd')) {
+          twoWeaponAttackRadioButton.disabled = true
+        } else {
+          twoWeaponAttackRadioButton.disabled = false
+        }
       } 
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==true) {
         arrayOfAllComplexMaeuvers[i].disabled == true

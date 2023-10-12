@@ -102,6 +102,13 @@ export function spellCastingFailure(anyOtherCondition=true) {
 export function disableAllActionButtons() {
     document.querySelectorAll()
 }
+export function toggleTwoHandedWeaponsDisplay(display) {
+    for (let i = 0; i < weaponsOptions.length; i++) {
+        if (weaponsOptions[i].innerText.includes('kétkézzel') || weaponsOptions[i].innerText.includes('Kétkezes') || weaponsOptions[i].innerText.includes('Pallos') || weaponsOptions[i].innerText.includes('Alabárd')) {
+            weaponsOptions[i].style.display = display
+        }
+    }
+}
 let currentActionExtraCost = 0
 let numberOfActionsNeededForTheSpell = 0
 let manaNeededForTheSpell = 0
@@ -165,20 +172,12 @@ function ActionList(props) {
         if (initRolled == true && event.target.value == 'Kétkezes harc' && twoWeaponAttackOn == false && twoWeaponAttackWasUsedThisRound == false) {
             twoWeaponAttackOn = true
             hmoModifier(twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
-            for (let i = 0; i < weaponsOptions.length; i++) {
-                if (weaponsOptions[i].innerText.includes('kétkézzel') || weaponsOptions[i].innerText.includes('Kétkezes') || weaponsOptions[i].innerText.includes('Pallos') || weaponsOptions[i].innerText.includes('Alabárd')) {
-                    weaponsOptions[i].style.display = "none"
-                }
-            }
+toggleTwoHandedWeaponsDisplay('none')
         }
         if (initRolled == true && event.target.value != 'Kétkezes harc' && twoWeaponAttackOn == true && twoWeaponAttackWasUsedThisRound == false) {
             twoWeaponAttackOn = false
             hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
-            for (let i = 0; i < weaponsOptions.length; i++) {
-                if (weaponsOptions[i].innerText.includes('kétkézzel') || weaponsOptions[i].innerText.includes('Kétkezes') || weaponsOptions[i].innerText.includes('Pallos')) {
-                    weaponsOptions[i].style.display = "grid"
-                }                
-            }
+toggleTwoHandedWeaponsDisplay('grid')
         }
 
         if (event.target.value == 'Orvtámadás' && assassinationOn==false && filteredArrayIfHasAssassination.length != 0) {
@@ -225,7 +224,8 @@ function ActionList(props) {
         }
         if (event.target.value == 'Kétkezes harc' && initRolled == true && twoWeaponAttackOn==true && twoWeaponAttackWasUsedThisRound == false) {
             hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
-            twoWeaponAttackOn=false
+            twoWeaponAttackOn = false
+            toggleTwoHandedWeaponsDisplay('grid')
         }
         if (event.target.value == 'Roham' && chargeOn == true) {
                 chargeOn = false

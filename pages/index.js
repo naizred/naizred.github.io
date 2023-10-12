@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
-import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, actionsNeededToBeAbleToCastAgain, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting, blinkingText } from "../Components/ActionsList";
+import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, actionsNeededToBeAbleToCastAgain, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay } from "../Components/ActionsList";
 import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
 import LegendRoll from "../Components/LegendRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
@@ -518,6 +518,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
 
   function handleWeaponOrShieldChange() {
     handleFileRead();
+
     let allAimedBodyParts = document.querySelectorAll('ul#aimedAttackList li input')
     for (let i = 0; i < allAimedBodyParts.length; i++) {
      allAimedBodyParts[i].checked = false 
@@ -576,6 +577,7 @@ function removeAllSkillOptions() {
 // }
 // ********************************** Fájlbeolvasó függvény *************************
   async function handleFileRead() {
+
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
     reader.addEventListener(
@@ -1059,9 +1061,9 @@ let defModifier = modifierCalculator(1,2,9)
           fetchCharacterData(charName.innerText)
         } 
         fileFirstLoaded = false;
-        //***************************************************************************************** */
-        //*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása
-        //***************************************************************************************** */
+        //*********************************************************************************************************************************************************************** */
+        //*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása. Ezen felül a kétkezes harc letiltása, ha a fegyvert két kézzel kell forgatni
+        //*********************************************************************************************************************************************************************** */
         arrayOfAllComplexMaeuvers = document.querySelectorAll('ul#selectableComplexManeuversList li input')
         weaponsOptions = document.querySelectorAll("select#weapons option")
 
@@ -1080,6 +1082,11 @@ let defModifier = modifierCalculator(1,2,9)
           quickShotRadioButton.disabled = true
           for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
             arrayOfAllComplexMaeuvers[i].disabled = false
+            if (weapons.value.includes('kétkézzel') || weapons.value.includes('Kétkezes') || weapons.value.includes('Pallos') || weapons.value.includes('Alabárd')) {
+              twoWeaponAttackRadioButton.disabled = true
+            } else {
+              twoWeaponAttackRadioButton.disabled = false
+            }
           }
           if(combinationWasUsedThisRound == true){
             hmoModifier(combinationModifiers[combinationModifiersIndex])
