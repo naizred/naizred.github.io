@@ -1082,11 +1082,10 @@ let defModifier = modifierCalculator(1,2,9)
           quickShotRadioButton.disabled = true
           for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
             arrayOfAllComplexMaeuvers[i].disabled = false
-            if (weapons.value.includes('kétkézzel') || weapons.value.includes('Kétkezes') || weapons.value.includes('Pallos') || weapons.value.includes('Alabárd')) {
-              twoWeaponAttackRadioButton.disabled = true
-            } else {
               twoWeaponAttackRadioButton.disabled = false
-            }
+          }
+          if (weapons.value.includes('kétkézzel') || weapons.value.includes('Kétkezes') || weapons.value.includes('Pallos') || weapons.value.includes('Alabárd')) {
+            twoWeaponAttackRadioButton.disabled = true
           }
           if(combinationWasUsedThisRound == true){
             hmoModifier(combinationModifiers[combinationModifiersIndex])
