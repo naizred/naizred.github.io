@@ -147,10 +147,10 @@ function ActionList(props) {
         if (parseInt(numberOfActions.innerText) < 4 && combinationWasUsedThisRound==false) {
             combinationRadioButton.disabled = true
         }
-        if (numberOfActions.innerText != '' && parseInt(numberOfActions.innerText) < totalActionCost + currentActionExtraCost) {
+        if (initRolled == true && parseInt(numberOfActions.innerText) < totalActionCost + currentActionExtraCost) {
             rollButton.disabled = true
         }
-        if (((numberOfActions.innerText != '' && parseInt(numberOfActions.innerText) >= totalActionCost + currentActionExtraCost) &&
+        if (((initRolled == true && parseInt(numberOfActions.innerText) >= totalActionCost + currentActionExtraCost) &&
         (combinationRadioButton.checked ==true || quickShotRadioButton.checked == true))==true) {
             rollButton.disabled = false
         }
@@ -200,7 +200,7 @@ toggleTwoHandedWeaponsDisplay('grid')
 
     function handleRadioUnselect(event) {
             event.target.checked = false
-        if (numberOfActions.innerText != '' && parseInt(numberOfActions.innerText) >= totalActionCost-event.target.parentElement.value) {
+        if (initRolled == true && parseInt(numberOfActions.innerText) >= totalActionCost-event.target.parentElement.value) {
                 rollButton.disabled = false
         }
         if ((combinationRadioButton.checked == false && quickShotRadioButton.checked == false)) {

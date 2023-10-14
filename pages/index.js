@@ -10,7 +10,7 @@ import { checkWhereItIsWorn } from "../Components/ArmorDetails";
 import SkillCheck, {skillOrAttributeCheckRoll, handleSkillCheck, evaluateSkillOrAttributeCheckBase} from "../Components/SkillCheck";
 import PsiDisciplines, {
   specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat, activeBuffsArray,
-  buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, psiAtkDefModifier, bonusDamageFromChiCombatNullifier
+  buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, chiCombatAtkDefModifier, bonusDamageFromChiCombatNullifier, chiCombatAtkDefModifierNullifier
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
@@ -330,12 +330,10 @@ let damageOfFists = "1k10"
     }
     
     // ha nem történt kezdeményező dobás, akkor csak 1 támadásig érvényes a chi harc
-    if (initiativeWithRoll.innerText == '' && activeBuffsArray.includes('Chi-harc')) {
+    if (initRolled == false && activeBuffsArray.includes('Chi-harc')) {
       buffRemoverFromActiveBuffArrayAndTextList('Chi-harc')
-      charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
-      charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;
-      charDefWithParry.value = parseFloat(charDefWithParry.value) - psiAtkDefModifier;
-      charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - psiAtkDefModifier;
+      hmoModifier(-chiCombatAtkDefModifier)
+      chiCombatAtkDefModifierNullifier()
     }
 
     //ez a két változó csak az ökölharc miatt kell:
@@ -903,34 +901,48 @@ let defModifier = modifierCalculator(1,2,9)
           anyOtherHmoModifierValue = 0
         }
 
+        // TÉ VÉ CE értékek számítása ******************************
+        //*********************************************************** */
         if (filteredArrayIfHasParry.length != 0) {
           reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level
           if (reducedMgtByParrySkill < 0) {
             reducedMgtByParrySkill = 0
           }
-          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2))) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+          charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2)))
+          - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
+          + chiCombatAtkDefModifier
         } else {
-          charDefWithParry.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+          charDefWithParry.value = tvcoCalculator(defWithProfession)
+          - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
+          + chiCombatAtkDefModifier
         } 
         
         if (filteredArrayIfHasNimble.length != 0) {
-          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5*parseInt(filteredArrayIfHasNimble[0].level) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5 * parseInt(filteredArrayIfHasNimble[0].level)
+          - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
+          + chiCombatAtkDefModifier
         } else if (filteredArrayIfHasNimble.length == 0) {
-          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+          charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5
+          - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
+          + chiCombatAtkDefModifier
         }
         
         if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-          charAtk.value = tvcoCalculator(atkWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+          charAtk.value = tvcoCalculator(atkWithProfession)
+          - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
+          + chiCombatAtkDefModifier
           // if (charAtk.value < 0) {
           //   charAtk.value = 0
           // }
         } else {
-          charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+          charAtk.value = tvcoCalculator(aimWithProfession)
+          - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
           // if (charAtk.value < 0) {
           //   charAtk.value = 0
           // }
         }
-        charDef.value = tvcoCalculator(defWithProfession) - currentlySelectedWeapon.mgt / 2 - reducedMgtByParrySkill / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText/2)
+        charDef.value = tvcoCalculator(defWithProfession)
+          - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
 
         //********************************************************************************************** */
         // Kiszámolja a maximális és cselekedetenkénti mozgás távot. Ez függ az MGT-től, ezért van ennyire lent

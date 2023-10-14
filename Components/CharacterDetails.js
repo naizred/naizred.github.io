@@ -1,7 +1,7 @@
 import styles from '../styles/chardetails.module.css';
 import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, tempImg} from '../pages';
-import { psiAtkDefModifier, theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker } from './PsiDisciplines';
+import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier } from './PsiDisciplines';
 import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure } from './ActionsList';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
@@ -281,10 +281,8 @@ function CharacterDetails() {
   }
   function handleChiCombatCancel() {
     buffRemoverFromActiveBuffArrayAndTextList('Chi-harc')
-    charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
-    charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;
-    charDefWithParry.value = parseFloat(charDefWithParry.value) - psiAtkDefModifier;
-    charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - psiAtkDefModifier;
+    hmoModifier(-chiCombatAtkDefModifier)
+    chiCombatAtkDefModifierNullifier()
     handleEndOfRound()
     chiCombatContinuePopupWindow.style.display = "none"
     chiCombatContinuePopupWindowOKButton.style.display = "none"

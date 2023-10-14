@@ -1,5 +1,7 @@
 import styles from '../styles/psiDisciplines.module.css';
 import { filteredArrayIfHasPsi } from '../pages';
+import { hmoModifier } from './ActionsList';
+import { initRolled } from './CharacterDetails';
 export let specialAtkModifierFromPsiAssault = 0
 export let availableNumberOfAttacksFromPsiAssault = 0
 export let bonusDamageFromChiCombat = 0
@@ -7,7 +9,10 @@ export function bonusDamageFromChiCombatNullifier() {
     bonusDamageFromChiCombat = 0
 }
 export let theRoundChiCombatWasUsedIn
-export let psiAtkDefModifier = 0
+export let chiCombatAtkDefModifier = 0
+export function chiCombatAtkDefModifierNullifier() {
+    chiCombatAtkDefModifier = 0
+}
 export let activeBuffsArray = []
 export let allActiveBuffs = []
 export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
@@ -114,7 +119,7 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
             currentPp.value -= parseInt(psiPointCostInput.value)
             psiPointCostChecker()
         }
-        if (numberOfActions.innerText != '' && !buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)) {
+        if (initRolled == true && !buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)) {
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
         }
 
@@ -145,11 +150,11 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                     allActiveBuffs[i].parentElement.lastChild.value = selectedPsiDisciplineObj[0].psiDiscName
                         bonusDamageFromChiCombat = selectedPsiDisciplineObj[0].benefit[skillIndex - 1].damage
                         theRoundChiCombatWasUsedIn = parseInt(numberOfCurrentRound.innerText)
-                        psiAtkDefModifier = parseFloat(selectedPsiDisciplineObj[0].benefit[skillIndex - 1].atkAndDef)
-                        charAtk.value = parseFloat(charAtk.value) + psiAtkDefModifier;
-                        charDef.value = parseFloat(charDef.value) + psiAtkDefModifier;
-                        charDefWithParry.value = parseFloat(charDefWithParry.value) + psiAtkDefModifier;
-                        charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + psiAtkDefModifier;
+                        chiCombatAtkDefModifier = parseFloat(selectedPsiDisciplineObj[0].benefit[skillIndex - 1].atkAndDef)
+                        charAtk.value = parseFloat(charAtk.value) + chiCombatAtkDefModifier;
+                        charDef.value = parseFloat(charDef.value) + chiCombatAtkDefModifier;
+                        charDefWithParry.value = parseFloat(charDefWithParry.value) + chiCombatAtkDefModifier;
+                        charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + chiCombatAtkDefModifier;
                         break
                 } else if (selectedPsiDisciplineObj[0].psiDiscName == "Pszi Roham" && !activeBuffsArray.includes("Pszi Roham")) {
                     activeBuffsArray.push(selectedPsiDisciplineObj[0].psiDiscName)
@@ -205,13 +210,10 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
             if (event.target.parentElement.firstChild.lastChild) {
                 console.log(event.target.parentElement.firstChild.lastChild.value)
                 if (event.target.parentElement.lastChild.value == 'Chi-harc') {
-                    charAtk.value = parseFloat(charAtk.value) - psiAtkDefModifier;
-                    charDef.value = parseFloat(charDef.value) - psiAtkDefModifier;
-                    charDefWithParry.value = parseFloat(charDefWithParry.value) - psiAtkDefModifier;
-                    charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - psiAtkDefModifier;
+                    hmoModifier(-chiCombatAtkDefModifier);
+                    chiCombatAtkDefModifier = 0
                 }
                 event.target.parentElement.firstChild.innerText = ''
-                console.log(activeBuffsArray)
                 if (event.target.parentElement.lastChild.value == 'Fájdalomtűrés') {
                    currentFp.value = parseInt(currentFp.value) - parseInt(fpShield)
                 }
