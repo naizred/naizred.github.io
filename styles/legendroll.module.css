@@ -1,9 +1,9 @@
 .legendRollWrapper {
     display: grid;
-    grid-column: 12 / 16;
+     grid-column: 12 / 16;
     grid-row: 7 / 9;
     grid-template-columns: repeat(3,1fr);
-    grid-auto-flow: column;
+    grid-auto-flow: row;
     height: 7vw;
     border: 0.23vw solid #680604;
     -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
@@ -12,18 +12,40 @@
     border-radius: 1vw;
     margin: 0.5vw;
 }
+.legendRollWrapper li{
+    display: grid;
+    grid-row: span 1;
+    grid-column: span 3;
+    grid-auto-flow: column;
+    height: 3.5vw;
+}
+.legendRollWrapper input{
+    display: grid;
+    width: 3vw;
+    height: 2vw;
+    align-self: center;
+    justify-self: flex-end;
+    font-size: 1.6vw;
+    text-align: center;
+}
 .legendRollWrapper button {
 font-size: 2vw;
+justify-self: flex-start;
 }
 .legendRollWrapper div {
-margin-top: 2vw;
-    font-size: 1vw;
+    font-size: 1.2vw;
+    align-self: center;
+    text-align: center;
+    width: 6vw;
   
 }
-.legendRollWrapper p {
-
+.legendRollWrapper .k5label{
+    font-size: 2vw;
+    text-align: left;
+    width: 1vw;
+}
+.legendRollWrapper .tenSidedDiceRollResult {
+    display: grid;
 font-size: 3vw;
 text-align: center;
-margin-block-start: 0.75em;
-margin-block-end: 0.5em;
 }

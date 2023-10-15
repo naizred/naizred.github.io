@@ -45,11 +45,13 @@ export function actionsSpentSinceLastCastAdder(numberOfActions=0) {
     actionsSpentSinceLastCast+=numberOfActions
 }
 export function actionsSpentSinceLastCastAdderCheckerAndNullifier(numberOfActions = 0) {
+    console.log("utolsó varázslás óta akciók elköltve:", actionsSpentSinceLastCast, "lecsengés", actionsNeededToBeAbleToCastAgain)
     if (actionsNeededToBeAbleToCastAgain == 0) {
+        spellCastingActionButton.disabled = false
+        actionsSpentSinceLastCast = 0
         return
     }
     actionsSpentSinceLastCast += numberOfActions
-    console.log("utolsó varázslás óta akciók elköltve:", actionsSpentSinceLastCast)
     if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
         spellCastingActionButton.disabled = false
         actionsSpentSinceLastCast = 0
@@ -65,13 +67,13 @@ export let actionsNeededToBeAbleToCastAgain = 0
 export let weaponBeforeCasting
 export function blinkingText(elementId, text) {
     elementId.innerText = text
-    elementId.animate([{ color: "white" }, { color: "black" }], 500)
+    elementId.animate([{ color: "white" }, { color: "black" }], 300)
     setTimeout(() => {
-        elementId.animate([{color: "white"}, {color:"black"}],500)
-    }, 500);
+        elementId.animate([{color: "white"}, {color:"black"}],300)
+    }, 300);
     setTimeout(() => {
-        elementId.animate([{color: "white"}, {color:"black"}],500)
-    }, 1000);
+        elementId.animate([{color: "white"}, {color:"black"}],300)
+    }, 600);
 }
 export let spellIsBeingCast = false
 export function spellIsBeingCastSetToFalse() {
@@ -84,7 +86,22 @@ export function numberOfActionsSpentOnCastingCurrentSpellNullifier() {
 export function spellCastingSuccessful() {
     if (spellIsBeingCast == true) {
     numberOfActionsSpentOnCastingCurrentSpell = 0
-    blinkingText(warningWindow, "A varázslat létrejött!")
+        blinkingText(warningWindow, "A varázslat létrejött!")
+        castBarFlashEffect.style.display = 'grid'
+        castBarFlashEffect.animate([{ height: '0vw' }, { height: '4vw' }], 200)
+        castBarFlashEffect.animate([{ width: '0vw' }, { width: '17vw' }], 200)
+        castBar.animate([{ opacity: 1 }, { opacity: 0 }], 100)
+        setTimeout(() => {
+            castBarFlashEffect.animate([{ height: '4vw' }, { height: '0vw' }], 200)
+            castBarFlashEffect.animate([{ width: '17vw' }, { width: '0vw' }], 200)
+        }, 200);
+
+        setTimeout(() => {
+            castBar.style.display = 'none'
+        }, 100);
+        setTimeout(() => {
+            castBarFlashEffect.style.display = 'none'
+        }, 390);
     spellTypeQuestionWindow.style.display = 'grid'
     rollButton.disabled = true
     spellIsBeingCast = false
@@ -99,7 +116,12 @@ export function spellCastingFailure(anyOtherCondition=true) {
         numberOfActionsSpentOnCastingCurrentSpell = 0
         blinkingText(warningWindow, "A varázslat megszakadt!")
         spellIsBeingCast = false
+        castBar.animate([{ opacity: 1 }, { opacity: 0 }], 400)
+        setTimeout(() => {
+            castBar.style.display = 'none'
+        }, 350);
     }
+    actionsNeededToBeAbleToCastAgain = 0
 }
 export function disableAllActionButtons() {
     document.querySelectorAll()
@@ -111,6 +133,8 @@ export function toggleTwoHandedWeaponsDisplay(display) {
         }
     }
 }
+let castBarCurrentWidthStart = 0
+let castBarCurrentWidthEnd = 0
 let currentActionExtraCost = 0
 let numberOfActionsNeededForTheSpell = 0
 let manaNeededForTheSpell = 0
@@ -174,12 +198,12 @@ function ActionList(props) {
         if (initRolled == true && event.target.value == 'Kétkezes harc' && twoWeaponAttackOn == false && twoWeaponAttackWasUsedThisRound == false) {
             twoWeaponAttackOn = true
             hmoModifier(twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
-toggleTwoHandedWeaponsDisplay('none')
+            toggleTwoHandedWeaponsDisplay('none')
         }
         if (initRolled == true && event.target.value != 'Kétkezes harc' && twoWeaponAttackOn == true && twoWeaponAttackWasUsedThisRound == false) {
             twoWeaponAttackOn = false
             hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
-toggleTwoHandedWeaponsDisplay('grid')
+            toggleTwoHandedWeaponsDisplay('grid')
         }
 
         if (event.target.value == 'Orvtámadás' && assassinationOn==false && filteredArrayIfHasAssassination.length != 0) {
@@ -303,7 +327,12 @@ toggleTwoHandedWeaponsDisplay('grid')
             }
             if (initRolled == true && spellIsBeingCast == true && parseInt(numberOfActions.innerText)!=0) {
                 numberOfActionsSpentOnCastingCurrentSpell++
-                blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell-numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`)
+                blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell - numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`)
+                castBarCurrentWidthStart += ((1/numberOfActionsNeededForTheSpell)*17.1)
+                castBarCurrentWidthEnd = (numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1
+                console.log(castBarCurrentWidthStart, castBarCurrentWidthEnd)
+                castBar.animate([{ backgroundSize: `${castBarCurrentWidthStart}vw` }, { backgroundSize: `${castBarCurrentWidthEnd}vw` }], 200)
+                castBar.style.backgroundSize = `${(numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1}vw`
                 numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
 
                 if (numberOfActionsSpentOnCastingCurrentSpell == numberOfActionsNeededForTheSpell) {
@@ -369,11 +398,15 @@ toggleTwoHandedWeaponsDisplay('grid')
         warningWindow.innerText = ""
         actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCostInput.value / 10)
         spellInputWrapper.style.display = 'none'
-        if (initRolled==true && numberOfActionsNeededForTheSpell>1) {
+        if (initRolled == true && numberOfActionsNeededForTheSpell > 1) {
             spellIsBeingCast = true
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
             numberOfActionsSpentOnCastingCurrentSpell++
-            blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell-numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`)
+            blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell - numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`)
+            castBar.style.display = "grid"
+            castBarCurrentWidthEnd = (numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1
+            castBar.animate([{ backgroundSize: `${castBarCurrentWidthStart}vw` }, { backgroundSize: `${castBarCurrentWidthEnd}vw` }], 200)
+            castBar.style.backgroundSize = `${(numberOfActionsSpentOnCastingCurrentSpell/numberOfActionsNeededForTheSpell)*17.1}vw`
         }
         if (initRolled == true && numberOfActionsNeededForTheSpell == 1) {
             spellIsBeingCast = true
@@ -450,7 +483,7 @@ toggleTwoHandedWeaponsDisplay('grid')
             </div>
             <div id='spellInputWrapper' className={styles.spellInputWrapper}>
                 <li id='spellActionCostListItem'><span>CS:</span><input id='spellActionCostInput' defaultValue={1} type='number'/></li>
-                <li><span>MP:</span><input id='spellManaCostInput' type='number'/><button id='startCastButton' onClick={handleCancelSpellCast}>Mégse</button></li>
+                <li><span>MP:</span><input id='spellManaCostInput' defaultValue={0} type='number'/><button id='startCastButton' onClick={handleCancelSpellCast}>Mégse</button></li>
                 <li><span>CÉO:</span><input id='spellAimInput' defaultValue={0} step={0.5} type='number'/></li>
                 <button id='startCastButton' onClick={handleSpellCast}>Elkezdek varázsolni</button>
             </div>

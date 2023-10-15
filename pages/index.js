@@ -431,7 +431,10 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     if (currentlySelectedWeapon.w_name == "Fúvócső") {
       damageResult.innerText = 1
     }
-
+    if (weapons.value == "Célzott mágia") {
+      damageResult.innerText = ""
+    }
+// Ezekben az if-en belüli esetekben nincs ijász szabály
     if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) &&
       currentlySelectedWeapon.w_name != "Fúvócső" && currentlySelectedWeapon.w_name != "Célzott mágia" &&
       darkDiceWasChangedToHalfOfStr == false && legendPointUsedOnDarkDice == false) {
@@ -462,6 +465,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       
       console.log("íjász szabály:",archeryBonusDmg)
     }
+
     console.log("Sötét erősebzés:", originalDarkDice, "Világos:", originalLightDice)
     darkDiceWasChangedToHalfOfStr = false
     damageResult.animate([{color: "white"}, {color:"black"}],200)
@@ -1390,7 +1394,6 @@ if(numberOfClicks > 1) {
           numberOfActionsSpentOnCastingCurrentSpellNullifier()
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - totalActionCost
         actionsSpentSinceLastCastAdderCheckerAndNullifier(totalActionCost)
-        console.log(actionsNeededToBeAbleToCastAgain)
       }
       if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true
@@ -1585,7 +1588,9 @@ if(numberOfClicks > 1) {
         >
           Támadó / Célzó dobás
         </button>
-        <div id="warningWindow"></div>
+          <div id="warningWindow"></div>
+          <span id="castBar"></span>
+          <span id="castBarFlashEffect"></span>
         <div className={styles.charSumAtkContainer}>
           <div className="result inText" id="charAtkSumText">
             Össz TÉO

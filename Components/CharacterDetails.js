@@ -2,7 +2,7 @@ import styles from '../styles/chardetails.module.css';
 import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, tempImg} from '../pages';
 import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier } from './PsiDisciplines';
-import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure } from './ActionsList';
+import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, spellIsBeingCast } from './ActionsList';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 var MersenneTwister = require('mersenne-twister');
@@ -204,6 +204,9 @@ function CharacterDetails() {
     if (parseInt(numberOfActions.innerText) == 0 && tacticsUsed == true) {
       actionsSpentSinceLastCastAdderCheckerAndNullifier(actionsLostWithTacticsUsed)
     }
+
+    // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat megszakad
+      spellCastingFailure((parseInt(numberOfActions.innerText) > 0 && spellIsBeingCast == true))
 
     numberOfReactions.innerText = 0
     useLegendPointForInitiativeRollCheckBox.style.display = 'none'
