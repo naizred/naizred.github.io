@@ -13,6 +13,31 @@ let currentArmsMgt = 0
 let currentLeggingsMgt = 0
 let totalMgt = 0
 export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
+    if (armorPiece.nameOfArmor == 'Teljesvért' || armorPiece.nameOfArmor == 'Rákozott félvért') {
+        currentArmorImg.style.backgroundImage = "url('./armorParts/fullPlateBackGround.png')"
+        currentArmorImg.style.backgroundSize = "7.58vw 12vw"
+        currentHelmetImg.src = './armorParts/helmetFullPlate.png'
+       currentUpperTorsoImg.src='./armorParts/upperTorsoFullPlate.png'
+       currentLowerTorsoImg.src='./armorParts/lowerTorsoFullPlate.png'
+       currentArmsImg.src='./armorParts/armsFullPlate.png'
+        currentLeggingsImg.src = './armorParts/leggingsFullPlate.png'
+        currentHelmetImg.style.width = '7.58vw'
+        currentUpperTorsoImg.style.width= '7.58vw'
+        currentLowerTorsoImg.style.width= '7.58vw'
+        currentArmsImg.style.width= '7.58vw'
+       currentLeggingsImg.style.width= '7.58vw'
+        currentHelmetImg.style.height = '12vw'
+        currentUpperTorsoImg.style.height= '12vw'
+        currentLowerTorsoImg.style.height= '12vw'
+        currentArmsImg.style.height= '12vw'
+        currentLeggingsImg.style.height = '12vw'
+        dmgReduction.style.gridColumn = "3/6"
+        currentHelmetDmgReduction.style.gridColumn = "3/9"
+       currentUpperTorsoDmgReduction.style.gridColumn = "3/9"
+       currentLowerTorsoDmgReduction.style.gridColumn = "3/9"
+       currentArmsDmgReduction.style.gridColumn = "3/9"
+       currentLeggingsDmgReduction.style.gridColumn = "3/9"
+    }
     currentArmorPiece = armorPiece
  if (armorPiece.kit.includes(10) && helmetWorn == false) {
      currentHelmetName.innerText = `Fej: ${armorPiece.nameOfArmor}`
@@ -166,7 +191,7 @@ function ArmorDetails() {
                     </p>
                 </div>
             </div>
-                <div className={styles.currentArmorImg}>
+                <div id='currentArmorImg' className={styles.currentArmorImg}>
                     <div id='dmgReduction' className={styles.dmgReduction}>SFÉ:</div>
                     <li id='currentHelmetDmgReduction' className={styles.currentHelmetDmgReduction}></li>
                     <li id='currentUpperTorsoDmgReduction' className={styles.currentUpperTorsoDmgReduction}></li>
