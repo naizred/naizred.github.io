@@ -471,7 +471,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     damageResult.animate([{color: "white"}, {color:"black"}],200)
 }
 
-  function handleCheckBox() {
+  function handleAttackRollLPCheckBox() {
     if (useLegendPointCheckBox.checked == true && diceRolled == true) {
       darkDiceResultSelect.disabled = false
       lightDiceResultSelect.disabled = false
@@ -1574,7 +1574,7 @@ if(numberOfClicks > 1) {
             })}
           </select>
           <label id="useLegendPointCheckBoxlabel" htmlFor="useLegendPointCheckBox">Lp-t használok!</label>
-          <input type="checkBox" id="useLegendPointCheckBox" onChange={handleCheckBox} />
+          <input type="checkBox" id="useLegendPointCheckBox" onChange={handleAttackRollLPCheckBox} />
           <button id="darkDiceRerollByCounterLP" onClick={handleBossCounterLPdark}></button>
           <button id="lightDiceRerollByCounterLP" onClick={handleBossCounterLPlight}></button>
         </div>

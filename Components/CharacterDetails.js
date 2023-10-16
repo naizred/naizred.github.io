@@ -203,6 +203,7 @@ function CharacterDetails() {
     }
     if (parseInt(numberOfActions.innerText) == 0 && tacticsUsed == true) {
       actionsSpentSinceLastCastAdderCheckerAndNullifier(actionsLostWithTacticsUsed)
+      console.log(actionsLostWithTacticsUsed)
     }
 
     // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat megszakad

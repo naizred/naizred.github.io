@@ -45,7 +45,7 @@ export function actionsSpentSinceLastCastAdder(numberOfActions=0) {
     actionsSpentSinceLastCast+=numberOfActions
 }
 export function actionsSpentSinceLastCastAdderCheckerAndNullifier(numberOfActions = 0) {
-    console.log("utolsó varázslás óta akciók elköltve:", actionsSpentSinceLastCast, "lecsengés", actionsNeededToBeAbleToCastAgain)
+    console.log(actionsNeededToBeAbleToCastAgain)
     if (actionsNeededToBeAbleToCastAgain == 0) {
         spellCastingActionButton.disabled = false
         actionsSpentSinceLastCast = 0
@@ -57,6 +57,7 @@ export function actionsSpentSinceLastCastAdderCheckerAndNullifier(numberOfAction
         actionsSpentSinceLastCast = 0
         actionsNeededToBeAbleToCastAgain = 0
     }
+    console.log("utolsó varázslás óta akciók elköltve:", actionsSpentSinceLastCast, "lecsengés", actionsNeededToBeAbleToCastAgain)
 }
 export let spellNeedsAimRoll = false
 export function spellNeedsAimRollSetToFalse() {
@@ -120,8 +121,8 @@ export function spellCastingFailure(anyOtherCondition=true) {
         setTimeout(() => {
             castBar.style.display = 'none'
         }, 350);
+        actionsNeededToBeAbleToCastAgain = 0
     }
-    actionsNeededToBeAbleToCastAgain = 0
 }
 export function disableAllActionButtons() {
     document.querySelectorAll()
