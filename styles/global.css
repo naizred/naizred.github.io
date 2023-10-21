@@ -103,13 +103,14 @@ li{
 #castBarFlashEffect{
   display: none;
   grid-column: 8 / 12;
-  grid-row: 7 / 8;
+  grid-row: 6 / 10;
  justify-self: center;
  align-self: center;
  background: white;
- height: 4vw;
- width: 17vw;
+ height: 5vw;
+ width: 18vw;
  border-radius: 2vw;
+ margin-bottom: 3vw;
  box-shadow: 0vw 0vw 1.5vw 1vw rgba(255, 255, 255, 0.83);
  -webkit-box-shadow: 0vw 0vw 1.5vw 1vw rgba(255, 255, 255, 0.83);
  -moz-box-shadow: 0vw 0vw 1.5vw 1vw rgba(255, 255, 255, 0.83);

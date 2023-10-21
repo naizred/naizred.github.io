@@ -90,12 +90,12 @@ export function spellCastingSuccessful() {
     numberOfActionsSpentOnCastingCurrentSpell = 0
         blinkingText(warningWindow, "A varázslat létrejött!")
         castBarFlashEffect.style.display = 'grid'
-        castBarFlashEffect.animate([{ height: '0vw' }, { height: '4vw' }], 200)
-        castBarFlashEffect.animate([{ width: '0vw' }, { width: '17vw' }], 200)
+        castBarFlashEffect.animate([{ height: '0vw' }, { height: '5vw' }], 200)
+        castBarFlashEffect.animate([{ width: '0vw' }, { width: '18vw' }], 200)
         castBar.animate([{ opacity: 1 }, { opacity: 0 }], 100)
         setTimeout(() => {
-            castBarFlashEffect.animate([{ height: '4vw' }, { height: '0vw' }], 200)
-            castBarFlashEffect.animate([{ width: '17vw' }, { width: '0vw' }], 200)
+            castBarFlashEffect.animate([{ height: '5vw' }, { height: '0vw' }], 200)
+            castBarFlashEffect.animate([{ width: '18vw' }, { width: '0vw' }], 200)
         }, 200);
 
         setTimeout(() => {
@@ -143,6 +143,8 @@ let manaNeededForTheSpell = 0
 function ActionList(props) {
     
     function handleExtraAttackRadio(event) {
+        bigSpellDamageRollLegendPointCheckBox.checked = false
+        bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
         if (diceRolled == false) {
             event.target.checked = false
             }
@@ -169,6 +171,8 @@ function ActionList(props) {
         }
         }
     function handleComplexManeuverRadio(event) {
+        bigSpellDamageRollLegendPointCheckBox.checked = false
+        bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
         currentActionExtraCost = event.target.parentElement.value
         if (parseInt(numberOfActions.innerText) < 4 && combinationWasUsedThisRound==false) {
             combinationRadioButton.disabled = true
@@ -270,11 +274,13 @@ function ActionList(props) {
     }
     function handleOtherManeuvers(event) {
         let nameOfManeuver = event.target.parentElement.firstChild.innerText
+        bigSpellDamageRollLegendPointCheckBox.checked = false
+        bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
         if (initRolled == true) {
             if (totalActionCost <= parseInt(numberOfActions.innerText)) {
                 rollButton.disabled == true
             }
-            if (nameOfManeuver.includes('fegyverváltás') && parseInt(numberOfActions.innerText)!=0) {
+            if (nameOfManeuver.includes('Fegyverváltás') && parseInt(numberOfActions.innerText)!=0) {
                 weapons.disabled = false
                 offHand.disabled = false
                 numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
@@ -346,7 +352,7 @@ function ActionList(props) {
         }
         spellCastingFailure(!nameOfManeuver.includes('Varázslás'))
 
-        if (initRolled==true && parseInt(numberOfActions.innerText) != 0 && (nameOfManeuver.includes('Elterelés') || nameOfManeuver.includes('Mozgás'))) {
+        if (initRolled==true && parseInt(numberOfActions.innerText) != 0 && (nameOfManeuver.includes('Elterelés') || nameOfManeuver.includes('Mozgás')) || nameOfManeuver.includes('Manipuláció')) {
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
             actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
         }
@@ -391,7 +397,8 @@ function ActionList(props) {
         }
         currentMp.value = parseInt(currentMp.value) - spellManaCostInput.value
         spellIsBeingCast = true
-        numberOfDiceFromSpellCastWindow = spellDamageInput.value
+        numberOfDiceInput.value = spellDamageInput.value
+        numberOfDiceInput.disabled = true
         if (initRolled == false) {
             spellInputWrapper.style.display = 'none'
             spellCastingSuccessful()
@@ -429,6 +436,7 @@ function ActionList(props) {
         if ((parseInt(numberOfActions.innerText) < 2) || (combinationWasUsedThisRound==true && parseInt(numberOfActions.innerText) < 3)) {
             rollButton.disabled = true
         }
+        numberOfDiceInput.disabled = false
     }
     function handleSpellTypeYesAimRoll() {
         spellNeedsAimRoll = true
@@ -482,7 +490,8 @@ function ActionList(props) {
             {/* <li id='psiUseAction'><span>Pszi használat - Akció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li> */}
             <li><span>Mozgás - Akció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li>
             <li><span>Töltés - Akció - 0,1,2 CS </span><button id='reloadButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
-            <li><span>Manipuláció(pl.fegyverváltás) - Akció - 1 CS </span><button id='manipulationButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
+            <li><span>Fegyverváltás - Akció - 1 CS </span><button id='weaponChangeButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
+            <li><span>Manipuláció - Akció - 1 CS </span><button id='manipulationButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
         </div>
             <div className={styles.ammoWrapper}>
                 Lőszer:

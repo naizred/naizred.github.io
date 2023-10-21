@@ -45,8 +45,8 @@ function CharacterDetails() {
     offHand.disabled = true
     setDiceRolledToFalse()
     tacticsButton.disabled = false
-    useLegendPointForInitiativeRollCheckBox.style.display = 'grid'
-    useLegendPointForInitiativeRollCheckBox.checked = false
+    initiativeRollLegendPointCheckBox.style.display = 'grid'
+    initiativeRollLegendPointCheckBox.checked = false
     let initiativeRollResult = Math.floor(generator.random() * 10)
     let extraReaction = false
     if (filteredArrayIfHasExtraReaction.length!=0) {
@@ -88,7 +88,7 @@ function CharacterDetails() {
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
     adjustActionsPositive.value = parseInt(numberOfActions.innerText)
     initiativeRollResultSelect.disabled = true
-    useLegendPointForInitiativeRollCheckBox.style.display = 'none'
+    initiativeRollLegendPointCheckBox.style.display = 'none'
   }
 
   function handleBossInitCounterLP() {
@@ -104,11 +104,11 @@ function CharacterDetails() {
   }
 
   function handleInitLPCheckBox() {
-    if (useLegendPointForInitiativeRollCheckBox.checked == true)
+    if (initiativeRollLegendPointCheckBox.checked == true)
     {
       initiativeRollResultSelect.disabled = false
     }
-    if (useLegendPointForInitiativeRollCheckBox.checked == false) {
+    if (initiativeRollLegendPointCheckBox.checked == false) {
       initiativeRollResultSelect.disabled = true
     }
   }
@@ -210,7 +210,7 @@ function CharacterDetails() {
       spellCastingFailure((parseInt(numberOfActions.innerText) > 0 && spellIsBeingCast == true))
 
     numberOfReactions.innerText = 0
-    useLegendPointForInitiativeRollCheckBox.style.display = 'none'
+    initiativeRollLegendPointCheckBox.style.display = 'none'
     initiativeRerollByCounterLP.style.display = 'none'
     if (initRolled == true) {
       if (parseInt(numberOfActions.innerText) >= 0) {
@@ -471,7 +471,7 @@ function CharacterDetails() {
               return <option key={e}>{e}</option>;
             })}
         </select>
-        <input type='checkbox' id='useLegendPointForInitiativeRollCheckBox' className={styles.useLegendPointForInitiativeRollCheckBox} onChange={handleInitLPCheckBox}/>
+        <input type='checkbox' id='initiativeRollLegendPointCheckBox' className={styles.initiativeRollLegendPointCheckBox} onChange={handleInitLPCheckBox}/>
       </div>
       <div id='chiCombatContinuePopupWindow' className={styles.chiCombatContinuePopupWindow} onMouseLeave={() => chiCombatContinuePopupWindow.style.display = "none"}>
         <div id='chiCombatContinuePopupWindowText' className={styles.chiCombatContinuePopupWindowText}>Folytatod a Chi-harcot?</div> 

@@ -155,7 +155,7 @@ width: 11vw;
   grid-column: 14/16;
   grid-row: 1/2;
 }
-.useLegendPointForInitiativeRollCheckBox{
+.initiativeRollLegendPointCheckBox{
   display: none;
   grid-column: 15/16;
   grid-row: 2/3;

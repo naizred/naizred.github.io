@@ -445,7 +445,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       damageResult.innerText = 1
     }
     if (weapons.value == "Célzott mágia") {
-      let spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, 0, parseInt(numberOfDiceFromSpellCastWindow))
+      let spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, 0, parseInt(numberOfDiceInput.value))
       damageResult.innerText = spellDamage[3]
       // még meg kell írni, hogy a LP selectbe beleirja magát
       if (spellDamage[0]==10) {
@@ -526,7 +526,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       lightDiceRerollByCounterLP.style.display = "grid"
     }
 
-    handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
+    handleClickOnAttackRollButton(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
     if (numberOfClicksAtTwoWeaponAttack == 1) {
     }
     disarmRadioButton.checked = false
@@ -557,14 +557,14 @@ allResultsCleaner()
     if (initRolled == true) {
       weapons.disabled = true
       offHand.disabled = true
-      manipulationButton.disabled = false
+      weaponChangeButton.disabled = false
       reloadIsNeeded = false
     }
   }
 
   function handleBossCounterLPdark() {
        darkDiceResultSelect.value=Math.floor(generator.random() * 10)
-     handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
+     handleClickOnAttackRollButton(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
      attackRollUseLegendPointCheckBox.style.display = "none"
     darkDiceRerollByCounterLP.style.display = "none"
     lightDiceRerollByCounterLP.style.display = "none"
@@ -572,7 +572,7 @@ allResultsCleaner()
   
   function handleBossCounterLPlight() {
     lightDiceResultSelect.value=Math.floor(generator.random() * 10)
-  handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
+  handleClickOnAttackRollButton(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
   attackRollUseLegendPointCheckBox.style.display = "none"
  darkDiceRerollByCounterLP.style.display = "none"
  lightDiceRerollByCounterLP.style.display = "none"
@@ -1181,7 +1181,7 @@ let defModifier = modifierCalculator(1,2,9)
   //************************************************************************ */
   //------------------a támadó dobás
   //************************************************************************ */
-  async function handleClick(darkDice, lightDice) {
+  async function handleClickOnAttackRollButton(darkDice, lightDice) {
     if (charRace.innerText == "") {
       alert('Importálj egy karaktert!')
       return
@@ -1198,11 +1198,14 @@ let defModifier = modifierCalculator(1,2,9)
       numberOfClicksAtTwoWeaponAttack++
     }
 
+    warningWindow.innerText = ""
     bodyPartImg.innerHTML = "";
     charAtkSumText.innerText = "Össz TÉO"
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
     chosenWeapon.innerText = "Választott fegyver:"
+    bigSpellDamageRollLegendPointCheckBox.checked = false
+    bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
   
     //-----------------------megnézni, hogy van-e erő sebzés 
     
@@ -1598,7 +1601,7 @@ allResultsCleaner()
         <button type=""
           id="rollButton"
           className={styles.rollButton}
-            onClick={handleClick}
+            onClick={handleClickOnAttackRollButton}
           //onMouseEnter={handleMouseEnter}
         >
           Támadó / Célzó dobás

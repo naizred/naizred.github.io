@@ -1,82 +1,79 @@
 import styles from '../styles/k10RollAndSpellDamageRoll.module.css';
 import { generator, rollOptions } from '../pages';
-
+export let numberOfSpellDamageDiceAfterLastSpellDamageRoll = 0
 
 export function multipleDiceRoll(firstAccumulatedDiceRollResult = 0, secondAccumulatedDiceRollResult = 0, thirdAccumulatedDiceRollResult = 0, numberOfDice) {
-    let spellDamageSum = 0
-    let diceMultiplierRest = numberOfDice % 3
-    let firstAccumulatedDiceWasNotNull = true
-    let secondAccumulatedDiceWasNotNull = true
-    
-    let firstAccumulatedDice = firstAccumulatedDiceRollResult
-    let secondAccumulatedDice = secondAccumulatedDiceRollResult
-    let thirdAccumulatedDice = thirdAccumulatedDiceRollResult
-    console.log("maradék", diceMultiplierRest)
-    console.log("a három érték amit megkap a függvény",firstAccumulatedDice, secondAccumulatedDice,thirdAccumulatedDice)
     if (numberOfDice >= 22) {
         numberOfDice = 22
+        numberOfDiceInput.value = 22
     }
-    for (let i = 0; i < numberOfDice; i++) {
-        // osztás maradéka külön
-        
-        let fiveSidedDiceRoll = Math.floor(generator.random() * 10)
-        if (fiveSidedDiceRoll == 0) {
-            fiveSidedDiceRoll = 10
+    let spellDamageSum = 0
+    let diceMultiplierRest = numberOfDice % 3
+    if (firstAccumulatedDiceRollResult==0) {
+        firstAccumulatedDiceRollResult = Math.floor(generator.random() * 10)
+        firstAccumulatedDiceResultSelect.value = firstAccumulatedDiceRollResult
+        if (firstAccumulatedDiceRollResult == 0) {
+            firstAccumulatedDiceRollResult = 10
         }
-        if (i>=4) {
-            break
+    }
+    if (secondAccumulatedDiceRollResult==0) {
+        secondAccumulatedDiceRollResult = Math.floor(generator.random() * 10)
+        secondAccumulatedDiceResultSelect.value = secondAccumulatedDiceRollResult
+        if (secondAccumulatedDiceRollResult == 0) {
+            secondAccumulatedDiceRollResult = 10
         }
+    }
+    if (thirdAccumulatedDiceRollResult==0) {
+        thirdAccumulatedDiceRollResult = Math.floor(generator.random() * 10)
+        thirdAccumulatedDiceResultSelect.value = thirdAccumulatedDiceRollResult
+        if (thirdAccumulatedDiceRollResult == 0) {
+            thirdAccumulatedDiceRollResult = 10
+        }
+    }
+    
+    secondAccumulatedDiceResultSelect.style.opacity = 0.7
+    secondAccumulatedDiceResultSelectLabel.innerText = 'Második kocka'
+    thirdAccumulatedDiceResultSelect.style.opacity = 0.7
+    thirdAccumulatedDiceResultSelectLabel.innerText = 'Harmadik kocka'
 
-        for (let j = i; j < numberOfDice; j++) {
+    if (numberOfDice == 1) {
+        secondAccumulatedDiceResultSelect.style.opacity = 0
+        secondAccumulatedDiceResultSelectLabel.innerText = ''
+        thirdAccumulatedDiceResultSelect.style.opacity = 0
+        thirdAccumulatedDiceResultSelectLabel.innerText = ''
+    }
+    if (numberOfDice == 2) {
+        thirdAccumulatedDiceResultSelect.style.opacity = 0
+        thirdAccumulatedDiceResultSelectLabel.innerText = ''
+    }
 
-            if (firstAccumulatedDice == 0) {
-                firstAccumulatedDice = Math.ceil(fiveSidedDiceRoll / 2)
-                firstAccumulatedDiceRollResult = fiveSidedDiceRoll
-                break
-            } else if (firstAccumulatedDice != 0 && firstAccumulatedDiceWasNotNull == true) {
-                firstAccumulatedDice = Math.ceil(firstAccumulatedDiceRollResult / 2)
-                i++          
-            }
-            if (secondAccumulatedDice == 0 && numberOfDice>1) {
-                secondAccumulatedDice = Math.ceil(fiveSidedDiceRoll / 2)
-                secondAccumulatedDiceRollResult = fiveSidedDiceRoll
-                break
-            } 
-            else if (secondAccumulatedDice != 0 && secondAccumulatedDiceWasNotNull == true) {
-                secondAccumulatedDice = Math.ceil(secondAccumulatedDiceRollResult / 2)
-                i++
-            }
-            if (thirdAccumulatedDice == 0 && numberOfDice>2) {
-                thirdAccumulatedDice = Math.ceil(fiveSidedDiceRoll / 2)
-                thirdAccumulatedDiceRollResult = fiveSidedDiceRoll
-                break
-            }
-            console.log("a három kocka kezdő sebzéshelyei",firstAccumulatedDice, secondAccumulatedDice, thirdAccumulatedDice)
+    let firstAccumulatedDice = Math.ceil(firstAccumulatedDiceRollResult/2)
+    let secondAccumulatedDice = Math.ceil(secondAccumulatedDiceRollResult/2)
+    let thirdAccumulatedDice = Math.ceil(thirdAccumulatedDiceRollResult/2)
+    console.log("maradék", diceMultiplierRest)
+    console.log("a három érték amit megkap a függvény",firstAccumulatedDiceRollResult, secondAccumulatedDiceRollResult,thirdAccumulatedDiceRollResult)
+    
+        console.log("a három kocka kezdő sebzéshelyei",firstAccumulatedDice, secondAccumulatedDice, thirdAccumulatedDice)
             
-                let diceMultiplier = Math.floor(parseInt(numberOfDice) / 3)
+        let diceMultiplier = Math.floor(parseInt(numberOfDice) / 3)
                 
-                if (diceMultiplierRest == 0) {
-                    firstAccumulatedDice = firstAccumulatedDice* diceMultiplier
-                    secondAccumulatedDice = secondAccumulatedDice * diceMultiplier
-                    thirdAccumulatedDice = thirdAccumulatedDice * diceMultiplier
-                    break
-                }
-                if (diceMultiplierRest == 1) {
-                    firstAccumulatedDice = firstAccumulatedDice* (diceMultiplier + 1)
-                    secondAccumulatedDice = secondAccumulatedDice * diceMultiplier
-                    thirdAccumulatedDice = thirdAccumulatedDice * diceMultiplier
-                    break
-                    
-                }
-                if (diceMultiplierRest == 2) {
-                    firstAccumulatedDice = firstAccumulatedDice* (diceMultiplier + 1)
-                    secondAccumulatedDice = secondAccumulatedDice * (diceMultiplier + 1)
-                    thirdAccumulatedDice = thirdAccumulatedDice * diceMultiplier
-                      break
-                }
+        if (diceMultiplierRest == 0) {
+            firstAccumulatedDice = firstAccumulatedDice* diceMultiplier
+            secondAccumulatedDice = secondAccumulatedDice * diceMultiplier
+            thirdAccumulatedDice = thirdAccumulatedDice * diceMultiplier 
+        }
+        if (diceMultiplierRest == 1) {
+            firstAccumulatedDice = firstAccumulatedDice* (diceMultiplier + 1)
+            secondAccumulatedDice = secondAccumulatedDice * diceMultiplier
+            thirdAccumulatedDice = thirdAccumulatedDice * diceMultiplier
+            
+        }
+        if (diceMultiplierRest == 2) {
+            firstAccumulatedDice = firstAccumulatedDice* (diceMultiplier + 1)
+            secondAccumulatedDice = secondAccumulatedDice * (diceMultiplier + 1)
+            thirdAccumulatedDice = thirdAccumulatedDice * diceMultiplier 
+        }
                 
-            }
-    }
     if (numberOfDice == 1) {
         spellDamageSum = firstAccumulatedDice
     }
@@ -87,7 +84,8 @@ export function multipleDiceRoll(firstAccumulatedDiceRollResult = 0, secondAccum
         spellDamageSum = firstAccumulatedDice + secondAccumulatedDice + thirdAccumulatedDice
         
     }
-
+    bigSpellDamageRollLegendPointCheckBox.style.display = 'grid'
+    numberOfSpellDamageDiceAfterLastSpellDamageRoll = numberOfDice
     damageResult.innerText = spellDamageSum
     damageResult.animate([{ color: "white" }, { color: "black" }], 200)
     console.log("a három dobás eredményei",firstAccumulatedDiceRollResult, secondAccumulatedDiceRollResult, thirdAccumulatedDiceRollResult)
@@ -104,6 +102,53 @@ function K10RollAndSpellDamageRoll() {
         tenSidedDiceRollResult.animate([{color: "white"}, {color:"black"}],200)
     }
     
+    function handleSpellDamageLpCheckBox(event) {
+        if (event.target.checked == false) {
+        let allThreeSpellDamageDicesSelect = document.querySelectorAll("li#allThreeDiceResultWrapper select")
+        for (let i = 0; i < allThreeSpellDamageDicesSelect.length; i++) {
+            allThreeSpellDamageDicesSelect[i].disabled = true
+            }
+            rollButton.disabled = false
+            secondAccumulatedDiceResultSelect.style.opacity = 0.7
+    thirdAccumulatedDiceResultSelect.style.opacity = 0.7
+        }
+        if (event.target.checked == true) {
+        let allThreeSpellDamageDicesSelect = document.querySelectorAll("li#allThreeDiceResultWrapper select")
+        for (let i = 0; i < allThreeSpellDamageDicesSelect.length; i++) {
+            allThreeSpellDamageDicesSelect[i].disabled = false
+            }
+            rollButton.disabled = true
+            secondAccumulatedDiceResultSelect.style.opacity = 1
+    thirdAccumulatedDiceResultSelect.style.opacity = 1
+        }
+    }
+    function handleSpellDamageDiceChange(firstAccumulatedDiceRollResult, secondAccumulatedDiceRollResult, thirdAccumulatedDiceRollResult) {
+        let allThreeSpellDamageDicesSelect = document.querySelectorAll("li#allThreeDiceResultWrapper select")
+        for (let i = 0; i < allThreeSpellDamageDicesSelect.length; i++) {
+            allThreeSpellDamageDicesSelect[i].disabled = true
+            }
+        rollButton.disabled = false       
+        
+        firstAccumulatedDiceRollResult = parseInt(firstAccumulatedDiceResultSelect.value)
+        secondAccumulatedDiceRollResult = parseInt(secondAccumulatedDiceResultSelect.value)
+        thirdAccumulatedDiceRollResult = parseInt(thirdAccumulatedDiceResultSelect.value)
+
+        if (firstAccumulatedDiceRollResult == 0) {
+                firstAccumulatedDiceRollResult = 10
+            }
+            if (secondAccumulatedDiceRollResult == 0) {
+                secondAccumulatedDiceRollResult = 10
+            }
+            if (thirdAccumulatedDiceRollResult == 0) {
+                thirdAccumulatedDiceRollResult = 10
+            }
+        
+        multipleDiceRoll(firstAccumulatedDiceRollResult, secondAccumulatedDiceRollResult, thirdAccumulatedDiceRollResult, numberOfSpellDamageDiceAfterLastSpellDamageRoll)
+        numberOfDiceInput.disabled = false
+        bigSpellDamageRollLegendPointCheckBox.checked = false
+        bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
+    }
+
     function handleMultipleDiceRoll() {
        multipleDiceRoll(0,0,0,numberOfDiceInput.value)
     }
@@ -122,7 +167,7 @@ function K10RollAndSpellDamageRoll() {
             </div>
             <button onClick={handleMultipleDiceRoll} >Dobj</button>
             </li>
-            <li className={styles.allThreeDiceResultWrapper}>
+            <li id='allThreeDiceResultWrapper' className={styles.allThreeDiceResultWrapper}>
                 <label htmlFor="firstAccumulatedDiceResultSelect" id="firstAccumulatedDiceResultSelectLabel">
             Első kocka:
           </label>
@@ -132,25 +177,25 @@ function K10RollAndSpellDamageRoll() {
           <label htmlFor="thirdAccumulatedDiceResultSelect" id="thirdAccumulatedDiceResultSelectLabel">
             Harmadik kocka:
                 </label>
-                <label htmlFor="legendPointCheckBoxForBigSpellDamageRoll" className={styles.legendPointCheckBoxForBigSpellDamageRollLabel}>
+                <label htmlFor="bigSpellDamageRollLegendPointCheckBox" className={styles.bigSpellDamageRollLegendPointCheckBoxLabel}>
             LP
                 </label>
-          <select id="firstAccumulatedDiceResultSelect" name="">
+          <select id="firstAccumulatedDiceResultSelect" name="" onChange={handleSpellDamageDiceChange} disabled = {true}>
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <select id="secondAccumulatedDiceResultSelect" name="">
+          <select id="secondAccumulatedDiceResultSelect" name="" onChange={handleSpellDamageDiceChange} disabled = {true}>
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
                 </select>
-          <select id="thirdAccumulatedDiceResultSelect" name="">
+          <select id="thirdAccumulatedDiceResultSelect" name="" onChange={handleSpellDamageDiceChange} disabled = {true}>
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
                 </select>
-                <input id='legendPointCheckBoxForBigSpellDamageRoll' className={styles.legendPointCheckBoxForBigSpellDamageRoll} type='checkBox'/>
+                <input id='bigSpellDamageRollLegendPointCheckBox' className={styles.bigSpellDamageRollLegendPointCheckBox} onChange={handleSpellDamageLpCheckBox} type='checkBox'/>
                 </li>
         </div>
     )
