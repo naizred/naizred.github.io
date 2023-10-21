@@ -148,7 +148,7 @@ width: 11vw;
   margin-left: 0vw;
   text-align:center;
 }
-.useLegendPointForInitiativeRollLabel{
+.initiativeRollLegendPointCheckBoxLabel{
   font-family: 'MedievalSharp', cursive;
   color: black;
   text-shadow: 0.3vw 0.3vw 0.4vw #682600;
