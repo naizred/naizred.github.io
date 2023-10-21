@@ -3,11 +3,11 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
-import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, actionsNeededToBeAbleToCastAgain, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay, spellIsBeingCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier } from "../Components/ActionsList";
+import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay, spellIsBeingCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier, numberOfDiceFromSpellCastWindow } from "../Components/ActionsList";
 import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
-import LegendRoll from "../Components/LegendRoll";
+import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
-import SkillCheck, {skillOrAttributeCheckRoll, handleSkillCheck, evaluateSkillOrAttributeCheckBase} from "../Components/SkillCheck";
+import SkillCheck, {handleSkillCheck, evaluateSkillOrAttributeCheckBase} from "../Components/SkillCheck";
 import PsiDisciplines, {
   specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat, activeBuffsArray,
   buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, chiCombatAtkDefModifier, bonusDamageFromChiCombatNullifier, chiCombatAtkDefModifierNullifier
@@ -127,6 +127,11 @@ let bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
 let bonusDamageFromAssassination = 0
 export let arrayOfAllComplexMaeuvers 
 export let currentlySelectedWeapon
+export function currentlySelectedWeaponChanger(props, newWeapon) {
+  currentlySelectedWeapon = props.weapons.find(
+    (name) => name.w_name === `${newWeapon}`
+  )
+}
 export let weaponsOptions
 export function toggleAllallActionBarButtonsExceptInitRollDisplay(display='none') {
   const allActionBarButtons = document.querySelectorAll("div#actionsWrapper button")
@@ -136,7 +141,16 @@ for (let i = 0; i < allActionBarButtons.length; i++) {
   }
   }
 }
-
+export function allResultsCleaner() {
+  rollResult.innerText = ""
+  damageResult.innerText = ""
+  bodyPart.innerText = ""
+  charAtkSum.innerText = ""
+  specialEffect.innerText = "nincs"
+  if (tempImg) {
+    tempImg.style.opacity = 0
+  }
+}
 
 export let combinationWasUsedThisRound = false
 export function combinationWasUsedThisRoundSetToFalse() {
@@ -223,13 +237,12 @@ let damageOfFists = "1k10"
           darkDice = Math.floor(generator.random() * 10);
           lightDice = Math.floor(generator.random() * 10);
         }
+        lightDice = 1
+        darkDice = 2 
+        /* -- ez a felső két sor a dobások tesztelésére van  */
         darkDiceResultSelect.value = darkDice
         lightDiceResultSelect.value = lightDice
-      }
-    
-    //lightDice = 0
-    //darkDice = 0 
-    /* -- ez a felső két sor a dobások tesztelésére van  */
+      }   
 
     if (darkDice > lightDice) {
       result = darkDice;
@@ -432,7 +445,11 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       damageResult.innerText = 1
     }
     if (weapons.value == "Célzott mágia") {
-      damageResult.innerText = ""
+      damageResult.innerText = multipleDiceRoll(Math.ceil(originalDarkDice / 2), Math.ceil(originalLightDice / 2), 0, parseInt(numberOfDiceFromSpellCastWindow))[0]
+      // még meg kell írni, hogy a LP selectbe beleirja magát
+      firstAccumulatedDiceResultSelect.value = originalDarkDice
+      firstAccumulatedDiceResultSelect.value = originalLightDice
+      firstAccumulatedDiceResultSelect.value = originalDarkDice
     }
 // Ezekben az if-en belüli esetekben nincs ijász szabály
     if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) &&
@@ -472,7 +489,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
 }
 
   function handleAttackRollLPCheckBox() {
-    if (useLegendPointCheckBox.checked == true && diceRolled == true) {
+    if (attackRollUseLegendPointCheckBox.checked == true && diceRolled == true) {
       darkDiceResultSelect.disabled = false
       lightDiceResultSelect.disabled = false
       rollButton.disabled = true
@@ -483,7 +500,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       darkDiceResultSelect.disabled = true
       lightDiceResultSelect.disabled = true
     }
-    if (useLegendPointCheckBox.checked == false) {
+    if (attackRollUseLegendPointCheckBox.checked == false) {
       rollButton.disabled = false
       disarmRadioButton.checked = false
     }
@@ -504,11 +521,11 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     }
     disarmRadioButton.checked = false
     disarmWasUsedThisRound = false
-    useLegendPointCheckBox.style.display = "none"
+    attackRollUseLegendPointCheckBox.style.display = "none"
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
     rollButton.disabled = false
-    if (useLegendPointCheckBox.checked == false && initRolled == true && diceRolled == true) {
+    if (attackRollUseLegendPointCheckBox.checked == false && initRolled == true && diceRolled == true) {
       rollButton.disabled = true
     }
     if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true || numberOfClicksAtTwoWeaponAttack==1) {
@@ -525,15 +542,8 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     for (let i = 0; i < allAimedBodyParts.length; i++) {
      allAimedBodyParts[i].checked = false 
     }
-    rollResult.innerText = ""
-    damageResult.innerText = ""
-    bodyPart.innerText = ""
-    charAtkSum.innerText = ""
-    specialEffect.innerText = "nincs"
-    useLegendPointCheckBox.style.display = "none"
-    if (tempImg) {
-      tempImg.style.opacity = 0
-    }
+allResultsCleaner()
+    attackRollUseLegendPointCheckBox.style.display = "none"
     if (initRolled == true) {
       weapons.disabled = true
       offHand.disabled = true
@@ -545,7 +555,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
   function handleBossCounterLPdark() {
        darkDiceResultSelect.value=Math.floor(generator.random() * 10)
      handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
-     useLegendPointCheckBox.style.display = "none"
+     attackRollUseLegendPointCheckBox.style.display = "none"
     darkDiceRerollByCounterLP.style.display = "none"
     lightDiceRerollByCounterLP.style.display = "none"
   }
@@ -553,7 +563,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
   function handleBossCounterLPlight() {
     lightDiceResultSelect.value=Math.floor(generator.random() * 10)
   handleClick(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value));
-  useLegendPointCheckBox.style.display = "none"
+  attackRollUseLegendPointCheckBox.style.display = "none"
  darkDiceRerollByCounterLP.style.display = "none"
  lightDiceRerollByCounterLP.style.display = "none"
   }
@@ -627,7 +637,10 @@ function removeAllSkillOptions() {
           }
          // let armorObject = []
           if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
-            mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
+            mgtCompensation = Math.floor(parseFloat(filteredArrayIfHasHeavyArmorSkill[0].level) * 2.3)
+            if (filteredArrayIfHasHeavyArmorSkill[0].level==5) {
+              mgtCompensation = 12
+            }
           }
           if (equippedOrNotSetToManual == false) {
             equippedOrNot.checked = true
@@ -1188,8 +1201,8 @@ let defModifier = modifierCalculator(1,2,9)
       rollResult.animate([{color: "white"}, {color:"black"}],200)
     }
     diceRolled = true
-    useLegendPointCheckBox.style.display = "grid"
-    useLegendPointCheckBox.checked = false
+    attackRollUseLegendPointCheckBox.style.display = "grid"
+    attackRollUseLegendPointCheckBox.checked = false
 
     damageResult.innerText = "";
 
@@ -1236,11 +1249,6 @@ let defModifier = modifierCalculator(1,2,9)
    async function playerChecker (){ if (numberOfClicks == 1) {
       const data = {
       charName: charName.innerText,
-      currentFp: parseInt(currentFp.value),
-      currentEp: parseInt(currentEp.value),
-      currentPp: parseInt(currentPp.value),
-      currentMp: parseInt(currentMp.value),
-      currentLp: parseInt(currentLp.value),
       atkRollResult: parseInt(charAtkSum.innerText),
       atkRollDice: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
       atkRollResultAfter5sec: parseInt(charAtkSum.innerText),
@@ -1306,12 +1314,8 @@ if(numberOfClicks > 1) {
       }
         evaluateSkillOrAttributeCheckBase()
         handleSkillCheck(false, originalLightDice)
-        damageResult.innerText = "";
-        bodyPart.innerText = "";
-        rollResult.innerText = "";
-        tempImg.style.opacity = 0
+allResultsCleaner()
         charAtkSumText.innerText = "Próba végeredménye:"
-        specialEffect.innerText = "nincs";
         charAtkSum.innerText = skillCheckResult.innerText
         break
       }
@@ -1337,10 +1341,7 @@ if(numberOfClicks > 1) {
         }
         evaluateSkillOrAttributeCheckBase()
         handleSkillCheck(false, originalLightDice)
-        damageResult.innerText = "";
-        bodyPart.innerText = "";
-        rollResult.innerText = "";
-        tempImg.style.opacity = 0
+allResultsCleaner()
         charAtkSumText.innerText = "Próba végeredménye:"
         specialEffect.innerText = "nincs";
         charAtkSum.innerText = skillCheckResult.innerText
@@ -1350,7 +1351,8 @@ if(numberOfClicks > 1) {
     if (spellNeedsAimRoll == true) {
       diceRolled = false
       setTimeout(() => {
-        weapons.value = weaponBeforeCasting
+        currentlySelectedWeapon = weaponBeforeCasting
+        weapons.value = weaponBeforeCasting.w_name
         charAtk.value = charAtkValueSave
       }, 500);
     }
@@ -1573,8 +1575,8 @@ if(numberOfClicks > 1) {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <label id="useLegendPointCheckBoxlabel" htmlFor="useLegendPointCheckBox">Lp-t használok!</label>
-          <input type="checkBox" id="useLegendPointCheckBox" onChange={handleAttackRollLPCheckBox} />
+          <label id="attackRollUseLegendPointCheckBoxlabel" htmlFor="attackRollUseLegendPointCheckBox">Lp-t használok!</label>
+          <input type="checkBox" id="attackRollUseLegendPointCheckBox" onChange={handleAttackRollLPCheckBox} />
           <button id="darkDiceRerollByCounterLP" onClick={handleBossCounterLPdark}></button>
           <button id="lightDiceRerollByCounterLP" onClick={handleBossCounterLPlight}></button>
         </div>
@@ -1603,7 +1605,7 @@ if(numberOfClicks > 1) {
             nincs
           </div>
           </div>
-          <LegendRoll />
+          <K10RollAndSpellDamageRoll />
           <ArmorDetails />
           <CharacterDetails />
           <ActionList {...props} />

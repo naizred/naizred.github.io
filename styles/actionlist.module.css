@@ -36,7 +36,7 @@
     box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
     border-radius: 1vw;
     grid-column: 17 / 20;
-    grid-row: 10/12;
+    grid-row: 8/12;
     width: 12vw;
     background-image: url('../public/parchmentPaper.jpg');
 

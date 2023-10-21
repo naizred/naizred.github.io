@@ -1,7 +1,7 @@
 import {
     diceRolled, checkIfWeaponIsRanged, chargeWasUsedThisRound, quickShotModifiers, quickShotModifiersIndex, combinationModifiers,
     combinationModifiersIndex, combinationWasUsedThisRound, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, twoWeaponAttackWasUsedThisRound,
-    currentlySelectedWeapon, weaponsOptions, reloadIsNeededSetToFalse, reloadIsNeeded, filteredArrayIfHasAssassination, arrayOfAllComplexMaeuvers, baseAim, baseAimWithTeoCalculator, setDiceRolledToFalse
+    currentlySelectedWeapon, weaponsOptions, reloadIsNeededSetToFalse, reloadIsNeeded, filteredArrayIfHasAssassination, arrayOfAllComplexMaeuvers, baseAim, baseAimWithTeoCalculator, setDiceRolledToFalse, allResultsCleaner, currentlySelectedWeaponChanger
 } from '../pages';
 import styles from '../styles/actionlist.module.css';
 import { initRolled } from './CharacterDetails';
@@ -9,6 +9,7 @@ export let chargeOn = false
 export function chargeToFalse() {
     chargeOn = false
 }
+export let numberOfDiceFromSpellCastWindow = 0
 export let assassinationOn = false
 export function assassinationToFalse() {
     assassinationOn = false
@@ -383,17 +384,20 @@ function ActionList(props) {
           }
     }
     function handleSpellCast() {
+        allResultsCleaner()
         if (parseInt(currentMp.value) < spellManaCostInput.value) {
             blinkingText(warningWindow, "Nincs elég manád!")
             return
         }
         currentMp.value = parseInt(currentMp.value) - spellManaCostInput.value
         spellIsBeingCast = true
+        numberOfDiceFromSpellCastWindow = spellDamageInput.value
         if (initRolled == false) {
             spellInputWrapper.style.display = 'none'
             spellCastingSuccessful()
             return
         }
+
         numberOfActionsNeededForTheSpell = spellActionCostInput.value
         manaNeededForTheSpell = spellManaCostInput.value
         warningWindow.innerText = ""
@@ -428,15 +432,18 @@ function ActionList(props) {
     }
     function handleSpellTypeYesAimRoll() {
         spellNeedsAimRoll = true
-        weaponBeforeCasting = weapons.value
+        weaponBeforeCasting = currentlySelectedWeapon
         weapons.value = 'Célzott mágia'
+        currentlySelectedWeaponChanger(props,'Célzott mágia') 
         charAtkValueSave = charAtk.value
         charAtk.value = baseAimWithTeoCalculator + parseFloat(spellAimInput.value)
         combinationRadioButton.disabled = true
         quickShotRadioButton.disabled = true
+        if (initRolled == true)
+        {
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
           arrayOfAllComplexMaeuvers[i].disabled = true
-        }
+        }}
         rollButton.disabled = false
         spellTypeQuestionWindow.style.display = 'none'
     }
@@ -484,8 +491,9 @@ function ActionList(props) {
             </div>
             <div id='spellInputWrapper' className={styles.spellInputWrapper}>
                 <li id='spellActionCostListItem'><span>CS:</span><input id='spellActionCostInput' defaultValue={1} type='number'/></li>
-                <li><span>MP:</span><input id='spellManaCostInput' defaultValue={0} type='number'/><button id='startCastButton' onClick={handleCancelSpellCast}>Mégse</button></li>
-                <li><span>CÉO:</span><input id='spellAimInput' defaultValue={0} step={0.5} type='number'/></li>
+                <li><span>MP:</span><input id='spellManaCostInput' defaultValue={0} type='number'/></li>
+                <li><span>Seb:</span><input id='spellDamageInput' defaultValue={1} type='number'/> K5</li>
+                <li><span>CÉO:</span><input id='spellAimInput' defaultValue={0} step={0.5} type='number' /><button id='startCastButton' onClick={handleCancelSpellCast}>Mégse</button></li>
                 <button id='startCastButton' onClick={handleSpellCast}>Elkezdek varázsolni</button>
             </div>
             <div id='spellTypeQuestionWindow' className={styles.spellTypeQuestionWindow}>
