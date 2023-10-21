@@ -2,11 +2,15 @@ import styles from '../styles/k10RollAndSpellDamageRoll.module.css';
 import { generator, rollOptions } from '../pages';
 
 
-export function multipleDiceRoll(firstAccumulatedDice = 0, secondAccumulatedDice = 0, thirdAccumulatedDice = 0, numberOfDice) {
+export function multipleDiceRoll(firstAccumulatedDiceRollResult = 0, secondAccumulatedDiceRollResult = 0, thirdAccumulatedDiceRollResult = 0, numberOfDice) {
     let spellDamageSum = 0
     let diceMultiplierRest = numberOfDice % 3
     let firstAccumulatedDiceWasNotNull = true
     let secondAccumulatedDiceWasNotNull = true
+    
+    let firstAccumulatedDice = firstAccumulatedDiceRollResult
+    let secondAccumulatedDice = secondAccumulatedDiceRollResult
+    let thirdAccumulatedDice = thirdAccumulatedDiceRollResult
     console.log("maradék", diceMultiplierRest)
     console.log("a három érték amit megkap a függvény",firstAccumulatedDice, secondAccumulatedDice,thirdAccumulatedDice)
     if (numberOfDice >= 22) {
@@ -27,22 +31,27 @@ export function multipleDiceRoll(firstAccumulatedDice = 0, secondAccumulatedDice
 
             if (firstAccumulatedDice == 0) {
                 firstAccumulatedDice = Math.ceil(fiveSidedDiceRoll / 2)
+                firstAccumulatedDiceRollResult = fiveSidedDiceRoll
                 break
-            } else if (firstAccumulatedDice != 0 && firstAccumulatedDiceWasNotNull==true) {
+            } else if (firstAccumulatedDice != 0 && firstAccumulatedDiceWasNotNull == true) {
+                firstAccumulatedDice = Math.ceil(firstAccumulatedDiceRollResult / 2)
                 i++          
             }
             if (secondAccumulatedDice == 0 && numberOfDice>1) {
                 secondAccumulatedDice = Math.ceil(fiveSidedDiceRoll / 2)
+                secondAccumulatedDiceRollResult = fiveSidedDiceRoll
                 break
             } 
             else if (secondAccumulatedDice != 0 && secondAccumulatedDiceWasNotNull == true) {
+                secondAccumulatedDice = Math.ceil(secondAccumulatedDiceRollResult / 2)
                 i++
             }
             if (thirdAccumulatedDice == 0 && numberOfDice>2) {
                 thirdAccumulatedDice = Math.ceil(fiveSidedDiceRoll / 2)
+                thirdAccumulatedDiceRollResult = fiveSidedDiceRoll
                 break
             }
-            console.log(firstAccumulatedDice, secondAccumulatedDice, thirdAccumulatedDice)
+            console.log("a három kocka kezdő sebzéshelyei",firstAccumulatedDice, secondAccumulatedDice, thirdAccumulatedDice)
             
                 let diceMultiplier = Math.floor(parseInt(numberOfDice) / 3)
                 
@@ -80,10 +89,11 @@ export function multipleDiceRoll(firstAccumulatedDice = 0, secondAccumulatedDice
     }
 
     damageResult.innerText = spellDamageSum
-    damageResult.animate([{color: "white"}, {color:"black"}],200)
-    console.log(firstAccumulatedDice, secondAccumulatedDice, thirdAccumulatedDice)
+    damageResult.animate([{ color: "white" }, { color: "black" }], 200)
+    console.log("a három dobás eredményei",firstAccumulatedDiceRollResult, secondAccumulatedDiceRollResult, thirdAccumulatedDiceRollResult)
+    console.log("egyes kockahelyek felhalmozott sebzései",firstAccumulatedDice, secondAccumulatedDice, thirdAccumulatedDice)
     console.log("össz sebzés", spellDamageSum)
-    return [spellDamageSum, firstAccumulatedDice, secondAccumulatedDice, thirdAccumulatedDice]
+    return [firstAccumulatedDiceRollResult, secondAccumulatedDiceRollResult, thirdAccumulatedDiceRollResult, spellDamageSum]
 }
 
 
@@ -112,14 +122,14 @@ function K10RollAndSpellDamageRoll() {
             </div>
             <button onClick={handleMultipleDiceRoll} >Dobj</button>
             </li>
-            {/* <li className={styles.allThreeDiceResultWrapper}>
+            <li className={styles.allThreeDiceResultWrapper}>
                 <label htmlFor="firstAccumulatedDiceResultSelect" id="firstAccumulatedDiceResultSelectLabel">
             Első kocka:
           </label>
-          <label htmlFor="secondAccumulatedDiceDiceResultSelect" id="secondAccumulatedDiceDiceResultSelectLabel">
+          <label htmlFor="secondAccumulatedDiceResultSelect" id="secondAccumulatedDiceResultSelectLabel">
             Második kocka:
           </label>
-          <label htmlFor="thirdAccumulatedDiceDiceResultSelect" id="thirdAccumulatedDiceDiceResultSelectLabel">
+          <label htmlFor="thirdAccumulatedDiceResultSelect" id="thirdAccumulatedDiceResultSelectLabel">
             Harmadik kocka:
                 </label>
                 <label htmlFor="legendPointCheckBoxForBigSpellDamageRoll" className={styles.legendPointCheckBoxForBigSpellDamageRollLabel}>
@@ -130,18 +140,18 @@ function K10RollAndSpellDamageRoll() {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <select id="secondAccumulatedDiceDiceResultSelect" name="">
+          <select id="secondAccumulatedDiceResultSelect" name="">
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
                 </select>
-          <select id="thirdAccumulatedDiceDiceResultSelect" name="">
+          <select id="thirdAccumulatedDiceResultSelect" name="">
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
                 </select>
                 <input id='legendPointCheckBoxForBigSpellDamageRoll' className={styles.legendPointCheckBoxForBigSpellDamageRoll} type='checkBox'/>
-                </li> */}
+                </li>
         </div>
     )
 }

@@ -237,8 +237,8 @@ let damageOfFists = "1k10"
           darkDice = Math.floor(generator.random() * 10);
           lightDice = Math.floor(generator.random() * 10);
         }
-        lightDice = 1
-        darkDice = 2 
+       // lightDice = 1
+       // darkDice = 2 
         /* -- ez a felső két sor a dobások tesztelésére van  */
         darkDiceResultSelect.value = darkDice
         lightDiceResultSelect.value = lightDice
@@ -445,11 +445,21 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       damageResult.innerText = 1
     }
     if (weapons.value == "Célzott mágia") {
-      damageResult.innerText = multipleDiceRoll(Math.ceil(originalDarkDice / 2), Math.ceil(originalLightDice / 2), 0, parseInt(numberOfDiceFromSpellCastWindow))[0]
+      let spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, 0, parseInt(numberOfDiceFromSpellCastWindow))
+      damageResult.innerText = spellDamage[3]
       // még meg kell írni, hogy a LP selectbe beleirja magát
-      // firstAccumulatedDiceResultSelect.value = originalDarkDice
-      // firstAccumulatedDiceResultSelect.value = originalLightDice
-      // firstAccumulatedDiceResultSelect.value = originalDarkDice
+      if (spellDamage[0]==10) {
+        firstAccumulatedDiceResultSelect.value = 0
+      }
+      if (spellDamage[1] == 10) {
+        secondAccumulatedDiceResultSelect.value = 0
+      }
+      if (spellDamage[2] == 10) {
+        thirdAccumulatedDiceResultSelect.value = 0
+      }
+      firstAccumulatedDiceResultSelect.value = spellDamage[0]
+      secondAccumulatedDiceResultSelect.value = spellDamage[1]
+      thirdAccumulatedDiceResultSelect.value = spellDamage[2]
     }
 // Ezekben az if-en belüli esetekben nincs ijász szabály
     if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) &&
