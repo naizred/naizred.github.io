@@ -447,9 +447,9 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     if (weapons.value == "Célzott mágia") {
       damageResult.innerText = multipleDiceRoll(Math.ceil(originalDarkDice / 2), Math.ceil(originalLightDice / 2), 0, parseInt(numberOfDiceFromSpellCastWindow))[0]
       // még meg kell írni, hogy a LP selectbe beleirja magát
-      firstAccumulatedDiceResultSelect.value = originalDarkDice
-      firstAccumulatedDiceResultSelect.value = originalLightDice
-      firstAccumulatedDiceResultSelect.value = originalDarkDice
+      // firstAccumulatedDiceResultSelect.value = originalDarkDice
+      // firstAccumulatedDiceResultSelect.value = originalLightDice
+      // firstAccumulatedDiceResultSelect.value = originalDarkDice
     }
 // Ezekben az if-en belüli esetekben nincs ijász szabály
     if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) &&
@@ -637,7 +637,10 @@ function removeAllSkillOptions() {
           }
          // let armorObject = []
           if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
-            mgtCompensation = Math.floor(parseFloat(filteredArrayIfHasHeavyArmorSkill[0].level) * 2.3)
+            mgtCompensation = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level) * 2
+            if (filteredArrayIfHasHeavyArmorSkill[0].level==4) {
+              mgtCompensation = 9
+            }
             if (filteredArrayIfHasHeavyArmorSkill[0].level==5) {
               mgtCompensation = 12
             }
