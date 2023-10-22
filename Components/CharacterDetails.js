@@ -10,6 +10,7 @@ var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0
 function CharacterDetails() {
   function handleInitiativeRoll() {
+
     toggleAllallActionBarButtonsExceptInitRollDisplay('grid')
     rollResult.innerText = ""
     damageResult.innerText = ""
@@ -76,6 +77,12 @@ function CharacterDetails() {
     adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
     rollInitButton.style.display = "none"
     initRolled = true
+    let numberOfActionsElement = document.querySelector("#numberOfActions")
+    console.log(numberOfActionsElement)
+    let observer = new MutationObserver(async() => {
+      console.log(numberOfActionsElement.innerText)
+    })
+    observer.observe(numberOfActionsElement, {childList:true, subtree:true});
   }
 
   function handleInitWhenLPisUsed() {
@@ -203,7 +210,6 @@ function CharacterDetails() {
     }
     if (parseInt(numberOfActions.innerText) == 0 && tacticsUsed == true) {
       actionsSpentSinceLastCastAdderCheckerAndNullifier(actionsLostWithTacticsUsed)
-      console.log(actionsLostWithTacticsUsed)
     }
 
     // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat megszakad

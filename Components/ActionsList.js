@@ -46,7 +46,6 @@ export function actionsSpentSinceLastCastAdder(numberOfActions=0) {
     actionsSpentSinceLastCast+=numberOfActions
 }
 export function actionsSpentSinceLastCastAdderCheckerAndNullifier(numberOfActions = 0) {
-    console.log(actionsNeededToBeAbleToCastAgain)
     if (actionsNeededToBeAbleToCastAgain == 0) {
         spellCastingActionButton.disabled = false
         actionsSpentSinceLastCast = 0

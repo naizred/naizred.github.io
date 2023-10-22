@@ -56,10 +56,11 @@ export function psiPointCostChecker() {
         psiActivateButton.disabled = true
         if (selectedPsiDisciplineObj[0].psiPointCost == 'All') {
             psiPointCostInput.value = parseInt(currentPp.value)
-        } else {
+        }
+        if (selectedPsiDisciplineObj[0].canBeModified == false) {
             psiPointCostInput.value = parseInt(selectedPsiDisciplineObj[0].psiPointCost)
         }
-        
+              
     } else if (selectedPsiDisciplineObj[0].canBeModified == false){
         if (selectedPsiDisciplineObj[0].psiPointCost == 'All') {
             psiPointCostInput.value = parseInt(currentPp.value)
@@ -90,7 +91,6 @@ export function PsiDisciplines(props) {
                     }
                 }
             }
-            console.log(filteredPsiDisciplines)
             for (let k = 0; k < filteredPsiDisciplines.length; k++) {
                 let psiDisciplineOption = document.createElement('option');
                 psiDisciplineOption.innerText = filteredPsiDisciplines[k].psiDiscName

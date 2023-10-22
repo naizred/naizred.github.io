@@ -1370,6 +1370,7 @@ allResultsCleaner()
         currentlySelectedWeapon = weaponBeforeCasting
         weapons.value = weaponBeforeCasting.w_name
         charAtk.value = charAtkValueSave
+        handleFileRead()
       }, 500);
     }
     //ha volt kezdeményező dobás
