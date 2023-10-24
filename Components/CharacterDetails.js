@@ -16,7 +16,8 @@ export   async function updateCharacterData() {
       activeBuffsCounter++
     }
   }
-  activeBuffsStringToSave = activeBuffsCounter+activeBuffsStringToSave
+
+  activeBuffsStringToSave = activeBuffsCounter + activeBuffsStringToSave
 
   const data = {
     charName: charName.innerText,

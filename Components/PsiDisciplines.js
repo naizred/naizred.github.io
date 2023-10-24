@@ -16,7 +16,7 @@ export function chiCombatAtkDefModifierNullifier() {
 export let activeBuffsArray = []
 export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
     for (let i = 0; i < activeBuffsArray.length; i++) {
-        if (activeBuffsArray[i] == buffName) {
+        if (activeBuffsArray[i].includes(buffName)) {
             activeBuffsArray.splice(i, 1);
             break
         }        
@@ -31,16 +31,6 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
     }
 }
 
-export function buffAdderToActiveBuffArrayAndTextList(buffName, numberOfBuffs) {
-    activeBuffsArray.push(buffName)
-    for (let i = 0; i < numberOfBuffs; i++){
-        if (allActiveBuffs[i].innerText = '') {
-            allActiveBuffs[i].innerText = buffName
-            break
-        } 
-    } 
-}
-
 export function buffRemoverFromActiveBuffArray(buffName) {
     for (let i = 0; i < activeBuffsArray.length; i++) {
         if (activeBuffsArray[i] == buffName) {
@@ -50,12 +40,23 @@ export function buffRemoverFromActiveBuffArray(buffName) {
     }
 }
 
+
 export function buffTextChecker(buffName) {
     for (let i = 0; i < allActiveBuffs.length; i++){
         if (allActiveBuffs[i].innerText.includes(buffName)) {
             return true
         }
     } return false 
+}
+
+// erre azért volt külön szükség, hogy a buff array-on belüli stringeken belül keressen
+
+export function activeBuffsArrayChecker(buffName) {
+    for (let i = 0; i < activeBuffsArray.length; i++) {
+        if (activeBuffsArray[i].includes(buffName)) {
+            return true
+        }
+    } return false
 }
 
 export function psiPointCostCheckerAndSetter() {
@@ -83,11 +84,12 @@ export function psiPointCostCheckerAndSetter() {
     }
 }
 export let fpShield = 0
-
+export function fpShieldChanger(shieldAmount) {
+    fpShield = parseInt(shieldAmount)
+}
 let selectedPsiDisciplineObj
 
 export function PsiDisciplines(props) {
-    
     
     let filteredPsiDisciplines = []
     function handleListPsi() {
@@ -146,11 +148,14 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
             if (allActiveBuffs[i].innerText == '' || (allActiveBuffs[i].innerText != '' && allActiveBuffs[i].innerText.includes('folyamatos'))) {
 
                 if (selectedPsiDisciplineObj[0].psiDiscName == "Fájdalomtűrés" && !activeBuffsArray.includes("Fájdalomtűrés")) {
-                    activeBuffsArray.push(selectedPsiDisciplineObj[0].psiDiscName)
                     fpShield = parseInt(psiPointCostInput.value / 2)
-                    allActiveBuffs[i].innerText = `${selectedPsiDisciplineObj[0].psiDiscName} (+${parseInt(psiPointCostInput.value / 2)} Fp Pajzs) - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
+                    if (fpShield==0) {
+                        break
+                    }
+                    activeBuffsArray.push(selectedPsiDisciplineObj[0].psiDiscName)
+                    allActiveBuffs[i].innerText = `${selectedPsiDisciplineObj[0].psiDiscName} (+${fpShield} Fp Pajzs) - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`
                     allActiveBuffs[i].parentElement.lastChild.value = selectedPsiDisciplineObj[0].psiDiscName
-                        currentFp.value = parseInt(currentFp.value) + parseInt(psiPointCostInput.value / 2)
+                        currentFp.value = parseInt(currentFp.value) + fpShield
                         break
                 } else if (selectedPsiDisciplineObj[0].psiDiscName == 'Chi-harc' && !activeBuffsArray.includes("Chi-harc")) {
                     activeBuffsArray.push(selectedPsiDisciplineObj[0].psiDiscName)
@@ -209,11 +214,13 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                 } 
             }      
         }
+        console.log(activeBuffsArray)
         psiPointCostCheckerAndSetter()
         updateCharacterData()
     }
 
-    function handleDeleteBuff (event) {
+    function handleDeleteBuff(event) {
+        console.log(event.target.parentElement.lastChild.value)
             if (event.target.parentElement.firstChild.lastChild) {
                 if (event.target.parentElement.lastChild.value == 'Chi-harc') {
                     hmoModifier(-chiCombatAtkDefModifier);
@@ -225,6 +232,7 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                 }
             }
         buffRemoverFromActiveBuffArray(event.target.parentElement.lastChild.value)
+        console.log(activeBuffsArray)
         }
     function handlePsiRecovery(event) {
         if (event.target.parentElement.firstChild.id == "amountOfMinutesMeditating") {

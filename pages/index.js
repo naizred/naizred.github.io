@@ -10,7 +10,7 @@ import { checkWhereItIsWorn } from "../Components/ArmorDetails";
 import SkillCheck, {handleSkillCheck, evaluateSkillOrAttributeCheckBase} from "../Components/SkillCheck";
 import PsiDisciplines, {
   specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat, activeBuffsArray,
-  buffRemoverFromActiveBuffArrayAndTextList, chiCombatAtkDefModifier, bonusDamageFromChiCombatNullifier, chiCombatAtkDefModifierNullifier
+  buffRemoverFromActiveBuffArrayAndTextList, chiCombatAtkDefModifier, bonusDamageFromChiCombatNullifier, chiCombatAtkDefModifierNullifier, fpShield, fpShieldChanger
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
@@ -62,10 +62,18 @@ export async function fetchCharacterData(currentCharName) {
     }
     let activeBuffsCounter = parseInt(parsedData.activeBuffs.charAt(0))
     let activeBuffsStringArray = parsedData.activeBuffs.slice(1).split('|', activeBuffsCounter)
+    
     console.log(activeBuffsStringArray)
     for (let i = 0; i < activeBuffsStringArray.length; i++) {
       allActiveBuffs[i].innerText = activeBuffsStringArray[i]
+      if (activeBuffsStringArray[i].includes("Fájdalomtűrés") && !activeBuffsArray.includes("Fájdalomtűrés")) {
+        fpShieldChanger(parseInt(activeBuffsStringArray[i].charAt(16)))
+        allActiveBuffs[i].parentElement.lastChild.value = "Fájdalomtűrés"
+        activeBuffsArray.push("Fájdalomtűrés")
+      }
     }
+     
+    console.log(activeBuffsArray, fpShield)
   })
 }
 
