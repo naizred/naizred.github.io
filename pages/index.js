@@ -10,7 +10,7 @@ import { checkWhereItIsWorn } from "../Components/ArmorDetails";
 import SkillCheck, {handleSkillCheck, evaluateSkillOrAttributeCheckBase} from "../Components/SkillCheck";
 import PsiDisciplines, {
   specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat, activeBuffsArray,
-  buffRemoverFromActiveBuffArrayAndTextList, allActiveBuffs, chiCombatAtkDefModifier, bonusDamageFromChiCombatNullifier, chiCombatAtkDefModifierNullifier
+  buffRemoverFromActiveBuffArrayAndTextList, chiCombatAtkDefModifier, bonusDamageFromChiCombatNullifier, chiCombatAtkDefModifierNullifier
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
@@ -60,6 +60,12 @@ export async function fetchCharacterData(currentCharName) {
     if (skillCheckDiceAfter5sec !=undefined) {
       skillCheckDiceAfter5sec.value = parsedData.skillCheckDiceAfter5sec;
     }
+    let activeBuffsCounter = parseInt(parsedData.activeBuffs.charAt(0))
+    let activeBuffsStringArray = parsedData.activeBuffs.slice(1).split('|', activeBuffsCounter)
+    console.log(activeBuffsStringArray)
+    for (let i = 0; i < activeBuffsStringArray.length; i++) {
+      allActiveBuffs[i].innerText = activeBuffsStringArray[i]
+    }
   })
 }
 
@@ -97,7 +103,7 @@ export const getStaticProps = async () => {
 };
 // ki kellett importálni az alap CÉ-t a varázsláshoz
 export let baseAimWithTeoCalculator = 0
-
+export let allActiveBuffs = []
 export let mgtCompensation = 0
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
@@ -123,7 +129,6 @@ let filteredArrayIfHasParry
 let mainHandWeaponWhenTwoWeaponAttackIsUsed
 let legendPointUsedOnDarkDice = false
 let legendPointUsedOnLightDice = false
-let bonusDamageFromChiCombatSave = bonusDamageFromChiCombat
 let bonusDamageFromAssassination = 0
 export let arrayOfAllComplexMaeuvers 
 export let currentlySelectedWeapon
@@ -136,7 +141,7 @@ export let weaponsOptions
 export function toggleAllallActionBarButtonsExceptInitRollDisplay(display='none') {
   const allActionBarButtons = document.querySelectorAll("div#actionsWrapper button")
 for (let i = 0; i < allActionBarButtons.length; i++) {
-  if (allActionBarButtons[i].id != "rollInitButton") {
+  if (allActionBarButtons[i].id != "initRollButton") {
     allActionBarButtons[i].style.display = display
   }
   }
@@ -186,11 +191,12 @@ export function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
   }return false
 }
 export let tempImg
-
+//********************************************* */
 // --- itt kezdődik az oldal maga
+//********************************************************* */
 export default function Home(props) {
 
-//custom sort function to sort data by name
+//egyedi rendező function kellett, mert a sort nem rendezte a fegyverek nevét valamiért. Valószínűleg a karakterkódolással van gondja a fájl beolvasása után
 
     let alphabets = ["A", "Á","B", "C", "D","E","É","F","G","H","I","Í","J","K","L","M","N","O","Ó","Ö","Ő","P","Q","R","S",
                 "T","U","Ú","Ü","Ű","V","W","X","Z"];
@@ -212,7 +218,7 @@ function CharCompare(a, b, index) {
       return CharCompare(a,b,index+1)
 }
 
-//custom sort function call
+//egyedi sorba rendező function hívás
   OrderFunc(props.weapons)
 let damageOfFists = "1k10"
   let destroyerLevel
@@ -461,7 +467,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       secondAccumulatedDiceResultSelect.value = spellDamage[1]
       thirdAccumulatedDiceResultSelect.value = spellDamage[2]
     }
-// Ezekben az if-en belüli esetekben nincs ijász szabály
+// Ezekben a zárójelen belüli esetekben nincs ijász szabály
     if (originalDarkDice == 10 && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) &&
       currentlySelectedWeapon.w_name != "Fúvócső" && currentlySelectedWeapon.w_name != "Célzott mágia" &&
       darkDiceWasChangedToHalfOfStr == false && legendPointUsedOnDarkDice == false) {
@@ -596,8 +602,10 @@ function removeAllSkillOptions() {
   let currentCharFinalAttributes = []
 //   function handleFileImportClick() {
 //     window.location.reload();
-// }
-// ********************************** Fájlbeolvasó függvény *************************
+  // }
+  //****************************************************************************** */
+  // ********************************** Fájlbeolvasó függvény *************************
+  //********************************************************************************* */
   async function handleFileRead() {
 
     const [file] = document.querySelector("input[type=file]").files;
@@ -605,6 +613,7 @@ function removeAllSkillOptions() {
     reader.addEventListener(
       "load",
       async () => {
+        allActiveBuffs = document.querySelectorAll("ul#listOfCurrentlyActiveBuffs li")
         anyOtherHmoModifier.disabled = false
         skillCheckRollButton.style.display = "grid"
         actionsWrapper.style.display = "grid"
@@ -1090,7 +1099,7 @@ let defModifier = modifierCalculator(1,2,9)
           maxLp.innerText = 3
 
           const JSONdata = JSON.stringify(data);
-          const endpoint = "/api/createCharacter";
+          const endpoint = "/api/createCharacterEntry";
           const options = {
             method: "POST",
             headers: {

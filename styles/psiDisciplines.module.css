@@ -5,6 +5,13 @@
     grid-template-columns: repeat(6,1fr);
     grid-template-rows: repeat(2,1fr);
     margin-bottom: 1vw;
+    margin-left: 0.5vw;
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    padding: 0.5vw;
 }
 .psiDisciplinesSelectLabel{
     display: grid;
@@ -63,4 +70,27 @@
 }
 .deleteBuffButton{
     font-size: 0.8vw;
+}
+.psiRecoveryWrapper{
+    display: grid;
+    grid-row: 13/15;
+    grid-column: 1/4;
+    grid-template-rows: repeat(3,1fr);
+    font-size: 0.8vw;
+    margin-top: 1.2vw;
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    padding: 0.3vw;
+}
+.psiRecoveryWrapper input{
+    width: 2.5vw;
+    height: 1vw;
+    text-align: center;
+}
+.psiRecoveryWrapper button{
+    font-size: 0.8vw;
+    display: inline-block;
 }

@@ -109,8 +109,13 @@ function K10RollAndSpellDamageRoll() {
             allThreeSpellDamageDicesSelect[i].disabled = true
             }
             rollButton.disabled = false
-            secondAccumulatedDiceResultSelect.style.opacity = 0.7
-    thirdAccumulatedDiceResultSelect.style.opacity = 0.7
+            if (parseInt(numberOfDiceInput.value)==2) {
+                secondAccumulatedDiceResultSelect.style.opacity = 0.7
+            }
+            if (parseInt(numberOfDiceInput.value)>2) {
+                secondAccumulatedDiceResultSelect.style.opacity = 0.7
+                thirdAccumulatedDiceResultSelect.style.opacity = 0.7
+            }
         }
         if (event.target.checked == true) {
         let allThreeSpellDamageDicesSelect = document.querySelectorAll("li#allThreeDiceResultWrapper select")
@@ -118,8 +123,13 @@ function K10RollAndSpellDamageRoll() {
             allThreeSpellDamageDicesSelect[i].disabled = false
             }
             rollButton.disabled = true
-            secondAccumulatedDiceResultSelect.style.opacity = 1
-    thirdAccumulatedDiceResultSelect.style.opacity = 1
+            if (parseInt(numberOfDiceInput.value)==2) {
+                secondAccumulatedDiceResultSelect.style.opacity = 1
+            }
+            if (parseInt(numberOfDiceInput.value)>2) {
+                secondAccumulatedDiceResultSelect.style.opacity = 1
+                thirdAccumulatedDiceResultSelect.style.opacity = 1
+            }
         }
     }
     function handleSpellDamageDiceChange(firstAccumulatedDiceRollResult, secondAccumulatedDiceRollResult, thirdAccumulatedDiceRollResult) {

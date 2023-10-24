@@ -44,11 +44,6 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
         if (numberOfClicksAtSkillCheck == 1) {
           const data = {
             charName: charName.innerText,
-            currentFp: parseInt(currentFp.value),
-            currentEp: parseInt(currentEp.value),
-            currentPp: parseInt(currentPp.value),
-            currentMp: parseInt(currentMp.value),
-            currentLp: parseInt(currentLp.value),
              skillCheckResult: parseInt(skillCheckResult.innerText),
              skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
              skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
@@ -157,11 +152,6 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
         if (numberOfClicksAtSkillCheck == 1) {
           const data = {
             charName: charName.innerText,
-            currentFp: parseInt(currentFp.value),
-            currentEp: parseInt(currentEp.value),
-            currentPp: parseInt(currentPp.value),
-            currentMp: parseInt(currentMp.value),
-            currentLp: parseInt(currentLp.value),
              skillCheckResult: parseInt(skillCheckResult.innerText),
              skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
              skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),

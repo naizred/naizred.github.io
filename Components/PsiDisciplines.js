@@ -1,7 +1,7 @@
 import styles from '../styles/psiDisciplines.module.css';
-import { filteredArrayIfHasPsi } from '../pages';
+import { filteredArrayIfHasPsi, allActiveBuffs } from '../pages';
 import { hmoModifier } from './ActionsList';
-import { initRolled } from './CharacterDetails';
+import { initRolled, updateCharacterData } from './CharacterDetails';
 export let specialAtkModifierFromPsiAssault = 0
 export let availableNumberOfAttacksFromPsiAssault = 0
 export let bonusDamageFromChiCombat = 0
@@ -14,7 +14,6 @@ export function chiCombatAtkDefModifierNullifier() {
     chiCombatAtkDefModifier = 0
 }
 export let activeBuffsArray = []
-export let allActiveBuffs = []
 export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
     for (let i = 0; i < activeBuffsArray.length; i++) {
         if (activeBuffsArray[i] == buffName) {
@@ -30,6 +29,16 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
     if (buffName == 'Pszi Roham') {
         availableNumberOfAttacksFromPsiAssault = 0
     }
+}
+
+export function buffAdderToActiveBuffArrayAndTextList(buffName, numberOfBuffs) {
+    activeBuffsArray.push(buffName)
+    for (let i = 0; i < numberOfBuffs; i++){
+        if (allActiveBuffs[i].innerText = '') {
+            allActiveBuffs[i].innerText = buffName
+            break
+        } 
+    } 
 }
 
 export function buffRemoverFromActiveBuffArray(buffName) {
@@ -49,19 +58,8 @@ export function buffTextChecker(buffName) {
     } return false 
 }
 
-export function psiPointCostChecker() {
-    if (parseInt(selectedPsiDisciplineObj[0].psiPointCost) > currentPp.value || parseInt(currentPp.value) == 0) {
-        
-        psiPointCostInput.disabled = true
-        psiActivateButton.disabled = true
-        if (selectedPsiDisciplineObj[0].psiPointCost == 'All') {
-            psiPointCostInput.value = parseInt(currentPp.value)
-        }
-        if (selectedPsiDisciplineObj[0].canBeModified == false) {
-            psiPointCostInput.value = parseInt(selectedPsiDisciplineObj[0].psiPointCost)
-        }
-              
-    } else if (selectedPsiDisciplineObj[0].canBeModified == false){
+export function psiPointCostCheckerAndSetter() {
+    if (selectedPsiDisciplineObj[0].canBeModified == false) {
         if (selectedPsiDisciplineObj[0].psiPointCost == 'All') {
             psiPointCostInput.value = parseInt(currentPp.value)
         } else {
@@ -69,9 +67,19 @@ export function psiPointCostChecker() {
         }
         psiPointCostInput.disabled = true
         psiActivateButton.disabled = false
-    } else if (selectedPsiDisciplineObj[0].canBeModified == true) {
+    }
+    if (selectedPsiDisciplineObj[0].canBeModified == true) {
         psiPointCostInput.disabled = false
         psiActivateButton.disabled = false
+    }
+    if (parseInt(psiPointCostInput.value) > parseInt(currentPp.value) || parseInt(currentPp.value) == 0) {
+        psiActivateButton.disabled = true
+        if (selectedPsiDisciplineObj[0].psiPointCost == 'All') {
+            psiPointCostInput.value = parseInt(currentPp.value)
+        }
+        if (selectedPsiDisciplineObj[0].canBeModified == false) {
+            psiPointCostInput.value = parseInt(selectedPsiDisciplineObj[0].psiPointCost)
+        }
     }
 }
 export let fpShield = 0
@@ -80,9 +88,9 @@ let selectedPsiDisciplineObj
 
 export function PsiDisciplines(props) {
     
+    
     let filteredPsiDisciplines = []
     function handleListPsi() {
-        allActiveBuffs = document.querySelectorAll("ul#listOfCurrentlyActiveBuffs li")
             for (let i = 0; i < props.psiDisciplines.length; i++) {
                 for (let j = 1; j < filteredArrayIfHasPsi.length; j++) {
                     if (filteredArrayIfHasPsi[j].name.slice(5)!= '' && props.psiDisciplines[i].psiSchool.includes(filteredArrayIfHasPsi[j].name.slice(5)) && props.psiDisciplines[i].requiredPsiSkillLevel <= filteredArrayIfHasPsi[j].level) {
@@ -104,12 +112,12 @@ export function PsiDisciplines(props) {
         psiPointCostInput.style.display = "grid"
         psiActivateButton.style.display = "grid"
         listPsiButton.style.display = "none"
-        psiPointCostChecker()        
+        psiPointCostCheckerAndSetter()        
     }
     function handlePsiDisciplineSelect(event) {
      //   numberOfClicks = 0
         selectedPsiDisciplineObj = filteredPsiDisciplines.filter((discipline)=>discipline.psiDiscName == psiDisciplinesSelect.value)
-        psiPointCostChecker()
+        psiPointCostCheckerAndSetter()
     }
 
     function handleDisciplineActivation() {
@@ -117,7 +125,7 @@ export function PsiDisciplines(props) {
 const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
         if (!buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)) {
             currentPp.value -= parseInt(psiPointCostInput.value)
-            psiPointCostChecker()
+            psiPointCostCheckerAndSetter()
         }
         if (initRolled == true && !buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)) {
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
@@ -201,14 +209,12 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                 } 
             }      
         }
-        psiPointCostChecker()
-
-        
+        psiPointCostCheckerAndSetter()
+        updateCharacterData()
     }
 
     function handleDeleteBuff (event) {
             if (event.target.parentElement.firstChild.lastChild) {
-                console.log(event.target.parentElement.firstChild.lastChild.value)
                 if (event.target.parentElement.lastChild.value == 'Chi-harc') {
                     hmoModifier(-chiCombatAtkDefModifier);
                     chiCombatAtkDefModifier = 0
@@ -220,7 +226,21 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
             }
         buffRemoverFromActiveBuffArray(event.target.parentElement.lastChild.value)
         }
-    
+    function handlePsiRecovery(event) {
+        if (event.target.parentElement.firstChild.id == "amountOfMinutesMeditating") {
+            
+            currentPp.value = parseInt(currentPp.value) + filteredArrayIfHasPsi[0].level * Math.floor(parseInt(amountOfMinutesMeditating.value)/5)
+        }
+        if(event.target.parentElement.firstChild.id == "amountOfHoursPassiveRecovery"){
+            currentPp.value = parseInt(currentPp.value) + filteredArrayIfHasPsi[0].level * parseInt(event.target.parentElement.firstChild.value)
+        }
+        if(event.target.parentElement.firstChild.id == "amountOfHoursSlept"){
+            currentPp.value = parseInt(currentPp.value) + 3*(filteredArrayIfHasPsi[0].level * parseInt(event.target.parentElement.firstChild.value))
+        }
+        if (parseInt(currentPp.value)>=parseInt(maxPp.innerText)) {
+            currentPp.value=parseInt(maxPp.innerText)
+        }
+    }
 
 
     return (<>
@@ -228,9 +248,9 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
             <label htmlFor='psiDisciplinesSelect' id='psiDisciplinesSelectLabel' className={styles.psiDisciplinesSelectLabel}>Pszi Diszciplína</label>
         <select id='psiDisciplinesSelect' name='psiDisciplinesSelect' className={styles.psiDisciplinesSelect} onChange={handlePsiDisciplineSelect}>
             </select>
-            <input id='psiPointCostInput' className={ styles.psiPointCostInput} disabled = {true} />
+            <input id='psiPointCostInput' className={ styles.psiPointCostInput} disabled = {true} onChange={psiPointCostCheckerAndSetter}/>
             <button id='listPsiButton' className={styles.listPsiButton} onClick={handleListPsi}>Listázás</button>
-            <button id='psiActivateButton' className={styles.psiActivateButton} onClick={handleDisciplineActivation}>Mehet</button>
+            <button id='psiActivateButton' className={styles.psiActivateButton} onClick={handleDisciplineActivation} onMouseEnter={psiPointCostCheckerAndSetter}>Mehet</button>
             <div className={styles.psiPoints }>Pp</div>
         </div>
         <div className={styles.currentlyActiveBuffsWrapper}>
@@ -240,6 +260,12 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                 <div><li id='activeBuff3' className={styles.activeBuff}></li><button className={styles.deleteBuffButton} onClick={handleDeleteBuff}>Törlés</button></div>
                 <div><li id='activeBuff4' className={styles.activeBuff}></li><button className={styles.deleteBuffButton} onClick={handleDeleteBuff}>Törlés</button></div>
             </ul>
+        </div>
+        <div id='psiRecoveryWrapper' className={styles.psiRecoveryWrapper}>
+<span>Pszi visszatöltés</span>
+<span><input id='amountOfMinutesMeditating' type='number' defaultValue={0}/><button onClick={handlePsiRecovery}>Perc meditáció</button></span>
+<span><input id='amountOfHoursPassiveRecovery' type='number' defaultValue={0}/><button onClick={handlePsiRecovery}>Óra passzívan kapott</button></span>
+<span><input id='amountOfHoursSlept' type='number' defaultValue={0}/><button onClick={handlePsiRecovery}>Óra alvás</button></span>
         </div>
         </>
     )

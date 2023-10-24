@@ -24,4 +24,6 @@ model characterStatsThatChange {
   atkRollDiceAfter5sec String? @default("")
   skillCheckDice String? @default("")
   skillCheckDiceAfter5sec String? @default("")
+  activeBuffs String? @default("")
+  numberOfActions String? @default("")
 }

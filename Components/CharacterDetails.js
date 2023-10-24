@@ -1,10 +1,44 @@
 import styles from '../styles/chardetails.module.css';
-import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay } from '../pages';
-import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, tempImg} from '../pages';
-import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostChecker, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier } from './PsiDisciplines';
+import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay, allResultsCleaner } from '../pages';
+import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, allActiveBuffs} from '../pages';
+import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostCheckerAndSetter, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier } from './PsiDisciplines';
 import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, spellIsBeingCast } from './ActionsList';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
+export let activeBuffsCounter = 0
+export   async function updateCharacterData() {
+
+  let activeBuffsStringToSave = ""
+  activeBuffsCounter = 0
+  for (let i = 0; i < allActiveBuffs.length; i++) {
+    if (allActiveBuffs[i].innerText!="") {
+      activeBuffsStringToSave += `${allActiveBuffs[i].innerText}|`
+      activeBuffsCounter++
+    }
+  }
+  activeBuffsStringToSave = activeBuffsCounter+activeBuffsStringToSave
+
+  const data = {
+    charName: charName.innerText,
+    currentFp: parseInt(currentFp.value),
+    currentEp: parseInt(currentEp.value),
+    currentPp: parseInt(currentPp.value),
+    currentMp: parseInt(currentMp.value),
+    currentLp: parseInt(currentLp.value),
+    activeBuffs: activeBuffsStringToSave
+  };
+
+  const JSONdata = JSON.stringify(data);
+  const endpoint = "/api/updateCharacter";
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSONdata,
+  };  
+  await fetch(endpoint, options);  
+}
 var MersenneTwister = require('mersenne-twister');
 var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0
@@ -12,14 +46,8 @@ function CharacterDetails() {
   function handleInitiativeRoll() {
 
     toggleAllallActionBarButtonsExceptInitRollDisplay('grid')
-    rollResult.innerText = ""
-    damageResult.innerText = ""
-    bodyPart.innerText = ""
-    charAtkSum.innerText = ""
-    specialEffect.innerText = "nincs"
-    if (tempImg) {
-      tempImg.style.opacity = 0
-    }
+    allResultsCleaner()
+
     for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
       if (arrayOfAllComplexMaeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==false) {
         arrayOfAllComplexMaeuvers[i].disabled = false
@@ -75,7 +103,7 @@ function CharacterDetails() {
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + initiativeRollResult;
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1
     adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
-    rollInitButton.style.display = "none"
+    initRollButton.style.display = "none"
     initRolled = true
     let numberOfActionsElement = document.querySelector("#numberOfActions")
     console.log(numberOfActionsElement)
@@ -252,14 +280,7 @@ function CharacterDetails() {
       combinationRadioButton.disabled = true
       combinationWasUsedThisRoundSetToFalse()
       hmoModifiedToFalse()
-      rollResult.innerText = ""
-      damageResult.innerText = ""
-      bodyPart.innerText = ""
-      charAtkSum.innerText = ""
-      specialEffect.innerText = "nincs"
-      if (tempImg) {
-        tempImg.style.opacity = 0
-      }
+allResultsCleaner()
       if (warningWindow.innerText == "A varázslat létrejött!") {
         warningWindow.innerText = ""
       }
@@ -363,19 +384,12 @@ function CharacterDetails() {
     weapons.disabled = false
     offHand.disabled = false
     numberOfReactions.innerText = 0
-    rollInitButton.style.display = "grid"
+    initRollButton.style.display = "grid"
     numberOfActions.innerText = ""
     initiativeWithRoll.innerText = ""
     numberOfCurrentRound.innerText = "1."
     tacticsButton.disabled = true
-    rollResult.innerText = ""
-    damageResult.innerText = ""
-    bodyPart.innerText = ""
-    charAtkSum.innerText = ""
-    specialEffect.innerText = "nincs"
-    if (tempImg) {
-      tempImg.style.opacity = 0
-    }
+allResultsCleaner()
   }
   
   function checkIfPsiIsUseable() {
@@ -383,67 +397,45 @@ function CharacterDetails() {
       psiActivateButton.disabled = false
     }
     if (listPsiButton.style.display == 'none') {
-      psiPointCostChecker()
+      psiPointCostCheckerAndSetter()
       
     }
   }
 
-  async function handleDataToBeSent(event) {
-    event.preventDefault();
-    const data = {
-      charName: charName.innerText,
-      currentFp: parseInt(event.target.currentFp.value),
-      currentEp: parseInt(event.target.currentEp.value),
-      currentPp: parseInt(event.target.currentPp.value),
-      currentMp: parseInt(event.target.currentMp.value),
-      currentLp: parseInt(event.target.currentLp.value)
-    };
-
-    const JSONdata = JSON.stringify(data);
-    const endpoint = "/api/updateCharacter";
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSONdata,
-    };  
-    await fetch(endpoint, options);  
-}
   return (
     <>
-    <form id='characterDetails' onSubmit={handleDataToBeSent} className={styles['character-details']}>
+    <div id='characterDetails' className={styles['character-details']}>
       <div>
-        <button className={styles.saveButton} type='submit' form='characterDetails'>Adatok mentése</button>
+        <button className={styles.saveButton} onClick={updateCharacterData}>Adatok mentése</button>
         <p id='maxValues'>Max</p>
         <p id='currentValues'>Akt</p>
         </div>
       <div>
         <label>Fp:</label>
         <p id='maxFp'></p>
-        <input id='currentFp' />
+        <input id='currentFp' type='number'/>
         </div>
       <div>
         <label>Ép:</label>
         <p id='maxEp'></p>
-        <input id='currentEp' />
+        <input id='currentEp' type='number'/>
       </div>
       <div>
         <label>Pp:</label>
         <p id='maxPp'></p>
-        <input id='currentPp' onBlur={checkIfPsiIsUseable}/>
+        <input id='currentPp' onBlur={checkIfPsiIsUseable} type='number'/>
       </div>
       <div>
         <label>Mp:</label>
         <p id='maxMp'></p>
-        <input id='currentMp' />
+        <input id='currentMp' type='number'/>
       </div>
       <div>
         <label>Lp:</label>
         <p id='maxLp'></p>
-        <input id='currentLp' />
+        <input id='currentLp' type='number'/>
       </div>
-      </form>
+      </div>
     <div id="actionsWrapper" className={styles.actionsWrapper}>
         <label className={styles.currentRound}>Kör</label>
         <div id='numberOfCurrentRound' className={styles.currentRound}>1.</div>
@@ -456,8 +448,8 @@ function CharacterDetails() {
         <button id='adjustActionsPositive' className={styles.adjustActions} onClick={handleAdjustActionsPositive}>+</button>
         <button id='adjustActionsNegative' className={styles.adjustActions} onClick={handleAdjustActionsNegative}>-</button>
         <button type=""
-          id="rollInitButton"
-          className={styles.rollInitButton}
+          id="initRollButton"
+          className={styles.initRollButton}
           onClick={handleInitiativeRoll}
           disabled = {false}
         >
