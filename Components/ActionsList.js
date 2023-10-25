@@ -104,7 +104,7 @@ export function spellCastingSuccessful() {
             castBarFlashEffect.style.display = 'none'
         }, 390);
     spellTypeQuestionWindow.style.display = 'grid'
-    rollButton.disabled = true
+    attackRollButton.disabled = true
     spellIsBeingCast = false
     if (initRolled==true) {
         spellCastingActionButton.disabled = true   
@@ -154,10 +154,10 @@ function ActionList(props) {
                     hmoModifier(quickShotModifiers[quickShotModifiersIndex])
                     hmoModified = true
                 }
-                rollButton.disabled = false
+                attackRollButton.disabled = false
                 console.log("reloadIsNeeded",reloadIsNeeded)
                 if (currentlySelectedWeapon.w_type != "MÁGIA" && reloadIsNeeded == true) {
-                    rollButton.disabled = true
+                    attackRollButton.disabled = true
                   }     
             } else if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false && event.target.value == 'Kombináció') {
                 totalActionCostOfAttack = 3
@@ -165,7 +165,7 @@ function ActionList(props) {
                     hmoModifier(combinationModifiers[combinationModifiersIndex])
                     hmoModified = true
                 }
-                rollButton.disabled = false
+                attackRollButton.disabled = false
             } 
         }
         }
@@ -177,14 +177,14 @@ function ActionList(props) {
             combinationRadioButton.disabled = true
         }
         if (initRolled == true && parseInt(numberOfActions.innerText) < totalActionCostOfAttack + currentActionExtraCost) {
-            rollButton.disabled = true
+            attackRollButton.disabled = true
         }
         if (((initRolled == true && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack + currentActionExtraCost) &&
         (combinationRadioButton.checked ==true || quickShotRadioButton.checked == true))==true) {
-            rollButton.disabled = false
+            attackRollButton.disabled = false
         }
         if ((event.target.value == 'Kétkezes harc' && parseInt(numberOfActions.innerText) < 4) || (event.target.value == 'Kétkezes harc' && combinationRadioButton.checked==true && parseInt(numberOfActions.innerText) < 5)) {
-            rollButton.disabled = true
+            attackRollButton.disabled = true
         }
         if (initRolled == true && event.target.value == 'Roham' && chargeOn == false && chargeWasUsedThisRound == false) {
             chargeOn = true
@@ -230,18 +230,18 @@ function ActionList(props) {
     function handleRadioUnselect(event) {
             event.target.checked = false
         if (initRolled == true && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack-event.target.parentElement.value) {
-                rollButton.disabled = false
+                attackRollButton.disabled = false
         }
         if ((combinationRadioButton.checked == false && quickShotRadioButton.checked == false)) {
             if (initRolled==true && diceRolled == true) {
-                rollButton.disabled = true
+                attackRollButton.disabled = true
             }
         }
         if (event.target.value == 'Kombináció' && hmoModified == true && initRolled == true && combinationWasUsedThisRound == false) {
             hmoModifier(-combinationModifiers[combinationModifiersIndex])
             hmoModified = false
             if (initRolled==true && diceRolled == true) {
-                rollButton.disabled = true
+                attackRollButton.disabled = true
             }
             totalActionCostOfAttack = 2
         }
@@ -249,7 +249,7 @@ function ActionList(props) {
             hmoModifier(-quickShotModifiers[quickShotModifiersIndex])
             hmoModified = false
             if (initRolled==true && diceRolled == true) {
-                rollButton.disabled = true
+                attackRollButton.disabled = true
             }
             totalActionCostOfAttack = 2
         }
@@ -277,7 +277,7 @@ function ActionList(props) {
         bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
         if (initRolled == true) {
             if (totalActionCostOfAttack <= parseInt(numberOfActions.innerText)) {
-                rollButton.disabled == true
+                attackRollButton.disabled == true
             }
             if (nameOfManeuver.includes('Fegyverváltás') && parseInt(numberOfActions.innerText)!=0) {
                 weapons.disabled = false
@@ -301,7 +301,7 @@ function ActionList(props) {
                 }
 
                 if ((currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading > 0) || (diceRolled == true && quickShotRadioButton.checked == false) || parseInt(numberOfActions.innerText) < totalActionCostOfAttack) {
-                    rollButton.disabled = true
+                    attackRollButton.disabled = true
                 }
                 if (currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading <= 0 ) {
                     reloadIsNeededSetToFalse()
@@ -309,10 +309,10 @@ function ActionList(props) {
                     warningWindow.innerText = ""
                     numberOfActionsSpentReloading = 0
                     if(diceRolled == true && quickShotRadioButton.checked == true && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack){
-                        rollButton.disabled = false
+                        attackRollButton.disabled = false
                     }
                     if (diceRolled == false && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack) {
-                        rollButton.disabled = false
+                        attackRollButton.disabled = false
                     }
                 } 
             } 
@@ -387,7 +387,7 @@ function ActionList(props) {
                 charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) +1
               }
             attackOfOpportunityButton.disabled = true
-            rollButton.disabled = false
+            attackRollButton.disabled = false
         }
         if (initRolled==true && parseInt(numberOfActions.innerText) < 2) {
             tacticsButton.disabled = true
@@ -436,9 +436,9 @@ function ActionList(props) {
     function handleSpellTypeNoAimRoll() {
         spellTypeQuestionWindow.style.display = 'none'
         warningWindow.innerText = ""
-        rollButton.disabled = false
+        attackRollButton.disabled = false
         if ((parseInt(numberOfActions.innerText) < 2) || (combinationWasUsedThisRound==true && parseInt(numberOfActions.innerText) < 3)) {
-            rollButton.disabled = true
+            attackRollButton.disabled = true
         }
         numberOfDiceInput.disabled = false
     }
@@ -456,7 +456,7 @@ function ActionList(props) {
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
           arrayOfAllComplexMaeuvers[i].disabled = true
         }}
-        rollButton.disabled = false
+        attackRollButton.disabled = false
         spellTypeQuestionWindow.style.display = 'none'
     }
     return (

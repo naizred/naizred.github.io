@@ -110,7 +110,7 @@ function K10RollAndSpellDamageRoll() {
         for (let i = 0; i < allThreeSpellDamageDicesSelect.length; i++) {
             allThreeSpellDamageDicesSelect[i].disabled = true
             }
-            rollButton.disabled = false
+            attackRollButton.disabled = false
             if (parseInt(numberOfDiceInput.value)==2) {
                 secondAccumulatedDiceResultSelect.style.opacity = 0.7
             }
@@ -124,7 +124,7 @@ function K10RollAndSpellDamageRoll() {
         for (let i = 0; i < allThreeSpellDamageDicesSelect.length; i++) {
             allThreeSpellDamageDicesSelect[i].disabled = false
             }
-            rollButton.disabled = true
+            attackRollButton.disabled = true
             if (parseInt(numberOfDiceInput.value)==2) {
                 secondAccumulatedDiceResultSelect.style.opacity = 1
             }
@@ -159,9 +159,9 @@ function K10RollAndSpellDamageRoll() {
         bigSpellDamageRollLegendPointCheckBox.checked = false
         bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
         if (initRolled==true && parseInt(numberOfActions.innerText)<totalActionCostOfAttack) {
-            rollButton.disabled = true
+            attackRollButton.disabled = true
         } else {
-            rollButton.disabled = false
+            attackRollButton.disabled = false
         }
     }
 

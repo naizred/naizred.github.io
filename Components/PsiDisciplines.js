@@ -250,6 +250,7 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
         if (parseInt(currentPp.value)>=parseInt(maxPp.innerText)) {
             currentPp.value=parseInt(maxPp.innerText)
         }
+        updateCharacterData()
     }
 
 

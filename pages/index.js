@@ -28,42 +28,8 @@ export async function fetchCharacterData(currentCharName) {
     currentPp.value = parsedData.currentPp;
     currentMp.value = parsedData.currentMp;
     currentLp.value = parsedData.currentLp;
-    let atkRollResult = document.getElementById('atkRollResult');
-    if (atkRollResult !=undefined) {
-      atkRollResult.value = parsedData.atkRollResult;
-    }
-    let atkRollResultAfter5sec = document.getElementById('atkRollResultAfter5sec');
-    if (atkRollResultAfter5sec !=undefined) {
-      atkRollResultAfter5sec.value = parsedData.atkRollResultAfter5sec;
-    }
-    let skillCheckResultOfCurrentPlayer = document.getElementById('skillCheckResultOfCurrentPlayer');
-    if (skillCheckResultOfCurrentPlayer !=undefined) {
-      skillCheckResultOfCurrentPlayer.value = parsedData.skillCheckResult;
-    }
-    let skillCheckResultAfter5sec = document.getElementById('skillCheckResultAfter5sec');
-    if (skillCheckResultAfter5sec !=undefined) {
-      skillCheckResultAfter5sec.value = parsedData.skillCheckResultAfter5sec;
-    }
-    let atkRollDice = document.getElementById('atkRollDice');
-    if (atkRollDice !=undefined) {
-      atkRollDice.value = parsedData.atkRollDice;
-    }
-    let atkRollDiceAfter5sec = document.getElementById('atkRollDiceAfter5sec');
-    if (atkRollDiceAfter5sec !=undefined) {
-      atkRollDiceAfter5sec.value = parsedData.atkRollDiceAfter5sec;
-    }
-    let skillCheckDice = document.getElementById('skillCheckDice');
-    if (skillCheckDice !=undefined) {
-      skillCheckDice.value = parsedData.skillCheckDice;
-    }
-    let skillCheckDiceAfter5sec = document.getElementById('skillCheckDiceAfter5sec');
-    if (skillCheckDiceAfter5sec !=undefined) {
-      skillCheckDiceAfter5sec.value = parsedData.skillCheckDiceAfter5sec;
-    }
     let activeBuffsCounter = parseInt(parsedData.activeBuffs.charAt(0))
     let activeBuffsStringArray = parsedData.activeBuffs.slice(1).split('|', activeBuffsCounter)
-    
-    console.log(activeBuffsStringArray)
     for (let i = 0; i < activeBuffsStringArray.length; i++) {
       allActiveBuffs[i].innerText = activeBuffsStringArray[i]
       if (activeBuffsStringArray[i].includes("Fájdalomtűrés") && !activeBuffsArray.includes("Fájdalomtűrés")) {
@@ -75,6 +41,58 @@ export async function fetchCharacterData(currentCharName) {
       }
     }
   })
+}
+export async function fetchCharacterDataForAdventureMaster(gameId) {
+
+    await fetch(`../api/getCharsByGameId`).then((response) => {
+      return response.json();
+    }).then((parsedData) => {
+      if (!parsedData) {
+        return
+      }
+      console.log(parsedData)
+      // console.log(currentFp.value)
+      // currentFpNodes[i].value = parsedData.currentFp;     
+      // currentEpNodes[i].value = parsedData.currentEp;  
+      // currentPpNodes[i].value = parsedData.currentPp;   
+      // currentMpNodes[i].value = parsedData.currentMp;   
+      // currentLpNodes[i].value = parsedData.currentLp;
+
+      // numberOfActionsAllPlayers[i].innerText = parsedData.numberOfActions;
+    
+      // let atkRollResult = document.getElementById('atkRollResult');
+      // if (atkRollResult !=undefined) {
+      //   atkRollResult.value = parsedData.atkRollResult;
+      // }
+      // let atkRollResultAfter5sec = document.getElementById('atkRollResultAfter5sec');
+      // if (atkRollResultAfter5sec !=undefined) {
+      //   atkRollResultAfter5sec.value = parsedData.atkRollResultAfter5sec;
+      // }
+      // let skillCheckResultOfCurrentPlayer = document.getElementById('skillCheckResultOfCurrentPlayer');
+      // if (skillCheckResultOfCurrentPlayer !=undefined) {
+      //   skillCheckResultOfCurrentPlayer.value = parsedData.skillCheckResult;
+      // }
+      // let skillCheckResultAfter5sec = document.getElementById('skillCheckResultAfter5sec');
+      // if (skillCheckResultAfter5sec !=undefined) {
+      //   skillCheckResultAfter5sec.value = parsedData.skillCheckResultAfter5sec;
+      // }
+      // let atkRollDice = document.getElementById('atkRollDice');
+      // if (atkRollDice !=undefined) {
+      //   atkRollDice.value = parsedData.atkRollDice;
+      // }
+      // let atkRollDiceAfter5sec = document.getElementById('atkRollDiceAfter5sec');
+      // if (atkRollDiceAfter5sec !=undefined) {
+      //   atkRollDiceAfter5sec.value = parsedData.atkRollDiceAfter5sec;
+      // }
+      // let skillCheckDice = document.getElementById('skillCheckDice');
+      // if (skillCheckDice !=undefined) {
+      //   skillCheckDice.value = parsedData.skillCheckDice;
+      // }
+      // let skillCheckDiceAfter5sec = document.getElementById('skillCheckDiceAfter5sec');
+      // if (skillCheckDiceAfter5sec !=undefined) {
+      //   skillCheckDiceAfter5sec.value = parsedData.skillCheckDiceAfter5sec;
+      // }
+    })
 }
 
 
@@ -516,7 +534,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     if (attackRollUseLegendPointCheckBox.checked == true && diceRolled == true) {
       darkDiceResultSelect.disabled = false
       lightDiceResultSelect.disabled = false
-      rollButton.disabled = true
+      attackRollButton.disabled = true
       if (disarmWasUsedThisRound == true) {
         disarmRadioButton.checked = true
       }
@@ -525,7 +543,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       lightDiceResultSelect.disabled = true
     }
     if (attackRollUseLegendPointCheckBox.checked == false) {
-      rollButton.disabled = false
+      attackRollButton.disabled = false
       disarmRadioButton.checked = false
     }
   }
@@ -548,12 +566,12 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     attackRollUseLegendPointCheckBox.style.display = "none"
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
-    rollButton.disabled = false
+    attackRollButton.disabled = false
     if (attackRollUseLegendPointCheckBox.checked == false && initRolled == true && diceRolled == true) {
-      rollButton.disabled = true
+      attackRollButton.disabled = true
     }
     if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true || numberOfClicksAtTwoWeaponAttack==1) {
-      rollButton.disabled = false
+      attackRollButton.disabled = false
     }
     legendPointUsedOnDarkDice = false
     legendPointUsedOnLightDice = false
@@ -1148,6 +1166,8 @@ let defModifier = modifierCalculator(1,2,9)
           }
           if(combinationWasUsedThisRound == true){
             hmoModifier(combinationModifiers[combinationModifiersIndex])
+            combinationRadioButton.disabled = true
+            quickShotRadioButton.disabled = true
           }
         }
         if (chargeWasUsedThisRound == true) {
@@ -1399,13 +1419,13 @@ allResultsCleaner()
         }
       }
       if (combinationRadioButton.checked == false && quickShotRadioButton.checked == false && spellNeedsAimRoll==false) {
-        rollButton.disabled = true
+        attackRollButton.disabled = true
       }
       if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true) {
-        rollButton.disabled = false
+        attackRollButton.disabled = false
       }
       if (numberOfClicksAtTwoWeaponAttack == 1) {
-        rollButton.disabled = false
+        attackRollButton.disabled = false
       }
       //************************************************************************************************************************** */
       //Ebben a körben volt kombináció vagy kapáslövés használva, ezért a minusz HMO-k maradnak
@@ -1475,7 +1495,7 @@ allResultsCleaner()
 
       setTimeout(() => {
         if (parseInt(numberOfActions.innerText) < totalActionCostOfAttack) {
-          rollButton.disabled = true
+          attackRollButton.disabled = true
         }
       }, 200);
       if (legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
@@ -1505,7 +1525,7 @@ allResultsCleaner()
       }
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==true && currentlySelectedWeapon.w_type != "MÁGIA"&&spellNeedsAimRoll==false) {
         reloadIsNeeded = true
-        rollButton.disabled = true
+        attackRollButton.disabled = true
         reloadButton.disabled = false
         if (currentlySelectedWeapon.w_type=="VET" || currentlySelectedWeapon.w_type=="NYD" || currentlySelectedWeapon.w_type=="PD") {
           blinkingText(warningWindow, `Elő kell készítened egy új dobófegyvert ${currentlySelectedWeapon.reloadTime} CS`)
@@ -1621,8 +1641,8 @@ allResultsCleaner()
           <div id="bodyPartImg"></div>
           <AimedAttack />
         <button type=""
-          id="rollButton"
-          className={styles.rollButton}
+          id="attackRollButton"
+          className={styles.attackRollButton}
             onClick={handleClickOnAttackRollButton}
           //onMouseEnter={handleMouseEnter}
         >

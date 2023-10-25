@@ -27,7 +27,8 @@ export async function updateCharacterData() {
     currentMp: parseInt(currentMp.value),
     currentLp: parseInt(currentLp.value),
     activeBuffs: activeBuffsStringToSave,
-    numberOfActions: numberOfActions.innerText
+    numberOfActions: numberOfActions.innerText,
+    gameId: parseInt(amountOfHoursPassiveRecovery.value)
   };
 
   const JSONdata = JSON.stringify(data);
@@ -107,12 +108,13 @@ function CharacterDetails() {
     adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
     initRollButton.style.display = "none"
     initRolled = true
-    let numberOfActionsElement = document.querySelector("#numberOfActions")
-    console.log(numberOfActionsElement)
+
+    // megfigyeli az akciók változását
+    //*********************************** */
     let observer = new MutationObserver(async() => {
-      console.log(numberOfActionsElement.innerText)
+      updateCharacterData()
     })
-    observer.observe(numberOfActionsElement, {childList:true, subtree:true});
+    observer.observe(numberOfActions, {childList:true, subtree:true});
   }
 
   function handleInitWhenLPisUsed() {
@@ -168,10 +170,10 @@ function CharacterDetails() {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
       if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true
-        rollButton.disabled = true
+        attackRollButton.disabled = true
       }
       if (combinationWasUsedThisRound == true && parseInt(numberOfActions.innerText) < 3) {
-        rollButton.disabled = true
+        attackRollButton.disabled = true
       }
       actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
       spellCastingFailure()
@@ -186,11 +188,11 @@ function CharacterDetails() {
         spellCastingFailure()
     }
     if (parseInt(numberOfActions.innerText) < 2) {
-      rollButton.disabled = true
+      attackRollButton.disabled = true
       tacticsButton.disabled = true
     }
     if (combinationWasUsedThisRound == true && parseInt(numberOfActions.innerText) < 3) {
-      rollButton.disabled = true
+      attackRollButton.disabled = true
     }
     }
   
@@ -267,7 +269,7 @@ function CharacterDetails() {
         tacticsButton.disabled = true
       }
       numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + "."
-      rollButton.disabled = false
+      attackRollButton.disabled = false
       
       // itt megnézi, volt-e használva a körben kombináció v kapáslövés, és az új körre nem viszi át a módosítókat
       //******************************************************************************************************* */
@@ -288,7 +290,7 @@ allResultsCleaner()
         warningWindow.innerText = ""
       }
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==true && currentlySelectedWeapon.w_type != "MÁGIA" && reloadIsNeeded == true) {
-        rollButton.disabled = true
+        attackRollButton.disabled = true
       }
     }
   }
@@ -329,7 +331,7 @@ allResultsCleaner()
 
   function handleWhenTacticsUsed() {
     if (initRolled == true) {
-      rollButton.disabled = true
+      attackRollButton.disabled = true
       spellCastingFailure()
       actionsLostWithTacticsUsed = parseInt(numberOfActions.innerText)
       numberOfActions.innerText = 0
@@ -384,7 +386,7 @@ allResultsCleaner()
     chargeToFalse()
     hmoModifiedToFalse()
     combinationWasUsedThisRoundSetToFalse()
-    rollButton.disabled = false
+    attackRollButton.disabled = false
     weapons.disabled = false
     offHand.disabled = false
     numberOfReactions.innerText = 0

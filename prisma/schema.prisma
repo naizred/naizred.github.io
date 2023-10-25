@@ -26,4 +26,5 @@ model characterStatsThatChange {
   skillCheckDiceAfter5sec String? @default("")
   activeBuffs String? @default("")
   numberOfActions String? @default("")
+  gameId Int? @default(0)
 }
