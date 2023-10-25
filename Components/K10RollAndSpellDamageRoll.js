@@ -1,6 +1,7 @@
 import styles from '../styles/k10RollAndSpellDamageRoll.module.css';
 import { generator, rollOptions } from '../pages';
 import { totalActionCostOfAttack } from './ActionsList';
+import { initRolled } from './CharacterDetails';
 export let numberOfSpellDamageDiceAfterLastSpellDamageRoll = 0
 
 export function multipleDiceRoll(firstAccumulatedDiceRollResult = 0, secondAccumulatedDiceRollResult = 0, thirdAccumulatedDiceRollResult = 0, numberOfDice) {
@@ -157,10 +158,10 @@ function K10RollAndSpellDamageRoll() {
         numberOfDiceInput.disabled = false
         bigSpellDamageRollLegendPointCheckBox.checked = false
         bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
-        if (parseInt(numberOfActions.innerText)>=totalActionCostOfAttack) {
-            rollButton.disabled = false
-        } else {
+        if (initRolled==true && parseInt(numberOfActions.innerText)<totalActionCostOfAttack) {
             rollButton.disabled = true
+        } else {
+            rollButton.disabled = false
         }
     }
 
