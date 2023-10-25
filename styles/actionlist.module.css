@@ -94,7 +94,8 @@
 .actionsWrapper span{
     font-size: 0.8vw;
     display: grid;
-    grid-column: 2/6;
+    margin-left: 1vw;
+    grid-column: 1/6;
 }
 .actionsWrapper ul{
     font-size: 1vw;
@@ -106,7 +107,6 @@
 .actionsWrapper .otherManeuversLabel {
     font-size: 1vw;
     display: grid;
-    grid-column: 1/6;
 }
 .actionsWrapper input {
     width: 0.7vw;

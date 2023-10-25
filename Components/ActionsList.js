@@ -26,9 +26,9 @@ export let attackOfOpportunityOn = false
 export function attackOfOpportunityOnSetToFalse() {
     attackOfOpportunityOn = false
 }
-export let totalActionCost = 2
-export function totalActionCostSetter(amount) {
-    totalActionCost += amount
+export let totalActionCostOfAttack = 2
+export function totalActionCostOfAttackSetter(amount) {
+    totalActionCostOfAttack += amount
 }
 export let hmoModified = false
 export function hmoModifiedToFalse() {
@@ -149,7 +149,7 @@ function ActionList(props) {
             }
         if (diceRolled == true && initRolled == true) {
             if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true && event.target.value == 'Kapáslövés') {
-                totalActionCost = 3
+                totalActionCostOfAttack = 3
                 if (hmoModified == false) {
                     hmoModifier(quickShotModifiers[quickShotModifiersIndex])
                     hmoModified = true
@@ -160,7 +160,7 @@ function ActionList(props) {
                     rollButton.disabled = true
                   }     
             } else if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false && event.target.value == 'Kombináció') {
-                totalActionCost = 3
+                totalActionCostOfAttack = 3
                 if (hmoModified == false) {
                     hmoModifier(combinationModifiers[combinationModifiersIndex])
                     hmoModified = true
@@ -176,10 +176,10 @@ function ActionList(props) {
         if (parseInt(numberOfActions.innerText) < 4 && combinationWasUsedThisRound==false) {
             combinationRadioButton.disabled = true
         }
-        if (initRolled == true && parseInt(numberOfActions.innerText) < totalActionCost + currentActionExtraCost) {
+        if (initRolled == true && parseInt(numberOfActions.innerText) < totalActionCostOfAttack + currentActionExtraCost) {
             rollButton.disabled = true
         }
-        if (((initRolled == true && parseInt(numberOfActions.innerText) >= totalActionCost + currentActionExtraCost) &&
+        if (((initRolled == true && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack + currentActionExtraCost) &&
         (combinationRadioButton.checked ==true || quickShotRadioButton.checked == true))==true) {
             rollButton.disabled = false
         }
@@ -229,7 +229,7 @@ function ActionList(props) {
 
     function handleRadioUnselect(event) {
             event.target.checked = false
-        if (initRolled == true && parseInt(numberOfActions.innerText) >= totalActionCost-event.target.parentElement.value) {
+        if (initRolled == true && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack-event.target.parentElement.value) {
                 rollButton.disabled = false
         }
         if ((combinationRadioButton.checked == false && quickShotRadioButton.checked == false)) {
@@ -243,7 +243,7 @@ function ActionList(props) {
             if (initRolled==true && diceRolled == true) {
                 rollButton.disabled = true
             }
-            totalActionCost = 2
+            totalActionCostOfAttack = 2
         }
         if (event.target.value == 'Kapáslövés' && hmoModified == true && initRolled == true && combinationWasUsedThisRound == false) {
             hmoModifier(-quickShotModifiers[quickShotModifiersIndex])
@@ -251,7 +251,7 @@ function ActionList(props) {
             if (initRolled==true && diceRolled == true) {
                 rollButton.disabled = true
             }
-            totalActionCost = 2
+            totalActionCostOfAttack = 2
         }
         if (event.target.value == 'Kétkezes harc' && initRolled == true && twoWeaponAttackOn==true && twoWeaponAttackWasUsedThisRound == false) {
             hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
@@ -276,7 +276,7 @@ function ActionList(props) {
         bigSpellDamageRollLegendPointCheckBox.checked = false
         bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
         if (initRolled == true) {
-            if (totalActionCost <= parseInt(numberOfActions.innerText)) {
+            if (totalActionCostOfAttack <= parseInt(numberOfActions.innerText)) {
                 rollButton.disabled == true
             }
             if (nameOfManeuver.includes('Fegyverváltás') && parseInt(numberOfActions.innerText)!=0) {
@@ -293,14 +293,14 @@ function ActionList(props) {
                 findWeakSpotOn = true
                 findWeakSpotButton.disabled = true
             }
-            if ((nameOfManeuver.includes('Töltés') && parseInt(numberOfActions.innerText)!=0) || (nameOfManeuver.includes('Töltés') && currentlySelectedWeapon.reloadTime == 0)) {               
+            if ((nameOfManeuver.includes('töltés') && parseInt(numberOfActions.innerText)!=0) || (nameOfManeuver.includes('töltés') && currentlySelectedWeapon.reloadTime == 0)) {               
                 if (currentlySelectedWeapon.reloadTime != 0) {
                     numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
                     actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
                     numberOfActionsSpentReloading++
                 }
 
-                if ((currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading > 0) || (diceRolled == true && quickShotRadioButton.checked == false) || parseInt(numberOfActions.innerText) < totalActionCost) {
+                if ((currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading > 0) || (diceRolled == true && quickShotRadioButton.checked == false) || parseInt(numberOfActions.innerText) < totalActionCostOfAttack) {
                     rollButton.disabled = true
                 }
                 if (currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading <= 0 ) {
@@ -308,15 +308,15 @@ function ActionList(props) {
                     reloadButton.disabled = true
                     warningWindow.innerText = ""
                     numberOfActionsSpentReloading = 0
-                    if(diceRolled == true && quickShotRadioButton.checked == true && parseInt(numberOfActions.innerText) >= totalActionCost){
+                    if(diceRolled == true && quickShotRadioButton.checked == true && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack){
                         rollButton.disabled = false
                     }
-                    if (diceRolled == false && parseInt(numberOfActions.innerText) >= totalActionCost) {
+                    if (diceRolled == false && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack) {
                         rollButton.disabled = false
                     }
                 } 
             } 
-            if (!nameOfManeuver.includes('Töltés') && numberOfActionsSpentReloading >= 1) {
+            if (!nameOfManeuver.includes('töltés') && numberOfActionsSpentReloading >= 1) {
                 numberOfActionsSpentReloading = 0
             }
         }
@@ -381,6 +381,11 @@ function ActionList(props) {
             if (twoWeaponAttackWasUsedThisRound == true) {
                 hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex])
             }
+            if (chargeWasUsedThisRound == true) {
+                charDef.value = parseFloat(charDef.value) +1
+                charDefWithParry.value = parseFloat(charDefWithParry.value) +1
+                charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) +1
+              }
             attackOfOpportunityButton.disabled = true
             rollButton.disabled = false
         }
@@ -488,7 +493,7 @@ function ActionList(props) {
             <li id='spellCastingAction'><span>Varázslás - Akció - 1 CS </span><button id='spellCastingActionButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
             {/* <li id='psiUseAction'><span>Pszi használat - Akció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li> */}
             <li><span>Mozgás - Akció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li>
-            <li><span>Töltés - Akció - 0,1,2 CS </span><button id='reloadButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
+                <li><span>Újratöltés / Dobófegyver előkészítése - Akció - X CS </span><button id='reloadButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
             <li><span>Fegyverváltás - Akció - 1 CS </span><button id='weaponChangeButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
             <li><span>Manipuláció - Akció - 1 CS </span><button id='manipulationButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
         </div>

@@ -3,14 +3,14 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
-import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, chargeToFalse, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCost, totalActionCostSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay, spellIsBeingCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier, numberOfDiceFromSpellCastWindow } from "../Components/ActionsList";
+import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCostOfAttack, totalActionCostOfAttackSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay, spellIsBeingCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier, numberOfDiceFromSpellCastWindow } from "../Components/ActionsList";
 import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
 import SkillCheck, {handleSkillCheck, evaluateSkillOrAttributeCheckBase} from "../Components/SkillCheck";
 import PsiDisciplines, {
   specialAtkModifierFromPsiAssault, availableNumberOfAttacksFromPsiAssault, bonusDamageFromChiCombat, activeBuffsArray,
-  buffRemoverFromActiveBuffArrayAndTextList, chiCombatAtkDefModifier, bonusDamageFromChiCombatNullifier, chiCombatAtkDefModifierNullifier, fpShield, fpShieldChanger
+  buffRemoverFromActiveBuffArrayAndTextList, chiCombatAtkDefModifier, bonusDamageFromChiCombatNullifier, chiCombatAtkDefModifierNullifier, fpShieldChanger
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
@@ -67,13 +67,13 @@ export async function fetchCharacterData(currentCharName) {
     for (let i = 0; i < activeBuffsStringArray.length; i++) {
       allActiveBuffs[i].innerText = activeBuffsStringArray[i]
       if (activeBuffsStringArray[i].includes("Fájdalomtűrés") && !activeBuffsArray.includes("Fájdalomtűrés")) {
+        //**************************************************** */
+        //pontosan a 16. karakter helyén van az fp pajzs mennyisége, így felesleges külön elmenteni, innen szedjük ki
         fpShieldChanger(parseInt(activeBuffsStringArray[i].charAt(16)))
         allActiveBuffs[i].parentElement.lastChild.value = "Fájdalomtűrés"
         activeBuffsArray.push("Fájdalomtűrés")
       }
     }
-     
-    console.log(activeBuffsArray, fpShield)
   })
 }
 
@@ -1395,7 +1395,7 @@ allResultsCleaner()
       initiativeRerollByCounterLP.style.display = 'none'
       for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
         if (arrayOfAllComplexMaeuvers[i].checked == true) {
-          totalActionCostSetter(arrayOfAllComplexMaeuvers[i].parentElement.value)
+          totalActionCostOfAttackSetter(arrayOfAllComplexMaeuvers[i].parentElement.value)
         }
       }
       if (combinationRadioButton.checked == false && quickShotRadioButton.checked == false && spellNeedsAimRoll==false) {
@@ -1428,8 +1428,8 @@ allResultsCleaner()
       if ((legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) && spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
           spellCastingFailure() 
           numberOfActionsSpentOnCastingCurrentSpellNullifier()
-        numberOfActions.innerText = parseInt(numberOfActions.innerText) - totalActionCost
-        actionsSpentSinceLastCastAdderCheckerAndNullifier(totalActionCost)
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) - totalActionCostOfAttack
+        actionsSpentSinceLastCastAdderCheckerAndNullifier(totalActionCostOfAttack)
       }
       if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true
@@ -1454,7 +1454,7 @@ allResultsCleaner()
         
         numberOfClicksAtTwoWeaponAttack = 0
         if (combinationWasUsedThisRound == true) {
-          totalActionCostSetter(+1)
+          totalActionCostOfAttackSetter(+1)
         }
         handleFileRead();
       }
@@ -1469,12 +1469,12 @@ allResultsCleaner()
         
         mainHandWeaponWhenTwoWeaponAttackIsUsed = currentlySelectedWeapon.w_name
         if (combinationWasUsedThisRound == true) {
-          totalActionCostSetter(-1)
+          totalActionCostOfAttackSetter(-1)
         }
       }
 
       setTimeout(() => {
-        if (parseInt(numberOfActions.innerText) < totalActionCost) {
+        if (parseInt(numberOfActions.innerText) < totalActionCostOfAttack) {
           rollButton.disabled = true
         }
       }, 200);
@@ -1496,7 +1496,7 @@ allResultsCleaner()
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
           if (arrayOfAllComplexMaeuvers[i].checked == true) {
             arrayOfAllComplexMaeuvers[i].checked = false
-            totalActionCostSetter(-arrayOfAllComplexMaeuvers[i].parentElement.value)
+            totalActionCostOfAttackSetter(-arrayOfAllComplexMaeuvers[i].parentElement.value)
           }
         }
         if (numberOfClicksAtTwoWeaponAttack ==1) {
@@ -1507,12 +1507,16 @@ allResultsCleaner()
         reloadIsNeeded = true
         rollButton.disabled = true
         reloadButton.disabled = false
-        blinkingText(warningWindow, `Újra kell töltened ${currentlySelectedWeapon.reloadTime} CS`)
+        if (currentlySelectedWeapon.w_type=="VET" || currentlySelectedWeapon.w_type=="NYD" || currentlySelectedWeapon.w_type=="PD") {
+          blinkingText(warningWindow, `Elő kell készítened egy új dobófegyvert ${currentlySelectedWeapon.reloadTime} CS`)
+        } else {
+          blinkingText(warningWindow, `Újra kell töltened ${currentlySelectedWeapon.reloadTime} CS`)
+        }
        // ammoAmountInput.value--
       }
     }
     spellNeedsAimRollSetToFalse()
-    console.log("totalActionCost",totalActionCost)
+    console.log("totalActionCostOfAttack",totalActionCostOfAttack)
   }
 
   return (

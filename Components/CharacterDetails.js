@@ -2,11 +2,11 @@ import styles from '../styles/chardetails.module.css';
 import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay, allResultsCleaner } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, allActiveBuffs} from '../pages';
 import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostCheckerAndSetter, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier } from './PsiDisciplines';
-import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, spellIsBeingCast } from './ActionsList';
+import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostOfAttackSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, spellIsBeingCast } from './ActionsList';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 export let activeBuffsCounter = 0
-export   async function updateCharacterData() {
+export async function updateCharacterData() {
 
   let activeBuffsStringToSave = ""
   activeBuffsCounter = 0
@@ -26,7 +26,8 @@ export   async function updateCharacterData() {
     currentPp: parseInt(currentPp.value),
     currentMp: parseInt(currentMp.value),
     currentLp: parseInt(currentLp.value),
-    activeBuffs: activeBuffsStringToSave
+    activeBuffs: activeBuffsStringToSave,
+    numberOfActions: numberOfActions.innerText
   };
 
   const JSONdata = JSON.stringify(data);
@@ -199,7 +200,7 @@ function CharacterDetails() {
   //****************************************************************** */
   function handleEndOfRound() {
     if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true) {
-      totalActionCostSetter(-1)
+      totalActionCostOfAttackSetter(-1)
     }
 
     if (chargeWasUsedThisRound == true) {
@@ -247,6 +248,7 @@ function CharacterDetails() {
     numberOfReactions.innerText = 0
     initiativeRollLegendPointCheckBox.style.display = 'none'
     initiativeRerollByCounterLP.style.display = 'none'
+    attackRollUseLegendPointCheckBox.style.display = "none"
     if (initRolled == true) {
       if (parseInt(numberOfActions.innerText) >= 0) {
         numberOfActions.innerText = adjustActionsPositive.value
@@ -348,6 +350,7 @@ allResultsCleaner()
     warningWindow.innerText = ""
     spellCastingActionButton.disabled = false
     initiativeRerollByCounterLP.style.display = 'none'
+    attackRollUseLegendPointCheckBox.style.display = "none"
     setDiceRolledToFalse()
     reloadIsNeededSetToFalse()
     spellCastingSuccessful()
@@ -371,7 +374,7 @@ allResultsCleaner()
       hmoModifier(-combinationModifiers[combinationModifiersIndex])
     }
     if (combinationRadioButton.checked == true || combinationRadioButton.checked == true) {
-      totalActionCostSetter(-1)
+      totalActionCostOfAttackSetter(-1)
     }
     chargeRadioButton.disabled = false
     combinationRadioButton.checked = false

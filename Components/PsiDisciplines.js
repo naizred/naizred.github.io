@@ -220,19 +220,21 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
     }
 
     function handleDeleteBuff(event) {
-        console.log(event.target.parentElement.lastChild.value)
             if (event.target.parentElement.firstChild.lastChild) {
                 if (event.target.parentElement.lastChild.value == 'Chi-harc') {
                     hmoModifier(-chiCombatAtkDefModifier);
                     chiCombatAtkDefModifier = 0
+                    event.target.parentElement.lastChild.value = ''
                 }
                 event.target.parentElement.firstChild.innerText = ''
                 if (event.target.parentElement.lastChild.value == 'Fájdalomtűrés') {
-                   currentFp.value = parseInt(currentFp.value) - parseInt(fpShield)
+                    currentFp.value = parseInt(currentFp.value) - parseInt(fpShield)
+                    fpShield = 0
+                    event.target.parentElement.lastChild.value = ''
                 }
             }
         buffRemoverFromActiveBuffArray(event.target.parentElement.lastChild.value)
-        console.log(activeBuffsArray)
+        updateCharacterData()
         }
     function handlePsiRecovery(event) {
         if (event.target.parentElement.firstChild.id == "amountOfMinutesMeditating") {
