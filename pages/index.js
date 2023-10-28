@@ -65,11 +65,13 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
       let atkRollDiceNodes = document.querySelectorAll('input#atkRollDice')
       let numberOfActionsAllPlayers = document.querySelectorAll('div#numberOfActionsAllPlayers');
       let initiativeWithRollNodes = document.querySelectorAll('div#initiativeWithRoll');
+      let characterNameForInitNodes = document.querySelectorAll('input#characterNameForInit');
 
 // skillCheckResult, skillCheckDice
 
       for (let i = 0; i < parsedData.length; i++) {
       currentCharNameNodes[i].value = parsedData[i].charName;     
+      characterNameForInitNodes[i].value = parsedData[i].charName;     
       currentFpNodes[i].value = parsedData[i].currentFp;     
       currentEpNodes[i].value = parsedData[i].currentEp;  
       currentPpNodes[i].value = parsedData[i].currentPp;   
@@ -270,7 +272,7 @@ function CharCompare(a, b, index) {
 let damageOfFists = "1k10"
   let destroyerLevel
   let professionLevel
-  let schoolsOfMagic = ["Magas Mágia", "Bárdmágia", "Boszorkánymágia", "Borszorkánymesteri mágia", "Tűzvarázslói mágia", "Szakrális mágia"];
+  let schoolsOfMagic = ["Magas Mágia", "Bárdmágia", "Boszorkánymágia", "Boszorkánymesteri mágia", "Tűzvarázslói mágia", "Szakrális mágia"]; 
   let attributeIndexesForSchoolsOfMagic = [6,5,8,7,7,5]
   let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"];
 
@@ -1087,7 +1089,7 @@ let defModifier = modifierCalculator(1,2,9)
             modifierByMagicallyAttunedAptitude = 6
           }
         }
-
+        console.log(filteredArrayIfHasAnyMagicSkill)
         if (filteredArrayIfHasAnyMagicSkill.length != 0) {
           let allMagicSkillLevelsArray = []
           for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
@@ -1102,7 +1104,7 @@ let defModifier = modifierCalculator(1,2,9)
         } else {
           highestMagicSkillName = ""
         }
-        
+        console.log(filteredArrayForNameOfHighestMagicalSkill)
         for (let i = 0; i < schoolsOfMagic.length; i++){
           if (highestMagicSkillName == schoolsOfMagic[i])
           {

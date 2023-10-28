@@ -1,6 +1,6 @@
 .adventureMaster{
   display: grid;
-  grid-auto-flow: row;
+  grid-auto-flow: column;
 }
 
 .namesOfPlayers{
@@ -23,13 +23,13 @@
 
 .characterDetailsSection{
   display: grid;
-  grid-auto-flow: column;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
 }
 
 .characterDetails {
-    display: grid;
-    grid-template-rows: repeat(12,1fr);
-    grid-template-columns: repeat(15,1fr);
+    display: grid;   
     grid-auto-flow:column;
       font-family: 'MedievalSharp', cursive;
      color: black;
@@ -41,13 +41,11 @@
     border-radius: 1vw;
     padding: 0.3vw;
     margin-top: 3vw;
-    height: 50vw;
-    width: 30vw;
+    margin-left: 2vw;
     }
     .characterDetails div {
       display: grid;
-      grid-row: span 10;
-      grid-column: span 8;
+      
     padding: 0vw;
     margin: 0vw;
   }
@@ -63,19 +61,51 @@
       justify-content: center;
       align-items: center;
     }
-    
-    .characterDetails span .initiativeWithRoll{
-      display: grid;
-      grid-column: 2/4;
-      font-size: 2vw;
-      text-align: right;
+
+    .characterDetailsForInit {
+      display: grid;   
+      grid-auto-flow:row;
+        font-family: 'MedievalSharp', cursive;
+       color: black;
+        text-shadow: 0.3vw 0.3vw 0.4vw #682600;
+      border: 0.23vw solid #680604;
+      -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+      box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+      border-radius: 1vw;
+      padding: 0.3vw;
+      margin-top: 3vw;
+      margin-left: 2vw;
     }
-    .characterDetails span .numberOfActions{
+
+    .characterDetailsForInit span {
+      display: grid;
+      grid-template-columns: repeat(7,1fr);
+      grid-auto-flow: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .characterDetailsForInit span .initiativeWithRoll{
       display: grid;
       grid-column: 4/6;
       font-size: 2vw;
+      text-align: right;
+    }
+    .characterDetailsForInit span .numberOfActions{
+      display: grid;
+      grid-column: 6/8;
+      font-size: 2vw;
       text-align: center;
     }
+
+    .characterDetailsForInit span .characterNameForInit {
+      display: grid;
+      grid-column: 1/4;
+      text-align: left;
+      font-size: 1.5vw;
+    }
+
     .characterDetails span .diceLabel{
       text-align: left;
       grid-column: span 2;
@@ -104,14 +134,13 @@
       text-align: left;
       font-size: 1.5vw;
     }
+
     .characterDetails span input {
       display: grid;
       font-size: 1.7vw;
       grid-column: span 2;
       align-self: self-end;
-      width: 10vw;
       font-family: 'MedievalSharp', cursive;
-      
       text-align: center;
       width: 3vw;
     }

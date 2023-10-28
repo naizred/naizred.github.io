@@ -19,9 +19,7 @@ export async function updateCharacterData(gameIdUpdate=false) {
 
   activeBuffsStringToSave = activeBuffsCounter + activeBuffsStringToSave
 
-  let data
-  if (gameIdUpdate == false) {
-    data = {
+  let data = {
       charName: charName.innerText,
       currentFp: parseInt(currentFp.value),
       currentEp: parseInt(currentEp.value),
@@ -32,7 +30,8 @@ export async function updateCharacterData(gameIdUpdate=false) {
       numberOfActions: numberOfActions.innerText,
       initiativeWithRoll: parseInt(initiativeWithRoll.innerText)
     };
-  } else if (gameIdUpdate == true) {
+  
+  if (gameIdUpdate == true) {
     data = {
       charName: charName.innerText,
       gameId: parseInt(amountOfHoursPassiveRecovery.value)
