@@ -6,7 +6,7 @@ import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActio
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 export let activeBuffsCounter = 0
-export async function updateCharacterData() {
+export async function updateCharacterData(gameIdUpdate=false) {
 
   let activeBuffsStringToSave = ""
   activeBuffsCounter = 0
@@ -19,17 +19,27 @@ export async function updateCharacterData() {
 
   activeBuffsStringToSave = activeBuffsCounter + activeBuffsStringToSave
 
-  const data = {
-    charName: charName.innerText,
-    currentFp: parseInt(currentFp.value),
-    currentEp: parseInt(currentEp.value),
-    currentPp: parseInt(currentPp.value),
-    currentMp: parseInt(currentMp.value),
-    currentLp: parseInt(currentLp.value),
-    activeBuffs: activeBuffsStringToSave,
-    numberOfActions: numberOfActions.innerText,
-    gameId: parseInt(amountOfHoursPassiveRecovery.value)
-  };
+  let data
+  if (gameIdUpdate == false) {
+    data = {
+      charName: charName.innerText,
+      currentFp: parseInt(currentFp.value),
+      currentEp: parseInt(currentEp.value),
+      currentPp: parseInt(currentPp.value),
+      currentMp: parseInt(currentMp.value),
+      currentLp: parseInt(currentLp.value),
+      activeBuffs: activeBuffsStringToSave,
+      numberOfActions: numberOfActions.innerText,
+      initiativeWithRoll: parseInt(initiativeWithRoll.innerText)
+    };
+  } else if (gameIdUpdate == true) {
+    data = {
+      charName: charName.innerText,
+      gameId: parseInt(amountOfHoursPassiveRecovery.value)
+    };
+  }
+
+
 
   const JSONdata = JSON.stringify(data);
   const endpoint = "/api/updateCharacter";
@@ -108,6 +118,7 @@ function CharacterDetails() {
     adjustActionsPositive.value = parseInt(numberOfActions.innerText) // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
     initRollButton.style.display = "none"
     initRolled = true
+    updateCharacterData()
 
     // megfigyeli az akciók változását
     //*********************************** */

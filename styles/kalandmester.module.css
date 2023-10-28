@@ -63,10 +63,18 @@
       justify-content: center;
       align-items: center;
     }
+    
+    .characterDetails span .initiativeWithRoll{
+      display: grid;
+      grid-column: 2/4;
+      font-size: 2vw;
+      text-align: right;
+    }
     .characterDetails span .numberOfActions{
       display: grid;
-      grid-column: 4/5;
+      grid-column: 4/6;
       font-size: 2vw;
+      text-align: center;
     }
     .characterDetails span .diceLabel{
       text-align: left;
@@ -90,6 +98,11 @@
     .characterDetails .characterNameLabel {
       display: grid;
       text-align: left;
+    }
+    .characterDetails .characterName {
+      display: grid;
+      text-align: left;
+      font-size: 1.5vw;
     }
     .characterDetails span input {
       display: grid;

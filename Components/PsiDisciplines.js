@@ -117,13 +117,11 @@ export function PsiDisciplines(props) {
         psiPointCostCheckerAndSetter()        
     }
     function handlePsiDisciplineSelect(event) {
-     //   numberOfClicks = 0
         selectedPsiDisciplineObj = filteredPsiDisciplines.filter((discipline)=>discipline.psiDiscName == psiDisciplinesSelect.value)
         psiPointCostCheckerAndSetter()
     }
 
     function handleDisciplineActivation() {
-      //  numberOfClicks++
 const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
         if (!buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)) {
             currentPp.value -= parseInt(psiPointCostInput.value)
@@ -234,23 +232,23 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
                 }
             }
         buffRemoverFromActiveBuffArray(event.target.parentElement.lastChild.value)
-        updateCharacterData()
+        updateCharacterData(false)
         }
     function handlePsiRecovery(event) {
         if (event.target.parentElement.firstChild.id == "amountOfMinutesMeditating") {
-            
-            currentPp.value = parseInt(currentPp.value) + filteredArrayIfHasPsi[0].level * Math.floor(parseInt(amountOfMinutesMeditating.value)/5)
+            currentPp.value = parseInt(currentPp.value) + filteredArrayIfHasPsi[0].level * Math.floor(parseInt(amountOfMinutesMeditating.value) / 5)
         }
         if(event.target.parentElement.firstChild.id == "amountOfHoursPassiveRecovery"){
             currentPp.value = parseInt(currentPp.value) + filteredArrayIfHasPsi[0].level * parseInt(event.target.parentElement.firstChild.value)
+            updateCharacterData(true)
         }
         if(event.target.parentElement.firstChild.id == "amountOfHoursSlept"){
-            currentPp.value = parseInt(currentPp.value) + 3*(filteredArrayIfHasPsi[0].level * parseInt(event.target.parentElement.firstChild.value))
+            currentPp.value = parseInt(currentPp.value) + 3 * (filteredArrayIfHasPsi[0].level * parseInt(event.target.parentElement.firstChild.value))
         }
         if (parseInt(currentPp.value)>=parseInt(maxPp.innerText)) {
             currentPp.value=parseInt(maxPp.innerText)
         }
-        updateCharacterData()
+        updateCharacterData(false)
     }
 
 

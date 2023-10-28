@@ -27,4 +27,5 @@ model characterStatsThatChange {
   activeBuffs String? @default("")
   numberOfActions String? @default("")
   gameId Int? @default(0)
+  initiativeWithRoll Int? @default(0)
 }

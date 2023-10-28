@@ -42,23 +42,44 @@ export async function fetchCharacterData(currentCharName) {
     }
   })
 }
-export async function fetchCharacterDataForAdventureMaster(gameId) {
 
-    await fetch(`../api/getCharsByGameId`).then((response) => {
+export let returnedData
+
+export async function fetchCharacterDataForAdventureMaster(gameId) {
+  
+    await fetch(`../api/getCharsByGameId/${gameId}`).then((response) => {
       return response.json();
     }).then((parsedData) => {
       if (!parsedData) {
         return
       }
       console.log(parsedData)
-      // console.log(currentFp.value)
-      // currentFpNodes[i].value = parsedData.currentFp;     
-      // currentEpNodes[i].value = parsedData.currentEp;  
-      // currentPpNodes[i].value = parsedData.currentPp;   
-      // currentMpNodes[i].value = parsedData.currentMp;   
-      // currentLpNodes[i].value = parsedData.currentLp;
 
-      // numberOfActionsAllPlayers[i].innerText = parsedData.numberOfActions;
+      let currentCharNameNodes = document.querySelectorAll('input#characterName')
+      let currentFpNodes = document.querySelectorAll('input#currentFp')
+      let currentEpNodes = document.querySelectorAll('input#currentEp')
+      let currentPpNodes = document.querySelectorAll('input#currentPp')
+      let currentMpNodes = document.querySelectorAll('input#currentMp')
+      let currentLpNodes = document.querySelectorAll('input#currentLp')
+      let atkRollResultNodes = document.querySelectorAll('input#atkRollResult')
+      let atkRollDiceNodes = document.querySelectorAll('input#atkRollDice')
+      let numberOfActionsAllPlayers = document.querySelectorAll('div#numberOfActionsAllPlayers');
+      let initiativeWithRollNodes = document.querySelectorAll('div#initiativeWithRoll');
+
+// skillCheckResult, skillCheckDice
+
+      for (let i = 0; i < parsedData.length; i++) {
+      currentCharNameNodes[i].value = parsedData[i].charName;     
+      currentFpNodes[i].value = parsedData[i].currentFp;     
+      currentEpNodes[i].value = parsedData[i].currentEp;  
+      currentPpNodes[i].value = parsedData[i].currentPp;   
+      currentMpNodes[i].value = parsedData[i].currentMp;   
+      currentLpNodes[i].value = parsedData[i].currentLp;
+      atkRollResultNodes[i].value = parsedData[i].atkRollResult;
+      atkRollDiceNodes[i].value = parsedData[i].atkRollDice;
+      numberOfActionsAllPlayers[i].innerText = `CS: ${parsedData[i].numberOfActions}`;
+      initiativeWithRollNodes[i].innerText = `CSA: ${parsedData[i].initiativeWithRoll}`;
+      }
     
       // let atkRollResult = document.getElementById('atkRollResult');
       // if (atkRollResult !=undefined) {
@@ -1208,8 +1229,7 @@ let defModifier = modifierCalculator(1,2,9)
       reader.readAsText(file);
     }
   }
-// ez a csalás ellen van
-  let numberOfClicks = 0
+
   // ez a számláló a pszi roham miatt van
   let numberOfClicksForAttacks = 0
   //ez pedig a kétkezes harc miatt
@@ -1224,7 +1244,6 @@ let defModifier = modifierCalculator(1,2,9)
       return
     }
 
-    numberOfClicks++
     //*********************************************************************** */
     //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
     if (legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
@@ -1299,13 +1318,11 @@ let defModifier = modifierCalculator(1,2,9)
     }
     bodyPart.animate([{color: "white"}, {color:"black"}],200)
     damageEvaluator()
-   async function playerChecker (){ if (numberOfClicks == 1) {
+   async function playerChecker (){ 
       const data = {
       charName: charName.innerText,
       atkRollResult: parseInt(charAtkSum.innerText),
       atkRollDice: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
-      atkRollResultAfter5sec: parseInt(charAtkSum.innerText),
-      atkRollDiceAfter5sec: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
     };
 
     const JSONdata = JSON.stringify(data);
@@ -1318,29 +1335,7 @@ let defModifier = modifierCalculator(1,2,9)
       body: JSONdata,
     };  
      const response = await fetch(endpoint, options);   
-    }
-if(numberOfClicks > 1) {
-  const data = {
-    charName: charName.innerText,
-    atkRollResultAfter5sec: parseInt(charAtkSum.innerText),
-    atkRollDiceAfter5sec: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
-  };
 
-  const JSONdata = JSON.stringify(data);
-  const endpoint = "/api/updateCharacter";
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSONdata,
-  };  
-  const response = await fetch(endpoint, options);
-}
-
-    setTimeout(() => {
-      numberOfClicks = 0
-    }, 5000);
     }
     playerChecker()
 
