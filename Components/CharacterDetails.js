@@ -34,7 +34,7 @@ export async function updateCharacterData(gameIdUpdate=false) {
   if (gameIdUpdate == true) {
     data = {
       charName: charName.innerText,
-      gameId: parseInt(amountOfHoursPassiveRecovery.value)
+      gameId: parseInt(gameIdInput.value)
     };
   }
 
@@ -126,7 +126,7 @@ function CharacterDetails() {
     })
     observer.observe(numberOfActions, {childList:true, subtree:true});
   }
-
+  
   function handleInitWhenLPisUsed() {
     initiativeRerollByCounterLP.style.display = 'grid'
     let initRollChangedByLP = parseInt(initiativeRollResultSelect.value)

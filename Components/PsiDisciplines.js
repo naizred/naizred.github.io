@@ -240,7 +240,6 @@ const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value
         }
         if(event.target.parentElement.firstChild.id == "amountOfHoursPassiveRecovery"){
             currentPp.value = parseInt(currentPp.value) + filteredArrayIfHasPsi[0].level * parseInt(event.target.parentElement.firstChild.value)
-            updateCharacterData(true)
         }
         if(event.target.parentElement.firstChild.id == "amountOfHoursSlept"){
             currentPp.value = parseInt(currentPp.value) + 3 * (filteredArrayIfHasPsi[0].level * parseInt(event.target.parentElement.firstChild.value))

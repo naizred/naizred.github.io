@@ -139,3 +139,22 @@
       display: grid;
       font-size: 2.5vw;
     }
+    .gameIdWrapper{
+        display: grid;
+        grid-column: 19/21;
+        grid-row: 1/2;
+        font-size: 0.8vw;
+    }
+    .gameIdWrapper input{
+        display: grid;
+        font-size: 0.8vw;
+    }
+    .gameIdWrapper button{
+        display: grid;
+        font-size: 0.8vw;
+    }
+    .gameIdWrapper span{
+        display: grid;
+        font-size: 0.8vw;
+        grid-auto-flow: column;
+    }

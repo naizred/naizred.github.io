@@ -4,7 +4,7 @@ import { totalActionCostOfAttack } from './ActionsList';
 import { initRolled } from './CharacterDetails';
 export let numberOfSpellDamageDiceAfterLastSpellDamageRoll = 0
 
-export function multipleDiceRoll(firstAccumulatedDiceRollResult = 0, secondAccumulatedDiceRollResult = 0, thirdAccumulatedDiceRollResult = 0, numberOfDice) {
+export function multipleDiceRoll(firstAccumulatedDiceRollResult, secondAccumulatedDiceRollResult, thirdAccumulatedDiceRollResult, numberOfDice) {
     if (numberOfDice >= 22) {
         numberOfDice = 22
         numberOfDiceInput.value = 22
@@ -85,6 +85,15 @@ export function multipleDiceRoll(firstAccumulatedDiceRollResult = 0, secondAccum
     if (numberOfDice > 2) {
         spellDamageSum = firstAccumulatedDice + secondAccumulatedDice + thirdAccumulatedDice
         
+    }
+    if (firstAccumulatedDiceRollResult == 10) {
+        firstAccumulatedDiceRollResult = 0
+    }
+    if (secondAccumulatedDiceRollResult == 10) {
+        secondAccumulatedDiceRollResult = 0
+    }
+    if (thirdAccumulatedDiceRollResult == 10) {
+        thirdAccumulatedDiceRollResult = 0
     }
     bigSpellDamageRollLegendPointCheckBox.style.display = 'grid'
     numberOfSpellDamageDiceAfterLastSpellDamageRoll = numberOfDice

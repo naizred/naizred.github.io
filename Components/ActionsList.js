@@ -4,7 +4,7 @@ import {
     currentlySelectedWeapon, weaponsOptions, reloadIsNeededSetToFalse, reloadIsNeeded, filteredArrayIfHasAssassination, arrayOfAllComplexMaeuvers, baseAim, baseAimWithTeoCalculator, setDiceRolledToFalse, allResultsCleaner, currentlySelectedWeaponChanger
 } from '../pages';
 import styles from '../styles/actionlist.module.css';
-import { initRolled } from './CharacterDetails';
+import { initRolled, updateCharacterData } from './CharacterDetails';
 export let chargeOn = false
 export function chargeToFalse() {
     chargeOn = false
@@ -459,6 +459,15 @@ function ActionList(props) {
         attackRollButton.disabled = false
         spellTypeQuestionWindow.style.display = 'none'
     }
+
+    function handleGameIdWrapperClose() {
+        gameIdWrapper.style.display = 'none'
+    }
+    function handleGameIdInput() {
+        updateCharacterData(true)
+        gameIdWrapper.style.display = 'none'
+    }
+
     return (
         <>
         <div className={styles.actionsWrapper}>
@@ -513,7 +522,11 @@ function ActionList(props) {
         <div id='spellTypeQuestionWindowText' className={styles.spellTypeQuestionWindowText}>A varázslat igényel célzó dobást?</div> 
         <button id='spellTypeQuestionWindowNoButton' className={styles.spellTypeQuestionWindowNoButton} onClick={handleSpellTypeNoAimRoll}>Nem</button>
         <button id='spellTypeQuestionWindowYesButton' className={styles.spellTypeQuestionWindowYesButton} onClick={handleSpellTypeYesAimRoll}>Igen</button>
-      </div>
+            </div>
+            <div id='gameIdWrapper' className={styles.gameIdWrapper}>
+<span>Játék azonosítója:<button onClick={handleGameIdWrapperClose}>Eltüntet</button></span>
+<span><input id='gameIdInput'/><button onClick={handleGameIdInput}>Csatlakozás</button></span>
+        </div>
         </>
     )
 }

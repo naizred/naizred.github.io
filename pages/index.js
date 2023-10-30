@@ -292,8 +292,8 @@ let damageOfFists = "1k10"
           darkDice = Math.floor(generator.random() * 10);
           lightDice = Math.floor(generator.random() * 10);
         }
-       // lightDice = 1
-       // darkDice = 2 
+        //lightDice = 0
+        //darkDice = 0
         /* -- ez a felső két sor a dobások tesztelésére van  */
         darkDiceResultSelect.value = darkDice
         lightDiceResultSelect.value = lightDice
