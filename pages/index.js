@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
-import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCostOfAttack, totalActionCostOfAttackSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay, spellIsBeingCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier, numberOfDiceFromSpellCastWindow } from "../Components/ActionsList";
+import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCostOfAttack, totalActionCostOfAttackSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay, spellIsBeingCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier, numberOfDiceFromSpellCastWindow, rollButtonWasDisabledBeforeSpellCast, findWeakSpotModifier, findWeakSpotModifierNullifier } from "../Components/ActionsList";
 import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
@@ -223,6 +223,10 @@ export function twoWeaponAttackWasUsedThisRoundToFalse() {
 export let diceRolled = false;
 export function setDiceRolledToFalse() {
     diceRolled = false
+}
+export let diceRolledSetToFalseBySpellNeedsAimRoll = false
+export function diceRolledSetToFalseBySpellNeedsAimRollToFalse() {
+  diceRolledSetToFalseBySpellNeedsAimRoll = false
 }
 export let rangedWeaponsArray = ["ÍJ", "VET", "NYD", "PD", "SZÍ", "Fúvócső", "MÁGIA"]
 export let reloadIsNeeded = false
@@ -499,19 +503,14 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     if (currentlySelectedWeapon.w_name == "Fúvócső") {
       damageResult.innerText = 1
     }
-    if (weapons.value == "Célzott mágia") {
-      let spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, 0, parseInt(numberOfDiceInput.value))
+    if (weapons.value == "Célzott mágia" || diceRolledSetToFalseBySpellNeedsAimRoll == true) {
+      let spellDamage = 0
+      if (legendPointIsUsedOnAimedSpell == true) {
+        spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, parseInt(thirdAccumulatedDiceResultSelect.value), parseInt(numberOfDiceInput.value))
+      } else if (legendPointIsUsedOnAimedSpell == false) {
+        spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, 0, parseInt(numberOfDiceInput.value))
+      }
       damageResult.innerText = spellDamage[3]
-      // még meg kell írni, hogy a LP selectbe beleirja magát
-      if (spellDamage[0]==10) {
-        firstAccumulatedDiceResultSelect.value = 0
-      }
-      if (spellDamage[1] == 10) {
-        secondAccumulatedDiceResultSelect.value = 0
-      }
-      if (spellDamage[2] == 10) {
-        thirdAccumulatedDiceResultSelect.value = 0
-      }
       firstAccumulatedDiceResultSelect.value = spellDamage[0]
       secondAccumulatedDiceResultSelect.value = spellDamage[1]
       thirdAccumulatedDiceResultSelect.value = spellDamage[2]
@@ -554,7 +553,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
 }
 
   function handleAttackRollLPCheckBox() {
-    if (attackRollUseLegendPointCheckBox.checked == true && diceRolled == true) {
+    if (attackRollUseLegendPointCheckBox.checked == true && (diceRolled == true || diceRolledSetToFalseBySpellNeedsAimRoll == true)) {
       darkDiceResultSelect.disabled = false
       lightDiceResultSelect.disabled = false
       attackRollButton.disabled = true
@@ -571,6 +570,8 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     }
   }
 
+
+  let legendPointIsUsedOnAimedSpell = false
   
   function handleWhenLegendPointIsUsed(event) {
     if (event.target.id == "darkDiceResultSelect") {
@@ -580,8 +581,12 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       legendPointUsedOnLightDice = true
       lightDiceRerollByCounterLP.style.display = "grid"
     }
-
+if (diceRolledSetToFalseBySpellNeedsAimRoll == true) {
+  legendPointIsUsedOnAimedSpell = true
+}
     handleClickOnAttackRollButton(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
+    legendPointIsUsedOnAimedSpell = false
+    diceRolledSetToFalseBySpellNeedsAimRoll = false
     if (numberOfClicksAtTwoWeaponAttack == 1) {
     }
     disarmRadioButton.checked = false
@@ -1018,7 +1023,7 @@ let defModifier = modifierCalculator(1,2,9)
         if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           charAtk.value = tvcoCalculator(atkWithProfession)
           - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
-          + chiCombatAtkDefModifier
+          + chiCombatAtkDefModifier + findWeakSpotModifier
           // if (charAtk.value < 0) {
           //   charAtk.value = 0
           // }
@@ -1173,6 +1178,7 @@ let defModifier = modifierCalculator(1,2,9)
           for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
             arrayOfAllComplexMaeuvers[i].disabled = true
           }
+          findWeakSpotButton.disabled = true
           if(combinationWasUsedThisRound == true){
             hmoModifier(quickShotModifiers[quickShotModifiersIndex])
           }
@@ -1184,6 +1190,7 @@ let defModifier = modifierCalculator(1,2,9)
             arrayOfAllComplexMaeuvers[i].disabled = false
               twoWeaponAttackRadioButton.disabled = false
           }
+          findWeakSpotButton.disabled = false
           if (weapons.value.includes('kétkézzel') || weapons.value.includes('Kétkezes') || weapons.value.includes('Pallos') || weapons.value.includes('Alabárd')) {
             twoWeaponAttackRadioButton.disabled = true
           }
@@ -1400,6 +1407,7 @@ allResultsCleaner()
     }
     if (spellNeedsAimRoll == true) {
       diceRolled = false
+      diceRolledSetToFalseBySpellNeedsAimRoll = true
       setTimeout(() => {
         currentlySelectedWeapon = weaponBeforeCasting
         weapons.value = weaponBeforeCasting.w_name
@@ -1416,6 +1424,9 @@ allResultsCleaner()
         }
       }
       if (combinationRadioButton.checked == false && quickShotRadioButton.checked == false && spellNeedsAimRoll==false) {
+        attackRollButton.disabled = true
+      }
+      if (rollButtonWasDisabledBeforeSpellCast==true) {
         attackRollButton.disabled = true
       }
       if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true) {
@@ -1501,7 +1512,8 @@ allResultsCleaner()
           assassinationToFalse()
         }
         if (findWeakSpotOn == true) {
-          charAtk.value = parseFloat(charAtk.value) - 0.5
+          charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier
+          findWeakSpotModifierNullifier()
           findWeakSpotOnToFalse()
           findWeakSpotButton.disabled = false
         }

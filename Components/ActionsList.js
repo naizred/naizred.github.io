@@ -134,6 +134,11 @@ export function toggleTwoHandedWeaponsDisplay(display) {
         }
     }
 }
+export let rollButtonWasDisabledBeforeSpellCast = false
+export let findWeakSpotModifier = 0
+export function findWeakSpotModifierNullifier() {
+    findWeakSpotModifier = 0
+}
 let castBarCurrentWidthStart = 0
 let castBarCurrentWidthEnd = 0
 let currentActionExtraCost = 0
@@ -289,7 +294,8 @@ function ActionList(props) {
             if (nameOfManeuver.includes('Gyenge') && parseInt(numberOfActions.innerText) != 0 && findWeakSpotOn == false) {
                 numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
                 actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
-                charAtk.value = parseFloat(charAtk.value) + 0.5
+                findWeakSpotModifier = 0.5
+                charAtk.value = parseFloat(charAtk.value) + findWeakSpotModifier
                 findWeakSpotOn = true
                 findWeakSpotButton.disabled = true
             }
@@ -414,6 +420,12 @@ function ActionList(props) {
         warningWindow.innerText = ""
         actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCostInput.value / 10)
         spellInputWrapper.style.display = 'none'
+        if (initRolled==true && attackRollButton.disabled==true) {
+            rollButtonWasDisabledBeforeSpellCast = true
+        }
+        if (initRolled==true && attackRollButton.disabled==false) {
+            rollButtonWasDisabledBeforeSpellCast = false
+        }
         if (initRolled == true && numberOfActionsNeededForTheSpell > 1) {
             spellIsBeingCast = true
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1

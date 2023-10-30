@@ -2,7 +2,7 @@ import styles from '../styles/chardetails.module.css';
 import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay, allResultsCleaner } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, allActiveBuffs} from '../pages';
 import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostCheckerAndSetter, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier } from './PsiDisciplines';
-import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostOfAttackSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, spellIsBeingCast } from './ActionsList';
+import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostOfAttackSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, spellIsBeingCast, findWeakSpotOn, findWeakSpotOnToFalse, findWeakSpotModifier, findWeakSpotModifierNullifier } from './ActionsList';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 export let activeBuffsCounter = 0
@@ -384,6 +384,12 @@ allResultsCleaner()
     }
     if(hmoModified == true){
       hmoModifier(-combinationModifiers[combinationModifiersIndex])
+    }
+    if (findWeakSpotOn==true) {
+      charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier
+      findWeakSpotModifierNullifier()
+      findWeakSpotOnToFalse()
+      findWeakSpotButton.disabled = false
     }
     if (combinationRadioButton.checked == true || combinationRadioButton.checked == true) {
       totalActionCostOfAttackSetter(-1)
