@@ -3,7 +3,13 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
-import ActionList, { actionsSpentSinceLastCastAdderCheckerAndNullifier, assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse, charAtkValueSave, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCostOfAttack, totalActionCostOfAttackSetter, weaponBeforeCasting, blinkingText, toggleTwoHandedWeaponsDisplay, spellIsBeingCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier, numberOfDiceFromSpellCastWindow, rollButtonWasDisabledBeforeSpellCast, findWeakSpotModifier, findWeakSpotModifierNullifier } from "../Components/ActionsList";
+import ActionList, {
+  assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse,
+  charAtkValueSave, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCostOfAttack,
+  totalActionCostOfAttackSetter, weaponBeforeCasting, blinkingText, findWeakSpotModifier,
+  findWeakSpotModifierNullifier
+} from "../Components/ActionsList";
+import { actionsSpentSinceLastCastAdderCheckerAndNullifier, rollButtonWasDisabledBeforeSpellCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier } from "../Components/Spells";
 import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
@@ -1452,6 +1458,7 @@ allResultsCleaner()
           quickShotRadioButton.disabled = true  
         
         combinationWasUsedThisRound = true
+        diceRolledSetToFalseBySpellNeedsAimRoll = false
       }
       if ((legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) && spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
           spellCastingFailure() 

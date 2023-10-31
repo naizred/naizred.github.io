@@ -2,7 +2,10 @@ import styles from '../styles/chardetails.module.css';
 import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay, allResultsCleaner } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, allActiveBuffs} from '../pages';
 import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostCheckerAndSetter, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier } from './PsiDisciplines';
-import { chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostOfAttackSetter, twoWeaponAttackToFalse, actionsSpentSinceLastCastAdder, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingSuccessful, spellCastingFailure, spellIsBeingCast, findWeakSpotOn, findWeakSpotOnToFalse, findWeakSpotModifier, findWeakSpotModifierNullifier } from './ActionsList';
+import {
+  chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostOfAttackSetter, twoWeaponAttackToFalse, findWeakSpotOn, findWeakSpotOnToFalse, findWeakSpotModifier, findWeakSpotModifierNullifier
+} from './ActionsList';
+import { spellCastingSuccessful, spellCastingFailure, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellIsBeingCast } from './Spells';
 export let initRolled = false
 export let chiCombatEndedDueToLackOfPsiPoints = false
 export let activeBuffsCounter = 0
@@ -396,9 +399,9 @@ allResultsCleaner()
     }
     chargeRadioButton.disabled = false
     combinationRadioButton.checked = false
-    combinationRadioButton.checked = false
+    quickShotRadioButton.checked = false
     combinationRadioButton.disabled = true
-    combinationRadioButton.disabled = true
+    quickShotRadioButton.disabled = true
     chargeToFalse()
     hmoModifiedToFalse()
     combinationWasUsedThisRoundSetToFalse()
