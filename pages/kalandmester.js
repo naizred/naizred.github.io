@@ -6,7 +6,7 @@ function Kalandmester() {
   function setGameIdInputInterval() {
     gameIdInterval = setInterval(() => {
       fetchCharacterDataForAdventureMaster(parseInt(gameIdRequest.value))
-    }, 300);
+    }, 500);
     setIntervalButton.disabled = true
   }
   

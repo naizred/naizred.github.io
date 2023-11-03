@@ -507,6 +507,10 @@ select {
     color: black;    
 }
 
+select:disabled{
+  opacity: 0.7;
+}
+
 input[type="checkbox" i] {
   background-color: initial;
   cursor: default;

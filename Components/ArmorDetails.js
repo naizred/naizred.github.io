@@ -1,5 +1,6 @@
 import styles from '../styles/armordetails.module.css';
 export let equippedOrNotSetToManual = false
+export let allDmgReductionListItems
 let helmetWorn = false
 let upperTorsoWorn = false
 let lowerTorsoWorn = false
@@ -13,6 +14,7 @@ let currentArmsMgt = 0
 let currentLeggingsMgt = 0
 let totalMgt = 0
 export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
+    allDmgReductionListItems = document.querySelectorAll('div#currentArmorImg li')
     if (armorPiece.nameOfArmor == 'Teljesvért' || armorPiece.nameOfArmor == 'Rákozott félvért') {
         currentArmorImg.style.backgroundImage = "url('./armorParts/fullPlateBackGround.png')"
         currentArmorImg.style.backgroundSize = "7.58vw 12vw"
@@ -193,11 +195,11 @@ function ArmorDetails() {
             </div>
                 <div id='currentArmorImg' className={styles.currentArmorImg}>
                     <div id='dmgReduction' className={styles.dmgReduction}>SFÉ:</div>
-                    <li id='currentHelmetDmgReduction' className={styles.currentHelmetDmgReduction}></li>
-                    <li id='currentUpperTorsoDmgReduction' className={styles.currentUpperTorsoDmgReduction}></li>
-                    <li id='currentLowerTorsoDmgReduction' className={styles.currentLowerTorsoDmgReduction}></li>
-                    <li id='currentArmsDmgReduction' className={styles.currentArmsDmgReduction}></li>
-                    <li id='currentLeggingsDmgReduction' className={styles.currentLeggingsDmgReduction}></li>
+                    <li id='currentHelmetDmgReduction' className={styles.currentHelmetDmgReduction}>0</li>
+                    <li id='currentUpperTorsoDmgReduction' className={styles.currentUpperTorsoDmgReduction}>0</li>
+                    <li id='currentLowerTorsoDmgReduction' className={styles.currentLowerTorsoDmgReduction}>0</li>
+                    <li id='currentArmsDmgReduction' className={styles.currentArmsDmgReduction}>0</li>
+                    <li id='currentLeggingsDmgReduction' className={styles.currentLeggingsDmgReduction}>0</li>
                         <img id='currentHelmetImg' className={styles.currentHelmetImg} src='./armorParts/helmetAssassin.png'/>
                         <img id='currentUpperTorsoImg' className={styles.currentUpperTorsoImg} src='./armorParts/upperTorsoAssassin.png'/>
                         <img id='currentLowerTorsoImg' className={styles.currentLowerTorsoImg} src='./armorParts/lowerTorsoAssassin.png'/>

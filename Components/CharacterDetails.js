@@ -1,7 +1,7 @@
 import styles from '../styles/chardetails.module.css';
 import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay, allResultsCleaner } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, allActiveBuffs} from '../pages';
-import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostCheckerAndSetter, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier } from './PsiDisciplines';
+import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostCheckerAndSetter, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier, dmgReductionByGoldenBellSetter, dmgReductionByGoldenBell, buffTextChecker, theRoundGoldenBellWasUsedIn, goldenBellDuration, innerTimeNegativeModifierNullifier, theRoundInnerTimeWasUsedIn, innerTimeNegativeModifier } from './PsiDisciplines';
 import {
   chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostOfAttackSetter, twoWeaponAttackToFalse, findWeakSpotOn, findWeakSpotOnToFalse, findWeakSpotModifier, findWeakSpotModifierNullifier
 } from './ActionsList';
@@ -14,7 +14,7 @@ export async function updateCharacterData(gameIdUpdate=false) {
   let activeBuffsStringToSave = ""
   activeBuffsCounter = 0
   for (let i = 0; i < allActiveBuffs.length; i++) {
-    if (allActiveBuffs[i].innerText!="") {
+    if (allActiveBuffs[i].innerText!="" && !allActiveBuffs[i].innerText.includes('kör')) {
       activeBuffsStringToSave += `${allActiveBuffs[i].innerText}|`
       activeBuffsCounter++
     }
@@ -211,7 +211,7 @@ function CharacterDetails() {
   
   let tacticsUsed = false
   //**************************************************************** */
-  // a köt végének kezelése
+  // a kör végének kezelése
   //****************************************************************** */
   function handleEndOfRound() {
     if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true) {
@@ -258,7 +258,7 @@ function CharacterDetails() {
     }
 
     // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat megszakad
-      spellCastingFailure((parseInt(numberOfActions.innerText) > 0 && spellIsBeingCast == true))
+      spellCastingFailure((parseInt(numberOfActions.innerText) > 0))
 
     numberOfReactions.innerText = 0
     initiativeRollLegendPointCheckBox.style.display = 'none'
@@ -281,8 +281,26 @@ function CharacterDetails() {
       } else if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true
       }
-      numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + "."
+      if (warningWindow.innerText == "A varázslat létrejött!") {
+        warningWindow.innerText = ""
+      }
+      
       attackRollButton.disabled = false
+
+      // ide kerülnek majd az X körig tartó buffok, egyenlőre csak az aranyharangra lesz megírva
+      if (buffTextChecker('Aranyharang') && theRoundGoldenBellWasUsedIn + parseInt(goldenBellDuration) == parseInt(numberOfCurrentRound.innerText)) {
+        buffRemoverFromActiveBuffArrayAndTextList('Aranyharang')
+        dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell)
+      }
+      if (buffTextChecker('Belső idő')) {
+        buffRemoverFromActiveBuffArrayAndTextList('Belső idő')
+        hmoModifier(-innerTimeNegativeModifier)
+      }
+
+      if (parseInt(theRoundInnerTimeWasUsedIn)+1 == parseInt(numberOfCurrentRound.innerText)) {
+        hmoModifier(+innerTimeNegativeModifier)
+        innerTimeNegativeModifierNullifier()
+      }
       
       // itt megnézi, volt-e használva a körben kombináció v kapáslövés, és az új körre nem viszi át a módosítókat
       //******************************************************************************************************* */
@@ -299,12 +317,11 @@ function CharacterDetails() {
       combinationWasUsedThisRoundSetToFalse()
       hmoModifiedToFalse()
 allResultsCleaner()
-      if (warningWindow.innerText == "A varázslat létrejött!") {
-        warningWindow.innerText = ""
-      }
+
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==true && currentlySelectedWeapon.w_type != "MÁGIA" && reloadIsNeeded == true) {
         attackRollButton.disabled = true
       }
+      numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + "."
     }
   }
   function handleChiCombatBeforeEndOfRound() {
@@ -360,6 +377,7 @@ allResultsCleaner()
   }
 
   function handleEndOfCombat() {
+    innerTimeNegativeModifierNullifier()
     toggleAllallActionBarButtonsExceptInitRollDisplay('none')
     initRolled = false
     warningWindow.innerText = ""
@@ -414,6 +432,11 @@ allResultsCleaner()
     initiativeWithRoll.innerText = ""
     numberOfCurrentRound.innerText = "1."
     tacticsButton.disabled = true
+    buffRemoverFromActiveBuffArrayAndTextList('Chi-harc')
+    hmoModifier(-chiCombatAtkDefModifier)
+    chiCombatAtkDefModifierNullifier()
+    buffRemoverFromActiveBuffArrayAndTextList('Aranyharang')
+    dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell)
 allResultsCleaner()
   }
   

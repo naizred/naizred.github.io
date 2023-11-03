@@ -1,0 +1,51 @@
+[{
+    "Magas Mágia": {
+      "Anyag Mágia": ["Int", "Aka"],
+      "Elemi Mágia": ["Int", "Asz"],
+      "Asztrál Mágia": ["Int", "Asz"],
+      "Mentál Mágia": ["Int", "Aka"],
+      "Nekro Mágia": ["Int", "Aka"],
+      "Idő Mágia": ["Int", "Asz"],
+      "Tér Mágia": ["Int", "Aka"]
+    },
+    "Bárdmágia": {
+      "Dalmágia": ["Aka"],
+      "Hangmágia": ["Int"],
+      "Fénymágia": ["Int"],
+      "Illúziómágia": ["Aka"]
+    },
+    "Boszorkánymágia": {
+      "Misztikummágia": ["Int", "Aka"],
+      "Lángmágia": ["Int", "Asz"],
+      "Asztrálmágia": ["Aka", "Asz"],
+      "Sorsmágia": ["Int", "Asz"],
+      "Mentálmágia": ["Int", "Aka"],
+      "Szexuálmágia": ["Aka", "Asz"],
+      "Térmágia": ["Int", "Aka"]
+    },
+    "Boszorkánymesteri mágia": {
+      "Villámmágia": ["Int", "Aka"],
+      "Rontásmágia": ["Aka", "Asz"],
+      "Átokmágia": ["Int", "Asz"],
+      "Méregmágia": ["Int", "Aka"],
+      "Természetmágia": ["Int", "Asz"],
+      "Kórmágia": ["Int", "Aka"],
+      "Nekromancia": ["Aka", "Asz"]
+    },
+    "Tűzvarázslói mágia": {
+      "Alap tűzmágia": ["Asz"],
+      "Forma tűzmágia": ["Asz"],
+      "Manipuláló tűzmágia": ["Aka"],
+      "Felső tűzmágia": ["Aka"]
+    },
+    "Szakrális mágia": {
+      "Kisebb Halál fohászok": [],
+      "Kisebb Lélek fohászok": [],
+      "Kisebb Élet fohászok": [],
+      "Kisebb Természet fohászok": [],
+      "Nagyobb Halál fohászok": [],
+      "Nagyobb Lélek fohászok": [],
+      "Nagyobb Élet fohászok": [],
+      "Nagyobb Természet fohászok": []
+    }
+  }]

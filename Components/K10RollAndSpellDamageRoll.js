@@ -205,17 +205,17 @@ function K10RollAndSpellDamageRoll() {
                 <label htmlFor="bigSpellDamageRollLegendPointCheckBox" className={styles.bigSpellDamageRollLegendPointCheckBoxLabel}>
             LP
                 </label>
-          <select id="firstAccumulatedDiceResultSelect" name="" onChange={handleSpellDamageDiceChange} disabled = {true}>
+          <select id="firstAccumulatedDiceResultSelect" onChange={handleSpellDamageDiceChange} >
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
           </select>
-          <select id="secondAccumulatedDiceResultSelect" name="" onChange={handleSpellDamageDiceChange} disabled = {true}>
+          <select id="secondAccumulatedDiceResultSelect" onChange={handleSpellDamageDiceChange} >
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}
                 </select>
-          <select id="thirdAccumulatedDiceResultSelect" name="" onChange={handleSpellDamageDiceChange} disabled = {true}>
+          <select id="thirdAccumulatedDiceResultSelect" onChange={handleSpellDamageDiceChange} >
             {rollOptions.map((e) => {
               return <option key={e}>{e}</option>;
             })}

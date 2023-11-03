@@ -1,0 +1,44 @@
+[["1E (1k2 Fp)", "2E (2k5 Fp)", "3E (4k5 Fp)", "4E (6k5 Fp)", "5E (8k5 Fp)", "6E (10k5 Fp)", "7E (12k5 Fp)", "8E (14k5 Fp)", "9E (16k5 Fp)", "10E (18k5 Fp)", "11E (20k5 Fp)", "12E (22k5 Fp)"],
+    [
+      "önmaga",
+      "érintés; szimpatikus kapcsolat",
+      "zóna vagy 10 * tér mozaiktanláb; asztrál sík",
+      "50 láb; mentál sík",
+      "hallótávolság (maximum 100 láb); antiss",
+      "látótávolság (maximum 1 mérföld); elemi síkok",
+      "10 mérföld",
+      "100 mérföld; démoni sík",
+      "1000 mérföld",
+      "kisebb egység (kontinens); isteni sík",
+      "nagyobb egység (planéta)",
+      "korlátlan; másik anyagi létsík"
+    ],
+    [
+      "[L] szilánk; [K] arasznyi; [F] önmaga része, pontszerű",
+      "[L] apró tárgy; [K] 1 lábnyi; [F] önmaga, célpont része",
+      "[L] kisebb tárgy; [K] 2 lábnyi, [F] 1 célpont",
+      "[L] közepes tárgy; [K] 5 lábnyi; [F] 2 célpont",
+      "[L] nagy tárgy; [K] 20 lábnyi, zóna; [F] 5 célpont",
+      "[L] apró objektum; [K] 100 lábnyi; [F] 12 célpont",
+      "[K] 300 lábnyi; [F] 30 célpont",
+      "[L] kisebb objektum; [K] 1 mérföld; [F] 100 célpont",
+      "[K] 3 mérföld; [F] 300 célpont",
+      "[L] közepes objektum; [K] 10 mérföld; [F] 1000 célpont",
+      "[K] 30 mérföld; [F] 3000 célpont",
+      "[L] nagy objektum; [K] 100 mérföld; [F] 10000 célpont"
+    ],
+    [
+      "egyszeri",
+      "1 kör, pár perces időzítés",
+      "6 kör, pár órás időzítés",
+      "30 perc, pár napos időzítés",
+      "10 óra, pár hetes időzítés",
+      "5 nap, pár hónap hónapos időzítés",
+      "1 hónap, éves időzítés",
+      "1 év, koron belüli időzítés",
+      "100 év",
+      "1000 év, koron túli időzítés",
+      "kor",
+      "örökkévalóság"
+    ]
+  ]

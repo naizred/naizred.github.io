@@ -15,5 +15,10 @@
   },
   "devDependencies": {
     "prisma": "^5.3.1"
+  },
+  "browser":{
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

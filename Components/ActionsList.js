@@ -1,15 +1,12 @@
 import {
     diceRolled, checkIfWeaponIsRanged, chargeWasUsedThisRound, quickShotModifiers, quickShotModifiersIndex, combinationModifiers,
     combinationModifiersIndex, combinationWasUsedThisRound, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, twoWeaponAttackWasUsedThisRound,
-    currentlySelectedWeapon, weaponsOptions, reloadIsNeededSetToFalse, reloadIsNeeded, filteredArrayIfHasAssassination, arrayOfAllComplexMaeuvers, baseAimWithTeoCalculator, currentlySelectedWeaponChanger, diceRolledSetToFalseBySpellNeedsAimRoll
+    currentlySelectedWeapon, weaponsOptions, reloadIsNeededSetToFalse, reloadIsNeeded, filteredArrayIfHasAssassination, arrayOfAllComplexMaeuvers, baseAimWithTeoCalculator, currentlySelectedWeaponChanger, diceRolledSetToFalseBySpellNeedsAimRoll, allMagicSubskillsObject
 } from '../pages';
 import styles from '../styles/actionlist.module.css';
 import { initRolled, updateCharacterData } from './CharacterDetails';
-import Spells, {
-    numberOfActionsSpentOnCastingCurrentSpellAdder, numberOfActionsSpentOnCastingCurrentSpell, castBarCurrentWidthStartAdder,
-    castBarCurrentWidthStart, castBarCurrentWidthEndSetter, castBarCurrentWidthEnd, actionsSpentSinceLastCastAdderCheckerAndNullifier
-} from './Spells';
-import { numberOfActionsNeededForTheSpell, spellCastingFailure, spellCastingSuccessful, spellIsBeingCast } from './Spells';
+import Spells, {actionsSpentSinceLastCastAdderCheckerAndNullifier} from './Spells';
+import { spellCastingFailure } from './Spells';
 export let chargeOn = false
 export function chargeToFalse() {
     chargeOn = false
@@ -262,33 +259,8 @@ function ActionList(props) {
                 numberOfActionsSpentReloading = 0
             }
         }
-        if (nameOfManeuver.includes('Varázslás') && parseInt(numberOfActions.innerText) != 0) {
-            warningWindow.innerText = ""
-            if (spellIsBeingCast==false) {
-                spellInputWrapper.style.display = 'grid'
-                warningWindow.innerText = ""
-            }
-            if (initRolled == false) {
-                spellActionCostListItem.style.display = 'none'
-            }
-            if (initRolled == true) {
-                spellActionCostListItem.style.display = 'grid'
-            }
-            if (initRolled == true && spellIsBeingCast == true && parseInt(numberOfActions.innerText)!=0) {
-                numberOfActionsSpentOnCastingCurrentSpellAdder(1)
-                blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell - numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`)
-                castBarCurrentWidthStartAdder((1/numberOfActionsNeededForTheSpell)*17.1)
-                castBarCurrentWidthEndSetter((numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1)
-                console.log(castBarCurrentWidthStart, castBarCurrentWidthEnd)
-                castBar.animate([{ backgroundSize: `${castBarCurrentWidthStart}vw` }, { backgroundSize: `${castBarCurrentWidthEnd}vw` }], 200)
-                castBar.style.backgroundSize = `${(numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1}vw`
-                numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
-
-                if (numberOfActionsSpentOnCastingCurrentSpell == numberOfActionsNeededForTheSpell) {
-                    spellCastingSuccessful()
-                }
-            }
-        }
+        // ************************* Ha az akció, amire kattintottak nem varázslás, és épp van varázslás folyamatban, akkor a varázslat megszakad
+        //*********************************************************************************** */
         spellCastingFailure(!nameOfManeuver.includes('Varázslás'))
 
         if (initRolled==true && parseInt(numberOfActions.innerText) != 0 && (nameOfManeuver.includes('Elterelés') || nameOfManeuver.includes('Mozgás')) || nameOfManeuver.includes('Manipuláció')) {
@@ -400,7 +372,7 @@ function ActionList(props) {
             <li id='parryAction'><span>Hárítás - Reakció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li>
             <li><span>Kitérés - Reakció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li>
             {/* <li><span>Védekező harc - Akció - 1/0 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li> */}
-            <li id='spellCastingAction'><span>Varázslás - Akció - 1 CS </span><button id='spellCastingActionButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
+            {/* <li id='spellCastingAction'><span>Varázslás - Akció - 1 CS </span><button id='spellCastingActionButton' onClick={handleOtherManeuvers}>Végrehajt</button></li> */}
             {/* <li id='psiUseAction'><span>Pszi használat - Akció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li> */}
             <li><span>Mozgás - Akció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li>
                 <li><span>Újratöltés / Dobófegyver előkészítése - Akció - X CS </span><button id='reloadButton' onClick={handleOtherManeuvers}>Végrehajt</button></li>
@@ -412,7 +384,7 @@ function ActionList(props) {
                 <input id='ammoAmountInput' type='number' />
                 <button>Összeszed</button>
             </div>
-            <Spells/>
+            <Spells {...props} />
             <div id='spellTypeQuestionWindow' className={styles.spellTypeQuestionWindow}>
         <div id='spellTypeQuestionWindowText' className={styles.spellTypeQuestionWindowText}>A varázslat igényel célzó dobást?</div> 
         <button id='spellTypeQuestionWindowNoButton' className={styles.spellTypeQuestionWindowNoButton} onClick={handleSpellTypeNoAimRoll}>Nem</button>
