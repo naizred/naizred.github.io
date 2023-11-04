@@ -39,9 +39,10 @@ export async function fetchCharacterData(currentCharName) {
     for (let i = 0; i < activeBuffsStringArray.length; i++) {
       allActiveBuffs[i].innerText = activeBuffsStringArray[i]
       if (activeBuffsStringArray[i].includes("Fájdalomtűrés") && !activeBuffsArray.includes("Fájdalomtűrés")) {
+        console.log(activeBuffsStringArray[i])
         //**************************************************** */
-        //pontosan a 16. karakter helyén van az fp pajzs mennyisége, így felesleges külön elmenteni, innen szedjük ki
-        fpShieldSetter(parseInt(activeBuffsStringArray[i].charAt(16)))
+        //pontosan a 16. karaktertől slice, így a parseInt megtalálja az fp pajzs mennyiségét
+        fpShieldSetter(parseInt(activeBuffsStringArray[i].slice(16)))
         allActiveBuffs[i].parentElement.lastChild.value = "Fájdalomtűrés"
         activeBuffsArray.push("Fájdalomtűrés")
       }
@@ -553,7 +554,6 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
     }
   }
 
-
   let legendPointIsUsedOnAimedSpell = false
   
   function handleWhenLegendPointIsUsed(event) {
@@ -654,6 +654,15 @@ function removeAllSkillOptions() {
         anyOtherHmoModifier.disabled = false
         skillCheckRollButton.style.display = "grid"
         actionsWrapper.style.display = "grid"
+
+        // ***** berakunk egy observert, hogy figyelje az első buff helyét, és ha üres, akkor töltse oda az alatta lévőt
+        let observer = new MutationObserver(async(event) => {
+          console.log(event[0].target.innerText)
+        })
+        for (let i = 0; i < allActiveBuffs.length; i++) {
+          observer.observe(allActiveBuffs[i], {childList:true, subtree:true});
+        }
+        
         
         let indexOfFirstWeapon = 0
         for (indexOfFirstWeapon; indexOfFirstWeapon < JSON.parse(reader.result).weaponSets.length; indexOfFirstWeapon++) {
@@ -775,7 +784,6 @@ function removeAllSkillOptions() {
         
         let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
         let filteredArrayIfHasAnyMagicSkillSubSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
-        console.log(filteredArrayIfHasAnyMagicSkillSubSkill)
         // --------- objektumba rendezzük a mágiaformákat ahol az érték azoknak a szintje
         // ------de ha szakrális mágiáról van szó, akkor az speciális lesz, ezért erre kell egy külön függvény
 
@@ -1099,7 +1107,6 @@ let defModifier = modifierCalculator(1,2,9)
             modifierByMagicallyAttunedAptitude = 6
           }
         }
-        console.log(filteredArrayIfHasAnyMagicSkill)
         if (filteredArrayIfHasAnyMagicSkill.length != 0) {
           let allMagicSkillLevelsArray = []
           for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
@@ -1114,7 +1121,6 @@ let defModifier = modifierCalculator(1,2,9)
         } else {
           highestMagicSkillName = ""
         }
-        console.log(filteredArrayForNameOfHighestMagicalSkill)
         for (let i = 0; i < schoolsOfMagic.length; i++){
           if (highestMagicSkillName == schoolsOfMagic[i])
           {
