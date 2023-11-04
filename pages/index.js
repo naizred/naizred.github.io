@@ -657,11 +657,25 @@ function removeAllSkillOptions() {
 
         // ***** berakunk egy observert, hogy figyelje az első buff helyét, és ha üres, akkor töltse oda az alatta lévőt
         let observer = new MutationObserver(async(event) => {
-          console.log(event[0].target.innerText)
+          if (event[0].target.innerText == '') {
+            for (let i = 0; i < allActiveBuffs.length; i++) {
+              if (allActiveBuffs[i].innerText == '') {
+                let nodeToRemoveThenAppend = allActiveBuffs[i].parentElement
+                listOfCurrentlyActiveBuffs.removeChild(nodeToRemoveThenAppend)
+                listOfCurrentlyActiveBuffs.appendChild(nodeToRemoveThenAppend)
+              }
+            }
+            allActiveBuffs = document.querySelectorAll("ul#listOfCurrentlyActiveBuffs li")
+          }
         })
         for (let i = 0; i < allActiveBuffs.length; i++) {
           observer.observe(allActiveBuffs[i], {childList:true, subtree:true});
         }
+
+        // if (activeBuffsStringArray[i].includes("Fájdalomtűrés") && !activeBuffsArray.includes("Fájdalomtűrés")) {
+        //   allActiveBuffs[i].parentElement.lastChild.value = "Fájdalomtűrés"
+        //   activeBuffsArray.push("Fájdalomtűrés")
+        // }
         
         
         let indexOfFirstWeapon = 0
