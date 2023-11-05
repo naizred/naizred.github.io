@@ -6,7 +6,6 @@ let skillCheckRolled = false
 export let numberOfClicksAtSkillCheck = 0
   
 export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
-  numberOfClicksAtSkillCheck++
       let zeroArray = [1, 2, 3, 4];
       let oneArray = [5, 6, 7];
       let twoArray = [8, 9];
@@ -41,7 +40,6 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
         skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll
         skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200)
         
-        if (numberOfClicksAtSkillCheck == 1) {
           const data = {
             charName: charName.innerText,
              skillCheckResult: parseInt(skillCheckResult.innerText),
@@ -60,30 +58,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
             body: JSONdata,
           };
           await fetch(endpoint, options);
-        }
-        if(numberOfClicksAtSkillCheck > 1) setTimeout(() => {{
-          const data = {
-            charName: charName.innerText,
-            skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-            skillCheckDiceAfter5sec:  `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`
-          };
         
-          const JSONdata = JSON.stringify(data);
-          const endpoint = "/api/updateCharacter";
-          const options = {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSONdata,
-          };  
-        fetch(endpoint, options);
-        }
-        }, 50);
-        setTimeout(() => {
-          numberOfClicksAtSkillCheck = 0
-        }, 6000);
-
       } else if (stressCheck == true) {
       
         if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
@@ -195,6 +170,10 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
   }
 
 export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+  skillCheckRollButton.disabled = true
+  setTimeout(() => {
+    skillCheckRollButton.disabled = false
+  }, 8000);
 
     skillCheckRolled = true
     skillCheckUseLegendPointCheckBox.style.display = "grid"

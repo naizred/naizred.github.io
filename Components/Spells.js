@@ -1,5 +1,5 @@
 import styles from '../styles/actionlist.module.css';
-import { allMagicSubskillsObject, allResultsCleaner, filteredArrayIfHasManaFlow } from '../pages';
+import { allMagicSubskillsObject, allResultsCleaner, filteredArrayForNameOfHighestMagicalSkill, filteredArrayIfHasManaFlow } from '../pages';
 import { blinkingText} from './ActionsList';
 import { initRolled } from './CharacterDetails';
 export let actionsSpentSinceLastCast = 0
@@ -9,7 +9,7 @@ export let rollButtonWasDisabledBeforeSpellCast = false
 export let numberOfActionsNeededForTheSpell = 0
 export let castBarCurrentWidthStart = 0
 export let castBarCurrentWidthEnd = 0
-
+export let allAspSelect
 export function spellIsBeingCastSetToFalse() {
     spellIsBeingCast = false
 }
@@ -85,6 +85,7 @@ let manaNeededForTheSpell = 0
 
 function Spells(props) {
     let currentSpell
+
     // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
     
     
@@ -100,7 +101,7 @@ function Spells(props) {
        return spellCastTimeFactor = asp-2
     }
     function handleClickOnSpellCastButton() {
-console.log(filteredArrayIfHasManaFlow)
+        allAspSelect = document.querySelectorAll("[id*='AspSelect']")
         if (parseInt(numberOfActions.innerText) != 0) {
         warningWindow.innerText = ""
 
@@ -119,26 +120,26 @@ console.log(filteredArrayIfHasManaFlow)
             }
         }
     }
-                if (spellIsBeingCast == false && actionsNeededToBeAbleToCastAgain==0) {
-                //***************************************************************************** */
-                // itt lesznek betöltve és szűrve a varázslatok, amíg nincs rendesen mecsinálva, addig a sima varázs bevitel lesz érvényben
-                //******************************************************************************* */
-                if (charClass.innerText && charClass.innerText.includes("xx")) {
-                    advancedSpellInputWrapper.style.display = 'grid'
-                    warningWindow.innerText = ""
-                    removeAllOptions('magicSubSkillSelect')
-                    
-                    for (let i = 0; i < allMagicSubskillsObject.length; i++) {
-                        let magicSubSkillOption = document.createElement('option')
-                        magicSubSkillOption.innerText = allMagicSubskillsObject[i][0]
-                        magicSubSkillOption.value = allMagicSubskillsObject[i][1]+ allMagicSubskillsObject[i][0]
-                        magicSubSkillSelect.appendChild(magicSubSkillOption)
-                    }
-                    evaluateMagicSubSkill()
-                    evaluateSpell()                    
-                } else {
-                    spellInputWrapper.style.display = 'grid'
-                    warningWindow.innerText = ""
+     if (spellIsBeingCast == false && actionsNeededToBeAbleToCastAgain==0) {
+    //***************************************************************************** */
+    // itt lesznek betöltve és szűrve a varázslatok, amíg nincs rendesen mecsinálva, addig a sima varázs bevitel lesz érvényben
+    //******************************************************************************* */
+         if (filteredArrayForNameOfHighestMagicalSkill && filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Boszorkánym")) {
+            advancedSpellInputWrapper.style.display = 'grid'
+            warningWindow.innerText = ""
+            removeAllOptions('magicSubSkillSelect')
+                   
+                   for (let i = 0; i < allMagicSubskillsObject.length; i++) {
+                       let magicSubSkillOption = document.createElement('option')
+                       magicSubSkillOption.innerText = allMagicSubskillsObject[i][0]
+                       magicSubSkillOption.value = allMagicSubskillsObject[i][1]+ allMagicSubskillsObject[i][0]
+                       magicSubSkillSelect.appendChild(magicSubSkillOption)
+                   }
+                   evaluateMagicSubSkill()
+                   evaluateSpell()                    
+               } else {
+                   spellInputWrapper.style.display = 'grid'
+                   warningWindow.innerText = ""
                 }
             }
             if (initRolled == false) {
@@ -167,17 +168,83 @@ console.log(filteredArrayIfHasManaFlow)
        currentSpell = props.spellsWarlock.find(
             (spell) => spell.name == `${spellSelect.value}`
         )
-        console.log(currentSpell, currentSpell.aspects[0][1])
-        powerAspSelect.value = props.spellsAspDescript[0][currentSpell.aspects[0][1]-1]
-        distanceAspSelect.value = props.spellsAspDescript[1][currentSpell.aspects[1][1]-1]
-        areaAspSelect.value = props.spellsAspDescript[2][currentSpell.aspects[2][1]-1]
-        durationAspSelect.value = props.spellsAspDescript[3][currentSpell.aspects[3][1] - 1]
+
+        powerAspSelect.value = currentSpell.aspects[0][1]
+        distanceAspSelect.value = currentSpell.aspects[1][1]
+        areaAspSelect.value = currentSpell.aspects[2][1]
+        durationAspSelect.value = currentSpell.aspects[3][1]
+        powerAspSelect.parentElement.value = currentSpell.aspects[0][1]
+        distanceAspSelect.parentElement.value = currentSpell.aspects[1][1]
+        areaAspSelect.parentElement.value = currentSpell.aspects[2][1]
+        durationAspSelect.parentElement.value = currentSpell.aspects[3][1]
+        calculateSpellCastTimeAndManaCost()
+        aspOptionDisabler(filteredArrayForNameOfHighestMagicalSkill[0].level)
+    }
+
+    function aspOptionDisabler(magicSkillLevel) {
+        
+        if (magicSkillLevel<=2) {
+            for (let i = 0; i < allAspSelect.length; i++) {
+                allAspSelect[i].disabled = true
+            }
+        }
+        if (magicSkillLevel==3) {
+            for (let i = 1; i < allAspSelect.length; i++) {
+                allAspSelect[i].disabled = true
+            }
+        }
+        if (magicSkillLevel==4) {
+            for (let i = 1; i < allAspSelect.length; i++) {
+                let aspOptions = document.querySelectorAll(`select#${allAspSelect[i].id} option`)
+                for (let j = 0; j < aspOptions.length; j++) {
+                    aspOptions[j].disabled = true;
+                }
+                for (let j = 0; j < aspOptions.length; j++) {
+                    if (aspOptions[j-1] && aspOptions[j].value == allAspSelect[i].value) {
+                        aspOptions[j-1].disabled = false
+                    }
+                    if (aspOptions[j].value == allAspSelect[i].value) {
+                        aspOptions[j].disabled = false
+                    }
+                    if (aspOptions[j+1] && aspOptions[j].value == allAspSelect[i].value) {
+                        aspOptions[j + 1].disabled = false
+                        break
+                    }
+                }
+            }
+        }
+        if (magicSkillLevel==5) {
+            for (let i = 1; i < allAspSelect.length; i++) {
+                allAspSelect[i].disabled = false
+            }
+        }
+    }
+
+    function handleSpellAspOptionChange(event) {
+        
+        if (event.target.id == 'powerAspSelect') {
+            currentSpell.aspects[0][1] = parseInt(powerAspSelect.value)
+        } else {
+            for (let i = 1; i < allAspSelect.length; i++) {
+                allAspSelect[i].disabled = true
+                currentSpell.aspects[i][1] = parseInt(allAspSelect[i].value)
+                if (event.target.id == allAspSelect[i].id) {
+                    allAspSelect[i].disabled = false
+                }
+            }
+            console.log(event.target.value, event.target.parentElement.value)
+            if (event.target.value == event.target.parentElement.value) {
+               for (let j = 0; j < allAspSelect.length; j++) {
+                allAspSelect[j].disabled = false
+               } 
+            }
+            }
         calculateSpellCastTimeAndManaCost()
     }
 
     function calculateSpellCastTimeAndManaCost() {
         let finalManaCost = 0
-    let finalCastTime = 0
+        let finalCastTime = 0
         let theHighestFiveAspectsPerAspectCategory = []
         let theHighestFiveAspects = []
         let highestAspectPerCategory = []
@@ -194,8 +261,8 @@ console.log(filteredArrayIfHasManaFlow)
         if (currentSpell.aspects.length > 5) {
             for (let i = 0; i < currentSpell.aspects.length; i++) {
                 let calculatedAspect = currentSpell.aspects[i][1] + currentSpell.aspects[i][2] + currentSpell.aspects[i][3]
+                 
                 let calculatedAspectOfNextAspect = 0
-                if (currentSpell.aspects[i + 1]) {
                     
                     while (currentSpell.aspects[i + 1] && (currentSpell.aspects[i][0] == currentSpell.aspects[i + 1][0])) {
                         calculatedAspect = currentSpell.aspects[i][1] + currentSpell.aspects[i][2] + currentSpell.aspects[i][3]
@@ -211,14 +278,11 @@ console.log(filteredArrayIfHasManaFlow)
                     if (highestAspectPerCategory.length !=0) {
                         theHighestFiveAspectsPerAspectCategory.push(Math.max(...highestAspectPerCategory))
                         highestAspectPerCategory = []
-                    }
-                }
-                
+                    }                         
             }
         }
 
         let highestFiveAspectDesc = theHighestFiveAspects.sort((a, b) => b - a)
-        console.log(highestFiveAspectDesc, theHighestFiveAspectsPerAspectCategory)
         for (let i = 0; i < theHighestFiveAspectsPerAspectCategory.length; i++) {
             finalManaCost += manaFactorCalculator(highestFiveAspectDesc[i])
             finalCastTime += spellCastTimeFactorCalculator(theHighestFiveAspectsPerAspectCategory[i])
@@ -231,9 +295,17 @@ console.log(filteredArrayIfHasManaFlow)
         if (finalCastTime <= 0) {
             finalCastTime = 1
         }
-        spellCastTime.innerText = finalCastTime
+        if (finalCastTime <= 10) {
+            spellCastTime.innerText = `${finalCastTime} CS`
+        } else if (finalCastTime > 10 && finalCastTime <=20) {
+            spellCastTime.innerText = `${finalCastTime-10} Perc`
+        } else if (finalCastTime > 20 && finalCastTime <=30) {
+            spellCastTime.innerText = `${finalCastTime-20} Óra`
+        } else if (finalCastTime > 30) {
+            spellCastTime.innerText = `${finalCastTime-30} Nap`
+        }
+        
         spellManaCostDiv.innerText = finalManaCost
-        console.log(finalManaCost, finalCastTime)
     }
 
     function removeAllOptions(selectElementId) {
@@ -247,7 +319,6 @@ console.log(filteredArrayIfHasManaFlow)
         let spellManaCost = 0
         if (event.target.id == 'advancedStartCastButton') {
             spellManaCost = parseInt(spellManaCostDiv.innerText)
-            console.log(parseInt(spellCastTime.innerText), parseInt(spellManaCostDiv.innerText))
         }
         if (event.target.id == 'startCastButton') {
             spellManaCost = parseInt(spellManaCostInput.value)
@@ -268,7 +339,13 @@ console.log(filteredArrayIfHasManaFlow)
             return
         }
         if (event.target.id == 'advancedStartCastButton') {
-            numberOfActionsNeededForTheSpell = parseInt(spellCastTime.innerText)
+            if (spellCastTime.innerText.includes('CS')) {
+                numberOfActionsNeededForTheSpell = parseInt(spellCastTime.innerText)    
+            }
+            if (spellCastTime.innerText.includes('Perc')) {
+                numberOfActionsNeededForTheSpell = parseInt(spellCastTime.innerText)*24
+            }
+            
         }
         if (event.target.id == 'startCastButton') {
             numberOfActionsNeededForTheSpell = parseInt(spellActionCostInput.value)
@@ -333,10 +410,10 @@ console.log(filteredArrayIfHasManaFlow)
             </select>
             </li>
             <li>Erősség:
-                <select id='powerAspSelect'>
-                {props.spellsAspDescript[0].map((power) => {
+                <select id='powerAspSelect' onChange={handleSpellAspOptionChange}>
+                {props.spellsAspDescript[0].map((power, i) => {
               return (
-                <option key={power}>
+                <option value={i+1} key={power}>
                   {power}
                 </option>
               );
@@ -344,10 +421,10 @@ console.log(filteredArrayIfHasManaFlow)
             </select>
             </li>
             <li>Távolság:
-                <select id='distanceAspSelect'>
-                {props.spellsAspDescript[1].map((distance) => {
+                <select id='distanceAspSelect' onChange={handleSpellAspOptionChange}>
+                {props.spellsAspDescript[1].map((distance, i) => {
               return (
-                <option key={distance}>
+                <option value={i+1} key={distance}>
                   {distance}
                 </option>
               );
@@ -355,10 +432,10 @@ console.log(filteredArrayIfHasManaFlow)
             </select>
             </li>
             <li>Terület:
-                <select id='areaAspSelect'>
-                {props.spellsAspDescript[2].map((area) => {
+                <select id='areaAspSelect' onChange={handleSpellAspOptionChange}>
+                {props.spellsAspDescript[2].map((area, i) => {
               return (
-                <option key={area}>
+                <option value={i+1} key={area}>
                   {area}
                 </option>
               );
@@ -366,10 +443,10 @@ console.log(filteredArrayIfHasManaFlow)
             </select>
             </li>
             <li>Időtartam:
-                <select id='durationAspSelect'>
-                {props.spellsAspDescript[3].map((duration) => {
+                <select id='durationAspSelect' onChange={handleSpellAspOptionChange}>
+                {props.spellsAspDescript[3].map((duration, i) => {
               return (
-                <option key={duration}>
+                <option value={i+1} key={duration}>
                   {duration}
                 </option>
               );

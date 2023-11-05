@@ -138,6 +138,8 @@ export let mgtCompensation = 0
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasExtraReaction
 export let filteredArrayIfHasAnyAffinity
+export let filteredArrayForNameOfHighestMagicalSkill
+export let filteredArrayIfHasAnyMagicSkill 
 export let filteredArrayIfHasManaFlow
 export let filteredArrayIfHasPsi
 export let filteredArrayIfHasCombination
@@ -796,7 +798,7 @@ function removeAllSkillOptions() {
           twoWeaponAttackModifiersIndex = filteredArrayIfHasTwoWeaponAttack[0].level
         }
         
-        let filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
+        filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagic.includes(name.name));
         let filteredArrayIfHasAnyMagicSkillSubSkill = JSON.parse(reader.result).skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
         // --------- objektumba rendezzük a mágiaformákat ahol az érték azoknak a szintje
         // ------de ha szakrális mágiáról van szó, akkor az speciális lesz, ezért erre kell egy külön függvény
@@ -1129,7 +1131,7 @@ let defModifier = modifierCalculator(1,2,9)
           highestMagicSkillLevel = parseInt(Math.max(...allMagicSkillLevelsArray))
         } 
         //------ a legmagasabb mágikus képzettség neve is kell a mana számításhoz
-        let filteredArrayForNameOfHighestMagicalSkill = filteredArrayIfHasAnyMagicSkill.filter((skill) => skill.level == highestMagicSkillLevel);
+        filteredArrayForNameOfHighestMagicalSkill = filteredArrayIfHasAnyMagicSkill.filter((skill) => skill.level == highestMagicSkillLevel);
         if (filteredArrayForNameOfHighestMagicalSkill[0] != null) {
           highestMagicSkillName = filteredArrayForNameOfHighestMagicalSkill[0].name
         } else {
