@@ -570,7 +570,7 @@ if (diceRolledSetToFalseBySpellNeedsAimRoll == true) {
   legendPointIsUsedOnAimedSpell = true
 }
     handleClickOnAttackRollButton(parseInt(darkDiceResultSelect.value), parseInt(lightDiceResultSelect.value))
-    legendPointIsUsedOnAimedSpell = false
+    
     diceRolledSetToFalseBySpellNeedsAimRoll = false
     if (numberOfClicksAtTwoWeaponAttack == 1) {
     }
@@ -580,7 +580,7 @@ if (diceRolledSetToFalseBySpellNeedsAimRoll == true) {
     darkDiceResultSelect.disabled = true
     lightDiceResultSelect.disabled = true
     attackRollButton.disabled = false
-    if (attackRollUseLegendPointCheckBox.checked == false && initRolled == true && diceRolled == true) {
+    if (attackRollUseLegendPointCheckBox.checked == false && initRolled == true && diceRolled == true && legendPointIsUsedOnAimedSpell == false) {
       attackRollButton.disabled = true
     }
     if (combinationRadioButton.checked == true || quickShotRadioButton.checked == true || numberOfClicksAtTwoWeaponAttack==1) {
@@ -588,6 +588,7 @@ if (diceRolledSetToFalseBySpellNeedsAimRoll == true) {
     }
     legendPointUsedOnDarkDice = false
     legendPointUsedOnLightDice = false
+    legendPointIsUsedOnAimedSpell = false
   }
 
   function handleWeaponOrShieldChange() {
@@ -803,16 +804,18 @@ function removeAllSkillOptions() {
         // --------- objektumba rendezzük a mágiaformákat ahol az érték azoknak a szintje
         // ------de ha szakrális mágiáról van szó, akkor az speciális lesz, ezért erre kell egy külön függvény
 
-        if (charClass.innerText.toLowerCase().includes("pap")) {
-          for (let i = 0; i < filteredArrayIfHasAnyMagicSkillSubSkill.length; i++) {
-            allMagicSubskillsObject[`${filteredArrayIfHasAnyMagicSkillSubSkill[i].name} - ${filteredArrayIfHasAnyMagicSkillSubSkill[i].subSkill}`] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level
+if (fileFirstLoaded == true) {
+          if (charClass.innerText.toLowerCase().includes("pap")) {
+            for (let i = 0; i < filteredArrayIfHasAnyMagicSkillSubSkill.length; i++) {
+              allMagicSubskillsObject[`${filteredArrayIfHasAnyMagicSkillSubSkill[i].name} - ${filteredArrayIfHasAnyMagicSkillSubSkill[i].subSkill}`] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level
+            }
+          } else {
+            for (let i = 0; i < filteredArrayIfHasAnyMagicSkillSubSkill.length; i++) {
+              allMagicSubskillsObject[`${filteredArrayIfHasAnyMagicSkillSubSkill[i].subSkill}`] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level
+            }
           }
-        } else {
-          for (let i = 0; i < filteredArrayIfHasAnyMagicSkillSubSkill.length; i++) {
-            allMagicSubskillsObject[`${filteredArrayIfHasAnyMagicSkillSubSkill[i].subSkill}`] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level
-          }
-        }
-        allMagicSubskillsObject = Object.entries(allMagicSubskillsObject)
+          allMagicSubskillsObject = Object.entries(allMagicSubskillsObject)
+}
         console.log(allMagicSubskillsObject)
 
         filteredArrayIfHasParry = JSON.parse(reader.result).skills.filter((name) => name.name == "Hárítás")

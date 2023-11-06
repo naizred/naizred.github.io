@@ -319,9 +319,16 @@ function Spells(props) {
         let spellManaCost = 0
         if (event.target.id == 'advancedStartCastButton') {
             spellManaCost = parseInt(spellManaCostDiv.innerText)
+            if (powerAspSelect.value == 1 || powerAspSelect.value == 2) {
+                numberOfDiceInput.value = powerAspSelect.value
+            }
+            if (powerAspSelect.value > 2) {
+                numberOfDiceInput.value = (parseInt(powerAspSelect.value)-1)*2
+            }
         }
         if (event.target.id == 'startCastButton') {
             spellManaCost = parseInt(spellManaCostInput.value)
+            numberOfDiceInput.value = spellDamageInput.value
         }
         allResultsCleaner()
         if (parseInt(currentMp.value) < spellManaCost) {
@@ -330,7 +337,7 @@ function Spells(props) {
         }
         currentMp.value = parseInt(currentMp.value) - spellManaCost
         spellIsBeingCast = true
-        numberOfDiceInput.value = spellDamageInput.value
+        
         numberOfDiceInput.disabled = true
         if (initRolled == false) {
             advancedSpellInputWrapper.style.display = 'none'
