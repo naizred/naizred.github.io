@@ -63,8 +63,6 @@ export function spellCastingSuccessful() {
     }
         actionsSpentSinceLastCast = 0
     }
-    castBarCurrentWidthStart = 0
- castBarCurrentWidthEnd = 0
 }
 export function spellCastingFailure(anyOtherCondition=true) {
     if (initRolled==true && numberOfActionsSpentOnCastingCurrentSpell >= 1 && anyOtherCondition && spellIsBeingCast == true) {
@@ -77,8 +75,6 @@ export function spellCastingFailure(anyOtherCondition=true) {
         }, 350);
         actionsNeededToBeAbleToCastAgain = 0
     }
-    castBarCurrentWidthStart = 0
-    castBarCurrentWidthEnd = 0
 }
 
 let manaNeededForTheSpell = 0
@@ -317,6 +313,8 @@ function Spells(props) {
 
     function handleSpellCast(event) {
         let spellManaCost = 0
+        castBarCurrentWidthStart = 0
+        castBarCurrentWidthEnd = 0
         if (event.target.id == 'advancedStartCastButton') {
             spellManaCost = parseInt(spellManaCostDiv.innerText)
             if (powerAspSelect.value == 1 || powerAspSelect.value == 2) {
