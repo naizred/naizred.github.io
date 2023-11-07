@@ -1209,6 +1209,7 @@ let defModifier = modifierCalculator(1,2,9)
             arrayOfAllComplexMaeuvers[i].disabled = true
           }
           findWeakSpotButton.disabled = true
+          attackOfOpportunityButton.disabled = true
           if(combinationWasUsedThisRound == true){
             hmoModifier(quickShotModifiers[quickShotModifiersIndex])
           }
@@ -1221,6 +1222,7 @@ let defModifier = modifierCalculator(1,2,9)
               twoWeaponAttackRadioButton.disabled = false
           }
           findWeakSpotButton.disabled = false
+          attackOfOpportunityButton.disabled = false
           if (weapons.value.includes('kétkézzel') || weapons.value.includes('Kétkezes') || weapons.value.includes('Pallos') || weapons.value.includes('Alabárd')) {
             twoWeaponAttackRadioButton.disabled = true
           }

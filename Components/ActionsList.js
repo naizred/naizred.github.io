@@ -75,6 +75,16 @@ export let findWeakSpotModifier = 0
 export function findWeakSpotModifierNullifier() {
     findWeakSpotModifier = 0
 }
+export function reloadFailed(anyCondition = true) {
+    if (anyCondition && numberOfActionsSpentReloading >= 1 && reloadIsNeeded==true) {
+        numberOfActionsSpentReloading = 0
+        if (currentlySelectedWeapon.w_type=="VET" || currentlySelectedWeapon.w_type=="NYD" || currentlySelectedWeapon.w_type=="PD") {
+            blinkingText(warningWindow, `Elő kell készítened egy új dobófegyvert ${currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading} CS`)
+            } else {
+            blinkingText(warningWindow, `Újra kell töltened ${currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading} CS`)
+            }
+    }
+}
 let currentActionExtraCost = 0
 function ActionList(props) {
     
@@ -263,9 +273,7 @@ function ActionList(props) {
 if (currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading > 0 ) {
 }        
             } 
-            if (!nameOfManeuver.includes('töltés') && numberOfActionsSpentReloading >= 1) {
-                numberOfActionsSpentReloading = 0
-            }
+            reloadFailed(!nameOfManeuver.includes('töltés'))
         }
         // ************************* Ha az akció, amire kattintottak nem varázslás, és épp van varázslás folyamatban, akkor a varázslat megszakad
         //*********************************************************************************** */

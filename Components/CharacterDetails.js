@@ -3,7 +3,7 @@ import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToF
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, allActiveBuffs} from '../pages';
 import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostCheckerAndSetter, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier, dmgReductionByGoldenBellSetter, dmgReductionByGoldenBell, buffTextChecker, theRoundGoldenBellWasUsedIn, goldenBellDuration, innerTimeNegativeModifierNullifier, theRoundInnerTimeWasUsedIn, innerTimeNegativeModifier } from './PsiDisciplines';
 import {
-  chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostOfAttackSetter, twoWeaponAttackToFalse, findWeakSpotOn, findWeakSpotOnToFalse, findWeakSpotModifier, findWeakSpotModifierNullifier
+  chargeToFalse, hmoModified, hmoModifiedToFalse, hmoModifier, totalActionCostOfAttackSetter, twoWeaponAttackToFalse, findWeakSpotOn, findWeakSpotOnToFalse, findWeakSpotModifier, findWeakSpotModifierNullifier, reloadFailed
 } from './ActionsList';
 import { spellCastingSuccessful, spellCastingFailure, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellIsBeingCast } from './Spells';
 export let initRolled = false
@@ -190,6 +190,7 @@ function CharacterDetails() {
       }
       actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
       spellCastingFailure()
+      reloadFailed()
     }
     }
     
@@ -199,6 +200,7 @@ function CharacterDetails() {
         numberOfReactions.innerText = parseInt(numberOfReactions.innerText) + 1
         actionsSpentSinceLastCastAdderCheckerAndNullifier(1)
         spellCastingFailure()
+        reloadFailed()
     }
     if (parseInt(numberOfActions.innerText) < 2) {
       attackRollButton.disabled = true
@@ -258,7 +260,8 @@ function CharacterDetails() {
     }
 
     // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat megszakad
-      spellCastingFailure((parseInt(numberOfActions.innerText) > 0))
+    spellCastingFailure((parseInt(numberOfActions.innerText) > 0))
+    reloadFailed((parseInt(numberOfActions.innerText) > 0))
 
     numberOfReactions.innerText = 0
     initiativeRollLegendPointCheckBox.style.display = 'none'
@@ -363,6 +366,7 @@ allResultsCleaner()
     if (initRolled == true) {
       attackRollButton.disabled = true
       spellCastingFailure()
+      reloadFailed()
       actionsLostWithTacticsUsed = parseInt(numberOfActions.innerText)
       numberOfActions.innerText = 0
       tacticsUsed = true
