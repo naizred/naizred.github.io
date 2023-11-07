@@ -253,7 +253,16 @@ function ActionList(props) {
                     if (diceRolled == false && parseInt(numberOfActions.innerText) >= totalActionCostOfAttack) {
                         attackRollButton.disabled = false
                     }
-                } 
+                }
+if (currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading > 0 ) {
+        attackRollButton.disabled = true
+        reloadButton.disabled = false
+        if (currentlySelectedWeapon.w_type=="VET" || currentlySelectedWeapon.w_type=="NYD" || currentlySelectedWeapon.w_type=="PD") {
+          blinkingText(warningWindow, `Elő kell készítened egy új dobófegyvert ${currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading} CS`)
+        } else {
+          blinkingText(warningWindow, `Újra kell töltened ${currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading} CS`)
+        }
+}        
             } 
             if (!nameOfManeuver.includes('töltés') && numberOfActionsSpentReloading >= 1) {
                 numberOfActionsSpentReloading = 0
