@@ -1,5 +1,5 @@
 import styles from '../styles/chardetails.module.css';
-import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay, allResultsCleaner } from '../pages';
+import { setDiceRolledToFalse, chargeWasUsedThisRound, chargeWasUsedThisRoundToFalse, currentlySelectedWeapon, rollOptions, checkIfWeaponIsRanged, combinationWasUsedThisRoundSetToFalse, combinationWasUsedThisRound, twoWeaponAttackWasUsedThisRound, twoWeaponAttackWasUsedThisRoundToFalse, twoWeaponAttackModifiers, twoWeaponAttackModifiersIndex, reloadIsNeeded, reloadIsNeededSetToFalse, toggleAllallActionBarButtonsExceptInitRollDisplay, allResultsCleaner, numberOfAttacksInTheRound, numberOfAttacksInTheRoundNullifier, modifierFromNumberOfAttacksInTheRoundNullifier, modifierFromNumberOfAttacksInTheRound } from '../pages';
 import { filteredArrayIfHasExtraReaction, arrayOfAllComplexMaeuvers, quickShotModifiers, quickShotModifiersIndex, combinationModifiers, combinationModifiersIndex, allActiveBuffs} from '../pages';
 import { theRoundChiCombatWasUsedIn, activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList, psiPointCostCheckerAndSetter, chiCombatAtkDefModifier, chiCombatAtkDefModifierNullifier, dmgReductionByGoldenBellSetter, dmgReductionByGoldenBell, buffTextChecker, theRoundGoldenBellWasUsedIn, goldenBellDuration, innerTimeNegativeModifierNullifier, theRoundInnerTimeWasUsedIn, innerTimeNegativeModifier } from './PsiDisciplines';
 import {
@@ -59,7 +59,8 @@ var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0
 function CharacterDetails() {
   function handleInitiativeRoll() {
-
+    numberOfAttacksInTheRoundNullifier()
+    modifierFromNumberOfAttacksInTheRoundNullifier()
     toggleAllallActionBarButtonsExceptInitRollDisplay('grid')
     allResultsCleaner()
 
@@ -320,7 +321,9 @@ function CharacterDetails() {
       combinationWasUsedThisRoundSetToFalse()
       hmoModifiedToFalse()
 allResultsCleaner()
-
+      numberOfAttacksInTheRoundNullifier()
+      hmoModifier(modifierFromNumberOfAttacksInTheRound)
+      modifierFromNumberOfAttacksInTheRoundNullifier()
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)==true && currentlySelectedWeapon.w_type != "MÁGIA" && reloadIsNeeded == true) {
         attackRollButton.disabled = true
       }
@@ -441,6 +444,9 @@ allResultsCleaner()
     chiCombatAtkDefModifierNullifier()
     buffRemoverFromActiveBuffArrayAndTextList('Aranyharang')
     dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell)
+    numberOfAttacksInTheRoundNullifier()
+    hmoModifier(modifierFromNumberOfAttacksInTheRound)
+    modifierFromNumberOfAttacksInTheRoundNullifier()
 allResultsCleaner()
   }
   

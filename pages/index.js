@@ -7,7 +7,8 @@ import ActionList, {
   assassinationToFalse, attackOfOpportunityOn, attackOfOpportunityOnSetToFalse,
   charAtkValueSave, findWeakSpotOn, findWeakSpotOnToFalse, hmoModifier, spellNeedsAimRoll, spellNeedsAimRollSetToFalse, totalActionCostOfAttack,
   totalActionCostOfAttackSetter, weaponBeforeCasting, blinkingText, findWeakSpotModifier,
-  findWeakSpotModifierNullifier
+  findWeakSpotModifierNullifier,
+  toggleTwoHandedWeaponsDisplay
 } from "../Components/ActionsList";
 import { actionsSpentSinceLastCastAdderCheckerAndNullifier, rollButtonWasDisabledBeforeSpellCast, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier } from "../Components/Spells";
 import ArmorDetails, { equippedOrNotSetToManual } from "../Components/ArmorDetails";
@@ -229,6 +230,15 @@ export function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
   }return false
 }
 export let tempImg
+export let numberOfAttacksInTheRound = 0
+export function numberOfAttacksInTheRoundNullifier() {
+  numberOfAttacksInTheRound = 0
+}
+export let modifierFromNumberOfAttacksInTheRound = 0
+export function modifierFromNumberOfAttacksInTheRoundNullifier() {
+  modifierFromNumberOfAttacksInTheRound = 0
+}
+
 //********************************************* */
 // --- itt kezdődik az oldal maga
 //********************************************************* */
@@ -356,14 +366,14 @@ let damageOfFists = "1k10"
       }
       }
 
-    if (numberOfClicksForAttacks <= availableNumberOfAttacksFromPsiAssault) {
+    if (numberOfClicksForAttacksForPsiAssault <= availableNumberOfAttacksFromPsiAssault) {
       result += specialAtkModifierFromPsiAssault
       if (result >=10) {
         result = 10
       }
-    } else if (numberOfClicksForAttacks > availableNumberOfAttacksFromPsiAssault) {
+    } else if (numberOfClicksForAttacksForPsiAssault > availableNumberOfAttacksFromPsiAssault) {
       buffRemoverFromActiveBuffArrayAndTextList('Pszi Roham')
-      numberOfClicksForAttacks = 0
+      numberOfClicksForAttacksForPsiAssault = 0
     }
         return result;     
   }
@@ -1033,27 +1043,27 @@ let defModifier = modifierCalculator(1,2,9)
           }
           charDefWithParry.value = tvcoCalculator(defWithProfession + Math.floor(currentlySelectedOffHand.weaponDef * (filteredArrayIfHasParry[0].level / 2)))
           - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
-          + chiCombatAtkDefModifier - innerTimeNegativeModifier
+          + chiCombatAtkDefModifier - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound
         } else {
           charDefWithParry.value = tvcoCalculator(defWithProfession)
           - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
-          + chiCombatAtkDefModifier - innerTimeNegativeModifier
+          + chiCombatAtkDefModifier - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound
         } 
         
         if (filteredArrayIfHasNimble.length != 0) {
           charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5 + 0.5 * parseInt(filteredArrayIfHasNimble[0].level)
           - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
-          + chiCombatAtkDefModifier - innerTimeNegativeModifier
+          + chiCombatAtkDefModifier - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound
         } else if (filteredArrayIfHasNimble.length == 0) {
           charDefWithEvasion.value = tvcoCalculator(defWithProfession) + 0.5
           - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
-          + chiCombatAtkDefModifier - innerTimeNegativeModifier
+          + chiCombatAtkDefModifier - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound
         }
         
         if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
           charAtk.value = tvcoCalculator(atkWithProfession)
           - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) - parseFloat(totalMgtOfArmorSet.innerText / 2)
-          + chiCombatAtkDefModifier - innerTimeNegativeModifier + findWeakSpotModifier
+          + chiCombatAtkDefModifier - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound + findWeakSpotModifier
           // if (charAtk.value < 0) {
           //   charAtk.value = 0
           // }
@@ -1225,6 +1235,9 @@ let defModifier = modifierCalculator(1,2,9)
           attackOfOpportunityButton.disabled = false
           if (weapons.value.includes('kétkézzel') || weapons.value.includes('Kétkezes') || weapons.value.includes('Pallos') || weapons.value.includes('Alabárd')) {
             twoWeaponAttackRadioButton.disabled = true
+          } else {
+            twoWeaponAttackRadioButton.disabled = false
+            toggleTwoHandedWeaponsDisplay("grid")
           }
           if(combinationWasUsedThisRound == true){
             hmoModifier(combinationModifiers[combinationModifiersIndex])
@@ -1272,7 +1285,7 @@ let defModifier = modifierCalculator(1,2,9)
   }
 
   // ez a számláló a pszi roham miatt van
-  let numberOfClicksForAttacks = 0
+  let numberOfClicksForAttacksForPsiAssault = 0
   //ez pedig a kétkezes harc miatt
   let numberOfClicksAtTwoWeaponAttack = 0
   
@@ -1287,8 +1300,9 @@ let defModifier = modifierCalculator(1,2,9)
 
     //*********************************************************************** */
     //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
-    if (legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
-      numberOfClicksForAttacks++
+    if (legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false && spellNeedsAimRoll == false) {
+      numberOfClicksForAttacksForPsiAssault++
+      numberOfAttacksInTheRound++
     }
 
     if (twoWeaponAttackRadioButton.checked == true && legendPointUsedOnDarkDice == false && legendPointUsedOnLightDice == false) {
@@ -1304,7 +1318,14 @@ let defModifier = modifierCalculator(1,2,9)
     bigSpellDamageRollLegendPointCheckBox.checked = false
     bigSpellDamageRollLegendPointCheckBox.style.display = 'none'
   
-    //-----------------------megnézni, hogy van-e erő sebzés 
+    //-----------------------megnézni, hogy van-e erő sebzés
+    
+    if (initRolled == true) {
+      if (currentlySelectedWeapon.atkPerRound<numberOfAttacksInTheRound) {
+        hmoModifier(-1)
+        modifierFromNumberOfAttacksInTheRound++
+      }
+    }
     
     if (currentlySelectedWeapon.strBonusDmg == false) {
       rollResult.innerText = ttkRoll(false, darkDice, lightDice);
