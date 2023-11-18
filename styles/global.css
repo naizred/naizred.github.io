@@ -44,7 +44,35 @@ li{
   /* text-shadow: 0.3vw 0.3vw 0.4vw #682600; */
   padding-left: 2vw;
   justify-content: center;
-  
+}
+
+#welcomeWindow{
+  display: grid;
+  grid-auto-flow: row;
+  grid-column: 1/22;
+  grid-row: 1/25;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  height: 100vw;
+  width: 95vw;
+  margin: 0vw;
+  margin-top: -5vw;
+  padding: 0vw;
+  font-family: 'MedievalSharp', cursive;
+  color: black;
+  font-size: 1.4vw;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding-left: 2vw;
+  background-image: url('../public/parchmentPaper.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#welcomeText{
+  display: grid;
+  grid-row: 1/5;
+  height: 30vw;
 }
 
 /* #__next{
@@ -394,7 +422,7 @@ margin-left: 1vw;
 }
 
 #skillCheckRollResultWrapper{
-  display: grid;
+  display: none;
   grid-row: 3/5;
   grid-column: 2 / 7;
   grid-template-columns: repeat(5,1fr);
@@ -473,12 +501,11 @@ grid-row:1/3
   opacity: 0.7;
   color: #000000;
 }
-
+/* 
 a:link {
     text-decoration: none;
     color: #000000;
     text-shadow: 0.3vw 0.3vw 0.4vw #682600;
-
 }
 
 a:visited {
@@ -497,7 +524,7 @@ a:active {
     color: #000000;
     text-shadow: 0.3vw 0.3vw 0.4vw #682600;
 
-}
+} */
 
 input,
 select {
@@ -553,8 +580,7 @@ button:disabled {
 .fileInputWrapper {
     position: relative;
     display: grid;
-    grid-column: 1 / 4;
-    grid-row: 1 / 3;
+    grid-row: 5/6;
     margin-left: 0.5vw;
   }
   
@@ -589,7 +615,7 @@ margin-right: 0.5vw;
 #charInfoWrapper {
   display: grid;
   grid-column: 1 / 4;
-  grid-row: 3 / 5;
+  grid-row: 1 / 3;
   height: 6.5vw;
   grid-template-rows: repeat(5,1fr);
   align-self: center;
@@ -627,7 +653,7 @@ grid-row: 5 / 6;
 #charMovementWrapper{
   display: grid;
   grid-column: 1 / 4;
-  grid-row: 5 / 7;
+  grid-row: 3 / 5;
   height: 5.5vw;
   align-self: center;
   align-items: center;
@@ -643,7 +669,7 @@ grid-row: 5 / 6;
 }
 
   #rollResultWrapper{
-    display: grid;
+    display: none;
     grid-column: 12 / 16;
     margin: 0.5vw;
     grid-row: 1 / 3;

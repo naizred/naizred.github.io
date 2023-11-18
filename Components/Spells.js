@@ -287,7 +287,7 @@ function Spells(props) {
         if (filteredArrayIfHasManaFlow.length != 0) {
             finalCastTime -= filteredArrayIfHasManaFlow[0].level
         }
-
+console.log(highestFiveAspectDesc[0])
         if (finalCastTime <= 0) {
             finalCastTime = 1
         }
@@ -392,6 +392,18 @@ function Spells(props) {
             spellInputWrapper.style.display = 'none'
         }        
     }
+    function handleSpellSelectMouseEnter() {
+        
+            spellDescriptionWindow.style.display = 'grid'
+        
+        spellDescriptionWindow.innerText = `${currentSpell.description}`
+    }
+    function handleSpellDescriptionMouseLeave() {
+        spellDescriptionWindow.animate([{ opacity: 1 }, { opacity: 0 }], 500)
+        setTimeout(() => {
+            spellDescriptionWindow.style.display = 'none'
+        }, 490);
+    }
     
     return (<>
         <div id='spellCastButtonWrapper' className={styles.spellCastButtonWrapper}>
@@ -408,11 +420,12 @@ function Spells(props) {
         <div id='advancedSpellInputWrapper' className={styles.advancedSpellInputWrapper}>
             <li>Mágiaforma:
                 <select id='magicSubSkillSelect'onChange={evaluateMagicSubSkill}>
-            </select>
+                </select>
             </li>
             <li>Varázslat:
                 <select id='spellSelect' onChange={evaluateSpell}>
-            </select>
+                </select>
+                <div onMouseEnter={handleSpellSelectMouseEnter}>Leírás</div>
             </li>
             <li>Erősség:
                 <select id='powerAspSelect' onChange={handleSpellAspOptionChange}>
@@ -466,6 +479,7 @@ function Spells(props) {
             <button id='advancedSpellInputWrapperCancelCastButton' onClick={handleCancelSpellCast}>Mégse</button>
             <button id='advancedStartCastButton' onClick={handleSpellCast}>Elkezdek varázsolni</button>
         </div>
+        <div id='spellDescriptionWindow' className={styles.spellDescriptionWindow} onMouseLeave={handleSpellDescriptionMouseLeave}></div>
         </>
     )
 }

@@ -105,6 +105,34 @@
     grid-template-columns: repeat(3,1fr);
     align-items: center;
 }
+.advancedSpellInputWrapper li div{
+    display: grid;
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    align-items: center;
+    margin-left: 1vw;
+    font-size: 0.8vw;
+    padding: 0.2vw;
+}
+.spellDescriptionWindow {
+    display: none;
+    font-size: 1vw;
+    border: 0.23vw solid #680604;
+    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border-radius: 1vw;
+    grid-column: 13/ 22;
+    grid-row: 6/9;
+    background-image: url('../public/parchmentPaper.jpg');
+    background-repeat: no-repeat;
+    background-size: 50vw 50vw;
+    background-position: center;
+    padding: 0.5vw;
+}
 .advancedSpellInputWrapper li button{
     display: grid;
     width: 3vw;

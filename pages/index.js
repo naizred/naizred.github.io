@@ -21,6 +21,7 @@ import PsiDisciplines, {
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
+import Link from "next/link";
 var MersenneTwister = require('mersenne-twister');
 export var generator = new MersenneTwister();
 export async function fetchCharacterData(currentCharName) {
@@ -814,7 +815,10 @@ function removeAllSkillOptions() {
         // --------- objektumba rendezzük a mágiaformákat ahol az érték azoknak a szintje
         // ------de ha szakrális mágiáról van szó, akkor az speciális lesz, ezért erre kell egy külön függvény
 
-if (fileFirstLoaded == true) {
+        if (fileFirstLoaded == true) {
+          welcomeWindow.style.display = "none"
+          rollResultWrapper.style.display = "grid"
+          skillCheckRollResultWrapper.style.display = "grid"
           if (charClass.innerText.toLowerCase().includes("pap")) {
             for (let i = 0; i < filteredArrayIfHasAnyMagicSkillSubSkill.length; i++) {
               allMagicSubskillsObject[`${filteredArrayIfHasAnyMagicSkillSubSkill[i].name} - ${filteredArrayIfHasAnyMagicSkillSubSkill[i].subSkill}`] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level
@@ -1628,11 +1632,6 @@ allResultsCleaner()
             <span id="maxMove"></span>
             <span id="movePerAction"></span>
           </div>
-<div className="fileInputWrapper">
-  <button className="customFileButton">Karakter importálása</button>
-  <input type="file" id="inputFile" accept=".txt" onChange={handleFileRead}/>
-</div>
-
         <div className={styles.weaponsContainer}>
           <label htmlFor="weapons" id="chosenWeapon">
             Választott fegyver:
@@ -1732,8 +1731,33 @@ allResultsCleaner()
           <PsiDisciplines {...props}/>
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}
-          <SkillCheck {...props} />
+        <SkillCheck {...props} />
+        <div id="welcomeWindow"><div id="welcomeText">Üdvözöllek kalandozó! <br />
+        <br />
+        A ttk roll dice alkalmazás célja, hogy megkönnyítse a dolgodat a TTK rendszerében, mely elsőre bonyolultnak tűnhet. <br />
+        <br />
+ - Segít a képzettség- és tulajdonság próbadobásokban, ahol választhatsz stressz és normálpróba között is. <br />
+ - A támadódobás során értelmezi a dobott értékeket és kiszámolja a fegyver sebzését, figyelembe véve a karakteredre vonatkozó minden statisztikát.<br />
+          - Folyamatosan képes nyomon követni a harc történéseit, így a kezdeményező dobás után már nem hajigálhatod csak úgy a támadókat. Továbbá nem válthatsz fegyvert sem, csak ha "Fegyverváltás" akciót használsz,
+          vagy nem lőhetsz/dobhatsz el újra távolsági fegyvert, amíg nem töltesz újra/veszel elő újat.<br />
+          - A varázslásra kattintva a varászműhelyben kiszámolt CS, Mp, és - ha célzott mágiáról van szó - CÉO értékekkel is boldogul. <br />
+          <a target="_blank" href="https://magustk.hu/0.88/varazsmuhely" rel="noopener noreferrer">https://magustk.hu/0.88/varazsmuhely</a><br />
+<br />
+Tervezem a jövőben oktató videók és információs ablakok formájában gyorsítani és könnyíteni a használatot. <br />
+          <br />
+          Ha bármilyen hibát vagy helytelen működést észlelnél, kérlek ne habozz azt jelezni. Discordon a Tiltott törvénykönyv csatornáján naizred#1586 néven megtalálsz.<br />
+          <br />
+          Az alkalmazás csak a TTK karakteralkotójából exportált, .txt kiterjesztésű karakterrel működik jól,
+          akinek nevet is kell, hogy adjál az alkotás során. <br /><a target="_blank" href="https://magustk.hu/0.88/karakteralkoto" rel="noopener noreferrer">https://magustk.hu/0.88/karakteralkoto</a> <br />
+          <br />
+          Szerencsés dobásokat és jó használatot a TTK Rolldice apphoz!<br />
+          </div>
+        <div className="fileInputWrapper">
+  <button className="customFileButton">Karakter importálása</button>
+  <input type="file" id="inputFile" accept=".txt" onChange={handleFileRead}/>
+</div></div>
       </main>
+      
     </>
   );
 }

@@ -73,7 +73,7 @@
 }
 .psiRecoveryWrapper{
     display: grid;
-    grid-row: 13/15;
+    grid-row: 11/13;
     grid-column: 1/4;
     grid-template-rows: repeat(3,1fr);
     font-size: 0.8vw;

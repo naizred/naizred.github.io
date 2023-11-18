@@ -3,7 +3,7 @@
     "aspects": [["Erősség", 1, 0, 0], ["Távolság", 1, 0, 0], ["Terület", 1, 0, 0], ["Időtartam", 3, 0, 0], ["Mechanizmus", 6, 0, 0], ["Mechanizmus", 1, 0, 0]],
     "fok": 1,
     "magicSubclass": "Villámmágia",
-    "description": "A varázslat hatására villámenergia kezd felhalmozódni a boszorkánymester bal kezében. A villám kezdeti Erőssége minden teljes elteltekor eggyel növekszik, ám sosem haladhatja meg a Villámmágia fokának kétszeresét. A varázslat időtartama 6 kör, melyet követően az energia nyomtalanul elvész. Ez idő alatt a bal kéz érintésével kisül az abban felhalmozott energia. Ilyenkor a felhalmozást az alap Erősségtől kezdődően újra kell kezdeni, tehát az energiagyűjtés a varázslat időtartama alatt töretlenül zajlik.  Az alap TÉ-n felül még +0,5 TÉO(1) illeti meg a varázstudót.",
+    "description": "A varázslat hatására villámenergia kezd felhalmozódni a boszorkánymester bal kezében. A villám kezdeti Erőssége minden teljes kör elteltekor eggyel növekszik, ám sosem haladhatja meg a Villámmágia fokának kétszeresét. A varázslat időtartama 6 kör, melyet követően az energia nyomtalanul elvész. Ez idő alatt a bal kéz érintésével kisül az abban felhalmozott energia. Ilyenkor a felhalmozást az alap Erősségtől kezdődően újra kell kezdeni, tehát az energiagyűjtés a varázslat időtartama alatt töretlenül zajlik.  Az alap TÉ-n felül még +0,5 TÉO(1) illeti meg a varázstudót.",
     "resist": "TÉOvVÉO"
   },
   {
