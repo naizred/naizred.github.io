@@ -561,7 +561,7 @@ if (currentlySelectedWeapon.w_type == "Ökölharc") {
       darkDiceResultSelect.disabled = true
       lightDiceResultSelect.disabled = true
     }
-    if (attackRollUseLegendPointCheckBox.checked == false) {
+    if ((attackRollUseLegendPointCheckBox.checked == false && diceRolled == false)||(attackRollUseLegendPointCheckBox.checked == false && combinationRadioButton.checked == true && diceRolled == true)) {
       attackRollButton.disabled = false
       disarmRadioButton.checked = false
     }
@@ -918,7 +918,7 @@ let defModifier = modifierCalculator(1,2,9)
         for (let i = 0; i < JSON.parse(reader.result).skills.length; i++) {
           if (JSON.parse(reader.result).skills[i].name != null) {          
           let skillOption = document.createElement('option');
-          skillOption.value = [JSON.parse(reader.result).skills[i].level, JSON.parse(reader.result).skills[i].name];
+          skillOption.value = [JSON.parse(reader.result).skills[i].level, JSON.parse(reader.result).skills[i].name, JSON.parse(reader.result).skills[i].subSkill];
           let tempLevelNameStore = parseInt(JSON.parse(reader.result).skills[i].level);
           if (JSON.parse(reader.result).skills[i].subSkill) {
             skillOption.innerText = `${JSON.parse(reader.result).skills[i].name} (${JSON.parse(reader.result).skills[i].subSkill}) (${skillLevelsMeaning[tempLevelNameStore - 1]})`;

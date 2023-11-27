@@ -2,6 +2,7 @@ import styles from '../styles/actionlist.module.css';
 import { allMagicSubskillsObject, allResultsCleaner, filteredArrayForNameOfHighestMagicalSkill, filteredArrayIfHasManaFlow } from '../pages';
 import { blinkingText} from './ActionsList';
 import { initRolled } from './CharacterDetails';
+import { evaluateSkillOrAttributeCheckBase, handleSkillCheck } from './SkillCheck';
 export let actionsSpentSinceLastCast = 0
 export let spellIsBeingCast = false
 export let actionsNeededToBeAbleToCastAgain = 0
@@ -106,7 +107,6 @@ function Spells(props) {
             blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell - numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`)
             castBarCurrentWidthStart += (1/numberOfActionsNeededForTheSpell)*17.1
             castBarCurrentWidthEnd = (numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1
-            console.log(castBarCurrentWidthStart, castBarCurrentWidthEnd)
             castBar.animate([{ backgroundSize: `${castBarCurrentWidthStart}vw` }, { backgroundSize: `${castBarCurrentWidthEnd}vw` }], 200)
             castBar.style.backgroundSize = `${(numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1}vw`
             numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1
@@ -216,10 +216,17 @@ function Spells(props) {
         }
     }
 
+    let powerAspModified = false
+    let anyAspExceptPowerAspModified = false
     function handleSpellAspOptionChange(event) {
-        
         if (event.target.id == 'powerAspSelect') {
             currentSpell.aspects[0][1] = parseInt(powerAspSelect.value)
+            if (event.target.value == event.target.parentElement.value) {
+                powerAspModified = false
+             } 
+            if (event.target.value != event.target.parentElement.value) {
+                powerAspModified = true
+             } 
         } else {
             for (let i = 1; i < allAspSelect.length; i++) {
                 allAspSelect[i].disabled = true
@@ -228,25 +235,32 @@ function Spells(props) {
                     allAspSelect[i].disabled = false
                 }
             }
-            console.log(event.target.value, event.target.parentElement.value)
             if (event.target.value == event.target.parentElement.value) {
                for (let j = 0; j < allAspSelect.length; j++) {
                 allAspSelect[j].disabled = false
-               } 
+                }
+                anyAspExceptPowerAspModified = false
             }
+            if (event.target.value != event.target.parentElement.value) {
+                anyAspExceptPowerAspModified = true
+            }
+            
             }
         calculateSpellCastTimeAndManaCost()
+        console.log("volt erő mod?",powerAspModified,"volt más asp mod?", anyAspExceptPowerAspModified)
     }
-
+    let highestAspectOfUnmodifiedAspects = []
     function calculateSpellCastTimeAndManaCost() {
         let finalManaCost = 0
         let finalCastTime = 0
         let theHighestFiveAspectsPerAspectCategory = []
         let theHighestFiveAspects = []
         let highestAspectPerCategory = []
+        
         for (let i = 0; i < currentSpell.aspects.length; i++) {
             let calculatedAspect = currentSpell.aspects[i][1] + currentSpell.aspects[i][2] + currentSpell.aspects[i][3]
             theHighestFiveAspects.push(calculatedAspect)
+            highestAspectOfUnmodifiedAspects.push(currentSpell.aspects[i][1])
         }
         if (currentSpell.aspects.length == 5) {
             for (let i = 0; i < currentSpell.aspects.length; i++) {
@@ -287,7 +301,7 @@ function Spells(props) {
         if (filteredArrayIfHasManaFlow.length != 0) {
             finalCastTime -= filteredArrayIfHasManaFlow[0].level
         }
-console.log(highestFiveAspectDesc[0])
+console.log(Math.max(...highestAspectOfUnmodifiedAspects))
         if (finalCastTime <= 0) {
             finalCastTime = 1
         }
@@ -317,6 +331,58 @@ console.log(highestFiveAspectDesc[0])
         castBarCurrentWidthEnd = 0
         if (event.target.id == 'advancedStartCastButton') {
             spellManaCost = parseInt(spellManaCostDiv.innerText)
+            let selectAllSkillOptions = document.querySelectorAll('select#skills option')
+            let selectAllAttributeOptions = document.querySelectorAll('select#attributes option')
+            let spellAttributesArray = Object.entries(props.spellAttributes[0])
+            let highestAttributeForMagicSubSkill = ""
+            
+            for (let i = 0; i < spellAttributesArray.length; i++) {
+                console.log(spellAttributesArray[i][0])
+                let spellSubskillAttributesArray = Object.entries(spellAttributesArray[i][1])
+                console.log(spellSubskillAttributesArray)
+                let spellAttribute1value = 0
+                let spellAttribute2value = 0
+                if (spellAttributesArray[i][0] == filteredArrayForNameOfHighestMagicalSkill[0].name) {
+                    for (let j = 0; j < spellSubskillAttributesArray.length; j++) {
+                        console.log(spellSubskillAttributesArray[j], spellSubskillAttributesArray[j][1], spellSubskillAttributesArray[j][0], magicSubSkillSelect.value.slice(1))
+                        if (spellSubskillAttributesArray[j][0]==magicSubSkillSelect.value.slice(1)) {
+                            for (let k = 0; k < selectAllAttributeOptions.length; k++) {
+                                
+                            }spellAttribute1value = spellSubskillAttributesArray[j][1][0]
+                            spellAttribute2value = spellSubskillAttributesArray[j][1][1]
+                            console.log(spellAttribute1value, spellAttribute2value)
+                            break
+                        }
+                        
+                        
+                    }
+                    
+                    for (let k = 0; k < selectAllAttributeOptions.length; k++) {
+                        console.log(selectAllAttributeOptions[k].value.slice(-3))
+                        if (condition) {
+                            
+                        }
+                    }
+                    break
+                }
+               
+            }
+            for (let j = 0; j < selectAllSkillOptions.length; j++) {
+                if (selectAllSkillOptions[j].value.includes(magicSubSkillSelect.value.slice(1))) {
+                  skills.value = selectAllSkillOptions[j].value
+                  break
+                }
+            }
+            
+            for (let i = 0; i < selectAllAttributeOptions.length; i++) {
+              if (selectAllAttributeOptions[i].innerText == "Erő") {
+                  attributes.value = selectAllAttributeOptions[i].value
+                  break
+              }
+            }
+            console.log(spellAttributesArray)
+            evaluateSkillOrAttributeCheckBase()
+            handleSkillCheck(false)
             if (powerAspSelect.value == 1 || powerAspSelect.value == 2) {
                 numberOfDiceInput.value = powerAspSelect.value
             }
