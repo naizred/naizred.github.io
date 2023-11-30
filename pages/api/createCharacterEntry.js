@@ -7,7 +7,7 @@ const newCharStats = async (req, res) => {
     });
 
     if (existingCharacter) {
-      return res.status(400).json({ error: 'Character name already exists' });
+      return res.status(400).json({ error: "Character name already exists" });
     }
 
     const newCharacterStats = await prisma.characterStatsThatChange.create({
@@ -17,14 +17,14 @@ const newCharStats = async (req, res) => {
         currentEp: req.body.currentEp,
         currentLp: req.body.currentLp,
         currentPp: req.body.currentPp,
-        currentMp: req.body.currentMp
+        currentMp: req.body.currentMp,
       },
     });
 
     res.status(200).json(newCharacterStats);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
