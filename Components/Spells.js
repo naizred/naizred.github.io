@@ -217,6 +217,9 @@ function Spells(props) {
     evaluateSpell();
   }
   function evaluateSpell() {
+        for (let i = 1; i < allAspSelect.length; i++) {
+        allAspSelect[i].disabled = false;
+      }
       powerAspModified = false;
   anyAspExceptPowerAspModified = false;
     currentSpell = props.spellsWarlock.find(
@@ -575,9 +578,6 @@ function Spells(props) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       spellCastingSuccessful();
     }
-    for (let i = 1; i < allAspSelect.length; i++) {
-        allAspSelect[i].disabled = false;
-      }
     evaluateSpell()
   }
   function handleCancelSpellCast(event) {
