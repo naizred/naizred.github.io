@@ -217,9 +217,6 @@ function Spells(props) {
     evaluateSpell();
   }
   function evaluateSpell() {
-        for (let i = 1; i < allAspSelect.length; i++) {
-        allAspSelect[i].disabled = false;
-      }
       powerAspModified = false;
   anyAspExceptPowerAspModified = false;
     currentSpell = props.spellsWarlock.find(
