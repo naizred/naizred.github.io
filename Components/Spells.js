@@ -236,7 +236,7 @@ function Spells(props) {
     areaAspSelect.value = currentSpell.aspects[2][1];
     durationAspSelect.value = currentSpell.aspects[3][1];
     
-    if(powerAspModified = false && anyAspExceptPowerAspModified = false){
+    if(powerAspModified == false && anyAspExceptPowerAspModified == false){
         powerAspSelect.parentElement.value = currentSpell.aspects[0][1];
         distanceAspSelect.parentElement.value = currentSpell.aspects[1][1];
         areaAspSelect.parentElement.value = currentSpell.aspects[2][1];
