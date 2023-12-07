@@ -117,7 +117,12 @@ function Spells(props) {
     return (spellCastTimeFactor = asp - 2);
   }
   function handleClickOnSpellCastButton() {
+    powerAspModified = false;
+    anyAspExceptPowerAspModified = false;
     allAspSelect = document.querySelectorAll("[id*='AspSelect']");
+    for (let i = 1; i < allAspSelect.length; i++) {
+      allAspSelect[i].disabled = false;
+    }
     if (parseInt(numberOfActions.innerText) != 0) {
       warningWindow.innerText = "";
 
@@ -206,27 +211,31 @@ function Spells(props) {
         spell.magicSubclass == magicSubSkillSelect.value.slice(1) &&
         spell.fok <= parseInt(magicSubSkillSelect.value[0])
     );
-    console.log(filteredSpellsBySubSkillAndLevel);
     for (let i = 0; i < filteredSpellsBySubSkillAndLevel.length; i++) {
       let spellSkillOption = document.createElement("option");
       spellSkillOption.innerText = filteredSpellsBySubSkillAndLevel[i].name;
       //spellSkillOption.value =
       spellSelect.appendChild(spellSkillOption);
     }
+    for (let i = 1; i < allAspSelect.length; i++) {
+      allAspSelect[i].disabled = false;
+    }
     evaluateSpell();
   }
-  function handleSpellChange(){
-    let currentlySelectedSpell = spellSelect.value
-    aspOptionDisabler(filteredArrayForNameOfHighestMagicalSkill[0].level);
-    evaluateSpell()
-  }
-  
-  function evaluateSpell() {
-    if(currentlySelectedSpell != spellSelect.value){
-      powerAspModified = false;
-      anyAspExceptPowerAspModified = false;
+  function handleSpellChange() {
+    for (let i = 1; i < allAspSelect.length; i++) {
+      allAspSelect[i].disabled = false;
     }
+    evaluateSpell();
+  }
 
+  function evaluateSpell() {
+    console.log(
+      "volt erő mod?",
+      powerAspModified,
+      "volt más asp mod?",
+      anyAspExceptPowerAspModified
+    );
     currentSpell = props.spellsWarlock.find(
       (spell) => spell.name == `${spellSelect.value}`
     );
@@ -235,13 +244,14 @@ function Spells(props) {
     distanceAspSelect.value = currentSpell.aspects[1][1];
     areaAspSelect.value = currentSpell.aspects[2][1];
     durationAspSelect.value = currentSpell.aspects[3][1];
-    
-    if(powerAspModified == false && anyAspExceptPowerAspModified == false){
-        powerAspSelect.parentElement.value = currentSpell.aspects[0][1];
-        distanceAspSelect.parentElement.value = currentSpell.aspects[1][1];
-        areaAspSelect.parentElement.value = currentSpell.aspects[2][1];
-        durationAspSelect.parentElement.value = currentSpell.aspects[3][1];
+
+    if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+      powerAspSelect.parentElement.value = currentSpell.aspects[0][1];
+      distanceAspSelect.parentElement.value = currentSpell.aspects[1][1];
+      areaAspSelect.parentElement.value = currentSpell.aspects[2][1];
+      durationAspSelect.parentElement.value = currentSpell.aspects[3][1];
     }
+    aspOptionDisabler(filteredArrayForNameOfHighestMagicalSkill[0].level);
     calculateSpellCastTimeAndManaCost();
   }
 
@@ -295,7 +305,7 @@ function Spells(props) {
   let anyAspExceptPowerAspModified = false;
   function handleSpellAspOptionChange(event) {
     if (event.target.id == "powerAspSelect") {
-      currentSpell.aspects[0][1] = parseInt(powerAspSelect.value);
+      //  currentSpell.aspects[0][1] = parseInt(powerAspSelect.value);
       if (event.target.value == event.target.parentElement.value) {
         powerAspModified = false;
       }
@@ -305,7 +315,7 @@ function Spells(props) {
     } else {
       for (let i = 1; i < allAspSelect.length; i++) {
         allAspSelect[i].disabled = true;
-        currentSpell.aspects[i][1] = parseInt(allAspSelect[i].value);
+        //  currentSpell.aspects[i][1] = parseInt(allAspSelect[i].value);
         if (event.target.id == allAspSelect[i].id) {
           allAspSelect[i].disabled = false;
         }
@@ -480,27 +490,28 @@ function Spells(props) {
           //   break;
         }
       }
-     if(powerAspModified==true || anyAspExceptPowerAspModified==true){ for (let j = 0; j < selectAllSkillOptions.length; j++) {
-        if (
-          selectAllSkillOptions[j].value.includes(
-            magicSubSkillSelect.value.slice(1)
-          )
-        ) {
-          skills.value = selectAllSkillOptions[j].value;
-          break;
+      if (powerAspModified == true || anyAspExceptPowerAspModified == true) {
+        for (let j = 0; j < selectAllSkillOptions.length; j++) {
+          if (
+            selectAllSkillOptions[j].value.includes(
+              magicSubSkillSelect.value.slice(1)
+            )
+          ) {
+            skills.value = selectAllSkillOptions[j].value;
+            break;
+          }
         }
-      }
 
-      for (let i = 0; i < selectAllAttributeOptions.length; i++) {
-        if (selectAllAttributeOptions[i].innerText == "Erő") {
-          attributes.value = selectAllAttributeOptions[i].value;
-          break;
+        for (let i = 0; i < selectAllAttributeOptions.length; i++) {
+          if (selectAllAttributeOptions[i].innerText == "Erő") {
+            attributes.value = selectAllAttributeOptions[i].value;
+            break;
+          }
         }
+        console.log(spellAttributesArray);
+        evaluateSkillOrAttributeCheckBase();
+        handleSkillCheck(false);
       }
-      console.log(spellAttributesArray);
-      evaluateSkillOrAttributeCheckBase();
-      handleSkillCheck(false);
-         }
       if (powerAspSelect.value == 1 || powerAspSelect.value == 2) {
         numberOfDiceInput.value = powerAspSelect.value;
       }
@@ -585,7 +596,6 @@ function Spells(props) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       spellCastingSuccessful();
     }
-    evaluateSpell()
   }
   function handleCancelSpellCast(event) {
     if (event.target.id == "advancedSpellInputWrapperCancelCastButton") {
