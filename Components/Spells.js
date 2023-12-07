@@ -184,7 +184,6 @@ function Spells(props) {
           magicSubSkillSelect.appendChild(magicSubSkillOption);
         }
         evaluateMagicSubSkill();
-        evaluateSpell();
       } else {
         spellInputWrapper.style.display = "grid";
         warningWindow.innerText = "";
@@ -216,9 +215,18 @@ function Spells(props) {
     }
     evaluateSpell();
   }
+  function handleSpellChange(){
+    let currentlySelectedSpell = spellSelect.value
+    aspOptionDisabler(filteredArrayForNameOfHighestMagicalSkill[0].level);
+    evaluateSpell()
+  }
+  
   function evaluateSpell() {
+    if(currentlySelectedSpell != spellSelect.value){
       powerAspModified = false;
-  anyAspExceptPowerAspModified = false;
+      anyAspExceptPowerAspModified = false;
+    }
+
     currentSpell = props.spellsWarlock.find(
       (spell) => spell.name == `${spellSelect.value}`
     );
@@ -227,12 +235,14 @@ function Spells(props) {
     distanceAspSelect.value = currentSpell.aspects[1][1];
     areaAspSelect.value = currentSpell.aspects[2][1];
     durationAspSelect.value = currentSpell.aspects[3][1];
-    powerAspSelect.parentElement.value = currentSpell.aspects[0][1];
-    distanceAspSelect.parentElement.value = currentSpell.aspects[1][1];
-    areaAspSelect.parentElement.value = currentSpell.aspects[2][1];
-    durationAspSelect.parentElement.value = currentSpell.aspects[3][1];
+    
+    if(powerAspModified = false && anyAspExceptPowerAspModified = false){
+        powerAspSelect.parentElement.value = currentSpell.aspects[0][1];
+        distanceAspSelect.parentElement.value = currentSpell.aspects[1][1];
+        areaAspSelect.parentElement.value = currentSpell.aspects[2][1];
+        durationAspSelect.parentElement.value = currentSpell.aspects[3][1];
+    }
     calculateSpellCastTimeAndManaCost();
-    aspOptionDisabler(filteredArrayForNameOfHighestMagicalSkill[0].level);
   }
 
   function aspOptionDisabler(magicSkillLevel) {
@@ -647,7 +657,7 @@ function Spells(props) {
         </li>
         <li>
           Varázslat:
-          <select id="spellSelect" onChange={evaluateSpell}></select>
+          <select id="spellSelect" onChange={handleSpellChange}></select>
           <div onMouseEnter={handleSpellSelectMouseEnter}>Leírás</div>
         </li>
         <li>
