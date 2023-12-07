@@ -575,6 +575,10 @@ function Spells(props) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       spellCastingSuccessful();
     }
+    for (let i = 1; i < allAspSelect.length; i++) {
+        allAspSelect[i].disabled = false;
+      }
+    evaluateSpell()
   }
   function handleCancelSpellCast(event) {
     if (event.target.id == "advancedSpellInputWrapperCancelCastButton") {
