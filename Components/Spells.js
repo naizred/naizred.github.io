@@ -217,6 +217,8 @@ function Spells(props) {
     evaluateSpell();
   }
   function evaluateSpell() {
+      powerAspModified = false;
+  anyAspExceptPowerAspModified = false;
     currentSpell = props.spellsWarlock.find(
       (spell) => spell.name == `${spellSelect.value}`
     );
@@ -468,7 +470,7 @@ function Spells(props) {
           //   break;
         }
       }
-      for (let j = 0; j < selectAllSkillOptions.length; j++) {
+     if(powerAspModified==true || anyAspExceptPowerAspModified==true){ for (let j = 0; j < selectAllSkillOptions.length; j++) {
         if (
           selectAllSkillOptions[j].value.includes(
             magicSubSkillSelect.value.slice(1)
@@ -488,6 +490,7 @@ function Spells(props) {
       console.log(spellAttributesArray);
       evaluateSkillOrAttributeCheckBase();
       handleSkillCheck(false);
+         }
       if (powerAspSelect.value == 1 || powerAspSelect.value == 2) {
         numberOfDiceInput.value = powerAspSelect.value;
       }
