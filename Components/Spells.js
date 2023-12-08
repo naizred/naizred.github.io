@@ -305,7 +305,8 @@ function Spells(props) {
   let anyAspExceptPowerAspModified = false;
   function handleSpellAspOptionChange(event) {
     if (event.target.id == "powerAspSelect") {
-      //  currentSpell.aspects[0][1] = parseInt(powerAspSelect.value);
+      // ez a következő sor azért van itt, hogy beleírja a felhasználó által választott értéket a varázslat értékei közé
+      currentSpell.aspects[0][1] = parseInt(powerAspSelect.value);
       if (event.target.value == event.target.parentElement.value) {
         powerAspModified = false;
       }
@@ -315,7 +316,8 @@ function Spells(props) {
     } else {
       for (let i = 1; i < allAspSelect.length; i++) {
         allAspSelect[i].disabled = true;
-        //  currentSpell.aspects[i][1] = parseInt(allAspSelect[i].value);
+        // ez a következő sor azért van itt, hogy beleírja a felhasználó által választott értéket a varázslat értékei közé
+        currentSpell.aspects[i][1] = parseInt(allAspSelect[i].value);
         if (event.target.id == allAspSelect[i].id) {
           allAspSelect[i].disabled = false;
         }
@@ -388,6 +390,7 @@ function Spells(props) {
           highestAspectPerCategory.push(calculatedAspectOfNextAspect);
           i++;
         }
+        console.log(highestAspectPerCategory);
         if (highestAspectPerCategory.length == 0) {
           theHighestFiveAspectsPerAspectCategory.push(calculatedAspect);
           highestAspectPerCategory = [];
@@ -408,6 +411,7 @@ function Spells(props) {
         theHighestFiveAspectsPerAspectCategory[i]
       );
     }
+    console.log(theHighestFiveAspectsPerAspectCategory);
 
     if (filteredArrayIfHasManaFlow.length != 0) {
       finalCastTime -= filteredArrayIfHasManaFlow[0].level;
@@ -425,6 +429,7 @@ function Spells(props) {
     } else if (finalCastTime > 30) {
       spellCastTime.innerText = `${finalCastTime - 30} Nap`;
     }
+    console.log(finalCastTime, finalManaCost);
 
     spellManaCostDiv.innerText = finalManaCost;
   }
