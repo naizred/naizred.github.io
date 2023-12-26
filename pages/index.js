@@ -26,6 +26,7 @@ import {
   rollButtonWasDisabledBeforeSpellCast,
   spellCastingFailure,
   numberOfActionsSpentOnCastingCurrentSpellNullifier,
+  spellIsBeingCast,
 } from "../Components/Spells";
 import ArmorDetails, {
   equippedOrNotSetToManual,
@@ -1829,6 +1830,13 @@ export default function Home(props) {
       rollResult.innerText = ttkRoll(true, darkDice, lightDice);
       rollResult.animate([{ color: "white" }, { color: "black" }], 200);
     }
+    if (
+      diceRolledSetToFalseBySpellNeedsAimRoll == true &&
+      legendPointUsedOnDarkDice == false &&
+      legendPointUsedOnLightDice == false
+    ) {
+      diceRolledSetToFalseBySpellNeedsAimRoll = false;
+    }
     diceRolled = true;
     attackRollUseLegendPointCheckBox.style.display = "grid";
     attackRollUseLegendPointCheckBox.checked = false;
@@ -1972,8 +1980,9 @@ export default function Home(props) {
         handleFileRead();
       }, 500);
     }
-    //ha volt kezdeményező dobás
+
     if (initRolled == true) {
+      //ha volt kezdeményező dobás
       initiativeRerollByCounterLP.style.display = "none";
       for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
         if (arrayOfAllComplexMaeuvers[i].checked == true) {
