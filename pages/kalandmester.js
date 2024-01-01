@@ -94,27 +94,17 @@ function Kalandmester() {
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás eredménye:
+                  Támadó dobás:
                 </label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye:
+                  Képzettségpróba:
                 </label>
-                <input id="skillCheckResultOfCurrentPlayer" />
+                <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye 5sec múlva:
-                </label>
-                <input id="skillCheckResultAfter5sec" />
-                <input
-                  id="skillCheckDiceAfter5sec"
-                  className={styles.lastRollDice}
-                />
               </span>
             </div>
           </div>
@@ -174,27 +164,17 @@ function Kalandmester() {
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás eredménye:
+                  Támadó dobás:
                 </label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye:
+                  Képzettségpróba:
                 </label>
-                <input id="skillCheckResultOfCurrentPlayer" />
+                <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye 5sec múlva:
-                </label>
-                <input id="skillCheckResultAfter5sec" />
-                <input
-                  id="skillCheckDiceAfter5sec"
-                  className={styles.lastRollDice}
-                />
               </span>
             </div>
           </div>
@@ -254,27 +234,17 @@ function Kalandmester() {
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás eredménye:
+                  Támadó dobás:
                 </label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye:
+                  Képzettségpróba:
                 </label>
-                <input id="skillCheckResultOfCurrentPlayer" />
+                <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye 5sec múlva:
-                </label>
-                <input id="skillCheckResultAfter5sec" />
-                <input
-                  id="skillCheckDiceAfter5sec"
-                  className={styles.lastRollDice}
-                />
               </span>
             </div>
           </div>
@@ -334,27 +304,17 @@ function Kalandmester() {
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás eredménye:
+                  Támadó dobás:
                 </label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye:
+                  Képzettségpróba:
                 </label>
-                <input id="skillCheckResultOfCurrentPlayer" />
+                <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye 5sec múlva:
-                </label>
-                <input id="skillCheckResultAfter5sec" />
-                <input
-                  id="skillCheckDiceAfter5sec"
-                  className={styles.lastRollDice}
-                />
               </span>
             </div>
           </div>
@@ -414,27 +374,17 @@ function Kalandmester() {
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás eredménye:
+                  Támadó dobás:
                 </label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
                 <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye:
+                  Képzettségpróba:
                 </label>
-                <input id="skillCheckResultOfCurrentPlayer" />
+                <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba végeredménye 5sec múlva:
-                </label>
-                <input id="skillCheckResultAfter5sec" />
-                <input
-                  id="skillCheckDiceAfter5sec"
-                  className={styles.lastRollDice}
-                />
               </span>
             </div>
           </div>

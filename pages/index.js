@@ -113,7 +113,13 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
       let currentMpNodes = document.querySelectorAll("input#currentMp");
       let currentLpNodes = document.querySelectorAll("input#currentLp");
       let atkRollResultNodes = document.querySelectorAll("input#atkRollResult");
+      let skillCheckResultDmNodes = document.querySelectorAll(
+        "input#skillCheckResultDm"
+      );
       let atkRollDiceNodes = document.querySelectorAll("input#atkRollDice");
+      let skillCheckDiceNodes = document.querySelectorAll(
+        "input#skillCheckDice"
+      );
       let numberOfActionsAllPlayers = document.querySelectorAll(
         "div#numberOfActionsAllPlayers"
       );
@@ -136,6 +142,8 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
         currentLpNodes[i].value = parsedData[i].currentLp;
         atkRollResultNodes[i].value = parsedData[i].atkRollResult;
         atkRollDiceNodes[i].value = parsedData[i].atkRollDice;
+        skillCheckResultDmNodes[i].value = parsedData[i].skillCheckResult;
+        skillCheckDiceNodes[i].value = parsedData[i].skillCheckDice;
         numberOfActionsAllPlayers[
           i
         ].innerText = `CS: ${parsedData[i].numberOfActions}`;
