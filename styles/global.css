@@ -335,8 +335,7 @@ input[type='radio']:checked:after {
 }
 #skillCheckResultDm {
   display: grid;
-  grid-row: 8/11;
-  grid-column: 7 / 10;
+  grid-column: span 2;
   align-self: center;
   text-align: center;
   margin: 0vw;

@@ -1894,7 +1894,7 @@ export default function Home(props) {
     async function playerChecker() {
       const data = {
         charName: charName.innerText,
-        atkRollResult: parseInt(charAtkSum.innerText),
+        atkRollResult: parseFloat(charAtkSum.innerText),
         atkRollDice: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
       };
 

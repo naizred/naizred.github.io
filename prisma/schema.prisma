@@ -3,29 +3,25 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
+  provider     = "postgresql"
+  url          = env("POSTGRES_PRISMA_URL")
   relationMode = "prisma"
 }
 
 model characterStatsThatChange {
-  charId    Int     @id @default(autoincrement())
-  charName  String @unique
-  currentFp Int
-  currentEp Int
-  currentPp Int
-  currentMp Int
-  currentLp Int
-  atkRollResult Int? @default(0)
-  atkRollResultAfter5sec Int? @default(0)
-  skillCheckResult Int? @default(0)
-  skillCheckResultAfter5sec Int? @default(0)
-  atkRollDice String? @default("")
-  atkRollDiceAfter5sec String? @default("")
-  skillCheckDice String? @default("")
-  skillCheckDiceAfter5sec String? @default("")
-  activeBuffs String? @default("")
-  numberOfActions String? @default("")
-  gameId Int? @default(0)
-  initiativeWithRoll Int? @default(0)
+  charId             Int     @id @default(autoincrement())
+  charName           String  @unique
+  currentFp          Int
+  currentEp          Int
+  currentPp          Int
+  currentMp          Int
+  currentLp          Int
+  atkRollResult      Float?  @default(0)
+  skillCheckResult   Int?    @default(0)
+  atkRollDice        String? @default("")
+  skillCheckDice     String? @default("")
+  activeBuffs        String? @default("")
+  numberOfActions    String? @default("")
+  gameId             String? @default("")
+  initiativeWithRoll Int?    @default(0)
 }

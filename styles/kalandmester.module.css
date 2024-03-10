@@ -116,7 +116,6 @@
 }
 .characterDetails span .lastRollDice {
   display: grid;
-  grid-column: span 2;
   width: 15vw;
   font-size: 1vw;
 }
@@ -143,7 +142,7 @@
   font-family: "MedievalSharp", cursive;
   justify-self: center;
   text-align: center;
-  width: 3vw;
+  width: 4vw;
 }
 .characterDetails .currentPlayerInput {
   font-size: 1.7vw;
@@ -164,7 +163,7 @@
 }
 .characterDetails .skillCheckResultLabel {
   display: grid;
-  grid-column: span 2;
+  grid-column: span 1;
   text-align: left;
   font-size: 1vw;
 }

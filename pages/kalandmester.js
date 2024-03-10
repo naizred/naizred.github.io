@@ -5,7 +5,7 @@ function Kalandmester() {
   let gameIdInterval;
   function setGameIdInputInterval() {
     gameIdInterval = setInterval(() => {
-      fetchCharacterDataForAdventureMaster(parseInt(gameIdRequest.value));
+      fetchCharacterDataForAdventureMaster(gameIdRequest.value);
     }, 500);
     setIntervalButton.disabled = true;
   }
@@ -93,16 +93,12 @@ function Kalandmester() {
                 <label className={styles.diceLabel}>Kockák:</label>
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás:
-                </label>
+                <label className={styles.skillCheckResultLabel}>TÉO:</label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba:
-                </label>
+                <label className={styles.skillCheckResultLabel}>Próba:</label>
                 <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
               </span>
@@ -163,16 +159,12 @@ function Kalandmester() {
                 <label className={styles.diceLabel}>Kockák:</label>
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás:
-                </label>
+                <label className={styles.skillCheckResultLabel}>TÉO:</label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba:
-                </label>
+                <label className={styles.skillCheckResultLabel}>Próba:</label>
                 <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
               </span>
@@ -233,16 +225,12 @@ function Kalandmester() {
                 <label className={styles.diceLabel}>Kockák:</label>
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás:
-                </label>
+                <label className={styles.skillCheckResultLabel}>TÉO:</label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba:
-                </label>
+                <label className={styles.skillCheckResultLabel}>Próba:</label>
                 <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
               </span>
@@ -303,16 +291,12 @@ function Kalandmester() {
                 <label className={styles.diceLabel}>Kockák:</label>
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás:
-                </label>
+                <label className={styles.skillCheckResultLabel}>TÉO:</label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba:
-                </label>
+                <label className={styles.skillCheckResultLabel}>Próba:</label>
                 <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
               </span>
@@ -373,16 +357,12 @@ function Kalandmester() {
                 <label className={styles.diceLabel}>Kockák:</label>
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Támadó dobás:
-                </label>
+                <label className={styles.skillCheckResultLabel}>TÉO:</label>
                 <input id="atkRollResult" />
                 <input id="atkRollDice" className={styles.lastRollDice} />
               </span>
               <span>
-                <label className={styles.skillCheckResultLabel}>
-                  Képzettségpróba:
-                </label>
+                <label className={styles.skillCheckResultLabel}>Próba:</label>
                 <input id="skillCheckResultDm" />
                 <input id="skillCheckDice" className={styles.lastRollDice} />
               </span>
