@@ -1045,15 +1045,21 @@ export default function Home(props) {
       let filteredArrayIfHasWarriorMonk = JSON.parse(
         reader.result
       ).aptitudes.filter((name) => name.aptitude == "Harcművész");
+
       let filteredArrayIfHasVigorous = JSON.parse(
         reader.result
       ).aptitudes.filter((name) => name.aptitude == "Életerős");
+
       let filteredArrayIfHasMagicallyAttuned = JSON.parse(
         reader.result
       ).aptitudes.filter((name) => name.aptitude == "Varázstudó");
+
       let filteredArrayIfHasNimble = JSON.parse(reader.result).aptitudes.filter(
         (name) => name.aptitude == "Fürge"
       );
+      let filteredArrayIfHasAncientSoul = JSON.parse(
+        reader.result
+      ).aptitudes.filter((name) => name.aptitude == "Ősibb lélek");
       filteredArrayIfHasManaFlow = JSON.parse(reader.result).aptitudes.filter(
         (name) => name.aptitude == "Mana vezető"
       );
@@ -1659,6 +1665,12 @@ export default function Home(props) {
       } else {
         vigorousModifier = 0;
       }
+      let legendPoints = 3;
+      if (filteredArrayIfHasAncientSoul.length != 0) {
+        legendPoints += parseInt(filteredArrayIfHasAncientSoul[0].level);
+      } else {
+        legendPoints = 3;
+      }
 
       if (fileFirstLoaded == true) {
         const data = {
@@ -1667,7 +1679,7 @@ export default function Home(props) {
           currentEp: currentCharFinalAttributes[4] + vigorousModifier * 2,
           currentPp: psiPoints,
           currentMp: manaPoints,
-          currentLp: 3,
+          currentLp: legendPoints,
         };
 
         (maxFp.innerText = fpPoints),
@@ -1675,7 +1687,7 @@ export default function Home(props) {
             currentCharFinalAttributes[4] + vigorousModifier * 2),
           (maxPp.innerText = psiPoints),
           (maxMp.innerText = manaPoints),
-          (maxLp.innerText = 3);
+          (maxLp.innerText = legendPoints);
 
         const JSONdata = JSON.stringify(data);
         const endpoint = "/api/createCharacterEntry";
