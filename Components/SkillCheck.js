@@ -65,11 +65,15 @@ export async function skillOrAttributeCheckRoll(
 
     let skillCheckLightDicePlusRollMod =
       skillCheckLightDice + parseInt(rollModifier.value);
-
+    console.log(
+      "módosítóval növelt dobás érték:",
+      skillCheckLightDicePlusRollMod
+    );
     if (skillCheckLightDicePlusRollMod >= 10) {
       skillCheckLightDicePlusRollMod = 10;
     }
-    //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka?
+    //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka? Ez dupla 1 esetén is jól működik, mivel olyankor a pozitív módosító nem érvényesül
+
     console.log(
       "Stresszpróba DM előtt",
       skillCheckLightDice,
@@ -77,8 +81,7 @@ export async function skillOrAttributeCheckRoll(
     );
     if (
       skillCheckLightDice == skillCheckDarkDice &&
-      parseInt(rollModifier.value) > 0 &&
-      skillCheckLightDice != 1
+      parseInt(rollModifier.value) > 0
     ) {
       skillCheckLightDicePlusRollMod = skillCheckLightDice;
     }
@@ -240,6 +243,7 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
       }
     }
   } else if (checkTypeIsAttributeCheck.checked == true) {
+    skills.value = "";
     skillCheckBase.innerText =
       parseInt(attributes.value) + parseInt(succFailModifier.value);
     skills.disabled = true;

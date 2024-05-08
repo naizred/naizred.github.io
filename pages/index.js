@@ -294,6 +294,7 @@ export let rangedWeaponsArray = [
   "SZÍ",
   "Fúvócső",
   "MÁGIA",
+  "Tűvető",
 ];
 export let reloadIsNeeded = false;
 export function reloadIsNeededSetToFalse() {
@@ -661,7 +662,10 @@ export default function Home(props) {
         bonusDamageFromChiCombat +
         bonusDamageFromAssassination;
     }
-    if (currentlySelectedWeapon.w_name == "Fúvócső") {
+    if (
+      currentlySelectedWeapon.w_name == "Fúvócső" ||
+      currentlySelectedWeapon.w_name == "Tűvető"
+    ) {
       damageResult.innerText = 1;
     }
     if (
@@ -695,6 +699,7 @@ export default function Home(props) {
       checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) &&
       currentlySelectedWeapon.w_name != "Fúvócső" &&
       currentlySelectedWeapon.w_name != "Célzott mágia" &&
+      currentlySelectedWeapon.w_name != "Tűvető" &&
       darkDiceWasChangedToHalfOfStr == false &&
       legendPointUsedOnDarkDice == false
     ) {
@@ -1308,10 +1313,10 @@ export default function Home(props) {
       let baseAim =
         JSON.parse(reader.result).stats.CÉ +
         currentChar.dex +
-        currentChar.wll +
+        currentChar.ast +
         currentChar.per +
         aimModifier +
-        findAndCountAttributesThatModifyStats("Ügy", "Aka", "Érz") +
+        findAndCountAttributesThatModifyStats("Ügy", "Asz", "Érz") +
         sumAimGainedByLevel +
         JSON.parse(reader.result).spentHm.CÉ;
       let baseDef =
@@ -1653,8 +1658,9 @@ export default function Home(props) {
         sumMpGainedByLevel +
         JSON.parse(reader.result).stats.Mp;
       if (
-        filteredArrayIfHasMagicallyAttuned.length != 0 &&
-        filteredArrayIfHasMagicallyAttuned[0].level == 0
+        filteredArrayIfHasMagicallyAttuned.length == 0 ||
+        (filteredArrayIfHasMagicallyAttuned.length != 0 &&
+          filteredArrayIfHasMagicallyAttuned[0].level == 0)
       ) {
         manaPoints = 0;
       }
