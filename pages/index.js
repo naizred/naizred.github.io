@@ -223,7 +223,7 @@ export let originalDarkDice = 0;
 export let originalLightDice = 0;
 export let twoWeaponAttackModifiers = [-3, -2, -1, 0, 1, 2];
 export let twoWeaponAttackModifiersIndex = 0;
-export let quickShotModifiers = [-5, -4, -3, -2, -1, 0];
+export let quickShotModifiers = [-4, -3, -2, -1, 0, 1];
 export let quickShotModifiersIndex = 0;
 export let combinationModifiers = [-4, -3, -2, -1, 0, 1];
 export let combinationModifiersIndex = 0;
@@ -559,7 +559,7 @@ export default function Home(props) {
     //ez a két változó csak az ökölharc miatt kell:
     //professionLevel és currentWeaponDamage
     let currentWeaponDamage = currentlySelectedWeapon.w_damage;
-    if (currentlySelectedWeapon.w_type == "Ökölharc") {
+    if (currentlySelectedWeapon.w_type == "Ököl") {
       currentWeaponDamage = damageOfFists;
       professionLevel = Math.ceil(professionLevel / 2);
       if (currentlySelectedWeapon.w_name == "Vasököl") {
@@ -1027,11 +1027,10 @@ export default function Home(props) {
       //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
       let filteredArrayByType = JSON.parse(reader.result).skills.filter(
         (name) =>
-          (name.name == "Fegyverhasználat" &&
-            currentlySelectedWeapon.w_type.includes(name.subSkill)) ||
-          (name.name == "Ökölharc" &&
-            currentlySelectedWeapon.w_type == "Ökölharc")
+          name.name == "Fegyverhasználat" &&
+          currentlySelectedWeapon.w_type.includes(name.subSkill)
       );
+      console.log(filteredArrayByType[0]);
       //-----szűrés különböző adottságokra
       let filteredArrayIfHasDestroyer = JSON.parse(
         reader.result
@@ -1399,7 +1398,7 @@ export default function Home(props) {
           skillCheckRightSideWrapper.appendChild(spiritualAttributeValueDiv);
         }
       }
-      // az ökölhöz tartozó legmagasabb tulajdonságokat alapból 4-el kell osztani alapból *********************
+      // az ökölhöz tartozó legmagasabb tulajdonságokat alapból 4-el kell osztani *********************
 
       let fistAtkDivider = 4;
       let charStrWithWarriorMonkAptitude = currentCharFinalAttributes[0];
@@ -1416,7 +1415,7 @@ export default function Home(props) {
         fistAtkDivider = 4;
       }
 
-      if (currentlySelectedWeapon.w_type == "Ökölharc") {
+      if (currentlySelectedWeapon.w_type == "Ököl") {
         //megnézi a legmagasabb tul-t és elosztja az ököl osztóval, ami a harcművész adottsággal változhat
         let fistAtk = Math.floor(
           Math.max(
