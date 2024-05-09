@@ -16,16 +16,15 @@ import {
   reloadIsNeededSetToFalse,
   toggleAllallActionBarButtonsExceptInitRollDisplay,
   allResultsCleaner,
-  numberOfAttacksInTheRound,
   numberOfAttacksInTheRoundNullifier,
   modifierFromNumberOfAttacksInTheRoundNullifier,
   modifierFromNumberOfAttacksInTheRound,
+  cumulativeCombinationModifierNullifier,
+  cumulativeCombinationModifier,
 } from "../pages";
 import {
   filteredArrayIfHasExtraReaction,
   arrayOfAllComplexMaeuvers,
-  quickShotModifiers,
-  quickShotModifiersIndex,
   combinationModifiers,
   combinationModifiersIndex,
   allActiveBuffs,
@@ -192,6 +191,7 @@ function CharacterDetails() {
     adjustActionsPositive.value = parseInt(numberOfActions.innerText); // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
     initRollButton.style.display = "none";
     initRolled = true;
+    combinationRadioButton.disabled = true;
     updateCharacterData();
 
     // megfigyeli az akciók változását
@@ -300,10 +300,7 @@ function CharacterDetails() {
   // a kör végének kezelése
   //****************************************************************** */
   function handleEndOfRound() {
-    if (
-      combinationRadioButton.checked == true ||
-      quickShotRadioButton.checked == true
-    ) {
+    if (combinationRadioButton.checked == true) {
       totalActionCostOfAttackSetter(-1);
     }
 
@@ -413,21 +410,21 @@ function CharacterDetails() {
       // itt megnézi, volt-e használva a körben kombináció v kapáslövés, és az új körre nem viszi át a módosítókat
       //******************************************************************************************************* */
       if (combinationRadioButton.checked == true) {
-        hmoModifier(-combinationModifiers[combinationModifiersIndex]);
-      }
-      if (quickShotRadioButton.checked == true) {
-        hmoModifier(-quickShotModifiers[quickShotModifiersIndex]);
+        hmoModifier(cumulativeCombinationModifier);
       }
       combinationRadioButton.checked = false;
-      quickShotRadioButton.checked = false;
-      quickShotRadioButton.disabled = true;
       combinationRadioButton.disabled = true;
       combinationWasUsedThisRoundSetToFalse();
       hmoModifiedToFalse();
       allResultsCleaner();
       numberOfAttacksInTheRoundNullifier();
+      console.log(
+        "támadások számából adódó mod",
+        modifierFromNumberOfAttacksInTheRound
+      );
       hmoModifier(modifierFromNumberOfAttacksInTheRound);
       modifierFromNumberOfAttacksInTheRoundNullifier();
+      cumulativeCombinationModifierNullifier();
       if (
         checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true &&
         currentlySelectedWeapon.w_type != "MÁGIA" &&
@@ -496,12 +493,6 @@ function CharacterDetails() {
       ) {
         hmoModifier(-combinationModifiers[combinationModifiersIndex]);
       }
-      if (
-        quickShotRadioButton.checked == true &&
-        combinationWasUsedThisRound == false
-      ) {
-        hmoModifier(-quickShotModifiers[quickShotModifiersIndex]);
-      }
     }
   }
 
@@ -532,8 +523,9 @@ function CharacterDetails() {
         arrayOfAllComplexMaeuvers[i].checked = false;
       }
     }
-    if (hmoModified == true) {
-      hmoModifier(-combinationModifiers[combinationModifiersIndex]);
+    if (combinationRadioButton.checked == true) {
+      hmoModifier(cumulativeCombinationModifier);
+      totalActionCostOfAttackSetter(-1);
     }
     if (findWeakSpotOn == true) {
       charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier;
@@ -541,17 +533,10 @@ function CharacterDetails() {
       findWeakSpotOnToFalse();
       findWeakSpotButton.disabled = false;
     }
-    if (
-      combinationRadioButton.checked == true ||
-      combinationRadioButton.checked == true
-    ) {
-      totalActionCostOfAttackSetter(-1);
-    }
+
     chargeRadioButton.disabled = false;
     combinationRadioButton.checked = false;
-    quickShotRadioButton.checked = false;
     combinationRadioButton.disabled = true;
-    quickShotRadioButton.disabled = true;
     chargeToFalse();
     hmoModifiedToFalse();
     combinationWasUsedThisRoundSetToFalse();
@@ -572,6 +557,7 @@ function CharacterDetails() {
     numberOfAttacksInTheRoundNullifier();
     hmoModifier(modifierFromNumberOfAttacksInTheRound);
     modifierFromNumberOfAttacksInTheRoundNullifier();
+    cumulativeCombinationModifierNullifier();
     allResultsCleaner();
   }
 

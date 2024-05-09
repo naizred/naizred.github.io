@@ -891,7 +891,7 @@
     "weaponAtk": 6,
     "weaponDef": 0,
     "reloadTime": 1,
-    "atkPerRound": 1,
+    "atkPerRound": 2,
     "mgt": 0,
     "assassinWeapon": false
   },
@@ -1297,7 +1297,7 @@
     "weaponAtk": 7,
     "weaponDef": 0,
     "reloadTime": 0,
-    "atkPerRound": 1,
+    "atkPerRound": 2,
     "mgt": 0,
     "assassinWeapon": false
   },
@@ -1311,7 +1311,7 @@
     "weaponAtk": 7,
     "weaponDef": 0,
     "reloadTime": 0,
-    "atkPerRound": 1,
+    "atkPerRound": 3,
     "mgt": 0,
     "assassinWeapon": false
   },

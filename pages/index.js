@@ -211,8 +211,6 @@ export let filteredArrayForNameOfHighestMagicalSkill;
 export let filteredArrayIfHasAnyMagicSkill;
 export let filteredArrayIfHasManaFlow;
 export let filteredArrayIfHasPsi;
-export let filteredArrayIfHasCombination;
-export let filteredArrayIfHasQuickShot;
 export let filteredArrayIfHasTwoWeaponAttack;
 export let filteredArrayIfHasAssassination;
 export const specialCases1 = [2, 3, 4];
@@ -223,8 +221,6 @@ export let originalDarkDice = 0;
 export let originalLightDice = 0;
 export let twoWeaponAttackModifiers = [-3, -2, -1, 0, 1, 2];
 export let twoWeaponAttackModifiersIndex = 0;
-export let quickShotModifiers = [-4, -3, -2, -1, 0, 1];
-export let quickShotModifiersIndex = 0;
 export let combinationModifiers = [-4, -3, -2, -1, 0, 1];
 export let combinationModifiersIndex = 0;
 let filteredArrayIfHasParry;
@@ -315,6 +311,10 @@ export let tempImg;
 export let numberOfAttacksInTheRound = 0;
 export function numberOfAttacksInTheRoundNullifier() {
   numberOfAttacksInTheRound = 0;
+}
+export let cumulativeCombinationModifier = 0;
+export function cumulativeCombinationModifierNullifier() {
+  cumulativeCombinationModifier = 0;
 }
 export let modifierFromNumberOfAttacksInTheRound = 0;
 export function modifierFromNumberOfAttacksInTheRoundNullifier() {
@@ -810,7 +810,6 @@ export default function Home(props) {
     }
     if (
       combinationRadioButton.checked == true ||
-      quickShotRadioButton.checked == true ||
       numberOfClicksAtTwoWeaponAttack == 1
     ) {
       attackRollButton.disabled = false;
@@ -1030,7 +1029,6 @@ export default function Home(props) {
           name.name == "Fegyverhasználat" &&
           currentlySelectedWeapon.w_type.includes(name.subSkill)
       );
-      console.log(filteredArrayByType[0]);
       //-----szűrés különböző adottságokra
       let filteredArrayIfHasDestroyer = JSON.parse(
         reader.result
@@ -1086,22 +1084,10 @@ export default function Home(props) {
       if (filteredArrayIfHasPsi.length != 0) {
         psiDisciplinesSelectWrapper.style.display = "grid";
       }
-      filteredArrayIfHasCombination = JSON.parse(reader.result).skills.filter(
-        (name) => name.name == "Kombináció"
-      );
-      filteredArrayIfHasQuickShot = JSON.parse(reader.result).skills.filter(
-        (name) => name.name == "Kapáslövés"
-      );
       filteredArrayIfHasTwoWeaponAttack = JSON.parse(
         reader.result
       ).skills.filter((name) => name.name == "Kétkezes harc");
 
-      if (filteredArrayIfHasCombination.length != 0) {
-        combinationModifiersIndex = filteredArrayIfHasCombination[0].level;
-      }
-      if (filteredArrayIfHasQuickShot.length != 0) {
-        quickShotModifiersIndex = filteredArrayIfHasQuickShot[0].level;
-      }
       if (filteredArrayIfHasTwoWeaponAttack.length != 0) {
         twoWeaponAttackModifiersIndex =
           filteredArrayIfHasTwoWeaponAttack[0].level;
@@ -1168,6 +1154,7 @@ export default function Home(props) {
       } else {
         professionLevel = 0;
       }
+      combinationModifiersIndex = professionLevel;
 
       if (
         filteredArrayIfHasDestroyer.length != 0 &&
@@ -1462,7 +1449,8 @@ export default function Home(props) {
           parseFloat(totalMgtOfArmorSet.innerText / 2) +
           chiCombatAtkDefModifier -
           innerTimeNegativeModifier -
-          modifierFromNumberOfAttacksInTheRound;
+          modifierFromNumberOfAttacksInTheRound -
+          cumulativeCombinationModifier;
       } else {
         charDefWithParry.value =
           tvcoCalculator(defWithProfession) -
@@ -1472,7 +1460,8 @@ export default function Home(props) {
           parseFloat(totalMgtOfArmorSet.innerText / 2) +
           chiCombatAtkDefModifier -
           innerTimeNegativeModifier -
-          modifierFromNumberOfAttacksInTheRound;
+          modifierFromNumberOfAttacksInTheRound -
+          cumulativeCombinationModifier;
       }
 
       if (filteredArrayIfHasNimble.length != 0) {
@@ -1486,7 +1475,8 @@ export default function Home(props) {
           parseFloat(totalMgtOfArmorSet.innerText / 2) +
           chiCombatAtkDefModifier -
           innerTimeNegativeModifier -
-          modifierFromNumberOfAttacksInTheRound;
+          modifierFromNumberOfAttacksInTheRound -
+          cumulativeCombinationModifier;
       } else if (filteredArrayIfHasNimble.length == 0) {
         charDefWithEvasion.value =
           tvcoCalculator(defWithProfession) +
@@ -1497,7 +1487,8 @@ export default function Home(props) {
           parseFloat(totalMgtOfArmorSet.innerText / 2) +
           chiCombatAtkDefModifier -
           innerTimeNegativeModifier -
-          modifierFromNumberOfAttacksInTheRound;
+          modifierFromNumberOfAttacksInTheRound -
+          cumulativeCombinationModifier;
       }
 
       if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
@@ -1509,7 +1500,8 @@ export default function Home(props) {
           parseFloat(totalMgtOfArmorSet.innerText / 2) +
           chiCombatAtkDefModifier -
           innerTimeNegativeModifier -
-          modifierFromNumberOfAttacksInTheRound +
+          modifierFromNumberOfAttacksInTheRound -
+          cumulativeCombinationModifier +
           findWeakSpotModifier;
         // if (charAtk.value < 0) {
         //   charAtk.value = 0
@@ -1717,20 +1709,15 @@ export default function Home(props) {
       weaponsOptions = document.querySelectorAll("select#weapons option");
 
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
-        combinationRadioButton.disabled = true;
-        quickShotRadioButton.disabled = false;
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
           arrayOfAllComplexMaeuvers[i].disabled = true;
         }
         findWeakSpotButton.disabled = true;
         attackOfOpportunityButton.disabled = true;
         if (combinationWasUsedThisRound == true) {
-          hmoModifier(quickShotModifiers[quickShotModifiersIndex]);
         }
       }
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
-        combinationRadioButton.disabled = false;
-        quickShotRadioButton.disabled = true;
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
           arrayOfAllComplexMaeuvers[i].disabled = false;
           twoWeaponAttackRadioButton.disabled = false;
@@ -1749,9 +1736,7 @@ export default function Home(props) {
           toggleTwoHandedWeaponsDisplay("grid");
         }
         if (combinationWasUsedThisRound == true) {
-          hmoModifier(combinationModifiers[combinationModifiersIndex]);
           combinationRadioButton.disabled = true;
-          quickShotRadioButton.disabled = true;
         }
       }
       if (chargeWasUsedThisRound == true) {
@@ -1843,8 +1828,15 @@ export default function Home(props) {
 
     if (initRolled == true) {
       if (currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound) {
-        hmoModifier(-1);
         modifierFromNumberOfAttacksInTheRound++;
+        hmoModifier(-modifierFromNumberOfAttacksInTheRound);
+      }
+      if (combinationWasUsedThisRound) {
+        hmoModifier(combinationModifiers[combinationModifiersIndex]);
+
+        cumulativeCombinationModifier -=
+          combinationModifiers[combinationModifiersIndex];
+        console.log("halmozódó komb mod", cumulativeCombinationModifier);
       }
     }
 
@@ -1863,6 +1855,7 @@ export default function Home(props) {
       diceRolledSetToFalseBySpellNeedsAimRoll = false;
     }
     diceRolled = true;
+    combinationRadioButton.disabled = false;
     attackRollUseLegendPointCheckBox.style.display = "grid";
     attackRollUseLegendPointCheckBox.checked = false;
 
@@ -2018,7 +2011,6 @@ export default function Home(props) {
       }
       if (
         combinationRadioButton.checked == false &&
-        quickShotRadioButton.checked == false &&
         spellNeedsAimRoll == false
       ) {
         attackRollButton.disabled = true;
@@ -2026,10 +2018,7 @@ export default function Home(props) {
       if (rollButtonWasDisabledBeforeSpellCast == true) {
         attackRollButton.disabled = true;
       }
-      if (
-        combinationRadioButton.checked == true ||
-        quickShotRadioButton.checked == true
-      ) {
+      if (combinationRadioButton.checked == true) {
         attackRollButton.disabled = false;
       }
       if (numberOfClicksAtTwoWeaponAttack == 1) {
@@ -2038,22 +2027,13 @@ export default function Home(props) {
       //************************************************************************************************************************** */
       //Ebben a körben volt kombináció vagy kapáslövés használva, ezért a minusz HMO-k maradnak
       //*************************************************************************************************************************** */
-      if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
+      if (combinationRadioButton.checked == true) {
         combinationRadioButton.disabled = true;
-        quickShotRadioButton.disabled = false;
-      }
-      if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
-        combinationRadioButton.disabled = false;
-        quickShotRadioButton.disabled = true;
-      }
-      if (
-        combinationRadioButton.checked == true ||
-        quickShotRadioButton.checked == true
-      ) {
-        combinationRadioButton.disabled = true;
-        quickShotRadioButton.disabled = true;
-
         combinationWasUsedThisRound = true;
+        if (cumulativeCombinationModifier == 0) {
+          cumulativeCombinationModifier -=
+            combinationModifiers[combinationModifiersIndex];
+        }
         diceRolledSetToFalseBySpellNeedsAimRoll = false;
       }
       if (
@@ -2099,6 +2079,7 @@ export default function Home(props) {
         numberOfClicksAtTwoWeaponAttack = 0;
         if (combinationWasUsedThisRound == true) {
           totalActionCostOfAttackSetter(+1);
+          console.log(cumulativeCombinationModifier);
         }
         handleFileRead();
       }
