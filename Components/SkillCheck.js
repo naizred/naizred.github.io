@@ -7,7 +7,6 @@ import { specialCases1, specialCases2, specialCases3 } from "../pages";
 let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
 let skillCheckSuccFailModifiers = [0, 1, 2, 3, 4, 5, -1, -2, -3, -4, -5];
 let skillCheckRolled = false;
-export let numberOfClicksAtSkillCheck = 0;
 
 export async function skillOrAttributeCheckRoll(
   stressCheck,
@@ -149,15 +148,14 @@ export async function skillOrAttributeCheckRoll(
     skillCheckResult.innerText =
       parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll;
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
-    if (numberOfClicksAtSkillCheck == 1) {
-      const data = {
-        charName: charName.innerText,
-        skillCheckResult: parseInt(skillCheckResult.innerText),
-        skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
-        skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-        skillCheckDiceAfter5sec: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
-      };
-    }
+
+    const data = {
+      charName: charName.innerText,
+      skillCheckResult: parseInt(skillCheckResult.innerText),
+      skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
+      skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
+      skillCheckDiceAfter5sec: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
+    };
   }
   const data = {
     charName: charName.innerText,
@@ -188,14 +186,12 @@ export function handleSkillCheck(
   }, 8000);
 
   skillCheckRolled = true;
-  skillCheckUseLegendPointCheckBox.style.display = "grid";
 
   if (skillCheckStressCheckbox.checked == true) {
     stressCheck = true;
   } else if (skillCheckStressCheckbox.checked == false) {
     stressCheck = false;
   }
-  skillCheckUseLegendPointCheckBox.checked = false;
   skillOrAttributeCheckRoll(
     stressCheck,
     skillCheckLightDice,
@@ -257,85 +253,6 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
 }
 function SkillCheck(props) {
   allSkillProps = props.allSkills;
-  function handleSkillCheckUseLegendPointCheckBox() {
-    if (
-      skillCheckUseLegendPointCheckBox.checked == true &&
-      skillCheckRolled == true
-    ) {
-      skillCheckLightDiceResultSelect.disabled = false;
-      if (skillCheckStressCheckbox.checked == false) {
-        skillCheckDarkDiceResultSelect.disabled = true;
-      } else if (skillCheckStressCheckbox.checked == true) {
-        skillCheckDarkDiceResultSelect.disabled = false;
-      }
-      skillCheckRollButton.disabled = true;
-    } else {
-      skillCheckDarkDiceResultSelect.disabled = true;
-      skillCheckLightDiceResultSelect.disabled = true;
-    }
-    if (skillCheckUseLegendPointCheckBox.checked == false) {
-      skillCheckRollButton.disabled = false;
-    }
-  }
-
-  function handleWhenSkillCheckLegendPointIsUsed(event) {
-    handleSkillCheck(
-      true,
-      parseInt(skillCheckLightDiceResultSelect.value),
-      parseInt(skillCheckDarkDiceResultSelect.value)
-    );
-    skillCheckUseLegendPointCheckBox.checked == false;
-    skillCheckUseLegendPointCheckBox.style.display = "none";
-    skillCheckDarkDiceResultSelect.disabled = true;
-    skillCheckLightDiceResultSelect.disabled = true;
-    skillCheckRollButton.disabled = false;
-    if (skillCheckStressCheckbox.checked == false) {
-      skillCheckLightDiceRerollByCounterLP.style.display = "grid";
-      skillCheckDarkDiceRerollByCounterLP.style.display = "none";
-    } else if (skillCheckStressCheckbox.checked == true) {
-      if (event.target.id == "skillCheckDarkDiceResultSelect") {
-        skillCheckDarkDiceRerollByCounterLP.style.display = "grid";
-      } else if (event.target.id == "skillCheckLightDiceResultSelect") {
-        skillCheckLightDiceRerollByCounterLP.style.display = "grid";
-      }
-    }
-  }
-
-  function skillCheckHandleBossCounterLPdark() {
-    for (let i = 0; i < 8; i++) {
-      skillCheckDarkDiceResultSelect.value = Math.floor(
-        generator.random() * 10
-      );
-    }
-    handleSkillCheck(
-      true,
-      parseInt(skillCheckLightDiceResultSelect.value),
-      parseInt(skillCheckDarkDiceResultSelect.value)
-    );
-    skillCheckUseLegendPointCheckBox.style.display = "none";
-    skillCheckDarkDiceRerollByCounterLP.style.display = "none";
-    skillCheckLightDiceRerollByCounterLP.style.display = "none";
-  }
-
-  function skillCheckHandleBossCounterLPlight() {
-    for (let i = 0; i < 8; i++) {
-      skillCheckLightDiceResultSelect.value = Math.floor(
-        generator.random() * 10
-      );
-    }
-    handleSkillCheck(
-      true,
-      parseInt(skillCheckLightDiceResultSelect.value),
-      parseInt(skillCheckDarkDiceResultSelect.value)
-    );
-    skillCheckUseLegendPointCheckBox.style.display = "none";
-    skillCheckDarkDiceRerollByCounterLP.style.display = "none";
-    skillCheckLightDiceRerollByCounterLP.style.display = "none";
-  }
-  function handleCheckBoxChange() {
-    skillCheckDarkDiceRerollByCounterLP.style.display = "none";
-    skillCheckLightDiceRerollByCounterLP.style.display = "none";
-  }
 
   return (
     <div id="skillCheckWrapper">
@@ -407,11 +324,7 @@ function SkillCheck(props) {
           id="skillCheckDarkDiceResultLabel">
           Sötét kocka:
         </label>
-        <select
-          id="skillCheckDarkDiceResultSelect"
-          name=""
-          disabled={true}
-          onChange={handleWhenSkillCheckLegendPointIsUsed}>
+        <select id="skillCheckDarkDiceResultSelect" name="" disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
@@ -421,31 +334,11 @@ function SkillCheck(props) {
           id="skillCheckLightDiceResultLabel">
           Világos kocka:
         </label>
-        <select
-          id="skillCheckLightDiceResultSelect"
-          name=""
-          disabled={true}
-          onChange={handleWhenSkillCheckLegendPointIsUsed}>
+        <select id="skillCheckLightDiceResultSelect" name="" disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
         </select>
-        <label
-          id="skillCheckUseLegendPointCheckBoxlabel"
-          htmlFor="skillCheckUseLegendPointCheckBox">
-          Lp-t használok!
-        </label>
-        <input
-          type="checkBox"
-          id="skillCheckUseLegendPointCheckBox"
-          onChange={handleSkillCheckUseLegendPointCheckBox}
-        />
-        <button
-          id="skillCheckDarkDiceRerollByCounterLP"
-          onClick={skillCheckHandleBossCounterLPdark}></button>
-        <button
-          id="skillCheckLightDiceRerollByCounterLP"
-          onClick={skillCheckHandleBossCounterLPlight}></button>
       </div>
       <div id="physicalAttributesLabel">Fizikai tulajdonságok:</div>
       <button type="" id="skillCheckRollButton" onClick={handleSkillCheck}>
@@ -477,11 +370,7 @@ function SkillCheck(props) {
       <div id="skillCheckResultLabel">Próba végső eredménye:</div>
       <div id="skillCheckResult"></div>
       <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
-      <input
-        type="checkBox"
-        id="skillCheckStressCheckbox"
-        onChange={handleCheckBoxChange}
-      />
+      <input type="checkBox" id="skillCheckStressCheckbox" />
       <div id="spiritualAttributesLabel">Szellemi tulajdonságok:</div>
       <div id="skillCheckLeftSideWrapper"></div>
       <div id="skillCheckRightSideWrapper"></div>

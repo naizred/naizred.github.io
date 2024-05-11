@@ -21,6 +21,10 @@ import {
   modifierFromNumberOfAttacksInTheRound,
   cumulativeCombinationModifierNullifier,
   cumulativeCombinationModifier,
+  specialCases2,
+  specialCases1,
+  specialCases3,
+  specialModifiers,
 } from "../pages";
 import {
   filteredArrayIfHasExtraReaction,
@@ -119,6 +123,7 @@ function CharacterDetails() {
   function handleInitiativeRoll() {
     numberOfAttacksInTheRoundNullifier();
     modifierFromNumberOfAttacksInTheRoundNullifier();
+    cumulativeCombinationModifierNullifier();
     toggleAllallActionBarButtonsExceptInitRollDisplay("grid");
     allResultsCleaner();
 
@@ -150,47 +155,102 @@ function CharacterDetails() {
       }
     }
 
-    initiativeRerollByCounterLP.style.display = "none";
     reloadButton.disabled = true;
     weapons.disabled = true;
     offHand.disabled = true;
     setDiceRolledToFalse();
     tacticsButton.disabled = false;
-    initiativeRollLegendPointCheckBox.style.display = "grid";
-    initiativeRollLegendPointCheckBox.checked = false;
-    let initiativeRollResult = Math.floor(generator.random() * 10);
-    let extraReaction = false;
+    let initiativeLightDice = Math.floor(generator.random() * 10);
+    let initiativeDarkDice = Math.floor(generator.random() * 10);
+    initRolled = true;
+    console.log("kezdeményező", initiativeLightDice, initiativeDarkDice);
+    let initiativeLightDicePlusExtraReaction = 0;
+    let extraReactionLevel = 0;
+
+    initiativeLightDiceResult.value = initiativeLightDice;
+    initiativeDarkDiceResult.value = initiativeDarkDice;
+
+    if (initiativeLightDice == 0) {
+      initiativeLightDice = 10;
+    }
+    if (initiativeDarkDice == 0) {
+      initiativeDarkDice = 10;
+    }
+    let firstRoundActionNumberModifierFromInitRoll = 0;
+
     if (filteredArrayIfHasExtraReaction.length != 0) {
-      let extraReactionLevel = parseInt(
-        filteredArrayIfHasExtraReaction[0].level
-      );
-      if (extraReactionLevel == 1) {
-        if ([1, 2].includes(initiativeRollResult)) {
-          extraReaction = true;
-        }
-      } else if (extraReactionLevel == 2) {
-        if ([1, 2, 3, 4].includes(initiativeRollResult)) {
-          extraReaction = true;
-        }
-      } else if (extraReactionLevel == 3) {
-        if ([1, 2, 3, 4, 5, 6].includes(initiativeRollResult)) {
-          extraReaction = true;
-        }
+      extraReactionLevel = parseInt(filteredArrayIfHasExtraReaction[0].level);
+      initiativeLightDicePlusExtraReaction =
+        initiativeLightDice + extraReactionLevel;
+      if (initiativeLightDicePlusExtraReaction >= 10) {
+        initiativeLightDicePlusExtraReaction = 10;
       }
-    } else {
-      extraReaction = false;
     }
-    initiativeRollResultSelect.value = initiativeRollResult;
-    if (initiativeRollResult == 0 || extraReaction == true) {
-      initiativeRollResult = 10;
+    ///***************** dobás teszteléshez ****************************/
+    //initiativeLightDice = 2;
+    //initiativeDarkDice = 2;
+
+    console.log(
+      "Stresszpróba DM előtt",
+      initiativeLightDice,
+      initiativeDarkDice
+    );
+    if (initiativeLightDice == initiativeDarkDice) {
+      initiativeLightDicePlusExtraReaction = initiativeLightDice;
     }
-    initiativeWithRoll.innerText =
-      parseInt(initiative.innerText) + initiativeRollResult;
+    console.log(
+      "Stresszpróba DM után",
+      initiativeLightDicePlusExtraReaction,
+      initiativeDarkDice
+    );
+
+    if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      specialCases1.includes(initiativeDarkDice)
+    ) {
+      specialEffect.innerText = "1 ellenfél veszít 1 cselekedetet";
+    } else if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      specialCases2.includes(initiativeDarkDice)
+    ) {
+      specialEffect.innerText = specialModifiers[2];
+      firstRoundActionNumberModifierFromInitRoll = 1;
+    } else if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      specialCases3.includes(initiativeDarkDice)
+    ) {
+      specialEffect.innerText = specialModifiers[3];
+      firstRoundActionNumberModifierFromInitRoll = 2;
+    } else if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      initiativeDarkDice == 1
+    ) {
+      specialEffect.innerText = specialModifiers[0];
+      firstRoundActionNumberModifierFromInitRoll = -3;
+    } else if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      initiativeDarkDice == 10
+    ) {
+      specialEffect.innerText = specialModifiers[4];
+      firstRoundActionNumberModifierFromInitRoll = 3;
+    }
+    if (initiativeLightDicePlusExtraReaction >= initiativeDarkDice) {
+      initiativeWithRoll.innerText =
+        parseInt(initiative.innerText) + initiativeLightDicePlusExtraReaction;
+    } else if (initiativeLightDicePlusExtraReaction < initiativeDarkDice) {
+      initiativeWithRoll.innerText =
+        parseInt(initiative.innerText) - initiativeDarkDice;
+    }
     numberOfActions.innerText =
       Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1;
     adjustActionsPositive.value = parseInt(numberOfActions.innerText); // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
+    // ez ide azért kell, hogy a mentett max akciók ne változzon, mivel a módosító a nevezetes dobásból csak az első körre vonatkozik
+    numberOfActions.innerText =
+      parseInt(numberOfActions.innerText) +
+      firstRoundActionNumberModifierFromInitRoll;
+
     initRollButton.style.display = "none";
-    initRolled = true;
+
     combinationRadioButton.disabled = true;
     updateCharacterData();
 
@@ -200,44 +260,6 @@ function CharacterDetails() {
       updateCharacterData();
     });
     observer.observe(numberOfActions, { childList: true, subtree: true });
-  }
-
-  function handleInitWhenLPisUsed() {
-    initiativeRerollByCounterLP.style.display = "grid";
-    let initRollChangedByLP = parseInt(initiativeRollResultSelect.value);
-    if (initRollChangedByLP == 0) {
-      initRollChangedByLP = 10;
-    }
-    initiativeWithRoll.innerText =
-      parseInt(initiative.innerText) + parseInt(initRollChangedByLP);
-    numberOfActions.innerText =
-      Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1;
-    adjustActionsPositive.value = parseInt(numberOfActions.innerText);
-    initiativeRollResultSelect.disabled = true;
-    initiativeRollLegendPointCheckBox.style.display = "none";
-  }
-
-  function handleBossInitCounterLP() {
-    let rerolledValue = Math.floor(generator.random() * 10);
-    initiativeRollResultSelect.value = rerolledValue;
-    if (rerolledValue == 0) {
-      rerolledValue = 10;
-    }
-    initiativeWithRoll.innerText =
-      parseInt(initiative.innerText) + parseInt(rerolledValue);
-    numberOfActions.innerText =
-      Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1;
-    adjustActionsPositive.value = parseInt(numberOfActions.innerText);
-    initiativeRerollByCounterLP.style.display = "none";
-  }
-
-  function handleInitLPCheckBox() {
-    if (initiativeRollLegendPointCheckBox.checked == true) {
-      initiativeRollResultSelect.disabled = false;
-    }
-    if (initiativeRollLegendPointCheckBox.checked == false) {
-      initiativeRollResultSelect.disabled = true;
-    }
   }
 
   function handleAdjustActionsPositive() {
@@ -357,9 +379,6 @@ function CharacterDetails() {
     reloadFailed(parseInt(numberOfActions.innerText) > 0);
 
     numberOfReactions.innerText = 0;
-    initiativeRollLegendPointCheckBox.style.display = "none";
-    initiativeRerollByCounterLP.style.display = "none";
-    attackRollUseLegendPointCheckBox.style.display = "none";
     if (initRolled == true) {
       if (parseInt(numberOfActions.innerText) >= 0) {
         numberOfActions.innerText = adjustActionsPositive.value;
@@ -502,8 +521,6 @@ function CharacterDetails() {
     initRolled = false;
     warningWindow.innerText = "";
     spellCastingActionButton.disabled = false;
-    initiativeRerollByCounterLP.style.display = "none";
-    attackRollUseLegendPointCheckBox.style.display = "none";
     setDiceRolledToFalse();
     reloadIsNeededSetToFalse();
     spellCastingSuccessful();
@@ -650,10 +667,6 @@ function CharacterDetails() {
           Kör vége
         </button>
         <button
-          id="initiativeRerollByCounterLP"
-          onClick={handleBossInitCounterLP}
-          className={styles.initiativeRerollByCounterLP}></button>
-        <button
           className={styles.endOfCombatButton}
           onClick={handleEndOfCombat}>
           Harc vége
@@ -668,25 +681,22 @@ function CharacterDetails() {
           onClick={handleAdjustReactionsPositive}>
           Tartalékolás / Készenlét
         </button>
-        {/* <button id='adjustReactionsNegative' className={styles.adjustReactions} onClick={handleAdjustReactionsNegative}>-</button> */}
-        <label className={styles.useLegendPointForInitiativeRollLabel}>
-          Lp-t használok!
-        </label>
         <select
-          onChange={handleInitWhenLPisUsed}
-          id="initiativeRollResultSelect"
-          className={styles.initiativeRollResultSelect}
+          id="initiativeLightDiceResult"
+          className={styles.initiativeLightDiceResult}
           disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
         </select>
-        <input
-          type="checkbox"
-          id="initiativeRollLegendPointCheckBox"
-          className={styles.initiativeRollLegendPointCheckBox}
-          onChange={handleInitLPCheckBox}
-        />
+        <select
+          id="initiativeDarkDiceResult"
+          className={styles.initiativeDarkDiceResult}
+          disabled={true}>
+          {rollOptions.map((e) => {
+            return <option key={e}>{e}</option>;
+          })}
+        </select>
       </div>
       <div
         id="chiCombatContinuePopupWindow"

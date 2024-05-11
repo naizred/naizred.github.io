@@ -216,6 +216,13 @@ export let filteredArrayIfHasAssassination;
 export const specialCases1 = [2, 3, 4];
 export const specialCases2 = [5, 6, 7];
 export const specialCases3 = [8, 9];
+export let specialModifiers = [
+  "Veszítesz 3 cselekedetet",
+  "Aki ellen dobták, veszít 1 cselekedetet",
+  "Kapsz 1 cselekedetet",
+  "Kapsz 2 cselekedetet",
+  "Kapsz 3 cselekedetet",
+];
 export let fileFirstLoaded = true;
 export let originalDarkDice = 0;
 export let originalLightDice = 0;
@@ -225,8 +232,6 @@ export let combinationModifiers = [-4, -3, -2, -1, 0, 1];
 export let combinationModifiersIndex = 0;
 let filteredArrayIfHasParry;
 let mainHandWeaponWhenTwoWeaponAttackIsUsed;
-let legendPointUsedOnDarkDice = false;
-let legendPointUsedOnLightDice = false;
 let bonusDamageFromAssassination = 0;
 export let allMagicSubskillsObject = {};
 export let arrayOfAllComplexMaeuvers;
@@ -412,8 +417,6 @@ export default function Home(props) {
     let result = 0;
 
     if (darkDice == undefined || lightDice == undefined) {
-      darkDiceRerollByCounterLP.style.display = "none";
-      lightDiceRerollByCounterLP.style.display = "none";
       for (let i = 0; i < 8; i++) {
         darkDice = Math.floor(generator.random() * 10);
         lightDice = Math.floor(generator.random() * 10);
@@ -444,13 +447,7 @@ export default function Home(props) {
 
     originalDarkDice = darkDice;
     originalLightDice = lightDice;
-    const specialModifiers = [
-      "Veszítesz 3 cselekedetet",
-      "Aki ellen dobták, veszít 1 cselekedetet",
-      "Kapsz 1 cselekedetet",
-      "Kapsz 2 cselekedetet",
-      "Kapsz 3 cselekedetet",
-    ];
+
     // Itt vannak a nevezetes dobások
     if (lightDice == darkDice && specialCases1.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[1];
@@ -673,21 +670,14 @@ export default function Home(props) {
       diceRolledSetToFalseBySpellNeedsAimRoll == true
     ) {
       let spellDamage = 0;
-      if (legendPointIsUsedOnAimedSpell == true) {
-        spellDamage = multipleDiceRoll(
-          originalDarkDice,
-          originalLightDice,
-          parseInt(thirdAccumulatedDiceResultSelect.value),
-          parseInt(numberOfDiceInput.value)
-        );
-      } else if (legendPointIsUsedOnAimedSpell == false) {
-        spellDamage = multipleDiceRoll(
-          originalDarkDice,
-          originalLightDice,
-          0,
-          parseInt(numberOfDiceInput.value)
-        );
-      }
+
+      spellDamage = multipleDiceRoll(
+        originalDarkDice,
+        originalLightDice,
+        0,
+        parseInt(numberOfDiceInput.value)
+      );
+
       damageResult.innerText = spellDamage[3];
       firstAccumulatedDiceResultSelect.value = spellDamage[0];
       secondAccumulatedDiceResultSelect.value = spellDamage[1];
@@ -700,8 +690,7 @@ export default function Home(props) {
       currentlySelectedWeapon.w_name != "Fúvócső" &&
       currentlySelectedWeapon.w_name != "Célzott mágia" &&
       currentlySelectedWeapon.w_name != "Tűvető" &&
-      darkDiceWasChangedToHalfOfStr == false &&
-      legendPointUsedOnDarkDice == false
+      darkDiceWasChangedToHalfOfStr == false
     ) {
       let archeryBonusDmg = 0;
 
@@ -746,79 +735,6 @@ export default function Home(props) {
     damageResult.animate([{ color: "white" }, { color: "black" }], 200);
   }
 
-  function handleAttackRollLPCheckBox() {
-    if (
-      attackRollUseLegendPointCheckBox.checked == true &&
-      (diceRolled == true || diceRolledSetToFalseBySpellNeedsAimRoll == true)
-    ) {
-      darkDiceResultSelect.disabled = false;
-      lightDiceResultSelect.disabled = false;
-      attackRollButton.disabled = true;
-      if (disarmWasUsedThisRound == true) {
-        disarmRadioButton.checked = true;
-      }
-    } else {
-      darkDiceResultSelect.disabled = true;
-      lightDiceResultSelect.disabled = true;
-    }
-    if (
-      (attackRollUseLegendPointCheckBox.checked == false &&
-        diceRolled == false) ||
-      (attackRollUseLegendPointCheckBox.checked == false &&
-        combinationRadioButton.checked == true &&
-        diceRolled == true)
-    ) {
-      attackRollButton.disabled = false;
-      disarmRadioButton.checked = false;
-    }
-  }
-
-  let legendPointIsUsedOnAimedSpell = false;
-
-  function handleWhenLegendPointIsUsed(event) {
-    if (event.target.id == "darkDiceResultSelect") {
-      legendPointUsedOnDarkDice = true;
-      darkDiceRerollByCounterLP.style.display = "grid";
-    } else if (event.target.id == "lightDiceResultSelect") {
-      legendPointUsedOnLightDice = true;
-      lightDiceRerollByCounterLP.style.display = "grid";
-    }
-    if (diceRolledSetToFalseBySpellNeedsAimRoll == true) {
-      legendPointIsUsedOnAimedSpell = true;
-    }
-    handleClickOnAttackRollButton(
-      parseInt(darkDiceResultSelect.value),
-      parseInt(lightDiceResultSelect.value)
-    );
-
-    diceRolledSetToFalseBySpellNeedsAimRoll = false;
-    if (numberOfClicksAtTwoWeaponAttack == 1) {
-    }
-    disarmRadioButton.checked = false;
-    disarmWasUsedThisRound = false;
-    attackRollUseLegendPointCheckBox.style.display = "none";
-    darkDiceResultSelect.disabled = true;
-    lightDiceResultSelect.disabled = true;
-    attackRollButton.disabled = false;
-    if (
-      attackRollUseLegendPointCheckBox.checked == false &&
-      initRolled == true &&
-      diceRolled == true &&
-      legendPointIsUsedOnAimedSpell == false
-    ) {
-      attackRollButton.disabled = true;
-    }
-    if (
-      combinationRadioButton.checked == true ||
-      numberOfClicksAtTwoWeaponAttack == 1
-    ) {
-      attackRollButton.disabled = false;
-    }
-    legendPointUsedOnDarkDice = false;
-    legendPointUsedOnLightDice = false;
-    legendPointIsUsedOnAimedSpell = false;
-  }
-
   function handleWeaponOrShieldChange() {
     handleFileRead();
 
@@ -829,35 +745,13 @@ export default function Home(props) {
       allAimedBodyParts[i].checked = false;
     }
     allResultsCleaner();
-    attackRollUseLegendPointCheckBox.style.display = "none";
+
     if (initRolled == true) {
       weapons.disabled = true;
       offHand.disabled = true;
       weaponChangeButton.disabled = false;
       reloadIsNeeded = false;
     }
-  }
-
-  function handleBossCounterLPdark() {
-    darkDiceResultSelect.value = Math.floor(generator.random() * 10);
-    handleClickOnAttackRollButton(
-      parseInt(darkDiceResultSelect.value),
-      parseInt(lightDiceResultSelect.value)
-    );
-    attackRollUseLegendPointCheckBox.style.display = "none";
-    darkDiceRerollByCounterLP.style.display = "none";
-    lightDiceRerollByCounterLP.style.display = "none";
-  }
-
-  function handleBossCounterLPlight() {
-    lightDiceResultSelect.value = Math.floor(generator.random() * 10);
-    handleClickOnAttackRollButton(
-      parseInt(darkDiceResultSelect.value),
-      parseInt(lightDiceResultSelect.value)
-    );
-    attackRollUseLegendPointCheckBox.style.display = "none";
-    darkDiceRerollByCounterLP.style.display = "none";
-    lightDiceRerollByCounterLP.style.display = "none";
   }
 
   function removeAllAttributeOptions() {
@@ -1513,7 +1407,9 @@ export default function Home(props) {
           currentlySelectedWeapon.mgt / 2 +
           parseFloat(anyOtherHmoModifierValue) -
           parseFloat(totalMgtOfArmorSet.innerText / 2) -
-          innerTimeNegativeModifier;
+          innerTimeNegativeModifier -
+          modifierFromNumberOfAttacksInTheRound -
+          cumulativeCombinationModifier;
         // if (charAtk.value < 0) {
         //   charAtk.value = 0
         // }
@@ -1525,7 +1421,9 @@ export default function Home(props) {
         parseFloat(anyOtherHmoModifierValue) -
         parseFloat(totalMgtOfArmorSet.innerText / 2) +
         chiCombatAtkDefModifier -
-        innerTimeNegativeModifier;
+        innerTimeNegativeModifier -
+        modifierFromNumberOfAttacksInTheRound -
+        cumulativeCombinationModifier;
 
       //********************************************************************************************** */
       // Kiszámolja a maximális és cselekedetenkénti mozgás távot. Ez függ az MGT-től, ezért van ennyire lent
@@ -1791,27 +1689,14 @@ export default function Home(props) {
   //------------------a támadó dobás
   //************************************************************************ */
   async function handleClickOnAttackRollButton(darkDice, lightDice) {
-    if (charRace.innerText == "") {
-      alert("Importálj egy karaktert!");
-      return;
-    }
-
     //*********************************************************************** */
     //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
-    if (
-      legendPointUsedOnDarkDice == false &&
-      legendPointUsedOnLightDice == false &&
-      spellNeedsAimRoll == false
-    ) {
+    if (spellNeedsAimRoll == false) {
       numberOfClicksForAttacksForPsiAssault++;
       numberOfAttacksInTheRound++;
     }
 
-    if (
-      twoWeaponAttackRadioButton.checked == true &&
-      legendPointUsedOnDarkDice == false &&
-      legendPointUsedOnLightDice == false
-    ) {
+    if (twoWeaponAttackRadioButton.checked == true) {
       numberOfClicksAtTwoWeaponAttack++;
     }
 
@@ -1821,17 +1706,18 @@ export default function Home(props) {
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
     chosenWeapon.innerText = "Választott fegyver:";
-    bigSpellDamageRollLegendPointCheckBox.checked = false;
-    bigSpellDamageRollLegendPointCheckBox.style.display = "none";
 
     //-----------------------megnézni, hogy van-e erő sebzés
 
     if (initRolled == true) {
-      if (currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound) {
+      if (
+        currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound &&
+        spellNeedsAimRoll == false
+      ) {
         modifierFromNumberOfAttacksInTheRound++;
         hmoModifier(-modifierFromNumberOfAttacksInTheRound);
       }
-      if (combinationWasUsedThisRound) {
+      if (combinationWasUsedThisRound && spellNeedsAimRoll == false) {
         hmoModifier(combinationModifiers[combinationModifiersIndex]);
 
         cumulativeCombinationModifier -=
@@ -1847,17 +1733,11 @@ export default function Home(props) {
       rollResult.innerText = ttkRoll(true, darkDice, lightDice);
       rollResult.animate([{ color: "white" }, { color: "black" }], 200);
     }
-    if (
-      diceRolledSetToFalseBySpellNeedsAimRoll == true &&
-      legendPointUsedOnDarkDice == false &&
-      legendPointUsedOnLightDice == false
-    ) {
+    if (diceRolledSetToFalseBySpellNeedsAimRoll == true) {
       diceRolledSetToFalseBySpellNeedsAimRoll = false;
     }
     diceRolled = true;
     combinationRadioButton.disabled = false;
-    attackRollUseLegendPointCheckBox.style.display = "grid";
-    attackRollUseLegendPointCheckBox.checked = false;
 
     damageResult.innerText = "";
 
@@ -2001,7 +1881,6 @@ export default function Home(props) {
 
     if (initRolled == true) {
       //ha volt kezdeményező dobás
-      initiativeRerollByCounterLP.style.display = "none";
       for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
         if (arrayOfAllComplexMaeuvers[i].checked == true) {
           totalActionCostOfAttackSetter(
@@ -2036,12 +1915,7 @@ export default function Home(props) {
         }
         diceRolledSetToFalseBySpellNeedsAimRoll = false;
       }
-      if (
-        legendPointUsedOnDarkDice == false &&
-        legendPointUsedOnLightDice == false &&
-        spellNeedsAimRoll == false &&
-        attackOfOpportunityOn == false
-      ) {
+      if (spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
         spellCastingFailure();
         numberOfActionsSpentOnCastingCurrentSpellNullifier();
         numberOfActions.innerText =
@@ -2068,9 +1942,7 @@ export default function Home(props) {
 
       if (
         numberOfClicksAtTwoWeaponAttack == 2 &&
-        twoWeaponAttackWasUsedThisRound == true &&
-        legendPointUsedOnDarkDice == false &&
-        legendPointUsedOnLightDice == false
+        twoWeaponAttackWasUsedThisRound == true
       ) {
         weapons.disabled = true;
         twoWeaponAttackRadioButton.disabled = false;
@@ -2087,12 +1959,7 @@ export default function Home(props) {
         twoWeaponAttackWasUsedThisRound = true;
       }
 
-      if (
-        diceRolled == true &&
-        numberOfClicksAtTwoWeaponAttack == 1 &&
-        legendPointUsedOnDarkDice == false &&
-        legendPointUsedOnLightDice == false
-      ) {
+      if (diceRolled == true && numberOfClicksAtTwoWeaponAttack == 1) {
         weapons.disabled = false;
         chosenWeapon.innerText = "Kétk.harc másik kéz:";
         twoWeaponAttackRadioButton.disabled = true;
@@ -2109,40 +1976,37 @@ export default function Home(props) {
           attackRollButton.disabled = true;
         }
       }, 200);
-      if (
-        legendPointUsedOnDarkDice == false &&
-        legendPointUsedOnLightDice == false
-      ) {
-        if (assassinationRadioButton.checked == true) {
-          charAtk.value =
-            parseFloat(charAtk.value) -
-            filteredArrayIfHasAssassination[0].level -
-            3;
-          assassinationToFalse();
-        }
-        if (findWeakSpotOn == true) {
-          charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier;
-          findWeakSpotModifierNullifier();
-          findWeakSpotOnToFalse();
-          findWeakSpotButton.disabled = false;
-        }
-        if (attackOfOpportunityOn == true) {
-          attackOfOpportunityOnSetToFalse();
-          handleFileRead();
-          attackOfOpportunityButton.disabled = false;
-        }
-        for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-          if (arrayOfAllComplexMaeuvers[i].checked == true) {
-            arrayOfAllComplexMaeuvers[i].checked = false;
-            totalActionCostOfAttackSetter(
-              -arrayOfAllComplexMaeuvers[i].parentElement.value
-            );
-          }
-        }
-        if (numberOfClicksAtTwoWeaponAttack == 1) {
-          twoWeaponAttackRadioButton.checked = true;
+
+      if (assassinationRadioButton.checked == true) {
+        charAtk.value =
+          parseFloat(charAtk.value) -
+          filteredArrayIfHasAssassination[0].level -
+          3;
+        assassinationToFalse();
+      }
+      if (findWeakSpotOn == true) {
+        charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier;
+        findWeakSpotModifierNullifier();
+        findWeakSpotOnToFalse();
+        findWeakSpotButton.disabled = false;
+      }
+      if (attackOfOpportunityOn == true) {
+        attackOfOpportunityOnSetToFalse();
+        handleFileRead();
+        attackOfOpportunityButton.disabled = false;
+      }
+      for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+        if (arrayOfAllComplexMaeuvers[i].checked == true) {
+          arrayOfAllComplexMaeuvers[i].checked = false;
+          totalActionCostOfAttackSetter(
+            -arrayOfAllComplexMaeuvers[i].parentElement.value
+          );
         }
       }
+      if (numberOfClicksAtTwoWeaponAttack == 1) {
+        twoWeaponAttackRadioButton.checked = true;
+      }
+
       if (
         checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true &&
         currentlySelectedWeapon.w_type != "MÁGIA" &&
@@ -2261,11 +2125,7 @@ export default function Home(props) {
             <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
               Sötét kocka:
             </label>
-            <select
-              id="darkDiceResultSelect"
-              name=""
-              onChange={handleWhenLegendPointIsUsed}
-              disabled={true}>
+            <select id="darkDiceResultSelect" name="" disabled={true}>
               {rollOptions.map((e) => {
                 return <option key={e}>{e}</option>;
               })}
@@ -2273,31 +2133,11 @@ export default function Home(props) {
             <label htmlFor="lightDiceResultSelect" id="lightDiceResult">
               Világos kocka:
             </label>
-            <select
-              id="lightDiceResultSelect"
-              name=""
-              onChange={handleWhenLegendPointIsUsed}
-              disabled={true}>
+            <select id="lightDiceResultSelect" name="" disabled={true}>
               {rollOptions.map((e) => {
                 return <option key={e}>{e}</option>;
               })}
             </select>
-            <label
-              id="attackRollUseLegendPointCheckBoxlabel"
-              htmlFor="attackRollUseLegendPointCheckBox">
-              Lp-t használok!
-            </label>
-            <input
-              type="checkBox"
-              id="attackRollUseLegendPointCheckBox"
-              onChange={handleAttackRollLPCheckBox}
-            />
-            <button
-              id="darkDiceRerollByCounterLP"
-              onClick={handleBossCounterLPdark}></button>
-            <button
-              id="lightDiceRerollByCounterLP"
-              onClick={handleBossCounterLPlight}></button>
           </div>
           <div id="bodyPartImg"></div>
           <AimedAttack />

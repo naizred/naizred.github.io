@@ -127,8 +127,6 @@ export function reloadFailed(anyCondition = true) {
 let currentActionExtraCost = 0;
 function ActionList(props) {
   function handleExtraAttackRadio(event) {
-    bigSpellDamageRollLegendPointCheckBox.checked = false;
-    bigSpellDamageRollLegendPointCheckBox.style.display = "none";
     if (
       diceRolled == false &&
       diceRolledSetToFalseBySpellNeedsAimRoll == false
@@ -157,8 +155,6 @@ function ActionList(props) {
     }
   }
   function handleComplexManeuverRadio(event) {
-    bigSpellDamageRollLegendPointCheckBox.checked = false;
-    bigSpellDamageRollLegendPointCheckBox.style.display = "none";
     currentActionExtraCost = event.target.parentElement.value;
     if (
       parseInt(numberOfActions.innerText) < 4 &&
@@ -320,8 +316,6 @@ function ActionList(props) {
   }
   function handleOtherManeuvers(event) {
     let nameOfManeuver = event.target.parentElement.firstChild.innerText;
-    bigSpellDamageRollLegendPointCheckBox.checked = false;
-    bigSpellDamageRollLegendPointCheckBox.style.display = "none";
     if (initRolled == true) {
       if (totalActionCostOfAttack <= parseInt(numberOfActions.innerText)) {
         attackRollButton.disabled == true;
