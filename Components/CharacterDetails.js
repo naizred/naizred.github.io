@@ -69,6 +69,7 @@ import {
   spellIsBeingCast,
 } from "./Spells";
 export let initRolled = false;
+export let extraReactionLevel = 0;
 export let chiCombatEndedDueToLackOfPsiPoints = false;
 export let activeBuffsCounter = 0;
 export async function updateCharacterData(gameIdUpdate = false) {
@@ -165,7 +166,6 @@ function CharacterDetails() {
     initRolled = true;
     console.log("kezdeményező", initiativeLightDice, initiativeDarkDice);
     let initiativeLightDicePlusExtraReaction = 0;
-    let extraReactionLevel = 0;
 
     initiativeLightDiceResult.value = initiativeLightDice;
     initiativeDarkDiceResult.value = initiativeDarkDice;
@@ -248,6 +248,11 @@ function CharacterDetails() {
     numberOfActions.innerText =
       parseInt(numberOfActions.innerText) +
       firstRoundActionNumberModifierFromInitRoll;
+
+    // az Extra Reackió adottság az első 3 körben +1 akciót is ad. A további körökben ezt a "handleEndOfRound" függvény fogja figyelni
+    if (filteredArrayIfHasExtraReaction.length != 0) {
+      numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
+    }
 
     initRollButton.style.display = "none";
 
@@ -453,6 +458,12 @@ function CharacterDetails() {
       }
       numberOfCurrentRound.innerText =
         parseInt(numberOfCurrentRound.innerText) + 1 + ".";
+      if (
+        extraReactionLevel != 0 &&
+        extraReactionLevel >= parseInt(numberOfCurrentRound.innerText)
+      ) {
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
+      }
     }
   }
   function handleChiCombatBeforeEndOfRound() {

@@ -421,8 +421,8 @@ export default function Home(props) {
         darkDice = Math.floor(generator.random() * 10);
         lightDice = Math.floor(generator.random() * 10);
       }
-      //lightDice = 0
-      //darkDice = 0
+      //lightDice = 1;
+      //darkDice = 1;
       /* -- ez a felső két sor a dobások tesztelésére van  */
       darkDiceResultSelect.value = darkDice;
       lightDiceResultSelect.value = lightDice;
@@ -434,10 +434,11 @@ export default function Home(props) {
       result = lightDice;
     } else if (darkDice == 0 && lightDice == 0) {
       result = 10;
+    } else if (darkDice == 1 && lightDice == 1) {
+      result = 0;
     } else if (darkDice == lightDice) {
       result = darkDice;
     }
-
     if (darkDice == 0) {
       darkDice = 10;
     }
@@ -1433,16 +1434,17 @@ export default function Home(props) {
         speedBonusFromRunningSkill = filteredArrayIfHasRunning[0].level * 2;
       }
       let correctedSpeedValueForMovementCalculation =
-        currentCharFinalAttributes[1] +
+        10 +
+        Math.floor(currentCharFinalAttributes[1] / 2) +
         speedBonusFromRunningSkill -
         currentlySelectedWeapon.mgt -
         reducedMgtByParrySkill -
         parseInt(totalMgtOfArmorSet.innerText);
       maxMove.innerText = `Max táv: ${
-        correctedSpeedValueForMovementCalculation * 4
+        correctedSpeedValueForMovementCalculation * 3
       } láb`;
       movePerAction.innerText = `/akció táv: ${Math.ceil(
-        (correctedSpeedValueForMovementCalculation * 4) /
+        (correctedSpeedValueForMovementCalculation * 3) /
           (1 + Math.ceil((parseInt(initiative.innerText) + 1) / 10))
       )} láb`;
 
@@ -2179,7 +2181,7 @@ export default function Home(props) {
             rendszerében, mely elsőre bonyolultnak tűnhet. <br />
             <br />
             - Segít a képzettség- és tulajdonság próbadobásokban, ahol
-            választhatsz stressz és normálpróba között is. <br />
+            választhatsz stressz- és normálpróba között is. <br />
             - A támadódobás során értelmezi a dobott értékeket és kiszámolja a
             fegyver sebzését, figyelembe véve a karakteredre vonatkozó minden
             statisztikát.
@@ -2194,9 +2196,9 @@ export default function Home(props) {
             ha célzott mágiáról van szó - CÉO értékekkel is boldogul. <br />
             <a
               target="_blank"
-              href="https://magustk.hu/0.88/varazsmuhely"
+              href="https://magustk.hu/0.90/varazsmuhely"
               rel="noopener noreferrer">
-              https://magustk.hu/0.88/varazsmuhely
+              https://magustk.hu/0.90/varazsmuhely
             </a>
             <br />
             <br />
@@ -2213,9 +2215,9 @@ export default function Home(props) {
             adjál az alkotás során. <br />
             <a
               target="_blank"
-              href="https://magustk.hu/0.88/karakteralkoto"
+              href="https://magustk.hu/0.90/karakteralkoto"
               rel="noopener noreferrer">
-              https://magustk.hu/0.88/karakteralkoto
+              https://magustk.hu/0.90/karakteralkoto
             </a>{" "}
             <br />
             <br />
