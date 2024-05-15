@@ -444,10 +444,8 @@ function CharacterDetails() {
       hmoModifiedToFalse();
       allResultsCleaner();
       numberOfAttacksInTheRoundNullifier();
-      console.log(
-        "támadások számából adódó mod",
-        modifierFromNumberOfAttacksInTheRound
-      );
+      modifierForNextAttackFromAttacksInTheRound.innerText = "T/K: 0";
+      modifierForNextAttackFromCombination.innerText = "+T: 0";
       hmoModifier(modifierFromNumberOfAttacksInTheRound);
       modifierFromNumberOfAttacksInTheRoundNullifier();
       cumulativeCombinationModifierNullifier();
@@ -588,10 +586,8 @@ function CharacterDetails() {
     dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
     numberOfAttacksInTheRoundNullifier();
     hmoModifier(modifierFromNumberOfAttacksInTheRound);
-    console.log(
-      "támadások számából adódó mod",
-      modifierFromNumberOfAttacksInTheRound
-    );
+    modifierForNextAttackFromAttacksInTheRound.innerText = "T/K: 0";
+    modifierForNextAttackFromCombination.innerText = "+T: 0";
     modifierFromNumberOfAttacksInTheRoundNullifier();
     cumulativeCombinationModifierNullifier();
     allResultsCleaner();

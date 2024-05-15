@@ -17,6 +17,7 @@ import {
   currentlySelectedWeaponChanger,
   diceRolledSetToFalseBySpellNeedsAimRoll,
   cumulativeCombinationModifier,
+  numberOfAttacksInTheRound,
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";

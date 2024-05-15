@@ -1876,6 +1876,19 @@ export default function Home(props) {
     }
 
     if (initRolled == true) {
+      if (currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound + 1) {
+        modifierForNextAttackFromAttacksInTheRound.innerText = "T/K: -1";
+      }
+      if (
+        currentlySelectedWeapon.atkPerRound >=
+        numberOfAttacksInTheRound + 1
+      ) {
+        modifierForNextAttackFromAttacksInTheRound.innerText = "T/K: 0";
+      }
+      modifierForNextAttackFromCombination.innerText = `+T: ${
+        numberOfAttacksInTheRound *
+        combinationModifiers[combinationModifiersIndex]
+      }`;
       //ha volt kezdeményező dobás
       for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
         if (arrayOfAllComplexMaeuvers[i].checked == true) {
@@ -2146,6 +2159,11 @@ export default function Home(props) {
                 return <option key={e}>{e}</option>;
               })}
             </select>
+          </div>
+          <div id="modifiersWrapper">
+            <div id="modifierForNextAttackFromAttacksInTheRound">T/K:</div>
+
+            <div id="modifierForNextAttackFromCombination">+T:</div>
           </div>
           <div id="bodyPartImg"></div>
           <AimedAttack />
