@@ -690,7 +690,7 @@ button:disabled {
 
 #rollResultWrapper {
   display: none;
-  grid-column: 12 / 16;
+  grid-column: 12 / 15;
   margin: 0.5vw;
   grid-row: 1 / 3;
   grid-template-columns: repeat(5, 1fr);

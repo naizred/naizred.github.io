@@ -1614,8 +1614,8 @@ export default function Home(props) {
         }
         findWeakSpotButton.disabled = true;
         attackOfOpportunityButton.disabled = true;
-        if (combinationWasUsedThisRound == true) {
-        }
+        // if (combinationWasUsedThisRound == true) {
+        // }
       }
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
@@ -1635,9 +1635,9 @@ export default function Home(props) {
           twoWeaponAttackRadioButton.disabled = false;
           toggleTwoHandedWeaponsDisplay("grid");
         }
-        if (combinationWasUsedThisRound == true) {
-          combinationRadioButton.disabled = true;
-        }
+        // if (combinationWasUsedThisRound == true) {
+        //   combinationRadioButton.disabled = true;
+        // }
       }
       if (chargeWasUsedThisRound == true) {
         charDef.value = parseFloat(charDef.value) - 1;
@@ -1709,24 +1709,18 @@ export default function Home(props) {
     specialEffect.innerText = "nincs";
     chosenWeapon.innerText = "Választott fegyver:";
 
-    //-----------------------megnézni, hogy van-e erő sebzés
-
+    // -------- támadások számából adódó módosító
     if (initRolled == true) {
       if (
         currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound &&
         spellNeedsAimRoll == false
       ) {
         modifierFromNumberOfAttacksInTheRound++;
-        hmoModifier(-modifierFromNumberOfAttacksInTheRound);
-      }
-      if (combinationWasUsedThisRound && spellNeedsAimRoll == false) {
-        hmoModifier(combinationModifiers[combinationModifiersIndex]);
-
-        cumulativeCombinationModifier -=
-          combinationModifiers[combinationModifiersIndex];
-        console.log("halmozódó komb mod", cumulativeCombinationModifier);
+        // ez itt azért -1, mert minden, a tám értéket meghaladó támadás -1 HMO-t ad. Nem halmozódik, mint a kombináció
+        hmoModifier(-1);
       }
     }
+    //-----------------------megnézni, hogy van-e erő sebzés
 
     if (currentlySelectedWeapon.strBonusDmg == false) {
       rollResult.innerText = ttkRoll(false, darkDice, lightDice);
@@ -1894,6 +1888,10 @@ export default function Home(props) {
         combinationRadioButton.checked == false &&
         spellNeedsAimRoll == false
       ) {
+        // if (cumulativeCombinationModifier == 0) {
+        //   cumulativeCombinationModifier -=
+        //     combinationModifiers[combinationModifiersIndex];
+        // }
         attackRollButton.disabled = true;
       }
       if (rollButtonWasDisabledBeforeSpellCast == true) {
@@ -1908,13 +1906,22 @@ export default function Home(props) {
       //************************************************************************************************************************** */
       //Ebben a körben volt kombináció vagy kapáslövés használva, ezért a minusz HMO-k maradnak
       //*************************************************************************************************************************** */
-      if (combinationRadioButton.checked == true) {
-        combinationRadioButton.disabled = true;
+      if (
+        combinationRadioButton.checked == true &&
+        spellNeedsAimRoll == false
+      ) {
+        //combinationRadioButton.disabled = true;
         combinationWasUsedThisRound = true;
-        if (cumulativeCombinationModifier == 0) {
-          cumulativeCombinationModifier -=
-            combinationModifiers[combinationModifiersIndex];
-        }
+
+        cumulativeCombinationModifier -=
+          (numberOfAttacksInTheRound - 1) *
+          combinationModifiers[combinationModifiersIndex];
+        hmoModifier(
+          (numberOfAttacksInTheRound - 1) *
+            combinationModifiers[combinationModifiersIndex]
+        );
+        console.log("halmozódó komb mod", cumulativeCombinationModifier);
+        console.log("halmozódó tám mod", modifierFromNumberOfAttacksInTheRound);
         diceRolledSetToFalseBySpellNeedsAimRoll = false;
       }
       if (spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
@@ -1953,7 +1960,6 @@ export default function Home(props) {
         numberOfClicksAtTwoWeaponAttack = 0;
         if (combinationWasUsedThisRound == true) {
           totalActionCostOfAttackSetter(+1);
-          console.log(cumulativeCombinationModifier);
         }
         handleFileRead();
       }

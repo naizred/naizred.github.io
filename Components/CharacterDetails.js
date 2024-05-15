@@ -255,6 +255,8 @@ function CharacterDetails() {
     }
 
     initRollButton.style.display = "none";
+    initiativeLightDiceResult.style.display = "grid";
+    initiativeDarkDiceResult.style.display = "grid";
 
     combinationRadioButton.disabled = true;
     updateCharacterData();
@@ -573,6 +575,8 @@ function CharacterDetails() {
     offHand.disabled = false;
     numberOfReactions.innerText = 0;
     initRollButton.style.display = "grid";
+    initiativeLightDiceResult.style.display = "none";
+    initiativeDarkDiceResult.style.display = "none";
     numberOfActions.innerText = "";
     initiativeWithRoll.innerText = "";
     numberOfCurrentRound.innerText = "1.";
@@ -584,6 +588,10 @@ function CharacterDetails() {
     dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
     numberOfAttacksInTheRoundNullifier();
     hmoModifier(modifierFromNumberOfAttacksInTheRound);
+    console.log(
+      "támadások számából adódó mod",
+      modifierFromNumberOfAttacksInTheRound
+    );
     modifierFromNumberOfAttacksInTheRoundNullifier();
     cumulativeCombinationModifierNullifier();
     allResultsCleaner();

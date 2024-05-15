@@ -16,6 +16,7 @@ import {
   baseAimWithTeoCalculator,
   currentlySelectedWeaponChanger,
   diceRolledSetToFalseBySpellNeedsAimRoll,
+  cumulativeCombinationModifier,
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -138,12 +139,11 @@ function ActionList(props) {
       (diceRolled == true || diceRolledSetToFalseBySpellNeedsAimRoll == true) &&
       initRolled == true
     ) {
-      if (event.target.value == "Kombináció") {
+      if (event.target.checked == true) {
         totalActionCostOfAttack = 3;
-        if (hmoModified == false) {
-          hmoModifier(combinationModifiers[combinationModifiersIndex]);
-          hmoModified = true;
-        }
+
+        // hmoModifier(-cumulativeCombinationModifier);
+
         attackRollButton.disabled = false;
         if (
           currentlySelectedWeapon.w_type != "MÁGIA" &&
@@ -151,6 +151,13 @@ function ActionList(props) {
         ) {
           attackRollButton.disabled = true;
         }
+      }
+      if (event.target.checked == false) {
+        totalActionCostOfAttack = 2;
+
+        //  hmoModifier(cumulativeCombinationModifier);
+
+        attackRollButton.disabled = true;
       }
     }
   }
@@ -267,24 +274,24 @@ function ActionList(props) {
     ) {
       attackRollButton.disabled = false;
     }
-    if (combinationRadioButton.checked == false) {
-      if (initRolled == true && diceRolled == true) {
-        attackRollButton.disabled = true;
-      }
-    }
-    if (
-      event.target.value == "Kombináció" &&
-      hmoModified == true &&
-      initRolled == true &&
-      combinationWasUsedThisRound == false
-    ) {
-      hmoModifier(-combinationModifiers[combinationModifiersIndex]);
-      hmoModified = false;
-      if (initRolled == true && diceRolled == true) {
-        attackRollButton.disabled = true;
-      }
-      totalActionCostOfAttack = 2;
-    }
+    // if (combinationRadioButton.checked == false) {
+    //   if (initRolled == true && diceRolled == true) {
+    //     attackRollButton.disabled = true;
+    //   }
+    // }
+    // if (
+    //   event.target.value == "Kombináció" &&
+    //   hmoModified == true &&
+    //   initRolled == true &&
+    //   combinationWasUsedThisRound == false
+    // ) {
+    //   hmoModifier(-combinationModifiers[combinationModifiersIndex]);
+    //   hmoModified = false;
+    //   if (initRolled == true && diceRolled == true) {
+    //     attackRollButton.disabled = true;
+    //   }
+    //   totalActionCostOfAttack = 2;
+    // }
     if (
       event.target.value == "Kétkezes harc" &&
       initRolled == true &&
@@ -458,9 +465,9 @@ function ActionList(props) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
       }
-      if (combinationWasUsedThisRound == true) {
-        hmoModifier(-cumulativeCombinationModifier);
-      }
+      // if (combinationWasUsedThisRound == true) {
+      //   hmoModifier(-cumulativeCombinationModifier);
+      // }
       if (twoWeaponAttackWasUsedThisRound == true) {
         hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex]);
       }
@@ -520,10 +527,7 @@ function ActionList(props) {
       <div className={styles.actionsWrapper}>
         Manőverek listája
         <li>
-          <span>Támadás (közelharci) - Akció - 2 CS </span>
-        </li>
-        <li>
-          <span>Támadás (távolsági) - Akció - 2 CS </span>
+          <span>Következő támadásra érvényes módosítók:</span>
         </li>
         <li>
           <span>Kombináció/Kapáslövés/Kapásdobás - Akció - +1 CS </span>
@@ -531,9 +535,8 @@ function ActionList(props) {
             value="Kombináció"
             id="combinationRadioButton"
             name="extraAttackInRound"
-            type="radio"
-            onDoubleClick={handleRadioUnselect}
-            onClick={handleExtraAttackRadio}
+            type="checkbox"
+            onChange={handleExtraAttackRadio}
           />
         </li>
         <ul

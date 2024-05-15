@@ -1,246 +1,249 @@
-.actionsWrapper{
-    display: grid;
-    grid-column: 16 / 22;
-    grid-row: 1/14;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    height: 38vw;
-    width: 25vw;
-    padding: 0.5vw;
+.actionsWrapper {
+  display: grid;
+  grid-column: 16 / 22;
+  grid-row: 1/14;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  height: 38vw;
+  width: 25vw;
+  padding: 0.5vw;
 }
-.ammoWrapper{
-    display: none;
-    grid-column: 16 / 19;
-    grid-row: 11/12;
-    width: 4vw;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    font-size: 0.8vw;
+.ammoWrapper {
+  display: none;
+  grid-column: 16 / 19;
+  grid-row: 11/12;
+  width: 4vw;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  font-size: 0.8vw;
 }
-.spellInputWrapper{
-    display: none;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    grid-column: 17 / 20;
-    grid-row: 8/12;
-    width: 12vw;
-    background-image: url('../public/parchmentPaper.jpg');
-    background-repeat: no-repeat;
-    background-size: 20vw 20vw;
-    background-position: center;
+.spellInputWrapper {
+  display: none;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  grid-column: 17 / 20;
+  grid-row: 8/12;
+  width: 12vw;
+  background-image: url("../public/parchmentPaper.jpg");
+  background-repeat: no-repeat;
+  background-size: 20vw 20vw;
+  background-position: center;
 }
-.spellInputWrapper li{
-    display: grid;
-    grid-auto-flow: column;
-    width: 12vw;
-    grid-template-columns: repeat(3,1fr);
-    align-items: center;
+.spellInputWrapper li {
+  display: grid;
+  grid-auto-flow: column;
+  width: 12vw;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
 }
-.spellInputWrapper li button{
-    display: grid;
-    width: 3vw;
+.spellInputWrapper li button {
+  display: grid;
+  width: 3vw;
 }
-.spellInputWrapper li input{
-    display: grid;
-    height: 2vw;
-    width: 4vw;
-    text-align: center;
-    font-size: 1.5vw;
+.spellInputWrapper li input {
+  display: grid;
+  height: 2vw;
+  width: 4vw;
+  text-align: center;
+  font-size: 1.5vw;
 }
-.spellInputWrapper button{
-    display: grid;
-    font-size: 1vw;
+.spellInputWrapper button {
+  display: grid;
+  font-size: 1vw;
 }
-.spellCastButtonWrapper{
-    display: grid;
-    font-size: 1vw;
-    grid-column: 14 / 17;
-    grid-row: 4/6;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    height: 4vw;
-    width: 12vw;
-    padding: 0.3vw;
-    background-image: url('../public/parchmentPaper.jpg');
-    background-size: 25vw 37vw;
-    background-repeat: no-repeat;
-    background-position: center;
+.spellCastButtonWrapper {
+  display: grid;
+  font-size: 1vw;
+  grid-column: 14 / 17;
+  grid-row: 4/6;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  height: 4vw;
+  width: 12vw;
+  padding: 0.3vw;
+  background-image: url("../public/parchmentPaper.jpg");
+  background-size: 25vw 37vw;
+  background-repeat: no-repeat;
+  background-position: center;
 }
-.spellCastButtonWrapper button{
-    display: grid;
-    font-size: 1vw;
-    width: 5vw;
+.spellCastButtonWrapper button {
+  display: grid;
+  font-size: 1vw;
+  width: 5vw;
 }
-.advancedSpellInputWrapper{
-    font-size: 1vw;
-    display: none;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    grid-column: 12/ 21;
-    grid-row: 5/12;
-    background-image: url('../public/parchmentPaper.jpg');
-    background-repeat: no-repeat;
-    background-size: 50vw 50vw;
-    background-position: center;
+.advancedSpellInputWrapper {
+  font-size: 1vw;
+  display: none;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  grid-column: 12/ 21;
+  grid-row: 5/12;
+  background-image: url("../public/parchmentPaper.jpg");
+  background-repeat: no-repeat;
+  background-size: 50vw 50vw;
+  background-position: center;
 }
-.advancedSpellInputWrapper li{
-    display: grid;
-    grid-auto-flow: column;
-    width: 12vw;
-    grid-template-columns: repeat(3,1fr);
-    align-items: center;
+.advancedSpellInputWrapper li {
+  display: grid;
+  grid-auto-flow: column;
+  width: 12vw;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
 }
-.advancedSpellInputWrapper li div{
-    display: grid;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    align-items: center;
-    margin-left: 1vw;
-    font-size: 0.8vw;
-    padding: 0.2vw;
+.advancedSpellInputWrapper li div {
+  display: grid;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  align-items: center;
+  margin-left: 1vw;
+  font-size: 0.8vw;
+  padding: 0.2vw;
 }
 .spellDescriptionWindow {
-    display: none;
-    font-size: 1vw;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    grid-column: 13/ 22;
-    grid-row: 6/9;
-    background-image: url('../public/parchmentPaper.jpg');
-    background-repeat: no-repeat;
-    background-size: 50vw 50vw;
-    background-position: center;
-    padding: 0.5vw;
+  display: none;
+  font-size: 1vw;
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  grid-column: 13/ 22;
+  grid-row: 6/9;
+  background-image: url("../public/parchmentPaper.jpg");
+  background-repeat: no-repeat;
+  background-size: 50vw 50vw;
+  background-position: center;
+  padding: 0.5vw;
 }
-.advancedSpellInputWrapper li button{
-    display: grid;
-    width: 3vw;
+.advancedSpellInputWrapper li button {
+  display: grid;
+  width: 3vw;
 }
-.advancedSpellInputWrapper li input{
-    display: grid;
-    height: 2vw;
-    width: 4vw;
-    text-align: center;
-    font-size: 1.5vw;
+.advancedSpellInputWrapper li input {
+  display: grid;
+  height: 2vw;
+  width: 4vw;
+  text-align: center;
+  font-size: 1.5vw;
 }
-.advancedSpellInputWrapper button{
-    display: grid;
-    font-size: 1vw;
+.advancedSpellInputWrapper button {
+  display: grid;
+  font-size: 1vw;
 }
-.calculatedSpellStatsSpan{
-    display: grid;
-    grid-auto-flow: column;
-    width: 22vw;
+.calculatedSpellStatsSpan {
+  display: grid;
+  grid-auto-flow: column;
+  width: 22vw;
 }
-.ammoWrapper input{
-    display: grid;
-    width: 3vw;
-    height: 1vw;
-    font-size: 0.8vw;
-    text-align: center;
+.ammoWrapper input {
+  display: grid;
+  width: 3vw;
+  height: 1vw;
+  font-size: 0.8vw;
+  text-align: center;
 }
-.ammoWrapper button{
-    display: grid;
-    width: 4vw;
-    height: 1vw;
-    font-size: 0.8vw;
+.ammoWrapper button {
+  display: grid;
+  width: 4vw;
+  height: 1vw;
+  font-size: 0.8vw;
 }
-.actionsWrapper li{
-    font-size: 0.8vw;
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: repeat(6, 1fr);
+.actionsWrapper li {
+  font-size: 0.8vw;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(6, 1fr);
 }
-.actionsWrapper button{
-    font-size: 0.8vw;
-    display: grid;
-    grid-column: 6/7;
+.actionsWrapper button {
+  font-size: 0.8vw;
+  display: grid;
+  grid-column: 6/7;
 }
-.actionsWrapper span{
-    font-size: 0.8vw;
-    display: grid;
-    margin-left: 1vw;
-    grid-column: 1/6;
+.actionsWrapper span {
+  font-size: 0.8vw;
+  display: grid;
+  margin-left: 1vw;
+  grid-column: 1/6;
+  align-items: center;
 }
-.actionsWrapper ul{
-    font-size: 1vw;
-    margin-left: 1vw;
+.actionsWrapper ul {
+  font-size: 1vw;
+  margin-left: 1vw;
 }
-.actionsWrapper ul li{
-    margin-left: 1.5vw;
+.actionsWrapper ul li {
+  margin-left: 1.5vw;
 }
 .actionsWrapper .otherManeuversLabel {
-    font-size: 1vw;
-    display: grid;
+  font-size: 1vw;
+  display: grid;
 }
 .actionsWrapper input {
-    width: 0.7vw;
-    height: 0.7vw;
-    grid-column: 6/7;
+  width: 0.7vw;
+  height: 0.7vw;
+  grid-column: 6/7;
+  align-self: center;
 }
-.spellTypeQuestionWindow{
-    display: none;
-    grid-column: 8/12;
-    grid-row: 5/7;
-    grid-template-rows: repeat(2, 1fr);
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    border-radius: 1vw;
-    grid-auto-flow: column;
-    background-image: url('../public/parchmentPaper.jpg');
-    
-    /* background-position: left; */
-    background-repeat: no-repeat;
-    background-size: 30vw 20vw;
-    }
-     .spellTypeQuestionWindowText{
-      display: grid;
-      grid-column: span 2;
-      text-align: center;
-    } 
-    .spellTypeQuestionWindowYesButton, .spellTypeQuestionWindowNoButton {
-      display: grid;
-      font-size: 2.5vw;
-    }
-    .gameIdWrapper{
-        display: grid;
-        grid-column: 19/21;
-        grid-row: 1/2;
-        font-size: 0.8vw;
-    }
-    .gameIdWrapper input{
-        display: grid;
-        font-size: 0.8vw;
-    }
-    .gameIdWrapper button{
-        display: grid;
-        font-size: 0.8vw;
-    }
-    .gameIdWrapper span{
-        display: grid;
-        font-size: 0.8vw;
-        grid-auto-flow: column;
-    }
+.spellTypeQuestionWindow {
+  display: none;
+  grid-column: 8/12;
+  grid-row: 5/7;
+  grid-template-rows: repeat(2, 1fr);
+  border: 0.23vw solid #680604;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border-radius: 1vw;
+  grid-auto-flow: column;
+  background-image: url("../public/parchmentPaper.jpg");
+
+  /* background-position: left; */
+  background-repeat: no-repeat;
+  background-size: 30vw 20vw;
+}
+.spellTypeQuestionWindowText {
+  display: grid;
+  grid-column: span 2;
+  text-align: center;
+}
+.spellTypeQuestionWindowYesButton,
+.spellTypeQuestionWindowNoButton {
+  display: grid;
+  font-size: 2.5vw;
+}
+.gameIdWrapper {
+  display: grid;
+  grid-column: 19/21;
+  grid-row: 1/2;
+  font-size: 0.8vw;
+}
+.gameIdWrapper input {
+  display: grid;
+  font-size: 0.8vw;
+}
+.gameIdWrapper button {
+  display: grid;
+  font-size: 0.8vw;
+}
+.gameIdWrapper span {
+  display: grid;
+  font-size: 0.8vw;
+  grid-auto-flow: column;
+}
