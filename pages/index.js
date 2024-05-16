@@ -1715,9 +1715,18 @@ export default function Home(props) {
         currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound &&
         spellNeedsAimRoll == false
       ) {
-        modifierFromNumberOfAttacksInTheRound++;
-        // ez itt azért -1, mert minden, a tám értéket meghaladó támadás -1 HMO-t ad. Nem halmozódik, mint a kombináció
-        hmoModifier(-1);
+        modifierFromNumberOfAttacksInTheRound =
+          numberOfAttacksInTheRound - currentlySelectedWeapon.atkPerRound;
+        // ez itt azért -1, mert minden, a tám értéket meghaladó támadás -1 HMO-t ad.
+
+        if (
+          twoWeaponAttackWasUsedThisRound &&
+          numberOfAttacksInTheRound - currentlySelectedWeapon.atkPerRound == 2
+        ) {
+          hmoModifier(-2);
+        } else {
+          hmoModifier(-1);
+        }
       }
     }
     //-----------------------megnézni, hogy van-e erő sebzés
@@ -1739,14 +1748,14 @@ export default function Home(props) {
 
     bodyPart.innerText = "";
 
-    if (charAtk.value < 0) {
-      charAtkSum.innerText = rollResult.innerText;
-      charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
-    } else {
-      charAtkSum.innerText =
-        parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
-      charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
-    }
+    // if (charAtk.value < 0) {
+    //   charAtkSum.innerText = rollResult.innerText;
+    //   charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+    // } else {
+    //   charAtkSum.innerText =
+    //     parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
+    //   charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+    // }
 
     bodyPart.innerText = bodyParts[originalLightDice - 1];
 
@@ -1876,19 +1885,17 @@ export default function Home(props) {
     }
 
     if (initRolled == true) {
-      if (currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound + 1) {
-        modifierForNextAttackFromAttacksInTheRound.innerText = "T/K: -1";
-      }
       if (
-        currentlySelectedWeapon.atkPerRound >=
-        numberOfAttacksInTheRound + 1
+        currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound + 1 &&
+        spellNeedsAimRoll == false
       ) {
-        modifierForNextAttackFromAttacksInTheRound.innerText = "T/K: 0";
+        totalModifierForNextAttack.innerText = `${
+          -1 + combinationModifiers[combinationModifiersIndex]
+        }`;
+      } else {
+        totalModifierForNextAttack.innerText = `${combinationModifiers[combinationModifiersIndex]}`;
       }
-      modifierForNextAttackFromCombination.innerText = `+T: ${
-        numberOfAttacksInTheRound *
-        combinationModifiers[combinationModifiersIndex]
-      }`;
+
       //ha volt kezdeményező dobás
       for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
         if (arrayOfAllComplexMaeuvers[i].checked == true) {
@@ -1927,12 +1934,8 @@ export default function Home(props) {
         combinationWasUsedThisRound = true;
 
         cumulativeCombinationModifier -=
-          (numberOfAttacksInTheRound - 1) *
           combinationModifiers[combinationModifiersIndex];
-        hmoModifier(
-          (numberOfAttacksInTheRound - 1) *
-            combinationModifiers[combinationModifiersIndex]
-        );
+        hmoModifier(combinationModifiers[combinationModifiersIndex]);
         console.log("halmozódó komb mod", cumulativeCombinationModifier);
         console.log("halmozódó tám mod", modifierFromNumberOfAttacksInTheRound);
         diceRolledSetToFalseBySpellNeedsAimRoll = false;
@@ -2054,6 +2057,14 @@ export default function Home(props) {
         // ammoAmountInput.value--
       }
     }
+    if (charAtk.value < 0) {
+      charAtkSum.innerText = rollResult.innerText;
+      charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+    } else {
+      charAtkSum.innerText =
+        parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
+      charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+    }
     spellNeedsAimRollSetToFalse();
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
   }
@@ -2161,9 +2172,9 @@ export default function Home(props) {
             </select>
           </div>
           <div id="modifiersWrapper">
-            <div id="modifierForNextAttackFromAttacksInTheRound">T/K:</div>
+            <div id="totalModifierForNextAttackLabel">Köv.tám. HMO mód.:</div>
 
-            <div id="modifierForNextAttackFromCombination">+T:</div>
+            <div id="totalModifierForNextAttack">0</div>
           </div>
           <div id="bodyPartImg"></div>
           <AimedAttack />

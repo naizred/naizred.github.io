@@ -444,8 +444,7 @@ function CharacterDetails() {
       hmoModifiedToFalse();
       allResultsCleaner();
       numberOfAttacksInTheRoundNullifier();
-      modifierForNextAttackFromAttacksInTheRound.innerText = "T/K: 0";
-      modifierForNextAttackFromCombination.innerText = "+T: 0";
+      totalModifierForNextAttack.innerText = "0";
       hmoModifier(modifierFromNumberOfAttacksInTheRound);
       modifierFromNumberOfAttacksInTheRoundNullifier();
       cumulativeCombinationModifierNullifier();
@@ -586,8 +585,7 @@ function CharacterDetails() {
     dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
     numberOfAttacksInTheRoundNullifier();
     hmoModifier(modifierFromNumberOfAttacksInTheRound);
-    modifierForNextAttackFromAttacksInTheRound.innerText = "T/K: 0";
-    modifierForNextAttackFromCombination.innerText = "+T: 0";
+    totalModifierForNextAttack.innerText = "0";
     modifierFromNumberOfAttacksInTheRoundNullifier();
     cumulativeCombinationModifierNullifier();
     allResultsCleaner();
