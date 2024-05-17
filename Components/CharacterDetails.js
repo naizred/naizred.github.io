@@ -250,7 +250,7 @@ function CharacterDetails() {
       firstRoundActionNumberModifierFromInitRoll;
 
     // az Extra Reackió adottság az első 3 körben +1 akciót is ad. A további körökben ezt a "handleEndOfRound" függvény fogja figyelni
-    if (filteredArrayIfHasExtraReaction.length != 0) {
+    if (filteredArrayIfHasExtraReaction.length != 0 && extraReactionLevel > 0) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
     }
 
