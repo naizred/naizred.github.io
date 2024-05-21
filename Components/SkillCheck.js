@@ -197,13 +197,9 @@ export function handleSkillCheck(
     skillCheckLightDice,
     skillCheckDarkDice
   );
-  skillCheckDarkDiceRerollByCounterLP.style.display = "none";
-  skillCheckLightDiceRerollByCounterLP.style.display = "none";
 }
 let allSkillProps;
 export async function evaluateSkillOrAttributeCheckBase(event) {
-  skillCheckDarkDiceRerollByCounterLP.style.display = "none";
-  skillCheckLightDiceRerollByCounterLP.style.display = "none";
   if (checkTypeIsSkillCheck.checked == true) {
     rollModifier.value = 0;
     skills.disabled = false;
