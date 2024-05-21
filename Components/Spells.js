@@ -240,17 +240,16 @@ function Spells(props) {
       (spell) => spell.name == `${spellSelect.value}`
     );
 
-    powerAspSelect.value = currentSpell.aspects[0][1];
-    distanceAspSelect.value = currentSpell.aspects[1][1];
-    areaAspSelect.value = currentSpell.aspects[2][1];
-    durationAspSelect.value = currentSpell.aspects[3][1];
-
     if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
       powerAspSelect.parentElement.value = currentSpell.aspects[0][1];
       distanceAspSelect.parentElement.value = currentSpell.aspects[1][1];
       areaAspSelect.parentElement.value = currentSpell.aspects[2][1];
       durationAspSelect.parentElement.value = currentSpell.aspects[3][1];
     }
+    powerAspSelect.value = currentSpell.aspects[0][1];
+    distanceAspSelect.value = currentSpell.aspects[1][1];
+    areaAspSelect.value = currentSpell.aspects[2][1];
+    durationAspSelect.value = currentSpell.aspects[3][1];
     aspOptionDisabler(filteredArrayForNameOfHighestMagicalSkill[0].level);
     calculateSpellCastTimeAndManaCost();
   }
@@ -605,6 +604,10 @@ function Spells(props) {
   function handleCancelSpellCast(event) {
     if (event.target.id == "advancedSpellInputWrapperCancelCastButton") {
       advancedSpellInputWrapper.style.display = "none";
+      currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
+      currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;
+      currentSpell.aspects[2][1] = areaAspSelect.parentElement.value;
+      currentSpell.aspects[3][1] = durationAspSelect.parentElement.value;
     }
     if (event.target.id == "spellInputWrapperCancelCastButton") {
       spellInputWrapper.style.display = "none";
