@@ -180,12 +180,12 @@ function CharacterDetails() {
 
     if (filteredArrayIfHasExtraReaction.length != 0) {
       extraReactionLevel = parseInt(filteredArrayIfHasExtraReaction[0].level);
-      initiativeLightDicePlusExtraReaction =
+    }
+          initiativeLightDicePlusExtraReaction =
         initiativeLightDice + extraReactionLevel;
       if (initiativeLightDicePlusExtraReaction >= 10) {
         initiativeLightDicePlusExtraReaction = 10;
       }
-    }
     ///***************** dobás teszteléshez ****************************/
     //initiativeLightDice = 2;
     //initiativeDarkDice = 2;
