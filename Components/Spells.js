@@ -174,7 +174,7 @@ function Spells(props) {
       if (
         filteredArrayForNameOfHighestMagicalSkill &&
         filteredArrayForNameOfHighestMagicalSkill[0].name.includes(
-          "Boszorkánym"
+          "Tűzvarázsló"
         )
       ) {
         advancedSpellInputWrapper.style.display = "grid";
@@ -206,11 +206,12 @@ function Spells(props) {
     removeAllOptions("spellSelect");
     // az adott mágikus képzettség foka a 0. indexen van elrejtve
     // console.log(magicSubSkillSelect.value[0], magicSubSkillSelect.value.slice(1))
-    let filteredSpellsBySubSkillAndLevel = props.spellsWarlock.filter(
+    let filteredSpellsBySubSkillAndLevel = props.spellsFireMage.filter(
       (spell) =>
         spell.magicSubclass == magicSubSkillSelect.value.slice(1) &&
         spell.fok <= parseInt(magicSubSkillSelect.value[0])
     );
+    console.log(filteredSpellsBySubSkillAndLevel);
     for (let i = 0; i < filteredSpellsBySubSkillAndLevel.length; i++) {
       let spellSkillOption = document.createElement("option");
       spellSkillOption.innerText = filteredSpellsBySubSkillAndLevel[i].name;
@@ -236,7 +237,7 @@ function Spells(props) {
       "volt más asp mod?",
       anyAspExceptPowerAspModified
     );
-    currentSpell = props.spellsWarlock.find(
+    currentSpell = props.spellsFireMage.find(
       (spell) => spell.name == `${spellSelect.value}`
     );
 
@@ -415,7 +416,19 @@ function Spells(props) {
     if (filteredArrayIfHasManaFlow.length != 0) {
       finalCastTime -= filteredArrayIfHasManaFlow[0].level;
     }
-    console.log(Math.max(...highestAspectOfUnmodifiedAspects));
+    // console.log(Math.max(...highestAspectOfUnmodifiedAspects));
+    console.log(Math.max(...theHighestFiveAspectsPerAspectCategory));
+    // if (powerAspModified == true || anyAspExceptPowerAspModified == true) {
+    //   blinkingText(
+    //     warningWindow,
+    //     `A varázspróba célszáma: ${
+    //       10 + Math.max(...theHighestFiveAspectsPerAspectCategory)
+    //     }`
+    //   );
+    // }
+    // if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+    //   warningWindow.innerText = ""
+    // }
     if (finalCastTime <= 0) {
       finalCastTime = 1;
     }
@@ -455,14 +468,20 @@ function Spells(props) {
       let spellAttributesArray = Object.entries(props.spellAttributes[0]);
       let highestAttributeForMagicSubSkill = "";
 
+      // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva
+      currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
+      currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;
+      currentSpell.aspects[2][1] = areaAspSelect.parentElement.value;
+      currentSpell.aspects[3][1] = durationAspSelect.parentElement.value;
+
       for (let i = 0; i < spellAttributesArray.length; i++) {
         console.log(spellAttributesArray[i][0]);
         let spellSubskillAttributesArray = Object.entries(
           spellAttributesArray[i][1]
         );
-        console.log(spellSubskillAttributesArray);
-        let spellAttribute1value = 0;
-        let spellAttribute2value = 0;
+        // console.log(spellSubskillAttributesArray);
+        let spellAttribute1name;
+        let spellAttribute2name;
         if (
           spellAttributesArray[i][0] ==
           filteredArrayForNameOfHighestMagicalSkill[0].name
@@ -479,42 +498,61 @@ function Spells(props) {
               magicSubSkillSelect.value.slice(1)
             ) {
               for (let k = 0; k < selectAllAttributeOptions.length; k++) {}
-              spellAttribute1value = spellSubskillAttributesArray[j][1][0];
-              spellAttribute2value = spellSubskillAttributesArray[j][1][1];
-              console.log(spellAttribute1value, spellAttribute2value);
+              spellAttribute1name = spellSubskillAttributesArray[j][1][0];
+              spellAttribute2name = spellSubskillAttributesArray[j][1][1];
+              console.log(spellAttribute1name, spellAttribute2name);
               break;
             }
           }
-
-          //   for (let k = 0; k < selectAllAttributeOptions.length; k++) {
-          //     console.log(selectAllAttributeOptions[k].value.slice(-3));
-          //     if (condition) {
-          //     }
-          //   }
-          //   break;
+        }
+        // össze kell hasonlítani, melyik érték a nagyobb
+        if (spellAttribute1name || spellAttribute2name) {
+          let spellAttribute1value = 0;
+          let spellAttribute2value = 0;
+          let highestSpellAttributeValue = 0;
+          for (let k = 0; k < selectAllAttributeOptions.length; k++) {
+            if (selectAllAttributeOptions[k].innerText == spellAttribute1name) {
+              spellAttribute1value = parseInt(
+                selectAllAttributeOptions[k].value
+              );
+            }
+            if (
+              selectAllAttributeOptions[k].innerText == spellAttribute2name &&
+              spellAttribute2name
+            ) {
+              spellAttribute2value = parseInt(
+                selectAllAttributeOptions[k].value
+              );
+            }
+            if (spellAttribute1value >= spellAttribute2value) {
+              attributes.value = `${
+                spellAttribute1value + "," + spellAttribute1name
+              }`;
+            }
+            if (spellAttribute1value < spellAttribute2value) {
+              attributes.value = `${
+                spellAttribute2value + "," + spellAttribute2name
+              }`;
+            }
+          }
+          console.log(spellAttribute1value, spellAttribute2value);
+          break;
         }
       }
       if (powerAspModified == true || anyAspExceptPowerAspModified == true) {
         for (let j = 0; j < selectAllSkillOptions.length; j++) {
           if (
             selectAllSkillOptions[j].value.includes(
-              magicSubSkillSelect.value.slice(1)
+              filteredArrayForNameOfHighestMagicalSkill[0].name
             )
           ) {
             skills.value = selectAllSkillOptions[j].value;
             break;
           }
         }
-
-        for (let i = 0; i < selectAllAttributeOptions.length; i++) {
-          if (selectAllAttributeOptions[i].innerText == "Erő") {
-            attributes.value = selectAllAttributeOptions[i].value;
-            break;
-          }
-        }
-        console.log(spellAttributesArray);
+        //console.log(spellAttributesArray);
         evaluateSkillOrAttributeCheckBase();
-        handleSkillCheck(false);
+        //handleSkillCheck(false);
       }
       if (powerAspSelect.value == 1 || powerAspSelect.value == 2) {
         numberOfDiceInput.value = powerAspSelect.value;
@@ -604,6 +642,7 @@ function Spells(props) {
   function handleCancelSpellCast(event) {
     if (event.target.id == "advancedSpellInputWrapperCancelCastButton") {
       advancedSpellInputWrapper.style.display = "none";
+      // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva
       currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
       currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;
       currentSpell.aspects[2][1] = areaAspSelect.parentElement.value;

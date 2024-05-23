@@ -38,9 +38,7 @@ export function multipleDiceRoll(
     }
   }
 
-  secondAccumulatedDiceResultSelect.style.opacity = 0.7;
   secondAccumulatedDiceResultSelectLabel.innerText = "Második kocka";
-  thirdAccumulatedDiceResultSelect.style.opacity = 0.7;
   thirdAccumulatedDiceResultSelectLabel.innerText = "Harmadik kocka";
 
   if (numberOfDice == 1) {
@@ -143,89 +141,6 @@ function K10RollAndSpellDamageRoll() {
     );
   }
 
-  function handleSpellDamageLpCheckBox(event) {
-    if (event.target.checked == false) {
-      let allThreeSpellDamageDicesSelect = document.querySelectorAll(
-        "li#allThreeDiceResultWrapper select"
-      );
-      for (let i = 0; i < allThreeSpellDamageDicesSelect.length; i++) {
-        allThreeSpellDamageDicesSelect[i].disabled = true;
-      }
-      attackRollButton.disabled = false;
-      if (parseInt(numberOfDiceInput.value) == 2) {
-        secondAccumulatedDiceResultSelect.style.opacity = 0.7;
-      }
-      if (parseInt(numberOfDiceInput.value) > 2) {
-        secondAccumulatedDiceResultSelect.style.opacity = 0.7;
-        thirdAccumulatedDiceResultSelect.style.opacity = 0.7;
-      }
-    }
-    if (event.target.checked == true) {
-      let allThreeSpellDamageDicesSelect = document.querySelectorAll(
-        "li#allThreeDiceResultWrapper select"
-      );
-      for (let i = 0; i < allThreeSpellDamageDicesSelect.length; i++) {
-        allThreeSpellDamageDicesSelect[i].disabled = false;
-      }
-      attackRollButton.disabled = true;
-      if (parseInt(numberOfDiceInput.value) == 2) {
-        secondAccumulatedDiceResultSelect.style.opacity = 1;
-      }
-      if (parseInt(numberOfDiceInput.value) > 2) {
-        secondAccumulatedDiceResultSelect.style.opacity = 1;
-        thirdAccumulatedDiceResultSelect.style.opacity = 1;
-      }
-    }
-  }
-  function handleSpellDamageDiceChange(
-    firstAccumulatedDiceRollResult,
-    secondAccumulatedDiceRollResult,
-    thirdAccumulatedDiceRollResult
-  ) {
-    let allThreeSpellDamageDicesSelect = document.querySelectorAll(
-      "li#allThreeDiceResultWrapper select"
-    );
-    for (let i = 0; i < allThreeSpellDamageDicesSelect.length; i++) {
-      allThreeSpellDamageDicesSelect[i].disabled = true;
-    }
-
-    firstAccumulatedDiceRollResult = parseInt(
-      firstAccumulatedDiceResultSelect.value
-    );
-    secondAccumulatedDiceRollResult = parseInt(
-      secondAccumulatedDiceResultSelect.value
-    );
-    thirdAccumulatedDiceRollResult = parseInt(
-      thirdAccumulatedDiceResultSelect.value
-    );
-
-    if (firstAccumulatedDiceRollResult == 0) {
-      firstAccumulatedDiceRollResult = 10;
-    }
-    if (secondAccumulatedDiceRollResult == 0) {
-      secondAccumulatedDiceRollResult = 10;
-    }
-    if (thirdAccumulatedDiceRollResult == 0) {
-      thirdAccumulatedDiceRollResult = 10;
-    }
-
-    multipleDiceRoll(
-      firstAccumulatedDiceRollResult,
-      secondAccumulatedDiceRollResult,
-      thirdAccumulatedDiceRollResult,
-      numberOfSpellDamageDiceAfterLastSpellDamageRoll
-    );
-    numberOfDiceInput.disabled = false;
-    if (
-      initRolled == true &&
-      parseInt(numberOfActions.innerText) < totalActionCostOfAttack
-    ) {
-      attackRollButton.disabled = true;
-    } else {
-      attackRollButton.disabled = false;
-    }
-  }
-
   function handleMultipleDiceRoll() {
     multipleDiceRoll(0, 0, 0, numberOfDiceInput.value);
   }
@@ -261,23 +176,17 @@ function K10RollAndSpellDamageRoll() {
           id="thirdAccumulatedDiceResultSelectLabel">
           Harmadik kocka:
         </label>
-        <select
-          id="firstAccumulatedDiceResultSelect"
-          onChange={handleSpellDamageDiceChange}>
+        <select id="firstAccumulatedDiceResultSelect" disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
         </select>
-        <select
-          id="secondAccumulatedDiceResultSelect"
-          onChange={handleSpellDamageDiceChange}>
+        <select id="secondAccumulatedDiceResultSelect" disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
         </select>
-        <select
-          id="thirdAccumulatedDiceResultSelect"
-          onChange={handleSpellDamageDiceChange}>
+        <select id="thirdAccumulatedDiceResultSelect" disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}

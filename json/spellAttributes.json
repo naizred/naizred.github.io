@@ -1,12 +1,13 @@
-[{
+[
+  {
     "Magas Mágia": {
       "Anyag Mágia": ["Int", "Aka"],
       "Elemi Mágia": ["Int", "Asz"],
       "Asztrál Mágia": ["Int", "Asz"],
       "Mentál Mágia": ["Int", "Aka"],
       "Nekro Mágia": ["Int", "Aka"],
-      "Idő Mágia": ["Int", "Asz"],
-      "Tér Mágia": ["Int", "Aka"]
+      "Tér Mágia": ["Int", "Aka"],
+      "Idő Mágia": ["Int", "Asz"]
     },
     "Bárdmágia": {
       "Dalmágia": ["Aka"],
@@ -39,13 +40,14 @@
       "Felső tűzmágia": ["Aka"]
     },
     "Szakrális mágia": {
-      "Kisebb Halál fohászok": [],
-      "Kisebb Lélek fohászok": [],
-      "Kisebb Élet fohászok": [],
-      "Kisebb Természet fohászok": [],
-      "Nagyobb Halál fohászok": [],
-      "Nagyobb Lélek fohászok": [],
-      "Nagyobb Élet fohászok": [],
-      "Nagyobb Természet fohászok": []
+      "Kisebb Halál fohászok": ["Asz"],
+      "Kisebb Lélek fohászok": ["Asz"],
+      "Kisebb Élet fohászok": ["Asz"],
+      "Kisebb Természet fohászok": ["Asz"],
+      "Nagyobb Halál fohászok": ["Int"],
+      "Nagyobb Lélek fohászok": ["Int"],
+      "Nagyobb Élet fohászok": ["Int"],
+      "Nagyobb Természet fohászok": ["Int"]
     }
-  }]
+  }
+]

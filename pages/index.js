@@ -182,8 +182,8 @@ export const getStaticProps = async () => {
   let spellsAspDescript = JSON.parse(
     fs.readFileSync(jsonDirectory + "/spellsAspDescript.json", "utf8")
   );
-  let spellsWarlock = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/spellsWarlock.json", "utf8")
+  let spellsFireMage = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/spellsFireMage.json", "utf8")
   );
   return {
     props: {
@@ -195,7 +195,7 @@ export const getStaticProps = async () => {
       races,
       weapons,
       spellAttributes,
-      spellsWarlock,
+      spellsFireMage,
       spellsAspDescript,
     },
   };
