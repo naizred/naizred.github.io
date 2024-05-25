@@ -221,12 +221,28 @@ function Spells(props) {
     for (let i = 1; i < allAspSelect.length; i++) {
       allAspSelect[i].disabled = false;
     }
+    // ha megváltoztatja a subSkill-t, akkor visszaállítjuk a "li"-ben eltárolt eredeti értékeket
+    if (currentSpell) {
+      currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
+      currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;
+      currentSpell.aspects[2][1] = areaAspSelect.parentElement.value;
+      currentSpell.aspects[3][1] = durationAspSelect.parentElement.value;
+      powerAspModified = false;
+      anyAspExceptPowerAspModified = false;
+    }
     evaluateSpell();
   }
   function handleSpellChange() {
     for (let i = 1; i < allAspSelect.length; i++) {
       allAspSelect[i].disabled = false;
     }
+    // ha megváltoztatja a varázslatot, akkor visszaállítjuk a "li"-ben eltárolt eredeti értékeket
+    currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
+    currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;
+    currentSpell.aspects[2][1] = areaAspSelect.parentElement.value;
+    currentSpell.aspects[3][1] = durationAspSelect.parentElement.value;
+    powerAspModified = false;
+    anyAspExceptPowerAspModified = false;
     evaluateSpell();
   }
 
@@ -416,49 +432,15 @@ function Spells(props) {
     if (filteredArrayIfHasManaFlow.length != 0) {
       finalCastTime -= filteredArrayIfHasManaFlow[0].level;
     }
-    // console.log(Math.max(...highestAspectOfUnmodifiedAspects));
+    console.log(Math.max(...highestAspectOfUnmodifiedAspects));
     console.log(Math.max(...theHighestFiveAspectsPerAspectCategory));
-    // if (powerAspModified == true || anyAspExceptPowerAspModified == true) {
-    //   blinkingText(
-    //     warningWindow,
-    //     `A varázspróba célszáma: ${
-    //       10 + Math.max(...theHighestFiveAspectsPerAspectCategory)
-    //     }`
-    //   );
-    // }
-    // if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
-    //   warningWindow.innerText = ""
-    // }
-    if (finalCastTime <= 0) {
-      finalCastTime = 1;
-    }
-    if (finalCastTime <= 10) {
-      spellCastTime.innerText = `${finalCastTime} CS`;
-    } else if (finalCastTime > 10 && finalCastTime <= 20) {
-      spellCastTime.innerText = `${finalCastTime - 10} Perc`;
-    } else if (finalCastTime > 20 && finalCastTime <= 30) {
-      spellCastTime.innerText = `${finalCastTime - 20} Óra`;
-    } else if (finalCastTime > 30) {
-      spellCastTime.innerText = `${finalCastTime - 30} Nap`;
-    }
-    console.log(finalCastTime, finalManaCost);
-
-    spellManaCostDiv.innerText = finalManaCost;
-  }
-
-  function removeAllOptions(selectElementId) {
-    const selectElement = document.getElementById(selectElementId);
-    while (selectElement.firstChild) {
-      selectElement.removeChild(selectElement.firstChild);
-    }
-  }
-
-  function handleSpellCast(event) {
-    let spellManaCost = 0;
-    castBarCurrentWidthStart = 0;
-    castBarCurrentWidthEnd = 0;
-    if (event.target.id == "advancedStartCastButton") {
-      spellManaCost = parseInt(spellManaCostDiv.innerText);
+    if (powerAspModified == true || anyAspExceptPowerAspModified == true) {
+      blinkingText(
+        warningWindow,
+        `A varázspróba célszáma: ${
+          10 + Math.max(...theHighestFiveAspectsPerAspectCategory)
+        }`
+      );
       let selectAllSkillOptions = document.querySelectorAll(
         "select#skills option"
       );
@@ -466,14 +448,6 @@ function Spells(props) {
         "select#attributes option"
       );
       let spellAttributesArray = Object.entries(props.spellAttributes[0]);
-      let highestAttributeForMagicSubSkill = "";
-
-      // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva
-      currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
-      currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;
-      currentSpell.aspects[2][1] = areaAspSelect.parentElement.value;
-      currentSpell.aspects[3][1] = durationAspSelect.parentElement.value;
-
       for (let i = 0; i < spellAttributesArray.length; i++) {
         console.log(spellAttributesArray[i][0]);
         let spellSubskillAttributesArray = Object.entries(
@@ -539,21 +513,63 @@ function Spells(props) {
           break;
         }
       }
-      if (powerAspModified == true || anyAspExceptPowerAspModified == true) {
-        for (let j = 0; j < selectAllSkillOptions.length; j++) {
-          if (
-            selectAllSkillOptions[j].value.includes(
-              filteredArrayForNameOfHighestMagicalSkill[0].name
-            )
-          ) {
-            skills.value = selectAllSkillOptions[j].value;
-            break;
-          }
+      for (let j = 0; j < selectAllSkillOptions.length; j++) {
+        if (
+          selectAllSkillOptions[j].value.includes(
+            filteredArrayForNameOfHighestMagicalSkill[0].name
+          )
+        ) {
+          skills.value = selectAllSkillOptions[j].value;
+          break;
         }
-        //console.log(spellAttributesArray);
-        evaluateSkillOrAttributeCheckBase();
-        //handleSkillCheck(false);
       }
+      evaluateSkillOrAttributeCheckBase();
+      //handleSkillCheck(false);
+    }
+    if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+      warningWindow.innerText = "";
+    }
+    if (finalCastTime <= 0) {
+      finalCastTime = 1;
+    }
+    if (finalCastTime <= 10) {
+      spellCastTime.innerText = `${finalCastTime} CS`;
+    } else if (finalCastTime > 10 && finalCastTime <= 20) {
+      spellCastTime.innerText = `${finalCastTime - 10} Perc`;
+    } else if (finalCastTime > 20 && finalCastTime <= 30) {
+      spellCastTime.innerText = `${finalCastTime - 20} Óra`;
+    } else if (finalCastTime > 30) {
+      spellCastTime.innerText = `${finalCastTime - 30} Nap`;
+    }
+    console.log(finalCastTime, finalManaCost);
+
+    spellManaCostDiv.innerText = finalManaCost;
+  }
+
+  function removeAllOptions(selectElementId) {
+    const selectElement = document.getElementById(selectElementId);
+    while (selectElement.firstChild) {
+      selectElement.removeChild(selectElement.firstChild);
+    }
+  }
+
+  function handleSpellCast(event) {
+    let spellManaCost = 0;
+    castBarCurrentWidthStart = 0;
+    castBarCurrentWidthEnd = 0;
+    if (event.target.id == "advancedStartCastButton") {
+      spellManaCost = parseInt(spellManaCostDiv.innerText);
+
+      let highestAttributeForMagicSubSkill = "";
+
+      // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva
+      currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
+      currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;
+      currentSpell.aspects[2][1] = areaAspSelect.parentElement.value;
+      currentSpell.aspects[3][1] = durationAspSelect.parentElement.value;
+      powerAspModified = false;
+      anyAspExceptPowerAspModified = false;
+
       if (powerAspSelect.value == 1 || powerAspSelect.value == 2) {
         numberOfDiceInput.value = powerAspSelect.value;
       }
