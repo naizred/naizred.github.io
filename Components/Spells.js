@@ -658,11 +658,13 @@ function Spells(props) {
   function handleCancelSpellCast(event) {
     if (event.target.id == "advancedSpellInputWrapperCancelCastButton") {
       advancedSpellInputWrapper.style.display = "none";
-      // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva
+      // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva    if (currentSpell) {
       currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
       currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;
       currentSpell.aspects[2][1] = areaAspSelect.parentElement.value;
       currentSpell.aspects[3][1] = durationAspSelect.parentElement.value;
+      powerAspModified = false;
+      anyAspExceptPowerAspModified = false;
     }
     if (event.target.id == "spellInputWrapperCancelCastButton") {
       spellInputWrapper.style.display = "none";
