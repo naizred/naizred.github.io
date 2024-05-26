@@ -466,9 +466,9 @@ function ActionList(props) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
       }
-      // if (combinationWasUsedThisRound == true) {
-      //   hmoModifier(-cumulativeCombinationModifier);
-      // }
+      if (combinationWasUsedThisRound == true) {
+        hmoModifier(cumulativeCombinationModifier);
+      }
       if (twoWeaponAttackWasUsedThisRound == true) {
         hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex]);
       }

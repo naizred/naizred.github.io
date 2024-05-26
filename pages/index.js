@@ -1928,7 +1928,8 @@ export default function Home(props) {
       //*************************************************************************************************************************** */
       if (
         combinationRadioButton.checked == true &&
-        spellNeedsAimRoll == false
+        spellNeedsAimRoll == false &&
+        attackOfOpportunityOn == false
       ) {
         //combinationRadioButton.disabled = true;
         combinationWasUsedThisRound = true;
@@ -2019,12 +2020,14 @@ export default function Home(props) {
         handleFileRead();
         attackOfOpportunityButton.disabled = false;
       }
-      for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-        if (arrayOfAllComplexMaeuvers[i].checked == true) {
-          arrayOfAllComplexMaeuvers[i].checked = false;
-          totalActionCostOfAttackSetter(
-            -arrayOfAllComplexMaeuvers[i].parentElement.value
-          );
+      if (attackOfOpportunityOn == false) {
+        for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+          if (arrayOfAllComplexMaeuvers[i].checked == true) {
+            arrayOfAllComplexMaeuvers[i].checked = false;
+            totalActionCostOfAttackSetter(
+              -arrayOfAllComplexMaeuvers[i].parentElement.value
+            );
+          }
         }
       }
       if (numberOfClicksAtTwoWeaponAttack == 1) {
