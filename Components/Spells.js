@@ -4,6 +4,7 @@ import {
   allResultsCleaner,
   filteredArrayForNameOfHighestMagicalSkill,
   filteredArrayIfHasManaFlow,
+  currentGodWorshippedByPlayer,
 } from "../pages";
 import { blinkingText } from "./ActionsList";
 import { initRolled } from "./CharacterDetails";
@@ -223,11 +224,22 @@ function Spells(props) {
     removeAllOptions("spellSelect");
     // az adott mágikus képzettség foka a 0. indexen van elrejtve
     // console.log(magicSubSkillSelect.value[0], magicSubSkillSelect.value.slice(1))
-    filteredSpellsBySubSkillAndLevel = props.allSpells.filter(
-      (spell) =>
-        magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) &&
-        spell.fok <= parseInt(magicSubSkillSelect.value[0])
-    );
+    if (magicSubSkillSelect.value.slice(1).includes("fohász")) {
+      filteredSpellsBySubSkillAndLevel = props.allSpells.filter(
+        (spell) =>
+          magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) &&
+          spell.fok <= parseInt(magicSubSkillSelect.value[0]) &&
+          (spell.god == "Általános" ||
+            spell.god == currentGodWorshippedByPlayer)
+      );
+    } else {
+      filteredSpellsBySubSkillAndLevel = props.allSpells.filter(
+        (spell) =>
+          magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) &&
+          spell.fok <= parseInt(magicSubSkillSelect.value[0])
+      );
+    }
+
     console.log(filteredSpellsBySubSkillAndLevel);
     for (let i = 0; i < filteredSpellsBySubSkillAndLevel.length; i++) {
       let spellSkillOption = document.createElement("option");

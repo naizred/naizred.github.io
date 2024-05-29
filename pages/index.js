@@ -209,6 +209,7 @@ export let filteredArrayIfHasExtraReaction;
 export let filteredArrayIfHasAnyAffinity;
 export let filteredArrayForNameOfHighestMagicalSkill;
 export let filteredArrayIfHasAnyMagicSkill;
+export let currentGodWorshippedByPlayer;
 export let filteredArrayIfHasManaFlow;
 export let filteredArrayIfHasPsi;
 export let filteredArrayIfHasTwoWeaponAttack;
@@ -991,6 +992,14 @@ export default function Home(props) {
       filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter(
         (name) => schoolsOfMagic.includes(name.name)
       );
+      for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
+        if (filteredArrayIfHasAnyMagicSkill[i].subSkill) {
+          currentGodWorshippedByPlayer =
+            filteredArrayIfHasAnyMagicSkill[i].subSkill;
+          break;
+        }
+      }
+      console.log(currentGodWorshippedByPlayer);
       let filteredArrayIfHasAnyMagicSkillSubSkill = JSON.parse(
         reader.result
       ).skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
@@ -1534,7 +1543,7 @@ export default function Home(props) {
             currentCharFinalAttributes[attributeIndexesForSchoolsOfMagic[i]] +
             modifierByMagicallyAttunedAptitude;
           for (let j = 0; j < props.gods.length; j++) {
-            if (currentChar.classKey.includes(props.gods[j].nameOfGod)) {
+            if (props.gods[j].nameOfGod == currentGodWorshippedByPlayer) {
               attributeNeededToCalculateManaPoints =
                 currentCharFinalAttributes[props.gods[j].attributeIndex] +
                 modifierByMagicallyAttunedAptitude;
