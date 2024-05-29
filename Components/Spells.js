@@ -79,6 +79,19 @@ export function spellCastingSuccessful() {
     }
     actionsSpentSinceLastCast = 0;
   }
+  if (currentSpell.name.includes("liturgia")) {
+    liturgyPowerInfo.style.display = "grid";
+    liturgyPowerInfo.innerText = `Liturgia E: ${currentSpell.aspects[0][1]}`;
+    liturgyPowerInfo.value = currentSpell.aspects[0][1];
+    liturgyCheckBox.style.display = "grid";
+  }
+  if (liturgyCheckBox.checked) {
+    liturgyCheckBox.checked = false;
+    liturgyPowerInfo.style.display = "none";
+    liturgyPowerInfo.innerText = "";
+    liturgyPowerInfo.value = 0;
+    liturgyCheckBox.style.display = "none";
+  }
 }
 export function spellCastingFailure(anyOtherCondition = true) {
   if (
@@ -99,14 +112,14 @@ export function spellCastingFailure(anyOtherCondition = true) {
 }
 let filteredSpellsBySubSkillAndLevel;
 let manaNeededForTheSpell = 0;
+export let currentSpell;
 
 function Spells(props) {
-  let currentSpell;
-
   // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
 
   function manaFactorCalculator(asp) {
     let manaFactor = 0;
+
     for (let i = 1; i < asp; i++) {
       manaFactor += i;
     }
@@ -114,6 +127,9 @@ function Spells(props) {
   }
   function spellCastTimeFactorCalculator(asp = 0) {
     let spellCastTimeFactor = 0;
+    if (asp <= 1) {
+      asp = 1;
+    }
     return (spellCastTimeFactor = asp - 2);
   }
   function handleClickOnSpellCastButton() {
@@ -173,9 +189,10 @@ function Spells(props) {
       //******************************************************************************* */
       if (
         filteredArrayForNameOfHighestMagicalSkill &&
-        filteredArrayForNameOfHighestMagicalSkill[0].name.includes(
-          "Tűzvarázsló"
-        )
+        (filteredArrayForNameOfHighestMagicalSkill[0].name.includes(
+          "Szakrál"
+        ) ||
+          filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Tűzvar"))
       ) {
         advancedSpellInputWrapper.style.display = "grid";
         warningWindow.innerText = "";
@@ -206,9 +223,9 @@ function Spells(props) {
     removeAllOptions("spellSelect");
     // az adott mágikus képzettség foka a 0. indexen van elrejtve
     // console.log(magicSubSkillSelect.value[0], magicSubSkillSelect.value.slice(1))
-    filteredSpellsBySubSkillAndLevel = props.spellsFireMage.filter(
+    filteredSpellsBySubSkillAndLevel = props.allSpells.filter(
       (spell) =>
-        spell.magicSubclass == magicSubSkillSelect.value.slice(1) &&
+        magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) &&
         spell.fok <= parseInt(magicSubSkillSelect.value[0])
     );
     console.log(filteredSpellsBySubSkillAndLevel);
@@ -272,6 +289,9 @@ function Spells(props) {
   }
 
   function aspOptionDisabler(magicSkillLevel) {
+    if (currentSpell.magicSubclass.includes("fohász")) {
+      magicSkillLevel = 2;
+    }
     if (magicSkillLevel <= 2) {
       for (let i = 0; i < allAspSelect.length; i++) {
         allAspSelect[i].disabled = true;
@@ -541,6 +561,18 @@ function Spells(props) {
     } else if (finalCastTime > 30) {
       spellCastTime.innerText = `${finalCastTime - 30} Nap`;
     }
+    if (currentSpell.ritual) {
+      if (finalCastTime <= 10) {
+        spellCastTime.innerText = `${finalCastTime * 3} CS`;
+      } else if (finalCastTime > 10 && finalCastTime <= 20) {
+        spellCastTime.innerText = `${(finalCastTime - 10) * 3} Perc`;
+      } else if (finalCastTime > 20 && finalCastTime <= 30) {
+        spellCastTime.innerText = `${(finalCastTime - 20) * 3} Óra`;
+      } else if (finalCastTime > 30) {
+        spellCastTime.innerText = `${(finalCastTime - 30) * 3} Nap`;
+      }
+      finalManaCost = Math.floor((finalManaCost * 2) / 3);
+    }
     console.log(finalCastTime, finalManaCost);
 
     spellManaCostDiv.innerText = finalManaCost;
@@ -573,7 +605,7 @@ function Spells(props) {
       if (powerAspSelect.value == 1 || powerAspSelect.value == 2) {
         numberOfDiceInput.value = powerAspSelect.value;
       }
-      if (powerAspSelect.value > 2) {
+      if (powerAspSelect.value > 2 && !currentSpell.name.includes("liturgia")) {
         numberOfDiceInput.value = (parseInt(powerAspSelect.value) - 1) * 2;
       }
     }
@@ -681,6 +713,14 @@ function Spells(props) {
       spellDescriptionWindow.style.display = "none";
     }, 490);
   }
+  function handleLiturgyCheckBoxChange() {
+    if (liturgyCheckBox.checked) {
+      powerAspSelect.value = parseInt(liturgyPowerInfo.value);
+    }
+    if (!liturgyCheckBox.checked) {
+      powerAspSelect.value = powerAspSelect.parentElement.value;
+    }
+  }
 
   return (
     <>
@@ -729,6 +769,15 @@ function Spells(props) {
           <select
             id="magicSubSkillSelect"
             onChange={evaluateMagicSubSkill}></select>
+          <ul className={styles.liturgyPowerInfo} id="liturgyPowerInfo">
+            Liturgia
+          </ul>
+          <input
+            className={styles.liturgyCheckBox}
+            id="liturgyCheckBox"
+            type="checkbox"
+            onChange={handleLiturgyCheckBoxChange}
+          />
         </li>
         <li>
           Varázslat:

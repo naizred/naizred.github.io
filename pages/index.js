@@ -182,8 +182,8 @@ export const getStaticProps = async () => {
   let spellsAspDescript = JSON.parse(
     fs.readFileSync(jsonDirectory + "/spellsAspDescript.json", "utf8")
   );
-  let spellsFireMage = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/spellsFireMage.json", "utf8")
+  let allSpells = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/allSpells.json", "utf8")
   );
   return {
     props: {
@@ -195,7 +195,7 @@ export const getStaticProps = async () => {
       races,
       weapons,
       spellAttributes,
-      spellsFireMage,
+      allSpells,
       spellsAspDescript,
     },
   };
@@ -1001,30 +1001,31 @@ export default function Home(props) {
         welcomeWindow.style.display = "none";
         rollResultWrapper.style.display = "grid";
         skillCheckRollResultWrapper.style.display = "grid";
-        if (charClass.innerText.toLowerCase().includes("pap")) {
-          for (
-            let i = 0;
-            i < filteredArrayIfHasAnyMagicSkillSubSkill.length;
-            i++
+
+        for (
+          let i = 0;
+          i < filteredArrayIfHasAnyMagicSkillSubSkill.length;
+          i++
+        ) {
+          if (
+            filteredArrayIfHasAnyMagicSkillSubSkill[i].name.includes("fohász")
           ) {
             allMagicSubskillsObject[
               `${filteredArrayIfHasAnyMagicSkillSubSkill[i].name} - ${filteredArrayIfHasAnyMagicSkillSubSkill[i].subSkill}`
             ] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level;
-          }
-        } else {
-          for (
-            let i = 0;
-            i < filteredArrayIfHasAnyMagicSkillSubSkill.length;
-            i++
-          ) {
+          } else {
             allMagicSubskillsObject[
               `${filteredArrayIfHasAnyMagicSkillSubSkill[i].subSkill}`
             ] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level;
           }
         }
+
         allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
       }
-      console.log(allMagicSubskillsObject);
+      console.log(
+        filteredArrayIfHasAnyMagicSkillSubSkill,
+        allMagicSubskillsObject
+      );
 
       filteredArrayIfHasParry = JSON.parse(reader.result).skills.filter(
         (name) => name.name == "Hárítás"

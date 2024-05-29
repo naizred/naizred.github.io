@@ -98,6 +98,13 @@
   background-size: 50vw 50vw;
   background-position: center;
 }
+.advancedSpellInputWrapper .liturgyPowerInfo {
+  display: none;
+}
+.advancedSpellInputWrapper .liturgyCheckBox {
+  display: none;
+}
+
 .advancedSpellInputWrapper li {
   display: grid;
   grid-auto-flow: column;
