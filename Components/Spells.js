@@ -97,7 +97,7 @@ export function spellCastingFailure(anyOtherCondition = true) {
     actionsNeededToBeAbleToCastAgain = 0;
   }
 }
-
+let filteredSpellsBySubSkillAndLevel;
 let manaNeededForTheSpell = 0;
 
 function Spells(props) {
@@ -206,7 +206,7 @@ function Spells(props) {
     removeAllOptions("spellSelect");
     // az adott mágikus képzettség foka a 0. indexen van elrejtve
     // console.log(magicSubSkillSelect.value[0], magicSubSkillSelect.value.slice(1))
-    let filteredSpellsBySubSkillAndLevel = props.spellsFireMage.filter(
+    filteredSpellsBySubSkillAndLevel = props.spellsFireMage.filter(
       (spell) =>
         spell.magicSubclass == magicSubSkillSelect.value.slice(1) &&
         spell.fok <= parseInt(magicSubSkillSelect.value[0])
@@ -253,7 +253,7 @@ function Spells(props) {
       "volt más asp mod?",
       anyAspExceptPowerAspModified
     );
-    currentSpell = props.spellsFireMage.find(
+    currentSpell = filteredSpellsBySubSkillAndLevel.find(
       (spell) => spell.name == `${spellSelect.value}`
     );
 
