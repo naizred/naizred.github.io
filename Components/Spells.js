@@ -80,7 +80,7 @@ export function spellCastingSuccessful() {
     }
     actionsSpentSinceLastCast = 0;
   }
-  if (currentSpell.name.includes("liturgia")) {
+  if (currentSpell && currentSpell.name.includes("liturgia")) {
     liturgyPowerInfo.style.display = "grid";
     liturgyPowerInfo.innerText = `Liturgia E: ${currentSpell.aspects[0][1]}`;
     liturgyPowerInfo.value = currentSpell.aspects[0][1];
