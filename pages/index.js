@@ -92,7 +92,7 @@ export async function fetchCharacterData(currentCharName) {
 }
 
 export let returnedData;
-
+let parsedDataSortedByActionsAndInit
 export async function fetchCharacterDataForAdventureMaster(gameId) {
   await fetch(`../api/getCharsByGameId/${gameId}`)
     .then((response) => {
@@ -102,7 +102,10 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
       if (!parsedData) {
         return;
       }
-      console.log(parsedData);
+      // sorba rendezem az array of objectet charId szerint azért, hogy ne váltakozzon
+      // a sorrend mindig, amikor valaki valamilyen dobást hajt végre
+      //const parsedDataSortedByActionsAndInit = parsedData.sort((a,b)=>parseInt(b.numberOfActions) - parseInt(a.numberOfActions))
+      //console.log(parsedData.sort((a,b)=>a.charId - b.charId));
 
       let currentCharNameNodes = document.querySelectorAll(
         "input#characterName"
@@ -133,8 +136,9 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
       // skillCheckResult, skillCheckDice
 
       for (let i = 0; i < parsedData.length; i++) {
-        currentCharNameNodes[i].value = parsedData[i].charName;
-        characterNameForInitNodes[i].value = parsedData[i].charName;
+        //először karakter Id szerint sorba rendezzük
+        parsedData.sort((a,b)=>a.charId - b.charId)
+        currentCharNameNodes[i].value = parsedData[i].charName;        
         currentFpNodes[i].value = parsedData[i].currentFp;
         currentEpNodes[i].value = parsedData[i].currentEp;
         currentPpNodes[i].value = parsedData[i].currentPp;
@@ -144,6 +148,10 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
         atkRollDiceNodes[i].value = parsedData[i].atkRollDice;
         skillCheckResultDmNodes[i].value = parsedData[i].skillCheckResult;
         skillCheckDiceNodes[i].value = parsedData[i].skillCheckDice;
+        // utána sorba rendezem kezdeményező és cselekedet szám szerint is
+        parsedData.sort((a,b)=>b.initiativeWithRoll - a.initiativeWithRoll)
+        parsedData.sort((a,b)=>b.numberOfActions - a.numberOfActions)
+        characterNameForInitNodes[i].value = parsedData[i].charName;
         numberOfActionsAllPlayers[
           i
         ].innerText = `CS: ${parsedData[i].numberOfActions}`;
@@ -1814,7 +1822,6 @@ export default function Home(props) {
       };
       const response = await fetch(endpoint, options);
     }
-    playerChecker();
 
     // ********************************************************************************************************************
     // ---- megnézi, hogy van-e kiválasztva összetett manőver és először a képzettségeket veszi figyelembe, és próbát is dob
@@ -2078,6 +2085,7 @@ export default function Home(props) {
         parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
       charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
     }
+    playerChecker();
     spellNeedsAimRollSetToFalse();
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
   }

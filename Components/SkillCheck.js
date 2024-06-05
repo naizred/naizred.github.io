@@ -148,14 +148,6 @@ export async function skillOrAttributeCheckRoll(
     skillCheckResult.innerText =
       parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll;
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
-
-    const data = {
-      charName: charName.innerText,
-      skillCheckResult: parseInt(skillCheckResult.innerText),
-      skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
-      skillCheckResultAfter5sec: parseInt(skillCheckResult.innerText),
-      skillCheckDiceAfter5sec: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
-    };
   }
   const data = {
     charName: charName.innerText,
