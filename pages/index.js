@@ -407,7 +407,7 @@ export default function Home(props) {
   ];
   let schoolsOfMagicSubClass = [
     "Magas mágiaforma",
-    " Bárd mágiaforma",
+    "Bárd mágiaforma",
     "Boszorkány mágiaforma",
     "Boszorkánymester mágiaforma",
     "Tűzvarázsló mágiaforma",

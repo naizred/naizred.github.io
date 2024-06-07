@@ -193,7 +193,9 @@ function Spells(props) {
         (filteredArrayForNameOfHighestMagicalSkill[0].name.includes(
           "Szakrál"
         ) ||
-          filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Tűzvar"))
+          filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Tűzvar") ||
+          filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Bárd") || 
+          filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Bosz"))
       ) {
         advancedSpellInputWrapper.style.display = "grid";
         warningWindow.innerText = "";
