@@ -5,13 +5,15 @@ import {
   filteredArrayForNameOfHighestMagicalSkill,
   filteredArrayIfHasManaFlow,
   currentGodWorshippedByPlayer,
+  allActiveBuffs,
 } from "../pages";
 import { blinkingText } from "./ActionsList";
-import { initRolled } from "./CharacterDetails";
+import { initRolled, updateCharacterData } from "./CharacterDetails";
 import {
   evaluateSkillOrAttributeCheckBase,
   handleSkillCheck,
 } from "./SkillCheck";
+import { activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList } from "./PsiDisciplines";
 export let actionsSpentSinceLastCast = 0;
 export let spellIsBeingCast = false;
 export let actionsNeededToBeAbleToCastAgain = 0;
@@ -52,7 +54,7 @@ export let numberOfActionsSpentOnCastingCurrentSpell = 0;
 export function numberOfActionsSpentOnCastingCurrentSpellNullifier() {
   numberOfActionsSpentOnCastingCurrentSpell = 0;
 }
-
+let currentActiveLiturgy = ""
 export function spellCastingSuccessful() {
   if (spellIsBeingCast == true) {
     numberOfActionsSpentOnCastingCurrentSpell = 0;
@@ -81,10 +83,25 @@ export function spellCastingSuccessful() {
     actionsSpentSinceLastCast = 0;
   }
   if (currentSpell && currentSpell.name.includes("liturgia")) {
+    currentActiveLiturgy=currentSpell.name
     liturgyPowerInfo.style.display = "grid";
     liturgyPowerInfo.innerText = `Liturgia E: ${currentSpell.aspects[0][1]}`;
     liturgyPowerInfo.value = currentSpell.aspects[0][1];
     liturgyCheckBox.style.display = "grid";
+    activeBuffsArray.push(currentSpell.name);
+    for (let i = 0; i < allActiveBuffs.length; i++) {
+      if (
+        allActiveBuffs[i].innerText == "" ||
+        (allActiveBuffs[i].innerText != "" &&
+          allActiveBuffs[i].innerText.includes("folyamatos") || allActiveBuffs[i].innerText.includes("liturgia"))
+      ){
+        allActiveBuffs[i].innerText = `${currentSpell.name}, E: ${currentSpell.aspects[0][1]}`;
+        allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
+        updateCharacterData()
+        break
+      }
+    }
+    
   }
   if (liturgyCheckBox.checked) {
     liturgyCheckBox.checked = false;
@@ -92,6 +109,9 @@ export function spellCastingSuccessful() {
     liturgyPowerInfo.innerText = "";
     liturgyPowerInfo.value = 0;
     liturgyCheckBox.style.display = "none";
+    console.log(activeBuffsArray, currentActiveLiturgy)
+    buffRemoverFromActiveBuffArrayAndTextList(currentActiveLiturgy)
+    updateCharacterData()
   }
 }
 export function spellCastingFailure(anyOtherCondition = true) {
@@ -139,6 +159,17 @@ function Spells(props) {
     allAspSelect = document.querySelectorAll("[id*='AspSelect']");
     for (let i = 1; i < allAspSelect.length; i++) {
       allAspSelect[i].disabled = false;
+    }
+    for (let i = 0; i < allActiveBuffs.length; i++) {
+
+    if(allActiveBuffs[i].innerText.includes("liturgia")){
+      let currentLirurgy = props.allSpells.find((spell)=>allActiveBuffs[i].innerText.includes(spell.name))
+      //console.log(currentLirurgy, allActiveBuffs[i].innerText)
+      liturgyPowerInfo.style.display = "grid";
+      liturgyPowerInfo.innerText = `Liturgia E: ${currentLirurgy.aspects[0][1]}`;
+      liturgyPowerInfo.value = currentLirurgy.aspects[0][1];
+      liturgyCheckBox.style.display = "grid";
+              }
     }
     if (parseInt(numberOfActions.innerText) != 0) {
       warningWindow.innerText = "";
@@ -704,6 +735,9 @@ function Spells(props) {
   function handleCancelSpellCast(event) {
     if (event.target.id == "advancedSpellInputWrapperCancelCastButton") {
       advancedSpellInputWrapper.style.display = "none";
+      if (liturgyCheckBox.checked) {
+        liturgyCheckBox.checked = false
+      }
       // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva    if (currentSpell) {
       currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
       currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;

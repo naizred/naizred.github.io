@@ -56,40 +56,7 @@ import { bodyParts } from "../Components/AimedAttack";
 import Link from "next/link";
 var MersenneTwister = require("mersenne-twister");
 export var generator = new MersenneTwister();
-export async function fetchCharacterData(currentCharName) {
-  await fetch(`../api/characterStatsThatChange/${currentCharName}`)
-    .then((response) => {
-      return response.json();
-    })
-    .then((parsedData) => {
-      if (!parsedData) {
-        return;
-      }
-      currentFp.value = parsedData.currentFp;
-      currentEp.value = parsedData.currentEp;
-      currentPp.value = parsedData.currentPp;
-      currentMp.value = parsedData.currentMp;
-      currentLp.value = parsedData.currentLp;
-      let activeBuffsCounter = parseInt(parsedData.activeBuffs.charAt(0));
-      let activeBuffsStringArray = parsedData.activeBuffs
-        .slice(1)
-        .split("|", activeBuffsCounter);
-      for (let i = 0; i < activeBuffsStringArray.length; i++) {
-        allActiveBuffs[i].innerText = activeBuffsStringArray[i];
-        if (
-          activeBuffsStringArray[i].includes("Fájdalomtűrés") &&
-          !activeBuffsArray.includes("Fájdalomtűrés")
-        ) {
-          console.log(activeBuffsStringArray[i]);
-          //**************************************************** */
-          //pontosan a 16. karaktertől slice, így a parseInt megtalálja az fp pajzs mennyiségét
-          fpShieldSetter(parseInt(activeBuffsStringArray[i].slice(16)));
-          allActiveBuffs[i].parentElement.lastChild.value = "Fájdalomtűrés";
-          activeBuffsArray.push("Fájdalomtűrés");
-        }
-      }
-    });
-}
+
 
 export let returnedData;
 let parsedDataSortedByActionsAndInit
@@ -208,6 +175,39 @@ export const getStaticProps = async () => {
     },
   };
 };
+export async function fetchCharacterData(currentCharName) {
+  await fetch(`../api/characterStatsThatChange/${currentCharName}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((parsedData) => {
+      if (!parsedData) {
+        return;
+      }
+      currentFp.value = parsedData.currentFp;
+      currentEp.value = parsedData.currentEp;
+      currentPp.value = parsedData.currentPp;
+      currentMp.value = parsedData.currentMp;
+      currentLp.value = parsedData.currentLp;
+      let activeBuffsCounter = parseInt(parsedData.activeBuffs.charAt(0));
+      let activeBuffsStringArray = parsedData.activeBuffs
+        .slice(1)
+        .split("|", activeBuffsCounter);
+      for (let i = 0; i < activeBuffsStringArray.length; i++) {
+        allActiveBuffs[i].innerText = activeBuffsStringArray[i];
+        if (
+          activeBuffsStringArray[i].includes("Fájdalomtűrés") &&
+          !activeBuffsArray.includes("Fájdalomtűrés")
+        ) {
+          //**************************************************** */
+          //pontosan a 16. karaktertől slice, így a parseInt megtalálja az fp pajzs mennyiségét
+          fpShieldSetter(parseInt(activeBuffsStringArray[i].slice(16)));
+          allActiveBuffs[i].parentElement.lastChild.value = "Fájdalomtűrés";
+          activeBuffsArray.push("Fájdalomtűrés");
+        }
+      }
+    });
+}
 // ki kellett importálni az alap CÉ-t a varázsláshoz
 export let baseAimWithTeoCalculator = 0;
 export let allActiveBuffs = [];
