@@ -20,6 +20,8 @@ import ActionList, {
   findWeakSpotModifier,
   findWeakSpotModifierNullifier,
   toggleTwoHandedWeaponsDisplay,
+  firstAttackIsAttackOfOpportunity,
+  firstAttackIsAttackOfOpportunitySetToFalse,
 } from "../Components/ActionsList";
 import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
@@ -101,7 +103,7 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
       );
 
       // skillCheckResult, skillCheckDice
-
+console.log(parsedData)
       for (let i = 0; i < parsedData.length; i++) {
         //először karakter Id szerint sorba rendezzük
         parsedData.sort((a,b)=>a.charId - b.charId)
@@ -119,12 +121,8 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
         parsedData.sort((a,b)=>b.initiativeWithRoll - a.initiativeWithRoll)
         parsedData.sort((a,b)=>b.numberOfActions - a.numberOfActions)
         characterNameForInitNodes[i].value = parsedData[i].charName;
-        numberOfActionsAllPlayers[
-          i
-        ].innerText = `CS: ${parsedData[i].numberOfActions}`;
-        initiativeWithRollNodes[
-          i
-        ].innerText = `CSA: ${parsedData[i].initiativeWithRoll}`;
+        numberOfActionsAllPlayers[i].innerText = `CS: ${parsedData[i].numberOfActions}`;
+        initiativeWithRollNodes[i].innerText = `CSA: ${parsedData[i].initiativeWithRoll}`;
       }
     });
 }
@@ -288,13 +286,13 @@ export function twoWeaponAttackWasUsedThisRoundToFalse() {
   twoWeaponAttackWasUsedThisRound = false;
 }
 
-export let diceRolled = false;
-export function setDiceRolledToFalse() {
-  diceRolled = false;
+export let firstAttackInRound = false;
+export function setFirstAttackInRoundToFalse() {
+  firstAttackInRound = false;
 }
-export let diceRolledSetToFalseBySpellNeedsAimRoll = false;
-export function diceRolledSetToFalseBySpellNeedsAimRollToFalse() {
-  diceRolledSetToFalseBySpellNeedsAimRoll = false;
+export let firstAttackInRoundSetToFalseBySpellNeedsAimRoll = false;
+export function firstAttackInRoundSetToFalseBySpellNeedsAimRollToFalse() {
+  firstAttackInRoundSetToFalseBySpellNeedsAimRoll = false;
 }
 export let rangedWeaponsArray = [
   "ÍJ",
@@ -543,9 +541,9 @@ export default function Home(props) {
     console.log("Fegyver típus:", currentlySelectedWeapon.w_type);
     console.log("Fegyver sebzéskód:", currentlySelectedWeapon.w_damage);
     console.log("Erősebzés?:", currentlySelectedWeapon.strBonusDmg);
-    if (diceRolled == false) {
-      return;
-    }
+    // if (firstAttackInRound == false) {
+    //   return;
+    // }
     if (!activeBuffsArray.includes("Chi-harc")) {
       bonusDamageFromChiCombatNullifier();
     }
@@ -677,7 +675,7 @@ export default function Home(props) {
     }
     if (
       weapons.value == "Célzott mágia" ||
-      diceRolledSetToFalseBySpellNeedsAimRoll == true
+      firstAttackInRoundSetToFalseBySpellNeedsAimRoll == true
     ) {
       let spellDamage = 0;
 
@@ -1654,7 +1652,7 @@ export default function Home(props) {
           toggleTwoHandedWeaponsDisplay("grid");
         }
         // if (combinationWasUsedThisRound == true) {
-        //   combinationRadioButton.disabled = true;
+        //   combinationCheckBox.disabled = true;
         // }
       }
       if (chargeWasUsedThisRound == true) {
@@ -1756,11 +1754,11 @@ export default function Home(props) {
       rollResult.innerText = ttkRoll(true, darkDice, lightDice);
       rollResult.animate([{ color: "white" }, { color: "black" }], 200);
     }
-    if (diceRolledSetToFalseBySpellNeedsAimRoll == true) {
-      diceRolledSetToFalseBySpellNeedsAimRoll = false;
+    if (firstAttackInRoundSetToFalseBySpellNeedsAimRoll == true) {
+      firstAttackInRoundSetToFalseBySpellNeedsAimRoll = false;
     }
-    diceRolled = true;
-    combinationRadioButton.disabled = false;
+    firstAttackInRound = true;
+    combinationCheckBox.disabled = false;
 
     damageResult.innerText = "";
 
@@ -1891,8 +1889,8 @@ export default function Home(props) {
       }
     }
     if (spellNeedsAimRoll == true) {
-      diceRolled = false;
-      diceRolledSetToFalseBySpellNeedsAimRoll = true;
+      firstAttackInRound = false;
+      firstAttackInRoundSetToFalseBySpellNeedsAimRoll = true;
       setTimeout(() => {
         currentlySelectedWeapon = weaponBeforeCasting;
         weapons.value = weaponBeforeCasting.w_name;
@@ -1922,8 +1920,8 @@ export default function Home(props) {
         }
       }
       if (
-        combinationRadioButton.checked == false &&
-        spellNeedsAimRoll == false
+        combinationCheckBox.checked == false &&
+        spellNeedsAimRoll == false && firstAttackIsAttackOfOpportunity == false
       ) {
         // if (cumulativeCombinationModifier == 0) {
         //   cumulativeCombinationModifier -=
@@ -1934,7 +1932,7 @@ export default function Home(props) {
       if (rollButtonWasDisabledBeforeSpellCast == true) {
         attackRollButton.disabled = true;
       }
-      if (combinationRadioButton.checked == true) {
+      if (combinationCheckBox.checked == true) {
         attackRollButton.disabled = false;
       }
       if (numberOfClicksAtTwoWeaponAttack == 1) {
@@ -1944,11 +1942,11 @@ export default function Home(props) {
       //Ebben a körben volt kombináció vagy kapáslövés használva, ezért a minusz HMO-k maradnak
       //*************************************************************************************************************************** */
       if (
-        combinationRadioButton.checked == true &&
+        combinationCheckBox.checked == true &&
         spellNeedsAimRoll == false &&
         attackOfOpportunityOn == false
       ) {
-        //combinationRadioButton.disabled = true;
+        //combinationCheckBox.disabled = true;
         combinationWasUsedThisRound = true;
 
         cumulativeCombinationModifier -=
@@ -1956,7 +1954,7 @@ export default function Home(props) {
         hmoModifier(combinationModifiers[combinationModifiersIndex]);
         console.log("halmozódó komb mod", cumulativeCombinationModifier);
         console.log("halmozódó tám mod", modifierFromNumberOfAttacksInTheRound);
-        diceRolledSetToFalseBySpellNeedsAimRoll = false;
+        firstAttackInRoundSetToFalseBySpellNeedsAimRoll = false;
       }
       if (spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
         spellCastingFailure();
@@ -2001,7 +1999,7 @@ export default function Home(props) {
         twoWeaponAttackWasUsedThisRound = true;
       }
 
-      if (diceRolled == true && numberOfClicksAtTwoWeaponAttack == 1) {
+      if (firstAttackInRound == true && numberOfClicksAtTwoWeaponAttack == 1) {
         weapons.disabled = false;
         chosenWeapon.innerText = "Kétk.harc másik kéz:";
         twoWeaponAttackRadioButton.disabled = true;
@@ -2036,6 +2034,10 @@ export default function Home(props) {
         attackOfOpportunityOnSetToFalse();
         handleFileRead();
         attackOfOpportunityButton.disabled = false;
+        if (firstAttackIsAttackOfOpportunity == true) {
+          firstAttackInRound = false
+          firstAttackIsAttackOfOpportunitySetToFalse()
+        }
       }
       if (attackOfOpportunityOn == false) {
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {

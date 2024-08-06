@@ -1,5 +1,5 @@
 import {
-  diceRolled,
+  firstAttackInRound,
   chargeWasUsedThisRound,
   combinationModifiers,
   combinationModifiersIndex,
@@ -15,7 +15,7 @@ import {
   arrayOfAllComplexMaeuvers,
   baseAimWithTeoCalculator,
   currentlySelectedWeaponChanger,
-  diceRolledSetToFalseBySpellNeedsAimRoll,
+  firstAttackInRoundSetToFalseBySpellNeedsAimRoll,
   cumulativeCombinationModifier,
   numberOfAttacksInTheRound,
 } from "../pages";
@@ -126,26 +126,32 @@ export function reloadFailed(anyCondition = true) {
     }
   }
 }
+export let firstAttackIsAttackOfOpportunity = false
+export function firstAttackIsAttackOfOpportunitySetToFalse(){
+  firstAttackIsAttackOfOpportunity = false
+}
 let currentActionExtraCost = 0;
 function ActionList(props) {
   function handleExtraAttackRadio(event) {
     if (
-      diceRolled == false &&
-      diceRolledSetToFalseBySpellNeedsAimRoll == false
+      firstAttackInRound == false &&
+      firstAttackInRoundSetToFalseBySpellNeedsAimRoll == false
     ) {
       event.target.checked = false;
       return;
     }
     if (
-      (diceRolled == true || diceRolledSetToFalseBySpellNeedsAimRoll == true) &&
+      (firstAttackInRound == true || firstAttackInRoundSetToFalseBySpellNeedsAimRoll == true) &&
       initRolled == true
     ) {
       if (event.target.checked == true) {
         totalActionCostOfAttack = 3;
 
         // hmoModifier(-cumulativeCombinationModifier);
-
-        attackRollButton.disabled = false;
+        // kellett, hogy ha 3-nál kevesebb cselekedeted van, akkor ne világosodjon ki a támadó gomb.
+        if(parseInt(numberOfActions.innerText) >= 3){
+          attackRollButton.disabled = false;
+        } 
         if (
           currentlySelectedWeapon.w_type != "MÁGIA" &&
           reloadIsNeeded == true
@@ -168,7 +174,7 @@ function ActionList(props) {
       parseInt(numberOfActions.innerText) < 4 &&
       combinationWasUsedThisRound == false
     ) {
-      combinationRadioButton.disabled = true;
+      combinationCheckBox.disabled = true;
     }
     if (
       initRolled == true &&
@@ -181,7 +187,7 @@ function ActionList(props) {
       initRolled == true &&
       parseInt(numberOfActions.innerText) >=
         totalActionCostOfAttack + currentActionExtraCost &&
-      combinationRadioButton.checked == true
+      combinationCheckBox.checked == true
     ) {
       attackRollButton.disabled = false;
     }
@@ -189,7 +195,7 @@ function ActionList(props) {
       (event.target.value == "Kétkezes harc" &&
         parseInt(numberOfActions.innerText) < 4) ||
       (event.target.value == "Kétkezes harc" &&
-        combinationRadioButton.checked == true &&
+        combinationCheckBox.checked == true &&
         parseInt(numberOfActions.innerText) < 5)
     ) {
       attackRollButton.disabled = true;
@@ -275,8 +281,8 @@ function ActionList(props) {
     ) {
       attackRollButton.disabled = false;
     }
-    // if (combinationRadioButton.checked == false) {
-    //   if (initRolled == true && diceRolled == true) {
+    // if (combinationCheckBox.checked == false) {
+    //   if (initRolled == true && firstAttackInRound == true) {
     //     attackRollButton.disabled = true;
     //   }
     // }
@@ -288,7 +294,7 @@ function ActionList(props) {
     // ) {
     //   hmoModifier(-combinationModifiers[combinationModifiersIndex]);
     //   hmoModified = false;
-    //   if (initRolled == true && diceRolled == true) {
+    //   if (initRolled == true && firstAttackInRound == true) {
     //     attackRollButton.disabled = true;
     //   }
     //   totalActionCostOfAttack = 2;
@@ -365,7 +371,7 @@ function ActionList(props) {
         if (
           currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading >
             0 ||
-          (diceRolled == true && combinationRadioButton.checked == false) ||
+          (firstAttackInRound == true && combinationCheckBox.checked == false) ||
           parseInt(numberOfActions.innerText) < totalActionCostOfAttack
         ) {
           attackRollButton.disabled = true;
@@ -401,14 +407,14 @@ function ActionList(props) {
           warningWindow.innerText = "";
           numberOfActionsSpentReloading = 0;
           if (
-            diceRolled == true &&
-            combinationRadioButton.checked == true &&
+            firstAttackInRound == true &&
+            combinationCheckBox.checked == true &&
             parseInt(numberOfActions.innerText) >= totalActionCostOfAttack
           ) {
             attackRollButton.disabled = false;
           }
           if (
-            diceRolled == false &&
+            firstAttackInRound == false &&
             parseInt(numberOfActions.innerText) >= totalActionCostOfAttack
           ) {
             attackRollButton.disabled = false;
@@ -478,6 +484,9 @@ function ActionList(props) {
         charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + 1;
       }
       attackOfOpportunityButton.disabled = true;
+      if (firstAttackInRound == false) {
+        firstAttackIsAttackOfOpportunity = true
+      }
       attackRollButton.disabled = false;
     }
     if (initRolled == true && parseInt(numberOfActions.innerText) < 2) {
@@ -505,7 +514,7 @@ function ActionList(props) {
     currentlySelectedWeaponChanger(props, "Célzott mágia");
     charAtkValueSave = charAtk.value;
     charAtk.value = baseAimWithTeoCalculator + parseFloat(spellAimInput.value);
-    combinationRadioButton.disabled = true;
+    combinationCheckBox.disabled = true;
     if (initRolled == true) {
       for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
         arrayOfAllComplexMaeuvers[i].disabled = true;
@@ -534,7 +543,7 @@ function ActionList(props) {
           <span>Kombináció/Kapáslövés/Kapásdobás - Akció - +1 CS </span>
           <input
             value="Kombináció"
-            id="combinationRadioButton"
+            id="combinationCheckBox"
             name="extraAttackInRound"
             type="checkbox"
             onChange={handleExtraAttackRadio}

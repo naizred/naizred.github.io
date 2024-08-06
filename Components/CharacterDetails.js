@@ -1,6 +1,6 @@
 import styles from "../styles/chardetails.module.css";
 import {
-  setDiceRolledToFalse,
+  setFirstAttackInRoundToFalse,
   chargeWasUsedThisRound,
   chargeWasUsedThisRoundToFalse,
   currentlySelectedWeapon,
@@ -61,6 +61,7 @@ import {
   findWeakSpotModifier,
   findWeakSpotModifierNullifier,
   reloadFailed,
+  firstAttackIsAttackOfOpportunitySetToFalse,
 } from "./ActionsList";
 import {
   spellCastingSuccessful,
@@ -159,7 +160,7 @@ function CharacterDetails() {
     reloadButton.disabled = true;
     weapons.disabled = true;
     offHand.disabled = true;
-    setDiceRolledToFalse();
+    setFirstAttackInRoundToFalse();
     tacticsButton.disabled = false;
     let initiativeLightDice = Math.floor(generator.random() * 10);
     let initiativeDarkDice = Math.floor(generator.random() * 10);
@@ -258,7 +259,7 @@ function CharacterDetails() {
     initiativeLightDiceResult.style.display = "grid";
     initiativeDarkDiceResult.style.display = "grid";
 
-    combinationRadioButton.disabled = true;
+    combinationCheckBox.disabled = true;
     updateCharacterData();
 
     // megfigyeli az akciók változását
@@ -329,7 +330,7 @@ function CharacterDetails() {
   // a kör végének kezelése
   //****************************************************************** */
   function handleEndOfRound() {
-    if (combinationRadioButton.checked == true) {
+    if (combinationCheckBox.checked == true) {
       totalActionCostOfAttackSetter(-1);
     }
 
@@ -358,7 +359,7 @@ function CharacterDetails() {
     }
     twoWeaponAttackToFalse();
     chargeToFalse();
-    setDiceRolledToFalse();
+    setFirstAttackInRoundToFalse();
     for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
       if (arrayOfAllComplexMaeuvers[i].checked == true) {
         arrayOfAllComplexMaeuvers[i].checked = false;
@@ -435,11 +436,11 @@ function CharacterDetails() {
 
       // itt megnézi, volt-e használva a körben kombináció v kapáslövés, és az új körre nem viszi át a módosítókat
       //******************************************************************************************************* */
-      if (combinationRadioButton.checked == true) {
+      if (combinationCheckBox.checked == true) {
         hmoModifier(cumulativeCombinationModifier);
       }
-      combinationRadioButton.checked = false;
-      combinationRadioButton.disabled = true;
+      combinationCheckBox.checked = false;
+      combinationCheckBox.disabled = true;
       combinationWasUsedThisRoundSetToFalse();
       hmoModifiedToFalse();
       allResultsCleaner();
@@ -464,6 +465,7 @@ function CharacterDetails() {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
       }
     }
+    firstAttackIsAttackOfOpportunitySetToFalse()
   }
   function handleChiCombatBeforeEndOfRound() {
     if (activeBuffsArray.includes("Chi-harc") && initRolled == true) {
@@ -517,7 +519,7 @@ function CharacterDetails() {
       tacticsUsed = true;
       tacticsButton.disabled = true;
       if (
-        combinationRadioButton.checked == true &&
+        combinationCheckBox.checked == true &&
         combinationWasUsedThisRound == false
       ) {
         hmoModifier(-combinationModifiers[combinationModifiersIndex]);
@@ -526,12 +528,13 @@ function CharacterDetails() {
   }
 
   function handleEndOfCombat() {
+    firstAttackIsAttackOfOpportunitySetToFalse()
     innerTimeNegativeModifierNullifier();
     toggleAllallActionBarButtonsExceptInitRollDisplay("none");
     initRolled = false;
     warningWindow.innerText = "";
     spellCastingActionButton.disabled = false;
-    setDiceRolledToFalse();
+    setFirstAttackInRoundToFalse();
     reloadIsNeededSetToFalse();
     spellCastingSuccessful();
     if (chargeWasUsedThisRound == true) {
@@ -550,7 +553,7 @@ function CharacterDetails() {
         arrayOfAllComplexMaeuvers[i].checked = false;
       }
     }
-    if (combinationRadioButton.checked == true) {
+    if (combinationCheckBox.checked == true) {
       hmoModifier(cumulativeCombinationModifier);
       totalActionCostOfAttackSetter(-1);
     }
@@ -562,8 +565,8 @@ function CharacterDetails() {
     }
 
     chargeRadioButton.disabled = false;
-    combinationRadioButton.checked = false;
-    combinationRadioButton.disabled = true;
+    combinationCheckBox.checked = false;
+    combinationCheckBox.disabled = true;
     chargeToFalse();
     hmoModifiedToFalse();
     combinationWasUsedThisRoundSetToFalse();
