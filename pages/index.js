@@ -570,6 +570,7 @@ export default function Home(props) {
       if (currentlySelectedWeapon.w_name == "Vasököl") {
         professionLevel += 1;
       }
+    console.log("ököl seb:", currentWeaponDamage, "+", professionLevel)
     }
     if (currentWeaponDamage === "2k10") {
       damageResult.innerText =
