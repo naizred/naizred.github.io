@@ -6,6 +6,7 @@ import {
   filteredArrayIfHasManaFlow,
   currentGodWorshippedByPlayer,
   allActiveBuffs,
+  filteredArrayIfHasManaController,
 } from "../pages";
 import { blinkingText } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -77,7 +78,7 @@ export function spellCastingSuccessful() {
     spellTypeQuestionWindow.style.display = "grid";
     attackRollButton.disabled = true;
     spellIsBeingCast = false;
-    if (initRolled == true) {
+    if (initRolled == true && actionsNeededToBeAbleToCastAgain > 0) {
       spellCastingActionButton.disabled = true;
     }
     actionsSpentSinceLastCast = 0;
@@ -700,7 +701,15 @@ function Spells(props) {
 
     manaNeededForTheSpell = spellManaCost;
     warningWindow.innerText = "";
-    actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10);
+   
+      if (filteredArrayIfHasManaController.length != 0 && filteredArrayIfHasManaController[0].level != 0) {
+        actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10) - filteredArrayIfHasManaController[0].level;
+        console.log(1, filteredArrayIfHasManaController[0].level)
+      } else {
+        actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10)
+      }
+    
+    
     advancedSpellInputWrapper.style.display = "none";
     spellInputWrapper.style.display = "none";
     if (initRolled == true && attackRollButton.disabled == true) {

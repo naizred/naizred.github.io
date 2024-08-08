@@ -217,6 +217,7 @@ export let filteredArrayForNameOfHighestMagicalSkill;
 export let filteredArrayIfHasAnyMagicSkill;
 export let currentGodWorshippedByPlayer;
 export let filteredArrayIfHasManaFlow;
+export let filteredArrayIfHasManaController
 export let filteredArrayIfHasPsi;
 export let filteredArrayIfHasTwoWeaponAttack;
 export let filteredArrayIfHasAssassination;
@@ -563,6 +564,7 @@ export default function Home(props) {
 
     //ez a két változó csak az ökölharc miatt kell:
     //professionLevel és currentWeaponDamage
+    handleFileRead()
     let currentWeaponDamage = currentlySelectedWeapon.w_damage;
     if (currentlySelectedWeapon.w_type == "Ököl") {
       currentWeaponDamage = damageOfFists;
@@ -961,6 +963,12 @@ export default function Home(props) {
       let filteredArrayIfHasNimble = JSON.parse(reader.result).aptitudes.filter(
         (name) => name.aptitude == "Fürge"
       );
+      let filteredArrayIfHasPsionist = JSON.parse(reader.result).aptitudes.filter(
+        (name) => name.aptitude == "Pszionista"
+      );
+      filteredArrayIfHasManaController = JSON.parse(reader.result).aptitudes.filter(
+        (name) => name.aptitude == "Mana uraló"
+      );
       let filteredArrayIfHasAncientSoul = JSON.parse(
         reader.result
       ).aptitudes.filter((name) => name.aptitude == "Ősibb lélek");
@@ -1005,7 +1013,6 @@ export default function Home(props) {
           break;
         }
       }
-      console.log(currentGodWorshippedByPlayer);
       let filteredArrayIfHasAnyMagicSkillSubSkill = JSON.parse(
         reader.result
       ).skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
@@ -1493,13 +1500,26 @@ export default function Home(props) {
         currentCharFinalAttributes[7],
         currentCharFinalAttributes[8]
       );
+      // --- ha van Pszionista adottság, akkor a legmagasabb Tulajdonság számít a legalacsonyabb helyett
+      let highestStatForPsiPoints = Math.max(
+        currentCharFinalAttributes[6],
+        currentCharFinalAttributes[7],
+        currentCharFinalAttributes[8]
+      )
       let psiMultiplier = 0;
       if (filteredArrayIfHasPsi.length != 0) {
         psiMultiplier = parseFloat(filteredArrayIfHasPsi[0].level / 2);
       }
-      let psiPoints =
+      let statForPsiPoints = 0
+      if (filteredArrayIfHasPsionist.length != 0 && filteredArrayIfHasPsionist[0].level != 0) {
+        statForPsiPoints = highestStatForPsiPoints + filteredArrayIfHasPsionist[0].level *3
+      } else if(filteredArrayIfHasPsionist.length == 0 || filteredArrayIfHasPsionist[0].level == 0){
+        statForPsiPoints = lowestStatForPsiPoints
+      }
+
+     let psiPoints =
         Math.floor(
-          lowestStatForPsiPoints * psiMultiplier +
+          statForPsiPoints * psiMultiplier +
             JSON.parse(reader.result).stats.Pp
         ) + sumPpGainedByLevel;
       //--------------------fp
