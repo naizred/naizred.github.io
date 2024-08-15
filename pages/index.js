@@ -1269,6 +1269,19 @@ export default function Home(props) {
         }
         return calculatedTVCO;
       }
+      // -- ide kellett egy másik függvény, mert itt felfelé kerekítünk 0,5 ig a többi TÉ/VÉ/CÉO-val ellentétben, ahol lefelé kerekítünk
+      function specialTvcoCalculatorForParry(parryWeaponDef) {
+
+        let calculatedParryWeaponDef = 0;
+        if (parryWeaponDef % 5 == 0) {
+          calculatedParryWeaponDef = parryWeaponDef;
+        } else if (parryWeaponDef % 5 != 0 && parryWeaponDef < 5) {
+          calculatedParryWeaponDef = 5
+        } else if (parryWeaponDef % 5 != 0 && parryWeaponDef > 5) {
+          calculatedParryWeaponDef = parryWeaponDef - parryWeaponDef % 5 + 5
+        } 
+        return parseFloat(calculatedParryWeaponDef/10);
+      }
       // ki kellett menteni a varázslatokhoz
       baseAimWithTeoCalculator = tvcoCalculator(baseAim);
       //--- külön az erő tulajdonság, ami az oldalon megjelenik
@@ -1356,12 +1369,12 @@ export default function Home(props) {
         }
         charDefWithParry.value =
           tvcoCalculator(
-            defWithProfession +
-              Math.floor(
-                currentlySelectedOffHand.weaponDef *
-                  (filteredArrayIfHasParry[0].level / 2)
-              )
-          ) -
+            defWithProfession) +
+            specialTvcoCalculatorForParry(
+                parseFloat(currentlySelectedOffHand.weaponDef / 2 *
+                  filteredArrayIfHasParry[0].level)) 
+              
+           -
           reducedMgtByParrySkill / 2 -
           currentlySelectedWeapon.mgt / 2 +
           parseFloat(anyOtherHmoModifierValue) -
@@ -2198,14 +2211,6 @@ export default function Home(props) {
             />
           </div>
           <div id="rollResultWrapper">
-            <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
-              Sötét kocka:
-            </label>
-            <select id="darkDiceResultSelect" name="" disabled={true}>
-              {rollOptions.map((e) => {
-                return <option key={e}>{e}</option>;
-              })}
-            </select>
             <label htmlFor="lightDiceResultSelect" id="lightDiceResult">
               Világos kocka:
             </label>
@@ -2214,6 +2219,15 @@ export default function Home(props) {
                 return <option key={e}>{e}</option>;
               })}
             </select>
+            <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
+              Sötét kocka:
+            </label>
+            <select id="darkDiceResultSelect" name="" disabled={true}>
+              {rollOptions.map((e) => {
+                return <option key={e}>{e}</option>;
+              })}
+            </select>
+
           </div>
           <div id="modifiersWrapper">
             <div id="totalModifierForNextAttackLabel">Köv.tám. HMO mód.:</div>
@@ -2249,6 +2263,9 @@ export default function Home(props) {
           <CharacterDetails />
           <ActionList {...props} />
           <PsiDisciplines {...props} />
+          <span id="listOfCurrentlyActiveBuffsLabel">
+        Jelenleg aktív diszciplínák és varázslatok
+        </span>
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}
         <SkillCheck {...props} />

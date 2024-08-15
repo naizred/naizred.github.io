@@ -308,21 +308,21 @@ function SkillCheck(props) {
 
       <div id="skillCheckRollResultWrapper">
         <label
-          htmlFor="skillCheckDarkDiceResultSelect"
-          id="skillCheckDarkDiceResultLabel">
-          Sötét kocka:
-        </label>
-        <select id="skillCheckDarkDiceResultSelect" name="" disabled={true}>
-          {rollOptions.map((e) => {
-            return <option key={e}>{e}</option>;
-          })}
-        </select>
-        <label
           htmlFor="skillCheckLightDiceResultSelect"
           id="skillCheckLightDiceResultLabel">
           Világos kocka:
         </label>
         <select id="skillCheckLightDiceResultSelect" name="" disabled={true}>
+          {rollOptions.map((e) => {
+            return <option key={e}>{e}</option>;
+          })}
+        </select>
+        <label
+          htmlFor="skillCheckDarkDiceResultSelect"
+          id="skillCheckDarkDiceResultLabel">
+          Sötét kocka:
+        </label>
+        <select id="skillCheckDarkDiceResultSelect" name="" disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}

@@ -6,10 +6,10 @@
     grid-template-rows: repeat(2,1fr);
     margin-bottom: 1vw;
     margin-left: 0.5vw;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border: 0.23vw solid white;
+    /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
     border-radius: 1vw;
     padding: 0.5vw;
 }
@@ -22,10 +22,10 @@
     display: none;
     grid-column: 1/5;
     grid-row: 2/3;
-    font-family: 'MedievalSharp', cursive;
-    color: black;
+    font-family: Arial, Helvetica, sans-serif, cursive;
+    color: white;
     font-size: 1vw;
-    text-shadow: 0.3vw 0.3vw 0.4vw #682600;
+    /* text-shadow: 0.1vw 0.1vw 0.35vw white; */
 }
 .listPsiButton{
     display: grid;
@@ -38,10 +38,10 @@
     grid-row: 1/2;
     width: 2vw;
     height: 2vw;
-    font-family: 'MedievalSharp', cursive;
-    color: black;
+    font-family: Arial, Helvetica, sans-serif, cursive;
+    color: white;
     font-size: 1.2vw;
-    text-shadow: 0.3vw 0.3vw 0.4vw #682600;
+    /* text-shadow: 0.1vw 0.1vw 0.35vw white; */
     text-align: center;
 }
 .psiActivateButton{
@@ -59,12 +59,12 @@
     padding: 0;
     margin-left: 1vw;
     grid-column: 18/23;
-    grid-row: 13/16;
+    grid-row: 13/14;
     font-size: 0.80vw;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border: 0.23vw solid white;
+    /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
     border-radius: 1vw;
     height: 7vw;
 }
@@ -78,10 +78,10 @@
     grid-template-rows: repeat(3,1fr);
     font-size: 0.8vw;
     margin-top: 1.2vw;
-    border: 0.23vw solid #680604;
-    -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+    border: 0.23vw solid white;
+    /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+    -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+    box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
     border-radius: 1vw;
     padding: 0.3vw;
 }

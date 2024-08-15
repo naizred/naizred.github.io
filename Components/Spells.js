@@ -85,6 +85,7 @@ export function spellCastingSuccessful() {
   }
   if (currentSpell && currentSpell.name.includes("liturgia")) {
     currentActiveLiturgy=currentSpell.name
+    liturgyWrapper.style.display = "grid";
     liturgyPowerInfo.style.display = "grid";
     liturgyPowerInfo.innerText = `Liturgia E: ${currentSpell.aspects[0][1]}`;
     liturgyPowerInfo.value = currentSpell.aspects[0][1];
@@ -105,6 +106,7 @@ export function spellCastingSuccessful() {
   }
   if (liturgyCheckBox.checked) {
     liturgyCheckBox.checked = false;
+    liturgyWrapper.style.display = "none";
     liturgyPowerInfo.style.display = "none";
     liturgyPowerInfo.innerText = "";
     liturgyPowerInfo.value = 0;
@@ -838,7 +840,7 @@ function Spells(props) {
           <select
             id="magicSubSkillSelect"
             onChange={evaluateMagicSubSkill}></select>
-          <ul className={styles.liturgyPowerInfo} id="liturgyPowerInfo">
+          <div className={styles.liturgyWrapper} id="liturgyWrapper"><ul className={styles.liturgyPowerInfo} id="liturgyPowerInfo">
             Liturgia
           </ul>
           <input
@@ -847,6 +849,7 @@ function Spells(props) {
             type="checkbox"
             onChange={handleLiturgyCheckBoxChange}
           />
+          </div>
         </li>
         <li>
           Varázslat:

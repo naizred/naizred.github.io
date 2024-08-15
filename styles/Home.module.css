@@ -8,10 +8,10 @@
   grid-template-rows: repeat(9, 1fr);
   align-items: center;
   justify-content: center;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
   border-radius: 1vw;
 }
 
@@ -25,10 +25,10 @@
   margin: 0vw 0.4vw;
   height: 14vw;
   align-items: center;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
   border-radius: 1vw;
   text-align: center;
 }
@@ -49,26 +49,34 @@
   font-size: 2vw;
   align-items: center;
   justify-content: center;
-  text-shadow: 0.3vw 0.3vw 0.4vw #000000;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  /* text-shadow: 0.1vw 0.1vw 0.35vw white; */
+  border: 0.23vw solid white;
+  /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
   border-radius: 1vw;
-  background-image: url('../public/parchmentPaper.jpg');
+  background-color: black;
   background-size: 20vw 8vw;
   margin-left: 0vw;
   margin-bottom: 1vw;
 }
 
 .attackRollButton:hover {
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
+  color: black;
+  background-color: white;
 }
 
 .attackRollButton:disabled {
-  color: black;
+  background-color: black;
+  color: white;
+  opacity: 0.6;
+}
+.attackRollButton:disabled:hover {
+  background-color: black;
+  color: white;
   opacity: 0.6;
 }
 
@@ -84,9 +92,9 @@
   background-repeat: no-repeat;
   margin:1vw 2vw;
   padding-bottom: 0.5vw;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
   border-radius: 1vw;
 }

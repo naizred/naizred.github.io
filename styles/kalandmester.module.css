@@ -31,13 +31,13 @@
 .characterDetails {
   display: grid;
   grid-auto-flow: column;
-  font-family: "MedievalSharp", cursive;
-  color: black;
-  text-shadow: 0.3vw 0.3vw 0.4vw #682600;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  font-family: Arial, Helvetica, sans-serif, cursive;
+  color: white;
+  /* text-shadow: 0.1vw 0.1vw 0.35vw white; */
+  border: 0.23vw solid white;
+  /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
   border-radius: 1vw;
   padding: 0.3vw;
   margin-top: 3vw;
@@ -65,13 +65,13 @@
 .characterDetailsForInit {
   display: grid;
   grid-auto-flow: row;
-  font-family: "MedievalSharp", cursive;
-  color: black;
-  text-shadow: 0.3vw 0.3vw 0.4vw #682600;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  font-family: Arial, Helvetica, sans-serif, cursive;
+  color: white;
+  /* text-shadow: 0.1vw 0.1vw 0.35vw white; */
+  border: 0.23vw solid white;
+  /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
   border-radius: 1vw;
   padding: 0.3vw;
   margin-top: 3vw;
@@ -139,7 +139,7 @@
   font-size: 1.7vw;
   grid-column: span 2;
   align-self: self-end;
-  font-family: "MedievalSharp", cursive;
+  font-family: Arial, Helvetica, sans-serif, cursive;
   justify-self: center;
   text-align: center;
   width: 4vw;
@@ -147,15 +147,15 @@
 .characterDetails .currentPlayerInput {
   font-size: 1.7vw;
   align-self: center;
-  font-family: "MedievalSharp", cursive;
+  font-family: Arial, Helvetica, sans-serif, cursive;
 
   text-align: center;
   width: 3vw;
 }
 .characterDetails button:hover {
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
 }
 .characterDetails .characterName {
   width: 20vw;

@@ -491,10 +491,7 @@ export function PsiDisciplines(props) {
       </div>
       <div className={styles.currentlyActiveBuffsWrapper}>
         <ul
-          id="listOfCurrentlyActiveBuffs"
-          className={styles.listOfCurrentlyActiveBuffs}>
-          {" "}
-          Jelenleg aktív diszciplínák és varázslatok
+          id="listOfCurrentlyActiveBuffs">
           <div>
             <li id="activeBuff1" className={styles.activeBuff}></li>
             <button

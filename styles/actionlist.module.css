@@ -2,10 +2,10 @@
   display: grid;
   grid-column: 16 / 22;
   grid-row: 1/14;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid rgb(255, 255, 255);
+  -webkit-box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   height: 38vw;
   width: 25vw;
@@ -16,24 +16,24 @@
   grid-column: 16 / 19;
   grid-row: 11/12;
   width: 4vw;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   font-size: 0.8vw;
 }
 .spellInputWrapper {
   display: none;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   grid-column: 17 / 20;
   grid-row: 8/12;
   width: 12vw;
-  background-image: url("../public/parchmentPaper.jpg");
+  background-color: black;
   background-repeat: no-repeat;
   background-size: 20vw 20vw;
   background-position: center;
@@ -65,15 +65,15 @@
   font-size: 1vw;
   grid-column: 14 / 17;
   grid-row: 4/6;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   height: 4vw;
   width: 12vw;
   padding: 0.3vw;
-  background-image: url("../public/parchmentPaper.jpg");
+  background-color: black;
   background-size: 25vw 37vw;
   background-repeat: no-repeat;
   background-position: center;
@@ -86,23 +86,32 @@
 .advancedSpellInputWrapper {
   font-size: 1vw;
   display: none;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   grid-column: 12/ 21;
   grid-row: 5/12;
-  background-image: url("../public/parchmentPaper.jpg");
+  background-color: black;
   background-repeat: no-repeat;
   background-size: 50vw 50vw;
   background-position: center;
 }
+.advancedSpellInputWrapper .liturgyWrapper {
+  display: none;
+  border: 1vw white;
+  width: 5vw;
+}
 .advancedSpellInputWrapper .liturgyPowerInfo {
+  text-align: center;
   display: none;
 }
 .advancedSpellInputWrapper .liturgyCheckBox {
   display: none;
+  width: 1vw;
+  height: 1vw;
+  justify-self: center;
 }
 
 .advancedSpellInputWrapper li {
@@ -114,10 +123,10 @@
 }
 .advancedSpellInputWrapper li div {
   display: grid;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   align-items: center;
   margin-left: 1vw;
@@ -127,14 +136,14 @@
 .spellDescriptionWindow {
   display: none;
   font-size: 1vw;
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   grid-column: 13/ 22;
   grid-row: 6/9;
-  background-image: url("../public/parchmentPaper.jpg");
+  background-color: black;
   background-repeat: no-repeat;
   background-size: 50vw 50vw;
   background-position: center;
@@ -213,13 +222,13 @@
   grid-column: 8/12;
   grid-row: 5/7;
   grid-template-rows: repeat(2, 1fr);
-  border: 0.23vw solid #680604;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(0, 0, 0, 0.75);
+  border: 0.23vw solid white;
+  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
+  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   grid-auto-flow: column;
-  background-image: url("../public/parchmentPaper.jpg");
+  background-color: black;
 
   /* background-position: left; */
   background-repeat: no-repeat;
