@@ -1275,9 +1275,9 @@ export default function Home(props) {
         let calculatedParryWeaponDef = 0;
         if (parryWeaponDef % 5 == 0) {
           calculatedParryWeaponDef = parryWeaponDef;
-        } else if (parryWeaponDef % 5 != 0 && parryWeaponDef < 5) {
-          calculatedParryWeaponDef = 5
-        } else if (parryWeaponDef % 5 != 0 && parryWeaponDef > 5) {
+        } else if (parryWeaponDef % 5 != 0 && parryWeaponDef % 10 < 5) {
+          calculatedParryWeaponDef = parryWeaponDef - (parryWeaponDef % 10) + 5
+        } else if (parryWeaponDef % 5 != 0 && parryWeaponDef % 10 > 5) {
           calculatedParryWeaponDef = parryWeaponDef - parryWeaponDef % 5 + 5
         } 
         return parseFloat(calculatedParryWeaponDef/10);
