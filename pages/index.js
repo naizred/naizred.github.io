@@ -1122,7 +1122,7 @@ export default function Home(props) {
         return currentModifier;
       }
       let atkModifier = modifierCalculator(0, 1, 2);
-      let aimModifier = modifierCalculator(2, 7, 9);
+      let aimModifier = modifierCalculator(2, 8, 9);
       let defModifier = modifierCalculator(1, 2, 9);
 
       function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
