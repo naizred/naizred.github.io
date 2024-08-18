@@ -230,12 +230,8 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
     skills.value = "";
     skillCheckBase.innerText =
       parseInt(attributes.value) + parseInt(succFailModifier.value);
-    skills.disabled = true;
-    if (parseInt(attributes.value) % 2 == 1) {
-      rollModifier.value = 1;
-    } else if (parseInt(attributes.value) % 2 == 0) {
+      skills.disabled = true;
       rollModifier.value = 0;
-    }
   }
   skillCheckResult.innerText = "";
 }
