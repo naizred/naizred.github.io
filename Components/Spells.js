@@ -115,19 +115,19 @@ export function spellCastingSuccessful() {
     buffRemoverFromActiveBuffArrayAndTextList(currentActiveLiturgy)
     updateCharacterData()
   }
-  if (currentSpell && currentSpell.description.toLowerCase().includes("ismétlődő")){
-    for (let i = 0; i < allActiveBuffs.length; i++) {
-      if (
-        allActiveBuffs[i].innerText == "" ||
-        (allActiveBuffs[i].innerText != "" &&
-          allActiveBuffs[i].innerText.includes("folyamatos"))
-      ){
-        allActiveBuffs[i].innerText = currentSpell.name;
-        allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
-        break
-      }
-    }
-  }
+  // if (currentSpell && currentSpell.description.toLowerCase().includes("ismétlődő")){
+  //   for (let i = 0; i < allActiveBuffs.length; i++) {
+  //     if (
+  //       allActiveBuffs[i].innerText == "" ||
+  //       (allActiveBuffs[i].innerText != "" &&
+  //         allActiveBuffs[i].innerText.includes("folyamatos"))
+  //     ){
+  //       allActiveBuffs[i].innerText = currentSpell.name;
+  //       allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
+  //       break
+  //     }
+  //   }
+  // }
 }
 export function spellCastingFailure(anyOtherCondition = true) {
   if (
