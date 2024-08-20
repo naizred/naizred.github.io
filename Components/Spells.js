@@ -97,7 +97,7 @@ export function spellCastingSuccessful() {
         (allActiveBuffs[i].innerText != "" &&
           allActiveBuffs[i].innerText.includes("folyamatos") || allActiveBuffs[i].innerText.includes("liturgia"))
       ){
-        allActiveBuffs[i].innerText = `${currentSpell.name}, E: ${currentSpell.aspects[0][1]}`;
+        allActiveBuffs[i].innerText = `${currentSpell.name}`;
         allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
         updateCharacterData()
         break
@@ -175,17 +175,7 @@ function Spells(props) {
     for (let i = 1; i < allAspSelect.length; i++) {
       allAspSelect[i].disabled = false;
     }
-    for (let i = 0; i < allActiveBuffs.length; i++) {
 
-    if(allActiveBuffs[i].innerText.includes("liturgia")){
-      let currentLirurgy = props.allSpells.find((spell)=>allActiveBuffs[i].innerText.includes(spell.name))
-      //console.log(currentLirurgy, allActiveBuffs[i].innerText)
-      liturgyPowerInfo.style.display = "grid";
-      liturgyPowerInfo.innerText = `Liturgia E: ${currentLirurgy.aspects[0][1]}`;
-      liturgyPowerInfo.value = currentLirurgy.aspects[0][1];
-      liturgyCheckBox.style.display = "grid";
-              }
-    }
     if (parseInt(numberOfActions.innerText) != 0) {
       warningWindow.innerText = "";
 
@@ -246,6 +236,19 @@ function Spells(props) {
         advancedSpellInputWrapper.style.display = "grid";
         warningWindow.innerText = "";
         removeAllOptions("magicSubSkillSelect");
+
+        for (let i = 0; i < allActiveBuffs.length; i++) {
+
+          if(allActiveBuffs[i].innerText.includes("liturgia")){
+            let currentLirurgy = props.allSpells.find((spell)=>allActiveBuffs[i].innerText.includes(spell.name))
+            //console.log(currentLirurgy, allActiveBuffs[i].innerText)
+            liturgyWrapper.style.display = "grid";
+            liturgyPowerInfo.style.display = "grid";
+            liturgyPowerInfo.innerText = `Liturgia E: ${currentLirurgy.aspects[0][1]}`;
+            liturgyPowerInfo.value = currentLirurgy.aspects[0][1];
+            liturgyCheckBox.style.display = "grid";
+                    }
+          }
 
         for (let i = 0; i < allMagicSubskillsObject.length; i++) {
           let magicSubSkillOption = document.createElement("option");

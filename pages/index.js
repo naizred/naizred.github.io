@@ -193,6 +193,11 @@ export async function fetchCharacterData(currentCharName) {
         .split("|", activeBuffsCounter);
       for (let i = 0; i < activeBuffsStringArray.length; i++) {
         allActiveBuffs[i].innerText = activeBuffsStringArray[i];
+        if (!activeBuffsStringArray[i].includes("folyamatos")) {
+          
+          allActiveBuffs[i].parentElement.lastChild.value = activeBuffsStringArray[i];
+          activeBuffsArray.push(activeBuffsStringArray[i]);
+        }
         if (
           activeBuffsStringArray[i].includes("Fájdalomtűrés") &&
           !activeBuffsArray.includes("Fájdalomtűrés")
