@@ -1050,10 +1050,6 @@ export default function Home(props) {
 
         allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
       }
-      console.log(
-        filteredArrayIfHasAnyMagicSkillSubSkill,
-        allMagicSubskillsObject
-      );
 
       filteredArrayIfHasParry = JSON.parse(reader.result).skills.filter(
         (name) => name.name == "Hárítás"
@@ -1576,6 +1572,14 @@ export default function Home(props) {
         filteredArrayIfHasAnyMagicSkill.filter(
           (skill) => skill.level == highestMagicSkillLevel
         );
+
+        console.log(
+          "van-e valami magic skill?:", filteredArrayIfHasAnyMagicSkill,
+          "legmagasabb magic skill:", filteredArrayForNameOfHighestMagicalSkill,
+          "magic subskillek:", filteredArrayIfHasAnyMagicSkillSubSkill,
+          allMagicSubskillsObject
+        );
+
       if (filteredArrayForNameOfHighestMagicalSkill[0] != null) {
         highestMagicSkillName =
           filteredArrayForNameOfHighestMagicalSkill[0].name;

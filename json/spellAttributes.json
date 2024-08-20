@@ -40,14 +40,14 @@
       "Felső tűzmágia": ["Aka"]
     },
     "Szakrális mágia": {
-      "Kisebb Halál fohászok": ["Asz"],
-      "Kisebb Lélek fohászok": ["Asz"],
-      "Kisebb Élet fohászok": ["Asz"],
-      "Kisebb Természet fohászok": ["Asz"],
-      "Nagyobb Halál fohászok": ["Int"],
-      "Nagyobb Lélek fohászok": ["Int"],
-      "Nagyobb Élet fohászok": ["Int"],
-      "Nagyobb Természet fohászok": ["Int"]
+      "Kisebb fohászok - Halál": ["Asz"],
+      "Kisebb fohászok - Lélek": ["Asz"],
+      "Kisebb fohászok - Élet": ["Asz"],
+      "Kisebb fohászok - Természet": ["Asz"],
+      "Nagyobb fohászok - Halál": ["Int"],
+      "Nagyobb fohászok - Lélek": ["Int"],
+      "Nagyobb fohászok - Élet": ["Int"],
+      "Nagyobb fohászok - Természet": ["Int"]
     }
   }
 ]

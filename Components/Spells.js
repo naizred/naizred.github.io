@@ -146,13 +146,172 @@ export function spellCastingFailure(anyOtherCondition = true) {
     actionsNeededToBeAbleToCastAgain = 0;
   }
 }
+function spellCastingCheckSetter(){let spellAttributesArray = Object.entries(props.spellAttributes[0]);
+      for (let i = 0; i < spellAttributesArray.length; i++) {
+        console.log(spellAttributesArray[i][0]);
+        let spellSubskillAttributesArray = Object.entries(
+          spellAttributesArray[i][1]
+        );
+        // console.log(spellSubskillAttributesArray);
+        let spellAttribute1name;
+        let spellAttribute2name;
+        if (
+          spellAttributesArray[i][0] ==
+          filteredArrayForNameOfHighestMagicalSkill[0].name
+        ) {
+          for (let j = 0; j < spellSubskillAttributesArray.length; j++) {
+            console.log(
+              spellSubskillAttributesArray[j],
+              spellSubskillAttributesArray[j][1],
+              spellSubskillAttributesArray[j][0],
+              magicSubSkillSelect.value.slice(1)
+            );
+            if (
+              spellSubskillAttributesArray[j][0] ==
+              magicSubSkillSelect.value.slice(1)
+            ) {
+              for (let k = 0; k < selectAllAttributeOptions.length; k++) {}
+              spellAttribute1name = spellSubskillAttributesArray[j][1][0];
+              spellAttribute2name = spellSubskillAttributesArray[j][1][1];
+              console.log(spellAttribute1name, spellAttribute2name);
+              break;
+            }
+          }
+        }
+        // össze kell hasonlítani, melyik érték a nagyobb
+        if (spellAttribute1name || spellAttribute2name) {
+          let spellAttribute1value = 0;
+          let spellAttribute2value = 0;
+          for (let k = 0; k < selectAllAttributeOptions.length; k++) {
+            if (selectAllAttributeOptions[k].innerText == spellAttribute1name) {
+              spellAttribute1value = parseInt(
+                selectAllAttributeOptions[k].value
+              );
+            }
+            if (
+              selectAllAttributeOptions[k].innerText == spellAttribute2name &&
+              spellAttribute2name
+            ) {
+              spellAttribute2value = parseInt(
+                selectAllAttributeOptions[k].value
+              );
+            }
+            if (spellAttribute1value >= spellAttribute2value) {
+              attributes.value = `${
+                spellAttribute1value + "," + spellAttribute1name
+              }`;
+            }
+            if (spellAttribute1value < spellAttribute2value) {
+              attributes.value = `${
+                spellAttribute2value + "," + spellAttribute2name
+              }`;
+            }
+          }
+          console.log(spellAttribute1value, spellAttribute2value);
+          break;
+        }
+      }
+      for (let j = 0; j < selectAllSkillOptions.length; j++) {
+        if (
+          selectAllSkillOptions[j].value.includes(
+            filteredArrayForNameOfHighestMagicalSkill[0].name
+          )
+        ) {
+          skills.value = selectAllSkillOptions[j].value;
+          break;
+        }
+      }
+    }
 let filteredSpellsBySubSkillAndLevel;
 let manaNeededForTheSpell = 0;
 export let currentSpell;
 
 function Spells(props) {
+  
   // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
+  function spellCastingCheckSetter(){
+    let spellAttributesArray = Object.entries(props.spellAttributes[0]);
+    let selectAllSkillOptions = document.querySelectorAll(
+      "select#skills option"
+    );
+    let selectAllAttributeOptions = document.querySelectorAll(
+      "select#attributes option"
+    );
 
+    for (let i = 0; i < spellAttributesArray.length; i++) {
+      console.log(spellAttributesArray[i][0]);
+      let spellSubskillAttributesArray = Object.entries(
+        spellAttributesArray[i][1]
+      );
+      // console.log(spellSubskillAttributesArray);
+      let spellAttribute1name;
+      let spellAttribute2name;
+      if (
+        filteredArrayForNameOfHighestMagicalSkill[0].name.includes(spellAttributesArray[i][0])
+      ) {
+        for (let j = 0; j < spellSubskillAttributesArray.length; j++) {
+          console.log(
+            spellSubskillAttributesArray[j],
+            spellSubskillAttributesArray[j][1],
+            spellSubskillAttributesArray[j][0],
+            magicSubSkillSelect.value.slice(1)
+          );
+          if (
+            spellSubskillAttributesArray[j][0] ==
+            magicSubSkillSelect.value.slice(1)
+          ) {
+            for (let k = 0; k < selectAllAttributeOptions.length; k++) {}
+            spellAttribute1name = spellSubskillAttributesArray[j][1][0];
+            spellAttribute2name = spellSubskillAttributesArray[j][1][1];
+            console.log(spellAttribute1name, spellAttribute2name);
+            break;
+          }
+        }
+      }
+      // össze kell hasonlítani, melyik érték a nagyobb
+      if (spellAttribute1name || spellAttribute2name) {
+        let spellAttribute1value = 0;
+        let spellAttribute2value = 0;
+        for (let k = 0; k < selectAllAttributeOptions.length; k++) {
+          if (selectAllAttributeOptions[k].innerText == spellAttribute1name) {
+            spellAttribute1value = parseInt(
+              selectAllAttributeOptions[k].value
+            );
+          }
+          if (
+            selectAllAttributeOptions[k].innerText == spellAttribute2name &&
+            spellAttribute2name
+          ) {
+            spellAttribute2value = parseInt(
+              selectAllAttributeOptions[k].value
+            );
+          }
+          if (spellAttribute1value >= spellAttribute2value) {
+            attributes.value = `${
+              spellAttribute1value + "," + spellAttribute1name
+            }`;
+          }
+          if (spellAttribute1value < spellAttribute2value) {
+            attributes.value = `${
+              spellAttribute2value + "," + spellAttribute2name
+            }`;
+          }
+        }
+        console.log(spellAttribute1value, spellAttribute2value);
+        break;
+      }
+    }
+    for (let j = 0; j < selectAllSkillOptions.length; j++) {
+      if (
+        selectAllSkillOptions[j].value.includes(
+          filteredArrayForNameOfHighestMagicalSkill[0].name
+        )
+      ) {
+        skills.value = selectAllSkillOptions[j].value;
+        break;
+      }
+    }
+  }
   function manaFactorCalculator(asp) {
     let manaFactor = 0;
 
@@ -349,6 +508,8 @@ function Spells(props) {
     durationAspSelect.value = currentSpell.aspects[3][1];
     aspOptionDisabler(filteredArrayForNameOfHighestMagicalSkill[0].level);
     calculateSpellCastTimeAndManaCost();
+    spellCastingCheckSetter()
+    evaluateSkillOrAttributeCheckBase();
   }
 
   function aspOptionDisabler(magicSkillLevel) {
@@ -524,88 +685,8 @@ function Spells(props) {
           10 + Math.max(...theHighestFiveAspectsPerAspectCategory)
         }`
       );
-      let selectAllSkillOptions = document.querySelectorAll(
-        "select#skills option"
-      );
-      let selectAllAttributeOptions = document.querySelectorAll(
-        "select#attributes option"
-      );
-      let spellAttributesArray = Object.entries(props.spellAttributes[0]);
-      for (let i = 0; i < spellAttributesArray.length; i++) {
-        console.log(spellAttributesArray[i][0]);
-        let spellSubskillAttributesArray = Object.entries(
-          spellAttributesArray[i][1]
-        );
-        // console.log(spellSubskillAttributesArray);
-        let spellAttribute1name;
-        let spellAttribute2name;
-        if (
-          spellAttributesArray[i][0] ==
-          filteredArrayForNameOfHighestMagicalSkill[0].name
-        ) {
-          for (let j = 0; j < spellSubskillAttributesArray.length; j++) {
-            console.log(
-              spellSubskillAttributesArray[j],
-              spellSubskillAttributesArray[j][1],
-              spellSubskillAttributesArray[j][0],
-              magicSubSkillSelect.value.slice(1)
-            );
-            if (
-              spellSubskillAttributesArray[j][0] ==
-              magicSubSkillSelect.value.slice(1)
-            ) {
-              for (let k = 0; k < selectAllAttributeOptions.length; k++) {}
-              spellAttribute1name = spellSubskillAttributesArray[j][1][0];
-              spellAttribute2name = spellSubskillAttributesArray[j][1][1];
-              console.log(spellAttribute1name, spellAttribute2name);
-              break;
-            }
-          }
-        }
-        // össze kell hasonlítani, melyik érték a nagyobb
-        if (spellAttribute1name || spellAttribute2name) {
-          let spellAttribute1value = 0;
-          let spellAttribute2value = 0;
-          let highestSpellAttributeValue = 0;
-          for (let k = 0; k < selectAllAttributeOptions.length; k++) {
-            if (selectAllAttributeOptions[k].innerText == spellAttribute1name) {
-              spellAttribute1value = parseInt(
-                selectAllAttributeOptions[k].value
-              );
-            }
-            if (
-              selectAllAttributeOptions[k].innerText == spellAttribute2name &&
-              spellAttribute2name
-            ) {
-              spellAttribute2value = parseInt(
-                selectAllAttributeOptions[k].value
-              );
-            }
-            if (spellAttribute1value >= spellAttribute2value) {
-              attributes.value = `${
-                spellAttribute1value + "," + spellAttribute1name
-              }`;
-            }
-            if (spellAttribute1value < spellAttribute2value) {
-              attributes.value = `${
-                spellAttribute2value + "," + spellAttribute2name
-              }`;
-            }
-          }
-          console.log(spellAttribute1value, spellAttribute2value);
-          break;
-        }
-      }
-      for (let j = 0; j < selectAllSkillOptions.length; j++) {
-        if (
-          selectAllSkillOptions[j].value.includes(
-            filteredArrayForNameOfHighestMagicalSkill[0].name
-          )
-        ) {
-          skills.value = selectAllSkillOptions[j].value;
-          break;
-        }
-      }
+      
+      spellCastingCheckSetter()
       evaluateSkillOrAttributeCheckBase();
       //handleSkillCheck(false);
     }
