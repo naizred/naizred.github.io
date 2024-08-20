@@ -258,6 +258,8 @@ function CharacterDetails() {
     initRollButton.style.display = "none";
     initiativeLightDiceResult.style.display = "grid";
     initiativeDarkDiceResult.style.display = "grid";
+    initiativeLightDiceLabel.style.display = "grid";
+    initiativeDarkDiceLabel.style.display = "grid";
 
     combinationCheckBox.disabled = true;
     updateCharacterData();
@@ -577,6 +579,8 @@ function CharacterDetails() {
     initRollButton.style.display = "grid";
     initiativeLightDiceResult.style.display = "none";
     initiativeDarkDiceResult.style.display = "none";
+    initiativeLightDiceLabel.style.display = "none";
+    initiativeDarkDiceLabel.style.display = "none";
     numberOfActions.innerText = "";
     initiativeWithRoll.innerText = "";
     numberOfCurrentRound.innerText = "1.";
@@ -713,6 +717,8 @@ function CharacterDetails() {
             return <option key={e}>{e}</option>;
           })}
         </select>
+        <div id="initiativeLightDiceLabel" className={styles.initiativeDarkDiceLabel}>Világos kocka</div>
+        <div id="initiativeDarkDiceLabel" className={styles.initiativeDarkDiceLabel}>Sötét kocka</div>
       </div>
       <div
         id="chiCombatContinuePopupWindow"

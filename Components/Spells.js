@@ -98,7 +98,7 @@ export function spellCastingSuccessful() {
           allActiveBuffs[i].innerText.includes("folyamatos") || allActiveBuffs[i].innerText.includes("liturgia"))
       ){
         allActiveBuffs[i].innerText = `${currentSpell.name}`;
-        allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
+       // allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
         updateCharacterData()
         break
       }

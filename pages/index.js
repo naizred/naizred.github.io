@@ -193,11 +193,11 @@ export async function fetchCharacterData(currentCharName) {
         .split("|", activeBuffsCounter);
       for (let i = 0; i < activeBuffsStringArray.length; i++) {
         allActiveBuffs[i].innerText = activeBuffsStringArray[i];
-        if (!activeBuffsStringArray[i].includes("folyamatos")) {
+     
           
-          allActiveBuffs[i].parentElement.lastChild.value = activeBuffsStringArray[i];
+          //allActiveBuffs[i].parentElement.lastChild.value = activeBuffsStringArray[i];
           activeBuffsArray.push(activeBuffsStringArray[i]);
-        }
+        
         if (
           activeBuffsStringArray[i].includes("Fájdalomtűrés") &&
           !activeBuffsArray.includes("Fájdalomtűrés")
@@ -205,8 +205,6 @@ export async function fetchCharacterData(currentCharName) {
           //**************************************************** */
           //pontosan a 16. karaktertől slice, így a parseInt megtalálja az fp pajzs mennyiségét
           fpShieldSetter(parseInt(activeBuffsStringArray[i].slice(16)));
-          allActiveBuffs[i].parentElement.lastChild.value = "Fájdalomtűrés";
-          activeBuffsArray.push("Fájdalomtűrés");
         }
       }
     });
@@ -258,6 +256,8 @@ export let weaponsOptions;
 export function toggleAllallActionBarButtonsExceptInitRollDisplay(
   display = "none"
 ) {
+  initiativeLightDiceLabel.style.display = display
+  initiativeDarkDiceLabel.style.display = display
   const allActionBarButtons = document.querySelectorAll(
     "div#actionsWrapper button"
   );

@@ -178,6 +178,12 @@
   grid-row: 2/3;
   height: 1.8vw;
 }
+.initiativeLightDiceLabel{
+  font-size: 1vw;
+}
+.initiativeDarkDiceLabel {
+  font-size: 1vw;
+}
 .initiativeRerollByCounterLP {
   display: none;
   grid-column: 8/9;
