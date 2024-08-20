@@ -1712,20 +1712,14 @@ export default function Home(props) {
       ) {
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
           arrayOfAllComplexMaeuvers[i].disabled = true;
-          if (
-            arrayOfAllComplexMaeuvers[i].value == "Fegyvertörés" ||
-            arrayOfAllComplexMaeuvers[i].value == "Lefegyverzés" ||
-            arrayOfAllComplexMaeuvers[i].value == "Orvtámadás"
-          ) {
-            arrayOfAllComplexMaeuvers[i].disabled = false;
-          }
+          // if (
+          //   arrayOfAllComplexMaeuvers[i].value == "Fegyvertörés" ||
+          //   arrayOfAllComplexMaeuvers[i].value == "Lefegyverzés" ||
+          //   arrayOfAllComplexMaeuvers[i].value == "Orvtámadás"
+          // ) {
+          //   arrayOfAllComplexMaeuvers[i].disabled = false;
+          // }
         }
-      }
-      if (!weapons.value.includes("Ököl")) {
-        wrestlingRadioButton.disabled = true;
-      }
-      if (weapons.value.includes("Ököl")) {
-        wrestlingRadioButton.disabled = false;
       }
       if (reloadIsNeeded == false) {
         reloadButton.disabled = true;
@@ -1869,68 +1863,68 @@ export default function Home(props) {
     //**********************************************************************************************************************
     //******************************************************************************************************************* */
 
-    let selectAllSkillOptions = document.querySelectorAll(
-      "select#skills option"
-    );
-    let selectAllAttributeOptions = document.querySelectorAll(
-      "select#attributes option"
-    );
-    for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-      if (
-        arrayOfAllComplexMaeuvers[i].checked == true &&
-        arrayOfAllComplexMaeuvers[i].value == "Fegyvertörés"
-      ) {
-        for (let j = 0; j < selectAllSkillOptions.length; j++) {
-          if (selectAllSkillOptions[j].value.includes("Fegyvertörés")) {
-            skills.value = selectAllSkillOptions[j].value;
-            break;
-          }
-          skills.value = 0;
-        }
-        for (let i = 0; i < selectAllAttributeOptions.length; i++) {
-          if (selectAllAttributeOptions[i].innerText == "Erő") {
-            attributes.value = selectAllAttributeOptions[i].value;
-          }
-        }
-        evaluateSkillOrAttributeCheckBase();
-        handleSkillCheck(false, originalLightDice);
-        allResultsCleaner();
-        charAtkSumText.innerText = "Próba végeredménye:";
-        charAtkSum.innerText = skillCheckResult.innerText;
-        break;
-      }
-      if (
-        arrayOfAllComplexMaeuvers[i].checked == true &&
-        arrayOfAllComplexMaeuvers[i].value == "Lefegyverzés"
-      ) {
-        disarmWasUsedThisRound = true;
-        for (let j = 0; j < selectAllSkillOptions.length; j++) {
-          if (selectAllSkillOptions[j].value.includes("Lefegyverzés")) {
-            skills.value = selectAllSkillOptions[j].value;
-            break;
-          }
-          skills.value = 0;
-        }
-        for (let i = 0; i < selectAllAttributeOptions.length; i++) {
-          if (selectAllAttributeOptions[i].innerText == "Ügy") {
-            attributes.value = selectAllAttributeOptions[i].value;
-          }
-        }
-        if (currentlySelectedWeapon.disarmingWeapon == true) {
-          succFailModifier.value = 1;
-        }
-        if (currentlySelectedWeapon.disarmingWeapon == false) {
-          succFailModifier.value = 0;
-        }
-        evaluateSkillOrAttributeCheckBase();
-        handleSkillCheck(false, originalLightDice);
-        allResultsCleaner();
-        charAtkSumText.innerText = "Próba végeredménye:";
-        specialEffect.innerText = "nincs";
-        charAtkSum.innerText = skillCheckResult.innerText;
-        break;
-      }
-    }
+    // let selectAllSkillOptions = document.querySelectorAll(
+    //   "select#skills option"
+    // );
+    // let selectAllAttributeOptions = document.querySelectorAll(
+    //   "select#attributes option"
+    // );
+    // for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+    //   if (
+    //     arrayOfAllComplexMaeuvers[i].checked == true &&
+    //     arrayOfAllComplexMaeuvers[i].value == "Fegyvertörés"
+    //   ) {
+    //     for (let j = 0; j < selectAllSkillOptions.length; j++) {
+    //       if (selectAllSkillOptions[j].value.includes("Fegyvertörés")) {
+    //         skills.value = selectAllSkillOptions[j].value;
+    //         break;
+    //       }
+    //       skills.value = 0;
+    //     }
+    //     for (let i = 0; i < selectAllAttributeOptions.length; i++) {
+    //       if (selectAllAttributeOptions[i].innerText == "Erő") {
+    //         attributes.value = selectAllAttributeOptions[i].value;
+    //       }
+    //     }
+    //     evaluateSkillOrAttributeCheckBase();
+    //     handleSkillCheck(false, originalLightDice);
+    //     allResultsCleaner();
+    //     charAtkSumText.innerText = "Próba végeredménye:";
+    //     charAtkSum.innerText = skillCheckResult.innerText;
+    //     break;
+    //   }
+      // if (
+      //   arrayOfAllComplexMaeuvers[i].checked == true &&
+      //   arrayOfAllComplexMaeuvers[i].value == "Lefegyverzés"
+      // ) {
+      //   disarmWasUsedThisRound = true;
+      //   for (let j = 0; j < selectAllSkillOptions.length; j++) {
+      //     if (selectAllSkillOptions[j].value.includes("Lefegyverzés")) {
+      //       skills.value = selectAllSkillOptions[j].value;
+      //       break;
+      //     }
+      //     skills.value = 0;
+      //   }
+      //   for (let i = 0; i < selectAllAttributeOptions.length; i++) {
+      //     if (selectAllAttributeOptions[i].innerText == "Ügy") {
+      //       attributes.value = selectAllAttributeOptions[i].value;
+      //     }
+      //   }
+      //   if (currentlySelectedWeapon.disarmingWeapon == true) {
+      //     succFailModifier.value = 1;
+      //   }
+      //   if (currentlySelectedWeapon.disarmingWeapon == false) {
+      //     succFailModifier.value = 0;
+      //   }
+      //   evaluateSkillOrAttributeCheckBase();
+      //   handleSkillCheck(false, originalLightDice);
+      //   allResultsCleaner();
+      //   charAtkSumText.innerText = "Próba végeredménye:";
+      //   specialEffect.innerText = "nincs";
+      //   charAtkSum.innerText = skillCheckResult.innerText;
+      //   break;
+      // }
+    //}
     if (spellNeedsAimRoll == true) {
       firstAttackInRound = false;
       firstAttackInRoundSetToFalseBySpellNeedsAimRoll = true;
