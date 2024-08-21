@@ -472,17 +472,7 @@ function ActionList(props) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
       }
-      if (combinationWasUsedThisRound == true) {
-        hmoModifier(cumulativeCombinationModifier);
-      }
-      if (twoWeaponAttackWasUsedThisRound == true) {
-        hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex]);
-      }
-      if (chargeWasUsedThisRound == true) {
-        charDef.value = parseFloat(charDef.value) + 1;
-        charDefWithParry.value = parseFloat(charDefWithParry.value) + 1;
-        charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) + 1;
-      }
+
       attackOfOpportunityButton.disabled = true;
       if (firstAttackInRound == false) {
         firstAttackIsAttackOfOpportunity = true
