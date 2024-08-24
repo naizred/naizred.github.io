@@ -3,32 +3,30 @@
   grid-column: 16 / 22;
   grid-row: 1/14;
   border: 0.23vw solid rgb(255, 255, 255);
-  -webkit-box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw rgba(255, 255, 255, 0.75);
-  -moz-box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw rgba(255, 255, 255, 0.75);
-  box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   height: 38vw;
   width: 25vw;
   padding: 0.5vw;
 }
+
+.actionsWrapper li .gameIdLabel {
+  display: grid;
+  grid-column: 1/7;
+  text-align: right;
+}
+
 .ammoWrapper {
   display: none;
   grid-column: 16 / 19;
   grid-row: 11/12;
   width: 4vw;
   border: 0.23vw solid white;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   font-size: 0.8vw;
 }
 .spellInputWrapper {
   display: none;
   border: 0.23vw solid white;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   grid-column: 17 / 20;
   grid-row: 8/12;
@@ -66,9 +64,6 @@
   grid-column: 14 / 17;
   grid-row: 4/6;
   border: 0.23vw solid white;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   height: 4vw;
   width: 12vw;
@@ -87,9 +82,6 @@
   font-size: 1vw;
   display: none;
   border: 0.23vw solid white;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   grid-column: 12/ 21;
   grid-row: 5/12;
@@ -217,9 +209,6 @@
   grid-row: 5/7;
   grid-template-rows: repeat(2, 1fr);
   border: 0.23vw solid white;
-  -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
-  box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   border-radius: 1vw;
   grid-auto-flow: column;
   background-color: black;
@@ -239,13 +228,20 @@
   font-size: 2.5vw;
 }
 .gameIdWrapper {
-  display: grid;
-  grid-column: 19/21;
+  display: none;
+  padding: 0.5vw;
+  background-color: black;
+  border: 0.23vw solid rgb(255, 255, 255);
+  border-radius: 1vw;
+  grid-column: 18/23;
   grid-row: 1/2;
   font-size: 0.8vw;
+  height: 2vw;
 }
 .gameIdWrapper input {
   display: grid;
+  width: 7vw;
+  height: 0.7vw;
   font-size: 0.8vw;
 }
 .gameIdWrapper button {
@@ -256,4 +252,11 @@
   display: grid;
   font-size: 0.8vw;
   grid-auto-flow: column;
+}
+.gameIdWrapperRevealButton{
+display: grid;
+grid-column: 20/22;
+grid-row: 1/2;
+width: 6vw;
+font-size: 0.8vw;
 }

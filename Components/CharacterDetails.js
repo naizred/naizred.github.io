@@ -74,6 +74,9 @@ export let extraReactionLevel = 0;
 export let chiCombatEndedDueToLackOfPsiPoints = false;
 export let activeBuffsCounter = 0;
 export async function updateCharacterData(gameIdUpdate = false) {
+  if (charName.innerText == "") {
+    return
+  }
   let activeBuffsStringToSave = "";
   activeBuffsCounter = 0;
   for (let i = 0; i < allActiveBuffs.length; i++) {
@@ -611,7 +614,7 @@ function CharacterDetails() {
     <>
       <div id="characterDetails" className={styles["character-details"]}>
         <div>
-          <button className={styles.saveButton} onClick={updateCharacterData}>
+          <button id="saveButton" className={styles.saveButton} onClick={updateCharacterData}>
             Adatok mentése
           </button>
           <p id="maxValues">Max</p>

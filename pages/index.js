@@ -182,6 +182,12 @@ export async function fetchCharacterData(currentCharName) {
       if (!parsedData) {
         return;
       }
+      if(parsedData.gameId)
+      {
+      gameIdLabel.innerText = `Játékazonosító: "${parsedData.gameId}"`
+      } else {
+        gameIdLabel.innerText = "Játékazonosító: nincs"
+      }
       currentFp.value = parsedData.currentFp;
       currentEp.value = parsedData.currentEp;
       currentPp.value = parsedData.currentPp;
@@ -208,6 +214,24 @@ export async function fetchCharacterData(currentCharName) {
         }
       }
     });
+}
+export async function fetchCharacterDataOnlyGameId(currentCharName) {
+  await fetch(`../api/characterStatsThatChange/${currentCharName}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((parsedData) => {
+      if (!parsedData) {
+        return;
+      }
+      if(parsedData.gameId)
+      {
+      gameIdLabel.innerText = `Játékazonosító: "${parsedData.gameId}"`
+      } else {
+        gameIdLabel.innerText = "Játékazonosító: nincs"
+      } 
+    }
+  )
 }
 // ki kellett importálni az alap CÉ-t a varázsláshoz
 export let baseAimWithTeoCalculator = 0;

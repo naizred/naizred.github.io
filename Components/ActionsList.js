@@ -18,6 +18,8 @@ import {
   firstAttackInRoundSetToFalseBySpellNeedsAimRoll,
   cumulativeCombinationModifier,
   numberOfAttacksInTheRound,
+  fetchCharacterData,
+  fetchCharacterDataOnlyGameId,
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -516,10 +518,24 @@ function ActionList(props) {
 
   function handleGameIdWrapperClose() {
     gameIdWrapper.style.display = "none";
+    gameIdWrapperRevealButton.style.display = "grid"
   }
+
   function handleGameIdInput() {
+    if (gameIdInput.value == "") {
+      return
+    }
     updateCharacterData(true);
+    // az update után kell egy kis késleltetés hogy legyen ideje megjönni az adatnak
+    setTimeout(() => {
+      fetchCharacterDataOnlyGameId(charName.innerText);
+    }, 500); 
     gameIdWrapper.style.display = "none";
+    gameIdWrapperRevealButton.style.display = "grid"
+  }
+  function handleGameIdWrapperRevealButton(){
+    gameIdWrapper.style.display = "grid";
+    gameIdWrapperRevealButton.style.display = "none"
   }
 
   return (
@@ -527,7 +543,7 @@ function ActionList(props) {
       <div className={styles.actionsWrapper}>
         Manőverek listája
         <li>
-          <span>Következő támadásra érvényes módosítók:</span>
+          <span id="gameIdLabel" className={styles.gameIdLabel}>Játékazonosító:</span>
         </li>
         <li>
           <span>Kombináció/Kapáslövés/Kapásdobás - Akció - +1 CS </span>
@@ -732,6 +748,7 @@ function ActionList(props) {
           <button onClick={handleGameIdInput}>Csatlakozás</button>
         </span>
       </div>
+      <button id="gameIdWrapperRevealButton" onClick={handleGameIdWrapperRevealButton} className={styles.gameIdWrapperRevealButton}>Csatlakozás Új Játékhoz</button>
     </>
   );
 }
