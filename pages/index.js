@@ -958,7 +958,7 @@ export default function Home(props) {
       charName.innerText = JSON.parse(reader.result).charName;
 
       //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
-      let filteredArrayByType = JSON.parse(reader.result).skills.filter(
+      let filteredArrayByWeaponType = JSON.parse(reader.result).skills.filter(
         (name) =>
           name.name == "Fegyverhasználat" &&
           currentlySelectedWeapon.w_type.includes(name.subSkill)
@@ -1090,9 +1090,9 @@ export default function Home(props) {
       //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
       let allLevelsArray = [];
 
-      if (filteredArrayByType.length != 0) {
-        for (let i = 0; i < filteredArrayByType.length; i++) {
-          allLevelsArray.push(filteredArrayByType[i].level);
+      if (filteredArrayByWeaponType.length != 0) {
+        for (let i = 0; i < filteredArrayByWeaponType.length; i++) {
+          allLevelsArray.push(filteredArrayByWeaponType[i].level);
         }
         professionLevel = parseInt(Math.max(...allLevelsArray));
       } else {
@@ -1597,12 +1597,12 @@ export default function Home(props) {
           (skill) => skill.level == highestMagicSkillLevel
         );
 
-        console.log(
-          "van-e valami magic skill?:", filteredArrayIfHasAnyMagicSkill,
-          "legmagasabb magic skill:", filteredArrayForNameOfHighestMagicalSkill,
-          "magic subskillek:", filteredArrayIfHasAnyMagicSkillSubSkill,
-          allMagicSubskillsObject
-        );
+        // console.log(
+        //   "van-e valami magic skill?:", filteredArrayIfHasAnyMagicSkill,
+        //   "legmagasabb magic skill:", filteredArrayForNameOfHighestMagicalSkill,
+        //   "magic subskillek:", filteredArrayIfHasAnyMagicSkillSubSkill,
+        //   allMagicSubskillsObject
+        // );
 
       if (filteredArrayForNameOfHighestMagicalSkill[0] != null) {
         highestMagicSkillName =
@@ -1736,13 +1736,6 @@ export default function Home(props) {
       ) {
         for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
           arrayOfAllComplexMaeuvers[i].disabled = true;
-          // if (
-          //   arrayOfAllComplexMaeuvers[i].value == "Fegyvertörés" ||
-          //   arrayOfAllComplexMaeuvers[i].value == "Lefegyverzés" ||
-          //   arrayOfAllComplexMaeuvers[i].value == "Orvtámadás"
-          // ) {
-          //   arrayOfAllComplexMaeuvers[i].disabled = false;
-          // }
         }
       }
       if (reloadIsNeeded == false) {
@@ -2078,13 +2071,7 @@ export default function Home(props) {
         }
       }, 200);
 
-      if (assassinationRadioButton.checked == true) {
-        charAtk.value =
-          parseFloat(charAtk.value) -
-          filteredArrayIfHasAssassination[0].level -
-          3;
-        assassinationToFalse();
-      }
+ 
       if (findWeakSpotOn == true) {
         charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier;
         findWeakSpotModifierNullifier();
@@ -2147,6 +2134,13 @@ export default function Home(props) {
       charAtkSum.innerText =
         parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
       charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+    }
+    if (assassinationRadioButton.checked == true) {
+      charAtk.value =
+        parseFloat(charAtk.value) -
+        filteredArrayIfHasAssassination[0].level -
+        3;
+      assassinationToFalse();
     }
     playerChecker();
     spellNeedsAimRollSetToFalse();

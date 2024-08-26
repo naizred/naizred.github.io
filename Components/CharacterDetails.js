@@ -152,12 +152,6 @@ function CharacterDetails() {
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
         arrayOfAllComplexMaeuvers[i].disabled == true;
       }
-      if (!weapons.value.includes("Ököl")) {
-        wrestlingRadioButton.disabled = true;
-      }
-      if (weapons.value.includes("Ököl")) {
-        wrestlingRadioButton.disabled = false;
-      }
     }
 
     reloadButton.disabled = true;
