@@ -28,7 +28,7 @@ import {
 } from "../pages";
 import {
   filteredArrayIfHasExtraReaction,
-  arrayOfAllComplexMaeuvers,
+  arrayOfAllComplexManeuvers,
   combinationModifiers,
   combinationModifiersIndex,
   allActiveBuffs,
@@ -132,12 +132,12 @@ function CharacterDetails() {
     toggleAllallActionBarButtonsExceptInitRollDisplay("grid");
     allResultsCleaner();
 
-    for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
+    for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
       if (
-        arrayOfAllComplexMaeuvers[i].disabled == true &&
+        arrayOfAllComplexManeuvers[i].disabled == true &&
         checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false
       ) {
-        arrayOfAllComplexMaeuvers[i].disabled = false;
+        arrayOfAllComplexManeuvers[i].disabled = false;
         if (
           weapons.value.includes("kétkézzel") ||
           weapons.value.includes("Kétkezes") ||
@@ -150,7 +150,7 @@ function CharacterDetails() {
         }
       }
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
-        arrayOfAllComplexMaeuvers[i].disabled == true;
+        arrayOfAllComplexManeuvers[i].disabled == true;
       }
     }
 
@@ -332,6 +332,9 @@ function CharacterDetails() {
     if (combinationCheckBox.checked == true) {
       totalActionCostOfAttackSetter(-1);
     }
+    if (warningWindow.innerText.includes("várható")) {
+      warningWindow.innerText = ""
+    }
 
     if (chargeWasUsedThisRound == true) {
       chargeWasUsedThisRoundToFalse();
@@ -359,9 +362,9 @@ function CharacterDetails() {
     twoWeaponAttackToFalse();
     chargeToFalse();
     setFirstAttackInRoundToFalse();
-    for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-      if (arrayOfAllComplexMaeuvers[i].checked == true) {
-        arrayOfAllComplexMaeuvers[i].checked = false;
+    for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+      if (arrayOfAllComplexManeuvers[i].checked == true) {
+        arrayOfAllComplexManeuvers[i].checked = false;
       }
     }
 
@@ -547,9 +550,9 @@ function CharacterDetails() {
       twoWeaponAttackWasUsedThisRoundToFalse();
       hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex]);
     }
-    for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-      if (arrayOfAllComplexMaeuvers[i].checked == true) {
-        arrayOfAllComplexMaeuvers[i].checked = false;
+    for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+      if (arrayOfAllComplexManeuvers[i].checked == true) {
+        arrayOfAllComplexManeuvers[i].checked = false;
       }
     }
     if (combinationCheckBox.checked == true) {

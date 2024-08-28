@@ -12,7 +12,7 @@ import {
   reloadIsNeededSetToFalse,
   reloadIsNeeded,
   filteredArrayIfHasAssassination,
-  arrayOfAllComplexMaeuvers,
+  arrayOfAllComplexManeuvers,
   baseAimWithTeoCalculator,
   currentlySelectedWeaponChanger,
   firstAttackInRoundSetToFalseBySpellNeedsAimRoll,
@@ -508,8 +508,8 @@ function ActionList(props) {
     charAtk.value = baseAimWithTeoCalculator + parseFloat(spellAimInput.value);
     combinationCheckBox.disabled = true;
     if (initRolled == true) {
-      for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-        arrayOfAllComplexMaeuvers[i].disabled = true;
+      for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+        arrayOfAllComplexManeuvers[i].disabled = true;
       }
     }
     attackRollButton.disabled = false;
@@ -560,10 +560,42 @@ function ActionList(props) {
           className={styles.selectableComplexManeuversList}>
           Csatolható összetett manőverek:
           <li value={1}>
+            <span>Belharc - Akció - +1 CS </span>
+            <input
+              id="weaponBreakRadioButton"
+              value="Belharc"
+              name="selectableComplexManeuvers"
+              type="radio"
+              onDoubleClick={handleRadioUnselect}
+              onClick={handleComplexManeuverRadio}
+            />
+          </li>
+          <li value={1}>
+            <span>Birkózás - Akció - +1 CS </span>
+            <input
+              id="wrestlingRadioButton"
+              value="Birkózás"
+              name="selectableComplexManeuvers"
+              type="radio"
+              onDoubleClick={handleRadioUnselect}
+              onClick={handleComplexManeuverRadio}
+            />
+          </li>
+          <li value={1}>
             <span>Fegyvertörés - Akció - +1 CS </span>
             <input
               id="weaponBreakRadioButton"
               value="Fegyvertörés"
+              name="selectableComplexManeuvers"
+              type="radio"
+              onDoubleClick={handleRadioUnselect}
+              onClick={handleComplexManeuverRadio}
+            />
+          </li>
+          <li value={1}>
+            <span>Kínokozás - Akció - +1 CS </span>
+            <input
+              value="Kínokozás"
               name="selectableComplexManeuvers"
               type="radio"
               onDoubleClick={handleRadioUnselect}
@@ -582,16 +614,6 @@ function ActionList(props) {
             />
           </li>
           <li value={1}>
-            <span>Kínokozás - Akció - +1 CS </span>
-            <input
-              value="Kínokozás"
-              name="selectableComplexManeuvers"
-              type="radio"
-              onDoubleClick={handleRadioUnselect}
-              onClick={handleComplexManeuverRadio}
-            />
-          </li>
-          <li value={1}>
             <span>Pusztítás - Akció - +1 CS </span>
             <input
               value="Pusztítás"
@@ -601,6 +623,27 @@ function ActionList(props) {
               onClick={handleComplexManeuverRadio}
             />
           </li>
+          <li value={1}>
+            <span>Taszítás - Akció - +1 CS </span>
+            <input
+              value="Taszítás"
+              name="selectableComplexManeuvers"
+              type="radio"
+              onDoubleClick={handleRadioUnselect}
+              onClick={handleComplexManeuverRadio}
+            />
+          </li>
+          <li value={1}>
+            <span>Távoltartás - Akció - +1 CS </span>
+            <input
+              value="Távoltartás"
+              name="selectableComplexManeuvers"
+              type="radio"
+              onDoubleClick={handleRadioUnselect}
+              onClick={handleComplexManeuverRadio}
+            />
+          </li>
+          <span>---------------------------------------------------------------------</span>
           <li value={1}>
             <span>Roham - Akció - +1 CS </span>
             <input
@@ -623,17 +666,7 @@ function ActionList(props) {
               onClick={handleComplexManeuverRadio}
             />
           </li>
-          <li value={1}>
-            <span>Birkózás - Akció - +1 CS </span>
-            <input
-              id="wrestlingRadioButton"
-              value="Birkózás"
-              name="selectableComplexManeuvers"
-              type="radio"
-              onDoubleClick={handleRadioUnselect}
-              onClick={handleComplexManeuverRadio}
-            />
-          </li>
+
           <li value={0}>
             <span>Kétkezes harc - Akció - +2 CS </span>
             <input

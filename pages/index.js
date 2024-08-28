@@ -235,6 +235,29 @@ export async function fetchCharacterDataOnlyGameId(currentCharName) {
 }
 // ki kellett importálni az alap CÉ-t a varázsláshoz
 export let baseAimWithTeoCalculator = 0;
+let weaponStyles = [
+  { "Ököl": ["Birkózás", "Belharc"] },
+  { "RP": ["Belharc", "Birkózás"] },
+  { "HP": ["Lefegyverzés", "Kínokozás"] },
+  { "ÓP": ["Fegyvertörés", "Pusztítás"] },
+  { "ZÚZ": ["Kínokozás", "Taszítás"] },
+  { "HAS": ["Pusztítás", "Kínokozás"] },
+  { "SZÁ": ["Távoltartás", "Lefegyverzés"] },
+  { "LOV": ["Taszítás", "Távoltartás"] },
+  { "PAJ": ["Taszítás", "Belharc"] }
+]
+let weaponStyleBonusesByLevelOfProficiency = [
+  {"Belharc": ["-0,5 (-1) HMO", "-1 (-2) HMO", "-1,5 (-3) HMO", "-2 (-4) HMO", "-2,5 (-5) HMO", "-3 (-6) HMO"]},
+  {"Birkózás": ["0,5 Ép +0,5 VÉO", "1 Ép +1 VÉO", "2 Ép +1,5 VÉO", "3 Ép +2 VÉO", "4 Ép +2,5 VÉO", "5 Ép +3 VÉO"]},
+  {"Fegyvertörés": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]},
+  {"Kínokozás": ["+1Fp/2Ép", "+1Fp/1Ép", "+2Fp/1Ép", "+3Fp/1Ép", "+4Fp/1Ép", "+5Fp/1Ép"]},
+  {"Lefegyverzés": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]},
+  {"Pusztítás": ["+1Ép/5Ép", "+1Ép/4Ép", "+1Ép/3Ép", "+1Ép/2Ép", "+1Ép/1Ép", "+2Ép/1Ép"]},
+  {"Taszítás": ["spec.","spec.","spec.","spec.","spec.","spec."]},
+  {"Távoltartás": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]}
+]
+
+let selectedWeaponStyles = []
 export let allActiveBuffs = [];
 export let mgtCompensation = 0;
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -269,7 +292,7 @@ let filteredArrayIfHasParry;
 let mainHandWeaponWhenTwoWeaponAttackIsUsed;
 let bonusDamageFromAssassination = 0;
 export let allMagicSubskillsObject = {};
-export let arrayOfAllComplexMaeuvers;
+export let arrayOfAllComplexManeuvers;
 export let currentlySelectedWeapon;
 export function currentlySelectedWeaponChanger(props, newWeapon) {
   currentlySelectedWeapon = props.weapons.find(
@@ -577,7 +600,7 @@ export default function Home(props) {
     if (!activeBuffsArray.includes("Chi-harc")) {
       bonusDamageFromChiCombatNullifier();
     }
-    if (assassinationRadioButton.checked == true) {
+    if (assassinationRadioButton.checked == true && filteredArrayIfHasAssassination.length !=0) {
       bonusDamageFromAssassination = filteredArrayIfHasAssassination[0].level;
     }
     if (assassinationRadioButton.checked == false) {
@@ -1024,6 +1047,9 @@ export default function Home(props) {
       if (filteredArrayIfHasPsi.length != 0) {
         psiDisciplinesSelectWrapper.style.display = "grid";
       }
+      // Kf és afeletti képettségfoknál választott stílus az adott fegyverhez
+      selectedWeaponStyles = Object.entries(JSON.parse(reader.result).weaponStyles);
+
       filteredArrayIfHasTwoWeaponAttack = JSON.parse(
         reader.result
       ).skills.filter((name) => name.name == "Kétkezes harc");
@@ -1686,14 +1712,14 @@ export default function Home(props) {
       //*********************************************************************************************************************************************************************** */
       //*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása. Ezen felül a kétkezes harc letiltása, ha a fegyvert két kézzel kell forgatni
       //*********************************************************************************************************************************************************************** */
-      arrayOfAllComplexMaeuvers = document.querySelectorAll(
+      arrayOfAllComplexManeuvers = document.querySelectorAll(
         "ul#selectableComplexManeuversList li input"
       );
       weaponsOptions = document.querySelectorAll("select#weapons option");
 
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
-        for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-          arrayOfAllComplexMaeuvers[i].disabled = true;
+        for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+          arrayOfAllComplexManeuvers[i].disabled = true;
         }
         findWeakSpotButton.disabled = true;
         attackOfOpportunityButton.disabled = true;
@@ -1701,8 +1727,8 @@ export default function Home(props) {
         // }
       }
       if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
-        for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-          arrayOfAllComplexMaeuvers[i].disabled = false;
+        for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+          arrayOfAllComplexManeuvers[i].disabled = false;
           twoWeaponAttackRadioButton.disabled = false;
         }
         findWeakSpotButton.disabled = false;
@@ -1734,11 +1760,11 @@ export default function Home(props) {
         initRolled == false &&
         checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false
       ) {
-        for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-          arrayOfAllComplexMaeuvers[i].disabled = true;
+        for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+          arrayOfAllComplexManeuvers[i].disabled = true;
         }
       }
-      if (reloadIsNeeded == false) {
+      if (reloadIsNeeded == false && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
         reloadButton.disabled = true;
         warningWindow.innerText = "";
       }
@@ -1880,24 +1906,95 @@ export default function Home(props) {
     //**********************************************************************************************************************
     //******************************************************************************************************************* */
 
-    // let selectAllSkillOptions = document.querySelectorAll(
-    //   "select#skills option"
-    // );
+    let selectAllSkillOptions = document.querySelectorAll(
+      "select#skills option"
+    );
     // let selectAllAttributeOptions = document.querySelectorAll(
     //   "select#attributes option"
     // );
-    // for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-    //   if (
-    //     arrayOfAllComplexMaeuvers[i].checked == true &&
-    //     arrayOfAllComplexMaeuvers[i].value == "Fegyvertörés"
-    //   ) {
-    //     for (let j = 0; j < selectAllSkillOptions.length; j++) {
-    //       if (selectAllSkillOptions[j].value.includes("Fegyvertörés")) {
-    //         skills.value = selectAllSkillOptions[j].value;
-    //         break;
-    //       }
-    //       skills.value = 0;
-    //     }
+if (fileFirstLoaded) {
+  weaponStyles = Object.entries(weaponStyles)
+  weaponStyleBonusesByLevelOfProficiency = Object.entries(weaponStyleBonusesByLevelOfProficiency)
+}
+
+function checkWhatBonusYouGetForSelectedManeuver(selectedManeuverValue){
+for (let i = 0; i < weaponStyleBonusesByLevelOfProficiency.length; i++) {
+  let weaponStyleName = Object.keys(weaponStyleBonusesByLevelOfProficiency[i])
+  // a fegyvertípus alap manőverei (stílusai)
+  let weaponsStyleBonusArray = Object.values(weaponStyleBonusesByLevelOfProficiency[i])
+
+  if (weaponStyleName == selectedManeuverValue && skills.value != 0) {
+    blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponsStyleBonusArray[0][professionLevel]}` )
+    break
+  } 
+  if(weaponStyleName == selectedManeuverValue && skills.value == 0) {
+    blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponsStyleBonusArray[0][0]}` )
+    break
+  }
+}
+}
+
+// megnézzük, hogy képzettek vagyunk-e az adott manőverben
+function checkIfCharacterHasProficiencyInSelectedManeuverWtihSelectedWeapon (weaponType, selectedManeuverValue){
+  for (let i = 0; i < weaponStyles.length; i++) {
+  let weaponTypeFromWeaponsThatHaveManeuvers = Object.keys(weaponStyles[i])
+  // a fegyvertípus alap manőverei (stílusai)
+  let maneuverAttachedToWeaponType = Object.values(weaponStyles[i])
+
+  if (weaponTypeFromWeaponsThatHaveManeuvers == weaponType) {
+   for (let k = 0; k < selectedWeaponStyles.length; k++) {
+    if (selectedWeaponStyles[k][0] == weaponType && 
+      !maneuverAttachedToWeaponType[0].includes(...selectedWeaponStyles[k][1])
+    ) {
+    maneuverAttachedToWeaponType[0].push(...selectedWeaponStyles[k][1])
+      }
+   } 
+  for (let l = 0; l < maneuverAttachedToWeaponType[0].length; l++) {
+    if (maneuverAttachedToWeaponType[0][l] == null) {
+      maneuverAttachedToWeaponType[0].splice(l,1)
+    }
+    
+  } 
+    // magic number 5, mivel ennyi a maximum egy fegyverhez csatolható stílus
+          for (let j = 0; j < 5; j++) {
+            // professionlevel -1 kell, mert az induló fok az 1, viszont a manőver index 0-ról indul
+            if(
+            (maneuverAttachedToWeaponType[0][j] == selectedManeuverValue && professionLevel-1 >= j) 
+            
+          ){
+              return true
+            }
+          }
+          return false
+        } 
+      }
+      return false
+
+    }
+if (initRolled) {
+  for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+    if (arrayOfAllComplexManeuvers[i].checked && 
+      arrayOfAllComplexManeuvers[i].value !="Roham" &&
+      arrayOfAllComplexManeuvers[i].value !="Orvtámadás" &&
+      arrayOfAllComplexManeuvers[i].value !="Kétkezes harc"
+    ) {
+      for (let j = 0; j < selectAllSkillOptions.length; j++) {
+        if (selectAllSkillOptions[j].value.includes(currentlySelectedWeapon.w_type) && 
+        checkIfCharacterHasProficiencyInSelectedManeuverWtihSelectedWeapon(
+          currentlySelectedWeapon.w_type, arrayOfAllComplexManeuvers[i].value
+        )
+      ) {
+          skills.value = selectAllSkillOptions[j].value;
+          break;
+        }
+        skills.value = 0;     
+      }
+      checkWhatBonusYouGetForSelectedManeuver(arrayOfAllComplexManeuvers[i].value)
+      evaluateSkillOrAttributeCheckBase();
+      break
+    }
+  }
+}
     //     for (let i = 0; i < selectAllAttributeOptions.length; i++) {
     //       if (selectAllAttributeOptions[i].innerText == "Erő") {
     //         attributes.value = selectAllAttributeOptions[i].value;
@@ -1911,8 +2008,8 @@ export default function Home(props) {
     //     break;
     //   }
       // if (
-      //   arrayOfAllComplexMaeuvers[i].checked == true &&
-      //   arrayOfAllComplexMaeuvers[i].value == "Lefegyverzés"
+      //   arrayOfAllComplexManeuvers[i].checked == true &&
+      //   arrayOfAllComplexManeuvers[i].value == "Lefegyverzés"
       // ) {
       //   disarmWasUsedThisRound = true;
       //   for (let j = 0; j < selectAllSkillOptions.length; j++) {
@@ -1966,10 +2063,10 @@ export default function Home(props) {
       }
 
       //ha volt kezdeményező dobás
-      for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-        if (arrayOfAllComplexMaeuvers[i].checked == true) {
+      for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+        if (arrayOfAllComplexManeuvers[i].checked == true) {
           totalActionCostOfAttackSetter(
-            arrayOfAllComplexMaeuvers[i].parentElement.value
+            arrayOfAllComplexManeuvers[i].parentElement.value
           );
         }
       }
@@ -2088,11 +2185,11 @@ export default function Home(props) {
         }
       }
       if (attackOfOpportunityOn == false) {
-        for (let i = 0; i < arrayOfAllComplexMaeuvers.length; i++) {
-          if (arrayOfAllComplexMaeuvers[i].checked == true) {
-            arrayOfAllComplexMaeuvers[i].checked = false;
+        for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+          if (arrayOfAllComplexManeuvers[i].checked == true) {
+            arrayOfAllComplexManeuvers[i].checked = false;
             totalActionCostOfAttackSetter(
-              -arrayOfAllComplexMaeuvers[i].parentElement.value
+              -arrayOfAllComplexManeuvers[i].parentElement.value
             );
           }
         }
