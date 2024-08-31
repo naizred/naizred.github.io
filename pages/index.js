@@ -514,38 +514,22 @@ export default function Home(props) {
       specialEffect.innerText = specialModifiers[1];
     } else if (lightDice == darkDice && specialCases2.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[2];
-      if (
-        initRolled == true &&
-        disarmRadioButton.checked == false &&
-        weaponBreakRadioButton.checked == false
-      ) {
+      if (initRolled == true) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
       }
     } else if (lightDice == darkDice && specialCases3.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[3];
-      if (
-        initRolled == true &&
-        disarmRadioButton.checked == false &&
-        weaponBreakRadioButton.checked == false
-      ) {
+      if (initRolled == true) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 2;
       }
     } else if (lightDice == darkDice && darkDice == 1) {
       specialEffect.innerText = specialModifiers[0];
-      if (
-        initRolled == true &&
-        disarmRadioButton.checked == false &&
-        weaponBreakRadioButton.checked == false
-      ) {
+      if (initRolled == true) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 3;
       }
     } else if (lightDice == darkDice && darkDice == 10) {
       specialEffect.innerText = specialModifiers[4];
-      if (
-        initRolled == true &&
-        disarmRadioButton.checked == false &&
-        weaponBreakRadioButton.checked == false
-      ) {
+      if (initRolled == true) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 3;
       }
     }
