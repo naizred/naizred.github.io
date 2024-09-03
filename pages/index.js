@@ -257,7 +257,122 @@ let weaponStyleBonusesByLevelOfProficiency = [
   {"Távoltartás": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]}
 ]
 
+export let maneuverAttachedToWeaponType
+let filteredArrayByWeaponSkills
+let filteredArrayByCurrentlySelectedWeaponType
+// erre azon fegyverek miatt van szükség, amik több típusba is beletartoznak
+let weaponTypeAndLevelAndStyleArray = []
+
+function checkAndReturnProficiencyLevelInWeapon(weaponType){
+for (let i = 0; i < filteredArrayByWeaponSkills.length; i++) {
+  if (weaponType == filteredArrayByWeaponSkills[i].subSkill) {
+    return filteredArrayByWeaponSkills[i].level
+  }
+}
+return 0
+}
+
+function checkAndModifyCurrentWeaponStyles(weaponType){
+  for (let i = 0; i < weaponStyles.length; i++) {
+  let weaponTypeFromWeaponsThatHaveManeuvers = Object.keys(weaponStyles[i])
+  // a fegyvertípus alap manőverei (stílusai)
+  maneuverAttachedToWeaponType = Object.values(weaponStyles[i])
+
+  if (weaponTypeFromWeaponsThatHaveManeuvers == weaponType) {
+   for (let k = 0; k < selectedWeaponStyles.length; k++) {
+    if (selectedWeaponStyles[k][0] == weaponType &&
+      !maneuverAttachedToWeaponType[0].includes(...selectedWeaponStyles[k][1]) &&
+      checkAndReturnProficiencyLevelInWeapon(weaponType) >= 3 // ez a feltétel azért szükséges, mert lehet, mert ha valaki Kf-ről visszavesz egy fegyvert Af-re, akkor a Kf-en választott extra stílus nem törlődik
+    ) {
+    maneuverAttachedToWeaponType[0].push(...selectedWeaponStyles[k][1])
+  }
+}
+// speciális eset, amikor csak If-en vagyunk képzettek, ilyenkor csak a fegyver 1.stílusát lehet If-en alkalmazni
+if (checkAndReturnProficiencyLevelInWeapon(weaponType) == 1) {
+  maneuverAttachedToWeaponType[0] = [maneuverAttachedToWeaponType[0][0]]
+}
+   // védelem, ha valaki nem választott stílus valamelyik fokon
+  for (let l = 0; l < maneuverAttachedToWeaponType[0].length; l++) {
+    if (maneuverAttachedToWeaponType[0][l] == null) {
+      maneuverAttachedToWeaponType[0].splice(l,1)
+            }
+          }
+          break
+        }
+      }
+    }
+// visszaad egy array-t a manőverhez (stílushoz) tartozó fegyvertípussal, amiben képzett a karakter, és a képzettség fokát.
+export function handleWhenWeaponHasMultipleTypes(weaponType, usedStyle){
+  let highestProficienyForWeaponStyle = 0
+  let weaponTypeForhighestProficienyForWeaponStyle = ""
+  let currentWeaponMultipleTypeArray = weaponType.split("/")
+  for (let i = 0; i < weaponTypeAndLevelAndStyleArray.length; i++) {
+    for (let j = 0; j < currentWeaponMultipleTypeArray.length; j++) {
+      let currentTypeFromWeaponTypeAndLevelAndStyleArray = weaponTypeAndLevelAndStyleArray[i][0]
+      if(currentTypeFromWeaponTypeAndLevelAndStyleArray == currentWeaponMultipleTypeArray[j]){
+          for (let k = 0; k < weaponTypeAndLevelAndStyleArray[i][2].length; k++) {
+            let usedStyleFromWeaponTypeAndLevelAndStyleArray = weaponTypeAndLevelAndStyleArray[i][2][k]
+            if (usedStyleFromWeaponTypeAndLevelAndStyleArray == usedStyle && weaponTypeAndLevelAndStyleArray[i][1]>=highestProficienyForWeaponStyle) {
+              // az 1es index a képzettség foka
+              highestProficienyForWeaponStyle = weaponTypeAndLevelAndStyleArray[i][1]
+              weaponTypeForhighestProficienyForWeaponStyle = weaponTypeAndLevelAndStyleArray[i][0]
+            }
+          }
+      }
+    }
+  }
+  return [weaponTypeForhighestProficienyForWeaponStyle, highestProficienyForWeaponStyle]
+}
+
+export function checkWhatBonusYouGetForSelectedManeuver(selectedManeuverValue, professionLevelIndex){
+  for (let i = 0; i < weaponStyleBonusesByLevelOfProficiency.length; i++) {
+    let weaponStyleName = Object.keys(weaponStyleBonusesByLevelOfProficiency[i])
+    // a fegyvertípus alap manőverei (stílusai)
+    let weaponsStyleBonusArray = Object.values(weaponStyleBonusesByLevelOfProficiency[i])
+  
+    if (weaponStyleName == selectedManeuverValue && professionLevelIndex != 0) {
+      blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponsStyleBonusArray[0][professionLevelIndex]}` )
+      break
+    } 
+    if(weaponStyleName == selectedManeuverValue && professionLevelIndex == 0) {
+      blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponsStyleBonusArray[0][0]}` )
+      break
+    }
+  }
+  }
+
+export function setSkillForManeuver (){
+if (initRolled) {
+  let selectAllSkillOptions = document.querySelectorAll(
+    "select#skills option"
+  );
+  weaponTypeAndLevelAndStyleArray
+  for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+    if (arrayOfAllComplexManeuvers[i].checked && 
+      arrayOfAllComplexManeuvers[i].value !="Roham" &&
+      arrayOfAllComplexManeuvers[i].value !="Orvtámadás" &&
+      arrayOfAllComplexManeuvers[i].value !="Kétkezes harc"
+    ) {
+      for (let j = 0; j < selectAllSkillOptions.length; j++) {
+        let weaponTypeAttachedToCurrentlySelectedManeuver = handleWhenWeaponHasMultipleTypes(currentlySelectedWeapon.w_type, arrayOfAllComplexManeuvers[i].value)
+        console.log(weaponTypeAttachedToCurrentlySelectedManeuver)
+        if (selectAllSkillOptions[j].value.includes(weaponTypeAttachedToCurrentlySelectedManeuver[0]) && 
+        weaponTypeAttachedToCurrentlySelectedManeuver[0] != ""
+      ) {
+          skills.value = selectAllSkillOptions[j].value;
+          break;
+        }
+        skills.value = 0;     
+      }
+      evaluateSkillOrAttributeCheckBase();
+      break
+    }
+  }
+}
+}
+
 let selectedWeaponStyles = []
+let professionLevel;
 export let allActiveBuffs = [];
 export let mgtCompensation = 0;
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -447,7 +562,6 @@ export default function Home(props) {
   OrderFunc(props.weapons);
   let damageOfFists = "1k10";
   let destroyerLevel;
-  let professionLevel;
   let schoolsOfMagic = [
     "Magas Mágia",
     "Bárdmágia",
@@ -510,26 +624,36 @@ export default function Home(props) {
     originalLightDice = lightDice;
 
     // Itt vannak a nevezetes dobások
+    // a fegyvertörés és lefegyverzés ki van véve, mert azok nem támadódobások, tehát nem
+    // lehet velük cselekedetet veszíteni vagy nyerni
     if (lightDice == darkDice && specialCases1.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[1];
     } else if (lightDice == darkDice && specialCases2.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[2];
-      if (initRolled == true) {
+      if (initRolled == true && 
+        disarmRadioButton.checked == false &&
+        weaponBreakRadioButton.checked == false) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
       }
     } else if (lightDice == darkDice && specialCases3.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[3];
-      if (initRolled == true) {
+      if (initRolled == true && 
+        disarmRadioButton.checked == false &&
+        weaponBreakRadioButton.checked == false) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 2;
       }
     } else if (lightDice == darkDice && darkDice == 1) {
       specialEffect.innerText = specialModifiers[0];
-      if (initRolled == true) {
+      if (initRolled == true && 
+        disarmRadioButton.checked == false &&
+        weaponBreakRadioButton.checked == false) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 3;
       }
     } else if (lightDice == darkDice && darkDice == 10) {
       specialEffect.innerText = specialModifiers[4];
-      if (initRolled == true) {
+      if (initRolled == true && 
+        disarmRadioButton.checked == false &&
+        weaponBreakRadioButton.checked == false) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 3;
       }
     }
@@ -963,9 +1087,14 @@ export default function Home(props) {
       charLevel.innerText = `${JSON.parse(reader.result).level}. szintű`;
       charRace.innerText = JSON.parse(reader.result).raceKey;
       charName.innerText = JSON.parse(reader.result).charName;
+      // szűrés minden fegyverhasználatra
+      filteredArrayByWeaponSkills = JSON.parse(reader.result).skills.filter(
+        (name) =>
+          name.name == "Fegyverhasználat"
+      );
 
       //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
-      let filteredArrayByWeaponType = JSON.parse(reader.result).skills.filter(
+      filteredArrayByCurrentlySelectedWeaponType = JSON.parse(reader.result).skills.filter(
         (name) =>
           name.name == "Fegyverhasználat" &&
           currentlySelectedWeapon.w_type.includes(name.subSkill)
@@ -1100,9 +1229,11 @@ export default function Home(props) {
       //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
       let allLevelsArray = [];
 
-      if (filteredArrayByWeaponType.length != 0) {
-        for (let i = 0; i < filteredArrayByWeaponType.length; i++) {
-          allLevelsArray.push(filteredArrayByWeaponType[i].level);
+      console.log(filteredArrayByCurrentlySelectedWeaponType)
+
+      if (filteredArrayByCurrentlySelectedWeaponType.length != 0) {
+        for (let i = 0; i < filteredArrayByCurrentlySelectedWeaponType.length; i++) {
+          allLevelsArray.push(filteredArrayByCurrentlySelectedWeaponType[i].level);
         }
         professionLevel = parseInt(Math.max(...allLevelsArray));
       } else {
@@ -1691,7 +1822,13 @@ export default function Home(props) {
 
         const response = await fetch(endpoint, options);
         fetchCharacterData(charName.innerText);
+              // itt feltöltjük a weaponTypeAndLevelAndStyleArray-t a fegyverkategóriával és a hozzá tartozó képzettség szintekkel
+              for (let i = 0; i < filteredArrayByWeaponSkills.length; i++) {
+                checkAndModifyCurrentWeaponStyles(filteredArrayByWeaponSkills[i].subSkill)
+                weaponTypeAndLevelAndStyleArray.push([filteredArrayByWeaponSkills[i].subSkill, filteredArrayByWeaponSkills[i].level, maneuverAttachedToWeaponType[0]])
+              }
       }
+
       fileFirstLoaded = false;
       //*********************************************************************************************************************************************************************** */
       //*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása. Ezen felül a kétkezes harc letiltása, ha a fegyvert két kézzel kell forgatni
@@ -1890,9 +2027,6 @@ export default function Home(props) {
     //**********************************************************************************************************************
     //******************************************************************************************************************* */
 
-    let selectAllSkillOptions = document.querySelectorAll(
-      "select#skills option"
-    );
     // let selectAllAttributeOptions = document.querySelectorAll(
     //   "select#attributes option"
     // );
@@ -1901,84 +2035,9 @@ if (fileFirstLoaded) {
   weaponStyleBonusesByLevelOfProficiency = Object.entries(weaponStyleBonusesByLevelOfProficiency)
 }
 
-function checkWhatBonusYouGetForSelectedManeuver(selectedManeuverValue){
-for (let i = 0; i < weaponStyleBonusesByLevelOfProficiency.length; i++) {
-  let weaponStyleName = Object.keys(weaponStyleBonusesByLevelOfProficiency[i])
-  // a fegyvertípus alap manőverei (stílusai)
-  let weaponsStyleBonusArray = Object.values(weaponStyleBonusesByLevelOfProficiency[i])
-
-  if (weaponStyleName == selectedManeuverValue && skills.value != 0) {
-    blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponsStyleBonusArray[0][professionLevel]}` )
-    break
-  } 
-  if(weaponStyleName == selectedManeuverValue && skills.value == 0) {
-    blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponsStyleBonusArray[0][0]}` )
-    break
-  }
-}
-}
-
 // megnézzük, hogy képzettek vagyunk-e az adott manőverben
-function checkIfCharacterHasProficiencyInSelectedManeuverWtihSelectedWeapon (weaponType, selectedManeuverValue){
-  for (let i = 0; i < weaponStyles.length; i++) {
-  let weaponTypeFromWeaponsThatHaveManeuvers = Object.keys(weaponStyles[i])
-  // a fegyvertípus alap manőverei (stílusai)
-  let maneuverAttachedToWeaponType = Object.values(weaponStyles[i])
 
-  if (weaponTypeFromWeaponsThatHaveManeuvers == weaponType) {
-   for (let k = 0; k < selectedWeaponStyles.length; k++) {
-    if (selectedWeaponStyles[k][0] == weaponType && 
-      !maneuverAttachedToWeaponType[0].includes(...selectedWeaponStyles[k][1])
-    ) {
-    maneuverAttachedToWeaponType[0].push(...selectedWeaponStyles[k][1])
-      }
-   } 
-  for (let l = 0; l < maneuverAttachedToWeaponType[0].length; l++) {
-    if (maneuverAttachedToWeaponType[0][l] == null) {
-      maneuverAttachedToWeaponType[0].splice(l,1)
-    }
-    
-  } 
-    // magic number 5, mivel ennyi a maximum egy fegyverhez csatolható stílus
-          for (let j = 0; j < 5; j++) {
-            // professionlevel -1 kell, mert az induló fok az 1, viszont a manőver index 0-ról indul
-            if(
-            (maneuverAttachedToWeaponType[0][j] == selectedManeuverValue && professionLevel-1 >= j) 
-            
-          ){
-              return true
-            }
-          }
-          return false
-        } 
-      }
-      return false
-
-    }
-if (initRolled) {
-  for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
-    if (arrayOfAllComplexManeuvers[i].checked && 
-      arrayOfAllComplexManeuvers[i].value !="Roham" &&
-      arrayOfAllComplexManeuvers[i].value !="Orvtámadás" &&
-      arrayOfAllComplexManeuvers[i].value !="Kétkezes harc"
-    ) {
-      for (let j = 0; j < selectAllSkillOptions.length; j++) {
-        if (selectAllSkillOptions[j].value.includes(currentlySelectedWeapon.w_type) && 
-        checkIfCharacterHasProficiencyInSelectedManeuverWtihSelectedWeapon(
-          currentlySelectedWeapon.w_type, arrayOfAllComplexManeuvers[i].value
-        )
-      ) {
-          skills.value = selectAllSkillOptions[j].value;
-          break;
-        }
-        skills.value = 0;     
-      }
-      checkWhatBonusYouGetForSelectedManeuver(arrayOfAllComplexManeuvers[i].value)
-      evaluateSkillOrAttributeCheckBase();
-      break
-    }
-  }
-}
+setSkillForManeuver()
     //     for (let i = 0; i < selectAllAttributeOptions.length; i++) {
     //       if (selectAllAttributeOptions[i].innerText == "Erő") {
     //         attributes.value = selectAllAttributeOptions[i].value;

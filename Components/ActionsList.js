@@ -20,6 +20,10 @@ import {
   numberOfAttacksInTheRound,
   fetchCharacterData,
   fetchCharacterDataOnlyGameId,
+  maneuverAttachedToWeaponType,
+  handleWhenWeaponHasMultipleTypes,
+  checkWhatBonusYouGetForSelectedManeuver,
+  setSkillForManeuver,
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -171,6 +175,13 @@ function ActionList(props) {
     }
   }
   function handleComplexManeuverRadio(event) {
+    if(initRolled){
+      let professionLevelIndex = handleWhenWeaponHasMultipleTypes(currentlySelectedWeapon.w_type, event.target.value)[1]
+      console.log(handleWhenWeaponHasMultipleTypes(currentlySelectedWeapon.w_type, event.target.value))
+      // kiírja, hogy milyen bónusz várható
+      checkWhatBonusYouGetForSelectedManeuver(event.target.value, professionLevelIndex)
+     setSkillForManeuver();
+    }
     currentActionExtraCost = event.target.parentElement.value;
     if (
       parseInt(numberOfActions.innerText) < 4 &&
@@ -345,6 +356,9 @@ function ActionList(props) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
         event.target.disabled = true;
+        for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+          arrayOfAllComplexManeuvers[i].checked = false;
+        } 
       }
       if (
         nameOfManeuver.includes("Gyenge") &&
