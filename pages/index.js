@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
+import weaponStats from "../json/weapons.json"
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
 import ActionList, {
   assassinationToFalse,
@@ -146,18 +147,18 @@ export const getStaticProps = async () => {
   let races = JSON.parse(
     fs.readFileSync(jsonDirectory + "/races.json", "utf8")
   );
-  let weapons = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/weapons.json", "utf8")
-  );
+  // let weapons = JSON.parse(
+  //   fs.readFileSync(jsonDirectory + "/weapons.json", "utf8")
+  // );
   let spellAttributes = JSON.parse(
     fs.readFileSync(jsonDirectory + "/spellAttributes.json", "utf8")
   );
   let spellsAspDescript = JSON.parse(
     fs.readFileSync(jsonDirectory + "/spellsAspDescript.json", "utf8")
   );
-  let allSpells = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/allSpells.json", "utf8")
-  );
+  // let allSpells = JSON.parse(
+  //   fs.readFileSync(jsonDirectory + "/allSpells.json", "utf8")
+  // );
   return {
     props: {
       allSkills,
@@ -166,9 +167,9 @@ export const getStaticProps = async () => {
       gods,
       psiDisciplines,
       races,
-      weapons,
+      // weapons,
       spellAttributes,
-      allSpells,
+      // allSpells,
       spellsAspDescript,
     },
   };
@@ -410,7 +411,7 @@ export let allMagicSubskillsObject = {};
 export let arrayOfAllComplexManeuvers;
 export let currentlySelectedWeapon;
 export function currentlySelectedWeaponChanger(props, newWeapon) {
-  currentlySelectedWeapon = props.weapons.find(
+  currentlySelectedWeapon = weaponStats.find(
     (name) => name.w_name === `${newWeapon}`
   );
 }
@@ -506,7 +507,6 @@ export function modifierFromNumberOfAttacksInTheRoundNullifier() {
 //********************************************************* */
 export default function Home(props) {
   //egyedi rendező function kellett, mert a sort nem rendezte a fegyverek nevét valamiért. Valószínűleg a karakterkódolással van gondja a fájl beolvasása után
-
   let alphabets = [
     "A",
     "Á",
@@ -547,7 +547,7 @@ export default function Home(props) {
   let aChar;
   let bChar;
   function OrderFunc() {
-    props.weapons.sort(function (a, b) {
+    weaponStats.sort(function (a, b) {
       return CharCompare(a.w_name, b.w_name, 0);
     });
   }
@@ -559,7 +559,7 @@ export default function Home(props) {
   }
 
   //egyedi sorba rendező function hívás
-  OrderFunc(props.weapons);
+  OrderFunc(weaponStats);
   let damageOfFists = "1k10";
   let destroyerLevel;
   let schoolsOfMagic = [
@@ -1007,21 +1007,21 @@ export default function Home(props) {
         fileFirstLoaded == true &&
         JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null
       ) {
-        for (let i = 0; i < props.weapons.length; i++) {
+        for (let i = 0; i < weaponStats.length; i++) {
           if (
-            props.weapons[i].w_name.includes(
+            weaponStats[i].w_name.includes(
               JSON.parse(reader.result).weaponSets[indexOfFirstWeapon]
                 .rightWeapon
             )
           ) {
-            weapons.value = props.weapons[i].w_name;
+            weapons.value = weaponStats[i].w_name;
             if (
-              props.weapons[i].w_name.includes("egykézzel") ||
-              props.weapons[i].w_name.includes("dobva")
+              weaponStats[i].w_name.includes("egykézzel") ||
+              weaponStats[i].w_name.includes("dobva")
             ) {
-              for (let j = i; j < props.weapons.length; j++) {
-                if (props.weapons[j].w_name.includes("kétkézzel")) {
-                  weapons.value = props.weapons[j].w_name;
+              for (let j = i; j < weaponStats.length; j++) {
+                if (weaponStats[j].w_name.includes("kétkézzel")) {
+                  weapons.value = weaponStats[j].w_name;
                   break;
                 }
               }
@@ -1075,10 +1075,10 @@ export default function Home(props) {
       }
       armorHandler();
       //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból
-      currentlySelectedWeapon = props.weapons.find(
+      currentlySelectedWeapon = weaponStats.find(
         (name) => name.w_name === `${weapons.value}`
       );
-      let currentlySelectedOffHand = props.weapons.find(
+      let currentlySelectedOffHand = weaponStats.find(
         (name) => name.w_name === `${offHand.value}`
       );
 
@@ -2321,7 +2321,7 @@ setSkillForManeuver()
               id="weapons"
               name="weapons"
               onChange={handleWeaponOrShieldChange}>
-              {props.weapons.map((e) => {
+              {weaponStats.map((e) => {
                 return <option key={e.w_id}>{e.w_name}</option>;
               })}
             </select>
@@ -2352,7 +2352,7 @@ setSkillForManeuver()
               id="offHand"
               name="offHand"
               onChange={handleWeaponOrShieldChange}>
-              {props.weapons
+              {weaponStats
                 .filter((e) => e.w_type == "PAJ")
                 .map((e) => {
                   return <option key={e.w_id}>{e.w_name}</option>;

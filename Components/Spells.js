@@ -1,4 +1,5 @@
 import styles from "../styles/actionlist.module.css";
+import allSpells from '../json/allSpells.json'
 import {
   allMagicSubskillsObject,
   allResultsCleaner,
@@ -146,88 +147,11 @@ export function spellCastingFailure(anyOtherCondition = true) {
     actionsNeededToBeAbleToCastAgain = 0;
   }
 }
-function spellCastingCheckSetter(){let spellAttributesArray = Object.entries(props.spellAttributes[0]);
-      for (let i = 0; i < spellAttributesArray.length; i++) {
-        console.log(spellAttributesArray[i][0]);
-        let spellSubskillAttributesArray = Object.entries(
-          spellAttributesArray[i][1]
-        );
-        // console.log(spellSubskillAttributesArray);
-        let spellAttribute1name;
-        let spellAttribute2name;
-        if (
-          spellAttributesArray[i][0] ==
-          filteredArrayForNameOfHighestMagicalSkill[0].name
-        ) {
-          for (let j = 0; j < spellSubskillAttributesArray.length; j++) {
-            console.log(
-              spellSubskillAttributesArray[j],
-              spellSubskillAttributesArray[j][1],
-              spellSubskillAttributesArray[j][0],
-              magicSubSkillSelect.value.slice(1)
-            );
-            if (
-              spellSubskillAttributesArray[j][0] ==
-              magicSubSkillSelect.value.slice(1)
-            ) {
-              for (let k = 0; k < selectAllAttributeOptions.length; k++) {}
-              spellAttribute1name = spellSubskillAttributesArray[j][1][0];
-              spellAttribute2name = spellSubskillAttributesArray[j][1][1];
-              console.log(spellAttribute1name, spellAttribute2name);
-              break;
-            }
-          }
-        }
-        // össze kell hasonlítani, melyik érték a nagyobb
-        if (spellAttribute1name || spellAttribute2name) {
-          let spellAttribute1value = 0;
-          let spellAttribute2value = 0;
-          for (let k = 0; k < selectAllAttributeOptions.length; k++) {
-            if (selectAllAttributeOptions[k].innerText == spellAttribute1name) {
-              spellAttribute1value = parseInt(
-                selectAllAttributeOptions[k].value
-              );
-            }
-            if (
-              selectAllAttributeOptions[k].innerText == spellAttribute2name &&
-              spellAttribute2name
-            ) {
-              spellAttribute2value = parseInt(
-                selectAllAttributeOptions[k].value
-              );
-            }
-            if (spellAttribute1value >= spellAttribute2value) {
-              attributes.value = `${
-                spellAttribute1value + "," + spellAttribute1name
-              }`;
-            }
-            if (spellAttribute1value < spellAttribute2value) {
-              attributes.value = `${
-                spellAttribute2value + "," + spellAttribute2name
-              }`;
-            }
-          }
-          console.log(spellAttribute1value, spellAttribute2value);
-          break;
-        }
-      }
-      for (let j = 0; j < selectAllSkillOptions.length; j++) {
-        if (
-          selectAllSkillOptions[j].value.includes(
-            filteredArrayForNameOfHighestMagicalSkill[0].name
-          )
-        ) {
-          skills.value = selectAllSkillOptions[j].value;
-          break;
-        }
-      }
-    }
 let filteredSpellsBySubSkillAndLevel;
 let manaNeededForTheSpell = 0;
 export let currentSpell;
 
 function Spells(props) {
-  
   // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
   function spellCastingCheckSetter(){
     let spellAttributesArray = Object.entries(props.spellAttributes[0]);
@@ -399,7 +323,7 @@ function Spells(props) {
         for (let i = 0; i < allActiveBuffs.length; i++) {
 
           if(allActiveBuffs[i].innerText.includes("liturgia")){
-            let currentLirurgy = props.allSpells.find((spell)=>allActiveBuffs[i].innerText.includes(spell.name))
+            let currentLirurgy = allSpells.find((spell)=>allActiveBuffs[i].innerText.includes(spell.name))
             //console.log(currentLirurgy, allActiveBuffs[i].innerText)
             liturgyWrapper.style.display = "grid";
             liturgyPowerInfo.style.display = "grid";
@@ -435,7 +359,7 @@ function Spells(props) {
     // az adott mágikus képzettség foka a 0. indexen van elrejtve
     // console.log(magicSubSkillSelect.value[0], magicSubSkillSelect.value.slice(1))
     if (magicSubSkillSelect.value.slice(1).includes("fohász")) {
-      filteredSpellsBySubSkillAndLevel = props.allSpells.filter(
+      filteredSpellsBySubSkillAndLevel = allSpells.filter(
         (spell) =>
           magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) &&
           spell.fok <= parseInt(magicSubSkillSelect.value[0]) &&
@@ -443,7 +367,7 @@ function Spells(props) {
             spell.god == currentGodWorshippedByPlayer)
       );
     } else {
-      filteredSpellsBySubSkillAndLevel = props.allSpells.filter(
+      filteredSpellsBySubSkillAndLevel = allSpells.filter(
         (spell) =>
           magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) &&
           spell.fok <= parseInt(magicSubSkillSelect.value[0])
