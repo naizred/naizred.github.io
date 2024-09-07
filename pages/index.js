@@ -245,7 +245,12 @@ let weaponStyles = [
   { "HAS": ["Pusztítás", "Kínokozás"] },
   { "SZÁ": ["Távoltartás", "Lefegyverzés"] },
   { "LOV": ["Taszítás", "Távoltartás"] },
-  { "PAJ": ["Taszítás", "Belharc"] }
+  { "PAJ": ["Taszítás", "Belharc"] },
+  { "Kardművész": ["Lefegyverzés", "Pusztítás", "Fegyvertörés", "Távoltartás", "Belharc"] },
+  { "Fekete láng": ["Távoltartás", "Fegyvertörés", "Taszítás", "Lefegyverzés", "Pusztítás"] },
+  { "Ezer víz útja": ["Belharc", "Birkózás", "Lefegyverzés", "Taszítás", "Kínokozás"] },
+  { "Sárga kolostor": ["Pusztítás", "Kínokozás", "Birkózás", "Távoltartás", "Belharc"] },
+  { "Óvó szél": ["Taszítás", "Lefegyverzés", "Távoltartás", "Kínokozás", "Birkózás"] }
 ]
 let weaponStyleBonusesByLevelOfProficiency = [
   {"Belharc": ["-0,5 (-1) HMO", "-1 (-2) HMO", "-1,5 (-3) HMO", "-2 (-4) HMO", "-2,5 (-5) HMO", "-3 (-6) HMO"]},
@@ -311,7 +316,8 @@ export function handleWhenWeaponHasMultipleTypes(weaponType, usedStyle){
     for (let j = 0; j < currentWeaponMultipleTypeArray.length; j++) {
       let currentTypeFromWeaponTypeAndLevelAndStyleArray = weaponTypeAndLevelAndStyleArray[i][0]
       if(currentTypeFromWeaponTypeAndLevelAndStyleArray == currentWeaponMultipleTypeArray[j]){
-          for (let k = 0; k < weaponTypeAndLevelAndStyleArray[i][2].length; k++) {
+          for (let k = 0; k < weaponTypeAndLevelAndStyleArray[i][1]; k++) // itt a cilkus hossza a képzettség fokától kell függjön, nem a stílus array-től, mert a HM iskolák mind az 5 stílusa előre meghatározott
+            {
             let usedStyleFromWeaponTypeAndLevelAndStyleArray = weaponTypeAndLevelAndStyleArray[i][2][k]
             if (usedStyleFromWeaponTypeAndLevelAndStyleArray == usedStyle && weaponTypeAndLevelAndStyleArray[i][1]>=highestProficienyForWeaponStyle) {
               // az 1es index a képzettség foka
@@ -347,7 +353,6 @@ if (initRolled) {
   let selectAllSkillOptions = document.querySelectorAll(
     "select#skills option"
   );
-  weaponTypeAndLevelAndStyleArray
   for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
     if (arrayOfAllComplexManeuvers[i].checked && 
       arrayOfAllComplexManeuvers[i].value !="Roham" &&
@@ -356,7 +361,6 @@ if (initRolled) {
     ) {
       for (let j = 0; j < selectAllSkillOptions.length; j++) {
         let weaponTypeAttachedToCurrentlySelectedManeuver = handleWhenWeaponHasMultipleTypes(currentlySelectedWeapon.w_type, arrayOfAllComplexManeuvers[i].value)
-        console.log(weaponTypeAttachedToCurrentlySelectedManeuver)
         if (selectAllSkillOptions[j].value.includes(weaponTypeAttachedToCurrentlySelectedManeuver[0]) && 
         weaponTypeAttachedToCurrentlySelectedManeuver[0] != ""
       ) {
