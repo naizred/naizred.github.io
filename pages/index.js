@@ -2,7 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
-import weaponStats from "../json/weapons.json"
+import weaponStats from "../json/weaponStats.json"
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
 import ActionList, {
   assassinationToFalse,
@@ -920,6 +920,8 @@ export default function Home(props) {
       allAimedBodyParts[i].checked = false;
     }
     allResultsCleaner();
+    skills.value = 0
+    skillCheckBase.innerText = ""
 
     if (initRolled == true) {
       weapons.disabled = true;
@@ -1034,6 +1036,22 @@ export default function Home(props) {
           }
         }
       }
+      let parryWeaponToSelectAtImport
+      if (JSON.parse(reader.result).weaponSets[indexOfFirstWeapon]) {
+        parryWeaponToSelectAtImport = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].leftWeapon
+      }
+      console.log(parryWeaponToSelectAtImport)
+
+        for (let i = 0; i < weaponStats.length; i++) {
+          if (parryWeaponToSelectAtImport &&
+            weaponStats[i].w_name.includes(parryWeaponToSelectAtImport) && 
+            JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].detailsMode == "parry"
+          ) {
+            offHand.value = weaponStats[i].w_name;
+            break;
+          }
+        }
+      
       let filteredArrayIfHasHeavyArmorSkill = JSON.parse(
         reader.result
       ).skills.filter((name) => name.name == "Vértviselet");
@@ -1232,8 +1250,6 @@ export default function Home(props) {
       }
       //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
       let allLevelsArray = [];
-
-      console.log(filteredArrayByCurrentlySelectedWeaponType)
 
       if (filteredArrayByCurrentlySelectedWeaponType.length != 0) {
         for (let i = 0; i < filteredArrayByCurrentlySelectedWeaponType.length; i++) {
@@ -2041,7 +2057,6 @@ if (fileFirstLoaded) {
 
 // megnézzük, hogy képzettek vagyunk-e az adott manőverben
 
-setSkillForManeuver()
     //     for (let i = 0; i < selectAllAttributeOptions.length; i++) {
     //       if (selectAllAttributeOptions[i].innerText == "Erő") {
     //         attributes.value = selectAllAttributeOptions[i].value;
