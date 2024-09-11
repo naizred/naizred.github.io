@@ -121,7 +121,9 @@ export function spellCastingSuccessful() {
   //     if (
   //       allActiveBuffs[i].innerText == "" ||
   //       (allActiveBuffs[i].innerText != "" &&
-  //         allActiveBuffs[i].innerText.includes("folyamatos"))
+  //         allActiveBuffs[i].innerText.includes("folyamatos") ||
+  //         allActiveBuffs[i].innerText != "" &&
+  //         allActiveBuffs[i].innerText.toLowerCase().includes("ismétlődő"))
   //     ){
   //       allActiveBuffs[i].innerText = currentSpell.name;
   //       allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
@@ -309,9 +311,7 @@ function Spells(props) {
       //******************************************************************************* */
       if (
         filteredArrayForNameOfHighestMagicalSkill &&
-        (filteredArrayForNameOfHighestMagicalSkill[0].name.includes(
-          "Szakrál"
-        ) ||
+        (filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Szakrál") ||
           filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Tűzvar") ||
           filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Bárd") || 
           filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Bosz"))
@@ -361,7 +361,7 @@ function Spells(props) {
     if (magicSubSkillSelect.value.slice(1).includes("fohász")) {
       filteredSpellsBySubSkillAndLevel = allSpells.filter(
         (spell) =>
-          magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) &&
+          spell.magicSubclass.includes(magicSubSkillSelect.value.slice(1)) &&
           spell.fok <= parseInt(magicSubSkillSelect.value[0]) &&
           (spell.god == "Általános" ||
             spell.god == currentGodWorshippedByPlayer)
