@@ -599,24 +599,20 @@ function Spells(props) {
 
     if (filteredArrayIfHasManaFlow.length != 0) {
       finalCastTime -= filteredArrayIfHasManaFlow[0].level;
-    }
-    console.log(Math.max(...highestAspectOfUnmodifiedAspects));
-    console.log(Math.max(...theHighestFiveAspectsPerAspectCategory));
-    if (powerAspModified == true || anyAspExceptPowerAspModified == true) {
-      blinkingText(
-        warningWindow,
-        `A varázspróba célszáma: ${
-          10 + Math.max(...theHighestFiveAspectsPerAspectCategory)
-        }`
-      );
-      
-      spellCastingCheckSetter()
-      evaluateSkillOrAttributeCheckBase();
-      //handleSkillCheck(false);
-    }
-    if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
-      warningWindow.innerText = "";
-    }
+    }      
+    spellCastingCheckSetter()
+    evaluateSkillOrAttributeCheckBase();
+    //handleSkillCheck(false);
+    blinkingText(
+      warningWindow,
+      `A varázspróba célszáma: ${
+        10 + Math.max(...theHighestFiveAspectsPerAspectCategory)
+      }`
+    );
+    
+    // if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+    //   warningWindow.innerText = "";
+    // }
     if (finalCastTime <= 0) {
       finalCastTime = 1;
     }
@@ -640,9 +636,10 @@ function Spells(props) {
         spellCastTime.innerText = `${(finalCastTime - 30) * 3} Nap`;
       }
       finalManaCost = Math.floor((finalManaCost * 2) / 3);
+      if (finalManaCost <= 0) {
+        finalManaCost = 1
+      }
     }
-    console.log(finalCastTime, finalManaCost);
-
     spellManaCostDiv.innerText = finalManaCost;
   }
 
@@ -714,11 +711,9 @@ function Spells(props) {
    
       if (filteredArrayIfHasManaController.length != 0 && filteredArrayIfHasManaController[0].level != 0) {
         actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10) - filteredArrayIfHasManaController[0].level;
-        console.log(1, filteredArrayIfHasManaController[0].level)
       } else {
         actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10)
       }
-    
     
     advancedSpellInputWrapper.style.display = "none";
     spellInputWrapper.style.display = "none";
@@ -776,6 +771,7 @@ function Spells(props) {
       currentSpell.aspects[3][1] = durationAspSelect.parentElement.value;
       powerAspModified = false;
       anyAspExceptPowerAspModified = false;
+      warningWindow.innerText = "";
     }
     if (event.target.id == "spellInputWrapperCancelCastButton") {
       spellInputWrapper.style.display = "none";

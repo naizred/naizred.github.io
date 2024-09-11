@@ -9412,5 +9412,100 @@
     "description": "A varázslat az oltáron feláldozott halandót - amennyiben elvéti mágiaellenállását - választott, de legfeljebb Erősségnek - mely alapesetben 5-ös - megfelelő Bestia osztályú élőholttá teszi. Az élőholt a feláldozott személynek megfelelő Ép-vel kezdi meg tevékenységét. Szimpatikus viszony fűzi a teremtőjéhez. Ha a hatóidő lejárta előtt megszűnik a varázslat, akkora lélek(7) szabadon távozik, az egy hónap elteltével azonban végleg élőholt marad. (Összetevő: egy értelmes halandó feláldozása)",
     "resist": "Összetett",
     "ritual": true
+  },
+  {
+    "name": "Iránytű (Galradzsa)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 1, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Galradzsa",
+    "description": "A pap a fohász végeztével pontosan meg tudja mondani, hogy merre van észak.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Vízkeresés (Galradzsa)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Erősség", 4, 0, 0],
+      ["Erősség", 4, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 8, 0, 0],
+      ["Terület", 8, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 1, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Galradzsa",
+    "description": "A varázs a Galradzsa paptól kiindulva 500 láb sugarú gömbben érzékeli a természetes, iható vizeket melyek nem ártalmasak az egészségre. Minden egyes megtalált víz esetén informál arról, hogy az betegséggel fertőzött, esetleg mérgezett-e? A varázslat olyan vizek helyzetét tudja meghatározni, melyek nem haladják meg a varázslat erősségét. Ez alapesetben 4E, ami - a léptéknek való megfeleltetés okán - körül-belül 5 liternek (közepes tárgy) megfelelő.",
+    "resist": "nincs, Összetett",
+    "ritual": true
+  },
+  {
+    "name": "Könnyű vándorút (Galradzsa)",
+    "aspects": [
+      ["Erősség", 2, 1, -1],
+      ["Távolság", 1, 1, 0],
+      ["Terület", 5, 1, 0],
+      ["Időtartam", 5, 1, 0],
+      ["Időtartam", 1, 1, 0],
+      ["Mechanizmus", 2, 1, 0],
+      ["Mechanizmus", 2, 1, 0]
+    ],
+    "fok": 3,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Galradzsa",
+    "description": "A pap e varázslat alkalmazásával könnyebbé teheti utazását azáltal, hogy regenerálódnak megfáradt izmai. Ezzel a nehezebb terepek, amik rövidtávon is sokat kivennének egy utazóból, könnyebben leküzdhetővé válnak. Az esetleges, fáradtságból elveszített Fp-ket a varázslat E * 2 mértékben visszatölti, ám sérülések, valamint Ép gyógyítására alkalmatlan.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Égi abrak (Galradzsa)",
+    "aspects": [
+      ["Erősség", 2, 1, -1],
+      ["Távolság", 2, 1, 0],
+      ["Terület", 6, 1, 0],
+      ["Időtartam", 6, 1, 0],
+      ["Mechanizmus", 2, 1, 0],
+      ["Mechanizmus", 2, 1, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Galradzsa",
+    "description": "A varázslatot kizárólag hátasállatokra lehet alkalmazni. A varázslat hatására a hátasnak 5 napig nincs szüksége sem élelemre, sem vízre. Mivel az állat tudatosan nem tud lemondani a mágiaellenállásról, a fizikai ellenállást kell dobnia.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "A vándor megpihen (Galradzsa)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 8, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Galradzsa",
+    "description": "A varázslat 500 láb sugarú gömbön belül felderíti a paphoz legközelebb eső menedékhelyet. Az adott erősség azt mutatja meg, hogy legfeljebb milyen minőségű menedékhelyet találhat a pap. Például: 3E - Kidőlt fa, ami alá befér a pap. 6E - kisebb barlang, ahol legalább 2 ember elfér,  9E - barlangrendszer legalább 1 nagyobb teremmel, ahol vízforrás is van. 12E - fogadó, ahol a papot szívesen látják.",
+    "resist": "nincs",
+    "ritual": true
   }
 ]
