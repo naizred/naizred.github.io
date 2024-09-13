@@ -2,7 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
-import weaponStats from "../json/weaponStats.json"
+import allWeapons from "../json/allWeapons.json"
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
 import ActionList, {
   assassinationToFalse,
@@ -415,7 +415,7 @@ export let allMagicSubskillsObject = {};
 export let arrayOfAllComplexManeuvers;
 export let currentlySelectedWeapon;
 export function currentlySelectedWeaponChanger(props, newWeapon) {
-  currentlySelectedWeapon = weaponStats.find(
+  currentlySelectedWeapon = allWeapons.find(
     (name) => name.w_name === `${newWeapon}`
   );
 }
@@ -550,11 +550,11 @@ export default function Home(props) {
 
   let aChar;
   let bChar;
-  function OrderFunc() {
-    weaponStats.sort(function (a, b) {
-      return CharCompare(a.w_name, b.w_name, 0);
-    });
-  }
+  // function OrderFunctionForAllWeapons() {
+  //   allWeapons.sort(function (a, b) {
+  //     return CharCompare(a.w_name, b.w_name, 0);
+  //   });
+  // }
   function CharCompare(a, b, index) {
     aChar = alphabets.indexOf(a.toUpperCase().charAt(index));
     bChar = alphabets.indexOf(b.toUpperCase().charAt(index));
@@ -563,7 +563,7 @@ export default function Home(props) {
   }
 
   //egyedi sorba rendező function hívás
-  OrderFunc(weaponStats);
+ // OrderFunctionForAllWeapons();
   let damageOfFists = "1k10";
   let destroyerLevel;
   let schoolsOfMagic = [
@@ -1013,21 +1013,21 @@ export default function Home(props) {
         fileFirstLoaded == true &&
         JSON.parse(reader.result).weaponSets[indexOfFirstWeapon] != null
       ) {
-        for (let i = 0; i < weaponStats.length; i++) {
+        for (let i = 0; i < allWeapons.length; i++) {
           if (
-            weaponStats[i].w_name.includes(
+            allWeapons[i].w_name.includes(
               JSON.parse(reader.result).weaponSets[indexOfFirstWeapon]
                 .rightWeapon
             )
           ) {
-            weapons.value = weaponStats[i].w_name;
+            weapons.value = allWeapons[i].w_name;
             if (
-              weaponStats[i].w_name.includes("egykézzel") ||
-              weaponStats[i].w_name.includes("dobva")
+              allWeapons[i].w_name.includes("egykézzel") ||
+              allWeapons[i].w_name.includes("dobva")
             ) {
-              for (let j = i; j < weaponStats.length; j++) {
-                if (weaponStats[j].w_name.includes("kétkézzel")) {
-                  weapons.value = weaponStats[j].w_name;
+              for (let j = i; j < allWeapons.length; j++) {
+                if (allWeapons[j].w_name.includes("kétkézzel")) {
+                  weapons.value = allWeapons[j].w_name;
                   break;
                 }
               }
@@ -1042,12 +1042,12 @@ export default function Home(props) {
       }
       console.log(parryWeaponToSelectAtImport)
 
-        for (let i = 0; i < weaponStats.length; i++) {
+        for (let i = 0; i < allWeapons.length; i++) {
           if (parryWeaponToSelectAtImport &&
-            weaponStats[i].w_name.includes(parryWeaponToSelectAtImport) && 
+            allWeapons[i].w_name.includes(parryWeaponToSelectAtImport) && 
             JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].detailsMode == "parry"
           ) {
-            offHand.value = weaponStats[i].w_name;
+            offHand.value = allWeapons[i].w_name;
             break;
           }
         }
@@ -1097,10 +1097,10 @@ export default function Home(props) {
       }
       armorHandler();
       //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból
-      currentlySelectedWeapon = weaponStats.find(
+      currentlySelectedWeapon = allWeapons.find(
         (name) => name.w_name === `${weapons.value}`
       );
-      let currentlySelectedOffHand = weaponStats.find(
+      let currentlySelectedOffHand = allWeapons.find(
         (name) => name.w_name === `${offHand.value}`
       );
 
@@ -1332,7 +1332,7 @@ export default function Home(props) {
       if (fileFirstLoaded == true) {
         toggleAllallActionBarButtonsExceptInitRollDisplay();
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 10; i++) { // 10-ig megy, mert összesen 10 tulajdonság van
           let currentAttribute =
             currentCharBaseAttributeValues[i] +
             attrSpreadArray[i] +
@@ -1347,35 +1347,57 @@ export default function Home(props) {
           currentCharFinalAttributes.push(currentAttribute);
         }
         // itt rakja be az összes skillt a skillCheck komponensbe
+        let allSkillsArray = []
         for (let i = 0; i < JSON.parse(reader.result).skills.length; i++) {
           if (JSON.parse(reader.result).skills[i].name != null) {
-            let skillOption = document.createElement("option");
-            skillOption.value = [
-              JSON.parse(reader.result).skills[i].level,
-              JSON.parse(reader.result).skills[i].name,
-              JSON.parse(reader.result).skills[i].subSkill,
-            ];
             let tempLevelNameStore = parseInt(
               JSON.parse(reader.result).skills[i].level
             );
+            let skillOptionText
             if (JSON.parse(reader.result).skills[i].subSkill) {
-              skillOption.innerText = `${
+              skillOptionText = `${
                 JSON.parse(reader.result).skills[i].name
               } (${JSON.parse(reader.result).skills[i].subSkill}) (${
                 skillLevelsMeaning[tempLevelNameStore - 1]
               })`;
             } else {
-              skillOption.innerText = `${
+              skillOptionText = `${
                 JSON.parse(reader.result).skills[i].name
               } (${skillLevelsMeaning[tempLevelNameStore - 1]})`;
             }
-            skills.appendChild(skillOption);
+            allSkillsArray.push([JSON.parse(reader.result).skills[i].level, JSON.parse(reader.result).skills[i].name, JSON.parse(reader.result).skills[i].subSkill, skillOptionText] )
           } else {
             continue;
           }
         }
-      }
+        function OrderFunctionForAllSkills() {
+          allSkillsArray.sort(function (a, b) {
+          return CharCompare(a[3], b[3], 0);
+          });
+        }
+        OrderFunctionForAllSkills()
+        for (let i = 0; i < allSkillsArray.length; i++) {
+          let skillOption = document.createElement("option");
+          skillOption.value = [
+            allSkillsArray[i][0], // képzettség szintje
+            allSkillsArray[i][1], // képzettség neve
+            allSkillsArray[i][2], // képzettség alosztály (ha van)
+          ];
+          skillOption.innerText = allSkillsArray[i][3]
+          skills.appendChild(skillOption);
+        }
+        // egyenlőre kikommentezve, hogy a kategóriákat is figyelembe vegye a sorbaállítás során
+        // for (let j = 0; j < allSkillsArray.length; j++) { 
+        //   for (let k = 0; k < props.allSkills.length; k++) {               
+        //     if (allSkillsArray[j][1]==props.allSkills[k].nameOfSkill) {
+        //       allSkillsArray[j].push(props.allSkills[k].category)
+        //       break
+        //   }
+            
+        //   }
+        // }
 
+      }
       ///----- a karakter szintjéből adódó értékek
       let sumAtkGainedByLevel =
         JSON.parse(reader.result).level * currentChar.atkPerLvl;
@@ -2340,7 +2362,7 @@ if (fileFirstLoaded) {
               id="weapons"
               name="weapons"
               onChange={handleWeaponOrShieldChange}>
-              {weaponStats.map((e) => {
+              {allWeapons.map((e) => {
                 return <option key={e.w_id}>{e.w_name}</option>;
               })}
             </select>
@@ -2371,7 +2393,7 @@ if (fileFirstLoaded) {
               id="offHand"
               name="offHand"
               onChange={handleWeaponOrShieldChange}>
-              {weaponStats
+              {allWeapons
                 .filter((e) => e.w_type == "PAJ")
                 .map((e) => {
                   return <option key={e.w_id}>{e.w_name}</option>;
