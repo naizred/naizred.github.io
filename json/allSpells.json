@@ -1709,7 +1709,7 @@
     "resist": "Elkerülő"
   },
   {
-    "name": "Tüzes tekintet ",
+    "name": "Tüzes tekintet",
     "aspects": [
       ["Erősség", 4, 0, 0],
       ["Távolság", 1, 0, 0],

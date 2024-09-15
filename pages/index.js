@@ -550,11 +550,11 @@ export default function Home(props) {
 
   let aChar;
   let bChar;
-  // function OrderFunctionForAllWeapons() {
-  //   allWeapons.sort(function (a, b) {
-  //     return CharCompare(a.w_name, b.w_name, 0);
-  //   });
-  // }
+  function OrderFunctionForAllWeapons() {
+    allWeapons.sort(function (a, b) {
+      return CharCompare(a.w_name, b.w_name, 0);
+    });
+  }
   function CharCompare(a, b, index) {
     aChar = alphabets.indexOf(a.toUpperCase().charAt(index));
     bChar = alphabets.indexOf(b.toUpperCase().charAt(index));
@@ -563,7 +563,7 @@ export default function Home(props) {
   }
 
   //egyedi sorba rendező function hívás
- // OrderFunctionForAllWeapons();
+ OrderFunctionForAllWeapons();
   let damageOfFists = "1k10";
   let destroyerLevel;
   let schoolsOfMagic = [
@@ -1040,7 +1040,6 @@ export default function Home(props) {
       if (JSON.parse(reader.result).weaponSets[indexOfFirstWeapon]) {
         parryWeaponToSelectAtImport = JSON.parse(reader.result).weaponSets[indexOfFirstWeapon].leftWeapon
       }
-      console.log(parryWeaponToSelectAtImport)
 
         for (let i = 0; i < allWeapons.length; i++) {
           if (parryWeaponToSelectAtImport &&
@@ -1209,7 +1208,6 @@ export default function Home(props) {
       ).skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
       // --------- objektumba rendezzük a mágiaformákat ahol az érték azoknak a szintje
       // ------de ha szakrális mágiáról van szó, akkor az speciális lesz, ezért erre kell egy külön függvény
-
       if (fileFirstLoaded == true) {
         welcomeWindow.style.display = "none";
         rollResultWrapper.style.display = "grid";
@@ -1375,7 +1373,7 @@ export default function Home(props) {
           return CharCompare(a[3], b[3], 0);
           });
         }
-        OrderFunctionForAllSkills()
+       OrderFunctionForAllSkills()
         for (let i = 0; i < allSkillsArray.length; i++) {
           let skillOption = document.createElement("option");
           skillOption.value = [

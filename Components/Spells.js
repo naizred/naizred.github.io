@@ -16,6 +16,30 @@ import {
   handleSkillCheck,
 } from "./SkillCheck";
 import { activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList } from "./PsiDisciplines";
+// ismétlődő varázslatok, amik növelik a TÉO-t vagy CÉO-t
+//let recurringSpellsThatRequireAttackOrAimRoll = allSpells.filter((spell)=>spell.description.toLowerCase().includes("ismétlődő") && spell.resist.includes("vVÉO"))
+// minden varázslat, ami növeli a TÉO-t vagy CÉO-t
+let spellsThatModifyCombatStats = allSpells.filter((spell)=>(spell.description.includes("CÉO") || spell.description.includes("TÉO")) && !spell.description.toLowerCase().includes("negatív")  && !spell.description.toLowerCase().includes("hátrány") && spell.description.toLowerCase().includes("+"))
+let spellsThatModifyCombatStatsObject = {}
+for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
+  let indexOfPositiveCombatModifier = spellsThatModifyCombatStats[i].description.lastIndexOf("+")
+  let isReccurring = false
+  let whatDoesItModify
+  if (spellsThatModifyCombatStats[i].description.toLowerCase().includes("ismétlődő")) {
+    isReccurring = true
+  }
+  if (spellsThatModifyCombatStats[i].description.includes("CÉO")) {
+    whatDoesItModify = "CÉO"
+  }
+  if (spellsThatModifyCombatStats[i].description.includes("TÉO")) {
+    whatDoesItModify = "TÉO"
+  }
+  if (spellsThatModifyCombatStats[i].description.includes("TÉO") && spellsThatModifyCombatStats[i].description.charAt(spellsThatModifyCombatStats[i].description.lastIndexOf("és")-1) == " ") {
+    whatDoesItModify = "TÉO, VÉO"
+  }
+    spellsThatModifyCombatStatsObject[i] = {"spellName":spellsThatModifyCombatStats[i].name, "whatDoesItModify": whatDoesItModify, "modifier": parseFloat(spellsThatModifyCombatStats[i].description.slice(indexOfPositiveCombatModifier).replace(",",".")), "isRecurring": isReccurring}
+}
+export let combatStatsGivenBySpell = 0
 export let actionsSpentSinceLastCast = 0;
 export let spellIsBeingCast = false;
 export let actionsNeededToBeAbleToCastAgain = 0;
@@ -51,7 +75,6 @@ export function actionsSpentSinceLastCastAdderCheckerAndNullifier(
     actionsNeededToBeAbleToCastAgain
   );
 }
-
 export let numberOfActionsSpentOnCastingCurrentSpell = 0;
 export function numberOfActionsSpentOnCastingCurrentSpellNullifier() {
   numberOfActionsSpentOnCastingCurrentSpell = 0;
@@ -116,21 +139,24 @@ export function spellCastingSuccessful() {
     buffRemoverFromActiveBuffArrayAndTextList(currentActiveLiturgy)
     updateCharacterData()
   }
-  // if (currentSpell && currentSpell.description.toLowerCase().includes("ismétlődő")){
-  //   for (let i = 0; i < allActiveBuffs.length; i++) {
-  //     if (
-  //       allActiveBuffs[i].innerText == "" ||
-  //       (allActiveBuffs[i].innerText != "" &&
-  //         allActiveBuffs[i].innerText.includes("folyamatos") ||
-  //         allActiveBuffs[i].innerText != "" &&
-  //         allActiveBuffs[i].innerText.toLowerCase().includes("ismétlődő"))
-  //     ){
-  //       allActiveBuffs[i].innerText = currentSpell.name;
-  //       allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
-  //       break
-  //     }
-  //   }
-  // }
+  if (currentSpell && currentSpell.description.toLowerCase().includes("ismétlődő")){
+    for (let i = 0; i < allActiveBuffs.length; i++) {
+      let innerText = allActiveBuffs[i].innerText
+      if (
+        allActiveBuffs[i].innerText == "" ||
+        (allActiveBuffs[i].innerText != "" &&
+          allActiveBuffs[i].innerText.includes("folyamatos") ||
+          allActiveBuffs[i].innerText != "" &&
+          allActiveBuffs[i].innerText.toLowerCase().includes("ismétlődő"))
+      ){
+        buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
+        allActiveBuffs[i].innerText = `${currentSpell.name} - ismétlődő`;
+        activeBuffsArray.push(allActiveBuffs[i].innerText);
+        break
+      }
+    }
+  }
+  console.log(activeBuffsArray)
 }
 export function spellCastingFailure(anyOtherCondition = true) {
   if (
@@ -154,6 +180,8 @@ let manaNeededForTheSpell = 0;
 export let currentSpell;
 
 function Spells(props) {
+  console.log(spellsThatModifyCombatStats)
+  console.log(spellsThatModifyCombatStatsObject)
   // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
   function spellCastingCheckSetter(){
     let spellAttributesArray = Object.entries(props.spellAttributes[0]);
@@ -651,13 +679,19 @@ function Spells(props) {
   }
 
   function handleSpellCast(event) {
+    for (let i = 0; i < allActiveBuffs.length; i++) { // ha van folyamatos diszciplína, az megszakad.
+      if (
+        (allActiveBuffs[i].innerText != "" && allActiveBuffs[i].innerText.includes("folyamatos") )
+      ){
+        buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
+        break
+      }
+    }
     let spellManaCost = 0;
     castBarCurrentWidthStart = 0;
     castBarCurrentWidthEnd = 0;
     if (event.target.id == "advancedStartCastButton") {
       spellManaCost = parseInt(spellManaCostDiv.innerText);
-
-      let highestAttributeForMagicSubSkill = "";
 
       // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva
       currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
@@ -803,6 +837,10 @@ function Spells(props) {
         id="spellCastButtonWrapper"
         className={styles.spellCastButtonWrapper}>
         <span>Varázslás - Akció - 1 CS </span>
+        {/* <button
+          id="recurringSpellActionButton">
+          Ismétlődő
+        </button> */}
         <button
           id="spellCastingActionButton"
           onClick={handleClickOnSpellCastButton}>
