@@ -431,8 +431,6 @@ function CharacterDetails() {
         buffRemoverFromActiveBuffArrayAndTextList("Belső idő");
         hmoModifier(-innerTimeNegativeModifier);
       }
-      let chi1 = (parseInt(theRoundChiCombatEnded)+1)
-      let chi2 =parseInt(numberOfCurrentRound.innerText)
       if ((parseInt(theRoundChiCombatEnded)+1 <= parseInt(numberOfCurrentRound.innerText))) {
         setChiCombatDisabledToFalse()
       } 
@@ -603,6 +601,7 @@ function CharacterDetails() {
     modifierFromNumberOfAttacksInTheRoundNullifier();
     cumulativeCombinationModifierNullifier();
     allResultsCleaner();
+    theRoundChiCombatEnded = 0
   }
 
   function checkIfPsiIsUseable() {
