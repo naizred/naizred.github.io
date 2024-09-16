@@ -602,6 +602,7 @@ function CharacterDetails() {
     cumulativeCombinationModifierNullifier();
     allResultsCleaner();
     theRoundChiCombatEnded = 0
+    setChiCombatDisabledToFalse()
   }
 
   function checkIfPsiIsUseable() {
