@@ -50,6 +50,8 @@ import {
   innerTimeNegativeModifier,
   chiCombatDisabled,
   setChiCombatDisabledToTrue,
+  setChiCombatDisabledToFalse,
+  setTheRoundChiCombatWasUsedInToZero,
 } from "./PsiDisciplines";
 import {
   chargeToFalse,
@@ -429,7 +431,11 @@ function CharacterDetails() {
         buffRemoverFromActiveBuffArrayAndTextList("Belső idő");
         hmoModifier(-innerTimeNegativeModifier);
       }
-
+      let chi1 = (parseInt(theRoundChiCombatEnded)+1)
+      let chi2 =parseInt(numberOfCurrentRound.innerText)
+      if ((parseInt(theRoundChiCombatEnded)+1 <= parseInt(numberOfCurrentRound.innerText))) {
+        setChiCombatDisabledToFalse()
+      } 
       if (
         parseInt(theRoundInnerTimeWasUsedIn) + 1 ==
         parseInt(numberOfCurrentRound.innerText)
@@ -472,7 +478,9 @@ function CharacterDetails() {
     firstAttackIsAttackOfOpportunitySetToFalse()
   }
   function handleChiCombatBeforeEndOfRound() {
-    if (theRoundChiCombatWasUsedIn && initRolled == true) {
+    if (!buffTextChecker("Chi-harc")) {
+      return
+    }
       chiCombatContinuePopupWindowText.innerText = "Folytatod a Chi-harcot?";
       psiDisciplinesSelect.value = "Chi-harc";
       psiPointCostInput.value = Math.pow(2, parseInt(numberOfCurrentRound.innerText) - parseInt(theRoundChiCombatWasUsedIn) + 1);
@@ -486,7 +494,6 @@ function CharacterDetails() {
         chiCombatContinuePopupWindowYesButton.style.display = "none";
         chiCombatContinuePopupWindowOKButton.style.display = "grid";
       }
-    }
   }
   function handleChiCombatContinue() {
     currentPp.value =
@@ -494,7 +501,9 @@ function CharacterDetails() {
     handleEndOfRound();
     chiCombatContinuePopupWindow.style.display = "none";
   }
+  let theRoundChiCombatEnded = 0
   function handleChiCombatCancel() {
+    theRoundChiCombatEnded = parseInt(numberOfCurrentRound.innerText)
     hmoModifier(-chiCombatAtkDefModifier);
     chiCombatAtkDefModifierNullifier();
     handleEndOfRound();
@@ -505,9 +514,7 @@ function CharacterDetails() {
     if (parseInt(currentPp.value) < parseInt(psiPointCostInput.value)) {
       psiActivateButton.disabled = true;
     }
-    if (parseInt(theRoundChiCombatWasUsedIn)+1 == parseInt(numberOfCurrentRound.innerText)) {
-        setChiCombatDisabledToTrue()
-    } 
+    setChiCombatDisabledToTrue()
     buffRemoverFromActiveBuffArrayAndTextList("Chi-harc");
   }
 
