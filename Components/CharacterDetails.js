@@ -280,11 +280,14 @@ function CharacterDetails() {
       ) {
         attackRollButton.disabled = true;
       }
+      if (initRolled && parseInt(numberOfActions.innerText) < 1)
+       {
+        spellCastingActionButton.disabled = true;
+      }
     });
     observerForActions.observe(numberOfActions, { childList: true, subtree: true });
     // a körök számát figyeli, és ez alapján követi nyomon mennyi van hátra az adott buffokból
     let observerForCurrentRound = new MutationObserver(async () => {
-      
        if (initRolled && parseInt(numberOfCurrentRound.innerText) != 1) { 
         for (let i = 0; i < allActiveBuffs.length; i++) {
           if (allActiveBuffs[i].innerText.includes("kör")) {

@@ -614,7 +614,7 @@ function ActionList() {
           <li value={1}>
             <span>Belharc - Akció - +1 CS </span>
             <input
-              id="weaponBreakRadioButton"
+              id="closeCombat"
               value="Belharc"
               name="selectableComplexManeuvers"
               type="radio"

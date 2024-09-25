@@ -1,16 +1,19 @@
 import styles from '../styles/resistancesaptitudesracemofifiers.module.css';
-import { selectAllAttributeOptions } from '../pages';
 function ResistancesAptitudesRaceMofifiers() {
    let typesOfResistances = ["Összetett", "Fizikai", "Szellemi", "Asztrális", "Mentális", "Elkerülő"]
 
-   let evasiveResist = selectAllAttributeOptions
-   
+   function rollResistance (){
+       let selectAllAttributeOptions = document.querySelectorAll(
+        "select#attributes option"
+      );
+      console.log(selectAllAttributeOptions)
+   }
 
     return (
         <>
         <div className={styles.ResistancesAptitudesRaceMofifiersWrapper}>
            <ul className={styles.Resistances}>Ellenállások
-           <li onClick={console.log(selectAllAttributeOptions)}>Összetett</li>
+           <li onClick={rollResistance}>Összetett</li>
            <li>Fizikai</li>
            <li>Szellemi</li>
            <li>Asztrális</li>

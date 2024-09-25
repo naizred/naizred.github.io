@@ -273,7 +273,6 @@ let weaponStyleBonusesByLevelOfProficiency = [
   {"Távoltartás": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]}
 ]
 export let allDmgReductionListItems
-export let selectAllAttributeOptions
 export let maneuverAttachedToWeaponType
 let filteredArrayByWeaponSkills
 let filteredArrayByCurrentlySelectedWeaponType
@@ -608,9 +607,10 @@ export default function Home(props) {
         darkDice = Math.floor(generator.random() * 10);
         lightDice = Math.floor(generator.random() * 10);
       }
+      /* -- ez a két sor a dobások tesztelésére van  */
       //lightDice = 1;
       //darkDice = 1;
-      /* -- ez a felső két sor a dobások tesztelésére van  */
+      //******************************************* */
       darkDiceResultSelect.value = darkDice;
       lightDiceResultSelect.value = lightDice;
     }
@@ -639,6 +639,8 @@ export default function Home(props) {
     // Itt vannak a nevezetes dobások
     // a fegyvertörés és lefegyverzés ki van véve, mert azok nem támadódobások, tehát nem
     // lehet velük cselekedetet veszíteni vagy nyerni
+    let first = disarmRadioButton.checked
+    let second=weaponBreakRadioButton.checked
     if (lightDice == darkDice && specialCases1.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[1];
     } else if (lightDice == darkDice && specialCases2.includes(darkDice)) {
@@ -1117,9 +1119,6 @@ export default function Home(props) {
       armorHandler();
 if (fileFirstLoaded) {
         allDmgReductionListItems = document.querySelectorAll("div#currentArmorImg li")
-        selectAllAttributeOptions = document.querySelectorAll(
-          "select#attributes option"
-        ); 
         //--- karakter neve és kasztja
         charClass.innerText = JSON.parse(reader.result).classKey;
         charLevel.innerText = `${JSON.parse(reader.result).level}. szintű`;
