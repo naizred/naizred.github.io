@@ -23,6 +23,9 @@ import ActionList, {
   toggleTwoHandedWeaponsDisplay,
   firstAttackIsAttackOfOpportunity,
   firstAttackIsAttackOfOpportunitySetToFalse,
+  charDefValueSave,
+  firstAttackIsSpellThatNeedsAimRoll,
+  firstAttackIsSpellThatNeedsAimRollSetToFalse,
 } from "../Components/ActionsList";
 import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
@@ -53,6 +56,7 @@ import PsiDisciplines, {
   chiCombatAtkDefModifierNullifier,
   fpShieldSetter,
   innerTimeNegativeModifier,
+  buffTextChecker,
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
@@ -150,12 +154,12 @@ export const getStaticProps = async () => {
   // let weapons = JSON.parse(
   //   fs.readFileSync(jsonDirectory + "/weapons.json", "utf8")
   // );
-  let spellAttributes = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/spellAttributes.json", "utf8")
-  );
-  let spellsAspDescript = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/spellsAspDescript.json", "utf8")
-  );
+  // let spellAttributes = JSON.parse(
+  //   fs.readFileSync(jsonDirectory + "/spellAttributes.json", "utf8")
+  // );
+  // let spellsAspDescript = JSON.parse(
+  //   fs.readFileSync(jsonDirectory + "/spellsAspDescript.json", "utf8")
+  // );
   // let allSpells = JSON.parse(
   //   fs.readFileSync(jsonDirectory + "/allSpells.json", "utf8")
   // );
@@ -168,9 +172,9 @@ export const getStaticProps = async () => {
       psiDisciplines,
       races,
       // weapons,
-      spellAttributes,
+      //spellAttributes,
       // allSpells,
-      spellsAspDescript,
+      //spellsAspDescript,
     },
   };
 };
@@ -203,15 +207,19 @@ export async function fetchCharacterData(currentCharName) {
      
           
           //allActiveBuffs[i].parentElement.lastChild.value = activeBuffsStringArray[i];
-          activeBuffsArray.push(activeBuffsStringArray[i]);
+          //activeBuffsArray.push(activeBuffsStringArray[i]);
         
         if (
-          activeBuffsStringArray[i].includes("Fájdalomtűrés") &&
-          !activeBuffsArray.includes("Fájdalomtűrés")
+          activeBuffsStringArray[i].includes("Fájdalomtűrés")
         ) {
           //**************************************************** */
           //pontosan a 16. karaktertől slice, így a parseInt megtalálja az fp pajzs mennyiségét
           fpShieldSetter(parseInt(activeBuffsStringArray[i].slice(16)));
+        }
+        if (
+          activeBuffsStringArray[i].includes("ismétlődő")
+        ) {
+          recurringSpellActionButton.style.display = "grid"
         }
       }
     });
@@ -236,6 +244,8 @@ export async function fetchCharacterDataOnlyGameId(currentCharName) {
 }
 // ki kellett importálni az alap CÉ-t a varázsláshoz
 export let baseAimWithTeoCalculator = 0;
+export let baseAtkWithTeoCalculator = 0;
+export let baseDefWithTeoCalculator = 0;
 let weaponStyles = [
   { "Ököl": ["Birkózás", "Belharc"] },
   { "RP": ["Belharc", "Birkózás"] },
@@ -414,7 +424,8 @@ let bonusDamageFromAssassination = 0;
 export let allMagicSubskillsObject = {};
 export let arrayOfAllComplexManeuvers;
 export let currentlySelectedWeapon;
-export function currentlySelectedWeaponChanger(props, newWeapon) {
+export function currentlySelectedWeaponChanger(newWeapon) {
+  weapons.value = newWeapon;
   currentlySelectedWeapon = allWeapons.find(
     (name) => name.w_name === `${newWeapon}`
   );
@@ -462,10 +473,6 @@ export function twoWeaponAttackWasUsedThisRoundToFalse() {
 export let firstAttackInRound = false;
 export function setFirstAttackInRoundToFalse() {
   firstAttackInRound = false;
-}
-export let firstAttackInRoundSetToFalseBySpellNeedsAimRoll = false;
-export function firstAttackInRoundSetToFalseBySpellNeedsAimRollToFalse() {
-  firstAttackInRoundSetToFalseBySpellNeedsAimRoll = false;
 }
 export let rangedWeaponsArray = [
   "ÍJ",
@@ -709,7 +716,7 @@ export default function Home(props) {
     // if (firstAttackInRound == false) {
     //   return;
     // }
-    if (!activeBuffsArray.includes("Chi-harc")) {
+    if (buffTextChecker("Chi-harc")) {
       bonusDamageFromChiCombatNullifier();
     }
     if (assassinationRadioButton.checked == true && filteredArrayIfHasAssassination.length !=0) {
@@ -841,8 +848,7 @@ export default function Home(props) {
       damageResult.innerText = 1;
     }
     if (
-      weapons.value == "Célzott mágia" ||
-      firstAttackInRoundSetToFalseBySpellNeedsAimRoll == true
+      weapons.value == "Célzott mágia" 
     ) {
       let spellDamage = 0;
 
@@ -1490,6 +1496,8 @@ export default function Home(props) {
       }
       // ki kellett menteni a varázslatokhoz
       baseAimWithTeoCalculator = tvcoCalculator(baseAim);
+      baseAtkWithTeoCalculator = tvcoCalculator(baseAtk);
+      baseDefWithTeoCalculator = tvcoCalculator(baseDef);
       //--- külön az erő tulajdonság, ami az oldalon megjelenik
 
       initiative.innerText =
@@ -1950,6 +1958,7 @@ export default function Home(props) {
   async function handleClickOnAttackRollButton(darkDice, lightDice) {
     //*********************************************************************** */
     //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
+    handleFileRead()
     if (spellNeedsAimRoll == false) {
       numberOfClicksForAttacksForPsiAssault++;
       numberOfAttacksInTheRound++;
@@ -1994,12 +2003,20 @@ export default function Home(props) {
     } else if (currentlySelectedWeapon.strBonusDmg == true) {
       rollResult.innerText = ttkRoll(true, darkDice, lightDice);
       rollResult.animate([{ color: "white" }, { color: "black" }], 200);
-    }
-    if (firstAttackInRoundSetToFalseBySpellNeedsAimRoll == true) {
-      firstAttackInRoundSetToFalseBySpellNeedsAimRoll = false;
-    }
-    firstAttackInRound = true;
-    combinationCheckBox.disabled = false;
+    }  
+
+      firstAttackInRound = true;
+      combinationCheckBox.disabled = false;
+
+      if (spellNeedsAimRoll == true) { 
+        setTimeout(() => {
+          currentlySelectedWeapon = weaponBeforeCasting;
+          weapons.value = weaponBeforeCasting.w_name;
+          charAtk.value = charAtkValueSave;
+          charDef.value = charDefValueSave;
+          handleFileRead();
+        }, 500);
+      }
 
     damageResult.innerText = "";
 
@@ -2121,21 +2138,11 @@ if (fileFirstLoaded) {
       //   break;
       // }
     //}
-    if (spellNeedsAimRoll == true) {
-      firstAttackInRound = false;
-      firstAttackInRoundSetToFalseBySpellNeedsAimRoll = true;
-      setTimeout(() => {
-        currentlySelectedWeapon = weaponBeforeCasting;
-        weapons.value = weaponBeforeCasting.w_name;
-        charAtk.value = charAtkValueSave;
-        handleFileRead();
-      }, 500);
-    }
 
     if (initRolled == true) {
       if (
         currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound + 1 &&
-        spellNeedsAimRoll == false
+        !spellNeedsAimRoll
       ) {
         totalModifierForNextAttack.innerText = `${
           -1 + combinationModifiers[combinationModifiersIndex]
@@ -2154,7 +2161,8 @@ if (fileFirstLoaded) {
       }
       if (
         combinationCheckBox.checked == false &&
-        spellNeedsAimRoll == false && firstAttackIsAttackOfOpportunity == false
+        firstAttackIsSpellThatNeedsAimRoll == false && 
+        firstAttackIsAttackOfOpportunity == false
       ) {
         // if (cumulativeCombinationModifier == 0) {
         //   cumulativeCombinationModifier -=
@@ -2187,7 +2195,6 @@ if (fileFirstLoaded) {
         hmoModifier(combinationModifiers[combinationModifiersIndex]);
         console.log("halmozódó komb mod", cumulativeCombinationModifier);
         console.log("halmozódó tám mod", modifierFromNumberOfAttacksInTheRound);
-        firstAttackInRoundSetToFalseBySpellNeedsAimRoll = false;
       }
       if (spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
         spellCastingFailure();
@@ -2250,6 +2257,10 @@ if (fileFirstLoaded) {
         }
       }, 200);
 
+      if (firstAttackIsSpellThatNeedsAimRoll) {
+        firstAttackInRound = false;
+        firstAttackIsSpellThatNeedsAimRollSetToFalse()
+      }
  
       if (findWeakSpotOn == true) {
         charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier;

@@ -3,6 +3,7 @@ import { filteredArrayIfHasPsi, allActiveBuffs } from "../pages";
 import { hmoModifier } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import { allDmgReductionListItems } from "./ArmorDetails";
+import { checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier, combatStatsGivenBySpell, combatStatsGivenBySpellChanger } from "./Spells";
 export let specialAtkModifierFromPsiAssault = 0;
 export let availableNumberOfAttacksFromPsiAssault = 0;
 export let bonusDamageFromChiCombat = 0;
@@ -24,6 +25,9 @@ export function setChiCombatDisabledToFalse (){
 }
 export let activeBuffsArray = [];
 export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
+  if (buffName == "") {
+    return
+  }
   for (let i = 0; i < activeBuffsArray.length; i++) {
     if (activeBuffsArray[i].includes(buffName)) {
       activeBuffsArray.splice(i, 1);
@@ -47,6 +51,8 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
 export function buffTextChecker(buffName) {
   for (let i = 0; i < allActiveBuffs.length; i++) {
     if (allActiveBuffs[i].innerText.includes(buffName)) {
+      combatStatsGivenBySpellChanger(checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(allActiveBuffs[i].innerText))
+      numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E")-2))-1)*2 //(parseInt(powerAspSelect.value) - 1) * 2
       return true;
     }
   }
@@ -427,6 +433,9 @@ export function PsiDisciplines(props) {
       }
       if (event.target.parentElement.innerText.includes("Belső idő")) {
         innerTimeNegativeModifier = 0;
+      }
+      if (event.target.parentElement.innerText.includes("ismétlődő")) {
+        recurringSpellActionButton.style.display = "none"
       }
       buffRemoverFromActiveBuffArrayAndTextList(
         event.target.parentElement.firstChild.innerText

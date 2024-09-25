@@ -25,6 +25,7 @@ import {
   specialCases1,
   specialCases3,
   specialModifiers,
+  firstAttackInRound,
 } from "../pages";
 import {
   filteredArrayIfHasExtraReaction,
@@ -66,12 +67,16 @@ import {
   findWeakSpotModifierNullifier,
   reloadFailed,
   firstAttackIsAttackOfOpportunitySetToFalse,
+  firstAttackIsSpellThatNeedsAimRollSetToFalse,
+  spellNeedsAimRoll,
 } from "./ActionsList";
 import {
   spellCastingSuccessful,
   spellCastingFailure,
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
   spellIsBeingCast,
+  actionsNeededToBeAbleToCastAgainNullifier,
+  rollButtonWasDisabledBeforeSpellCastSetToFalse,
 } from "./Spells";
 export let initRolled = false;
 export let extraReactionLevel = 0;
@@ -269,6 +274,13 @@ function CharacterDetails() {
     //*********************************** */
     let observer = new MutationObserver(async () => {
       updateCharacterData();
+      if (initRolled && parseInt(numberOfActions.innerText)<=0) {
+        recurringSpellActionButton.disabled = true
+      }
+      if (initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || (initRolled && firstAttackInRound && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)
+      ) {
+        attackRollButton.disabled = true;
+      }
     });
     observer.observe(numberOfActions, { childList: true, subtree: true });
   }
@@ -294,14 +306,14 @@ function CharacterDetails() {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true;
-        attackRollButton.disabled = true;
+        //attackRollButton.disabled = true;
       }
-      if (
-        combinationWasUsedThisRound == true &&
-        parseInt(numberOfActions.innerText) < 3
-      ) {
-        attackRollButton.disabled = true;
-      }
+      // if (
+      //   combinationWasUsedThisRound == true &&
+      //   parseInt(numberOfActions.innerText) < 3
+      // ) {
+      //   attackRollButton.disabled = true;
+      // }
       actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
       spellCastingFailure();
       reloadFailed();
@@ -336,7 +348,7 @@ function CharacterDetails() {
     if (combinationCheckBox.checked == true) {
       totalActionCostOfAttackSetter(-1);
     }
-    if (warningWindow.innerText.includes("várható")) {
+    if (warningWindow.innerText.includes("várható")) { // azért csak ebben az esetben, mert ha újra kell tölteni, vagy kell még cselekedet a varázslathoz, akkor az ne tűnjön el
       warningWindow.innerText = ""
     }
 
@@ -393,7 +405,6 @@ function CharacterDetails() {
     reloadFailed(parseInt(numberOfActions.innerText) > 0);
 
     numberOfReactions.innerText = 0;
-    if (initRolled == true) {
       if (parseInt(numberOfActions.innerText) >= 0) {
         numberOfActions.innerText = adjustActionsPositive.value;
         //****************************************************************************************************** */
@@ -418,7 +429,7 @@ function CharacterDetails() {
 
       attackRollButton.disabled = false;
 
-      // ide kerülnek majd az X körig tartó buffok, egyenlőre csak az aranyharangra lesz megírva
+      // ide kerülnek majd az X körig tartó buffok
       if (
         buffTextChecker("Aranyharang") &&
         theRoundGoldenBellWasUsedIn + parseInt(goldenBellDuration) ==
@@ -431,6 +442,10 @@ function CharacterDetails() {
         buffRemoverFromActiveBuffArrayAndTextList("Belső idő");
         hmoModifier(-innerTimeNegativeModifier);
       }
+      if (buffTextChecker("ismétlődő")) {
+        recurringSpellActionButton.disabled = false
+      }
+      rollButtonWasDisabledBeforeSpellCastSetToFalse()
       if ((parseInt(theRoundChiCombatEnded)+1 <= parseInt(numberOfCurrentRound.innerText))) {
         setChiCombatDisabledToFalse()
       } 
@@ -472,7 +487,6 @@ function CharacterDetails() {
       ) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
       }
-    }
     firstAttackIsAttackOfOpportunitySetToFalse()
   }
   function handleChiCombatBeforeEndOfRound() {
@@ -543,7 +557,10 @@ function CharacterDetails() {
     spellCastingActionButton.disabled = false;
     setFirstAttackInRoundToFalse();
     reloadIsNeededSetToFalse();
-    spellCastingSuccessful();
+    if (spellIsBeingCast) {
+      spellCastingSuccessful();
+    } 
+    actionsNeededToBeAbleToCastAgainNullifier()
     if (chargeWasUsedThisRound == true) {
       chargeWasUsedThisRoundToFalse();
       charDef.value = parseFloat(charDef.value) + 1;
@@ -595,6 +612,13 @@ function CharacterDetails() {
     chiCombatAtkDefModifierNullifier();
     buffRemoverFromActiveBuffArrayAndTextList("Aranyharang");
     dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
+    for (let i = 0; i < allActiveBuffs.length; i++) {
+      if (
+        allActiveBuffs[i].innerText.includes("kör")
+      ) {
+        buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
+      }
+    }
     numberOfAttacksInTheRoundNullifier();
     hmoModifier(modifierFromNumberOfAttacksInTheRound);
     totalModifierForNextAttack.innerText = "0";
@@ -603,6 +627,7 @@ function CharacterDetails() {
     allResultsCleaner();
     theRoundChiCombatEnded = 0
     setChiCombatDisabledToFalse()
+    firstAttackIsSpellThatNeedsAimRollSetToFalse()
   }
 
   function checkIfPsiIsUseable() {
@@ -659,7 +684,7 @@ function CharacterDetails() {
         <div className={styles.stats}>CSA:</div>
         <div className={styles.stats} id="initiative"></div>
         <div className={styles.stats} id="initiativeWithRoll"></div>
-        <div>CS. száma:</div>
+        <div id="numberOfActionsText">CS. száma:</div>
         <div id="numberOfActions" className={styles.numberOfActions}></div>
         <button
           id="adjustActionsPositive"
@@ -698,7 +723,7 @@ function CharacterDetails() {
           onClick={handleEndOfCombat}>
           Harc vége
         </button>
-        <div>Reakc. száma:</div>
+        <div id="numberOfReactionsText">Reakc. száma:</div>
         <div id="numberOfReactions" className={styles.numberOfActions}>
           0
         </div>

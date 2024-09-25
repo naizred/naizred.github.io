@@ -109,15 +109,17 @@
 .advancedSpellInputWrapper li {
   display: grid;
   grid-auto-flow: column;
-  width: 12vw;
+  width: 35vw;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
+  text-align: right;
 }
 .advancedSpellInputWrapper li div {
   display: grid;
   border: 0.23vw solid white;
   border-radius: 1vw;
   align-items: center;
+  text-align: center;
   margin-left: 1vw;
   font-size: 0.8vw;
   padding: 0.2vw;
@@ -145,6 +147,13 @@
   width: 4vw;
   text-align: center;
   font-size: 1.5vw;
+}
+.advancedSpellInputWrapper li select {
+  display: grid;
+  width: 20vw;
+  text-align: left;
+  font-size: 1vw;
+  height: 2vw;
 }
 .advancedSpellInputWrapper button {
   display: grid;
@@ -257,6 +266,13 @@
 display: grid;
 grid-column: 20/22;
 grid-row: 1/2;
+width: 6vw;
+font-size: 0.8vw;
+}
+.recurringSpellActionButton{
+display: none;
+grid-column: 14/17;
+grid-row: 3/4;
 width: 6vw;
 font-size: 0.8vw;
 }
