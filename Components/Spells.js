@@ -426,12 +426,12 @@ function Spells() {
             liturgyCheckBox.style.display = "grid";
                     }
           }
-          function OrderFunctionForAllMagicSubskillsObject() {
-            allMagicSubskillsObject.sort(function (a, b) {
-            return CharCompare(a[0], b[0], 0);
-            });
-          }
-          OrderFunctionForAllMagicSubskillsObject()
+          // function OrderFunctionForAllMagicSubskillsObject() {
+          //   allMagicSubskillsObject.sort(function (a, b) {
+          //   return CharCompare(b[0], a[0], 0);
+          //   });
+          // }
+          // OrderFunctionForAllMagicSubskillsObject()
 
         for (let i = 0; i < allMagicSubskillsObject.length; i++) {
           let magicSubSkillOption = document.createElement("option");
