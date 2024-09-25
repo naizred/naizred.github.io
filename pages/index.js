@@ -60,6 +60,7 @@ import PsiDisciplines, {
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
 import Link from "next/link";
+import ResistancesAptitudesRaceMofifiers from "../Components/ResistancesAptitudesRaceMofifiers";
 var MersenneTwister = require("mersenne-twister");
 export var generator = new MersenneTwister();
 
@@ -272,6 +273,7 @@ let weaponStyleBonusesByLevelOfProficiency = [
   {"Távoltartás": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]}
 ]
 export let allDmgReductionListItems
+export let selectAllAttributeOptions
 export let maneuverAttachedToWeaponType
 let filteredArrayByWeaponSkills
 let filteredArrayByCurrentlySelectedWeaponType
@@ -969,6 +971,23 @@ export default function Home(props) {
   //****************************************************************************** */
   // ********************************** Fájlbeolvasó függvény *************************
   //********************************************************************************* */
+  let filteredArrayIfHasMasterWep
+  let currentlySelectedOffHand
+  let baseAtk 
+  let baseAim 
+  let baseDef
+  let sumFpGainedByLevel 
+  let sumPpGainedByLevel 
+  let sumMpGainedByLevel 
+  let sumInitiativeGainedByLevel
+  let filteredArrayIfHasWarriorMonk
+  let filteredArrayIfHasVigorous 
+  let filteredArrayIfHasMagicallyAttuned
+  let filteredArrayIfHasNimble
+  let filteredArrayIfHasPsionist 
+  let filteredArrayIfHasAncientSoul
+  let filteredArrayIfHasRunning
+
   async function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
@@ -1096,123 +1115,108 @@ export default function Home(props) {
         // }
       }
       armorHandler();
-      allDmgReductionListItems = document.querySelectorAll("div#currentArmorImg li")
-      //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból
-      currentlySelectedWeapon = allWeapons.find(
-        (name) => name.w_name === `${weapons.value}`
-      );
-      let currentlySelectedOffHand = allWeapons.find(
-        (name) => name.w_name === `${offHand.value}`
-      );
-
-      //--- karakter neve és kasztja
-      charClass.innerText = JSON.parse(reader.result).classKey;
-      charLevel.innerText = `${JSON.parse(reader.result).level}. szintű`;
-      charRace.innerText = JSON.parse(reader.result).raceKey;
-      charName.innerText = JSON.parse(reader.result).charName;
-      // szűrés minden fegyverhasználatra
-      filteredArrayByWeaponSkills = JSON.parse(reader.result).skills.filter(
-        (name) =>
-          name.name == "Fegyverhasználat"
-      );
-
-      //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
-      filteredArrayByCurrentlySelectedWeaponType = JSON.parse(reader.result).skills.filter(
-        (name) =>
-          name.name == "Fegyverhasználat" &&
-          currentlySelectedWeapon.w_type.includes(name.subSkill)
-      );
-      //-----szűrés különböző adottságokra
-      let filteredArrayIfHasDestroyer = JSON.parse(
-        reader.result
-      ).aptitudes.filter((name) => name.aptitude == "Pusztító");
-      filteredArrayIfHasExtraReaction = JSON.parse(
-        reader.result
-      ).aptitudes.filter((name) => name.aptitude == "Extra reakció");
-      let filteredArrayIfHasMasterWep = JSON.parse(
-        reader.result
-      ).aptitudes.filter(
-        (name) =>
-          name.aptitude == "Mesterfegyver" &&
-          JSON.parse(reader.result).masterWeapon ==
-            `${currentlySelectedWeapon.w_name}`
-      );
-      let filteredArrayIfHasWarriorMonk = JSON.parse(
-        reader.result
-      ).aptitudes.filter((name) => name.aptitude == "Harcművész");
-
-      let filteredArrayIfHasVigorous = JSON.parse(
-        reader.result
-      ).aptitudes.filter((name) => name.aptitude == "Életerős");
-
-      let filteredArrayIfHasMagicallyAttuned = JSON.parse(
-        reader.result
-      ).aptitudes.filter((name) => name.aptitude == "Varázstudó");
-
-      let filteredArrayIfHasNimble = JSON.parse(reader.result).aptitudes.filter(
-        (name) => name.aptitude == "Fürge"
-      );
-      let filteredArrayIfHasPsionist = JSON.parse(reader.result).aptitudes.filter(
-        (name) => name.aptitude == "Pszionista"
-      );
-      filteredArrayIfHasManaController = JSON.parse(reader.result).aptitudes.filter(
-        (name) => name.aptitude == "Mana uraló"
-      );
-      let filteredArrayIfHasAncientSoul = JSON.parse(
-        reader.result
-      ).aptitudes.filter((name) => name.aptitude == "Ősibb lélek");
-      filteredArrayIfHasManaFlow = JSON.parse(reader.result).aptitudes.filter(
-        (name) => name.aptitude == "Mana vezető"
-      );
-      filteredArrayIfHasAnyAffinity = JSON.parse(
-        reader.result
-      ).aptitudes.filter((name) => {
-        if (name.aptitude != null) {
-          return name.aptitude.includes("affinitás");
+if (fileFirstLoaded) {
+        allDmgReductionListItems = document.querySelectorAll("div#currentArmorImg li")
+        selectAllAttributeOptions = document.querySelectorAll(
+          "select#attributes option"
+        ); 
+        //--- karakter neve és kasztja
+        charClass.innerText = JSON.parse(reader.result).classKey;
+        charLevel.innerText = `${JSON.parse(reader.result).level}. szintű`;
+        charRace.innerText = JSON.parse(reader.result).raceKey;
+        charName.innerText = JSON.parse(reader.result).charName;
+        //-----szűrés különböző adottságokra
+        let filteredArrayIfHasDestroyer = JSON.parse(
+          reader.result
+        ).aptitudes.filter((name) => name.aptitude == "Pusztító");
+        filteredArrayIfHasExtraReaction = JSON.parse(
+          reader.result
+        ).aptitudes.filter((name) => name.aptitude == "Extra reakció");
+        filteredArrayIfHasMasterWep = JSON.parse(
+          reader.result
+        ).aptitudes.filter(
+          (name) =>
+            name.aptitude == "Mesterfegyver" &&
+            JSON.parse(reader.result).masterWeapon ==
+              `${currentlySelectedWeapon.w_name}`
+        );
+        filteredArrayIfHasWarriorMonk = JSON.parse(
+          reader.result
+        ).aptitudes.filter((name) => name.aptitude == "Harcművész");
+  
+        filteredArrayIfHasVigorous = JSON.parse(
+          reader.result
+        ).aptitudes.filter((name) => name.aptitude == "Életerős");
+  
+        filteredArrayIfHasMagicallyAttuned = JSON.parse(
+          reader.result
+        ).aptitudes.filter((name) => name.aptitude == "Varázstudó");
+  
+        filteredArrayIfHasNimble = JSON.parse(reader.result).aptitudes.filter(
+          (name) => name.aptitude == "Fürge"
+        );
+        filteredArrayIfHasPsionist = JSON.parse(reader.result).aptitudes.filter(
+          (name) => name.aptitude == "Pszionista"
+        );
+        filteredArrayIfHasAncientSoul = JSON.parse(
+          reader.result
+        ).aptitudes.filter((name) => name.aptitude == "Ősibb lélek");
+        filteredArrayIfHasManaController = JSON.parse(reader.result).aptitudes.filter(
+          (name) => name.aptitude == "Mana uraló"
+        );
+        filteredArrayIfHasManaFlow = JSON.parse(reader.result).aptitudes.filter(
+          (name) => name.aptitude == "Mana vezető"
+        );
+        filteredArrayIfHasAnyAffinity = JSON.parse(
+          reader.result
+        ).aptitudes.filter((name) => {
+          if (name.aptitude != null) {
+            return name.aptitude.includes("affinitás");
+          }
+        });
+        //----szűrés képzettségekre
+        filteredArrayIfHasPsi = JSON.parse(reader.result).skills.filter(
+          (name) => {
+            if (name.name != null) {
+              return name.name.includes("Pszi");
+            }
+          }
+        );
+  
+        if (filteredArrayIfHasPsi.length != 0) {
+          psiDisciplinesSelectWrapper.style.display = "grid";
         }
-      });
-      //----szűrés képzettségekre
-      filteredArrayIfHasPsi = JSON.parse(reader.result).skills.filter(
-        (name) => {
-          if (name.name != null) {
-            return name.name.includes("Pszi");
+        // Kf és afeletti képettségfoknál választott stílus az adott fegyverhez
+        if (JSON.parse(reader.result).weaponStyles) {
+          selectedWeaponStyles = Object.entries(JSON.parse(reader.result).weaponStyles);
+        }
+  
+        filteredArrayIfHasTwoWeaponAttack = JSON.parse(
+          reader.result
+        ).skills.filter((name) => name.name == "Kétkezes harc");
+  
+        if (filteredArrayIfHasTwoWeaponAttack.length != 0) {
+          twoWeaponAttackModifiersIndex =
+            filteredArrayIfHasTwoWeaponAttack[0].level;
+        }
+  
+        filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter(
+          (name) => schoolsOfMagic.includes(name.name)
+        );
+        for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
+          if (filteredArrayIfHasAnyMagicSkill[i].subSkill) {
+            currentGodWorshippedByPlayer =
+              filteredArrayIfHasAnyMagicSkill[i].subSkill;
+            break;
           }
         }
-      );
+        let filteredArrayIfHasAnyMagicSkillSubSkill = JSON.parse(
+          reader.result
+        ).skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
 
-      if (filteredArrayIfHasPsi.length != 0) {
-        psiDisciplinesSelectWrapper.style.display = "grid";
-      }
-      // Kf és afeletti képettségfoknál választott stílus az adott fegyverhez
-      if (JSON.parse(reader.result).weaponStyles) {
-        selectedWeaponStyles = Object.entries(JSON.parse(reader.result).weaponStyles);
-      }
-
-      filteredArrayIfHasTwoWeaponAttack = JSON.parse(
-        reader.result
-      ).skills.filter((name) => name.name == "Kétkezes harc");
-
-      if (filteredArrayIfHasTwoWeaponAttack.length != 0) {
-        twoWeaponAttackModifiersIndex =
-          filteredArrayIfHasTwoWeaponAttack[0].level;
-      }
-
-      filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter(
-        (name) => schoolsOfMagic.includes(name.name)
-      );
-      for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
-        if (filteredArrayIfHasAnyMagicSkill[i].subSkill) {
-          currentGodWorshippedByPlayer =
-            filteredArrayIfHasAnyMagicSkill[i].subSkill;
-          break;
-        }
-      }
-      let filteredArrayIfHasAnyMagicSkillSubSkill = JSON.parse(
-        reader.result
-      ).skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
       // --------- objektumba rendezzük a mágiaformákat ahol az érték azoknak a szintje
       // ------de ha szakrális mágiáról van szó, akkor az speciális lesz, ezért erre kell egy külön függvény
-      if (fileFirstLoaded == true) {
+
         welcomeWindow.style.display = "none";
         rollResultWrapper.style.display = "grid";
         skillCheckRollResultWrapper.style.display = "grid";
@@ -1236,12 +1240,12 @@ export default function Home(props) {
         }
 
         allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
-      }
+      
 
       filteredArrayIfHasParry = JSON.parse(reader.result).skills.filter(
         (name) => name.name == "Hárítás"
       );
-      let filteredArrayIfHasRunning = JSON.parse(reader.result).skills.filter(
+      filteredArrayIfHasRunning = JSON.parse(reader.result).skills.filter(
         (name) => name.name == "Futás"
       );
       filteredArrayIfHasAssassination = JSON.parse(reader.result).skills.filter(
@@ -1250,19 +1254,7 @@ export default function Home(props) {
       if (filteredArrayIfHasAssassination.length != 0) {
         bonusDamageFromAssassination = filteredArrayIfHasAssassination[0].level;
       }
-      //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
-      let allLevelsArray = [];
-
-      if (filteredArrayByCurrentlySelectedWeaponType.length != 0) {
-        for (let i = 0; i < filteredArrayByCurrentlySelectedWeaponType.length; i++) {
-          allLevelsArray.push(filteredArrayByCurrentlySelectedWeaponType[i].level);
-        }
-        professionLevel = parseInt(Math.max(...allLevelsArray));
-      } else {
-        professionLevel = 0;
-      }
-      combinationModifiersIndex = professionLevel;
-
+ 
       if (
         filteredArrayIfHasDestroyer.length != 0 &&
         !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)
@@ -1280,7 +1272,7 @@ export default function Home(props) {
         1,
         11
       );
-
+    
       //------ Ez itt csúnyán van hardcodolva, keresés kéne az attrSpreadArray object entries-be majd
       let attrSpreadArray = Object.values(JSON.parse(reader.result).attrSpread);
       let currentRace = props.races.find(
@@ -1292,7 +1284,7 @@ export default function Home(props) {
       // faji módosító objektum értékei
       let currentRaceModifiers = Object.values(currentRace).slice(1, 11);
       //--------------------------------------------------------------------------------
-
+    
       function modifierCalculator(index1, index2, index3) {
         let currentModifier = 0;
         currentModifier +=
@@ -1331,7 +1323,6 @@ export default function Home(props) {
       }
       //---------------------- betölti a tul. értékeket és képzettségeket
       //------------------------------------------------------------
-      if (fileFirstLoaded == true) {
         toggleAllallActionBarButtonsExceptInitRollDisplay();
 
         for (let i = 0; i < 10; i++) { // 10-ig megy, mert összesen 10 tulajdonság van
@@ -1399,7 +1390,6 @@ export default function Home(props) {
         //   }
         // }
 
-      }
       ///----- a karakter szintjéből adódó értékek
       let sumAtkGainedByLevel =
         JSON.parse(reader.result).level * currentChar.atkPerLvl;
@@ -1407,16 +1397,16 @@ export default function Home(props) {
         JSON.parse(reader.result).level * currentChar.defPerLvl;
       let sumAimGainedByLevel =
         JSON.parse(reader.result).level * currentChar.aimPerLvl;
-      let sumFpGainedByLevel =
+      sumFpGainedByLevel =
         JSON.parse(reader.result).level * currentChar.fpPerLvl;
-      let sumPpGainedByLevel =
+      sumPpGainedByLevel =
         JSON.parse(reader.result).level * currentChar.ppPerLvl;
-      let sumMpGainedByLevel =
+      sumMpGainedByLevel =
         JSON.parse(reader.result).level * currentChar.mpPerLvl;
-      let sumInitiativeGainedByLevel =
+      sumInitiativeGainedByLevel =
         JSON.parse(reader.result).level * currentChar.initPerLvl;
 
-      let baseAtk =
+      baseAtk =
         JSON.parse(reader.result).stats.TÉ +
         currentChar.str +
         currentChar.spd +
@@ -1425,7 +1415,7 @@ export default function Home(props) {
         findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") +
         sumAtkGainedByLevel +
         JSON.parse(reader.result).spentHm.TÉ;
-      let baseAim =
+      baseAim =
         JSON.parse(reader.result).stats.CÉ +
         currentChar.dex +
         currentChar.ast +
@@ -1434,7 +1424,7 @@ export default function Home(props) {
         findAndCountAttributesThatModifyStats("Ügy", "Asz", "Érz") +
         sumAimGainedByLevel +
         JSON.parse(reader.result).spentHm.CÉ;
-      let baseDef =
+      baseDef =
         JSON.parse(reader.result).stats.VÉ +
         currentChar.spd +
         currentChar.dex +
@@ -1444,15 +1434,46 @@ export default function Home(props) {
         findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Érz") +
         sumDefGainedByLevel +
         JSON.parse(reader.result).spentHm.VÉ;
-
+      }
       let masterWeaponModifier = 0;
+      //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból
+      currentlySelectedWeapon = allWeapons.find(
+      (name) => name.w_name === `${weapons.value}`
+      );
+      currentlySelectedOffHand = allWeapons.find(
+      (name) => name.w_name === `${offHand.value}`
+      );
 
       if (filteredArrayIfHasMasterWep.length != 0) {
         masterWeaponModifier = parseInt(filteredArrayIfHasMasterWep[0].level);
       } else {
         masterWeaponModifier = 0;
       }
+      // szűrés minden fegyverhasználatra
+      filteredArrayByWeaponSkills = JSON.parse(reader.result).skills.filter(
+      (name) =>
+      name.name == "Fegyverhasználat"
+      );
+        
+      //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége
+      filteredArrayByCurrentlySelectedWeaponType = JSON.parse(reader.result).skills.filter(
+                (name) =>
+                  name.name == "Fegyverhasználat" &&
+                  currentlySelectedWeapon.w_type.includes(name.subSkill)
+              );
       //----- TÉ/VÉ/CÉ számítás a fegyver értékekkel együtt
+           //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
+           let allLevelsArray = [];
+
+           if (filteredArrayByCurrentlySelectedWeaponType.length != 0) {
+             for (let i = 0; i < filteredArrayByCurrentlySelectedWeaponType.length; i++) {
+               allLevelsArray.push(filteredArrayByCurrentlySelectedWeaponType[i].level);
+             }
+             professionLevel = parseInt(Math.max(...allLevelsArray));
+           } else {
+             professionLevel = 0;
+           }
+           combinationModifiersIndex = professionLevel;
       let atkWithProfession =
         baseAtk +
         parseInt(professionLevel) *
@@ -1529,6 +1550,14 @@ export default function Home(props) {
           skillCheckRightSideWrapper.appendChild(spiritualAttributeValueDiv);
         }
       }
+        //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból
+        currentlySelectedWeapon = allWeapons.find(
+          (name) => name.w_name === `${weapons.value}`
+        );
+        currentlySelectedOffHand = allWeapons.find(
+          (name) => name.w_name === `${offHand.value}`
+        );
+
       // az ökölhöz tartozó legmagasabb tulajdonságokat alapból 4-el kell osztani *********************
 
       let fistAtkDivider = 4;
@@ -1787,8 +1816,6 @@ export default function Home(props) {
         // console.log(
         //   "van-e valami magic skill?:", filteredArrayIfHasAnyMagicSkill,
         //   "legmagasabb magic skill:", filteredArrayForNameOfHighestMagicalSkill,
-        //   "magic subskillek:", filteredArrayIfHasAnyMagicSkillSubSkill,
-        //   allMagicSubskillsObject
         // );
 
       if (filteredArrayForNameOfHighestMagicalSkill[0] != null) {
@@ -2478,6 +2505,7 @@ if (fileFirstLoaded) {
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}
         <SkillCheck {...props} />
+        <ResistancesAptitudesRaceMofifiers />
         <div id="welcomeWindow">
           <div id="welcomeText">
             Üdvözöllek kalandozó! <br />

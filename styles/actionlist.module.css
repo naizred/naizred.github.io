@@ -271,8 +271,18 @@ font-size: 0.8vw;
 }
 .recurringSpellActionButton{
 display: none;
-grid-column: 14/17;
+grid-column: 14/16;
 grid-row: 3/4;
 width: 6vw;
 font-size: 0.8vw;
+}
+.recurringSpellActionButton:disabled {
+  background-color: black;
+  color: white;
+  opacity: 0.6;
+}
+.recurringSpellActionButton:disabled:hover {
+  background-color: black;
+  color: white;
+  opacity: 0.6;
 }

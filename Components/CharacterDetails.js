@@ -551,12 +551,6 @@ function CharacterDetails() {
       numberOfActions.innerText = 0;
       tacticsUsed = true;
       tacticsButton.disabled = true;
-      if (
-        combinationCheckBox.checked == true &&
-        combinationWasUsedThisRound == false
-      ) {
-        hmoModifier(-combinationModifiers[combinationModifiersIndex]);
-      }
     }
   }
 

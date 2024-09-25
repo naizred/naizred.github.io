@@ -1,0 +1,24 @@
+.ResistancesAptitudesRaceMofifiersWrapper {
+    display: grid;
+    grid-column: 16 / 22;
+    grid-row: 13 / 23;
+    grid-template-rows: repeat(2,1fr);
+    grid-template-columns: repeat(2,1fr);
+    font-size: 1.5vw;
+    text-align: center;
+    background-color: black;
+    margin-top: 3vw;
+    padding: 0.6vw;
+}
+.ResistancesAptitudesRaceMofifiersWrapper ul {
+    border: 0.23vw solid white;
+    border-radius: 1vw;
+    background-color: black;
+    margin: 0.2vw;
+    padding: 0.3vw;
+}
+.ResistancesAptitudesRaceMofifiersWrapper li{
+text-align: left;
+font-size: 1vw;
+margin-top: 1vw;
+}
