@@ -78,6 +78,16 @@
   font-size: 1vw;
   width: 5vw;
 }
+.spellCastButtonWrapper button:disabled {
+  background-color: black;
+  color: white;
+  opacity: 0.6;
+}
+.spellCastButtonWrapper button:disabled:hover {
+  background-color: black;
+  color: white;
+  opacity: 0.6;
+}
 .advancedSpellInputWrapper {
   font-size: 1vw;
   display: none;
