@@ -1,8 +1,6 @@
 import {
   firstAttackInRound,
   chargeWasUsedThisRound,
-  combinationModifiers,
-  combinationModifiersIndex,
   combinationWasUsedThisRound,
   twoWeaponAttackModifiers,
   twoWeaponAttackModifiersIndex,
@@ -15,20 +13,22 @@ import {
   arrayOfAllComplexManeuvers,
   baseAimWithTeoCalculator,
   currentlySelectedWeaponChanger,
-  firstAttackInRoundSetToFalseBySpellNeedsAimRoll,
-  cumulativeCombinationModifier,
-  numberOfAttacksInTheRound,
-  fetchCharacterData,
   fetchCharacterDataOnlyGameId,
-  maneuverAttachedToWeaponType,
   handleWhenWeaponHasMultipleTypes,
   checkWhatBonusYouGetForSelectedManeuver,
   setSkillForManeuver,
+  baseAtkWithTeoCalculator,
+  baseDefWithTeoCalculator,
+  allActiveBuffs,
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
+import { buffTextChecker } from "./PsiDisciplines";
 import Spells, {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
+  checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier,
+  combatStatsGivenBySpell,
+  combatStatsGivenBySpellChanger,
 } from "./Spells";
 import { spellCastingFailure } from "./Spells";
 export let chargeOn = false;
@@ -73,6 +73,7 @@ export function spellNeedsAimRollSetToFalse() {
   spellNeedsAimRoll = false;
 }
 export let charAtkValueSave = 0;
+export let charDefValueSave = 0;
 export let weaponBeforeCasting;
 export function blinkingText(elementId, text) {
   elementId.innerText = text;
@@ -132,22 +133,88 @@ export function reloadFailed(anyCondition = true) {
     }
   }
 }
+export let firstAttackIsSpellThatNeedsAimRoll = false
+export function firstAttackIsSpellThatNeedsAimRollSetToFalse (){
+  firstAttackIsSpellThatNeedsAimRoll = false
+}
 export let firstAttackIsAttackOfOpportunity = false
 export function firstAttackIsAttackOfOpportunitySetToFalse(){
   firstAttackIsAttackOfOpportunity = false
 }
+export function handleIfSpellDoesNotNeedAimRoll() {
+  // spellTypeQuestionWindow.style.display = "none";
+   attackRollButton.disabled = false;
+   if (
+     parseInt(numberOfActions.innerText) < 2 ||
+     (combinationWasUsedThisRound == true &&
+       parseInt(numberOfActions.innerText) < 3)
+   ) {
+     attackRollButton.disabled = true;
+   }
+   numberOfDiceInput.disabled = false;
+ }
+ export function handleIfSpellNeedsAimRoll() {
+   spellNeedsAimRoll = true;
+   weaponBeforeCasting = currentlySelectedWeapon;
+   currentlySelectedWeaponChanger("Célzott mágia");
+   charAtkValueSave = charAtk.value;
+   charDefValueSave = charDef.value
+   if(combatStatsGivenBySpell[1] && combatStatsGivenBySpell[1].includes("CÉO")) // 0.index: melyik spell, 1.index: mire ad pluszt, 2.index: mennyit
+    {
+     charAtk.value = baseAimWithTeoCalculator + parseFloat(combatStatsGivenBySpell[2]);
+    } else if (combatStatsGivenBySpell[1] && combatStatsGivenBySpell[1].includes("TÉO") &&
+     combatStatsGivenBySpell[1] && combatStatsGivenBySpell[1].includes("VÉO")) 
+     {
+     charAtk.value = baseAtkWithTeoCalculator + parseFloat(combatStatsGivenBySpell[2]);
+     charDef.value = baseDefWithTeoCalculator + parseFloat(combatStatsGivenBySpell[2]);
+    } else if (spellAimInput.value)
+      {
+     charAtk.value = baseAimWithTeoCalculator + parseFloat(spellAimInput.value);
+    }
+   combinationCheckBox.disabled = true;
+   if (initRolled == true) {
+     for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+       arrayOfAllComplexManeuvers[i].disabled = true;
+     }
+   }
+   attackRollButton.disabled = false;
+   if (initRolled && !firstAttackInRound) {
+     firstAttackIsSpellThatNeedsAimRoll = true
+   }
+  // spellTypeQuestionWindow.style.display = "none";
+ }
 let currentActionExtraCost = 0;
-function ActionList(props) {
+function ActionList() {
+
+  function handleRecurringActionButton (){
+      if (buffTextChecker("ismétlődő")) 
+        {
+          for (let i = 0; i < allActiveBuffs.length; i++) {
+            if (allActiveBuffs[i].innerText.includes("ismétlődő")) {
+              combatStatsGivenBySpellChanger(checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(allActiveBuffs[i].innerText))
+              numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E")-2))-1)*2
+            }
+          }
+        handleIfSpellNeedsAimRoll()
+        }
+        if (initRolled) {
+          numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
+          recurringSpellActionButton.disabled = true
+        }
+  }
+
   function handleExtraAttackRadio(event) {
     if (
-      firstAttackInRound == false &&
-      firstAttackInRoundSetToFalseBySpellNeedsAimRoll == false
+      firstAttackInRound == false 
+      //&& firstAttackInRoundSetToFalseBySpellNeedsAimRoll == false
     ) {
       event.target.checked = false;
       return;
     }
     if (
-      (firstAttackInRound == true || firstAttackInRoundSetToFalseBySpellNeedsAimRoll == true) &&
+      (firstAttackInRound == true 
+       // || firstAttackInRoundSetToFalseBySpellNeedsAimRoll == true
+       ) &&
       initRolled == true
     ) {
       if (event.target.checked == true) {
@@ -500,36 +567,6 @@ function ActionList(props) {
     }
   }
 
-  function handleSpellTypeNoAimRoll() {
-    spellTypeQuestionWindow.style.display = "none";
-    warningWindow.innerText = "";
-    attackRollButton.disabled = false;
-    if (
-      parseInt(numberOfActions.innerText) < 2 ||
-      (combinationWasUsedThisRound == true &&
-        parseInt(numberOfActions.innerText) < 3)
-    ) {
-      attackRollButton.disabled = true;
-    }
-    numberOfDiceInput.disabled = false;
-  }
-  function handleSpellTypeYesAimRoll() {
-    spellNeedsAimRoll = true;
-    weaponBeforeCasting = currentlySelectedWeapon;
-    weapons.value = "Célzott mágia";
-    currentlySelectedWeaponChanger(props, "Célzott mágia");
-    charAtkValueSave = charAtk.value;
-    charAtk.value = baseAimWithTeoCalculator + parseFloat(spellAimInput.value);
-    combinationCheckBox.disabled = true;
-    if (initRolled == true) {
-      for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
-        arrayOfAllComplexManeuvers[i].disabled = true;
-      }
-    }
-    attackRollButton.disabled = false;
-    spellTypeQuestionWindow.style.display = "none";
-  }
-
   function handleGameIdWrapperClose() {
     gameIdWrapper.style.display = "none";
     gameIdWrapperRevealButton.style.display = "grid"
@@ -763,7 +800,7 @@ function ActionList(props) {
         <input id="ammoAmountInput" type="number" />
         <button>Összeszed</button>
       </div>
-      <Spells {...props} />
+      <Spells />
       <div
         id="spellTypeQuestionWindow"
         className={styles.spellTypeQuestionWindow}>
@@ -775,13 +812,13 @@ function ActionList(props) {
         <button
           id="spellTypeQuestionWindowNoButton"
           className={styles.spellTypeQuestionWindowNoButton}
-          onClick={handleSpellTypeNoAimRoll}>
+          onClick={handleIfSpellDoesNotNeedAimRoll}>
           Nem
         </button>
         <button
           id="spellTypeQuestionWindowYesButton"
           className={styles.spellTypeQuestionWindowYesButton}
-          onClick={handleSpellTypeYesAimRoll}>
+          onClick={handleIfSpellNeedsAimRoll}>
           Igen
         </button>
       </div>
@@ -796,6 +833,7 @@ function ActionList(props) {
         </span>
       </div>
       <button id="gameIdWrapperRevealButton" onClick={handleGameIdWrapperRevealButton} className={styles.gameIdWrapperRevealButton}>Csatlakozás Új Játékhoz</button>
+      <button id="recurringSpellActionButton" onClick={handleRecurringActionButton} className={styles.recurringSpellActionButton}> Ismétlődő varázslat</button>
     </>
   );
 }
