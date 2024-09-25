@@ -10,6 +10,7 @@ import {
   currentGodWorshippedByPlayer,
   allActiveBuffs,
   filteredArrayIfHasManaController,
+  CharCompare,
 } from "../pages";
 import { blinkingText, handleIfSpellDoesNotNeedAimRoll, handleIfSpellNeedsAimRoll } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -276,12 +277,6 @@ function Spells() {
         filteredArrayForNameOfHighestMagicalSkill[0].name.includes(spellAttributesArray[i][0])
       ) {
         for (let j = 0; j < spellSubskillAttributesArray.length; j++) {
-          console.log(
-            spellSubskillAttributesArray[j],
-            spellSubskillAttributesArray[j][1],
-            spellSubskillAttributesArray[j][0],
-            magicSubSkillSelect.value.slice(1)
-          );
           if (
             spellSubskillAttributesArray[j][0] ==
             magicSubSkillSelect.value.slice(1)
@@ -289,7 +284,6 @@ function Spells() {
             for (let k = 0; k < selectAllAttributeOptions.length; k++) {}
             spellAttribute1name = spellSubskillAttributesArray[j][1][0];
             spellAttribute2name = spellSubskillAttributesArray[j][1][1];
-            console.log(spellAttribute1name, spellAttribute2name);
             break;
           }
         }
@@ -323,7 +317,6 @@ function Spells() {
             }`;
           }
         }
-        console.log(spellAttribute1value, spellAttribute2value);
         break;
       }
     }
@@ -433,6 +426,12 @@ function Spells() {
             liturgyCheckBox.style.display = "grid";
                     }
           }
+          function OrderFunctionForAllMagicSubskillsObject() {
+            allMagicSubskillsObject.sort(function (a, b) {
+            return CharCompare(a[0], b[0], 0);
+            });
+          }
+          OrderFunctionForAllMagicSubskillsObject()
 
         for (let i = 0; i < allMagicSubskillsObject.length; i++) {
           let magicSubSkillOption = document.createElement("option");
@@ -474,6 +473,12 @@ function Spells() {
           spell.fok <= parseInt(magicSubSkillSelect.value[0])
       );
     }
+    function OrderFunctionForFilteredSpellsBySubSkillAndLevel() {
+      filteredSpellsBySubSkillAndLevel.sort(function (a, b) {
+      return CharCompare(a.name, b.name, 0);
+      });
+    }
+    OrderFunctionForFilteredSpellsBySubSkillAndLevel()
 
     for (let i = 0; i < filteredSpellsBySubSkillAndLevel.length; i++) {
       let spellSkillOption = document.createElement("option");
@@ -668,7 +673,6 @@ function Spells() {
           highestAspectPerCategory.push(calculatedAspectOfNextAspect);
           i++;
         }
-        console.log(highestAspectPerCategory);
         if (highestAspectPerCategory.length == 0) {
           theHighestFiveAspectsPerAspectCategory.push(calculatedAspect);
           highestAspectPerCategory = [];

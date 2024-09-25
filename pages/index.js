@@ -511,12 +511,7 @@ export let modifierFromNumberOfAttacksInTheRound = 0;
 export function modifierFromNumberOfAttacksInTheRoundNullifier() {
   modifierFromNumberOfAttacksInTheRound = 0;
 }
-
-//********************************************* */
-// --- itt kezdődik az oldal maga
-//********************************************************* */
-export default function Home(props) {
-  //egyedi rendező function kellett, mert a sort nem rendezte a fegyverek nevét valamiért. Valószínűleg a karakterkódolással van gondja a fájl beolvasása után
+export function CharCompare(a, b, index) {
   let alphabets = [
     "A",
     "Á",
@@ -556,17 +551,23 @@ export default function Home(props) {
 
   let aChar;
   let bChar;
+  aChar = alphabets.indexOf(a.toUpperCase().charAt(index));
+  bChar = alphabets.indexOf(b.toUpperCase().charAt(index));
+  if (aChar != bChar) return aChar - bChar;
+  else return CharCompare(a, b, index + 1);
+}
+//********************************************* */
+// --- itt kezdődik az oldal maga
+//********************************************************* */
+export default function Home(props) {
+  //egyedi rendező function kellett, mert a sort nem rendezte a fegyverek nevét valamiért. Valószínűleg a karakterkódolással van gondja a fájl beolvasása után
+
   function OrderFunctionForAllWeapons() {
     allWeapons.sort(function (a, b) {
       return CharCompare(a.w_name, b.w_name, 0);
     });
   }
-  function CharCompare(a, b, index) {
-    aChar = alphabets.indexOf(a.toUpperCase().charAt(index));
-    bChar = alphabets.indexOf(b.toUpperCase().charAt(index));
-    if (aChar != bChar) return aChar - bChar;
-    else return CharCompare(a, b, index + 1);
-  }
+
 
   //egyedi sorba rendező function hívás
  OrderFunctionForAllWeapons();
@@ -1096,7 +1097,6 @@ export default function Home(props) {
       }
       armorHandler();
       allDmgReductionListItems = document.querySelectorAll("div#currentArmorImg li")
-      console.log(allDmgReductionListItems)
       //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból
       currentlySelectedWeapon = allWeapons.find(
         (name) => name.w_name === `${weapons.value}`
