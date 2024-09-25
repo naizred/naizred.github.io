@@ -29,7 +29,7 @@ import ActionList, {
 } from "../Components/ActionsList";
 import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
-  rollButtonWasDisabledBeforeSpellCast,
+  attackRollButtonWasDisabledBeforeSpellCast,
   spellCastingFailure,
   numberOfActionsSpentOnCastingCurrentSpellNullifier,
   spellIsBeingCast,
@@ -49,7 +49,6 @@ import PsiDisciplines, {
   specialAtkModifierFromPsiAssault,
   availableNumberOfAttacksFromPsiAssault,
   bonusDamageFromChiCombat,
-  activeBuffsArray,
   buffRemoverFromActiveBuffArrayAndTextList,
   chiCombatAtkDefModifier,
   bonusDamageFromChiCombatNullifier,
@@ -272,7 +271,7 @@ let weaponStyleBonusesByLevelOfProficiency = [
   {"Taszítás": ["spec.","spec.","spec.","spec.","spec.","spec."]},
   {"Távoltartás": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]}
 ]
-
+export let allDmgReductionListItems
 export let maneuverAttachedToWeaponType
 let filteredArrayByWeaponSkills
 let filteredArrayByCurrentlySelectedWeaponType
@@ -727,7 +726,7 @@ export default function Home(props) {
     }
 
     // ha nem történt kezdeményező dobás, akkor csak 1 támadásig érvényes a chi harc
-    if (initRolled == false && activeBuffsArray.includes("Chi-harc")) {
+    if (initRolled == false && buffTextChecker("Chi-harc")) {
       buffRemoverFromActiveBuffArrayAndTextList("Chi-harc");
       hmoModifier(-chiCombatAtkDefModifier);
       chiCombatAtkDefModifierNullifier();
@@ -999,11 +998,6 @@ export default function Home(props) {
         observer.observe(allActiveBuffs[i], { childList: true, subtree: true });
       }
 
-      // if (activeBuffsStringArray[i].includes("Fájdalomtűrés") && !activeBuffsArray.includes("Fájdalomtűrés")) {
-      //   allActiveBuffs[i].parentElement.lastChild.value = "Fájdalomtűrés"
-      //   activeBuffsArray.push("Fájdalomtűrés")
-      // }
-
       let indexOfFirstWeapon = 0;
       for (
         indexOfFirstWeapon;
@@ -1101,6 +1095,8 @@ export default function Home(props) {
         // }
       }
       armorHandler();
+      allDmgReductionListItems = document.querySelectorAll("div#currentArmorImg li")
+      console.log(allDmgReductionListItems)
       //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból
       currentlySelectedWeapon = allWeapons.find(
         (name) => name.w_name === `${weapons.value}`
@@ -1188,7 +1184,9 @@ export default function Home(props) {
         psiDisciplinesSelectWrapper.style.display = "grid";
       }
       // Kf és afeletti képettségfoknál választott stílus az adott fegyverhez
-      selectedWeaponStyles = Object.entries(JSON.parse(reader.result).weaponStyles);
+      if (JSON.parse(reader.result).weaponStyles) {
+        selectedWeaponStyles = Object.entries(JSON.parse(reader.result).weaponStyles);
+      }
 
       filteredArrayIfHasTwoWeaponAttack = JSON.parse(
         reader.result
@@ -2170,7 +2168,7 @@ if (fileFirstLoaded) {
         // }
         attackRollButton.disabled = true;
       }
-      if (rollButtonWasDisabledBeforeSpellCast == true) {
+      if (attackRollButtonWasDisabledBeforeSpellCast == true) {
         attackRollButton.disabled = true;
       }
       if (combinationCheckBox.checked == true) {

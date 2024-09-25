@@ -36,7 +36,6 @@ import {
 } from "../pages";
 import {
   theRoundChiCombatWasUsedIn,
-  activeBuffsArray,
   buffRemoverFromActiveBuffArrayAndTextList,
   psiPointCostCheckerAndSetter,
   chiCombatAtkDefModifier,
@@ -76,7 +75,7 @@ import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
   spellIsBeingCast,
   actionsNeededToBeAbleToCastAgainNullifier,
-  rollButtonWasDisabledBeforeSpellCastSetToFalse,
+  attackRollButtonWasDisabledBeforeSpellCastSetToFalse,
 } from "./Spells";
 export let initRolled = false;
 export let extraReactionLevel = 0;
@@ -272,7 +271,7 @@ function CharacterDetails() {
 
     // megfigyeli az akciók változását
     //*********************************** */
-    let observer = new MutationObserver(async () => {
+    let observerForActions = new MutationObserver(async () => {
       updateCharacterData();
       if (initRolled && parseInt(numberOfActions.innerText)<=0) {
         recurringSpellActionButton.disabled = true
@@ -282,7 +281,28 @@ function CharacterDetails() {
         attackRollButton.disabled = true;
       }
     });
-    observer.observe(numberOfActions, { childList: true, subtree: true });
+    observerForActions.observe(numberOfActions, { childList: true, subtree: true });
+    // a körök számát figyeli, és ez alapján követi nyomon mennyi van hátra az adott buffokból
+    let observerForCurrentRound = new MutationObserver(async () => {
+      
+       if (initRolled && parseInt(numberOfCurrentRound.innerText) != 1) { 
+        for (let i = 0; i < allActiveBuffs.length; i++) {
+          if (allActiveBuffs[i].innerText.includes("kör")) {
+            let numberOfRoundsLeftFromBuff = parseInt(allActiveBuffs[i].innerText)
+            numberOfRoundsLeftFromBuff--
+            let buffNameWithoutNumberOfRounds = allActiveBuffs[i].innerText.slice(1)
+            allActiveBuffs[i].innerText = numberOfRoundsLeftFromBuff+buffNameWithoutNumberOfRounds
+            if(numberOfRoundsLeftFromBuff == 0)
+              {
+                buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
+              }
+          }
+        }
+      }
+      
+      updateCharacterData();
+    });
+    observerForCurrentRound.observe(numberOfCurrentRound, { childList: true, subtree: true });
   }
 
   function handleAdjustActionsPositive() {
@@ -430,14 +450,6 @@ function CharacterDetails() {
       attackRollButton.disabled = false;
 
       // ide kerülnek majd az X körig tartó buffok
-      if (
-        buffTextChecker("Aranyharang") &&
-        theRoundGoldenBellWasUsedIn + parseInt(goldenBellDuration) ==
-          parseInt(numberOfCurrentRound.innerText)
-      ) {
-        buffRemoverFromActiveBuffArrayAndTextList("Aranyharang");
-        dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
-      }
       if (buffTextChecker("Belső idő")) {
         buffRemoverFromActiveBuffArrayAndTextList("Belső idő");
         hmoModifier(-innerTimeNegativeModifier);
@@ -445,7 +457,7 @@ function CharacterDetails() {
       if (buffTextChecker("ismétlődő")) {
         recurringSpellActionButton.disabled = false
       }
-      rollButtonWasDisabledBeforeSpellCastSetToFalse()
+      attackRollButtonWasDisabledBeforeSpellCastSetToFalse()
       if ((parseInt(theRoundChiCombatEnded)+1 <= parseInt(numberOfCurrentRound.innerText))) {
         setChiCombatDisabledToFalse()
       } 

@@ -1,6 +1,5 @@
 import styles from '../styles/armordetails.module.css';
 export let equippedOrNotSetToManual = false
-export let allDmgReductionListItems
 let helmetWorn = false
 let upperTorsoWorn = false
 let lowerTorsoWorn = false
@@ -14,7 +13,6 @@ let currentArmsMgt = 0
 let currentLeggingsMgt = 0
 let totalMgt = 0
 export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
-    allDmgReductionListItems = document.querySelectorAll('div#currentArmorImg li')
     if (armorPiece.nameOfArmor == 'Teljesvért' || armorPiece.nameOfArmor == 'Rákozott félvért') {
         currentArmorImg.style.backgroundImage = "url('./armorParts/fullPlateBackGround.png')"
         currentArmorImg.style.backgroundSize = "7.58vw 12vw"

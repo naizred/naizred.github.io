@@ -26,12 +26,12 @@ let spellsThatModifyCombatStats = allSpells.filter((spell)=>(spell.description.i
 let spellsThatModifyCombatStatsObject = {}
 for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
   let indexOfPositiveCombatModifier = spellsThatModifyCombatStats[i].description.lastIndexOf("+")
-  let isReccurring = false
+  let isRecurring = false
   let isControlled = false
   let isGuided = false
   let whatDoesItModify
   if (spellsThatModifyCombatStats[i].description.toLowerCase().includes("ismétlődő")) {
-    isReccurring = true
+    isRecurring = true
   }
   if (spellsThatModifyCombatStats[i].description.toLowerCase().includes("kontrollált")) {
     isControlled = true
@@ -53,7 +53,7 @@ for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
       "spellName":spellsThatModifyCombatStats[i].name, 
       "whatDoesItModify": whatDoesItModify, 
       "modifier": parseFloat(spellsThatModifyCombatStats[i].description.slice(indexOfPositiveCombatModifier).replace(",",".")), 
-      "isRecurring": isReccurring,
+      "isRecurring": isRecurring,
       "isControlled": isControlled,
       "isGuided": isGuided
     }
@@ -63,14 +63,14 @@ export function checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(curr
 for (let i = 0; i < spellsThatModifyCombatStatsObject.length; i++) {
   if (currentSpellName.includes(spellsThatModifyCombatStatsObject[i].spellName)) 
     {
-    return [currentSpellName, spellsThatModifyCombatStatsObject[i].whatDoesItModify, spellsThatModifyCombatStatsObject[i].modifier]
+    return spellsThatModifyCombatStatsObject[i]
     }
   }
-  return [0, 0, 0]
+  return {}
 }
-export let combatStatsGivenBySpell = [0, 0, 0]
-export function combatStatsGivenBySpellChanger(input){
-  combatStatsGivenBySpell = input
+export let currentCombatSpell = {}
+export function currentCombatSpellChanger(input){
+  currentCombatSpell = input
 }
 export let actionsSpentSinceLastCast = 0;
 export let spellIsBeingCast = false;
@@ -78,9 +78,9 @@ export let actionsNeededToBeAbleToCastAgain = 0;
 export function actionsNeededToBeAbleToCastAgainNullifier (){
   actionsNeededToBeAbleToCastAgain = 0;
 }
-export let rollButtonWasDisabledBeforeSpellCast = false;
-export function rollButtonWasDisabledBeforeSpellCastSetToFalse (){
-  rollButtonWasDisabledBeforeSpellCast = false;
+export let attackRollButtonWasDisabledBeforeSpellCast = false;
+export function attackRollButtonWasDisabledBeforeSpellCastSetToFalse (){
+  attackRollButtonWasDisabledBeforeSpellCast = false;
 }
 export let numberOfActionsNeededForTheSpell = 0;
 export let castBarCurrentWidthStart = 0;
@@ -152,12 +152,11 @@ export function spellCastingSuccessful() {
     liturgyPowerInfo.innerText = `Liturgia E: ${currentSpell.aspects[0][1]}`;
     liturgyPowerInfo.value = currentSpell.aspects[0][1];
     liturgyCheckBox.style.display = "grid";
-    activeBuffsArray.push(currentSpell.name);
+    //activeBuffsArray.push(currentSpell.name);
     for (let i = 0; i < allActiveBuffs.length; i++) {
       if (
         allActiveBuffs[i].innerText == "" ||
-        (allActiveBuffs[i].innerText != "" &&
-          allActiveBuffs[i].innerText.includes("folyamatos") || allActiveBuffs[i].innerText.includes("liturgia"))
+        (allActiveBuffs[i].innerText != "" && allActiveBuffs[i].innerText.includes("liturgia"))
       ){
         allActiveBuffs[i].innerText = `${currentSpell.name}`;
        // allActiveBuffs[i].parentElement.lastChild.value = currentSpell.name
@@ -173,23 +172,24 @@ export function spellCastingSuccessful() {
     liturgyPowerInfo.innerText = "";
     liturgyPowerInfo.value = 0;
     liturgyCheckBox.style.display = "none";
-    console.log(activeBuffsArray, currentActiveLiturgy)
     buffRemoverFromActiveBuffArrayAndTextList(currentActiveLiturgy)
     updateCharacterData()
   }
   if (currentSpell) {
-    combatStatsGivenBySpell = checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(currentSpell.name)
+    currentCombatSpell = checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(currentSpell.name)
   }
-  if (currentSpell && initRolled || currentSpell && currentSpellDuration > 3){ // a currentSpellDuration > 3 azt jelenti, hogy legalább fél óráig tart a buff, 
+  if (currentSpell){ // a currentSpellDuration > 3 azt jelenti, hogy legalább fél óráig tart a buff, 
     for (let i = 0; i < allActiveBuffs.length; i++) {                          // ezt harc előtt is felrakhatja, ezért nem kell, hogy legyen initRolled
-      let innerText = allActiveBuffs[i].innerText
+      let innerText = allActiveBuffs[i].innerText.toLowerCase().includes("kontrollált")
       if (
         allActiveBuffs[i].innerText == "" ||
         (allActiveBuffs[i].innerText != "" &&
-          allActiveBuffs[i].innerText.includes("folyamatos") ||
+          allActiveBuffs[i].innerText.includes("folyamatos") &&
+          (currentCombatSpell.isControlled ||    // csak a kontrollált és irányított varázslatok szakítják meg a folyamatos diszciplínát
+            currentCombatSpell.isGuided) ||
           (allActiveBuffs[i].innerText != "" &&
           allActiveBuffs[i].innerText.toLowerCase().includes("ismétlődő") && // egyszerre csak 1 ismétlődő varázslat lehet aktív, így ami épp van, azt felülírja
-          currentSpell.description.toLowerCase().includes("ismétlődő"))
+          currentCombatSpell.isRecurring)
         )
       )
       {
@@ -207,21 +207,24 @@ export function spellCastingSuccessful() {
           allActiveBuffs[i].innerText = `10 óra - ${currentSpell.name} - ${currentSpellPower}E`
         }
         //allActiveBuffs[i].parentElement.lastChild.value = `${parseInt(allActiveBuffs[i].innerText)}, ${numberOfCurrentRound.innerText}` // A törlés gomb value-ben van eltárolva az időtartam adat. Innen fogjuk vizsgálni, hogy mennyi van még hátra belőle
-        if (currentSpell.description.toLowerCase().includes("ismétlődő")) {
+        if (currentCombatSpell.isRecurring) {   // csak egy ismétlődő varázslat lehet
           allActiveBuffs[i].innerText = `${(allActiveBuffs[i].innerText)} - ismétlődő`;
           recurringSpellActionButton.style.display = "grid"
           if (initRolled) {
             recurringSpellActionButton.disabled = true
-          } 
+          }
         }
-        activeBuffsArray.push(allActiveBuffs[i].innerText);
+        if (currentCombatSpell.isControlled) {   
+          allActiveBuffs[i].innerText = `${(allActiveBuffs[i].innerText)} - kontrollált`;
+        }
+        //activeBuffsArray.push(allActiveBuffs[i].innerText);
         break
       }
     }
   }
-  if(combatStatsGivenBySpell[0]){ 
+  if(currentCombatSpell.spellName){ 
     handleIfSpellNeedsAimRoll()
-  }else if (!combatStatsGivenBySpell[0]) {
+  }else if (!currentCombatSpell.spellName) {
     handleIfSpellDoesNotNeedAimRoll()
   }
   console.log(activeBuffsArray)
@@ -742,14 +745,6 @@ function Spells() {
   }
 
   function handleSpellCast(event) {
-    for (let i = 0; i < allActiveBuffs.length; i++) { // ha van folyamatos diszciplína, az megszakad.
-      if (
-        (allActiveBuffs[i].innerText != "" && allActiveBuffs[i].innerText.includes("folyamatos") )
-      ){
-        buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
-        break
-      }
-    }
     // let stressCheck = false
     // if(skillCheckStressCheckbox.checked){
     //   stressCheck=true
@@ -831,10 +826,10 @@ function Spells() {
     advancedSpellInputWrapper.style.display = "none";
     spellInputWrapper.style.display = "none";
     if (initRolled == true && attackRollButton.disabled == true) {
-      rollButtonWasDisabledBeforeSpellCast = true;
+      attackRollButtonWasDisabledBeforeSpellCast = true;
     }
     if (initRolled == true && attackRollButton.disabled == false) {
-      rollButtonWasDisabledBeforeSpellCast = false;
+      attackRollButtonWasDisabledBeforeSpellCast = false;
     }
     if (initRolled == true && numberOfActionsNeededForTheSpell > 1) {
       spellIsBeingCast = true;

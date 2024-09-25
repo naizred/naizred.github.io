@@ -64,7 +64,7 @@ export function multipleDiceRoll(
   );
 
   console.log(
-    "a három kocka kezdő sebzéshelyei",
+    "a három kocka kezdő sebzései",
     firstAccumulatedDice,
     secondAccumulatedDice,
     thirdAccumulatedDice

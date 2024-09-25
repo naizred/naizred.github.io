@@ -1,9 +1,8 @@
 import styles from "../styles/psiDisciplines.module.css";
 import { filteredArrayIfHasPsi, allActiveBuffs } from "../pages";
-import { hmoModifier } from "./ActionsList";
+import { blinkingText, hmoModifier } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
-import { allDmgReductionListItems } from "./ArmorDetails";
-import { checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier, combatStatsGivenBySpell, combatStatsGivenBySpellChanger } from "./Spells";
+import { allDmgReductionListItems } from "../pages";
 export let specialAtkModifierFromPsiAssault = 0;
 export let availableNumberOfAttacksFromPsiAssault = 0;
 export let bonusDamageFromChiCombat = 0;
@@ -23,36 +22,51 @@ export function setChiCombatDisabledToTrue (){
 export function setChiCombatDisabledToFalse (){
   chiCombatDisabled = false
 }
-export let activeBuffsArray = [];
+//export let activeBuffsArray = [];
 export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
   if (buffName == "") {
     return
   }
-  for (let i = 0; i < activeBuffsArray.length; i++) {
-    if (activeBuffsArray[i].includes(buffName)) {
-      activeBuffsArray.splice(i, 1);
-      break;
-    }
-  }
+  // for (let i = 0; i < activeBuffsArray.length; i++) {
+  //   if (activeBuffsArray[i].includes(buffName)) {
+  //     activeBuffsArray.splice(i, 1);
+  //     break;
+  //   }
+  // }
   for (let i = 0; i < allActiveBuffs.length; i++) {
     if (allActiveBuffs[i].innerText.includes(buffName)) {
+      if (allActiveBuffs[i].innerText.includes("Chi-harc")) {
+        hmoModifier(-chiCombatAtkDefModifier);
+        chiCombatAtkDefModifier = 0;
+      }
+      else if (allActiveBuffs[i].innerText.includes("Fájdalomtűrés")) {
+        currentFp.value = parseInt(currentFp.value) - parseInt(fpShield);
+        fpShield = 0;
+      }
+      else if (allActiveBuffs[i].innerText.includes("Aranyharang")) {
+        dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
+        dmgReductionByGoldenBell = 0;
+      }
+      else if (allActiveBuffs[i].innerText.includes("Belső idő")) {
+        innerTimeNegativeModifier = 0;
+      }
+      else if (allActiveBuffs[i].innerText.includes("ismétlődő")) {
+        recurringSpellActionButton.style.display = "none"
+      }
+      else if (allActiveBuffs[i].innerText.includes("Pszi Roham")) {
+        availableNumberOfAttacksFromPsiAssault = 0;
+      }
+      else if (allActiveBuffs[i].innerText.includes("Aranyharang")) {
+        theRoundGoldenBellWasUsedIn = 0;
+      }
       allActiveBuffs[i].innerText = "";
-      //allActiveBuffs[i].parentElement.lastChild.value = "";
     }
-  }
-  if (buffName.includes("Pszi Roham")) {
-    availableNumberOfAttacksFromPsiAssault = 0;
-  }
-  if (buffName.includes("Aranyharang")) {
-    theRoundGoldenBellWasUsedIn = 0;
   }
 }
 
 export function buffTextChecker(buffName) {
   for (let i = 0; i < allActiveBuffs.length; i++) {
     if (allActiveBuffs[i].innerText.includes(buffName)) {
-      combatStatsGivenBySpellChanger(checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(allActiveBuffs[i].innerText))
-      numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E")-2))-1)*2 //(parseInt(powerAspSelect.value) - 1) * 2
       return true;
     }
   }
@@ -61,14 +75,14 @@ export function buffTextChecker(buffName) {
 
 // erre azért volt külön szükség, hogy a buff array-on belüli stringeken belül keressen
 
-export function activeBuffsArrayChecker(buffName) {
-  for (let i = 0; i < activeBuffsArray.length; i++) {
-    if (activeBuffsArray[i].includes(buffName)) {
-      return true;
-    }
-  }
-  return false;
-}
+// export function activeBuffsArrayChecker(buffName) {
+//   for (let i = 0; i < activeBuffsArray.length; i++) {
+//     if (activeBuffsArray[i].includes(buffName)) {
+//       return true;
+//     }
+//   }
+//   return false;
+// }
 
 export function psiPointCostCheckerAndSetter() {
   if (selectedPsiDisciplineObj[0].canBeModified == false) {
@@ -203,7 +217,8 @@ export function PsiDisciplines(props) {
         currentPp.value -= parseInt(psiPointCostInput.value);
         psiPointCostCheckerAndSetter();
         if (allActiveBuffs[i].innerText.includes("folyamatos") && 
-        !allActiveBuffs[i].innerText.includes(selectedPsiDisciplineObj[0].psiDiscName)) {
+        !allActiveBuffs[i].innerText.includes(selectedPsiDisciplineObj[0].psiDiscName) &&
+        selectedPsiDisciplineObj[0].duration[0] == "folyamatos") { // csak akkor írja felül a folyamatos diszciplínát, ha egy másik folyamatos diszciplína aktív
           buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
         }
         if (initRolled == true)  {
@@ -214,7 +229,8 @@ export function PsiDisciplines(props) {
       if (
         allActiveBuffs[i].innerText == "" ||
         (allActiveBuffs[i].innerText != "" &&
-          allActiveBuffs[i].innerText.includes("folyamatos"))
+          allActiveBuffs[i].innerText.includes("folyamatos") &&   // a folyamatos diszciplínát csak másik folyamatos diszcilína szakítja meg
+        selectedPsiDisciplineObj[0].duration[0] == "folyamatos")
       ) {
         if (selectedPsiDisciplineObj[0].psiDiscName == "Fájdalomtűrés" && 
           !buffTextChecker("Fájdalomtűrés") &&
@@ -230,7 +246,7 @@ export function PsiDisciplines(props) {
           }: (+${fpShield} Fp Pajzs) - ${
             selectedPsiDisciplineObj[0].duration[skillIndex - 1]
           }`;
-          activeBuffsArray.push(allActiveBuffs[i].innerText);
+          //activeBuffsArray.push(allActiveBuffs[i].innerText);
           currentFp.value = parseInt(currentFp.value) + fpShield;
           break;
         } else if (
@@ -249,19 +265,20 @@ export function PsiDisciplines(props) {
           }: Speciális TÉO módosító:+${specialAtkModifierFromPsiAssault}, ${
             selectedPsiDisciplineObj[0].benefit[skillIndex - 1]
           } - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`;
-          activeBuffsArray.push(allActiveBuffs[i].innerText);
+          //activeBuffsArray.push(allActiveBuffs[i].innerText);
           break;
         } else if (
           selectedPsiDisciplineObj[0].psiDiscName == "Pszi Lökés" &&
           !buffTextChecker("Pszi Lökés") &&
           continousDiscRemoverAndActionSetter()
         ) {
-          allActiveBuffs[i].innerText = `${
+          let textToDisplay = `${
             selectedPsiDisciplineObj[0].psiDiscName
           }: ${psiPointCostInput.value} kg-nyi ${
             selectedPsiDisciplineObj[0].benefit[skillIndex - 1]
-          }, - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`;
-          activeBuffsArray.push(allActiveBuffs[i].innerText);
+          }`
+          blinkingText(warningWindow, textToDisplay)
+          //activeBuffsArray.push(allActiveBuffs[i].innerText);
           break;
         } else if (
           selectedPsiDisciplineObj[0].psiDiscName == "Chi-harc" &&
@@ -276,7 +293,7 @@ export function PsiDisciplines(props) {
             selectedPsiDisciplineObj[0].benefit[skillIndex - 1].atkAndDef
           }, Sebzés: +${
             selectedPsiDisciplineObj[0].benefit[skillIndex - 1].damage
-          }) - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`;
+          })`;
           // allActiveBuffs[i].parentElement.lastChild.value =
           //   selectedPsiDisciplineObj[0].psiDiscName;
           bonusDamageFromChiCombat =
@@ -285,7 +302,7 @@ export function PsiDisciplines(props) {
           chiCombatAtkDefModifier = parseFloat(
             selectedPsiDisciplineObj[0].benefit[skillIndex - 1].atkAndDef
           );
-          activeBuffsArray.push(allActiveBuffs[i].innerText);
+          //activeBuffsArray.push(allActiveBuffs[i].innerText);
           hmoModifier(chiCombatAtkDefModifier);
           break;
         } else if (
@@ -307,13 +324,13 @@ export function PsiDisciplines(props) {
           dmgReductionByGoldenBellSetter(dmgReductionByGoldenBell);
           currentPp.value = parseInt(currentPp.value) + parseInt(psiPointCostInput.value % 3);
           allActiveBuffs[i].innerText = `${
+            selectedPsiDisciplineObj[0].duration[skillIndex - 1]
+          } - ${
             selectedPsiDisciplineObj[0].psiDiscName
           }: ${
             selectedPsiDisciplineObj[0].benefit[skillIndex - 1]
-          } jelenleg ${dmgReductionByGoldenBell} SFÉ - ${
-            selectedPsiDisciplineObj[0].duration[skillIndex - 1]
-          }`;
-          activeBuffsArray.push(allActiveBuffs[i].innerText);
+          } jelenleg ${dmgReductionByGoldenBell} SFÉ`;
+          //activeBuffsArray.push(allActiveBuffs[i].innerText);
           theRoundGoldenBellWasUsedIn = parseInt(numberOfCurrentRound.innerText);
           goldenBellDuration =
           selectedPsiDisciplineObj[0].duration[skillIndex - 1];
@@ -328,7 +345,7 @@ export function PsiDisciplines(props) {
             selectedPsiDisciplineObj[0].psiDiscName
           }: CS száma duplázódik ebben a körben. ${
             selectedPsiDisciplineObj[0].benefit[skillIndex - 1]
-          }, - ${selectedPsiDisciplineObj[0].duration[skillIndex - 1]}`;
+          }`;
           if (initRolled == true) {
             innerTimeNegativeModifier = parseInt(
               selectedPsiDisciplineObj[0].benefit[skillIndex - 1]
@@ -383,7 +400,7 @@ export function PsiDisciplines(props) {
           }: (+${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]}) - ${
             selectedPsiDisciplineObj[0].duration[skillIndex - 1]
           }`;
-          activeBuffsArray.push(allActiveBuffs[i].innerText);
+          //activeBuffsArray.push(allActiveBuffs[i].innerText);
           break;
         } else if (
           selectedPsiDisciplineObj[0].psiDiscName == "Érzékélesítés" &&
@@ -395,7 +412,7 @@ export function PsiDisciplines(props) {
           }: (+${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]}) - ${
             selectedPsiDisciplineObj[0].duration[skillIndex - 1]
           }`;
-          activeBuffsArray.push(allActiveBuffs[i].innerText);
+          //activeBuffsArray.push(allActiveBuffs[i].innerText);
           break;
         } else if (
           selectedPsiDisciplineObj[0].psiDiscName == "Tulajdonság Javítás" &&
@@ -407,42 +424,21 @@ export function PsiDisciplines(props) {
           }: (+${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]}) - ${
             selectedPsiDisciplineObj[0].duration[skillIndex - 1]
           }`;
-          activeBuffsArray.push(allActiveBuffs[i].innerText);
+          //activeBuffsArray.push(allActiveBuffs[i].innerText);
           break;
         }
       }
     }
-    console.log(activeBuffsArray);
     psiPointCostCheckerAndSetter();
     updateCharacterData();
   }
 
   function handleDeleteBuff(event) {
-    if (event.target.parentElement.firstChild.innerText) {
-      if (event.target.parentElement.innerText.includes("Chi-harc")) {
-        hmoModifier(-chiCombatAtkDefModifier);
-        chiCombatAtkDefModifier = 0;
-      }
-      if (event.target.parentElement.innerText.includes("Fájdalomtűrés")) {
-        currentFp.value = parseInt(currentFp.value) - parseInt(fpShield);
-        fpShield = 0;
-      }
-      if (event.target.parentElement.innerText.includes("Aranyharang")) {
-        dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
-        dmgReductionByGoldenBell = 0;
-      }
-      if (event.target.parentElement.innerText.includes("Belső idő")) {
-        innerTimeNegativeModifier = 0;
-      }
-      if (event.target.parentElement.innerText.includes("ismétlődő")) {
-        recurringSpellActionButton.style.display = "none"
-      }
       buffRemoverFromActiveBuffArrayAndTextList(
         event.target.parentElement.firstChild.innerText
       );
-    }
+
     updateCharacterData(false);
-    console.log(activeBuffsArray);
   }
   function handlePsiRecovery(event) {
     if (
@@ -540,6 +536,14 @@ export function PsiDisciplines(props) {
           </div>
           <div>
             <li id="activeBuff4" className={styles.activeBuff}></li>
+            <button
+              className={styles.deleteBuffButton}
+              onClick={handleDeleteBuff}>
+              Törlés
+            </button>
+          </div>
+          <div>
+            <li id="activeBuff5" className={styles.activeBuff}></li>
             <button
               className={styles.deleteBuffButton}
               onClick={handleDeleteBuff}>

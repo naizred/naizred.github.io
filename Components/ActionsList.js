@@ -23,12 +23,12 @@ import {
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
-import { buffTextChecker } from "./PsiDisciplines";
 import Spells, {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
+  attackRollButtonWasDisabledBeforeSpellCast,
   checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier,
-  combatStatsGivenBySpell,
-  combatStatsGivenBySpellChanger,
+  currentCombatSpell,
+  currentCombatSpellChanger,
 } from "./Spells";
 import { spellCastingFailure } from "./Spells";
 export let chargeOn = false;
@@ -143,7 +143,11 @@ export function firstAttackIsAttackOfOpportunitySetToFalse(){
 }
 export function handleIfSpellDoesNotNeedAimRoll() {
   // spellTypeQuestionWindow.style.display = "none";
-   attackRollButton.disabled = false;
+  if (attackRollButtonWasDisabledBeforeSpellCast) {
+    attackRollButton.disabled = true;
+  } else if (!attackRollButtonWasDisabledBeforeSpellCast){
+    attackRollButton.disabled = false;
+  }
    if (
      parseInt(numberOfActions.innerText) < 2 ||
      (combinationWasUsedThisRound == true &&
@@ -159,14 +163,14 @@ export function handleIfSpellDoesNotNeedAimRoll() {
    currentlySelectedWeaponChanger("Célzott mágia");
    charAtkValueSave = charAtk.value;
    charDefValueSave = charDef.value
-   if(combatStatsGivenBySpell[1] && combatStatsGivenBySpell[1].includes("CÉO")) // 0.index: melyik spell, 1.index: mire ad pluszt, 2.index: mennyit
+   if(currentCombatSpell.whatDoesItModify && currentCombatSpell.whatDoesItModify.includes("CÉO")) // 0.index: melyik spell, 1.index: mire ad pluszt, 2.index: mennyit
     {
-     charAtk.value = baseAimWithTeoCalculator + parseFloat(combatStatsGivenBySpell[2]);
-    } else if (combatStatsGivenBySpell[1] && combatStatsGivenBySpell[1].includes("TÉO") &&
-     combatStatsGivenBySpell[1] && combatStatsGivenBySpell[1].includes("VÉO")) 
+     charAtk.value = baseAimWithTeoCalculator + parseFloat(currentCombatSpell.modifier);
+    } else if (currentCombatSpell.whatDoesItModify && currentCombatSpell.whatDoesItModify.includes("TÉO") &&
+     currentCombatSpell.whatDoesItModify && currentCombatSpell.whatDoesItModify.includes("VÉO")) 
      {
-     charAtk.value = baseAtkWithTeoCalculator + parseFloat(combatStatsGivenBySpell[2]);
-     charDef.value = baseDefWithTeoCalculator + parseFloat(combatStatsGivenBySpell[2]);
+     charAtk.value = baseAtkWithTeoCalculator + parseFloat(currentCombatSpell.modifier);
+     charDef.value = baseDefWithTeoCalculator + parseFloat(currentCombatSpell.modifier);
     } else if (spellAimInput.value)
       {
      charAtk.value = baseAimWithTeoCalculator + parseFloat(spellAimInput.value);
@@ -185,18 +189,15 @@ export function handleIfSpellDoesNotNeedAimRoll() {
  }
 let currentActionExtraCost = 0;
 function ActionList() {
-
   function handleRecurringActionButton (){
-      if (buffTextChecker("ismétlődő")) 
-        {
           for (let i = 0; i < allActiveBuffs.length; i++) {
             if (allActiveBuffs[i].innerText.includes("ismétlődő")) {
-              combatStatsGivenBySpellChanger(checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(allActiveBuffs[i].innerText))
+              currentCombatSpellChanger(checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(allActiveBuffs[i].innerText))
               numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E")-2))-1)*2
+              break
             }
           }
-        handleIfSpellNeedsAimRoll()
-        }
+        handleIfSpellNeedsAimRoll()     
         if (initRolled) {
           numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
           recurringSpellActionButton.disabled = true
