@@ -312,6 +312,12 @@ input[type='radio']:checked:after {
   background-color: white;
 }
 
+#skillCheckRollButton:disabled {
+  background-color: black;
+  color: white;
+  opacity: 0.6;
+}
+
 #skillCheckRollButton:disabled:hover {
   background-color: black;
   color: white;

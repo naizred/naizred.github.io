@@ -134,6 +134,7 @@ var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0;
 function CharacterDetails() {
   function handleInitiativeRoll() {
+    warningWindow.innerText = ""
     numberOfAttacksInTheRoundNullifier();
     modifierFromNumberOfAttacksInTheRoundNullifier();
     cumulativeCombinationModifierNullifier();
@@ -302,8 +303,6 @@ function CharacterDetails() {
           }
         }
       }
-      
-      updateCharacterData();
     });
     observerForCurrentRound.observe(numberOfCurrentRound, { childList: true, subtree: true });
   }

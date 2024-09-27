@@ -22,6 +22,10 @@ export function setChiCombatDisabledToTrue (){
 export function setChiCombatDisabledToFalse (){
   chiCombatDisabled = false
 }
+export let dinamicResistanceRollModifier = 0
+export function dinamicResistanceRollModifierChanger(value=0){
+  dinamicResistanceRollModifier = value
+}
 //export let activeBuffsArray = [];
 export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
   if (buffName == "") {
@@ -53,11 +57,15 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
       else if (allActiveBuffs[i].innerText.includes("ismétlődő")) {
         recurringSpellActionButton.style.display = "none"
       }
-      else if (allActiveBuffs[i].innerText.includes("Pszi Roham")) {
+      else if (allActiveBuffs[i].innerText.includes("Pszi roham")) {
         availableNumberOfAttacksFromPsiAssault = 0;
       }
       else if (allActiveBuffs[i].innerText.includes("Aranyharang")) {
         theRoundGoldenBellWasUsedIn = 0;
+      }
+      else if (allActiveBuffs[i].innerText.includes("Dinamikus ellenállás")) {
+        dinamicResistanceRollModifier = 0;
+        rollModifier.value = 0
       }
       allActiveBuffs[i].innerText = "";
     }
@@ -84,15 +92,13 @@ export function buffTextChecker(buffName) {
 //   return false;
 // }
 
+//selectedPsiDisciplineObj[0].psiDiscName
+let savePsiPoinCostValueForPsiAssault = 0
 export function psiPointCostCheckerAndSetter() {
   if (selectedPsiDisciplineObj[0].canBeModified == false) {
-    if (selectedPsiDisciplineObj[0].psiPointCost == "All") {
-      psiPointCostInput.value = parseInt(currentPp.value);
-    } else {
       psiPointCostInput.value = parseInt(
         selectedPsiDisciplineObj[0].psiPointCost
       );
-    }
     psiPointCostInput.disabled = true;
     psiActivateButton.disabled = false;
   }
@@ -100,19 +106,18 @@ export function psiPointCostCheckerAndSetter() {
     psiPointCostInput.disabled = false;
     psiActivateButton.disabled = false;
   }
+  if (selectedPsiDisciplineObj[0].psiDiscName == "Pszi roham") {
+    savePsiPoinCostValueForPsiAssault = parseInt(currentPp.value);
+    if (savePsiPoinCostValueForPsiAssault > 45) {
+      savePsiPoinCostValueForPsiAssault = 45
+    }
+    psiPointCostInput.value = savePsiPoinCostValueForPsiAssault
+  }
   if (
     parseInt(psiPointCostInput.value) > parseInt(currentPp.value) ||
     parseInt(currentPp.value) == 0
   ) {
     psiActivateButton.disabled = true;
-    if (selectedPsiDisciplineObj[0].psiPointCost == "All") {
-      psiPointCostInput.value = parseInt(currentPp.value);
-    }
-    if (selectedPsiDisciplineObj[0].canBeModified == false) {
-      psiPointCostInput.value = parseInt(
-        selectedPsiDisciplineObj[0].psiPointCost
-      );
-    }
   }
 }
 export let fpShield = 0;
@@ -184,7 +189,6 @@ export function PsiDisciplines(props) {
   }
 
   function handleDisciplineActivation() {
-    const savePsiPoinCostValueForPsiAssault = psiPointCostInput.value;
     // if (
     //   initRolled == true &&
     //   !buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)
@@ -215,7 +219,6 @@ export function PsiDisciplines(props) {
           return false
         }
         currentPp.value -= parseInt(psiPointCostInput.value);
-        psiPointCostCheckerAndSetter();
         if (allActiveBuffs[i].innerText.includes("folyamatos") && 
         !allActiveBuffs[i].innerText.includes(selectedPsiDisciplineObj[0].psiDiscName) &&
         selectedPsiDisciplineObj[0].duration[0] == "folyamatos") { // csak akkor írja felül a folyamatos diszciplínát, ha egy másik folyamatos diszciplína aktív
@@ -250,8 +253,8 @@ export function PsiDisciplines(props) {
           currentFp.value = parseInt(currentFp.value) + fpShield;
           break;
         } else if (
-          selectedPsiDisciplineObj[0].psiDiscName == "Pszi Roham" &&
-          !buffTextChecker("Pszi Roham") && 
+          selectedPsiDisciplineObj[0].psiDiscName == "Pszi roham" &&
+          !buffTextChecker("Pszi roham") && 
           continousDiscRemoverAndActionSetter()
         ) {
           specialAtkModifierFromPsiAssault = Math.floor(
@@ -400,6 +403,9 @@ export function PsiDisciplines(props) {
           }: (+${selectedPsiDisciplineObj[0].benefit[skillIndex - 1]}) - ${
             selectedPsiDisciplineObj[0].duration[skillIndex - 1]
           }`;
+          if (skillIndex>1) {
+            dinamicResistanceRollModifier = parseInt(selectedPsiDisciplineObj[0].benefit[skillIndex - 1])
+          }
           //activeBuffsArray.push(allActiveBuffs[i].innerText);
           break;
         } else if (

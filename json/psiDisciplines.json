@@ -13,7 +13,7 @@
 "Gyors (futás sebességű) behatás 20 láb hatótávval.",
 "Lassú behatás látótáv hatótávval.",
 "Gyors behatás látótáv hatótávval."]},
-    {"psiDiscId":8, "psiDiscName":"Pszi Roham", "requiredPsiSkillLevel": 2,
+    {"psiDiscId":8, "psiDiscName":"Pszi roham", "requiredPsiSkillLevel": 2,
 "psiSchool": "Pyarroni", "psiPointCost": "All", "canBeModified":false, "castTime": 1, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], 
 "benefit":[0,"1 támadásra érvényes.", "2 támadásra érvényes.", "3 támadásra érvényes.", "5 támadásra érvényes."]},
     {"psiDiscId":9, "psiDiscName":"Tulajdonság Javítás", "requiredPsiSkillLevel": 2,

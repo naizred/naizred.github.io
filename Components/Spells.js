@@ -432,12 +432,13 @@ function Spells() {
           //   });
           // }
           // OrderFunctionForAllMagicSubskillsObject()
+          let allMagicSubskillsObjectKeys = Object.keys(allMagicSubskillsObject) // itt vannak a mágiaformák nevei pl. "Villámmágia"
+          let allMagicSubskillsObjectValues = Object.values(allMagicSubskillsObject) // itt vannak a hozzájuk tartozó fokok
 
-        for (let i = 0; i < allMagicSubskillsObject.length; i++) {
+        for (let i = 0; i <allMagicSubskillsObjectKeys.length; i++) {
           let magicSubSkillOption = document.createElement("option");
-          magicSubSkillOption.innerText = allMagicSubskillsObject[i][0];
-          magicSubSkillOption.value =
-            allMagicSubskillsObject[i][1] + allMagicSubskillsObject[i][0];
+          magicSubSkillOption.innerText = allMagicSubskillsObjectKeys[i];
+          magicSubSkillOption.value = allMagicSubskillsObjectValues[i] + allMagicSubskillsObjectKeys[i];
           magicSubSkillSelect.appendChild(magicSubSkillOption);
         }
         evaluateMagicSubSkill();

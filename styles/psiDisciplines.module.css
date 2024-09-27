@@ -49,6 +49,16 @@
     grid-column: 5/7;
     grid-row: 2/3;
 }
+.psiActivateButton:disabled {
+    background-color: black;
+    color: white;
+    opacity: 0.6;
+}
+.psiActivateButton:disabled:hover {
+    background-color: black;
+    color: white;
+    opacity: 0.6;
+}
 .psiPoints{
     display: grid;
     grid-column: 6/7;

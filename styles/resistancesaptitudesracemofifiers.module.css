@@ -16,9 +16,21 @@
     background-color: black;
     margin: 0.2vw;
     padding: 0.3vw;
+    justify-items: center;
 }
 .ResistancesAptitudesRaceMofifiersWrapper li{
-text-align: left;
-font-size: 1vw;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+text-align: right;
+font-size: 0.8vw;
 margin-top: 1vw;
+align-items: center;
+}
+.ResistancesAptitudesRaceMofifiersWrapper li div{
+text-align: center;
+font-size: 0.8vw;
+}
+.ResistancesAptitudesRaceMofifiersWrapper li button{
+text-align: center;
+font-size: 1vw;
 }

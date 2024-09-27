@@ -213,8 +213,10 @@ export async function fetchCharacterData(currentCharName) {
           activeBuffsStringArray[i].includes("Fájdalomtűrés")
         ) {
           //**************************************************** */
-          //pontosan a 16. karaktertől slice, így a parseInt megtalálja az fp pajzs mennyiségét
-          fpShieldSetter(parseInt(activeBuffsStringArray[i].slice(16)));
+          //regexp megtalálja az első számot, ahonnan slice + parseInt megadja az fp pajzs mennyiségét
+          //azért kell slice, mert így tudja kezelni a 2jegyű számokat is, hiszen az első megtalált számjegy
+          //után jön majd közvetlenül az egyes helyiérték, a parseInt pedig mindent ignorál a szám után
+          fpShieldSetter(parseInt(activeBuffsStringArray[i].slice(allActiveBuffs[i].innerText.search(/[0-9]/))));
         }
         if (
           activeBuffsStringArray[i].includes("ismétlődő")
@@ -512,6 +514,8 @@ export let modifierFromNumberOfAttacksInTheRound = 0;
 export function modifierFromNumberOfAttacksInTheRoundNullifier() {
   modifierFromNumberOfAttacksInTheRound = 0;
 }
+export let allResistances = {}
+export let currentCharFinalAttributes = {};
 export function CharCompare(a, b, index) {
   let alphabets = [
     "A",
@@ -574,14 +578,14 @@ export default function Home(props) {
  OrderFunctionForAllWeapons();
   let damageOfFists = "1k10";
   let destroyerLevel;
-  let schoolsOfMagic = [
-    "Magas Mágia",
-    "Bárdmágia",
-    "Boszorkánymágia",
-    "Boszorkánymesteri mágia",
-    "Tűzvarázslói mágia",
-    "Szakrális mágia",
-  ];
+  let schoolsOfMagicNamesAndAttributes = {
+    "Magas Mágia":"Int",
+    "Bárdmágia":"Kar",
+    "Boszorkánymágia":"Asz",
+    "Boszorkánymesteri mágia":"Aka",
+    "Tűzvarázslói mágia":"Aka",
+    "Szakrális mágia":"Kar",
+  };
   let schoolsOfMagicSubClass = [
     "Magas mágiaforma",
     "Bárd mágiaforma",
@@ -591,7 +595,7 @@ export default function Home(props) {
     "Kisebb fohászok",
     "Nagyobb fohászok",
   ];
-  let attributeIndexesForSchoolsOfMagic = [6, 5, 8, 7, 7, 5];
+  let attributesForSchoolsOfMagic = ["Int", "Kar", "Asz", "Aka", "Aka", "Kar"];
   let skillLevelsMeaning = ["If", "Af", "Kf", "Mf", "Lf"];
 
   //------------------------------------------------------------------------
@@ -705,7 +709,7 @@ export default function Home(props) {
       numberOfClicksForAttacksForPsiAssault >
       availableNumberOfAttacksFromPsiAssault
     ) {
-      buffRemoverFromActiveBuffArrayAndTextList("Pszi Roham");
+      buffRemoverFromActiveBuffArrayAndTextList("Pszi roham");
       numberOfClicksForAttacksForPsiAssault = 0;
     }
     return result;
@@ -966,7 +970,6 @@ export default function Home(props) {
     "Asz",
     "Érz",
   ];
-  let currentCharFinalAttributes = [];
   //   function handleFileImportClick() {
   //     window.location.reload();
   // }
@@ -989,6 +992,7 @@ export default function Home(props) {
   let filteredArrayIfHasPsionist 
   let filteredArrayIfHasAncientSoul
   let filteredArrayIfHasRunning
+  let schoolsOfMagicNames
 
   async function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
@@ -1016,10 +1020,9 @@ export default function Home(props) {
           );
         }
       });
-      for (let i = 0; i < allActiveBuffs.length; i++) {
-        observer.observe(allActiveBuffs[i], { childList: true, subtree: true });
-      }
-
+      
+        observer.observe(listOfCurrentlyActiveBuffs, { childList: true, subtree: true });
+      
       let indexOfFirstWeapon = 0;
       for (
         indexOfFirstWeapon;
@@ -1198,9 +1201,9 @@ if (fileFirstLoaded) {
           twoWeaponAttackModifiersIndex =
             filteredArrayIfHasTwoWeaponAttack[0].level;
         }
-  
+   schoolsOfMagicNames = Object.keys(schoolsOfMagicNamesAndAttributes)
         filteredArrayIfHasAnyMagicSkill = JSON.parse(reader.result).skills.filter(
-          (name) => schoolsOfMagic.includes(name.name)
+          (name) => schoolsOfMagicNames.includes(name.name)
         );
         for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
           if (filteredArrayIfHasAnyMagicSkill[i].subSkill) {
@@ -1237,8 +1240,8 @@ if (fileFirstLoaded) {
             ] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level;
           }
         }
-
-        allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
+console.log(allMagicSubskillsObject)
+       // allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
       
 
       filteredArrayIfHasParry = JSON.parse(reader.result).skills.filter(
@@ -1336,7 +1339,7 @@ if (fileFirstLoaded) {
           attrOption.value = [currentAttribute, charAttributes[i]];
           attributes.appendChild(attrOption);
           //itt kerülnek meghatározásra a végső tulajdonság értékek
-          currentCharFinalAttributes.push(currentAttribute);
+          currentCharFinalAttributes[charAttributes[i]] = currentAttribute;
         }
         // itt rakja be az összes skillt a skillCheck komponensbe
         let allSkillsArray = []
@@ -1516,16 +1519,17 @@ if (fileFirstLoaded) {
       baseAimWithTeoCalculator = tvcoCalculator(baseAim);
       baseAtkWithTeoCalculator = tvcoCalculator(baseAtk);
       baseDefWithTeoCalculator = tvcoCalculator(baseDef);
-      //--- külön az erő tulajdonság, ami az oldalon megjelenik
 
-      initiative.innerText =
-        currentCharFinalAttributes[1] +
-        currentCharFinalAttributes[6] +
-        currentCharFinalAttributes[9] +
-        sumInitiativeGainedByLevel +
-        JSON.parse(reader.result).stats.KÉ;
       // legenerálja a fizikai tulajdonságok nevét és értékét
       if (fileFirstLoaded == true) {
+        initiative.innerText =  // --- alap KÉ érték.
+        currentCharFinalAttributes.Gyo +
+        currentCharFinalAttributes.Int +
+        currentCharFinalAttributes.Érz +
+        sumInitiativeGainedByLevel +
+        JSON.parse(reader.result).stats.KÉ;
+
+        let currentCharFinalAttributeValues = Object.values(currentCharFinalAttributes)
         for (let i = 0; i < 5; i++) {
           let physicalAttributeNameDiv = document.createElement("div");
           let physicalAttributeValueDiv = document.createElement("div");
@@ -1533,7 +1537,7 @@ if (fileFirstLoaded) {
           physicalAttributeValueDiv.classList.add("physicalAttributeValue");
           physicalAttributeValueDiv.setAttribute("id", `${charAttributes[i]}`);
           physicalAttributeNameDiv.innerText = charAttributes[i] + ":";
-          physicalAttributeValueDiv.innerText = currentCharFinalAttributes[i];
+          physicalAttributeValueDiv.innerText = currentCharFinalAttributeValues[i];
           skillCheckLeftSideWrapper.appendChild(physicalAttributeNameDiv);
           skillCheckLeftSideWrapper.appendChild(physicalAttributeValueDiv);
         }
@@ -1544,7 +1548,7 @@ if (fileFirstLoaded) {
           spiritualAttributeNameDiv.classList.add("spiritualAttributeName");
           spiritualAttributeValueDiv.classList.add("spiritualAttributeValue");
           spiritualAttributeNameDiv.innerText = charAttributes[i] + ":";
-          spiritualAttributeValueDiv.innerText = currentCharFinalAttributes[i];
+          spiritualAttributeValueDiv.innerText = currentCharFinalAttributeValues[i];
           skillCheckRightSideWrapper.appendChild(spiritualAttributeNameDiv);
           skillCheckRightSideWrapper.appendChild(spiritualAttributeValueDiv);
         }
@@ -1560,7 +1564,7 @@ if (fileFirstLoaded) {
       // az ökölhöz tartozó legmagasabb tulajdonságokat alapból 4-el kell osztani *********************
 
       let fistAtkDivider = 4;
-      let charStrWithWarriorMonkAptitude = currentCharFinalAttributes[0];
+      let charStrWithWarriorMonkAptitude = currentCharFinalAttributes.Erő;
       // van-e harcművész adottság?
       if (filteredArrayIfHasWarriorMonk.length != 0) {
         if (parseInt(filteredArrayIfHasWarriorMonk[0].level) == 2) {
@@ -1578,15 +1582,15 @@ if (fileFirstLoaded) {
         //megnézi a legmagasabb tul-t és elosztja az ököl osztóval, ami a harcművész adottsággal változhat
         let fistAtk = Math.floor(
           Math.max(
-            currentCharFinalAttributes[0],
-            currentCharFinalAttributes[1],
-            currentCharFinalAttributes[2]
+            currentCharFinalAttributes.Erő,
+            currentCharFinalAttributes.Gyo,
+            currentCharFinalAttributes.Ügy
           ) / fistAtkDivider
         );
         let fistDef = Math.floor(
           Math.max(
-            currentCharFinalAttributes[1],
-            currentCharFinalAttributes[2]
+            currentCharFinalAttributes.Gyo,
+            currentCharFinalAttributes.Ügy
           ) / fistAtkDivider
         );
         atkWithProfession = baseAtk + parseInt(professionLevel) * fistAtk;
@@ -1712,7 +1716,7 @@ if (fileFirstLoaded) {
       }
       let correctedSpeedValueForMovementCalculation =
         10 +
-        Math.floor(currentCharFinalAttributes[1] / 2) +
+        Math.floor(currentCharFinalAttributes.Gyo / 2) +
         speedBonusFromRunningSkill -
         currentlySelectedWeapon.mgt -
         reducedMgtByParrySkill -
@@ -1748,17 +1752,17 @@ if (fileFirstLoaded) {
         damageOfFists = "3k5";
       }
       //-------- mana, fp és pszi számítás kell
-      //-----pszi
+      //-----pszi és Ellenállások    
       let lowestStatForPsiPoints = Math.min(
-        currentCharFinalAttributes[6],
-        currentCharFinalAttributes[7],
-        currentCharFinalAttributes[8]
+        currentCharFinalAttributes.Int,
+        currentCharFinalAttributes.Aka,
+        currentCharFinalAttributes.Asz
       );
       // --- ha van Pszionista adottság, akkor a legmagasabb Tulajdonság számít a legalacsonyabb helyett
       let highestStatForPsiPoints = Math.max(
-        currentCharFinalAttributes[6],
-        currentCharFinalAttributes[7],
-        currentCharFinalAttributes[8]
+        currentCharFinalAttributes.Int,
+        currentCharFinalAttributes.Aka,
+        currentCharFinalAttributes.Asz
       )
       let psiMultiplier = 0;
       if (filteredArrayIfHasPsi.length != 0) {
@@ -1776,12 +1780,60 @@ if (fileFirstLoaded) {
           statForPsiPoints * psiMultiplier +
             JSON.parse(reader.result).stats.Pp
         ) + sumPpGainedByLevel;
+      let psiShieldForAsz = 0
+      let psiShieldForAka = 0
+
+        if(!filteredArrayIfHasPsi[0].length && filteredArrayIfHasPsi[0].level >= 2){
+          let accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled = 1
+          let multiplierWhenCaluclatingCostOfPsiShiled = 1
+          while(multiplierWhenCaluclatingCostOfPsiShiled*currentCharFinalAttributes.Asz+accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled<=psiPoints){
+            psiShieldForAsz++
+            multiplierWhenCaluclatingCostOfPsiShiled++
+            accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled+=multiplierWhenCaluclatingCostOfPsiShiled
+          }
+          accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled = 1
+          multiplierWhenCaluclatingCostOfPsiShiled = 1
+          while(multiplierWhenCaluclatingCostOfPsiShiled*currentCharFinalAttributes.Aka+accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled<=psiPoints){
+            psiShieldForAka++
+            multiplierWhenCaluclatingCostOfPsiShiled++
+            accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled+=multiplierWhenCaluclatingCostOfPsiShiled
+          }
+        }
+
+        astralResist.innerText = `${currentCharFinalAttributes.Asz} + (${psiShieldForAsz})` 
+        astralResist.parentElement.lastChild.value = currentCharFinalAttributes.Asz + psiShieldForAsz // a gomb value értékében van elrejtve az ellenállás
+        mentalResist.innerText = `${currentCharFinalAttributes.Aka} + (${psiShieldForAka})`
+        mentalResist.parentElement.lastChild.value = currentCharFinalAttributes.Aka + psiShieldForAka
+        physicalResist.innerText = Math.min(currentCharFinalAttributes.Egé, currentCharFinalAttributes.Áll)
+        physicalResist.parentElement.lastChild.value = Math.min(currentCharFinalAttributes.Egé, currentCharFinalAttributes.Áll)
+        if (currentCharFinalAttributes.Asz + psiShieldForAsz >=currentCharFinalAttributes.Aka + psiShieldForAka) 
+        {
+          spiritualResist.innerText = `${currentCharFinalAttributes.Aka} + (${psiShieldForAka})`
+        } 
+        else if (currentCharFinalAttributes.Asz + psiShieldForAsz < currentCharFinalAttributes.Aka + psiShieldForAka)
+        {
+          spiritualResist.innerText = `${currentCharFinalAttributes.Asz} + (${psiShieldForAsz})`
+        }
+        spiritualResist.parentElement.lastChild.value = Math.min(currentCharFinalAttributes.Asz + psiShieldForAsz, currentCharFinalAttributes.Aka + psiShieldForAka)
+        
+        if (parseInt(spiritualResist.parentElement.lastChild.value) >= parseInt(physicalResist.parentElement.lastChild.value)) 
+        {
+          complexResist.innerText = physicalResist.innerText
+        }
+        else if (parseInt(spiritualResist.parentElement.lastChild.value) < parseInt(physicalResist.parentElement.lastChild.value)) 
+        {
+          complexResist.innerText = spiritualResist.innerText
+        }
+        complexResist.parentElement.lastChild.value = Math.min(parseInt(spiritualResist.parentElement.lastChild.value), parseInt(physicalResist.parentElement.lastChild.value))
+        evasiveResist.innerText = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz)
+        evasiveResist.parentElement.lastChild.value = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz)
+      
       //--------------------fp
       let fpPoints =
         JSON.parse(reader.result).stats.Fp +
         sumFpGainedByLevel +
-        currentCharFinalAttributes[3] +
-        currentCharFinalAttributes[7];
+        currentCharFinalAttributes.Áll +
+        currentCharFinalAttributes.Aka;
       //------------------ mana
       let attributeNeededToCalculateManaPoints = 0;
       let highestMagicSkillLevel = 0;
@@ -1823,10 +1875,11 @@ if (fileFirstLoaded) {
       } else {
         highestMagicSkillName = "";
       }
-      for (let i = 0; i < schoolsOfMagic.length; i++) {
-        if (highestMagicSkillName == schoolsOfMagic[i]) {
+      for (let i = 0; i < schoolsOfMagicNames.length; i++) {
+        if (highestMagicSkillName == schoolsOfMagicNames[i]) {
+          let variable1 = schoolsOfMagicNamesAndAttributes[schoolsOfMagicNames[i]]
           attributeNeededToCalculateManaPoints =
-            currentCharFinalAttributes[attributeIndexesForSchoolsOfMagic[i]] +
+            currentCharFinalAttributes[variable1] +
             modifierByMagicallyAttunedAptitude;
           for (let j = 0; j < props.gods.length; j++) {
             if (props.gods[j].nameOfGod == currentGodWorshippedByPlayer) {
@@ -1869,7 +1922,7 @@ if (fileFirstLoaded) {
         const data = {
           charName: charName.innerText,
           currentFp: fpPoints,
-          currentEp: currentCharFinalAttributes[4] + vigorousModifier * 2,
+          currentEp: currentCharFinalAttributes.Egé + vigorousModifier * 2,
           currentPp: psiPoints,
           currentMp: manaPoints,
           currentLp: legendPoints,
@@ -1877,7 +1930,7 @@ if (fileFirstLoaded) {
 
         (maxFp.innerText = fpPoints),
           (maxEp.innerText =
-            currentCharFinalAttributes[4] + vigorousModifier * 2),
+            currentCharFinalAttributes.Egé + vigorousModifier * 2),
           (maxPp.innerText = psiPoints),
           (maxMp.innerText = manaPoints),
           (maxLp.innerText = legendPoints);
@@ -2163,7 +2216,7 @@ if (fileFirstLoaded) {
       // }
     //}
 
-    if (initRolled == true) {
+    if (initRolled == true && !spellNeedsAimRoll) {
       if (
         currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound + 1 &&
         !spellNeedsAimRoll

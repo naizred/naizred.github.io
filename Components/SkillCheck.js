@@ -25,7 +25,15 @@ export async function skillOrAttributeCheckRoll(
     if (skillCheckLightDice == 0) {
       skillCheckLightDice = 10;
     }
+    console.log(
+      "módosító nélkül:",
+      skillCheckLightDice
+    );
     skillCheckLightDice += parseInt(rollModifier.value);
+    console.log(
+      "módosítóval növelt dobás érték:",
+      skillCheckLightDice
+    );
 
     if (skillCheckLightDice >= 10) {
       skillCheckCalculatedResultFromRoll = 3;
@@ -235,8 +243,22 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
   }
   skillCheckResult.innerText = "";
 }
+export let checkBoxTurnedFromNotCheckedToCheckedStatus = false
 function SkillCheck(props) {
   allSkillProps = props.allSkills;
+  let checkBoxStatusCheckedOnClick = false
+  let checkBoxStatusCheckedOnMouseEnter = false
+function handleSkillCheckStressCheckbox(event){
+  checkBoxStatusCheckedOnClick = event.target.checked
+  if (!checkBoxStatusCheckedOnMouseEnter && checkBoxStatusCheckedOnClick) {
+    checkBoxTurnedFromNotCheckedToCheckedStatus = true
+  } else {
+    checkBoxTurnedFromNotCheckedToCheckedStatus = false
+  }
+}
+function checkSkillCheckStressCheckboxStatus (event){
+  checkBoxStatusCheckedOnMouseEnter = event.target.checked
+}
 
   return (
     <div id="skillCheckWrapper">
@@ -354,7 +376,7 @@ function SkillCheck(props) {
       <div id="skillCheckResultLabel">Próba végső eredménye:</div>
       <div id="skillCheckResult"></div>
       <div id="skillCheckStressCheckboxLabel">Stresszpróba:</div>
-      <input type="checkBox" id="skillCheckStressCheckbox" />
+      <input type="checkBox" onMouseEnter={checkSkillCheckStressCheckboxStatus} onChange={handleSkillCheckStressCheckbox} id="skillCheckStressCheckbox" />
       <div id="spiritualAttributesLabel">Szellemi tulajdonságok:</div>
       <div id="skillCheckLeftSideWrapper"></div>
       <div id="skillCheckRightSideWrapper"></div>
