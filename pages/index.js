@@ -1343,7 +1343,7 @@ console.log(allMagicSubskillsObject)
         }
         // itt rakja be az összes skillt a skillCheck komponensbe
         let allSkillsArray = []
-        for (let i = 0; i < JSON.parse(reader.result).skills.length; i++) {
+        for (let i = 0; i < JSON.parse(reader.result).skills.length; i++) {  // itt a "skills" a katakter txt-ben lévő képzettségekre utal
           if (JSON.parse(reader.result).skills[i].name != null) {
             let tempLevelNameStore = parseInt(
               JSON.parse(reader.result).skills[i].level
