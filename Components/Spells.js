@@ -79,10 +79,6 @@ export let actionsNeededToBeAbleToCastAgain = 0;
 export function actionsNeededToBeAbleToCastAgainNullifier (){
   actionsNeededToBeAbleToCastAgain = 0;
 }
-export let attackRollButtonWasDisabledBeforeSpellCast = false;
-export function attackRollButtonWasDisabledBeforeSpellCastSetToFalse (){
-  attackRollButtonWasDisabledBeforeSpellCast = false;
-}
 export let numberOfActionsNeededForTheSpell = 0;
 export let castBarCurrentWidthStart = 0;
 export let castBarCurrentWidthEnd = 0;
@@ -139,7 +135,6 @@ export function spellCastingSuccessful() {
       castBarFlashEffect.style.display = "none";
     }, 390);
     //spellTypeQuestionWindow.style.display = "grid";
-    attackRollButton.disabled = true;
 
     if (initRolled == true && actionsNeededToBeAbleToCastAgain > 0) {
       spellCastingActionButton.disabled = true;
@@ -830,12 +825,6 @@ function Spells() {
 
     advancedSpellInputWrapper.style.display = "none";
     spellInputWrapper.style.display = "none";
-    if (initRolled == true && attackRollButton.disabled == true) {
-      attackRollButtonWasDisabledBeforeSpellCast = true;
-    }
-    if (initRolled == true && attackRollButton.disabled == false) {
-      attackRollButtonWasDisabledBeforeSpellCast = false;
-    }
     if (initRolled == true && numberOfActionsNeededForTheSpell > 1) {
       spellIsBeingCast = true;
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;

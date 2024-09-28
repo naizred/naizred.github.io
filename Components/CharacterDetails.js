@@ -68,6 +68,7 @@ import {
   firstAttackIsAttackOfOpportunitySetToFalse,
   firstAttackIsSpellThatNeedsAimRollSetToFalse,
   spellNeedsAimRoll,
+  attackRollButtonWasDisabledBeforeSpellCastSetToFalse,
 } from "./ActionsList";
 import {
   spellCastingSuccessful,
@@ -75,7 +76,6 @@ import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
   spellIsBeingCast,
   actionsNeededToBeAbleToCastAgainNullifier,
-  attackRollButtonWasDisabledBeforeSpellCastSetToFalse,
 } from "./Spells";
 export let initRolled = false;
 export let extraReactionLevel = 0;
@@ -367,6 +367,7 @@ function CharacterDetails() {
   // a kör végének kezelése
   //****************************************************************** */
   function handleEndOfRound() {
+    firstAttackIsSpellThatNeedsAimRollSetToFalse()
     if (combinationCheckBox.checked == true) {
       totalActionCostOfAttackSetter(-1);
     }
@@ -557,6 +558,7 @@ function CharacterDetails() {
   }
 
   function handleEndOfCombat() {
+    attackRollButtonWasDisabledBeforeSpellCastSetToFalse()
     firstAttackIsAttackOfOpportunitySetToFalse()
     innerTimeNegativeModifierNullifier();
     toggleAllallActionBarButtonsExceptInitRollDisplay("none");

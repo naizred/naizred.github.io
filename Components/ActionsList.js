@@ -25,12 +25,15 @@ import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import Spells, {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
-  attackRollButtonWasDisabledBeforeSpellCast,
   checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier,
   currentCombatSpell,
   currentCombatSpellChanger,
 } from "./Spells";
 import { spellCastingFailure } from "./Spells";
+export let attackRollButtonWasDisabledBeforeSpellCast = false;
+export function attackRollButtonWasDisabledBeforeSpellCastSetToFalse (){
+  attackRollButtonWasDisabledBeforeSpellCast = false;
+}
 export let chargeOn = false;
 export function chargeToFalse() {
   chargeOn = false;
@@ -181,6 +184,12 @@ export function handleIfSpellDoesNotNeedAimRoll() {
        arrayOfAllComplexManeuvers[i].disabled = true;
      }
    }
+   if (initRolled == true && attackRollButton.disabled == true) {
+    attackRollButtonWasDisabledBeforeSpellCast = true;
+  }
+  if (initRolled == true && attackRollButton.disabled == false) {
+    attackRollButtonWasDisabledBeforeSpellCast = false;
+  }
    attackRollButton.disabled = false;
    if (initRolled && !firstAttackInRound) {
      firstAttackIsSpellThatNeedsAimRoll = true

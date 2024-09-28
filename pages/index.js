@@ -26,10 +26,10 @@ import ActionList, {
   charDefValueSave,
   firstAttackIsSpellThatNeedsAimRoll,
   firstAttackIsSpellThatNeedsAimRollSetToFalse,
+  attackRollButtonWasDisabledBeforeSpellCast,
 } from "../Components/ActionsList";
 import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
-  attackRollButtonWasDisabledBeforeSpellCast,
   spellCastingFailure,
   numberOfActionsSpentOnCastingCurrentSpellNullifier,
   spellIsBeingCast,
@@ -2214,7 +2214,27 @@ if (fileFirstLoaded) {
       //   charAtkSum.innerText = skillCheckResult.innerText;
       //   break;
       // }
-    //}
+    //} 
+    if (initRolled &&
+      combinationCheckBox.checked == false &&
+      firstAttackIsSpellThatNeedsAimRoll == false && 
+      firstAttackIsAttackOfOpportunity == false
+    ) {
+      // if (cumulativeCombinationModifier == 0) {
+      //   cumulativeCombinationModifier -=
+      //     combinationModifiers[combinationModifiersIndex];
+      // }
+      attackRollButton.disabled = true;
+    }
+    if (combinationCheckBox.checked == true) {
+      attackRollButton.disabled = false;
+    }
+    if (numberOfClicksAtTwoWeaponAttack == 1) {
+      attackRollButton.disabled = false;
+    }
+    if (attackRollButtonWasDisabledBeforeSpellCast == true) {
+      attackRollButton.disabled = true;
+    }
 
     if (initRolled == true && !spellNeedsAimRoll) {
       if (
@@ -2235,26 +2255,6 @@ if (fileFirstLoaded) {
             arrayOfAllComplexManeuvers[i].parentElement.value
           );
         }
-      }
-      if (
-        combinationCheckBox.checked == false &&
-        firstAttackIsSpellThatNeedsAimRoll == false && 
-        firstAttackIsAttackOfOpportunity == false
-      ) {
-        // if (cumulativeCombinationModifier == 0) {
-        //   cumulativeCombinationModifier -=
-        //     combinationModifiers[combinationModifiersIndex];
-        // }
-        attackRollButton.disabled = true;
-      }
-      if (attackRollButtonWasDisabledBeforeSpellCast == true) {
-        attackRollButton.disabled = true;
-      }
-      if (combinationCheckBox.checked == true) {
-        attackRollButton.disabled = false;
-      }
-      if (numberOfClicksAtTwoWeaponAttack == 1) {
-        attackRollButton.disabled = false;
       }
       //************************************************************************************************************************** */
       //Ebben a körben volt kombináció vagy kapáslövés használva, ezért a minusz HMO-k maradnak
@@ -2334,11 +2334,6 @@ if (fileFirstLoaded) {
         }
       }, 200);
 
-      if (firstAttackIsSpellThatNeedsAimRoll) {
-        firstAttackInRound = false;
-        firstAttackIsSpellThatNeedsAimRollSetToFalse()
-      }
- 
       if (findWeakSpotOn == true) {
         charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier;
         findWeakSpotModifierNullifier();
@@ -2408,6 +2403,10 @@ if (fileFirstLoaded) {
         filteredArrayIfHasAssassination[0].level -
         3;
       assassinationToFalse();
+    }
+    if (firstAttackIsSpellThatNeedsAimRoll) {
+      firstAttackInRound = false;
+      firstAttackIsSpellThatNeedsAimRollSetToFalse()
     }
     playerChecker();
     spellNeedsAimRollSetToFalse();
