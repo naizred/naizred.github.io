@@ -26,6 +26,7 @@ import {
   specialCases3,
   specialModifiers,
   firstAttackInRound,
+  numberOfClicksAtTwoWeaponAttack,
 } from "../pages";
 import {
   filteredArrayIfHasExtraReaction,
@@ -280,6 +281,9 @@ function CharacterDetails() {
       if (initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || (initRolled && firstAttackInRound && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)
       ) {
         attackRollButton.disabled = true;
+      }
+      if (numberOfClicksAtTwoWeaponAttack == 1) {
+        attackRollButton.disabled = false;
       }
       if (initRolled && parseInt(numberOfActions.innerText) < 1)
        {

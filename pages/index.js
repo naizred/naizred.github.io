@@ -471,7 +471,7 @@ export let twoWeaponAttackWasUsedThisRound = false;
 export function twoWeaponAttackWasUsedThisRoundToFalse() {
   twoWeaponAttackWasUsedThisRound = false;
 }
-
+export let numberOfClicksAtTwoWeaponAttack = 0;
 export let firstAttackInRound = false;
 export function setFirstAttackInRoundToFalse() {
   firstAttackInRound = false;
@@ -993,6 +993,7 @@ export default function Home(props) {
   let filteredArrayIfHasAncientSoul
   let filteredArrayIfHasRunning
   let schoolsOfMagicNames
+  let filteredArrayIfHasDestroyer
 
   async function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
@@ -1128,7 +1129,7 @@ if (fileFirstLoaded) {
         charRace.innerText = JSON.parse(reader.result).raceKey;
         charName.innerText = JSON.parse(reader.result).charName;
         //-----szűrés különböző adottságokra
-        let filteredArrayIfHasDestroyer = JSON.parse(
+        filteredArrayIfHasDestroyer = JSON.parse(
           reader.result
         ).aptitudes.filter((name) => name.aptitude == "Pusztító");
         filteredArrayIfHasExtraReaction = JSON.parse(
@@ -1253,19 +1254,6 @@ console.log(allMagicSubskillsObject)
       filteredArrayIfHasAssassination = JSON.parse(reader.result).skills.filter(
         (name) => name.name == "Orvtámadás"
       );
-      if (filteredArrayIfHasAssassination.length != 0) {
-        bonusDamageFromAssassination = filteredArrayIfHasAssassination[0].level;
-      }
- 
-      if (
-        filteredArrayIfHasDestroyer.length != 0 &&
-        !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)
-      ) {
-        destroyerLevel = parseInt(filteredArrayIfHasDestroyer[0].level);
-      } else {
-        destroyerLevel = 0;
-      }
-
       let currentChar = props.chars.find(
         (name) => name.classKey == JSON.parse(reader.result).classKey
       );
@@ -1445,6 +1433,18 @@ console.log(allMagicSubskillsObject)
       currentlySelectedOffHand = allWeapons.find(
       (name) => name.w_name === `${offHand.value}`
       );
+
+      if (filteredArrayIfHasAssassination.length != 0) {
+        bonusDamageFromAssassination = filteredArrayIfHasAssassination[0].level;
+      }
+      if (
+        filteredArrayIfHasDestroyer.length != 0 &&
+        !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)
+      ) {
+        destroyerLevel = parseInt(filteredArrayIfHasDestroyer[0].level);
+      } else {
+        destroyerLevel = 0;
+      }
 
       if (filteredArrayIfHasMasterWep.length != 0) {
         masterWeaponModifier = parseInt(filteredArrayIfHasMasterWep[0].level);
@@ -1783,7 +1783,7 @@ console.log(allMagicSubskillsObject)
       let psiShieldForAsz = 0
       let psiShieldForAka = 0
 
-        if(!filteredArrayIfHasPsi[0].length && filteredArrayIfHasPsi[0].level >= 2){
+        if(filteredArrayIfHasPsi.length && filteredArrayIfHasPsi[0].level >= 2){
           let accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled = 1
           let multiplierWhenCaluclatingCostOfPsiShiled = 1
           while(multiplierWhenCaluclatingCostOfPsiShiled*currentCharFinalAttributes.Asz+accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled<=psiPoints){
@@ -2027,7 +2027,7 @@ console.log(allMagicSubskillsObject)
   // ez a számláló a pszi roham miatt van
   let numberOfClicksForAttacksForPsiAssault = 0;
   //ez pedig a kétkezes harc miatt
-  let numberOfClicksAtTwoWeaponAttack = 0;
+  numberOfClicksAtTwoWeaponAttack = 0;
 
   //************************************************************************ */
   //------------------a támadó dobás
