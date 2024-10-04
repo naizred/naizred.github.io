@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import path from "path";
 import allWeapons from "../json/allWeapons.json"
+import aptitudesDescript from "../json/aptitudesDescript.json"
 import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
 import ActionList, {
   assassinationToFalse,
@@ -141,8 +142,8 @@ export const getStaticProps = async () => {
   let armors = JSON.parse(
     fs.readFileSync(jsonDirectory + "/armors.json", "utf8")
   );
-  let chars = JSON.parse(
-    fs.readFileSync(jsonDirectory + "/chars.json", "utf8")
+  let classes = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/classes.json", "utf8")
   );
   let gods = JSON.parse(fs.readFileSync(jsonDirectory + "/gods.json", "utf8"));
   let psiDisciplines = JSON.parse(
@@ -167,7 +168,7 @@ export const getStaticProps = async () => {
     props: {
       allSkills,
       armors,
-      chars,
+      classes,
       gods,
       psiDisciplines,
       races,
@@ -643,8 +644,7 @@ export default function Home(props) {
     // Itt vannak a nevezetes dobások
     // a fegyvertörés és lefegyverzés ki van véve, mert azok nem támadódobások, tehát nem
     // lehet velük cselekedetet veszíteni vagy nyerni
-    let first = disarmRadioButton.checked
-    let second=weaponBreakRadioButton.checked
+
     if (lightDice == darkDice && specialCases1.includes(darkDice)) {
       specialEffect.innerText = specialModifiers[1];
     } else if (lightDice == darkDice && specialCases2.includes(darkDice)) {
@@ -1128,6 +1128,24 @@ if (fileFirstLoaded) {
         charLevel.innerText = `${JSON.parse(reader.result).level}. szintű`;
         charRace.innerText = JSON.parse(reader.result).raceKey;
         charName.innerText = JSON.parse(reader.result).charName;
+        //-----adottságok és faji módosítók leírása az infó ablakba
+        let allAptitudes = JSON.parse(reader.result).aptitudes
+        for (let i = 0; i < allAptitudes.length; i++) {
+            let currentAptitudeName = allAptitudes[i].aptitude;
+            let romanNumbers = ["I.", "II.", "III."]
+            for (let j = 0; j < aptitudesDescript.length; j++) {
+              if (allAptitudes[i].aptitude == aptitudesDescript[j].aptName && allAptitudes[i].level != 0) {
+                let aptitudeListItem = document.createElement("li");
+                if (aptitudesDescript[j].longDescriptionRequired) {
+                  aptitudeListItem.innerText = `${aptitudesDescript[j].aptName} ${romanNumbers[allAptitudes[i].level-1]} fokozat`
+                } else {
+                  aptitudeListItem.innerText = `${aptitudesDescript[j].levelDescription[allAptitudes[i].level-1]}`
+                }
+                aptitudesList.appendChild(aptitudeListItem)
+                break
+              }
+            }
+        }
         //-----szűrés különböző adottságokra
         filteredArrayIfHasDestroyer = JSON.parse(
           reader.result
@@ -1241,7 +1259,6 @@ if (fileFirstLoaded) {
             ] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level;
           }
         }
-console.log(allMagicSubskillsObject)
        // allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
       
 
@@ -1254,81 +1271,24 @@ console.log(allMagicSubskillsObject)
       filteredArrayIfHasAssassination = JSON.parse(reader.result).skills.filter(
         (name) => name.name == "Orvtámadás"
       );
-      let currentChar = props.chars.find(
+      let currentChar = props.classes.find(
         (name) => name.classKey == JSON.parse(reader.result).classKey
       );
-      //adott karakter(kaszt) alap statjai
-      let currentCharBaseAttributeValues = Object.values(currentChar).slice(
-        1,
-        11
-      );
-    
-      //------ Ez itt csúnyán van hardcodolva, keresés kéne az attrSpreadArray object entries-be majd
-      let attrSpreadArray = Object.values(JSON.parse(reader.result).attrSpread);
       let currentRace = props.races.find(
         (name) => name.raceKey == JSON.parse(reader.result).raceKey
       );
-      let agingArray = Object.values(
-        JSON.parse(reader.result).ageing.distribution
-      );
-      // faji módosító objektum értékei
-      let currentRaceModifiers = Object.values(currentRace).slice(1, 11);
-      //--------------------------------------------------------------------------------
-    
-      function modifierCalculator(index1, index2, index3) {
-        let currentModifier = 0;
-        currentModifier +=
-          attrSpreadArray[index1] -
-          agingArray[index1] +
-          currentRaceModifiers[index1];
-        currentModifier +=
-          attrSpreadArray[index2] -
-          agingArray[index2] +
-          currentRaceModifiers[index2];
-        currentModifier +=
-          attrSpreadArray[index3] -
-          agingArray[index3] +
-          currentRaceModifiers[index3];
-        return currentModifier;
-      }
-      let atkModifier = modifierCalculator(0, 1, 2);
-      let aimModifier = modifierCalculator(2, 8, 9);
-      let defModifier = modifierCalculator(1, 2, 9);
-
-      function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
-        let attrBuyingObj = JSON.parse(reader.result).attrBuying;
-        let numberOfBoughtAttributes = 0;
-        for (let i = 0; i < attrBuyingObj.length; i++) {
-          for (let j = 0; j < attrBuyingObj[i].length; j++) {
-            if (attrBuyingObj[i][j] == attr1) {
-              numberOfBoughtAttributes++;
-            } else if (attrBuyingObj[i][j] == attr2) {
-              numberOfBoughtAttributes++;
-            } else if (attrBuyingObj[i][j] == attr3) {
-              numberOfBoughtAttributes++;
-            }
-          }
+      // faji egyedi jellemzők megjelenítése
+              for (let i = 0; i < currentRace.uniqueAbilities.length; i++) {
+            let currentuniqueAbility = currentRace.uniqueAbilities[i];            
+            let raceModifiersListItem = document.createElement("li");            
+            raceModifiersListItem.innerText = `${currentuniqueAbility}`
+            raceModifiersList.appendChild(raceModifiersListItem)        
         }
-        return numberOfBoughtAttributes;
-      }
+
       //---------------------- betölti a tul. értékeket és képzettségeket
       //------------------------------------------------------------
         toggleAllallActionBarButtonsExceptInitRollDisplay();
 
-        for (let i = 0; i < 10; i++) { // 10-ig megy, mert összesen 10 tulajdonság van
-          let currentAttribute =
-            currentCharBaseAttributeValues[i] +
-            attrSpreadArray[i] +
-            findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) +
-            currentRaceModifiers[i] -
-            agingArray[i];
-          let attrOption = document.createElement("option");
-          attrOption.innerText = charAttributes[i];
-          attrOption.value = [currentAttribute, charAttributes[i]];
-          attributes.appendChild(attrOption);
-          //itt kerülnek meghatározásra a végső tulajdonság értékek
-          currentCharFinalAttributes[charAttributes[i]] = currentAttribute;
-        }
         // itt rakja be az összes skillt a skillCheck komponensbe
         let allSkillsArray = []
         for (let i = 0; i < JSON.parse(reader.result).skills.length; i++) {  // itt a "skills" a katakter txt-ben lévő képzettségekre utal
@@ -1369,16 +1329,70 @@ console.log(allMagicSubskillsObject)
           skillOption.innerText = allSkillsArray[i][3]
           skills.appendChild(skillOption);
         }
-        // egyenlőre kikommentezve, hogy a kategóriákat is figyelembe vegye a sorbaállítás során
-        // for (let j = 0; j < allSkillsArray.length; j++) { 
-        //   for (let k = 0; k < props.allSkills.length; k++) {               
-        //     if (allSkillsArray[j][1]==props.allSkills[k].nameOfSkill) {
-        //       allSkillsArray[j].push(props.allSkills[k].category)
-        //       break
-        //   }
-            
-        //   }
-        // }
+        //adott karakter(kaszt) alap statjai
+        let currentClassBaseAttributes = currentChar.baseAttributes
+        // tulajdonságok módosításai a karakteralkotó Tulajdonság oszlop mellett (max +/-2 mértékben)
+        let attrSpreadObject = JSON.parse(reader.result).attrSpread
+        // öregedés
+        let ageingObject = JSON.parse(reader.result).ageing.distribution
+        // faji módosító objektum értékei
+        let currentRaceAttrModifiersObj = currentRace.attributeModifiers
+      //--------------------------------------------------------------------------------
+      // tulajdonságok számítása, ami kasztból, fajból, és öregedésből jön
+      for (let i = 0; i < charAttributes.length; i++) { // 10-ig megy, mert összesen 10 tulajdonság van
+        let currentAttribute =
+          currentClassBaseAttributes[charAttributes[i]] +
+          attrSpreadObject[charAttributes[i]] +
+          findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) +
+          currentRaceAttrModifiersObj[charAttributes[i]] -
+          ageingObject[charAttributes[i]];
+        let attrOption = document.createElement("option");
+        attrOption.innerText = charAttributes[i];
+        attrOption.value = [currentAttribute, charAttributes[i]];
+        attributes.appendChild(attrOption);
+        //itt kerülnek meghatározásra a végső tulajdonság értékek
+        currentCharFinalAttributes[charAttributes[i]] = currentAttribute;
+      }
+    
+      function modifierCalculator(attr1, attr2, attr3) { 
+        let currentModifier = 0;
+        currentModifier +=
+          attrSpreadObject[attr1] -
+          ageingObject[attr1] +
+          currentRaceAttrModifiersObj[attr1];
+        currentModifier +=
+          attrSpreadObject[attr2] -
+          ageingObject[attr2] +
+          currentRaceAttrModifiersObj[attr2];
+        currentModifier +=
+          attrSpreadObject[attr3] -
+          ageingObject[attr3] +
+          currentRaceAttrModifiersObj[attr3];
+        return currentModifier;
+      }
+      let atkModifier = modifierCalculator("Erő", "Gyo", "Ügy");
+      let aimModifier = modifierCalculator("Ügy", "Asz", "Érz");
+      let defModifier = modifierCalculator("Gyo", "Ügy", "Érz");
+
+      function findAndCountAttributesThatModifyStats(attr1, attr2, attr3) {
+        let attrBuyingObj = JSON.parse(reader.result).attrBuying;
+        let numberOfBoughtAttributes = 0;
+        for (let i = 0; i < attrBuyingObj.length; i++) {
+          for (let j = 0; j < attrBuyingObj[i].length; j++) {
+            if (attrBuyingObj[i][j] == attr1) {
+              numberOfBoughtAttributes++;
+            } else if (attrBuyingObj[i][j] == attr2) {
+              numberOfBoughtAttributes++;
+            } else if (attrBuyingObj[i][j] == attr3) {
+              numberOfBoughtAttributes++;
+            }
+          }
+        }
+        return numberOfBoughtAttributes;  // ez itt azért lesz jó, mert minden megvásárolt Tulajdonság 1-el növeli a az adott Tulajdonság értékét, így a vásárlások száma = össz növekmény értéke
+      }
+      function getAndAddCurrentCharAttributesForBaseAtkAimDef (attr1, attr2, attr3){  // kiszámolja az alapértékeket (TÉ VÉ CÉ) a hozzájuk tartozó tulajdonságok alapján
+        return currentChar.baseAttributes[attr1] + currentChar.baseAttributes[attr2] + currentChar.baseAttributes[attr3]
+      }
 
       ///----- a karakter szintjéből adódó értékek
       let sumAtkGainedByLevel =
@@ -1396,29 +1410,24 @@ console.log(allMagicSubskillsObject)
       sumInitiativeGainedByLevel =
         JSON.parse(reader.result).level * currentChar.initPerLvl;
 
+
       baseAtk =
         JSON.parse(reader.result).stats.TÉ +
-        currentChar.str +
-        currentChar.spd +
-        currentChar.dex +
+        getAndAddCurrentCharAttributesForBaseAtkAimDef("Gyo", "Ügy", "Erő") +
         atkModifier +
         findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Erő") +
         sumAtkGainedByLevel +
         JSON.parse(reader.result).spentHm.TÉ;
       baseAim =
         JSON.parse(reader.result).stats.CÉ +
-        currentChar.dex +
-        currentChar.ast +
-        currentChar.per +
+        getAndAddCurrentCharAttributesForBaseAtkAimDef("Ügy", "Asz", "Érz") +
         aimModifier +
         findAndCountAttributesThatModifyStats("Ügy", "Asz", "Érz") +
         sumAimGainedByLevel +
         JSON.parse(reader.result).spentHm.CÉ;
       baseDef =
         JSON.parse(reader.result).stats.VÉ +
-        currentChar.spd +
-        currentChar.dex +
-        currentChar.per +
+        getAndAddCurrentCharAttributesForBaseAtkAimDef("Gyo", "Ügy", "Érz") +
         60 +
         defModifier +
         findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Érz") +
@@ -1765,6 +1774,9 @@ console.log(allMagicSubskillsObject)
         currentCharFinalAttributes.Asz
       )
       let psiMultiplier = 0;
+      if (charRace.innerText == "Amund") {
+        psiMultiplier = 1
+      }
       if (filteredArrayIfHasPsi.length != 0) {
         psiMultiplier = parseFloat(filteredArrayIfHasPsi[0].level / 2);
       }

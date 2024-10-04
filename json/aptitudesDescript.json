@@ -1,0 +1,368 @@
+[
+  {
+    "aptName": "Alvilági affinitás",
+    "levelDescription": [
+      "Az Alvilági képzettségekre +1 DM",
+      "Az Alvilági képzettségekre +2 DM",
+      "Az Alvilági képzettségekre +3 DM"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Amund vér",
+    "levelDescription": [
+      "Az amund képes a Statikus pajzs, a Telekinézis és a Telepátia diszciplínák Kf-ú pszihasználóként való alkalmazására.",
+      "Statikus pajzs, a Telekinézis és a Telepátia diszciplínák Mf-ú alkalmazása. Amund láng diszciplína használatára, amely Meditáció: 5 CS és Pszi pont: 5 jellemzőkkel bír. Hatására lángra lobban egy olyan éghető tárgy, amit az amund lát és egyébként egy gyertya lángjának egy körös behatására tüzet fogna.",
+      "Ultra látás (20 láb): Azokban a helyzetekben, ahol ez a látás előnyt jelent, 4 HMO-nyi harci hátrányt kompenzál, kapcsolódó próbáinál +4 extra sikert jelent."
+    ],
+    "longDescriptionRequired": true
+  },
+  {
+    "aptName": "Arénaharc",
+    "levelDescription": [
+      "+0,5 TÉO-re és VÉO-ra, ha kettőnél több külső személy figyeli érdeklődéssel a közelharci küzdelmét.",
+      "+1 TÉO-re és VÉO-ra, ha kettőnél több külső személy figyeli érdeklődéssel a közelharci küzdelmét.",
+      "+1,5 TÉO-re és VÉO-ra, ha kettőnél több külső személy figyeli érdeklődéssel a közelharci küzdelmét."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Aurabőség",
+    "levelDescription": [
+      "Egy időben +1 Aura tárgyad lehet.",
+      "Egy időben +2 Aura tárgyad lehet.",
+      "Egy időben +3 Aura tárgyad lehet."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Csábító",
+    "levelDescription": [
+      "+1 DM az ellenkező nem tagjaival szembeni pozitív jellegű szociális interakció során. Továbbá előnyös külső megjelenés, melynek mértéke a fokozattal arányos.",
+      "+2 DM az ellenkező nem tagjaival szembeni pozitív jellegű szociális interakció során. Továbbá előnyös külső megjelenés, melynek mértéke a fokozattal arányos.",
+      "+3 DM az ellenkező nem tagjaival szembeni pozitív jellegű szociális interakció során. Továbbá előnyös külső megjelenés, melynek mértéke a fokozattal arányos."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Dzsenn vér",
+    "racial": "Dzsenn",
+    "levelDescription": [
+      "Két olyan diszciplínát tudhat magáénak a dzsenn, amely a Mentál Mágia Alap fokával lenne létrehozható. További Aspektus korlátjai pedig Távolság: érintés; Terület: egy személy; Időtartam: 6 kör.",
+      "További három olyan diszciplínát tudhat magáénak a dzsenn, amely a Mentál Mágia Közép fokával lenne létrehozható. További Aspektus korlátjai pedig Távolság: 50 láb; Terület: öt személy; Időtartam: 30 perc.",
+      "Egy olyan diszciplínát tudhat magáénak a dzsenn, amely a Mentál Mágia Mester fokával lenne létrehozható. További Aspektus korlátjai pedig Távolság: látótáv; Terület: tucatnyi személy; Időtartam: 10 óra."
+    ],
+    "longDescriptionRequired": true
+  },
+  {
+    "aptName": "Ellenálló",
+    "levelDescription": [
+      "+1 DM Mérgekkel és Betegségekkel szemben.",
+      "+2 DM Mérgekkel és Betegségekkel szemben.",
+      "+3 DM Mérgekkel és Betegségekkel szemben."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Elmélyült",
+    "levelDescription": [
+      "Diszciplínák Meditációs ideje 3 Cselekedettel (minimum 1 CS-re) csökken. Ha a Meditációs idő percekig tartó, akkor azt 3 perccel csökkentheti.",
+      "Diszciplínák Meditációs ideje 6 Cselekedettel (minimum 1 CS-re) csökken. Ha a Meditációs idő percekig tartó, akkor azt 6 perccel csökkentheti.",
+      "Diszciplínák Meditációs ideje 9 Cselekedettel (minimum 1 CS-re) csökken. Ha a Meditációs idő percekig tartó, akkor azt 9 perccel csökkentheti."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Elpusztíthatatlan",
+    "levelDescription": [
+      "+3 extra siker és +1 DM a Haldoklás próbákra.",
+      "+6 extra siker és +2 DM a Haldoklás próbákra.",
+      "+9 extra siker és +3 DM a Haldoklás próbákra."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Extra reakció",
+    "levelDescription": [
+      "+1 DM Kezdeményező dobásokra, továbbá egy adott jelenet első körében +1 CS",
+      "+1 DM Kezdeményező dobásokra, továbbá egy adott jelenet első kettő körében +1 CS",
+      "+1 DM Kezdeményező dobásokra, továbbá egy adott jelenet első három körében +1 CS"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Életerős",
+    "levelDescription": ["+2 Max Ép", "+4 Max Ép", "+6 Max Ép"],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Fürge",
+    "levelDescription": [
+      "Kitérésnél +0,5 helyett +1 VÉO",
+      "Kitérésnél +0,5 helyett +1,5 VÉO",
+      "Kitérésnél +0,5 helyett +2 VÉO"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Harci affinitás",
+    "levelDescription": [
+      "Harci képzettségekre +1 DM",
+      "Harci képzettségekre +2 DM",
+      "Harci képzettségekre +3 DM"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Harci láz",
+    "levelDescription": [
+      "CÉL módosítás körönként: +/-1. TÉO nő, VÉO csökken, melyek mértéke 1",
+      "CÉL módosítás körönként: +/-2. TÉO nő, VÉO csökken, melyek mértéke 1,5",
+      "CÉL módosítás körönként: +/-3. TÉO nő, VÉO csökken, melyek mértéke 2"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Harcművész",
+    "levelDescription": [
+      "Ököllel sem számít Fegyvertelennek.",
+      "Ököl harcértékeinek meghatározásánál a Tulajdonság érték harmada számít, sebzéskódjának meghatározásánál +1-gyel magasabbnak tekintendő a karakter Ereje a ténylegesnél",
+      "Ököl harcértékeinek meghatározásánál a Tulajdonság érték fele számít, sebzéskódjának meghatározásánál +3-mal magasabbnak tekintendő a karakter Ereje a ténylegesnél"
+    ],
+    "longDescriptionRequired": true
+  },
+  {
+    "aptName": "Ijesztő",
+    "levelDescription": [
+      "+1 DM negatív szociális interakció során. Továbbá riasztó kisugárzás, melynek mértéke a fokozattól függ.",
+      "+2 DM negatív szociális interakció során. Továbbá riasztó kisugárzás, melynek mértéke a fokozattól függ.",
+      "+3 DM negatív szociális interakció során. Továbbá riasztó kisugárzás, melynek mértéke a fokozattól függ."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Intuitív",
+    "levelDescription": [
+      "+1 DM az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra.",
+      "+2 DM az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra.",
+      "+3 DM az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Lélekerő",
+    "levelDescription": [
+      "+1 DM a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi).",
+      "+2 DM a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi).",
+      "+3 DM a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi)."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Mana érzék",
+    "levelDescription": [
+      "Megérezheted a tárgyakban rejlő varázserőt, ha kézbe veszed azokat és erre összpontosítasz. (1 CS) A leplezett varázslatot csak akkor érzed meg, ha a leplezés mágiaként láttatja a varázslatot.",
+      "A célpont Szellemi ellenállása ellen tett sikeres Érzékelés alapú ellenpróbával megérezheted a személyben rejlő kötött vagy szabad varázserőt, ha megérinted azokat és arra összpontosítasz. (1 CS)",
+      "A két előbbi képesség, ám érintés helyett elegendő pontosan látnod a célpontot."
+    ],
+    "longDescriptionRequired": true
+  },
+  {
+    "aptName": "Mana uraló",
+    "levelDescription": [
+      "1-gyel kevesebb CS-t kell kivárni hogy újra varázsolhass.",
+      "2-vel kevesebb CS-t kell kivárni hogy újra varázsolhass.",
+      "3-mal kevesebb CS-t kell kivárni hogy újra varázsolhass."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Mana vezető",
+    "levelDescription": [
+      "A varázslatok Varázsidő tényezőinek összege 1 ponttal csökken.",
+      "A varázslatok Varázsidő tényezőinek összege 2 ponttal csökken.",
+      "A varázslatok Varázsidő tényezőinek összege 3 ponttal csökken."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Masszív",
+    "levelDescription": [
+      "+1 DM a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra.",
+      "+2 DM a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra.",
+      "+3 DM a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Mágikus affinitás",
+    "levelDescription": [
+      "Mágikus képzettségekre +1 DM",
+      "Mágikus képzettségekre +2 DM",
+      "Mágikus képzettségekre +3 DM"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Megállíthatatlan",
+    "levelDescription": [
+      "Megrendüléskor 1-gyel kevesebb CS-t veszít el.",
+      "Megrendüléskor 2-vel kevesebb CS-t veszít el.",
+      "Megrendüléskor 3-mal kevesebb CS-t veszít el."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Mesterfegyver",
+    "levelDescription": [
+      "+1TÉ, +1CÉ, +1VÉ és +5 láb lőtáv a fegyver harcértékéhez. Követelmény: Aura tárgy",
+      "+2TÉ, +2CÉ, +2VÉ és +10 láb lőtáv a fegyver harcértékéhez. Követelmény: Aura tárgy",
+      "+3TÉ, +3CÉ, +3VÉ és +15 láb lőtáv a fegyver harcértékéhez. Követelmény: Aura tárgy"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Összeszedett",
+    "levelDescription": [
+      "+1 DM az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi).",
+      "+2 DM az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi).",
+      "+3 DM az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi)."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Ősibb lélek",
+    "levelDescription": [
+      "+1 Legendapont maximum",
+      "+2 Legendapont maximum",
+      "+3 Legendapont maximum"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Pszionista",
+    "levelDescription": [
+      "Int, Aka, Asz hármasból a legalacsonyabb helyett a legmagasabb Tulajdonságot veheti alapul a Pszi pontjainak meghatározásakor. Ez a Tulajdonsága +3-mal magasabbnak minősül.",
+      "Pszi pontjainak meghatározásánál az érintett Tulajdonsága +6-tal magasabbnak minősül.",
+      "Pszi pontjainak meghatározásánál az érintett Tulajdonsága +9-cel magasabbnak minősül."
+    ],
+    "longDescriptionRequired": true
+  },
+  {
+    "aptName": "Pusztító",
+    "levelDescription": [
+      "+1 közelharci Sebzés",
+      "+2 közelharci Sebzés",
+      "+3 közelharci Sebzés"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Rejtett varázs",
+    "levelDescription": [
+      "Varázsláskor a procedúrából elhagyható a hang vagy a mozdulat. Varázspróba CÉL értéke +3, Varázslási idő duplázódik.",
+      "Varázsláskor a procedúrából elhagyható a hang vagy a mozdulat. Varázspróba CÉL értéke +3, Varázslási idő csak akkor duplázódik, ha mindkettőt elhagyja.",
+      "Varázsláskor a procedúrából elhagyható a hang vagy a mozdulat. Varázspróba CÉL értéke +3, Varázslási idő változatlan"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Segítőtárs",
+    "levelDescription": [
+      "+1 DM mások próbájának Segítőként való támogatása közbeni saját próbadobására.",
+      "+2 DM mások próbájának Segítőként való támogatása közbeni saját próbadobására.",
+      "+3 DM mások próbájának Segítőként való támogatása közbeni saját próbadobására."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Sugallat",
+    "levelDescription": [
+      "Kalandonként 1 alkalommal lehet előérzete egy számára fontos döntés kapcsán. Feltétele, hogy a játékos kérje a KM-től a Sugallatot",
+      "Kalandonként 2 alkalommal lehet előérzete egy számára fontos döntés kapcsán. Feltétele, hogy a játékos kérje a KM-től a Sugallatot",
+      "Kalandonként 3 alkalommal lehet előérzete egy számára fontos döntés kapcsán. Feltétele, hogy a játékos kérje a KM-től a Sugallatot"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Szerencsés",
+    "levelDescription": [
+      "Jelenetenként 1 alkalommal egy dobás elvégzése során egy adott (k10) kockának két példányát dobhatja el, és utána választhat az eredmények közül.",
+      "Jelenetenként 2 alkalommal egy dobás elvégzése során egy adott (k10) kockának két példányát dobhatja el, és utána választhat az eredmények közül.",
+      "Jelenetenként 3 alkalommal egy dobás elvégzése során egy adott (k10) kockának két példányát dobhatja el, és utána választhat az eredmények közül."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Szociális affinitás",
+    "levelDescription": [
+      "Szociális képzettségekre +1 DM",
+      "Szociális képzettségekre +2 DM",
+      "Szociális képzettségekre +3 DM"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Szívós",
+    "levelDescription": [
+      "Leütés harci manőver ellen +1 DM",
+      "Leütés harci manőver ellen +2 DM. Az eszméletvesztés csak a két kritérium (0 Fp és akt. Ép több, mint felének elvesztése) együttes megléte esetén következik be.",
+      "Leütés harci manőver ellen +3 DM. Az eszméletvesztés a fenti két kritérium együttes megléte esetén sem következik be."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Tehetség",
+    "levelDescription": [
+      "Egyetlen konkrét képzettséghez, annak fejlesztésekor korlátot jelentő Tulajdonság követelmény összértéke 1 ponttal alacsonyabb. (A hatás a Neveltetéssel összevonódik, működési elvei azzal azonosak.)",
+      "Egyetlen konkrét képzettséghez, annak fejlesztésekor korlátot jelentő Tulajdonság követelmény összértéke 2 ponttal alacsonyabb. (A hatás a Neveltetéssel összevonódik, működési elvei azzal azonosak.)",
+      "Egyetlen konkrét képzettséghez, annak fejlesztésekor korlátot jelentő Tulajdonság követelmény összértéke 3 ponttal alacsonyabb. (A hatás a Neveltetéssel összevonódik, működési elvei azzal azonosak.)"
+    ],
+    "longDescriptionRequired": true
+  },
+  {
+    "aptName": "Tudományos affinitás",
+    "levelDescription": [
+      "Tudományos képzettségekre +1 DM.",
+      "Tudományos képzettségekre +2 DM.",
+      "Tudományos képzettségekre +3 DM."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Varázstudó",
+    "levelDescription": [
+      "Lehet varázshasználó.",
+      "Max Mp meghatározásánál az érintett Tulajdonsága +3-mal magasabb.",
+      "Max Mp meghatározásánál az érintett Tulajdonsága +6-tal magasabb."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Viador",
+    "levelDescription": [
+      "+0,5 TÉO-ra és VÉO-ra 1v1-ben",
+      "+1 TÉO-ra és VÉO-ra 1v1-ben",
+      "+1,5 TÉO-ra és VÉO-ra 1v1-ben"
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Világi affinitás",
+    "levelDescription": [
+      "Világi képzettségekre +1 DM.",
+      "Világi képzettségekre +2 DM.",
+      "Világi képzettségekre +3 DM."
+    ],
+    "longDescriptionRequired": false
+  },
+  {
+    "aptName": "Wier vér",
+    "levelDescription": [
+      "A wier 1 Vér ponttal rendelkezik. Elérhető számára a Billogzó harapás, az Iszonytató harapás és az Izzó harapás különleges vérvarázs képességek megidézése.",
+      "A wier már 3 Vér ponttal rendelkezik. Elérhető számára az Éltető harapás és a Feledtető harapása különleges vérvarázs képességek megidézése.",
+      "A wier már 5 Vér ponttal rendelkezik. Elérhető számára a Rabszolgaság harapása különleges vérvarázs képesség megidézése."
+    ],
+    "longDescriptionRequired": true
+  }
+]

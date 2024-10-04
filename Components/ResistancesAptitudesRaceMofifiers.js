@@ -36,7 +36,7 @@ function ResistancesAptitudesRaceMofifiers() {
     return (
         <>
         <div className={styles.ResistancesAptitudesRaceMofifiersWrapper}>
-           <ul className={styles.Resistances}>Ellenállások
+           <ul className={styles.Resistances}>Ellenállások:
            <li>Összetett:<div id='complexResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
            <li>Fizikai:<div id='physicalResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
            <li>Szellemi:<div id='spiritualResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
@@ -44,8 +44,8 @@ function ResistancesAptitudesRaceMofifiers() {
            <li>Mentális:<div id='mentalResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
            <li>Elkerülő:<div id='evasiveResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
            </ul>
-           <ul className={styles.Aptitudes}>Adottságok</ul>
-           <ul className={styles.RaceMofifiers}>Faji módosítók</ul>
+           <ul id="aptitudesList" className={styles.Aptitudes}>Adottságok:</ul>
+           <ul id="raceModifiersList" className={styles.RaceMofifiers}>Faji módosítók:</ul>
             </div>
             </>
     )

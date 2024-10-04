@@ -1,20 +1,191 @@
 [
-{"raceKey":"Ember", "strMod":0, "spdMod":0, "dexMod":0, "conMod":0, "vitMod":0, 
-"chaMod":0, "intMod":0, "wllMod":0, "astMod":0, "perMod":0},
-{"raceKey":"Elf", "strMod":-2, "spdMod":0, "dexMod":1, "conMod":-1, "vitMod":0, 
-"chaMod":1, "intMod":0, "wllMod":0, "astMod":0, "perMod":1},
-{"raceKey":"Félelf", "strMod":-1, "spdMod":1, "dexMod":0, "conMod":0, "vitMod":0, 
-"chaMod":0, "intMod":0, "wllMod":0, "astMod":0, "perMod":0},
-{"raceKey":"Törpe", "strMod":1, "spdMod":0, "dexMod":0, "conMod":1, "vitMod":1, 
-"chaMod":-1, "intMod":-1, "wllMod":0, "astMod":-1, "perMod":0},
-{"raceKey":"Udvari ork", "strMod":2, "spdMod":0, "dexMod":0, "conMod":1, "vitMod":2, 
-"chaMod":-2, "intMod":-2, "wllMod":0, "astMod":-2, "perMod":1},
-{"raceKey":"Amund", "strMod":1, "spdMod":0, "dexMod":0, "conMod":1, "vitMod":0, 
-"chaMod":-1, "intMod":0, "wllMod":0, "astMod":-1, "perMod":0},
-{"raceKey":"Dzsenn", "strMod":-1, "spdMod":0, "dexMod":0, "conMod":-1, "vitMod":0, 
-"chaMod":0, "intMod":1, "wllMod":1, "astMod":0, "perMod":0},
-{"raceKey":"Khál", "strMod":2, "spdMod":1, "dexMod":0, "conMod":1, "vitMod":1, 
-"chaMod":-2, "intMod":-2, "wllMod":0, "astMod":-2, "perMod":1},
-{"raceKey":"Wier", "strMod":0, "spdMod":0, "dexMod":0, "conMod":0, "vitMod":0, 
-"chaMod":0, "intMod":0, "wllMod":0, "astMod":0, "perMod":0}
+  {
+    "raceKey": "Ember",
+    "attributeModifiers": {
+      "Erő": 0,
+      "Gyo": 0,
+      "Ügy": 0,
+      "Áll": 0,
+      "Egé": 0,
+      "Kar": 0,
+      "Int": 0,
+      "Aka": 0,
+      "Asz": 0,
+      "Érz": 0
+    },
+    "uniqueAbilities": [
+      "Adottságok I.foka kevesebb AP-ba kerül",
+      "Tehetség - Faji Adottság"
+    ]
+  },
+  {
+    "raceKey": "Elf",
+    "attributeModifiers": {
+      "Erő": -2,
+      "Gyo": 0,
+      "Ügy": 1,
+      "Áll": -1,
+      "Egé": 0,
+      "Kar": 1,
+      "Int": 0,
+      "Aka": 0,
+      "Asz": 0,
+      "Érz": 1
+    },
+    "uniqueAbilities": [
+      "Infralátás",
+      "2 extra siker hallásra",
+      "3 extra siker látásra",
+      "2 extra kudarc Nekro mágiával szemben"
+    ]
+  },
+  {
+    "raceKey": "Félelf",
+    "attributeModifiers": {
+      "Erő": -1,
+      "Gyo": 1,
+      "Ügy": 0,
+      "Áll": 0,
+      "Egé": 0,
+      "Kar": 0,
+      "Int": 0,
+      "Aka": 0,
+      "Asz": 0,
+      "Érz": 0
+    },
+    "uniqueAbilities": [
+      "Infralátás",
+      "1 extra siker hallásra",
+      "2 extra siker látásra",
+      "1 extra kudarc Nekro mágiával szemben"
+    ]
+  },
+  {
+    "raceKey": "Törpe",
+    "attributeModifiers": {
+      "Erő": 1,
+      "Gyo": 0,
+      "Ügy": 0,
+      "Áll": 1,
+      "Egé": 1,
+      "Kar": -1,
+      "Int": -1,
+      "Aka": 0,
+      "Asz": -1,
+      "Érz": 0
+    },
+    "uniqueAbilities": [
+      "Infralátás",
+      "Minden percben tisztában van vele, hogy épp milyen napszak van",
+      "Aránytalan termet"
+    ]
+  },
+  {
+    "raceKey": "Udvari ork",
+    "attributeModifiers": {
+      "Erő": 2,
+      "Gyo": 0,
+      "Ügy": 0,
+      "Áll": 1,
+      "Egé": 2,
+      "Kar": -2,
+      "Int": -2,
+      "Aka": 0,
+      "Asz": -2,
+      "Érz": 1
+    },
+    "uniqueAbilities": [
+      "Infralátás",
+      "3 extra siker szaglásra",
+      "Ragadozó kisugárzás"
+    ]
+  },
+  {
+    "raceKey": "Amund",
+    "attributeModifiers": {
+      "Erő": 1,
+      "Gyo": 0,
+      "Ügy": 0,
+      "Áll": 1,
+      "Egé": 0,
+      "Kar": -1,
+      "Int": 0,
+      "Aka": 0,
+      "Asz": -1,
+      "Érz": 0
+    },
+    "uniqueAbilities": [
+      "1 extra siker szépség próbákra",
+      "Pszi Tulajdonság követelmény összértéke 3 ponttal magasabb.",
+      "Akkor is rendelkezik Pszi ponttal, ha nincs Pszi képzettsége",
+      "Amund vér - Faji Adottság"
+    ]
+  },
+  {
+    "raceKey": "Dzsenn",
+    "attributeModifiers": {
+      "Erő": -1,
+      "Gyo": 0,
+      "Ügy": 0,
+      "Áll": -1,
+      "Egé": 0,
+      "Kar": 0,
+      "Int": 1,
+      "Aka": 1,
+      "Asz": 0,
+      "Érz": 0
+    },
+    "uniqueAbilities": ["Dzsenn vér - Faji Adottság"]
+  },
+  {
+    "raceKey": "Khál",
+    "attributeModifiers": {
+      "Erő": 2,
+      "Gyo": 1,
+      "Ügy": 0,
+      "Áll": 1,
+      "Egé": 1,
+      "Kar": -2,
+      "Int": -2,
+      "Aka": 0,
+      "Asz": -2,
+      "Érz": 1
+    },
+    "uniqueAbilities": [
+      "2 extra siker hallásra",
+      "2 extra siker látásra",
+      "2 extra siker szaglásra",
+      "+1 Sebzés és Erő-sebzés pusztakézzel",
+      "-3DM az apró eszközök használatára",
+      "Ragadozó kisugárzás",
+      "Khál származás Háttér"
+    ]
+  },
+  {
+    "raceKey": "Wier",
+    "attributeModifiers": {
+      "Erő": 0,
+      "Gyo": 0,
+      "Ügy": 0,
+      "Áll": 0,
+      "Egé": 0,
+      "Kar": 0,
+      "Int": 0,
+      "Aka": 0,
+      "Asz": 0,
+      "Érz": 0
+    },
+    "uniqueAbilities": [
+      "Infralátás [Véráldás]",
+      "2 extra siker hallásra [Véráldás]",
+      "2 extra siker szaglásra [Véráldás]",
+      "1 extra siker minden Int és Kar próbára [Véráldás]",
+      "1 extra kudarc minden Int és Kar próbára [Vérátok]",
+      "2 extra kudarc minden Asz próbára [Vérátok]",
+      "Vérszomj Aka próba CÉL 10 + hiányzó Vér pontok",
+      "Állandó sötét Sorshatás sújtja, mely érzékelhető",
+      "Ragadozó kisugárzás",
+      "Wier vér - Faji Adottság"
+    ]
+  }
 ]
