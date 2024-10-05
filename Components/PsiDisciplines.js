@@ -95,14 +95,16 @@ export function buffTextChecker(buffName) {
 //selectedPsiDisciplineObj[0].psiDiscName
 let savePsiPoinCostValueForPsiAssault = 0
 export function psiPointCostCheckerAndSetter() {
-  if (selectedPsiDisciplineObj[0].canBeModified == false) {
-      psiPointCostInput.value = parseInt(
-        selectedPsiDisciplineObj[0].psiPointCost
-      );
+  psiPointCostInput.step = parseInt(
+    selectedPsiDisciplineObj[0].psiPointCost
+  );
+  if (psiPointCostInput.value <= selectedPsiDisciplineObj[0].psiPointCost) {
+    psiPointCostInput.value = selectedPsiDisciplineObj[0].psiPointCost
+  }
+  if (!selectedPsiDisciplineObj[0].canBeModified) {
     psiPointCostInput.disabled = true;
     psiActivateButton.disabled = false;
-  }
-  if (selectedPsiDisciplineObj[0].canBeModified == true) {
+  } else if (selectedPsiDisciplineObj[0].canBeModified) {
     psiPointCostInput.disabled = false;
     psiActivateButton.disabled = false;
   }
@@ -181,11 +183,19 @@ export function PsiDisciplines(props) {
     listPsiButton.style.display = "none";
     psiPointCostCheckerAndSetter();
   }
-  function handlePsiDisciplineSelect(event) {
+  function handlePsiDisciplineSelect() {
     selectedPsiDisciplineObj = filteredPsiDisciplines.filter(
       (discipline) => discipline.psiDiscName == psiDisciplinesSelect.value
     );
-    psiPointCostCheckerAndSetter();
+    psiPointCostInput.value = parseInt(selectedPsiDisciplineObj[0].psiPointCost);
+    psiPointCostCheckerAndSetter()
+    if (
+      parseInt(psiPointCostInput.value) > parseInt(currentPp.value) ||
+      parseInt(currentPp.value) == 0
+    )
+    {
+      psiActivateButton.disabled = true;
+    }
   }
 
   function handleDisciplineActivation() {
@@ -214,10 +224,10 @@ export function PsiDisciplines(props) {
 
     for (let i = 0; i < allActiveBuffs.length; i++) {
       let currentText = allActiveBuffs[i].innerText
+      if (initRolled == true && parseInt(numberOfActions.innerText) < 1)  {
+        return false
+      }
       function continousDiscRemoverAndActionSetter(){ // kiszedi a folyamatos diszciplínát, és levon 1 akciót, de ha ugyan azt aktiválod 2x, akkor nem csinál semmit.
-        if (initRolled == true && parseInt(numberOfActions.innerText) < 1)  {
-          return false
-        }
         currentPp.value -= parseInt(psiPointCostInput.value);
         if (allActiveBuffs[i].innerText.includes("folyamatos") && 
         !allActiveBuffs[i].innerText.includes(selectedPsiDisciplineObj[0].psiDiscName) &&
@@ -233,12 +243,13 @@ export function PsiDisciplines(props) {
         allActiveBuffs[i].innerText == "" ||
         (allActiveBuffs[i].innerText != "" &&
           allActiveBuffs[i].innerText.includes("folyamatos") &&   // a folyamatos diszciplínát csak másik folyamatos diszcilína szakítja meg
-        selectedPsiDisciplineObj[0].duration[0] == "folyamatos")
+        selectedPsiDisciplineObj[0].duration[0] == "folyamatos"
+        )
       ) {
         if (selectedPsiDisciplineObj[0].psiDiscName == "Fájdalomtűrés" && 
           !buffTextChecker("Fájdalomtűrés") &&
          continousDiscRemoverAndActionSetter()
-      ) 
+        ) 
           {
           fpShield = parseInt(psiPointCostInput.value / 2);
           if (fpShield == 0) {
@@ -321,8 +332,11 @@ export function PsiDisciplines(props) {
               parseInt(selectedPsiDisciplineObj[0].benefit[skillIndex - 1].charAt(8))
           ) {
             // Egyben 'visszaadjuk' az elköltött pszipontot és 1 akciót is
+            if (initRolled) {
+              numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
+            } 
             currentPp.value = parseInt(currentPp.value) + parseInt(psiPointCostInput.value);
-            break;
+            return
           }
           dmgReductionByGoldenBellSetter(dmgReductionByGoldenBell);
           currentPp.value = parseInt(currentPp.value) + parseInt(psiPointCostInput.value % 3);
@@ -497,6 +511,7 @@ export function PsiDisciplines(props) {
           className={styles.psiPointCostInput}
           disabled={true}
           onChange={psiPointCostCheckerAndSetter}
+          type="number"
         />
         <button
           id="listPsiButton"

@@ -1,34 +1,188 @@
 [
-    {"psiDiscId":1, "psiDiscName":"Dinamikus ellenállás", "requiredPsiSkillLevel": 1,
-"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 1, "canBeModified":false, "castTime": 1, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], "benefit":["Az alkalmazót irányító fél dönthet úgy, hogy Stressz- helyett inkább Normál-próbát dob az ellenállásra.","1 DM","2 DM","3 DM","4 DM"]},
-    {"psiDiscId":2, "psiDiscName":"Fájdalomtűrés", "requiredPsiSkillLevel": 1,
-"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 2, "canBeModified":true, "castTime": 10, "duration": ["1 óra","2 óra","5 óra","12 óra","24 óra"], "benefit":"Fp pajzs"},
-    {"psiDiscId":3, "psiDiscName":"Chi-harc", "requiredPsiSkillLevel": 2,
-"psiSchool": "Slan", "psiPointCost": 1, "canBeModified":false, "castTime": 1, "duration": ["1 kör", "1 kör", "1 kör", "1 kör", "1 kör"], "benefit":[{"atkAndDef":0.5, "damage":1}, {"atkAndDef":1, "damage":2}, {"atkAndDef":1.5, "damage":3}, {"atkAndDef":2, "damage":5}]},
-    {"psiDiscId":4, "psiDiscName":"Érzékélesítés", "requiredPsiSkillLevel": 2,
-"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 5, "canBeModified":false, "castTime": 10, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], "benefit":[0,"1 Sikerszint","2 Sikerszint","3 Sikerszint","4 Sikerszint"]},
-    {"psiDiscId":7, "psiDiscName":"Pszi Lökés", "requiredPsiSkillLevel": 2,
-"psiSchool": "Pyarroni", "psiPointCost": 1, "canBeModified":true, "castTime": 1, "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"], 
-"benefit":[0,"Lassú (gyaloglás sebességű) behatás 20 láb hatótávval.", 
-"Gyors (futás sebességű) behatás 20 láb hatótávval.",
-"Lassú behatás látótáv hatótávval.",
-"Gyors behatás látótáv hatótávval."]},
-    {"psiDiscId":8, "psiDiscName":"Pszi roham", "requiredPsiSkillLevel": 2,
-"psiSchool": "Pyarroni", "psiPointCost": "All", "canBeModified":false, "castTime": 1, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], 
-"benefit":[0,"1 támadásra érvényes.", "2 támadásra érvényes.", "3 támadásra érvényes.", "5 támadásra érvényes."]},
-    {"psiDiscId":9, "psiDiscName":"Tulajdonság Javítás", "requiredPsiSkillLevel": 2,
-"psiSchool": "Pyarroni/Slan/Kyr", "psiPointCost": 5, "canBeModified":false, "castTime": 10, "duration": ["folyamatos", "folyamatos", "folyamatos", "folyamatos", "folyamatos"], 
-"benefit":[0,"1 DM","2 DM","3 DM","4 DM"]},
-    {"psiDiscId":10, "psiDiscName":"Aranyharang", "canBeModified":true, "requiredPsiSkillLevel": 3,
-"psiSchool": "Slan", "psiPointCost": 3, "castTime": 5, "duration": ["", "", "3 kör", "6 kör", "30 kör"], 
-"benefit":[0,0,"maximum 3-as SFÉ", "maximum 4-es SFÉ", "maximum 5-ös SFÉ"]},
-{"psiDiscId":11, "psiDiscName":"Belső idő", "canBeModified":false, "requiredPsiSkillLevel": 4,
-"psiSchool": "Slan", "psiPointCost": 10, "castTime": 1, "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"], 
-"benefit":[0,0,0, "3 HMO és 3 TGT hátrány a következő körben", "1 HMO és 1 TGT hátrány a következő körben"]},
-    {"psiDiscId":12, "psiDiscName":"Energiagyűjtés - Átalakítás", "canBeModified":true, "requiredPsiSkillLevel": 2,
-"psiSchool": "Kyr", "psiPointCost": 1, "castTime": 1, "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"], 
-"benefit":[]},
-    {"psiDiscId":13, "psiDiscName":"Energiagyűjtés - Kivonás", "canBeModified":true, "requiredPsiSkillLevel": 2,
-"psiSchool": "Kyr", "psiPointCost": 1, "castTime": 10, "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"], 
-"benefit":[]}
+  {
+    "psiDiscId": 1,
+    "psiDiscName": "Dinamikus ellenállás",
+    "requiredPsiSkillLevel": 1,
+    "psiSchool": "Pyarroni/Slan/Kyr",
+    "psiPointCost": 1,
+    "canBeModified": false,
+    "castTime": 1,
+    "duration": [
+      "folyamatos",
+      "folyamatos",
+      "folyamatos",
+      "folyamatos",
+      "folyamatos"
+    ],
+    "benefit": [
+      "Az alkalmazót irányító fél dönthet úgy, hogy Stressz- helyett inkább Normál-próbát dob az ellenállásra.",
+      "1 DM",
+      "2 DM",
+      "3 DM",
+      "4 DM"
+    ]
+  },
+  {
+    "psiDiscId": 2,
+    "psiDiscName": "Fájdalomtűrés",
+    "requiredPsiSkillLevel": 1,
+    "psiSchool": "Pyarroni/Slan/Kyr",
+    "psiPointCost": 2,
+    "canBeModified": true,
+    "castTime": 10,
+    "duration": ["1 óra", "2 óra", "5 óra", "12 óra", "24 óra"],
+    "benefit": "Fp pajzs"
+  },
+  {
+    "psiDiscId": 3,
+    "psiDiscName": "Chi-harc",
+    "requiredPsiSkillLevel": 2,
+    "psiSchool": "Slan",
+    "psiPointCost": 1,
+    "canBeModified": false,
+    "castTime": 1,
+    "duration": ["1 kör", "1 kör", "1 kör", "1 kör", "1 kör"],
+    "benefit": [
+      { "atkAndDef": 0.5, "damage": 1 },
+      { "atkAndDef": 1, "damage": 2 },
+      { "atkAndDef": 1.5, "damage": 3 },
+      { "atkAndDef": 2, "damage": 5 }
+    ]
+  },
+  {
+    "psiDiscId": 4,
+    "psiDiscName": "Érzékélesítés",
+    "requiredPsiSkillLevel": 2,
+    "psiSchool": "Pyarroni/Slan/Kyr",
+    "psiPointCost": 5,
+    "canBeModified": false,
+    "castTime": 10,
+    "duration": [
+      "folyamatos",
+      "folyamatos",
+      "folyamatos",
+      "folyamatos",
+      "folyamatos"
+    ],
+    "benefit": [
+      0,
+      "1 Sikerszint",
+      "2 Sikerszint",
+      "3 Sikerszint",
+      "4 Sikerszint"
+    ]
+  },
+  {
+    "psiDiscId": 7,
+    "psiDiscName": "Pszi Lökés",
+    "requiredPsiSkillLevel": 2,
+    "psiSchool": "Pyarroni",
+    "psiPointCost": 1,
+    "canBeModified": true,
+    "castTime": 1,
+    "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"],
+    "benefit": [
+      0,
+      "Lassú (gyaloglás sebességű) behatás 20 láb hatótávval.",
+      "Gyors (futás sebességű) behatás 20 láb hatótávval.",
+      "Lassú behatás látótáv hatótávval.",
+      "Gyors behatás látótáv hatótávval."
+    ]
+  },
+  {
+    "psiDiscId": 8,
+    "psiDiscName": "Pszi roham",
+    "requiredPsiSkillLevel": 2,
+    "psiSchool": "Pyarroni",
+    "psiPointCost": 5,
+    "canBeModified": false,
+    "castTime": 1,
+    "duration": [
+      "folyamatos",
+      "folyamatos",
+      "folyamatos",
+      "folyamatos",
+      "folyamatos"
+    ],
+    "benefit": [
+      0,
+      "1 támadásra érvényes.",
+      "2 támadásra érvényes.",
+      "3 támadásra érvényes.",
+      "5 támadásra érvényes."
+    ]
+  },
+  {
+    "psiDiscId": 9,
+    "psiDiscName": "Tulajdonság Javítás",
+    "requiredPsiSkillLevel": 2,
+    "psiSchool": "Pyarroni/Slan/Kyr",
+    "psiPointCost": 5,
+    "canBeModified": false,
+    "castTime": 10,
+    "duration": [
+      "folyamatos",
+      "folyamatos",
+      "folyamatos",
+      "folyamatos",
+      "folyamatos"
+    ],
+    "benefit": [0, "1 DM", "2 DM", "3 DM", "4 DM"]
+  },
+  {
+    "psiDiscId": 10,
+    "psiDiscName": "Aranyharang",
+    "canBeModified": true,
+    "requiredPsiSkillLevel": 3,
+    "psiSchool": "Slan",
+    "psiPointCost": 3,
+    "castTime": 5,
+    "duration": ["", "", "3 kör", "6 kör", "30 kör"],
+    "benefit": [
+      0,
+      0,
+      "maximum 3-as SFÉ",
+      "maximum 4-es SFÉ",
+      "maximum 5-ös SFÉ"
+    ]
+  },
+  {
+    "psiDiscId": 11,
+    "psiDiscName": "Belső idő",
+    "canBeModified": false,
+    "requiredPsiSkillLevel": 4,
+    "psiSchool": "Slan",
+    "psiPointCost": 10,
+    "castTime": 1,
+    "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"],
+    "benefit": [
+      0,
+      0,
+      0,
+      "3 HMO és 3 TGT hátrány a következő körben",
+      "1 HMO és 1 TGT hátrány a következő körben"
+    ]
+  },
+  {
+    "psiDiscId": 12,
+    "psiDiscName": "Energiagyűjtés - Átalakítás",
+    "canBeModified": true,
+    "requiredPsiSkillLevel": 2,
+    "psiSchool": "Kyr",
+    "psiPointCost": 1,
+    "castTime": 1,
+    "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"],
+    "benefit": []
+  },
+  {
+    "psiDiscId": 13,
+    "psiDiscName": "Energiagyűjtés - Kivonás",
+    "canBeModified": true,
+    "requiredPsiSkillLevel": 2,
+    "psiSchool": "Kyr",
+    "psiPointCost": 1,
+    "castTime": 10,
+    "duration": ["egyszeri", "egyszeri", "egyszeri", "egyszeri", "egyszeri"],
+    "benefit": []
+  }
 ]

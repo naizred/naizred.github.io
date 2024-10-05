@@ -36,7 +36,7 @@
     display: none;
     grid-column: 5/7;
     grid-row: 1/2;
-    width: 2vw;
+    width: 3vw;
     height: 2vw;
     font-family: Arial, Helvetica, sans-serif, cursive;
     color: white;
@@ -63,6 +63,9 @@
     display: grid;
     grid-column: 6/7;
     grid-row: 1/2;
+    text-align: end;
+    align-items: center;
+    font-size: 1vw;
 }
 .currentlyActiveBuffsWrapper{
     display: grid;
