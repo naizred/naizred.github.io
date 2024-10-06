@@ -276,7 +276,6 @@ function CharacterDetails() {
     //*********************************** */
     let observerForActions = new MutationObserver(async () => {
       updateCharacterData();
-      let isd = attackOfOpportunityOn
       if (initRolled && parseInt(numberOfActions.innerText)<=0) {
         recurringSpellActionButton.disabled = true
       }
