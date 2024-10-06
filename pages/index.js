@@ -1153,14 +1153,7 @@ if (fileFirstLoaded) {
         filteredArrayIfHasExtraReaction = JSON.parse(
           reader.result
         ).aptitudes.filter((name) => name.aptitude == "Extra reakció");
-        filteredArrayIfHasMasterWep = JSON.parse(
-          reader.result
-        ).aptitudes.filter(
-          (name) =>
-            name.aptitude == "Mesterfegyver" &&
-            JSON.parse(reader.result).masterWeapon ==
-              `${currentlySelectedWeapon.w_name}`
-        );
+
         filteredArrayIfHasWarriorMonk = JSON.parse(
           reader.result
         ).aptitudes.filter((name) => name.aptitude == "Harcművész");
@@ -1441,6 +1434,15 @@ if (fileFirstLoaded) {
       );
       currentlySelectedOffHand = allWeapons.find(
       (name) => name.w_name === `${offHand.value}`
+      );
+
+      filteredArrayIfHasMasterWep = JSON.parse(
+        reader.result
+      ).aptitudes.filter(
+        (name) =>
+          name.aptitude == "Mesterfegyver" &&
+          JSON.parse(reader.result).masterWeapon ==
+            `${currentlySelectedWeapon.w_name}`
       );
 
       if (filteredArrayIfHasAssassination.length != 0) {
