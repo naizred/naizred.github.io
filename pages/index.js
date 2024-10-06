@@ -1898,7 +1898,7 @@ if (fileFirstLoaded) {
           for (let j = 0; j < props.gods.length; j++) {
             if (props.gods[j].nameOfGod == currentGodWorshippedByPlayer) {
               attributeNeededToCalculateManaPoints =
-                currentCharFinalAttributes[props.gods[j].attributeIndex] +
+                currentCharFinalAttributes[props.gods[j].attribute] +
                 modifierByMagicallyAttunedAptitude;
               break;
             }

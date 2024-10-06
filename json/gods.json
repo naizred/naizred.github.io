@@ -1,8 +1,8 @@
 [
-{"nameOfGod": "Adron", "attributeIndex": 6},
-{"nameOfGod": "Darton", "attributeIndex": 8},
-{"nameOfGod": "Della", "attributeIndex": 7},
-{"nameOfGod": "Gilron", "attributeIndex": 7},
-{"nameOfGod": "Ranagol", "attributeIndex": 6},
-{"nameOfGod": "Uwel", "attributeIndex": 7}
+  { "nameOfGod": "Adron", "attribute": "Int" },
+  { "nameOfGod": "Darton", "attribute": "Asz" },
+  { "nameOfGod": "Della", "attribute": "Aka" },
+  { "nameOfGod": "Gilron", "attribute": "Aka" },
+  { "nameOfGod": "Ranagol", "attribute": "Int" },
+  { "nameOfGod": "Uwel", "attribute": "Aka" }
 ]

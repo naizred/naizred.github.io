@@ -70,6 +70,7 @@ import {
   firstAttackIsSpellThatNeedsAimRollSetToFalse,
   spellNeedsAimRoll,
   attackRollButtonWasDisabledBeforeSpellCastSetToFalse,
+  attackOfOpportunityOn,
 } from "./ActionsList";
 import {
   spellCastingSuccessful,
@@ -275,10 +276,12 @@ function CharacterDetails() {
     //*********************************** */
     let observerForActions = new MutationObserver(async () => {
       updateCharacterData();
+      let isd = attackOfOpportunityOn
       if (initRolled && parseInt(numberOfActions.innerText)<=0) {
         recurringSpellActionButton.disabled = true
       }
-      if (initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || (initRolled && firstAttackInRound && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)
+      if (
+        ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || (initRolled && firstAttackInRound && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) && !attackOfOpportunityOn)
       ) {
         attackRollButton.disabled = true;
       }
