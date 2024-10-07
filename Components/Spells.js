@@ -881,7 +881,13 @@ function Spells() {
   function handleSpellSelectMouseEnter() {
     spellDescriptionWindow.style.display = "grid";
 
-    spellDescriptionWindow.innerText = `${currentSpell.description}`;
+    if (currentSpell.magicSubclass.includes("fohász") && currentSpell.ritual) {
+      spellDescriptionWindow.innerText = `${currentSpell.description} (rituálé)`;
+    } else if (currentSpell.magicSubclass.includes("fohász") && !currentSpell.ritual) {
+      spellDescriptionWindow.innerText = `${currentSpell.description} (litánia)`;
+    } else {
+      spellDescriptionWindow.innerText = `${currentSpell.description}`;
+    }
   }
   function handleSpellDescriptionMouseLeave() {
     spellDescriptionWindow.animate([{ opacity: 1 }, { opacity: 0 }], 500);

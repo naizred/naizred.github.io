@@ -140,10 +140,9 @@
   border: 0.23vw solid white;
   border-radius: 1vw;
   grid-column: 13/ 22;
-  grid-row: 6/9;
+  grid-row: 6/10;
   background-color: black;
   background-repeat: no-repeat;
-  background-size: 50vw 50vw;
   background-position: center;
   padding: 0.5vw;
 }

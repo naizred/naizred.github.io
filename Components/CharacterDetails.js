@@ -280,14 +280,15 @@ function CharacterDetails() {
         recurringSpellActionButton.disabled = true
       }
       if (
-        ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || (initRolled && firstAttackInRound && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) && !attackOfOpportunityOn)
+        ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || 
+        (initRolled && firstAttackInRound && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) && !attackOfOpportunityOn)
       ) {
         attackRollButton.disabled = true;
       }
       if (numberOfClicksAtTwoWeaponAttack == 1) {
         attackRollButton.disabled = false;
       }
-      if (initRolled && parseInt(numberOfActions.innerText) < 1)
+      if (initRolled && (parseInt(numberOfActions.innerText) < 1) && !spellIsBeingCast)
        {
         spellCastingActionButton.disabled = true;
       }
