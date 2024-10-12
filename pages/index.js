@@ -629,8 +629,8 @@ export default function Home(props) {
         lightDice = Math.floor(generator.random() * 10);
       }
       /* -- ez a két sor a dobások tesztelésére van  */
-      //lightDice = 1;
-      //darkDice = 1;
+      //lightDice = 0;
+      //darkDice = 0;
       //******************************************* */
       darkDiceResultSelect.value = darkDice;
       lightDiceResultSelect.value = lightDice;
@@ -872,13 +872,11 @@ export default function Home(props) {
     ) {
       damageResult.innerText = 1;
     }
+    let spellDamage = 0;
     if (
       weapons.value == "Célzott mágia" ||
       weapons.value == "Irányított mágia" 
-
     ) {
-      let spellDamage = 0;
-
       spellDamage = multipleDiceRoll(
         originalDarkDice,
         originalLightDice,
@@ -891,12 +889,26 @@ export default function Home(props) {
       secondAccumulatedDiceResultSelect.value = spellDamage[1];
       thirdAccumulatedDiceResultSelect.value = spellDamage[2];
     }
+
+      for (let i = 0; i < allActiveBuffs.length; i++) {
+        if ((allActiveBuffs[i].innerText.includes("Villámpenge") || allActiveBuffs[i].innerText.includes("Tűzkard")) && currentlySelectedWeapon.w_type != "MÁGIA") {
+          numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E")-2))-1)*2
+          spellDamage = multipleDiceRoll(0,0,0,parseInt(numberOfDiceInput.value));
+          damageResult.innerText = `${damageResult.innerText} + ${spellDamage[3]}`;
+          firstAccumulatedDiceResultSelect.value = spellDamage[0];
+          secondAccumulatedDiceResultSelect.value = spellDamage[1];
+          thirdAccumulatedDiceResultSelect.value = spellDamage[2];
+          break
+        }
+      }
+    
     // Ezekben a zárójelen belüli esetekben nincs ijász szabály
     if (
       originalDarkDice == 10 &&
       checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) &&
       currentlySelectedWeapon.w_name != "Fúvócső" &&
       currentlySelectedWeapon.w_name != "Célzott mágia" &&
+      currentlySelectedWeapon.w_name != "Irányított mágia" &&
       currentlySelectedWeapon.w_name != "Tűvető" &&
       darkDiceWasChangedToHalfOfStr == false
     ) {

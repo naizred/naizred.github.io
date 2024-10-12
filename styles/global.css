@@ -811,6 +811,10 @@ button:disabled {
   justify-content: center;
 }
 
+#damageResult {
+  font-size: 2vw;
+}
+
 .inText {
   display: grid;
   grid-row: 1 / 2;

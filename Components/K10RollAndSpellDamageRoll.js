@@ -1,7 +1,5 @@
 import styles from "../styles/k10RollAndSpellDamageRoll.module.css";
 import { generator, rollOptions } from "../pages";
-import { totalActionCostOfAttack } from "./ActionsList";
-import { initRolled } from "./CharacterDetails";
 export let numberOfSpellDamageDiceAfterLastSpellDamageRoll = 0;
 
 export function multipleDiceRoll(
@@ -108,8 +106,6 @@ export function multipleDiceRoll(
     thirdAccumulatedDiceRollResult = 0;
   }
   numberOfSpellDamageDiceAfterLastSpellDamageRoll = numberOfDice;
-  damageResult.innerText = spellDamageSum;
-  damageResult.animate([{ color: "white" }, { color: "black" }], 200);
   console.log(
     "a három dobás eredményei",
     firstAccumulatedDiceRollResult,
@@ -142,7 +138,9 @@ function K10RollAndSpellDamageRoll() {
   }
 
   function handleMultipleDiceRoll() {
-    multipleDiceRoll(0, 0, 0, numberOfDiceInput.value);
+    let spellDamage =  multipleDiceRoll(0, 0, 0, numberOfDiceInput.value)
+    damageResult.innerText = spellDamage[3];
+    damageResult.animate([{ color: "white" }, { color: "black" }], 200);
   }
   return (
     <div className={styles.k10RollAndSpellDamageRollWrapper}>

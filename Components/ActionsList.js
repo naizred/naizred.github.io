@@ -704,7 +704,7 @@ function ActionList() {
       combinationModifiersIndexSave = combinationModifiersIndex
       charAtk.value = parseFloat(guidedSpellAttack.innerText)
       charDef.value = parseFloat(guidedSpellDefense.innerText)
-    } else if (!guidedSpellCombatStatChangerCheckbox.checked) {
+    } else if (!guidedSpellCombatStatChangerCheckbox.checked && weaponBeforeCasting) {
       currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
       combinationModifiersIndexChanger(combinationModifiersIndexSave)
        charAtk.value = charAtkValueSave
@@ -991,7 +991,10 @@ function ActionList() {
         </span>
       <button id="guidedSpellHideButton" onClick={()=>{
         guidedSpellWrapper.style.display = "none" 
-        spellCastButtonWrapper.style.display = "grid"}
+        spellCastButtonWrapper.style.display = "grid"
+        guidedSpellCombatStatChangerCheckbox.checked = false
+        handleGuidedSpellCheckbox()
+      }
         } className={styles.guidedSpellButton}>Elrejtés</button>
       </div>
       <Spells />
