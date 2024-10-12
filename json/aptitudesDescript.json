@@ -1,11 +1,7 @@
 [
   {
     "aptName": "Alvilági affinitás",
-    "levelDescription": [
-      "Az Alvilági képzettségekre +1 DM",
-      "Az Alvilági képzettségekre +2 DM",
-      "Az Alvilági képzettségekre +3 DM"
-    ],
+    "levelDescription": ["Az Alvilági képzettségekre +1 DM", "Az Alvilági képzettségekre +2 DM", "Az Alvilági képzettségekre +3 DM"],
     "longDescriptionRequired": false
   },
   {
@@ -28,11 +24,7 @@
   },
   {
     "aptName": "Aurabőség",
-    "levelDescription": [
-      "Egy időben +1 Aura tárgyad lehet.",
-      "Egy időben +2 Aura tárgyad lehet.",
-      "Egy időben +3 Aura tárgyad lehet."
-    ],
+    "levelDescription": ["Egy időben +1 Aura tárgyad lehet.", "Egy időben +2 Aura tárgyad lehet.", "Egy időben +3 Aura tárgyad lehet."],
     "longDescriptionRequired": false
   },
   {
@@ -85,8 +77,8 @@
     "aptName": "Extra reakció",
     "levelDescription": [
       "+1 DM Kezdeményező dobásokra, továbbá egy adott jelenet első körében +1 CS",
-      "+1 DM Kezdeményező dobásokra, továbbá egy adott jelenet első kettő körében +1 CS",
-      "+1 DM Kezdeményező dobásokra, továbbá egy adott jelenet első három körében +1 CS"
+      "+2 DM Kezdeményező dobásokra, továbbá egy adott jelenet első kettő körében +1 CS",
+      "+3 DM Kezdeményező dobásokra, továbbá egy adott jelenet első három körében +1 CS"
     ],
     "longDescriptionRequired": false
   },
@@ -97,20 +89,12 @@
   },
   {
     "aptName": "Fürge",
-    "levelDescription": [
-      "Kitérésnél +0,5 helyett +1 VÉO",
-      "Kitérésnél +0,5 helyett +1,5 VÉO",
-      "Kitérésnél +0,5 helyett +2 VÉO"
-    ],
+    "levelDescription": ["Kitérésnél +0,5 helyett +1 VÉO", "Kitérésnél +0,5 helyett +1,5 VÉO", "Kitérésnél +0,5 helyett +2 VÉO"],
     "longDescriptionRequired": false
   },
   {
     "aptName": "Harci affinitás",
-    "levelDescription": [
-      "Harci képzettségekre +1 DM",
-      "Harci képzettségekre +2 DM",
-      "Harci képzettségekre +3 DM"
-    ],
+    "levelDescription": ["Harci képzettségekre +1 DM", "Harci képzettségekre +2 DM", "Harci képzettségekre +3 DM"],
     "longDescriptionRequired": false
   },
   {
@@ -196,11 +180,7 @@
   },
   {
     "aptName": "Mágikus affinitás",
-    "levelDescription": [
-      "Mágikus képzettségekre +1 DM",
-      "Mágikus képzettségekre +2 DM",
-      "Mágikus képzettségekre +3 DM"
-    ],
+    "levelDescription": ["Mágikus képzettségekre +1 DM", "Mágikus képzettségekre +2 DM", "Mágikus képzettségekre +3 DM"],
     "longDescriptionRequired": false
   },
   {
@@ -232,11 +212,7 @@
   },
   {
     "aptName": "Ősibb lélek",
-    "levelDescription": [
-      "+1 Legendapont maximum",
-      "+2 Legendapont maximum",
-      "+3 Legendapont maximum"
-    ],
+    "levelDescription": ["+1 Legendapont maximum", "+2 Legendapont maximum", "+3 Legendapont maximum"],
     "longDescriptionRequired": false
   },
   {
@@ -250,11 +226,7 @@
   },
   {
     "aptName": "Pusztító",
-    "levelDescription": [
-      "+1 közelharci Sebzés",
-      "+2 közelharci Sebzés",
-      "+3 közelharci Sebzés"
-    ],
+    "levelDescription": ["+1 közelharci Sebzés", "+2 közelharci Sebzés", "+3 közelharci Sebzés"],
     "longDescriptionRequired": false
   },
   {
@@ -295,11 +267,7 @@
   },
   {
     "aptName": "Szociális affinitás",
-    "levelDescription": [
-      "Szociális képzettségekre +1 DM",
-      "Szociális képzettségekre +2 DM",
-      "Szociális képzettségekre +3 DM"
-    ],
+    "levelDescription": ["Szociális képzettségekre +1 DM", "Szociális képzettségekre +2 DM", "Szociális képzettségekre +3 DM"],
     "longDescriptionRequired": false
   },
   {
@@ -322,11 +290,7 @@
   },
   {
     "aptName": "Tudományos affinitás",
-    "levelDescription": [
-      "Tudományos képzettségekre +1 DM.",
-      "Tudományos képzettségekre +2 DM.",
-      "Tudományos képzettségekre +3 DM."
-    ],
+    "levelDescription": ["Tudományos képzettségekre +1 DM.", "Tudományos képzettségekre +2 DM.", "Tudományos képzettségekre +3 DM."],
     "longDescriptionRequired": false
   },
   {
@@ -340,20 +304,12 @@
   },
   {
     "aptName": "Viador",
-    "levelDescription": [
-      "+0,5 TÉO-ra és VÉO-ra 1v1-ben",
-      "+1 TÉO-ra és VÉO-ra 1v1-ben",
-      "+1,5 TÉO-ra és VÉO-ra 1v1-ben"
-    ],
+    "levelDescription": ["+0,5 TÉO-ra és VÉO-ra 1v1-ben", "+1 TÉO-ra és VÉO-ra 1v1-ben", "+1,5 TÉO-ra és VÉO-ra 1v1-ben"],
     "longDescriptionRequired": false
   },
   {
     "aptName": "Világi affinitás",
-    "levelDescription": [
-      "Világi képzettségekre +1 DM.",
-      "Világi képzettségekre +2 DM.",
-      "Világi képzettségekre +3 DM."
-    ],
+    "levelDescription": ["Világi képzettségekre +1 DM.", "Világi képzettségekre +2 DM.", "Világi képzettségekre +3 DM."],
     "longDescriptionRequired": false
   },
   {
