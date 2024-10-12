@@ -24,7 +24,7 @@ import { activeBuffsArray, buffRemoverFromActiveBuffArrayAndTextList } from "./P
 //let recurringSpellsThatRequireAttackOrAimRoll = allSpells.filter((spell)=>spell.description.toLowerCase().includes("ismétlődő") && spell.resist.includes("vVÉO"))
 // minden varázslat, ami növeli a TÉO-t vagy CÉO-t
 let spellsThatModifyCombatStats = allSpells.filter((spell)=>(spell.description.includes("CÉO") || spell.description.includes("TÉO")) && !spell.description.toLowerCase().includes("negatív")  && !spell.description.toLowerCase().includes("hátrány") && spell.description.toLowerCase().includes("+"))
-let spellsThatModifyCombatStatsObject = {}
+export let spellsThatModifyCombatStatsObject = {}
 for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
   let indexOfPositiveCombatModifier = spellsThatModifyCombatStats[i].description.lastIndexOf("+")
   let isRecurring = false
@@ -169,14 +169,12 @@ export function spellCastingSuccessful() {
     liturgyPowerInfo.value = 0;
     liturgyCheckBox.style.display = "none";
     buffRemoverFromActiveBuffArrayAndTextList(currentActiveLiturgy)
-    updateCharacterData()
   }
   if (currentSpell) {
     currentCombatSpell = checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(currentSpell.name)
   }
   if (currentSpell){ // a currentSpellDuration > 3 azt jelenti, hogy legalább fél óráig tart a buff, 
     for (let i = 0; i < allActiveBuffs.length; i++) {                          // ezt harc előtt is felrakhatja, ezért nem kell, hogy legyen initRolled
-      let innerText = allActiveBuffs[i].innerText.toLowerCase().includes("kontrollált")
       if (
         allActiveBuffs[i].innerText == "" ||
         (allActiveBuffs[i].innerText != "" &&
@@ -213,17 +211,20 @@ export function spellCastingSuccessful() {
         if (currentCombatSpell.isControlled) {   
           allActiveBuffs[i].innerText = `${(allActiveBuffs[i].innerText)} - kontrollált`;
         }
+        if (currentCombatSpell.isGuided) {   
+          allActiveBuffs[i].innerText = `${(allActiveBuffs[i].innerText)} - irányított`;
+        }
         //activeBuffsArray.push(allActiveBuffs[i].innerText);
         break
       }
     }
   }
-  if(currentCombatSpell.spellName){ 
-    handleIfSpellNeedsAimRoll()
-  }else if (!currentCombatSpell.spellName) {
+  if (!currentCombatSpell.spellName || currentCombatSpell.isGuided) {
     handleIfSpellDoesNotNeedAimRoll()
+  } else if(currentCombatSpell.spellName){ 
+    handleIfSpellNeedsAimRoll()
   }
-  console.log(activeBuffsArray)
+  updateCharacterData()
 }
 let currentSpellDuration = 0
 let currentSpellPower = 0
@@ -245,12 +246,12 @@ export function spellCastingFailure(anyOtherCondition = true) {
   }
 }
 let filteredSpellsBySubSkillAndLevel;
-let manaNeededForTheSpell = 0;
 export let currentSpell;
 
 function Spells() {
+  let manaNeededForTheSpell = 0
   //console.log(spellsThatModifyCombatStats)
-  console.log(spellsThatModifyCombatStatsObject)
+  //console.log(spellsThatModifyCombatStatsObject)
   // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
   function spellCastingCheckSetter(){
     let spellAttributesArray = Object.entries(spellAttributes[0]);

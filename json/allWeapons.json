@@ -1358,6 +1358,20 @@
     "assassinWeapon": false
   },
   {
+    "w_name": "Irányított mágia",
+    "w_id": 103,
+    "w_damage": "",
+    "w_type": "MÁGIA",
+    "strBonusDmg": false,
+    "disarmingWeapon": false,
+    "weaponAtk": 0,
+    "weaponDef": 0,
+    "reloadTime": 0,
+    "atkPerRound": 1,
+    "mgt": 0,
+    "assassinWeapon": false
+  },
+  {
     "w_name": "Tűvető",
     "w_id": 102,
     "w_damage": "1k2",

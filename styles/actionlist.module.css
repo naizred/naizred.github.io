@@ -295,3 +295,49 @@ font-size: 0.8vw;
   color: white;
   opacity: 0.6;
 }
+.guidedSpellWrapper{
+  display: none;
+  font-size: 1vw;
+  border: 0.23vw solid white;
+  border-radius: 1vw;
+  grid-column: 14/ 17;
+  grid-row: 3/9;
+  grid-template-rows: repeat(13,1fr);
+  grid-template-columns: repeat(2,1fr);
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0.5vw;
+}
+.guidedSpellWrapper input{
+width: 3vw;
+}
+.guidedSpellRevealButton{
+  display: none;
+grid-column: 14/16;
+grid-row: 5/7;
+width: 6vw;
+font-size: 0.8vw;
+}
+.guidedSpellButton{
+  display: grid;
+  font-size: 0.8vw;
+}
+.guidedSpellLabel{
+  width:5vw;
+  text-align: right;
+}
+.guidedSpellName {
+  text-decoration: underline;
+}
+.guidedSpellCheckboxLabel{
+  display: grid;
+  grid-auto-flow: column;
+  font-size: 0.6vw;
+  text-align: right;
+  align-items: center;
+}
+.guidedSpellCheckboxLabel .guidedSpellCheckbox{
+  display: grid;
+  width: 1vw;
+}

@@ -78,6 +78,7 @@ import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
   spellIsBeingCast,
   actionsNeededToBeAbleToCastAgainNullifier,
+  actionsNeededToBeAbleToCastAgain,
 } from "./Spells";
 export let initRolled = false;
 export let extraReactionLevel = 0;
@@ -288,7 +289,7 @@ function CharacterDetails() {
       if (numberOfClicksAtTwoWeaponAttack == 1) {
         attackRollButton.disabled = false;
       }
-      if (initRolled && (parseInt(numberOfActions.innerText) < 1) && !spellIsBeingCast)
+      if (initRolled && (parseInt(numberOfActions.innerText) < 1) && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0)
        {
         spellCastingActionButton.disabled = true;
       }

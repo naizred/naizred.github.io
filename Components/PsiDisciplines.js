@@ -1,6 +1,6 @@
 import styles from "../styles/psiDisciplines.module.css";
-import { filteredArrayIfHasPsi, allActiveBuffs } from "../pages";
-import { blinkingText, hmoModifier } from "./ActionsList";
+import { filteredArrayIfHasPsi, allActiveBuffs, currentlySelectedWeaponChanger, combinationModifiersIndexChanger } from "../pages";
+import { blinkingText, charAtkValueSave, charDefValueSave, combinationModifiersIndexSave, hmoModifier, weaponBeforeCasting } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import { allDmgReductionListItems } from "../pages";
 export let specialAtkModifierFromPsiAssault = 0;
@@ -54,9 +54,6 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
       else if (allActiveBuffs[i].innerText.includes("Belső idő")) {
         innerTimeNegativeModifier = 0;
       }
-      else if (allActiveBuffs[i].innerText.includes("ismétlődő")) {
-        recurringSpellActionButton.style.display = "none"
-      }
       else if (allActiveBuffs[i].innerText.includes("Pszi roham")) {
         availableNumberOfAttacksFromPsiAssault = 0;
       }
@@ -66,6 +63,21 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
       else if (allActiveBuffs[i].innerText.includes("Dinamikus ellenállás")) {
         dinamicResistanceRollModifier = 0;
         rollModifier.value = 0
+      }
+      else if (allActiveBuffs[i].innerText.includes("ismétlődő")) {
+        recurringSpellActionButton.style.display = "none"
+      }
+      else if (allActiveBuffs[i].innerText.includes("irányított")) {
+        guidedSpellRevealButton.style.display = "none"
+        guidedSpellWrapper.style.display = "none"
+        guidedSpellCombatStatChangerCheckbox.checked = false
+        spellCastButtonWrapper.style.display = "grid"
+        if (weaponBeforeCasting) {
+          currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
+          combinationModifiersIndexChanger(combinationModifiersIndexSave)
+           charAtk.value = charAtkValueSave
+           charDef.value = charDefValueSave
+          }
       }
       allActiveBuffs[i].innerText = "";
     }
