@@ -331,7 +331,6 @@ export function handleWhenWeaponHasMultipleTypes(weaponType, usedStyle){
 
 export function checkWhatBonusYouGetForSelectedManeuver(selectedManeuverValue, professionLevelIndex){
   let weaponStyleName = Object.keys(weaponStyleBonusesByLevelOfProficiency)
-  let weaponsStyleBonusArray = Object.values(weaponStyleBonusesByLevelOfProficiency)
   for (let i = 0; i < weaponStyleName.length; i++) {
     // a fegyvertípus alap manőverei (stílusai)
   
