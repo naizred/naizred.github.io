@@ -334,18 +334,14 @@ export function checkWhatBonusYouGetForSelectedManeuver(selectedManeuverValue, p
   for (let i = 0; i < weaponStyleName.length; i++) {
     // a fegyvertípus alap manőverei (stílusai)
   
-    if (weaponStyleName[i] == selectedManeuverValue && professionLevelIndex != 0) {
+    if (weaponStyleName[i] == selectedManeuverValue) {
       blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponStyleBonusesByLevelOfProficiency[selectedManeuverValue][professionLevelIndex]}` )
       break
     } 
-    if(weaponStyleName[i] == selectedManeuverValue && professionLevelIndex == 0) {
-      blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponStyleBonusesByLevelOfProficiency[selectedManeuverValue][0]}` )
-      break
-    }
   }
   }
 
-function attributeFinderForManeuver(attribute = "Erő"){
+function attributeFinderForManeuver(attribute = "Erő"){  // alapból erő, mert a legtöbb képzettségpróba ezt használja
   let selectAllAttributeOptions = document.querySelectorAll("select#attributes option");
           for (let i = 0; i < selectAllAttributeOptions.length; i++) {
           if (selectAllAttributeOptions[i].innerText == attribute) {
@@ -377,11 +373,9 @@ if (initRolled) {
       // speciális esetek 
       if (arrayOfAllComplexManeuvers[i].value == "Lefegyverzés") {
         attributeFinderForManeuver("Ügy")
-        if (currentlySelectedWeapon.disarmingWeapon) {
-          succFailModifier.value = 1;
-        } else {
-          succFailModifier.value = 0;
-        }
+      }
+      if (arrayOfAllComplexManeuvers[i].value == "Belharc") {
+        attributeFinderForManeuver("Gyo")
       }
       evaluateSkillOrAttributeCheckBase();
       break
@@ -1055,6 +1049,7 @@ export default function Home(props) {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
     reader.addEventListener("load", async () => {
+       if (fileFirstLoaded) {
       allActiveBuffs = document.querySelectorAll(
         "ul#listOfCurrentlyActiveBuffs li"
       );
@@ -1773,7 +1768,9 @@ export default function Home(props) {
                     weaponStyles = Object.entries(weaponStyles)
                     //weaponStyleBonusesByLevelOfProficiency = Object.entries(weaponStyleBonusesByLevelOfProficiency)
                     combatStatRefresher()
-    });
+    }
+    fileFirstLoaded = false
+  });
 
     if (file) {
       reader.readAsText(file);
@@ -1867,22 +1864,12 @@ export default function Home(props) {
     if (reducedMgtByParrySkill < 0) {
       reducedMgtByParrySkill = 0;
     }
-    charDefWithParry.value =
-      tvcoCalculator(
-        defWithProfession) +
-        specialTvcoCalculatorForParry(
-            parseFloat(currentlySelectedOffHand.weaponDef / 2 *
-              filteredArrayIfHasParry[0].level)) 
-          
-       -
-      reducedMgtByParrySkill / 2 -
-      currentlySelectedWeapon.mgt / 2 +
-      parseFloat(anyOtherHmoModifierValue) -
-      parseFloat(totalMgtOfArmorSet.innerText / 2) +
-      chiCombatAtkDefModifier -
+    charDefWithParry.value = tvcoCalculator(defWithProfession) + specialTvcoCalculatorForParry(parseFloat(currentlySelectedOffHand.weaponDef / 2 * filteredArrayIfHasParry[0].level))  
+    - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) -
+      parseFloat(totalMgtOfArmorSet.innerText / 2) -
       innerTimeNegativeModifier -
       modifierFromNumberOfAttacksInTheRound -
-      cumulativeCombinationModifier;
+      cumulativeCombinationModifier + chiCombatAtkDefModifier;
   } else {
     charDefWithParry.value =
       tvcoCalculator(defWithProfession) -
@@ -1924,35 +1911,17 @@ export default function Home(props) {
   }
 
   if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-    charAtk.value =
-      tvcoCalculator(atkWithProfession) -
-      reducedMgtByParrySkill / 2 -
-      currentlySelectedWeapon.mgt / 2 +
-      parseFloat(anyOtherHmoModifierValue) -
-      parseFloat(totalMgtOfArmorSet.innerText / 2) +
-      chiCombatAtkDefModifier -
-      innerTimeNegativeModifier -
-      modifierFromNumberOfAttacksInTheRound -
-      cumulativeCombinationModifier +
-      findWeakSpotModifier;
-    // if (charAtk.value < 0) {
-    //   charAtk.value = 0
-    // }
+    charAtk.value = tvcoCalculator(atkWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) 
+    - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound 
+    - cumulativeCombinationModifier + findWeakSpotModifier + chiCombatAtkDefModifier;
   } else {
-    charAtk.value =
-      tvcoCalculator(aimWithProfession) -
-      reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) 
-      - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier 
-      - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier;
-    // if (charAtk.value < 0) {
-    //   charAtk.value = 0
-    // }
+    charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) 
+    - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound 
+    - cumulativeCombinationModifier;
   }
-  charDef.value =
-    tvcoCalculator(defWithProfession) -
-    reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) 
-    - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier 
-    - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier + chiCombatAtkDefModifier;
+  charDef.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) 
+    - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound 
+    - cumulativeCombinationModifier + chiCombatAtkDefModifier;
 }
 
 if (guidedSpellCombatStatChangerCheckbox.checked) {

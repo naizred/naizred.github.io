@@ -336,7 +336,7 @@ function ActionList() {
   }
   function handleComplexManeuverRadio(event) {
     if(initRolled){
-      let professionLevelIndex = handleWhenWeaponHasMultipleTypes(currentlySelectedWeapon.w_type, event.target.value)[1]
+      let professionLevelIndex = handleWhenWeaponHasMultipleTypes(currentlySelectedWeapon.w_type, event.target.value)[1] // 1-es indexen adja vissza a képzettség szintjét
       // kiírja, hogy milyen bónusz várható
       checkWhatBonusYouGetForSelectedManeuver(event.target.value, professionLevelIndex)
      setSkillForManeuver();
