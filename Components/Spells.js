@@ -692,7 +692,7 @@ function Spells() {
     }
     console.log(theHighestFiveAspectsPerAspectCategory);
 
-    if (filteredArrayIfHasManaFlow.length != 0) {
+    if (filteredArrayIfHasManaFlow.length != 0 && !currentSpell.ritual) {  // manavezető, de rituáléra nem lehet érvényes
       finalCastTime -= filteredArrayIfHasManaFlow[0].level;
     }      
     spellCastingCheckSetter()
