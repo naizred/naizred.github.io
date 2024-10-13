@@ -1,6 +1,6 @@
 import styles from "../styles/chardetails.module.css";
 import {
-  setFirstAttackInRoundToFalse,
+  setFirstAttackInRoundSpentToFalse,
   chargeWasUsedThisRound,
   chargeWasUsedThisRoundToFalse,
   currentlySelectedWeapon,
@@ -25,7 +25,7 @@ import {
   specialCases1,
   specialCases3,
   specialModifiers,
-  firstAttackInRound,
+  firstAttackInRoundSpent,
   numberOfClicksAtTwoWeaponAttack,
 } from "../pages";
 import {
@@ -169,7 +169,7 @@ function CharacterDetails() {
     reloadButton.disabled = true;
     weapons.disabled = true;
     offHand.disabled = true;
-    setFirstAttackInRoundToFalse();
+    setFirstAttackInRoundSpentToFalse();
     tacticsButton.disabled = false;
     let initiativeLightDice = Math.floor(generator.random() * 10);
     let initiativeDarkDice = Math.floor(generator.random() * 10);
@@ -282,7 +282,7 @@ function CharacterDetails() {
       }
       if (
         ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || 
-        (initRolled && firstAttackInRound && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) && !attackOfOpportunityOn)
+        (initRolled && firstAttackInRoundSpent && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) && !attackOfOpportunityOn)
       ) {
         attackRollButton.disabled = true;
       }
@@ -408,7 +408,7 @@ function CharacterDetails() {
     }
     twoWeaponAttackToFalse();
     chargeToFalse();
-    setFirstAttackInRoundToFalse();
+    setFirstAttackInRoundSpentToFalse();
     for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
       if (arrayOfAllComplexManeuvers[i].checked == true) {
         arrayOfAllComplexManeuvers[i].checked = false;
@@ -573,7 +573,7 @@ function CharacterDetails() {
     initRolled = false;
     warningWindow.innerText = "";
     spellCastingActionButton.disabled = false;
-    setFirstAttackInRoundToFalse();
+    setFirstAttackInRoundSpentToFalse();
     reloadIsNeededSetToFalse();
     if (spellIsBeingCast) {
       spellCastingSuccessful();

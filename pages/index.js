@@ -461,9 +461,9 @@ export function twoWeaponAttackWasUsedThisRoundToFalse() {
   twoWeaponAttackWasUsedThisRound = false;
 }
 export let numberOfClicksAtTwoWeaponAttack = 0;
-export let firstAttackInRound = false;
-export function setFirstAttackInRoundToFalse() {
-  firstAttackInRound = false;
+export let firstAttackInRoundSpent = false;
+export function setFirstAttackInRoundSpentToFalse() {
+  firstAttackInRoundSpent = false;
 }
 export let rangedWeaponsArray = [
   "ÍJ",
@@ -737,7 +737,7 @@ export default function Home(props) {
     console.log("Fegyver típus:", currentlySelectedWeapon.w_type);
     console.log("Fegyver sebzéskód:", currentlySelectedWeapon.w_damage);
     console.log("Erősebzés?:", currentlySelectedWeapon.strBonusDmg);
-    // if (firstAttackInRound == false) {
+    // if (firstAttackInRoundSpent == false) {
     //   return;
     // }
     if (buffTextChecker("Chi-harc")) {
@@ -2101,7 +2101,7 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
         console.log("halmozódó tám mod", modifierFromNumberOfAttacksInTheRound);
       }
 
-      firstAttackInRound = true;
+      firstAttackInRoundSpent = true;
       combinationCheckBox.disabled = false;
 
       if (spellNeedsAimRoll == true) { 
@@ -2315,7 +2315,7 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
         twoWeaponAttackWasUsedThisRound = true;
       }
 
-      if (firstAttackInRound == true && numberOfClicksAtTwoWeaponAttack == 1) {
+      if (firstAttackInRoundSpent == true && numberOfClicksAtTwoWeaponAttack == 1) {
         weapons.disabled = false;
         chosenWeapon.innerText = "Kétk.harc másik kéz:";
         twoWeaponAttackRadioButton.disabled = true;
@@ -2345,7 +2345,7 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
        combatStatRefresher()
         attackOfOpportunityButton.disabled = false;
         if (firstAttackIsAttackOfOpportunity == true) {
-          firstAttackInRound = false
+          firstAttackInRoundSpent = false
           firstAttackIsAttackOfOpportunitySetToFalse()
         }
       }
@@ -2405,7 +2405,7 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
       assassinationToFalse();
     }
     if (firstAttackIsSpellThatNeedsAimRoll) {
-      firstAttackInRound = false;
+      firstAttackInRoundSpent = false;
       firstAttackIsSpellThatNeedsAimRollSetToFalse()
     }
     playerChecker();
@@ -2576,8 +2576,7 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
             használsz, vagy nem lőhetsz/dobhatsz el újra távolsági fegyvert,
             amíg nem töltesz újra/veszel elő újat.
             <br />
-            - A varázslásra kattintva a varászműhelyben kiszámolt CS, Mp, és -
-            ha célzott mágiáról van szó - CÉO értékekkel is boldogul. <br />
+            - A varázslásra kattintva a legtöbb Tapasztalati mágiát már képes kezelni<br />
             <a
               target="_blank"
               href="https://magustk.hu/0.90/varazsmuhely"

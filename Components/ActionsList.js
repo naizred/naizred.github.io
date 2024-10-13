@@ -1,5 +1,5 @@
-import pages, {
-  firstAttackInRound,
+import {
+  firstAttackInRoundSpent,
   chargeWasUsedThisRound,
   combinationWasUsedThisRound,
   twoWeaponAttackModifiers,
@@ -284,7 +284,7 @@ export function handleIfSpellDoesNotNeedAimRoll() {
     attackRollButtonWasDisabledBeforeSpellCast = false;
   }
    attackRollButton.disabled = false;
-   if (initRolled && !firstAttackInRound) {
+   if (initRolled && !firstAttackInRoundSpent) {
      firstAttackIsSpellThatNeedsAimRoll = true
    }
   // spellTypeQuestionWindow.style.display = "none";
@@ -308,18 +308,12 @@ function ActionList() {
 
   function handleExtraAttackRadio(event) {
     if (
-      firstAttackInRound == false 
-      //&& firstAttackInRoundSetToFalseBySpellNeedsAimRoll == false
+      firstAttackInRoundSpent == false 
     ) {
       event.target.checked = false;
       return;
     }
-    if (
-      (firstAttackInRound == true 
-       // || firstAttackInRoundSetToFalseBySpellNeedsAimRoll == true
-       ) &&
-      initRolled == true
-    ) {
+    if (firstAttackInRoundSpent && initRolled) {
       if (event.target.checked == true) {
         totalActionCostOfAttack = 3;
 
@@ -464,24 +458,6 @@ function ActionList() {
     ) {
       attackRollButton.disabled = false;
     }
-    // if (combinationCheckBox.checked == false) {
-    //   if (initRolled == true && firstAttackInRound == true) {
-    //     attackRollButton.disabled = true;
-    //   }
-    // }
-    // if (
-    //   event.target.value == "Kombináció" &&
-    //   hmoModified == true &&
-    //   initRolled == true &&
-    //   combinationWasUsedThisRound == false
-    // ) {
-    //   hmoModifier(-combinationModifiers[combinationModifiersIndex]);
-    //   hmoModified = false;
-    //   if (initRolled == true && firstAttackInRound == true) {
-    //     attackRollButton.disabled = true;
-    //   }
-    //   totalActionCostOfAttack = 2;
-    // }
     if (
       event.target.value == "Kétkezes harc" &&
       initRolled == true &&
@@ -557,7 +533,7 @@ function ActionList() {
         if (
           currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading >
             0 ||
-          (firstAttackInRound == true && combinationCheckBox.checked == false) ||
+          (firstAttackInRoundSpent == true && combinationCheckBox.checked == false) ||
           parseInt(numberOfActions.innerText) < totalActionCostOfAttack
         ) {
           attackRollButton.disabled = true;
@@ -593,14 +569,14 @@ function ActionList() {
           warningWindow.innerText = "";
           numberOfActionsSpentReloading = 0;
           if (
-            firstAttackInRound == true &&
+            firstAttackInRoundSpent == true &&
             combinationCheckBox.checked == true &&
             parseInt(numberOfActions.innerText) >= totalActionCostOfAttack
           ) {
             attackRollButton.disabled = false;
           }
           if (
-            firstAttackInRound == false &&
+            firstAttackInRoundSpent == false &&
             parseInt(numberOfActions.innerText) >= totalActionCostOfAttack
           ) {
             attackRollButton.disabled = false;
@@ -658,9 +634,8 @@ function ActionList() {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
       }
-
       attackOfOpportunityButton.disabled = true;
-      if (firstAttackInRound == false) {
+      if (firstAttackInRoundSpent == false) {
         firstAttackIsAttackOfOpportunity = true
       }
       attackRollButton.disabled = false;
@@ -863,6 +838,12 @@ function ActionList() {
         <li>
           <span>Közbevágás - Reakció - 1 CS </span>
           <button id="attackOfOpportunityButton" onClick={handleOtherManeuvers}>
+            Végrehajt
+          </button>
+        </li>
+        <li>
+          <span>Védekező harc - Akció - 1 CS </span>
+          <button id="defensiveStance" onClick={handleOtherManeuvers}>
             Végrehajt
           </button>
         </li>
