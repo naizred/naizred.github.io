@@ -233,8 +233,8 @@
     "aptName": "Rejtett varázs",
     "levelDescription": [
       "Varázsláskor a procedúrából elhagyható a hang vagy a mozdulat. Varázspróba CÉL értéke +3, Varázslási idő duplázódik.",
-      "Varázsláskor a procedúrából elhagyható a hang vagy a mozdulat. Varázspróba CÉL értéke +3, Varázslási idő csak akkor duplázódik, ha mindkettőt elhagyja.",
-      "Varázsláskor a procedúrából elhagyható a hang vagy a mozdulat. Varázspróba CÉL értéke +3, Varázslási idő változatlan"
+      "Varázsláskor a procedúrából elhagyható a hang és a mozdulat is. Varázspróba CÉL értéke +3, Varázslási idő csak akkor duplázódik, ha mindkettőt elhagyja.",
+      "Varázsláskor a procedúrából elhagyható a hang és a mozdulat is. Varázspróba CÉL értéke +3, Varázslási idő változatlan"
     ],
     "longDescriptionRequired": false
   },
