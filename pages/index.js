@@ -1451,24 +1451,11 @@ export default function Home(props) {
         findAndCountAttributesThatModifyStats("Gyo", "Ügy", "Érz") +
         sumDefGainedByLevel +
         parsedCharacterDataFromJSON.spentHm.VÉ;
-
-        //--- itt nézi meg az épp kiválasztott fegyver és pajzs tulajdonságait a weapons.json-ból 
-        filteredArrayIfHasMasterWep = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) =>
-            name.aptitude == "Mesterfegyver" &&
-            parsedCharacterDataFromJSON.masterWeapon ==
-              `${currentlySelectedWeapon.w_name}`
-        );
   
         if (filteredArrayIfHasAssassination.length != 0) {
           bonusDamageFromAssassination = filteredArrayIfHasAssassination[0].level;
         }
-          
-        if (filteredArrayIfHasMasterWep.length != 0) {
-          masterWeaponModifier = parseInt(filteredArrayIfHasMasterWep[0].level);
-        } else {
-          masterWeaponModifier = 0;
-        }
+        
         // szűrés minden fegyverhasználatra
         filteredArrayByWeaponSkills = parsedCharacterDataFromJSON.skills.filter(
         (name) =>
@@ -1779,6 +1766,19 @@ export default function Home(props) {
       currentlySelectedOffHand = allWeapons.find(
       (name) => name.w_name === `${offHand.value}`
       );
+
+      filteredArrayIfHasMasterWep = parsedCharacterDataFromJSON.aptitudes.filter(
+        (name) =>
+          name.aptitude == "Mesterfegyver" &&
+          parsedCharacterDataFromJSON.masterWeapon ==
+            `${currentlySelectedWeapon.w_name}`
+      );
+
+      if (filteredArrayIfHasMasterWep.length != 0) {
+        masterWeaponModifier = parseInt(filteredArrayIfHasMasterWep[0].level);
+      } else {
+        masterWeaponModifier = 0;
+      }
     
       if (
         filteredArrayIfHasDestroyer.length != 0 &&
