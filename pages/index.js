@@ -1171,6 +1171,9 @@ export default function Home(props) {
                 let aptitudeListItem = document.createElement("li");
                 if (aptitudesDescript[j].longDescriptionRequired) {
                   aptitudeListItem.innerText = `${aptitudesDescript[j].aptName} ${romanNumbers[allAptitudes[i].level-1]} fokozat`
+                  if (allAptitudes[i].aptitude == "Tehetség") {
+                    aptitudeListItem.innerText = `${aptitudeListItem.innerText} (${parsedCharacterDataFromJSON.talent.skill})`
+                  }
                 } else {
                   aptitudeListItem.innerText = `${aptitudesDescript[j].levelDescription[allAptitudes[i].level-1]}`
                 }
