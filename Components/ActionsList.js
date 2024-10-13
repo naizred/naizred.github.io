@@ -22,7 +22,7 @@ import {
   allActiveBuffs,
   combinationModifiersIndex,
   combinationModifiersIndexChanger,
-  fileFirstLoaded
+  setFirstAttackInRoundSpent
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -316,9 +316,8 @@ function ActionList() {
     if (firstAttackInRoundSpent && initRolled) {
       if (event.target.checked == true) {
         totalActionCostOfAttack = 3;
-
-        // hmoModifier(-cumulativeCombinationModifier);
-        // kellett, hogy ha 3-nál kevesebb cselekedeted van, akkor ne világosodjon ki a támadó gomb.
+        attackRollButtonWasDisabledBeforeSpellCastSetToFalse()
+        // ha 3-nál kevesebb cselekedeted van, akkor ne világosodjon ki a támadó gomb.
         if(parseInt(numberOfActions.innerText) >= 3){
           attackRollButton.disabled = false;
         } 
@@ -331,9 +330,6 @@ function ActionList() {
       }
       if (event.target.checked == false) {
         totalActionCostOfAttack = 2;
-
-        //  hmoModifier(cumulativeCombinationModifier);
-
         attackRollButton.disabled = true;
       }
     }
@@ -341,7 +337,6 @@ function ActionList() {
   function handleComplexManeuverRadio(event) {
     if(initRolled){
       let professionLevelIndex = handleWhenWeaponHasMultipleTypes(currentlySelectedWeapon.w_type, event.target.value)[1]
-      console.log(handleWhenWeaponHasMultipleTypes(currentlySelectedWeapon.w_type, event.target.value))
       // kiírja, hogy milyen bónusz várható
       checkWhatBonusYouGetForSelectedManeuver(event.target.value, professionLevelIndex)
      setSkillForManeuver();
@@ -640,6 +635,15 @@ function ActionList() {
       }
       attackRollButton.disabled = false;
     }
+    if (initRolled && parseInt(numberOfActions.innerText) != 0 &&
+      nameOfManeuver.includes("Védekező") &&
+      firstAttackInRoundSpent == false
+    ){
+      numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
+      actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
+      setFirstAttackInRoundSpent(true)
+      attackRollButton.disabled = true
+    }
     if (initRolled == true && parseInt(numberOfActions.innerText) < 2) {
       tacticsButton.disabled = true;
     }
@@ -842,7 +846,7 @@ function ActionList() {
           </button>
         </li>
         <li>
-          <span>Védekező harc - Akció - 1 CS </span>
+          <span>Védekező harc - Akció - 1/0 CS </span>
           <button id="defensiveStance" onClick={handleOtherManeuvers}>
             Végrehajt
           </button>

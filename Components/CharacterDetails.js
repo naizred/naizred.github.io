@@ -1,6 +1,6 @@
 import styles from "../styles/chardetails.module.css";
 import {
-  setFirstAttackInRoundSpentToFalse,
+  setFirstAttackInRoundSpent,
   chargeWasUsedThisRound,
   chargeWasUsedThisRoundToFalse,
   currentlySelectedWeapon,
@@ -169,7 +169,7 @@ function CharacterDetails() {
     reloadButton.disabled = true;
     weapons.disabled = true;
     offHand.disabled = true;
-    setFirstAttackInRoundSpentToFalse();
+    setFirstAttackInRoundSpent();
     tacticsButton.disabled = false;
     let initiativeLightDice = Math.floor(generator.random() * 10);
     let initiativeDarkDice = Math.floor(generator.random() * 10);
@@ -408,7 +408,7 @@ function CharacterDetails() {
     }
     twoWeaponAttackToFalse();
     chargeToFalse();
-    setFirstAttackInRoundSpentToFalse();
+    setFirstAttackInRoundSpent();
     for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
       if (arrayOfAllComplexManeuvers[i].checked == true) {
         arrayOfAllComplexManeuvers[i].checked = false;
@@ -573,7 +573,7 @@ function CharacterDetails() {
     initRolled = false;
     warningWindow.innerText = "";
     spellCastingActionButton.disabled = false;
-    setFirstAttackInRoundSpentToFalse();
+    setFirstAttackInRoundSpent();
     reloadIsNeededSetToFalse();
     if (spellIsBeingCast) {
       spellCastingSuccessful();

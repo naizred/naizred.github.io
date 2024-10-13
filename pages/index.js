@@ -250,16 +250,16 @@ let weaponStyles = [
   { "Sárga kolostor": ["Pusztítás", "Kínokozás", "Birkózás", "Távoltartás", "Belharc"] },
   { "Óvó szél": ["Taszítás", "Lefegyverzés", "Távoltartás", "Kínokozás", "Birkózás"] }
 ]
-let weaponStyleBonusesByLevelOfProficiency = [
-  {"Belharc": ["-0,5 (-1) HMO", "-1 (-2) HMO", "-1,5 (-3) HMO", "-2 (-4) HMO", "-2,5 (-5) HMO", "-3 (-6) HMO"]},
-  {"Birkózás": ["0,5 Ép +0,5 VÉO", "1 Ép +1 VÉO", "2 Ép +1,5 VÉO", "3 Ép +2 VÉO", "4 Ép +2,5 VÉO", "5 Ép +3 VÉO"]},
-  {"Fegyvertörés": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]},
-  {"Kínokozás": ["+1Fp/2Ép", "+1Fp/1Ép", "+2Fp/1Ép", "+3Fp/1Ép", "+4Fp/1Ép", "+5Fp/1Ép"]},
-  {"Lefegyverzés": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]},
-  {"Pusztítás": ["+1Ép/5Ép", "+1Ép/4Ép", "+1Ép/3Ép", "+1Ép/2Ép", "+1Ép/1Ép", "+2Ép/1Ép"]},
-  {"Taszítás": ["spec.","spec.","spec.","spec.","spec.","spec."]},
-  {"Távoltartás": ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]}
-]
+let weaponStyleBonusesByLevelOfProficiency = {
+  Belharc: ["-0,5 (-1) HMO", "-1 (-2) HMO", "-1,5 (-3) HMO", "-2 (-4) HMO", "-2,5 (-5) HMO", "-3 (-6) HMO"],
+  Birkózás: ["0,5 Ép +0,5 VÉO", "1 Ép +1 VÉO", "2 Ép +1,5 VÉO", "3 Ép +2 VÉO", "4 Ép +2,5 VÉO", "5 Ép +3 VÉO"],
+  Fegyvertörés: ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"],
+  Kínokozás: ["+1Fp/2Ép", "+1Fp/1Ép", "+2Fp/1Ép", "+3Fp/1Ép", "+4Fp/1Ép", "+5Fp/1Ép"],
+  Lefegyverzés: ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"],
+  Pusztítás: ["+1Ép/5Ép", "+1Ép/4Ép", "+1Ép/3Ép", "+1Ép/2Ép", "+1Ép/1Ép", "+2Ép/1Ép"],
+  Taszítás: ["spec.","spec.","spec.","spec.","spec.","spec."],
+  Távoltartás: ["képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba", "képzettségpróba"]
+}
 export let allDmgReductionListItems
 export let maneuverAttachedToWeaponType
 let filteredArrayByWeaponSkills
@@ -330,27 +330,34 @@ export function handleWhenWeaponHasMultipleTypes(weaponType, usedStyle){
 }
 
 export function checkWhatBonusYouGetForSelectedManeuver(selectedManeuverValue, professionLevelIndex){
-  for (let i = 0; i < weaponStyleBonusesByLevelOfProficiency.length; i++) {
-    let weaponStyleName = Object.keys(weaponStyleBonusesByLevelOfProficiency[i])
+  let weaponStyleName = Object.keys(weaponStyleBonusesByLevelOfProficiency)
+  let weaponsStyleBonusArray = Object.values(weaponStyleBonusesByLevelOfProficiency)
+  for (let i = 0; i < weaponStyleName.length; i++) {
     // a fegyvertípus alap manőverei (stílusai)
-    let weaponsStyleBonusArray = Object.values(weaponStyleBonusesByLevelOfProficiency[i])
   
-    if (weaponStyleName == selectedManeuverValue && professionLevelIndex != 0) {
-      blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponsStyleBonusArray[0][professionLevelIndex]}` )
+    if (weaponStyleName[i] == selectedManeuverValue && professionLevelIndex != 0) {
+      blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponStyleBonusesByLevelOfProficiency[selectedManeuverValue][professionLevelIndex]}` )
       break
     } 
-    if(weaponStyleName == selectedManeuverValue && professionLevelIndex == 0) {
-      blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponsStyleBonusArray[0][0]}` )
+    if(weaponStyleName[i] == selectedManeuverValue && professionLevelIndex == 0) {
+      blinkingText(warningWindow, `"${selectedManeuverValue}" stílusból várható módosítók: \n${weaponStyleBonusesByLevelOfProficiency[selectedManeuverValue][0]}` )
       break
     }
   }
   }
 
+function attributeFinderForManeuver(attribute = "Erő"){
+  let selectAllAttributeOptions = document.querySelectorAll("select#attributes option");
+          for (let i = 0; i < selectAllAttributeOptions.length; i++) {
+          if (selectAllAttributeOptions[i].innerText == attribute) {
+            attributes.value = selectAllAttributeOptions[i].value;
+          }
+        }
+}
+
 export function setSkillForManeuver (){
 if (initRolled) {
-  let selectAllSkillOptions = document.querySelectorAll(
-    "select#skills option"
-  );
+  let selectAllSkillOptions = document.querySelectorAll("select#skills option");
   for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
     if (arrayOfAllComplexManeuvers[i].checked && 
       arrayOfAllComplexManeuvers[i].value !="Roham" &&
@@ -366,6 +373,16 @@ if (initRolled) {
           break;
         }
         skills.value = 0;     
+      }
+      attributeFinderForManeuver()
+      // speciális esetek 
+      if (arrayOfAllComplexManeuvers[i].value == "Lefegyverzés") {
+        attributeFinderForManeuver("Ügy")
+        if (currentlySelectedWeapon.disarmingWeapon) {
+          succFailModifier.value = 1;
+        } else {
+          succFailModifier.value = 0;
+        }
       }
       evaluateSkillOrAttributeCheckBase();
       break
@@ -462,8 +479,13 @@ export function twoWeaponAttackWasUsedThisRoundToFalse() {
 }
 export let numberOfClicksAtTwoWeaponAttack = 0;
 export let firstAttackInRoundSpent = false;
-export function setFirstAttackInRoundSpentToFalse() {
-  firstAttackInRoundSpent = false;
+export function setFirstAttackInRoundSpent(setItTo = false) {
+  if (setItTo === false ) {
+   firstAttackInRoundSpent = false;
+  } else if(setItTo === true) {
+    firstAttackInRoundSpent = true;
+  }
+    
 }
 export let rangedWeaponsArray = [
   "ÍJ",
@@ -1750,7 +1772,7 @@ export default function Home(props) {
                       spellCastButtonWrapper.style.display = "none";
                     }
                     weaponStyles = Object.entries(weaponStyles)
-                    weaponStyleBonusesByLevelOfProficiency = Object.entries(weaponStyleBonusesByLevelOfProficiency)
+                    //weaponStyleBonusesByLevelOfProficiency = Object.entries(weaponStyleBonusesByLevelOfProficiency)
                     combatStatRefresher()
     });
 
