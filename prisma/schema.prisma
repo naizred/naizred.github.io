@@ -24,4 +24,5 @@ model characterStatsThatChange {
   numberOfActions    String? @default("")
   gameId             String? @default("")
   initiativeWithRoll Int?    @default(0)
+  updatedAt          DateTime @updatedAt
 }

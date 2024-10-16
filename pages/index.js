@@ -69,6 +69,21 @@ export var generator = new MersenneTwister();
 export let returnedData;
 let parsedDataSortedByActionsAndInit
 export async function fetchCharacterDataForAdventureMaster(gameId) {
+
+  let currentCharNameNodes = document.querySelectorAll("input#characterName");
+  let currentFpNodes = document.querySelectorAll("input#currentFp");
+  let currentEpNodes = document.querySelectorAll("input#currentEp");
+  let currentPpNodes = document.querySelectorAll("input#currentPp");
+  let currentMpNodes = document.querySelectorAll("input#currentMp");
+  let currentLpNodes = document.querySelectorAll("input#currentLp");
+  let atkRollResultNodes = document.querySelectorAll("input#atkRollResult");
+  let skillCheckResultDmNodes = document.querySelectorAll("input#skillCheckResultDm");
+  let atkRollDiceNodes = document.querySelectorAll("input#atkRollDice");
+  let skillCheckDiceNodes = document.querySelectorAll("input#skillCheckDice");
+  let numberOfActionsAllPlayers = document.querySelectorAll("div#numberOfActionsAllPlayers");
+  let initiativeWithRollNodes = document.querySelectorAll("div#initiativeWithRoll");
+  let characterNameForInitNodes = document.querySelectorAll("input#characterNameForInit");
+  
   await fetch(`../api/getCharsByGameId/${gameId}`)
     .then((response) => {
       return response.json();
@@ -82,31 +97,6 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
       //const parsedDataSortedByActionsAndInit = parsedData.sort((a,b)=>parseInt(b.numberOfActions) - parseInt(a.numberOfActions))
       //console.log(parsedData.sort((a,b)=>a.charId - b.charId));
 
-      let currentCharNameNodes = document.querySelectorAll(
-        "input#characterName"
-      );
-      let currentFpNodes = document.querySelectorAll("input#currentFp");
-      let currentEpNodes = document.querySelectorAll("input#currentEp");
-      let currentPpNodes = document.querySelectorAll("input#currentPp");
-      let currentMpNodes = document.querySelectorAll("input#currentMp");
-      let currentLpNodes = document.querySelectorAll("input#currentLp");
-      let atkRollResultNodes = document.querySelectorAll("input#atkRollResult");
-      let skillCheckResultDmNodes = document.querySelectorAll(
-        "input#skillCheckResultDm"
-      );
-      let atkRollDiceNodes = document.querySelectorAll("input#atkRollDice");
-      let skillCheckDiceNodes = document.querySelectorAll(
-        "input#skillCheckDice"
-      );
-      let numberOfActionsAllPlayers = document.querySelectorAll(
-        "div#numberOfActionsAllPlayers"
-      );
-      let initiativeWithRollNodes = document.querySelectorAll(
-        "div#initiativeWithRoll"
-      );
-      let characterNameForInitNodes = document.querySelectorAll(
-        "input#characterNameForInit"
-      );
 
       // skillCheckResult, skillCheckDice
 
