@@ -4,8 +4,9 @@ let upperTorsoWorn = false
 let lowerTorsoWorn = false
 let armsWorn = false
 let leggingsWorn = false
-export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
-    if (armorPiece.nameOfArmor == 'Teljesvért' || armorPiece.nameOfArmor == 'Rákozott félvért') {
+
+export function checkWhereItIsWorn(armorPiece) {
+    if (armorPiece.NAME == 'Teljesvért' || armorPiece.NAME == 'Rákozott félvért') {
         currentArmorImg.style.backgroundImage = "url('./armorParts/fullPlateBackGround.png')"
         currentArmorImg.style.backgroundSize = "7.58vw 12vw"
         currentHelmetImg.src = './armorParts/helmetFullPlate.png'
@@ -30,34 +31,34 @@ export function checkWhereItIsWorn(armorPiece, mgtCompensation) {
        currentArmsDmgReduction.style.gridColumn = "3/9"
        currentLeggingsDmgReduction.style.gridColumn = "3/9"
     }
- if (armorPiece.kit.includes(10) && helmetWorn == false) {
-     currentHelmetName.innerText = `Fej: ${armorPiece.nameOfArmor}`
+ if (armorPiece.KIT.includes(10) && helmetWorn == false) {
+     currentHelmetName.innerText = `Fej: ${armorPiece.NAME}`
      currentHelmetImg.style.opacity = 1
-     currentHelmetDmgReduction.innerText = armorPiece.dmgReduction
+     currentHelmetDmgReduction.innerText = armorPiece.SFE
      helmetWorn = true
     }
- if (armorPiece.kit.includes(8) && upperTorsoWorn == false) {
-     currentUpperTorsoName.innerText = `Mellkas: ${armorPiece.nameOfArmor}`
+ if (armorPiece.KIT.includes(8) && upperTorsoWorn == false) {
+     currentUpperTorsoName.innerText = `Mellkas: ${armorPiece.NAME}`
      currentUpperTorsoImg.style.opacity = 1
-     currentUpperTorsoDmgReduction.innerText = armorPiece.dmgReduction
+     currentUpperTorsoDmgReduction.innerText = armorPiece.SFE
      upperTorsoWorn = true
     }
- if (armorPiece.kit.includes(6) && lowerTorsoWorn == false) {
-     currentLowerTorsoName.innerText = `Has: ${armorPiece.nameOfArmor}`
+ if (armorPiece.KIT.includes(6) && lowerTorsoWorn == false) {
+     currentLowerTorsoName.innerText = `Has: ${armorPiece.NAME}`
      currentLowerTorsoImg.style.opacity = 1
-     currentLowerTorsoDmgReduction.innerText = armorPiece.dmgReduction
+     currentLowerTorsoDmgReduction.innerText = armorPiece.SFE
      lowerTorsoWorn = true
     }
- if (armorPiece.kit.includes(3) && armsWorn == false) {
-     currentArmsName.innerText = `Karok: ${armorPiece.nameOfArmor}`
+ if (armorPiece.KIT.includes(3) && armsWorn == false) {
+     currentArmsName.innerText = `Karok: ${armorPiece.NAME}`
      currentArmsImg.style.opacity = 1
-     currentArmsDmgReduction.innerText = armorPiece.dmgReduction
+     currentArmsDmgReduction.innerText = armorPiece.SFE
      armsWorn = true
     }
- if (armorPiece.kit.includes(2) && leggingsWorn == false) {
-     currentLeggingsName.innerText = `Lábak: ${armorPiece.nameOfArmor}`
+ if (armorPiece.KIT.includes(2) && leggingsWorn == false) {
+     currentLeggingsName.innerText = `Lábak: ${armorPiece.NAME}`
      currentLeggingsImg.style.opacity = 1
-     currentLeggingsDmgReduction.innerText = armorPiece.dmgReduction
+     currentLeggingsDmgReduction.innerText = armorPiece.SFE
      leggingsWorn = true
     }
 }

@@ -1200,7 +1200,7 @@ export default function Home(props) {
                   break;
                 }
               }
-            } else {
+            } else if (allWeapons[i].w_name.includes("dobva")) {
               for (let k = i; k < allWeapons.length; k++) {
                 if (allWeapons[k].w_name.includes("egykézzel")) {
                   weapons.value = allWeapons[k].w_name;
@@ -1236,15 +1236,17 @@ export default function Home(props) {
             mgtCompensation = 12;
           }
         }
-          console.log(armorPieces);
-          for (let j = 0; j < props.armors.length; j++) {
-            if (armorPieces[0] == props.armors[j].nameOfArmor) {
-              checkWhereItIsWorn(props.armors[j], mgtCompensation);
-              break;
-            } else {
-              continue;
-            }
-        }
+        let totalMgtOfArmorPieces = 0
+          console.log(parsedCharacterDataFromJSON.armourSet.pickedPiecesWithDetails);
+          for (let j = 0; j < parsedCharacterDataFromJSON.armourSet.pickedPiecesWithDetails.length; j++) {
+              checkWhereItIsWorn(parsedCharacterDataFromJSON.armourSet.pickedPiecesWithDetails[j]);
+              totalMgtOfArmorPieces+=parsedCharacterDataFromJSON.armourSet.pickedPiecesWithDetails[j].MGT
+          }
+          if (totalMgtOfArmorPieces - mgtCompensation <= 0) {
+            totalMgtOfArmorSet.innerText = 0
+          } else if (totalMgtOfArmorPieces - mgtCompensation>0){
+            totalMgtOfArmorSet.innerText = totalMgtOfArmorPieces - mgtCompensation
+          }
       }
       armorHandler();
         allDmgReductionListItems = document.querySelectorAll("div#currentArmorImg li")
