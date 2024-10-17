@@ -37,7 +37,7 @@ import {
   spellIsBeingCast,
 } from "../Components/Spells";
 import ArmorDetails, {
-  equippedOrNotSetToManual,
+  
 } from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, {
   multipleDiceRoll,
@@ -1185,19 +1185,25 @@ export default function Home(props) {
         for (let i = 0; i < allWeapons.length; i++) {
           if (
             allWeapons[i].w_name.includes(
-              parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon]
-                .rightWeapon
+              parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon].rightWeapon
             )
           ) {
             weapons.value = allWeapons[i].w_name;
             if (
               (allWeapons[i].w_name.includes("egykézzel") ||
               allWeapons[i].w_name.includes("dobva")) &&
-              !parryWeaponToSelectAtImport
+              parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon].detailsMode != "parry"
             ) {
               for (let j = i; j < allWeapons.length; j++) {
                 if (allWeapons[j].w_name.includes("kétkézzel")) {
                   weapons.value = allWeapons[j].w_name;
+                  break;
+                }
+              }
+            } else {
+              for (let k = i; k < allWeapons.length; k++) {
+                if (allWeapons[k].w_name.includes("egykézzel")) {
+                  weapons.value = allWeapons[k].w_name;
                   break;
                 }
               }
@@ -1217,7 +1223,6 @@ export default function Home(props) {
 
         let armorPieces = parsedCharacterDataFromJSON.armourSet.pieces;
         if (armorPieces.length == 0) {
-          equippedOrNot.style.display = "none";
           return;
         }
         // let armorObject = []
@@ -1231,9 +1236,6 @@ export default function Home(props) {
             mgtCompensation = 12;
           }
         }
-        if (equippedOrNotSetToManual == false) {
-          equippedOrNot.checked = true;
-
           console.log(armorPieces);
           for (let j = 0; j < props.armors.length; j++) {
             if (armorPieces[0] == props.armors[j].nameOfArmor) {
@@ -1242,11 +1244,7 @@ export default function Home(props) {
             } else {
               continue;
             }
-          }
         }
-        // for (let i = 0; i < armorObject.length; i++) {
-        //   //armorSetMgt += Math.round(armorObject[i].materialIndex * armorObject[i].kit.length)
-        // }
       }
       armorHandler();
         allDmgReductionListItems = document.querySelectorAll("div#currentArmorImg li")
