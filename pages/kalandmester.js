@@ -1,11 +1,11 @@
 import styles from "../styles/kalandmester.module.css";
-import { fetchCharacterDataForAdventureMaster, returnedData } from ".";
+import { fetchCharacterDataForAdventureMaster, fetchCharacterDataForAdventureMasterFirstIteration } from ".";
 
 function Kalandmester() {
   let gameIdInterval;
   function setGameIdInputInterval() {
     gameIdInterval = setInterval(() => {
-      fetchCharacterDataForAdventureMaster(gameIdRequest.value);
+      fetchCharacterDataForAdventureMaster(gameIdRequest.value)
     }, 500);
     setIntervalButton.disabled = true;
   }
@@ -14,11 +14,14 @@ function Kalandmester() {
     clearInterval(gameIdInterval);
     setIntervalButton.disabled = false;
   }
-
+  function handleFirstIteration(){
+    fetchCharacterDataForAdventureMasterFirstIteration(gameIdRequest.value)
+  }
   return (
     <>
       <div className={styles.namesOfPlayers}>
         <input id="gameIdRequest" className={styles.characterName} />
+        <li id="dataStorageLi"></li>
         <button
           id="setIntervalButton"
           className={styles.saveButton}
@@ -32,6 +35,13 @@ function Kalandmester() {
           onClick={removeGameIdInputInterval}
           type="button">
           Harc vége!
+        </button>
+        <button
+          id="firstIteraionButton"
+          className={styles.saveButton}
+          onClick={handleFirstIteration}
+          type="button">
+          Betöltés
         </button>
       </div>
       <div className={styles.adventureMaster}>
