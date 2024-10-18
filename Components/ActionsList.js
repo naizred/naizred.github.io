@@ -644,9 +644,6 @@ function ActionList() {
       setFirstAttackInRoundSpent(true)
       attackRollButton.disabled = true
     }
-    if (initRolled == true && parseInt(numberOfActions.innerText) < 2) {
-      tacticsButton.disabled = true;
-    }
   }
 
   function handleGameIdWrapperClose() {

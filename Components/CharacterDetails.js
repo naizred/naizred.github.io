@@ -280,6 +280,9 @@ function CharacterDetails() {
       if (initRolled && parseInt(numberOfActions.innerText)<=0) {
         recurringSpellActionButton.disabled = true
       }
+      if (parseInt(numberOfActions.innerText) < 2) {
+        tacticsButton.disabled = true;
+      }
       if (
         ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || 
         (initRolled && firstAttackInRoundSpent && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) && !attackOfOpportunityOn)
@@ -334,16 +337,6 @@ function CharacterDetails() {
   function handleAdjustActionsNegative() {
     if (initRolled == true) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
-      if (parseInt(numberOfActions.innerText) < 2) {
-        tacticsButton.disabled = true;
-        //attackRollButton.disabled = true;
-      }
-      // if (
-      //   combinationWasUsedThisRound == true &&
-      //   parseInt(numberOfActions.innerText) < 3
-      // ) {
-      //   attackRollButton.disabled = true;
-      // }
       actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
       spellCastingFailure();
       reloadFailed();
@@ -357,10 +350,6 @@ function CharacterDetails() {
       actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
       spellCastingFailure();
       reloadFailed();
-    }
-    if (parseInt(numberOfActions.innerText) < 2) {
-      attackRollButton.disabled = true;
-      tacticsButton.disabled = true;
     }
     if (
       combinationWasUsedThisRound == true &&

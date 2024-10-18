@@ -660,7 +660,6 @@ function tvcoCalculator(atkAimDef) {
 }
 // -- ide kellett egy másik függvény, mert itt felfelé kerekítünk 0,5 ig a többi TÉ/VÉ/CÉO-val ellentétben, ahol lefelé kerekítünk
 function specialTvcoCalculatorForParry(parryWeaponDef) {
-
   let calculatedParryWeaponDef = 0;
   if (parryWeaponDef % 5 == 0) {
     calculatedParryWeaponDef = parryWeaponDef;
@@ -1214,8 +1213,6 @@ export default function Home(props) {
       }
       
       let filteredArrayIfHasHeavyArmorSkill = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Vértviselet");
-      let extentOfCurrentArmorSet = 0;
-      let armorSetMgt = 0;
       function armorHandler() {
         if (parsedCharacterDataFromJSON.armourSet == null) {
           return;
@@ -1331,8 +1328,7 @@ export default function Home(props) {
         filteredArrayIfHasTwoWeaponAttack = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Kétkezes harc");
   
         if (filteredArrayIfHasTwoWeaponAttack.length != 0) {
-          twoWeaponAttackModifiersIndex =
-            filteredArrayIfHasTwoWeaponAttack[0].level;
+          twoWeaponAttackModifiersIndex = filteredArrayIfHasTwoWeaponAttack[0].level;
         }
         schoolsOfMagicNames = Object.keys(schoolsOfMagicNamesAndAttributes)
         filteredArrayIfHasAnyMagicSkill = parsedCharacterDataFromJSON.skills.filter(
@@ -1372,7 +1368,6 @@ export default function Home(props) {
           }
         }
        // allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
-      
 
       filteredArrayIfHasParry = parsedCharacterDataFromJSON.skills.filter(
         (name) => name.name == "Hárítás"
@@ -1853,7 +1848,7 @@ export default function Home(props) {
       reader.readAsText(file);
     }
   }
-
+//************************************************ A harci statisztikák frissítése, pl. fegyverváltásnál ***********************************//
   function combatStatRefresher(){
     currentlySelectedWeapon = allWeapons.find(
       (name) => name.w_name === `${weapons.value}`
@@ -2182,18 +2177,7 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
       }
 
     damageResult.innerText = "";
-
     bodyPart.innerText = "";
-
-    // if (charAtk.value < 0) {
-    //   charAtkSum.innerText = rollResult.innerText;
-    //   charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
-    // } else {
-    //   charAtkSum.innerText =
-    //     parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
-    //   charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
-    // }
-
     bodyPart.innerText = bodyParts[originalLightDice - 1];
 
     tempImg = document.createElement("img");
@@ -2347,9 +2331,6 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
         actionsSpentSinceLastCastAdderCheckerAndNullifier(
           totalActionCostOfAttack
         );
-      }
-      if (parseInt(numberOfActions.innerText) < 2) {
-        tacticsButton.disabled = true;
       }
       //************************************************************************************************************************** */
       //Ebben a körben volt roham használva, ezért a minusz VÉO-k maradnak, de a +TÉO elveszik, mert csak 1 támadásra volt érvényes
