@@ -51,9 +51,9 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
         dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
         dmgReductionByGoldenBell = 0;
       }
-      else if (allActiveBuffs[i].innerText.includes("Belső idő")) {
-        innerTimeNegativeModifier = 0;
-      }
+      // else if (allActiveBuffs[i].innerText.includes("Belső idő")) {
+      //   innerTimeNegativeModifier = 0;
+      // }
       else if (allActiveBuffs[i].innerText.includes("Pszi roham")) {
         availableNumberOfAttacksFromPsiAssault = 0;
       }

@@ -58,6 +58,7 @@ import PsiDisciplines, {
   fpShieldSetter,
   innerTimeNegativeModifier,
   buffTextChecker,
+  theRoundInnerTimeWasUsedIn,
 } from "../Components/PsiDisciplines";
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
@@ -1926,74 +1927,48 @@ export default function Home(props) {
   if (anyOtherHmoModifier.value == "") {
     anyOtherHmoModifierValue = 0;
   }
+  let commonModifiers
+  if (theRoundInnerTimeWasUsedIn == parseInt(numberOfCurrentRound.innerText)) { // ha ez az a kör, amikor a Belső időt használta valaki, akkor a módosító még ne érvényesüljön
+   commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
+  - parseFloat(totalMgtOfArmorSet.innerText / 2) - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier  // itt még nem vonjuk le a Belső idő negatív módosítót
+  } else {
+   commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
+  - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier // itt már igen
+  }
 
   // TÉ VÉ CE értékek számítása ******************************
   //*********************************************************** */
-  if (!guidedSpellCombatStatChangerCheckbox.checked) {  // ez itt a legfontosabb sor az irányított spellek szempontjából
-  if (filteredArrayIfHasParry.length != 0) {
-    reducedMgtByParrySkill =
-      currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level;
+  if (!guidedSpellCombatStatChangerCheckbox.checked) {  // csak akkor jön be ide, ha nem irányított spell forma lénye van kiválasztva
+
+  if (filteredArrayIfHasParry.length != 0) { // ha van hárítás képzettsége
+    reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level;
     if (reducedMgtByParrySkill < 0) {
       reducedMgtByParrySkill = 0;
     }
-    charDefWithParry.value = tvcoCalculator(defWithProfession) + specialTvcoCalculatorForParry(parseFloat(currentlySelectedOffHand.weaponDef / 2 * filteredArrayIfHasParry[0].level))  
-    - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) -
-      parseFloat(totalMgtOfArmorSet.innerText / 2) -
-      innerTimeNegativeModifier -
-      modifierFromNumberOfAttacksInTheRound -
-      cumulativeCombinationModifier + chiCombatAtkDefModifier;
+    charDefWithParry.value = tvcoCalculator(defWithProfession) + commonModifiers
+    + specialTvcoCalculatorForParry(parseFloat(currentlySelectedOffHand.weaponDef / 2 * filteredArrayIfHasParry[0].level))
+    + chiCombatAtkDefModifier ;
   } else {
-    charDefWithParry.value =
-      tvcoCalculator(defWithProfession) -
-      reducedMgtByParrySkill / 2 -
-      currentlySelectedWeapon.mgt / 2 +
-      parseFloat(anyOtherHmoModifierValue) -
-      parseFloat(totalMgtOfArmorSet.innerText / 2) +
-      chiCombatAtkDefModifier -
-      innerTimeNegativeModifier -
-      modifierFromNumberOfAttacksInTheRound -
-      cumulativeCombinationModifier;
+    charDefWithParry.value = tvcoCalculator(defWithProfession) + commonModifiers
+    + chiCombatAtkDefModifier;
   }
-
-  if (filteredArrayIfHasNimble.length != 0) {
-    charDefWithEvasion.value =
-      tvcoCalculator(defWithProfession) +
-      0.5 +
-      0.5 * parseInt(filteredArrayIfHasNimble[0].level) -
-      reducedMgtByParrySkill / 2 -
-      currentlySelectedWeapon.mgt / 2 +
-      parseFloat(anyOtherHmoModifierValue) -
-      parseFloat(totalMgtOfArmorSet.innerText / 2) +
-      chiCombatAtkDefModifier -
-      innerTimeNegativeModifier -
-      modifierFromNumberOfAttacksInTheRound -
-      cumulativeCombinationModifier;
+  if (filteredArrayIfHasNimble.length != 0) { // ha van Fürge adottsága
+    charDefWithEvasion.value = tvcoCalculator(defWithProfession) + commonModifiers
+    + 0.5 + 0.5 * parseInt(filteredArrayIfHasNimble[0].level) // itt az első 0,5 alapból jön, ha kitérés manővert vet be valaki
+    + chiCombatAtkDefModifier;
   } else if (filteredArrayIfHasNimble.length == 0) {
-    charDefWithEvasion.value =
-      tvcoCalculator(defWithProfession) +
-      0.5 -
-      reducedMgtByParrySkill / 2 -
-      currentlySelectedWeapon.mgt / 2 +
-      parseFloat(anyOtherHmoModifierValue) -
-      parseFloat(totalMgtOfArmorSet.innerText / 2) +
-      chiCombatAtkDefModifier -
-      innerTimeNegativeModifier -
-      modifierFromNumberOfAttacksInTheRound -
-      cumulativeCombinationModifier;
+    charDefWithEvasion.value = tvcoCalculator(defWithProfession) + commonModifiers
+    + 0.5 // ez az érték alapból jön, ha kitérés manővert vet be valaki
+    + chiCombatAtkDefModifier;
   }
-
-  if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-    charAtk.value = tvcoCalculator(atkWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) 
-    - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound 
-    - cumulativeCombinationModifier + findWeakSpotModifier + chiCombatAtkDefModifier;
-  } else {
-    charAtk.value = tvcoCalculator(aimWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) 
-    - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound 
-    - cumulativeCombinationModifier;
-  }
-  charDef.value = tvcoCalculator(defWithProfession) - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue) 
-    - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound 
-    - cumulativeCombinationModifier + chiCombatAtkDefModifier;
+  if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {  // ha az éppen használt fegyver közelharci (TÉO-t használ)
+    charAtk.value = tvcoCalculator(atkWithProfession) + commonModifiers
+    + findWeakSpotModifier + chiCombatAtkDefModifier; // gyenge pontok felmérése csak közelharcnál van
+  } else { // ha a használt fegyver távolsági (CÉO-t használ)
+    charAtk.value = tvcoCalculator(aimWithProfession) + commonModifiers
+  } // fegyveres védő érték
+  charDef.value = tvcoCalculator(defWithProfession) + commonModifiers
+    + chiCombatAtkDefModifier;
 }
 
 if (guidedSpellCombatStatChangerCheckbox.checked) {
@@ -2286,10 +2261,6 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
       firstAttackIsSpellThatNeedsAimRoll == false && 
       firstAttackIsAttackOfOpportunity == false
     ) {
-      // if (cumulativeCombinationModifier == 0) {
-      //   cumulativeCombinationModifier -=
-      //     combinationModifiers[combinationModifiersIndex];
-      // }
       attackRollButton.disabled = true;
     }
     if (combinationCheckBox.checked == true) {

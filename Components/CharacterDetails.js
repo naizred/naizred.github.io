@@ -31,8 +31,6 @@ import {
 import {
   filteredArrayIfHasExtraReaction,
   arrayOfAllComplexManeuvers,
-  combinationModifiers,
-  combinationModifiersIndex,
   allActiveBuffs,
 } from "../pages";
 import {
@@ -44,15 +42,11 @@ import {
   dmgReductionByGoldenBellSetter,
   dmgReductionByGoldenBell,
   buffTextChecker,
-  theRoundGoldenBellWasUsedIn,
-  goldenBellDuration,
   innerTimeNegativeModifierNullifier,
   theRoundInnerTimeWasUsedIn,
   innerTimeNegativeModifier,
-  chiCombatDisabled,
   setChiCombatDisabledToTrue,
   setChiCombatDisabledToFalse,
-  setTheRoundChiCombatWasUsedInToZero,
 } from "./PsiDisciplines";
 import {
   chargeToFalse,
@@ -451,8 +445,8 @@ function CharacterDetails() {
 
       // ide kerülnek majd az X körig tartó buffok
       if (buffTextChecker("Belső idő")) {
-        buffRemoverFromActiveBuffArrayAndTextList("Belső idő");
         hmoModifier(-innerTimeNegativeModifier);
+        buffRemoverFromActiveBuffArrayAndTextList("Belső idő");
       }
       if (buffTextChecker("ismétlődő")) {
         recurringSpellActionButton.disabled = false

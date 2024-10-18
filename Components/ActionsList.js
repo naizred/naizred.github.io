@@ -22,7 +22,8 @@ import {
   allActiveBuffs,
   combinationModifiersIndex,
   combinationModifiersIndexChanger,
-  setFirstAttackInRoundSpent
+  setFirstAttackInRoundSpent,
+  checkIfWeaponIsRanged
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -504,7 +505,8 @@ function ActionList() {
       if (
         nameOfManeuver.includes("Gyenge") &&
         parseInt(numberOfActions.innerText) != 0 &&
-        findWeakSpotOn == false
+        findWeakSpotOn == false &&
+        !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) // távolsági fegyverre nem mehet gyenge pontok felmérése
       ) {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
