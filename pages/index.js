@@ -770,7 +770,12 @@ let anyOtherHmoModifierValue = anyOtherHmoModifier.value;
 if (anyOtherHmoModifier.value == "") {
   anyOtherHmoModifierValue = 0;
 }
-
+if (filteredArrayIfHasParry.length != 0) { // ha van hárítás képzettsége
+  reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level;
+  if (reducedMgtByParrySkill < 0) {
+    reducedMgtByParrySkill = 0;
+  }
+}
 if (theRoundInnerTimeWasUsedIn == parseInt(numberOfCurrentRound.innerText)) { // ha ez az a kör, amikor a Belső időt használta valaki, akkor a módosító még ne érvényesüljön
  commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
 - parseFloat(totalMgtOfArmorSet.innerText / 2) - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier  // itt még nem vonjuk le a Belső idő negatív módosítót
@@ -778,16 +783,17 @@ if (theRoundInnerTimeWasUsedIn == parseInt(numberOfCurrentRound.innerText)) { //
  commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
 - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier // itt már igen
 }
-
+let one =reducedMgtByParrySkill / 2
+let owt = currentlySelectedWeapon.mgt / 2
+let orl =parseFloat(anyOtherHmoModifierValue)
+let orl2 =parseFloat(totalMgtOfArmorSet.innerText / 2)
+let orl3 =innerTimeNegativeModifier
+let orl4 =modifierFromNumberOfAttacksInTheRound
 // TÉ VÉ CE értékek számítása ******************************
 //*********************************************************** */
 if (!guidedSpellCombatStatChangerCheckbox.checked) {  // csak akkor jön be ide, ha nem irányított spell forma lénye van kiválasztva
 /**************** 3 féle VÉO kiszámítása: (hárítással, kitéréssel, alap VÉO fegyverrel) ***************************************************** */
 if (filteredArrayIfHasParry.length != 0) { // ha van hárítás képzettsége
-  reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level;
-  if (reducedMgtByParrySkill < 0) {
-    reducedMgtByParrySkill = 0;
-  }
   charDefWithParry.value = tvcoCalculator(defWithProfession) + commonModifiers
   + specialTvcoCalculatorForParry(parseFloat(currentlySelectedOffHand.weaponDef / 2 * filteredArrayIfHasParry[0].level))
   + chiCombatAtkDefModifier + defensiveCombatVEObonus;
