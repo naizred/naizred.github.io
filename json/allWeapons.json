@@ -1384,5 +1384,33 @@
     "atkPerRound": 2,
     "mgt": 0,
     "assassinWeapon": false
+  },
+  {
+    "w_name": "Shano kardja(egykézzel)",
+    "w_id": 105,
+    "w_damage": "2k5+2",
+    "w_type": "ÓP/HP",
+    "strBonusDmg": false,
+    "disarmingWeapon": false,
+    "weaponAtk": 9,
+    "weaponDef": 8,
+    "reloadTime": 0,
+    "atkPerRound": 1,
+    "mgt": 0,
+    "assassinWeapon": false
+  },
+  {
+    "w_name": "Shano kardja(kétkézzel)",
+    "w_id": 106,
+    "w_damage": "2k5+2",
+    "w_type": "ÓP/HP",
+    "strBonusDmg": true,
+    "disarmingWeapon": false,
+    "weaponAtk": 9,
+    "weaponDef": 8,
+    "reloadTime": 0,
+    "atkPerRound": 2,
+    "mgt": 0,
+    "assassinWeapon": false
   }
 ]
