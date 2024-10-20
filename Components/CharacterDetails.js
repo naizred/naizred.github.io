@@ -690,36 +690,41 @@ if (defensiveCombatContinueSelected) {
     <>
       <div id="characterDetails" className={styles["character-details"]}>
         <div>
-          <button id="saveButton" className={styles.saveButton} onClick={updateCharacterData}>
+          {/* <button id="saveButton" className={styles.saveButton} onClick={updateCharacterData}>
             Adatok mentése
-          </button>
+          </button> */}
+          <p>Stat</p>
           <p id="maxValues">Max</p>
           <p id="currentValues">Akt</p>
         </div>
         <div>
           <label>Fp:</label>
           <p id="maxFp"></p>
-          <input id="currentFp" type="number" />
+          <input id="currentFp" onBlur={updateCharacterData} type="number" />
         </div>
         <div>
           <label>Ép:</label>
           <p id="maxEp"></p>
-          <input id="currentEp" type="number" />
+          <input id="currentEp" onBlur={updateCharacterData} type="number" />
         </div>
         <div>
           <label>Pp:</label>
           <p id="maxPp"></p>
-          <input id="currentPp" onBlur={checkIfPsiIsUseable} type="number" />
+          <input id="currentPp" onBlur={()=>{
+                checkIfPsiIsUseable()
+                updateCharacterData()
+              }
+            } type="number" />
         </div>
         <div>
           <label>Mp:</label>
           <p id="maxMp"></p>
-          <input id="currentMp" type="number" />
+          <input id="currentMp" onBlur={updateCharacterData} type="number" />
         </div>
         <div>
           <label>Lp:</label>
           <p id="maxLp"></p>
-          <input id="currentLp" type="number" />
+          <input id="currentLp" onBlur={updateCharacterData} type="number" />
         </div>
       </div>
       <div id="actionsWrapper" className={styles.actionsWrapper}>
