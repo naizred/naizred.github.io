@@ -27,6 +27,7 @@ import {
   specialModifiers,
   firstAttackInRoundSpent,
   numberOfClicksAtTwoWeaponAttack,
+  combatStatRefresher,
 } from "../pages";
 import {
   filteredArrayIfHasExtraReaction,
@@ -50,7 +51,6 @@ import {
 } from "./PsiDisciplines";
 import {
   chargeToFalse,
-  hmoModified,
   hmoModifiedToFalse,
   hmoModifier,
   totalActionCostOfAttackSetter,
@@ -65,6 +65,10 @@ import {
   spellNeedsAimRoll,
   attackRollButtonWasDisabledBeforeSpellCastSetToFalse,
   attackOfOpportunityOn,
+  setDefensiveCombatVEObonus,
+  defensiveCombatOn,
+  defensiveCombatVEObonus,
+  defensiveCombatOnSetToFalse,
 } from "./ActionsList";
 import {
   spellCastingSuccessful,
@@ -126,6 +130,10 @@ export async function updateCharacterData(gameIdUpdate = false) {
   };
   await fetch(endpoint, options);
 }
+let defensiveCombatContinueSelected = false
+export function defensiveCombatContinueSelectedSetToFalse(){
+  defensiveCombatContinueSelected = false
+}
 var MersenneTwister = require("mersenne-twister");
 var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0;
@@ -163,7 +171,7 @@ function CharacterDetails() {
     reloadButton.disabled = true;
     weapons.disabled = true;
     offHand.disabled = true;
-    setFirstAttackInRoundSpent();
+    setFirstAttackInRoundSpent(false);
     tacticsButton.disabled = false;
     let initiativeLightDice = Math.floor(generator.random() * 10);
     let initiativeDarkDice = Math.floor(generator.random() * 10);
@@ -195,7 +203,7 @@ function CharacterDetails() {
     //initiativeDarkDice = 2;
 
     console.log(
-      "Stresszpróba DM előtt",
+      "Kezdeményező dobás DM előtt",
       initiativeLightDice,
       initiativeDarkDice
     );
@@ -203,7 +211,7 @@ function CharacterDetails() {
       initiativeLightDicePlusExtraReaction = initiativeLightDice;
     }
     console.log(
-      "Stresszpróba DM után",
+      "Kezdeményező dobás DM után",
       initiativeLightDicePlusExtraReaction,
       initiativeDarkDice
     );
@@ -359,6 +367,10 @@ function CharacterDetails() {
   //****************************************************************** */
   function handleEndOfRound() {
     firstAttackIsSpellThatNeedsAimRollSetToFalse()
+    if(!defensiveCombatOn){
+    defensiveCombatButton.disabled = false
+    setDefensiveCombatVEObonus(0)
+    }
     if (combinationCheckBox.checked == true) {
       totalActionCostOfAttackSetter(-1);
     }
@@ -391,7 +403,6 @@ function CharacterDetails() {
     }
     twoWeaponAttackToFalse();
     chargeToFalse();
-    setFirstAttackInRoundSpent();
     for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
       if (arrayOfAllComplexManeuvers[i].checked == true) {
         arrayOfAllComplexManeuvers[i].checked = false;
@@ -414,7 +425,7 @@ function CharacterDetails() {
       );
     }
 
-    // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat megszakad
+    // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat, és újratöltés is megszakad
     spellCastingFailure(parseInt(numberOfActions.innerText) > 0);
     reloadFailed(parseInt(numberOfActions.innerText) > 0);
 
@@ -440,8 +451,18 @@ function CharacterDetails() {
       if (warningWindow.innerText == "A varázslat létrejött!") {
         warningWindow.innerText = "";
       }
-
-      attackRollButton.disabled = false;
+if (!defensiveCombatContinueSelected) {
+  attackRollButton.disabled = false;
+  setFirstAttackInRoundSpent(false);
+  combinationCheckBox.checked = false;
+  combinationCheckBox.disabled = true;
+} 
+if (defensiveCombatContinueSelected) {
+  attackRollButton.disabled = true
+  setFirstAttackInRoundSpent(true)
+  combinationCheckBox.checked = false;
+  combinationCheckBox.disabled = false;
+}
 
       // ide kerülnek majd az X körig tartó buffok
       if (buffTextChecker("Belső idő")) {
@@ -468,8 +489,6 @@ function CharacterDetails() {
       if (combinationCheckBox.checked == true) {
         hmoModifier(cumulativeCombinationModifier);
       }
-      combinationCheckBox.checked = false;
-      combinationCheckBox.disabled = true;
       combinationWasUsedThisRoundSetToFalse();
       hmoModifiedToFalse();
       allResultsCleaner();
@@ -494,6 +513,7 @@ function CharacterDetails() {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
       }
     firstAttackIsAttackOfOpportunitySetToFalse()
+    combatStatRefresher()
   }
   function handleChiCombatBeforeEndOfRound() {
     if (!buffTextChecker("Chi-harc")) {
@@ -514,8 +534,7 @@ function CharacterDetails() {
       }
   }
   function handleChiCombatContinue() {
-    currentPp.value =
-      parseInt(currentPp.value) - parseInt(psiPointCostInput.value);
+    currentPp.value = parseInt(currentPp.value) - parseInt(psiPointCostInput.value);
     handleEndOfRound();
     chiCombatContinuePopupWindow.style.display = "none";
   }
@@ -535,6 +554,29 @@ function CharacterDetails() {
     setChiCombatDisabledToTrue()
     buffRemoverFromActiveBuffArrayAndTextList("Chi-harc");
   }
+  function handleDefensiveCombatBeforeEndOfRound() {
+    if (!defensiveCombatOn) {
+      return
+    }
+      defensiveCombatContinuePopupWindow.style.display = "grid";
+      defensiveCombatPopupWindowNoButton.style.display = "grid";
+      defensiveCombatPopupWindowYesButton.style.display = "grid";
+  }
+  
+  function handleDefensiveCombatContinue() {
+    defensiveCombatContinueSelected = true
+    if(!spellIsBeingCast){
+    }
+    handleEndOfRound()
+    defensiveCombatContinuePopupWindow.style.display = "none";
+  }
+  function handleDefensiveCombatCancel() {
+    defensiveCombatContinueSelected = false
+    defensiveCombatOnSetToFalse()
+    setDefensiveCombatVEObonus(0)
+    handleEndOfRound();
+    defensiveCombatContinuePopupWindow.style.display = "none";
+  }
 
   function handleWhenTacticsUsed() {
     if (initRolled == true) {
@@ -549,6 +591,9 @@ function CharacterDetails() {
   }
 
   function handleEndOfCombat() {
+    defensiveCombatButton.disabled = false
+    setDefensiveCombatVEObonus(0)
+    defensiveCombatOnSetToFalse()
     attackRollButtonWasDisabledBeforeSpellCastSetToFalse()
     firstAttackIsAttackOfOpportunitySetToFalse()
     innerTimeNegativeModifierNullifier();
@@ -556,7 +601,7 @@ function CharacterDetails() {
     initRolled = false;
     warningWindow.innerText = "";
     spellCastingActionButton.disabled = false;
-    setFirstAttackInRoundSpent();
+    setFirstAttackInRoundSpent(false);
     reloadIsNeededSetToFalse();
     if (spellIsBeingCast) {
       spellCastingSuccessful();
@@ -629,6 +674,7 @@ function CharacterDetails() {
     theRoundChiCombatEnded = 0
     setChiCombatDisabledToFalse()
     firstAttackIsSpellThatNeedsAimRollSetToFalse()
+    combatStatRefresher()
   }
 
   function checkIfPsiIsUseable() {
@@ -716,7 +762,14 @@ function CharacterDetails() {
         <button
           onClick={handleEndOfRound}
           className={styles.endOfRoundButton}
-          onMouseEnter={handleChiCombatBeforeEndOfRound}>
+          onMouseEnter={()=>{if (buffTextChecker("Chi-harc")) {
+                              handleChiCombatBeforeEndOfRound()
+                            }
+                            if (defensiveCombatOn) {
+                              handleDefensiveCombatBeforeEndOfRound()
+                            }
+                        }
+                      }>
           Kör vége
         </button>
         <button
@@ -756,8 +809,8 @@ function CharacterDetails() {
       <div
         id="chiCombatContinuePopupWindow"
         className={styles.chiCombatContinuePopupWindow}
-        onMouseLeave={() =>
-          (chiCombatContinuePopupWindow.style.display = "none")
+        onMouseLeave={
+          () => (chiCombatContinuePopupWindow.style.display = "none")
         }>
         <div
           id="chiCombatContinuePopupWindowText"
@@ -781,6 +834,30 @@ function CharacterDetails() {
           className={styles.chiCombatContinuePopupWindowOKButton}
           onClick={handleChiCombatCancel}>
           OK
+        </button>
+      </div>
+      <div
+        id="defensiveCombatContinuePopupWindow"
+        className={styles.defensiveCombatContinuePopupWindow}
+        onMouseLeave={
+          () => (defensiveCombatContinuePopupWindow.style.display = "none")
+        }>
+        <div
+          id="defensiveCombatPopupWindowText"
+          className={styles.defensiveCombatPopupWindowText}>
+          Folytatod a Védekező harcot?
+        </div>
+        <button
+          id="defensiveCombatPopupWindowNoButton"
+          className={styles.defensiveCombatPopupWindowNoButton}
+          onClick={handleDefensiveCombatCancel}>
+          Nem
+        </button>
+        <button
+          id="defensiveCombatPopupWindowYesButton"
+          className={styles.defensiveCombatPopupWindowYesButton}
+          onClick={handleDefensiveCombatContinue}>
+          Igen
         </button>
       </div>
     </>

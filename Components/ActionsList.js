@@ -23,7 +23,11 @@ import {
   combinationModifiersIndex,
   combinationModifiersIndexChanger,
   setFirstAttackInRoundSpent,
-  checkIfWeaponIsRanged
+  checkIfWeaponIsRanged,
+  combatStatRefresher,
+  commonModifiers,
+  currentAimedSpellModifier,
+  currentAimedSpellModifierSetter
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -88,6 +92,15 @@ export let attackOfOpportunityOn = false;
 export function attackOfOpportunityOnSetToFalse() {
   attackOfOpportunityOn = false;
 }
+export let defensiveCombatOn = false
+export function defensiveCombatOnSetToFalse(){
+  defensiveCombatOn = false
+}
+export let defensiveCombatVEObonus = 0
+export function setDefensiveCombatVEObonus(amount){
+  defensiveCombatVEObonus = amount
+}
+export let theRoundDefensiveCombatWasUsedIn
 export let totalActionCostOfAttack = 2;
 export function totalActionCostOfAttackSetter(amount) {
   totalActionCostOfAttack += amount;
@@ -249,28 +262,20 @@ export function handleIfSpellDoesNotNeedAimRoll() {
   } else if (!attackRollButtonWasDisabledBeforeSpellCast){
     attackRollButton.disabled = false;
   }
-  //  if (
-  //    parseInt(numberOfActions.innerText) < 2 ||
-  //    (combinationWasUsedThisRound == true &&
-  //      parseInt(numberOfActions.innerText) < 3)
-  //  ) {
-  //    attackRollButton.disabled = true;
-  //  }
    numberOfDiceInput.disabled = false;
  }
  export function handleIfSpellNeedsAimRoll() {
    spellNeedsAimRoll = true;
    weaponBeforeCasting = currentlySelectedWeapon;
    currentlySelectedWeaponChanger("Célzott mágia");
-   charAtkValueSave = charAtk.value;
-   charDefValueSave = charDef.value
    if(currentCombatSpell.whatDoesItModify && currentCombatSpell.whatDoesItModify.includes("CÉO")) // 0.index: melyik spell, 1.index: mire ad pluszt, 2.index: mennyit
     {
-     charAtk.value = baseAimWithTeoCalculator + parseFloat(currentCombatSpell.modifier);
+      currentAimedSpellModifierSetter(parseFloat(currentCombatSpell.modifier))
+      combatStatRefresher()
     } 
     else if (spellAimInput.value)
       {
-     charAtk.value = baseAimWithTeoCalculator + parseFloat(spellAimInput.value);
+     charAtk.value = baseAimWithTeoCalculator + commonModifiers + parseFloat(spellAimInput.value);
     }
    combinationCheckBox.disabled = true;
    if (initRolled == true) {
@@ -639,12 +644,18 @@ function ActionList() {
     }
     if (initRolled && parseInt(numberOfActions.innerText) != 0 &&
       nameOfManeuver.includes("Védekező") &&
-      firstAttackInRoundSpent == false
+      firstAttackInRoundSpent == false &&
+      !defensiveCombatButton.disabled
     ){
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
       setFirstAttackInRoundSpent(true)
       attackRollButton.disabled = true
+      combinationCheckBox.disabled = false
+      defensiveCombatButton.disabled = true
+      defensiveCombatOn = true
+      defensiveCombatVEObonus = 2
+      combatStatRefresher()
     }
   }
 
@@ -677,17 +688,18 @@ function ActionList() {
       currentlySelectedWeaponChanger("Irányított mágia");
       currentlySelectedWeapon.atkPerRound = parseInt(guidedSpellAttackPerRound.innerText)
       numberOfDiceInput.value = (powerIndex-1)*2
-      charAtkValueSave = charAtk.value;
-      charDefValueSave = charDef.value
-      combinationModifiersIndexSave = combinationModifiersIndex
+      // charAtkValueSave = charAtk.value;
+      // charDefValueSave = charDef.value
+      // combinationModifiersIndexSave = combinationModifiersIndex
       charAtk.value = parseFloat(guidedSpellAttack.innerText)
       charDef.value = parseFloat(guidedSpellDefense.innerText)
     } else if (!guidedSpellCombatStatChangerCheckbox.checked && weaponBeforeCasting) {
       currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
-      combinationModifiersIndexChanger(combinationModifiersIndexSave)
-       charAtk.value = charAtkValueSave
-       charDef.value = charDefValueSave
+      // combinationModifiersIndexChanger(combinationModifiersIndexSave)
+      //  charAtk.value = charAtkValueSave
+      //  charDef.value = charDefValueSave
     }
+    combatStatRefresher()
   }
 
   return (
@@ -846,7 +858,7 @@ function ActionList() {
         </li>
         <li>
           <span>Védekező harc - Akció - 1/0 CS </span>
-          <button id="defensiveStance" onClick={handleOtherManeuvers}>
+          <button id="defensiveCombatButton" onClick={handleOtherManeuvers}>
             Végrehajt
           </button>
         </li>
@@ -876,9 +888,6 @@ function ActionList() {
           <span>Kitérés - Reakció - 1 CS </span>
           <button onClick={handleOtherManeuvers}>Végrehajt</button>
         </li>
-        {/* <li><span>Védekező harc - Akció - 1/0 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li> */}
-        {/* <li id='spellCastingAction'><span>Varázslás - Akció - 1 CS </span><button id='spellCastingActionButton' onClick={handleOtherManeuvers}>Végrehajt</button></li> */}
-        {/* <li id='psiUseAction'><span>Pszi használat - Akció - 1 CS </span><button onClick={handleOtherManeuvers}>Végrehajt</button></li> */}
         <li>
           <span>Mozgás - Akció - 1 CS </span>
           <button onClick={handleOtherManeuvers}>Végrehajt</button>
@@ -906,27 +915,6 @@ function ActionList() {
         Lőszer:
         <input id="ammoAmountInput" type="number" />
         <button>Összeszed</button>
-      </div>
-      <div
-        id="spellTypeQuestionWindow"
-        className={styles.spellTypeQuestionWindow}>
-        <div
-          id="spellTypeQuestionWindowText"
-          className={styles.spellTypeQuestionWindowText}>
-          A varázslat igényel célzó dobást?
-        </div>
-        <button
-          id="spellTypeQuestionWindowNoButton"
-          className={styles.spellTypeQuestionWindowNoButton}
-          onClick={handleIfSpellDoesNotNeedAimRoll}>
-          Nem
-        </button>
-        <button
-          id="spellTypeQuestionWindowYesButton"
-          className={styles.spellTypeQuestionWindowYesButton}
-          onClick={handleIfSpellNeedsAimRoll}>
-          Igen
-        </button>
       </div>
       <div id="gameIdWrapper" className={styles.gameIdWrapper}>
         <span>

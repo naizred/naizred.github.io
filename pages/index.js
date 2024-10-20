@@ -4,12 +4,11 @@ import React from "react";
 import path from "path";
 import allWeapons from "../json/allWeapons.json"
 import aptitudesDescript from "../json/aptitudesDescript.json"
-import CharacterDetails, { initRolled } from "../Components/CharacterDetails";
+import CharacterDetails, { defensiveCombatContinueSelectedSetToFalse, initRolled } from "../Components/CharacterDetails";
 import ActionList, {
   assassinationToFalse,
   attackOfOpportunityOn,
   attackOfOpportunityOnSetToFalse,
-  charAtkValueSave,
   findWeakSpotOn,
   findWeakSpotOnToFalse,
   hmoModifier,
@@ -24,11 +23,14 @@ import ActionList, {
   toggleTwoHandedWeaponsDisplay,
   firstAttackIsAttackOfOpportunity,
   firstAttackIsAttackOfOpportunitySetToFalse,
-  charDefValueSave,
   firstAttackIsSpellThatNeedsAimRoll,
   firstAttackIsSpellThatNeedsAimRollSetToFalse,
   attackRollButtonWasDisabledBeforeSpellCast,
   guidedSpellActiveFormLoader,
+  defensiveCombatVEObonus,
+  setDefensiveCombatVEObonus,
+  defensiveCombatOn,
+  defensiveCombatOnSetToFalse,
 } from "../Components/ActionsList";
 import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
@@ -312,6 +314,10 @@ export async function fetchCharacterDataOnlyGameId(currentCharName) {
 export let baseAimWithTeoCalculator = 0;
 export let baseAtkWithTeoCalculator = 0;
 export let baseDefWithTeoCalculator = 0;
+export let currentAimedSpellModifier = 0
+export function currentAimedSpellModifierSetter(modifier){
+  currentAimedSpellModifier = modifier
+}
 let weaponStyles = [
   { "Ököl": ["Birkózás", "Belharc"] },
   { "RP": ["Belharc", "Birkózás"] },
@@ -671,6 +677,228 @@ function specialTvcoCalculatorForParry(parryWeaponDef) {
   } 
   return parseFloat(calculatedParryWeaponDef/10);
 }
+export let commonModifiers = 0
+let filteredArrayIfHasMasterWep
+let currentlySelectedOffHand
+let baseAtk 
+let baseAim 
+let baseDef
+let sumFpGainedByLevel 
+let sumPpGainedByLevel 
+let sumMpGainedByLevel 
+let sumInitiativeGainedByLevel
+let filteredArrayIfHasWarriorMonk
+let filteredArrayIfHasVigorous 
+let filteredArrayIfHasMagicallyAttuned
+let filteredArrayIfHasNimble
+let filteredArrayIfHasPsionist 
+let filteredArrayIfHasAncientSoul
+let filteredArrayIfHasRunning
+let schoolsOfMagicNames
+let filteredArrayIfHasDestroyer
+let masterWeaponModifier = 0;
+let destroyerLevel;
+let damageOfFists = "1k10";
+let fistAtk = 0
+let fistDef = 0
+//************************************************ A harci statisztikák frissítése, pl. fegyverváltásnál ***********************************//
+export function combatStatRefresher(){
+  currentlySelectedWeapon = allWeapons.find(
+    (name) => name.w_name === `${weapons.value}`
+    );
+    currentlySelectedOffHand = allWeapons.find(
+    (name) => name.w_name === `${offHand.value}`
+    );
+
+    filteredArrayIfHasMasterWep = parsedCharacterDataFromJSON.aptitudes.filter(
+      (name) =>
+        name.aptitude == "Mesterfegyver" &&
+        parsedCharacterDataFromJSON.masterWeapon ==
+          `${currentlySelectedWeapon.w_name}`
+    );
+
+    if (filteredArrayIfHasMasterWep.length != 0) {
+      masterWeaponModifier = parseInt(filteredArrayIfHasMasterWep[0].level);
+    } else {
+      masterWeaponModifier = 0;
+    }
+  
+    if (
+      filteredArrayIfHasDestroyer.length != 0 &&
+      !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)
+    ) {
+      destroyerLevel = parseInt(filteredArrayIfHasDestroyer[0].level);
+    } else {
+      destroyerLevel = 0;
+    }
+  //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége és hogy a jelenlegi fegyver beletartozik-e?
+  filteredArrayByCurrentlySelectedWeaponType = parsedCharacterDataFromJSON.skills.filter(
+            (name) =>
+              name.name == "Fegyverhasználat" &&
+              currentlySelectedWeapon.w_type.includes(name.subSkill)
+          );
+  //----- TÉ/VÉ/CÉ számítás a fegyver értékekkel együtt
+       //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
+       let allLevelsArray = [];
+
+       if (filteredArrayByCurrentlySelectedWeaponType.length != 0) {
+         for (let i = 0; i < filteredArrayByCurrentlySelectedWeaponType.length; i++) {
+           allLevelsArray.push(filteredArrayByCurrentlySelectedWeaponType[i].level);
+         }
+         professionLevel = parseInt(Math.max(...allLevelsArray));
+       } else {
+         professionLevel = 0;
+       }
+       let atkWithProfession = 0
+     let aimWithProfession = 0
+     let defWithProfession =0
+     if (!guidedSpellCombatStatChangerCheckbox.checked) { // fontos az irányított spelleknél
+         combinationModifiersIndex = professionLevel;
+        atkWithProfession = baseAtk + parseInt(professionLevel) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier);
+        aimWithProfession = baseAim + parseInt(professionLevel) * (currentlySelectedWeapon.weaponAtk + masterWeaponModifier);
+        defWithProfession = baseDef + parseInt(professionLevel) * (currentlySelectedWeapon.weaponDef + masterWeaponModifier);
+       }
+
+if (currentlySelectedWeapon.w_type == "Ököl") {
+  //megnézi a legmagasabb tul-t és elosztja az ököl osztóval, ami a harcművész adottsággal változhat
+  atkWithProfession = baseAtk + parseInt(professionLevel) * fistAtk;
+  defWithProfession = baseDef + parseInt(professionLevel) * fistDef;
+}
+
+let reducedMgtByParrySkill = currentlySelectedOffHand.mgt;
+let anyOtherHmoModifierValue = anyOtherHmoModifier.value;
+if (anyOtherHmoModifier.value == "") {
+  anyOtherHmoModifierValue = 0;
+}
+
+if (theRoundInnerTimeWasUsedIn == parseInt(numberOfCurrentRound.innerText)) { // ha ez az a kör, amikor a Belső időt használta valaki, akkor a módosító még ne érvényesüljön
+ commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
+- parseFloat(totalMgtOfArmorSet.innerText / 2) - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier  // itt még nem vonjuk le a Belső idő negatív módosítót
+} else {
+ commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
+- parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier // itt már igen
+}
+
+// TÉ VÉ CE értékek számítása ******************************
+//*********************************************************** */
+if (!guidedSpellCombatStatChangerCheckbox.checked) {  // csak akkor jön be ide, ha nem irányított spell forma lénye van kiválasztva
+/**************** 3 féle VÉO kiszámítása: (hárítással, kitéréssel, alap VÉO fegyverrel) ***************************************************** */
+if (filteredArrayIfHasParry.length != 0) { // ha van hárítás képzettsége
+  reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level;
+  if (reducedMgtByParrySkill < 0) {
+    reducedMgtByParrySkill = 0;
+  }
+  charDefWithParry.value = tvcoCalculator(defWithProfession) + commonModifiers
+  + specialTvcoCalculatorForParry(parseFloat(currentlySelectedOffHand.weaponDef / 2 * filteredArrayIfHasParry[0].level))
+  + chiCombatAtkDefModifier + defensiveCombatVEObonus;
+} else {
+  charDefWithParry.value = tvcoCalculator(defWithProfession) + commonModifiers
+  + chiCombatAtkDefModifier + defensiveCombatVEObonus;
+}
+if (filteredArrayIfHasNimble.length != 0) { // ha van Fürge adottsága
+  charDefWithEvasion.value = tvcoCalculator(defWithProfession) + commonModifiers
+  + 0.5 + 0.5 * parseInt(filteredArrayIfHasNimble[0].level) // itt az első 0,5 alapból jön, ha kitérés manővert vet be valaki
+  + chiCombatAtkDefModifier + defensiveCombatVEObonus;
+} else if (filteredArrayIfHasNimble.length == 0) {
+  charDefWithEvasion.value = tvcoCalculator(defWithProfession) + commonModifiers
+  + 0.5 // ez az érték alapból jön, ha kitérés manővert vet be valaki
+  + chiCombatAtkDefModifier + defensiveCombatVEObonus;
+}
+charDef.value = tvcoCalculator(defWithProfession) + commonModifiers
++ chiCombatAtkDefModifier + defensiveCombatVEObonus;
+/********************************* TÉO és CÉO számítás ************************************************************************************ */
+if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {  // ha az éppen használt fegyver közelharci (TÉO-t használ)
+  charAtk.value = tvcoCalculator(atkWithProfession) + commonModifiers
+  + findWeakSpotModifier + chiCombatAtkDefModifier; // gyenge pontok felmérése csak közelharcnál van
+} else { // ha a használt fegyver távolsági (CÉO-t használ)
+  charAtk.value = tvcoCalculator(aimWithProfession) + commonModifiers + currentAimedSpellModifier
+} 
+}
+
+if (guidedSpellCombatStatChangerCheckbox.checked) { // irányított spell bekapcsolva, formázott lény értékei használva
+charAtk.value = parseFloat(guidedSpellAttack.innerText) - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier
+charDef.value = parseFloat(guidedSpellDefense.innerText) - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier
+}
+
+//*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása. Ezen felül a kétkezes harc letiltása, ha a fegyvert két kézzel kell forgatni
+  arrayOfAllComplexManeuvers = document.querySelectorAll(
+    "ul#selectableComplexManeuversList li input"
+  );
+  weaponsOptions = document.querySelectorAll("select#weapons option");
+
+  if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
+    for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+      arrayOfAllComplexManeuvers[i].disabled = true;
+    }
+    findWeakSpotButton.disabled = true;
+    attackOfOpportunityButton.disabled = true;
+  }
+  if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
+    for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+      arrayOfAllComplexManeuvers[i].disabled = false;
+      twoWeaponAttackRadioButton.disabled = false;
+    }
+    findWeakSpotButton.disabled = false;
+    attackOfOpportunityButton.disabled = false;
+    if (
+      weapons.value.includes("kétkézzel") ||
+      weapons.value.includes("Kétkezes") ||
+      weapons.value.includes("Pallos") ||
+      weapons.value.includes("Alabárd")
+    ) {
+      twoWeaponAttackRadioButton.disabled = true;
+    } else {
+      twoWeaponAttackRadioButton.disabled = false;
+      toggleTwoHandedWeaponsDisplay("grid");
+    }
+    // if (combinationWasUsedThisRound == true) {
+    //   combinationCheckBox.disabled = true;
+    // }
+  }
+  if (chargeWasUsedThisRound == true) {
+    charDef.value = parseFloat(charDef.value) - 1;
+    charDefWithParry.value = parseFloat(charDefWithParry.value) - 1;
+    charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - 1;
+  }
+  if (twoWeaponAttackWasUsedThisRound == true) {
+    hmoModifier(twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex]);
+  }
+  if (
+    initRolled == false &&
+    checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false
+  ) {
+    for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+      arrayOfAllComplexManeuvers[i].disabled = true;
+    }
+  }
+  if (reloadIsNeeded == false && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
+    reloadButton.disabled = true;
+    warningWindow.innerText = "";
+  }
+  /********* Nullázza a célzódobást igánylő varázslat módosítóját *************************************** */
+      //********************************************************************************************** */
+        // Kiszámolja a maximális és cselekedetenkénti mozgás távot. Ez függ az MGT-től, ezért van ennyire lent
+        // *********************************************************************************************
+        
+        let speedBonusFromRunningSkill = 0;
+        if (filteredArrayIfHasRunning.length != 0) {
+          speedBonusFromRunningSkill = filteredArrayIfHasRunning[0].level * 2;
+        }
+        let correctedSpeedValueForMovementCalculation =
+          10 +
+          Math.floor(currentCharFinalAttributes.Gyo / 2) +
+          speedBonusFromRunningSkill -
+          currentlySelectedWeapon.mgt -
+          reducedMgtByParrySkill -
+          parseInt(totalMgtOfArmorSet.innerText);
+        maxMove.innerText = `Max táv: ${
+          correctedSpeedValueForMovementCalculation * 3
+        } láb`;
+        movePerAction.innerText = `/akció táv: ${Math.ceil(
+          (correctedSpeedValueForMovementCalculation * 3) /
+            (1 + Math.ceil((parseInt(initiative.innerText) + 1) / 10))
+        )} láb`;
+}
 
 //********************************************* */
 // --- itt kezdődik az oldal maga
@@ -687,8 +915,6 @@ export default function Home(props) {
 
   //egyedi sorba rendező function hívás
  OrderFunctionForAllWeapons();
-  let damageOfFists = "1k10";
-  let destroyerLevel;
   let schoolsOfMagicNamesAndAttributes = {
     "Magas Mágia":"Int",
     "Bárdmágia":"Kar",
@@ -1100,28 +1326,6 @@ export default function Home(props) {
   //****************************************************************************** */
   // ********************************** Fájlbeolvasó függvény *************************
   //********************************************************************************* */
-  let filteredArrayIfHasMasterWep
-  let currentlySelectedOffHand
-  let baseAtk 
-  let baseAim 
-  let baseDef
-  let sumFpGainedByLevel 
-  let sumPpGainedByLevel 
-  let sumMpGainedByLevel 
-  let sumInitiativeGainedByLevel
-  let filteredArrayIfHasWarriorMonk
-  let filteredArrayIfHasVigorous 
-  let filteredArrayIfHasMagicallyAttuned
-  let filteredArrayIfHasNimble
-  let filteredArrayIfHasPsionist 
-  let filteredArrayIfHasAncientSoul
-  let filteredArrayIfHasRunning
-  let schoolsOfMagicNames
-  let filteredArrayIfHasDestroyer
-  let masterWeaponModifier = 0;
-  let fistAtk = 0
-  let fistDef = 0
-
   async function handleFileRead() {
     const [file] = document.querySelector("input[type=file]").files;
     const reader = new FileReader();
@@ -1849,211 +2053,6 @@ export default function Home(props) {
       reader.readAsText(file);
     }
   }
-//************************************************ A harci statisztikák frissítése, pl. fegyverváltásnál ***********************************//
-  function combatStatRefresher(){
-    currentlySelectedWeapon = allWeapons.find(
-      (name) => name.w_name === `${weapons.value}`
-      );
-      currentlySelectedOffHand = allWeapons.find(
-      (name) => name.w_name === `${offHand.value}`
-      );
-
-      filteredArrayIfHasMasterWep = parsedCharacterDataFromJSON.aptitudes.filter(
-        (name) =>
-          name.aptitude == "Mesterfegyver" &&
-          parsedCharacterDataFromJSON.masterWeapon ==
-            `${currentlySelectedWeapon.w_name}`
-      );
-
-      if (filteredArrayIfHasMasterWep.length != 0) {
-        masterWeaponModifier = parseInt(filteredArrayIfHasMasterWep[0].level);
-      } else {
-        masterWeaponModifier = 0;
-      }
-    
-      if (
-        filteredArrayIfHasDestroyer.length != 0 &&
-        !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)
-      ) {
-        destroyerLevel = parseInt(filteredArrayIfHasDestroyer[0].level);
-      } else {
-        destroyerLevel = 0;
-      }
-    //---- szűrés olyan fegyvertípusokra amikre a karakternek van fegyverhasználat képzettsége és hogy a jelenlegi fegyver beletartozik-e?
-    filteredArrayByCurrentlySelectedWeaponType = parsedCharacterDataFromJSON.skills.filter(
-              (name) =>
-                name.name == "Fegyverhasználat" &&
-                currentlySelectedWeapon.w_type.includes(name.subSkill)
-            );
-    //----- TÉ/VÉ/CÉ számítás a fegyver értékekkel együtt
-         //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
-         let allLevelsArray = [];
-
-         if (filteredArrayByCurrentlySelectedWeaponType.length != 0) {
-           for (let i = 0; i < filteredArrayByCurrentlySelectedWeaponType.length; i++) {
-             allLevelsArray.push(filteredArrayByCurrentlySelectedWeaponType[i].level);
-           }
-           professionLevel = parseInt(Math.max(...allLevelsArray));
-         } else {
-           professionLevel = 0;
-         }
-         let atkWithProfession = 0
-       let aimWithProfession = 0
-       let defWithProfession =0
-       if (!guidedSpellCombatStatChangerCheckbox.checked) { // fontos az irányított spelleknél
-           combinationModifiersIndex = professionLevel;
-     atkWithProfession =
-      baseAtk +
-      parseInt(professionLevel) *
-        (currentlySelectedWeapon.weaponAtk + masterWeaponModifier);
-     aimWithProfession =
-      baseAim +
-      parseInt(professionLevel) *
-        (currentlySelectedWeapon.weaponAtk + masterWeaponModifier);
-     defWithProfession =
-      baseDef +
-      parseInt(professionLevel) *
-        (currentlySelectedWeapon.weaponDef + masterWeaponModifier);
-         }
-
-  if (currentlySelectedWeapon.w_type == "Ököl") {
-    //megnézi a legmagasabb tul-t és elosztja az ököl osztóval, ami a harcművész adottsággal változhat
-    atkWithProfession = baseAtk + parseInt(professionLevel) * fistAtk;
-    defWithProfession = baseDef + parseInt(professionLevel) * fistDef;
-  }
-
-  let reducedMgtByParrySkill = currentlySelectedOffHand.mgt;
-  let anyOtherHmoModifierValue = anyOtherHmoModifier.value;
-  if (anyOtherHmoModifier.value == "") {
-    anyOtherHmoModifierValue = 0;
-  }
-  let commonModifiers
-  if (theRoundInnerTimeWasUsedIn == parseInt(numberOfCurrentRound.innerText)) { // ha ez az a kör, amikor a Belső időt használta valaki, akkor a módosító még ne érvényesüljön
-   commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
-  - parseFloat(totalMgtOfArmorSet.innerText / 2) - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier  // itt még nem vonjuk le a Belső idő negatív módosítót
-  } else {
-   commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
-  - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier // itt már igen
-  }
-
-  // TÉ VÉ CE értékek számítása ******************************
-  //*********************************************************** */
-  if (!guidedSpellCombatStatChangerCheckbox.checked) {  // csak akkor jön be ide, ha nem irányított spell forma lénye van kiválasztva
-
-  if (filteredArrayIfHasParry.length != 0) { // ha van hárítás képzettsége
-    reducedMgtByParrySkill = currentlySelectedOffHand.mgt - filteredArrayIfHasParry[0].level;
-    if (reducedMgtByParrySkill < 0) {
-      reducedMgtByParrySkill = 0;
-    }
-    charDefWithParry.value = tvcoCalculator(defWithProfession) + commonModifiers
-    + specialTvcoCalculatorForParry(parseFloat(currentlySelectedOffHand.weaponDef / 2 * filteredArrayIfHasParry[0].level))
-    + chiCombatAtkDefModifier ;
-  } else {
-    charDefWithParry.value = tvcoCalculator(defWithProfession) + commonModifiers
-    + chiCombatAtkDefModifier;
-  }
-  if (filteredArrayIfHasNimble.length != 0) { // ha van Fürge adottsága
-    charDefWithEvasion.value = tvcoCalculator(defWithProfession) + commonModifiers
-    + 0.5 + 0.5 * parseInt(filteredArrayIfHasNimble[0].level) // itt az első 0,5 alapból jön, ha kitérés manővert vet be valaki
-    + chiCombatAtkDefModifier;
-  } else if (filteredArrayIfHasNimble.length == 0) {
-    charDefWithEvasion.value = tvcoCalculator(defWithProfession) + commonModifiers
-    + 0.5 // ez az érték alapból jön, ha kitérés manővert vet be valaki
-    + chiCombatAtkDefModifier;
-  }
-  if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {  // ha az éppen használt fegyver közelharci (TÉO-t használ)
-    charAtk.value = tvcoCalculator(atkWithProfession) + commonModifiers
-    + findWeakSpotModifier + chiCombatAtkDefModifier; // gyenge pontok felmérése csak közelharcnál van
-  } else { // ha a használt fegyver távolsági (CÉO-t használ)
-    charAtk.value = tvcoCalculator(aimWithProfession) + commonModifiers
-  } // fegyveres védő érték
-  charDef.value = tvcoCalculator(defWithProfession) + commonModifiers
-    + chiCombatAtkDefModifier;
-}
-
-if (guidedSpellCombatStatChangerCheckbox.checked) {
-  charAtk.value = parseFloat(guidedSpellAttack.innerText) - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier
-  charDef.value = parseFloat(guidedSpellDefense.innerText) - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier
-}
-
-//*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása. Ezen felül a kétkezes harc letiltása, ha a fegyvert két kézzel kell forgatni
-    arrayOfAllComplexManeuvers = document.querySelectorAll(
-      "ul#selectableComplexManeuversList li input"
-    );
-    weaponsOptions = document.querySelectorAll("select#weapons option");
-
-    if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
-      for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
-        arrayOfAllComplexManeuvers[i].disabled = true;
-      }
-      findWeakSpotButton.disabled = true;
-      attackOfOpportunityButton.disabled = true;
-    }
-    if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
-      for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
-        arrayOfAllComplexManeuvers[i].disabled = false;
-        twoWeaponAttackRadioButton.disabled = false;
-      }
-      findWeakSpotButton.disabled = false;
-      attackOfOpportunityButton.disabled = false;
-      if (
-        weapons.value.includes("kétkézzel") ||
-        weapons.value.includes("Kétkezes") ||
-        weapons.value.includes("Pallos") ||
-        weapons.value.includes("Alabárd")
-      ) {
-        twoWeaponAttackRadioButton.disabled = true;
-      } else {
-        twoWeaponAttackRadioButton.disabled = false;
-        toggleTwoHandedWeaponsDisplay("grid");
-      }
-      // if (combinationWasUsedThisRound == true) {
-      //   combinationCheckBox.disabled = true;
-      // }
-    }
-    if (chargeWasUsedThisRound == true) {
-      charDef.value = parseFloat(charDef.value) - 1;
-      charDefWithParry.value = parseFloat(charDefWithParry.value) - 1;
-      charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - 1;
-    }
-    if (twoWeaponAttackWasUsedThisRound == true) {
-      hmoModifier(twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex]);
-    }
-    if (
-      initRolled == false &&
-      checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false
-    ) {
-      for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
-        arrayOfAllComplexManeuvers[i].disabled = true;
-      }
-    }
-    if (reloadIsNeeded == false && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
-      reloadButton.disabled = true;
-      warningWindow.innerText = "";
-    }
-        //********************************************************************************************** */
-          // Kiszámolja a maximális és cselekedetenkénti mozgás távot. Ez függ az MGT-től, ezért van ennyire lent
-          // *********************************************************************************************
-          
-          let speedBonusFromRunningSkill = 0;
-          if (filteredArrayIfHasRunning.length != 0) {
-            speedBonusFromRunningSkill = filteredArrayIfHasRunning[0].level * 2;
-          }
-          let correctedSpeedValueForMovementCalculation =
-            10 +
-            Math.floor(currentCharFinalAttributes.Gyo / 2) +
-            speedBonusFromRunningSkill -
-            currentlySelectedWeapon.mgt -
-            reducedMgtByParrySkill -
-            parseInt(totalMgtOfArmorSet.innerText);
-          maxMove.innerText = `Max táv: ${
-            correctedSpeedValueForMovementCalculation * 3
-          } láb`;
-          movePerAction.innerText = `/akció táv: ${Math.ceil(
-            (correctedSpeedValueForMovementCalculation * 3) /
-              (1 + Math.ceil((parseInt(initiative.innerText) + 1) / 10))
-          )} láb`;
-  }
 
   // ez a számláló a pszi roham miatt van
   let numberOfClicksForAttacksForPsiAssault = 0;
@@ -2066,10 +2065,15 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
   async function handleClickOnAttackRollButton(darkDice, lightDice) {
     //*********************************************************************** */
     //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
-    combatStatRefresher()
-    if (spellNeedsAimRoll == false) {
+    if (defensiveCombatOn && !spellNeedsAimRoll) {
+      setDefensiveCombatVEObonus(0) // támadás esetén a Védekező harcból adódó bónusz 0 lesz, függetlenül attól, hogy ez milyen támadás
+      defensiveCombatOnSetToFalse()
+      defensiveCombatContinueSelectedSetToFalse() // ha az előző kör végén úgy dönött, folytatja a védekező harcot
+    }
+    if (!spellNeedsAimRoll) {
       numberOfClicksForAttacksForPsiAssault++;
       numberOfAttacksInTheRound++;
+      combatStatRefresher()
     }
 
     if (twoWeaponAttackRadioButton.checked == true) {
@@ -2115,14 +2119,11 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
           //************************************************************************************************************************** */
       //Ebben a körben volt kombináció vagy kapáslövés használva, ezért a minusz HMO-k maradnak
       //*************************************************************************************************************************** */
-                //-------- Ha egy fegyvernek több tipusa is van, kiválasztja a legmagasabb szintűt
-
       if (
         combinationCheckBox.checked == true &&
         spellNeedsAimRoll == false &&
         attackOfOpportunityOn == false
       ) {
-        //combinationCheckBox.disabled = true;
         if (guidedSpellCombatStatChangerCheckbox.checked){
           combinationModifiersIndex = parseInt(guidedSpellProfession.innerText)
           }
@@ -2130,23 +2131,19 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
           combinationModifiersIndex = professionLevel
           }
         combinationWasUsedThisRound = true;
-
-        cumulativeCombinationModifier -=
-          combinationModifiers[combinationModifiersIndex];
+        cumulativeCombinationModifier -= combinationModifiers[combinationModifiersIndex];
         hmoModifier(combinationModifiers[combinationModifiersIndex]);
         console.log("halmozódó komb mod", cumulativeCombinationModifier);
         console.log("halmozódó tám mod", modifierFromNumberOfAttacksInTheRound);
-      }
+        }
 
       firstAttackInRoundSpent = true;
       combinationCheckBox.disabled = false;
 
       if (spellNeedsAimRoll == true) { 
         setTimeout(() => {
-          currentlySelectedWeapon = weaponBeforeCasting;
-          weapons.value = weaponBeforeCasting.w_name;
-          charAtk.value = charAtkValueSave;
-          charDef.value = charDefValueSave;
+          currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
+          currentAimedSpellModifier = 0
           combatStatRefresher()
         }, 500);
       }
@@ -2263,8 +2260,11 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
     ) {
       attackRollButton.disabled = true;
     }
-    if (combinationCheckBox.checked == true) {
+    if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) >= 3) {
       attackRollButton.disabled = false;
+    }
+    if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) < 3) {
+      attackRollButton.disabled = true
     }
     if (numberOfClicksAtTwoWeaponAttack == 1) {
       attackRollButton.disabled = false;
@@ -2278,9 +2278,7 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
         currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound + 1 &&
         !spellNeedsAimRoll
       ) {
-        totalModifierForNextAttack.innerText = `${
-          -1 + combinationModifiers[combinationModifiersIndex]
-        }`;
+        totalModifierForNextAttack.innerText = `${-1 + combinationModifiers[combinationModifiersIndex]}`;
       } else {
         totalModifierForNextAttack.innerText = `${combinationModifiers[combinationModifiersIndex]}`;
       }
@@ -2297,8 +2295,7 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
       if (spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
         spellCastingFailure();
         numberOfActionsSpentOnCastingCurrentSpellNullifier();
-        numberOfActions.innerText =
-          parseInt(numberOfActions.innerText) - totalActionCostOfAttack;
+        numberOfActions.innerText = parseInt(numberOfActions.innerText) - totalActionCostOfAttack;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(
           totalActionCostOfAttack
         );
@@ -2360,7 +2357,6 @@ if (guidedSpellCombatStatChangerCheckbox.checked) {
       }
       if (attackOfOpportunityOn == true) {
         attackOfOpportunityOnSetToFalse();
-       // handleFileRead();
        combatStatRefresher()
         attackOfOpportunityButton.disabled = false;
         if (firstAttackIsAttackOfOpportunity == true) {

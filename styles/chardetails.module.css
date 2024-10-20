@@ -237,3 +237,30 @@
   grid-column: span 2;
   font-size: 2.5vw;
 }
+/* ez itt a védekező harcé lesz */
+.defensiveCombatContinuePopupWindow {
+  display: none;
+  grid-column: 9/14;
+  grid-row: 13/15;
+  grid-template-rows: repeat(3, 1fr);
+  border: 0.23vw solid white;
+  border-radius: 1vw;
+  grid-auto-flow: column;
+  margin-right: -1vw;
+  background-color: black;
+  /* background-position: left; */
+  background-repeat: no-repeat;
+  /* background-size: 30vw 20vw; */
+}
+.defensiveCombatPopupWindowText {
+  display: grid;
+  grid-column: span 2;
+  text-align: center;
+  grid-row: 1/2;
+}
+.defensiveCombatPopupWindowYesButton,
+.defensiveCombatPopupWindowNoButton {
+  display: grid;
+  font-size: 2.5vw;
+  grid-row: 2/4;
+}

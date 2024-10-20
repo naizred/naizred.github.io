@@ -12,7 +12,7 @@ import {
   filteredArrayIfHasManaController,
   CharCompare,
 } from "../pages";
-import { blinkingText, handleIfSpellDoesNotNeedAimRoll, handleIfSpellNeedsAimRoll } from "./ActionsList";
+import { blinkingText, handleIfSpellDoesNotNeedAimRoll, handleIfSpellNeedsAimRoll, setDefensiveCombatVEObonus } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import {
   evaluateSkillOrAttributeCheckBase,
@@ -746,6 +746,7 @@ function Spells() {
   }
 
   function handleSpellCast(event) {
+    setDefensiveCombatVEObonus(1)
     // let stressCheck = false
     // if(skillCheckStressCheckbox.checked){
     //   stressCheck=true
@@ -767,7 +768,6 @@ function Spells() {
     castBarCurrentWidthEnd = 0;
     if (event.target.id == "advancedStartCastButton") {
       spellManaCost = parseInt(spellManaCostDiv.innerText);
-
       // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva
       currentSpell.aspects[0][1] = powerAspSelect.parentElement.value;
       currentSpell.aspects[1][1] = distanceAspSelect.parentElement.value;

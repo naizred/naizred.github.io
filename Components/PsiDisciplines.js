@@ -1,6 +1,6 @@
 import styles from "../styles/psiDisciplines.module.css";
-import { filteredArrayIfHasPsi, allActiveBuffs, currentlySelectedWeaponChanger, combinationModifiersIndexChanger } from "../pages";
-import { blinkingText, charAtkValueSave, charDefValueSave, combinationModifiersIndexSave, hmoModifier, weaponBeforeCasting } from "./ActionsList";
+import { filteredArrayIfHasPsi, allActiveBuffs, currentlySelectedWeaponChanger, combatStatRefresher } from "../pages";
+import { blinkingText, defensiveCombatOn, hmoModifier, setDefensiveCombatVEObonus, weaponBeforeCasting } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import { allDmgReductionListItems } from "../pages";
 export let specialAtkModifierFromPsiAssault = 0;
@@ -31,12 +31,6 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
   if (buffName == "") {
     return
   }
-  // for (let i = 0; i < activeBuffsArray.length; i++) {
-  //   if (activeBuffsArray[i].includes(buffName)) {
-  //     activeBuffsArray.splice(i, 1);
-  //     break;
-  //   }
-  // }
   for (let i = 0; i < allActiveBuffs.length; i++) {
     if (allActiveBuffs[i].innerText.includes(buffName)) {
       if (allActiveBuffs[i].innerText.includes("Chi-harc")) {
@@ -51,9 +45,6 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
         dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
         dmgReductionByGoldenBell = 0;
       }
-      // else if (allActiveBuffs[i].innerText.includes("Belső idő")) {
-      //   innerTimeNegativeModifier = 0;
-      // }
       else if (allActiveBuffs[i].innerText.includes("Pszi roham")) {
         availableNumberOfAttacksFromPsiAssault = 0;
       }
@@ -74,9 +65,7 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
         spellCastButtonWrapper.style.display = "grid"
         if (weaponBeforeCasting) {
           currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
-          combinationModifiersIndexChanger(combinationModifiersIndexSave)
-           charAtk.value = charAtkValueSave
-           charDef.value = charDefValueSave
+          combatStatRefresher()
           }
       }
       allActiveBuffs[i].innerText = "";
@@ -93,18 +82,6 @@ export function buffTextChecker(buffName) {
   return false;
 }
 
-// erre azért volt külön szükség, hogy a buff array-on belüli stringeken belül keressen
-
-// export function activeBuffsArrayChecker(buffName) {
-//   for (let i = 0; i < activeBuffsArray.length; i++) {
-//     if (activeBuffsArray[i].includes(buffName)) {
-//       return true;
-//     }
-//   }
-//   return false;
-// }
-
-//selectedPsiDisciplineObj[0].psiDiscName
 let savePsiPoinCostValueForPsiAssault = 0
 export function psiPointCostCheckerAndSetter() {
   psiPointCostInput.step = parseInt(
@@ -211,6 +188,13 @@ export function PsiDisciplines(props) {
   }
 
   function handleDisciplineActivation() {
+    if (buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)) {
+      return
+    }
+    if (defensiveCombatOn) {
+      setDefensiveCombatVEObonus(1)
+      combatStatRefresher()
+    }
     // if (
     //   initRolled == true &&
     //   !buffTextChecker(selectedPsiDisciplineObj[0].psiDiscName)
