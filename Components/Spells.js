@@ -11,8 +11,9 @@ import {
   allActiveBuffs,
   filteredArrayIfHasManaController,
   CharCompare,
+  combatStatRefresher,
 } from "../pages";
-import { blinkingText, handleIfSpellDoesNotNeedAimRoll, handleIfSpellNeedsAimRoll, setDefensiveCombatVEObonus } from "./ActionsList";
+import { attackRollButtonWasDisabledBeforeSpellCastSetter, blinkingText, defensiveCombatOn, handleIfSpellDoesNotNeedAimRoll, handleIfSpellNeedsAimRoll, setDefensiveCombatVEObonus } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import {
   evaluateSkillOrAttributeCheckBase,
@@ -218,6 +219,12 @@ export function spellCastingSuccessful() {
         break
       }
     }
+  }
+  if (initRolled == true && attackRollButton.disabled == true) {
+    attackRollButtonWasDisabledBeforeSpellCastSetter(true);
+  }
+  if (initRolled == true && attackRollButton.disabled == false) {
+    attackRollButtonWasDisabledBeforeSpellCastSetter(false);
   }
   if (!currentCombatSpell.spellName || currentCombatSpell.isGuided) {
     handleIfSpellDoesNotNeedAimRoll()
@@ -746,7 +753,10 @@ function Spells() {
   }
 
   function handleSpellCast(event) {
-    setDefensiveCombatVEObonus(1)
+    if (defensiveCombatOn) {
+      setDefensiveCombatVEObonus(1)
+      combatStatRefresher()
+    }
     // let stressCheck = false
     // if(skillCheckStressCheckbox.checked){
     //   stressCheck=true

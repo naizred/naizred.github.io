@@ -63,7 +63,7 @@ import {
   firstAttackIsAttackOfOpportunitySetToFalse,
   firstAttackIsSpellThatNeedsAimRollSetToFalse,
   spellNeedsAimRoll,
-  attackRollButtonWasDisabledBeforeSpellCastSetToFalse,
+  attackRollButtonWasDisabledBeforeSpellCastSetter,
   attackOfOpportunityOn,
   setDefensiveCombatVEObonus,
   defensiveCombatOn,
@@ -472,7 +472,9 @@ if (defensiveCombatContinueSelected) {
       if (buffTextChecker("ismétlődő")) {
         recurringSpellActionButton.disabled = false
       }
-      attackRollButtonWasDisabledBeforeSpellCastSetToFalse()
+      if (!spellIsBeingCast) {
+        attackRollButtonWasDisabledBeforeSpellCastSetter(false)
+      }
       if ((parseInt(theRoundChiCombatEnded)+1 <= parseInt(numberOfCurrentRound.innerText))) {
         setChiCombatDisabledToFalse()
       } 
@@ -566,6 +568,7 @@ if (defensiveCombatContinueSelected) {
   function handleDefensiveCombatContinue() {
     defensiveCombatContinueSelected = true
     if(!spellIsBeingCast){
+      setDefensiveCombatVEObonus(2)
     }
     handleEndOfRound()
     defensiveCombatContinuePopupWindow.style.display = "none";
@@ -594,7 +597,7 @@ if (defensiveCombatContinueSelected) {
     defensiveCombatButton.disabled = false
     setDefensiveCombatVEObonus(0)
     defensiveCombatOnSetToFalse()
-    attackRollButtonWasDisabledBeforeSpellCastSetToFalse()
+    attackRollButtonWasDisabledBeforeSpellCastSetter(false)
     firstAttackIsAttackOfOpportunitySetToFalse()
     innerTimeNegativeModifierNullifier();
     toggleAllallActionBarButtonsExceptInitRollDisplay("none");

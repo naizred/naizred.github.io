@@ -68,8 +68,8 @@ export let activeFormsElementalWeapons  =  {
 }
 
 export let attackRollButtonWasDisabledBeforeSpellCast = false;
-export function attackRollButtonWasDisabledBeforeSpellCastSetToFalse (){
-  attackRollButtonWasDisabledBeforeSpellCast = false;
+export function attackRollButtonWasDisabledBeforeSpellCastSetter (boolean){
+  attackRollButtonWasDisabledBeforeSpellCast = boolean;
 }
 export let chargeOn = false;
 export function chargeToFalse() {
@@ -283,12 +283,6 @@ export function handleIfSpellDoesNotNeedAimRoll() {
        arrayOfAllComplexManeuvers[i].disabled = true;
      }
    }
-   if (initRolled == true && attackRollButton.disabled == true) {
-    attackRollButtonWasDisabledBeforeSpellCast = true;
-  }
-  if (initRolled == true && attackRollButton.disabled == false) {
-    attackRollButtonWasDisabledBeforeSpellCast = false;
-  }
    attackRollButton.disabled = false;
    if (initRolled && !firstAttackInRoundSpent) {
      firstAttackIsSpellThatNeedsAimRoll = true
@@ -322,7 +316,7 @@ function ActionList() {
     if (firstAttackInRoundSpent && initRolled) {
       if (event.target.checked == true) {
         totalActionCostOfAttack = 3;
-        attackRollButtonWasDisabledBeforeSpellCastSetToFalse()
+        attackRollButtonWasDisabledBeforeSpellCastSetter(false)
         // ha 3-nál kevesebb cselekedeted van, akkor ne világosodjon ki a támadó gomb.
         if(parseInt(numberOfActions.innerText) >= 3){
           attackRollButton.disabled = false;
