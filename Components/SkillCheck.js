@@ -4,9 +4,11 @@ import {
   filteredArrayIfHasAnyAffinity,
 } from "../pages";
 import { specialCases1, specialCases2, specialCases3 } from "../pages";
+import { updateCharacterData } from "./CharacterDetails";
 let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
 let skillCheckSuccFailModifiers = [0, 1, 2, 3, 4, 5, -1, -2, -3, -4, -5];
-let skillCheckRolled = false;
+
+export let skillCheckCalculatedResultFromRoll = 0;
 
 export async function skillOrAttributeCheckRoll(
   stressCheck,
@@ -16,7 +18,6 @@ export async function skillOrAttributeCheckRoll(
   let zeroArray = [1, 2, 3, 4];
   let oneArray = [5, 6, 7];
   let twoArray = [8, 9];
-  let skillCheckCalculatedResultFromRoll = 0;
   if (stressCheck == false) {
     if (skillCheckLightDice == undefined) {
       skillCheckLightDice = Math.floor(generator.random() * 10);
@@ -157,22 +158,7 @@ export async function skillOrAttributeCheckRoll(
       parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll;
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
   }
-  const data = {
-    charName: charName.innerText,
-    skillCheckResult: parseInt(skillCheckResult.innerText),
-    skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
-  };
-
-  const JSONdata = JSON.stringify(data);
-  const endpoint = "/api/updateCharacter";
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSONdata,
-  };
-  await fetch(endpoint, options);
+  updateCharacterData(false, false, true)
 }
 
 export function handleSkillCheck(
@@ -183,9 +169,7 @@ export function handleSkillCheck(
   skillCheckRollButton.disabled = true;
   setTimeout(() => {
     skillCheckRollButton.disabled = false;
-  }, 8000);
-
-  skillCheckRolled = true;
+  }, 5000);
 
   if (skillCheckStressCheckbox.checked == true) {
     stressCheck = true;

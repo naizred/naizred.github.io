@@ -436,8 +436,7 @@ export function PsiDisciplines(props) {
       buffRemoverFromActiveBuffArrayAndTextList(
         event.target.parentElement.firstChild.innerText
       );
-
-    updateCharacterData(false);
+    updateCharacterData();
   }
   function handlePsiRecovery(event) {
     if (
@@ -466,7 +465,7 @@ export function PsiDisciplines(props) {
     if (parseInt(currentPp.value) >= parseInt(maxPp.innerText)) {
       currentPp.value = parseInt(maxPp.innerText);
     }
-    updateCharacterData(false);
+    updateCharacterData();
   }
 
   return (

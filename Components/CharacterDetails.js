@@ -28,6 +28,8 @@ import {
   firstAttackInRoundSpent,
   numberOfClicksAtTwoWeaponAttack,
   combatStatRefresher,
+  originalDarkDice,
+  originalLightDice,
 } from "../pages";
 import {
   filteredArrayIfHasExtraReaction,
@@ -78,11 +80,12 @@ import {
   actionsNeededToBeAbleToCastAgainNullifier,
   actionsNeededToBeAbleToCastAgain,
 } from "./Spells";
+import { skillCheckCalculatedResultFromRoll } from "./SkillCheck";
 export let initRolled = false;
 export let extraReactionLevel = 0;
 export let chiCombatEndedDueToLackOfPsiPoints = false;
 export let activeBuffsCounter = 0;
-export async function updateCharacterData(gameIdUpdate = false) {
+export async function updateCharacterData(gameIdUpdate = false, attackRoll = false, skillCheckRoll = false) {
   if (charName.innerText == "") {
     return
   }
@@ -97,7 +100,7 @@ export async function updateCharacterData(gameIdUpdate = false) {
       activeBuffsCounter++;
     }
   }
-
+ 
   activeBuffsStringToSave = activeBuffsCounter + activeBuffsStringToSave;
 
   let data = {
@@ -116,6 +119,20 @@ export async function updateCharacterData(gameIdUpdate = false) {
     data = {
       charName: charName.innerText,
       gameId: gameIdInput.value,
+    };
+  }
+  if (attackRoll == true) {
+    data = {
+      charName: charName.innerText,
+      atkRollResult: parseFloat(charAtkSum.innerText),
+      atkRollDice: `Találati hely: ${originalLightDice}, Sebzés: ${damageResult.innerText}, `,
+    };
+  }
+  if (skillCheckRoll == true) {
+    data = {
+      charName: charName.innerText,
+      skillCheckResult: parseInt(skillCheckResult.innerText),
+      skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
     };
   }
 
@@ -693,9 +710,6 @@ if (defensiveCombatContinueSelected) {
     <>
       <div id="characterDetails" className={styles["character-details"]}>
         <div>
-          {/* <button id="saveButton" className={styles.saveButton} onClick={updateCharacterData}>
-            Adatok mentése
-          </button> */}
           <p>Stat</p>
           <p id="maxValues">Max</p>
           <p id="currentValues">Akt</p>

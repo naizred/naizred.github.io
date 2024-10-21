@@ -4,7 +4,7 @@ import React from "react";
 import path from "path";
 import allWeapons from "../json/allWeapons.json"
 import aptitudesDescript from "../json/aptitudesDescript.json"
-import CharacterDetails, { defensiveCombatContinueSelectedSetToFalse, initRolled } from "../Components/CharacterDetails";
+import CharacterDetails, { defensiveCombatContinueSelectedSetToFalse, initRolled, updateCharacterData } from "../Components/CharacterDetails";
 import ActionList, {
   assassinationToFalse,
   attackOfOpportunityOn,
@@ -65,6 +65,7 @@ import PsiDisciplines, {
 import AimedAttack from "../Components/AimedAttack";
 import { bodyParts } from "../Components/AimedAttack";
 import ResistancesAptitudesRaceMofifiers from "../Components/ResistancesAptitudesRaceMofifiers";
+import updateCharStats from "./api/updateCharacter";
 var MersenneTwister = require("mersenne-twister");
 export var generator = new MersenneTwister();
 
@@ -783,12 +784,6 @@ if (theRoundInnerTimeWasUsedIn == parseInt(numberOfCurrentRound.innerText)) { //
  commonModifiers = - reducedMgtByParrySkill / 2 - currentlySelectedWeapon.mgt / 2 + parseFloat(anyOtherHmoModifierValue)
 - parseFloat(totalMgtOfArmorSet.innerText / 2) - innerTimeNegativeModifier - modifierFromNumberOfAttacksInTheRound - cumulativeCombinationModifier // itt már igen
 }
-let one =reducedMgtByParrySkill / 2
-let owt = currentlySelectedWeapon.mgt / 2
-let orl =parseFloat(anyOtherHmoModifierValue)
-let orl2 =parseFloat(totalMgtOfArmorSet.innerText / 2)
-let orl3 =innerTimeNegativeModifier
-let orl4 =modifierFromNumberOfAttacksInTheRound
 // TÉ VÉ CE értékek számítása ******************************
 //*********************************************************** */
 if (!guidedSpellCombatStatChangerCheckbox.checked) {  // csak akkor jön be ide, ha nem irányított spell forma lénye van kiválasztva
@@ -2185,25 +2180,7 @@ export default function Home(props) {
     }
     bodyPart.animate([{ color: "white" }, { color: "black" }], 200);
     damageEvaluator();
-    async function playerChecker() {
-      const data = {
-        charName: charName.innerText,
-        atkRollResult: parseFloat(charAtkSum.innerText),
-        atkRollDice: `Sötét kocka: ${originalDarkDice}, Világos kocka: ${originalLightDice}`,
-      };
-
-      const JSONdata = JSON.stringify(data);
-      const endpoint = "/api/updateCharacter";
-      const options = {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSONdata,
-      };
-      const response = await fetch(endpoint, options);
-    }
-
+   
     // ********************************************************************************************************************
     // ---- megnézi, hogy van-e kiválasztva összetett manőver és először a képzettségeket veszi figyelembe, és próbát is dob
     //**********************************************************************************************************************
@@ -2429,7 +2406,7 @@ export default function Home(props) {
       firstAttackInRoundSpent = false;
       firstAttackIsSpellThatNeedsAimRollSetToFalse()
     }
-    playerChecker();
+    updateCharacterData(false, true, false)
     spellNeedsAimRollSetToFalse();
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
   }
