@@ -88,7 +88,7 @@ let entryUpdateTimeAtRequestTime = []
 let HighestTimeStampOfWhenCharWasUpdated
 
 export async function fetchCharacterDataForAdventureMasterFirstIteration(gameId) {
- currentCharNameNodes = document.querySelectorAll("input#characterName");
+ currentCharNameNodes = document.querySelectorAll("div#characterName");
  currentFpNodes = document.querySelectorAll("input#currentFp");
  currentEpNodes = document.querySelectorAll("input#currentEp");
  currentPpNodes = document.querySelectorAll("input#currentPp");
@@ -100,7 +100,7 @@ export async function fetchCharacterDataForAdventureMasterFirstIteration(gameId)
  skillCheckDiceNodes = document.querySelectorAll("input#skillCheckDice");
  numberOfActionsAllPlayers = document.querySelectorAll("div#numberOfActionsAllPlayers");
  initiativeWithRollNodes = document.querySelectorAll("div#initiativeWithRoll");
- characterNameForInitNodes = document.querySelectorAll("input#characterNameForInit");
+ characterNameForInitNodes = document.querySelectorAll("div#characterNameForInit");
   const params = new URLSearchParams ({
     gameId: gameId,
     entryUpdateTimeAtRequestTime: 0
@@ -118,7 +118,7 @@ export async function fetchCharacterDataForAdventureMasterFirstIteration(gameId)
       for (let i = 0; i < parsedData.length; i++) {
         //először karakter Id szerint sorba rendezzük
         parsedData.sort((a,b)=>a.charId - b.charId)
-        currentCharNameNodes[i].value = parsedData[i].charName;        
+        currentCharNameNodes[i].innerText = parsedData[i].charName;        
         currentFpNodes[i].value = parsedData[i].currentFp;
         currentEpNodes[i].value = parsedData[i].currentEp;
         currentPpNodes[i].value = parsedData[i].currentPp;
@@ -131,7 +131,7 @@ export async function fetchCharacterDataForAdventureMasterFirstIteration(gameId)
         // utána sorba rendezem kezdeményező és cselekedet szám szerint is
         parsedData.sort((a,b)=>b.initiativeWithRoll - a.initiativeWithRoll)
         parsedData.sort((a,b)=>b.numberOfActions - a.numberOfActions)
-        characterNameForInitNodes[i].value = parsedData[i].charName;
+        characterNameForInitNodes[i].innerText = parsedData[i].charName;
         numberOfActionsAllPlayers[i].innerText = `CS: ${parsedData[i].numberOfActions}`;
         initiativeWithRollNodes[i].innerText = `CSA: ${parsedData[i].initiativeWithRoll}`;
         entryUpdateTimeAtRequestTime.push(Date.parse(parsedData[i].updatedAt))
@@ -148,7 +148,6 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
     entryUpdateTimeAtRequestTime: parseInt(HighestTimeStampOfWhenCharWasUpdated)
   })
   
-
   await fetch(`../api/getCharsByGameId?${params.toString()}`)
     .then((response) => {
       return response.json();
@@ -157,15 +156,14 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
       if (!parsedData) {
         return;
       }
-
       entryUpdateTimeAtRequestTime = []
       entryUpdateTimeAtRequestTime.push(HighestTimeStampOfWhenCharWasUpdated)
       let arrayToSortCharacterSequence = []
       for (let i = 0; i < parsedData.length; i++) {
         //először karakter Id szerint sorba rendezzük
         for (let j = 0; j < currentCharNameNodes.length; j++) {
-          if (parsedData[i].charName == currentCharNameNodes[j].value) {
-            currentCharNameNodes[j].value = parsedData[i].charName;        
+          if (parsedData[i].charName == currentCharNameNodes[j].innerText) {
+            blinkingText(currentCharNameNodes[j], parsedData[i].charName)      
             currentFpNodes[j].value = parsedData[i].currentFp;
             currentEpNodes[j].value = parsedData[i].currentEp;
             currentPpNodes[j].value = parsedData[i].currentPp;
@@ -181,16 +179,16 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
           }
         }
         for (let k = 0; k < characterNameForInitNodes.length; k++) {
-          if(parsedData[i].charName == characterNameForInitNodes[k].value) {
-           characterNameForInitNodes[k].value = parsedData[i].charName;
+          if(parsedData[i].charName == characterNameForInitNodes[k].innerText) {
+           characterNameForInitNodes[k].innerText = parsedData[i].charName;
            numberOfActionsAllPlayers[k].innerText = `CS: ${parsedData[i].numberOfActions}`;
            initiativeWithRollNodes[k].innerText = `CSA: ${parsedData[i].initiativeWithRoll}`;
          }
         }
       }
       for (let l = 0; l < characterNameForInitNodes.length; l++) {
-        if(characterNameForInitNodes[l].value){
-        arrayToSortCharacterSequence.push({charName: characterNameForInitNodes[l].value, 
+        if(characterNameForInitNodes[l].innerText){
+        arrayToSortCharacterSequence.push({charName: characterNameForInitNodes[l].innerText, 
           initiativeWithRoll: parseInt(initiativeWithRollNodes[l].innerText.slice(4)), 
           numberOfActions:parseInt(numberOfActionsAllPlayers[l].innerText.slice(3))})
         }
@@ -199,8 +197,8 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
     arrayToSortCharacterSequence.sort((a,b)=>b.numberOfActions - a.numberOfActions)
 
     for (let m = 0; m < characterNameForInitNodes.length; m++) {
-      if(characterNameForInitNodes[m].value){
-      characterNameForInitNodes[m].value = arrayToSortCharacterSequence[m].charName;
+      if(characterNameForInitNodes[m].innerText){
+      characterNameForInitNodes[m].innerText = arrayToSortCharacterSequence[m].charName;
       numberOfActionsAllPlayers[m].innerText = `CS: ${arrayToSortCharacterSequence[m].numberOfActions}`;
       initiativeWithRollNodes[m].innerText = `CSA: ${arrayToSortCharacterSequence[m].initiativeWithRoll}`;
       } else {

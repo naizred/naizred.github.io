@@ -122,17 +122,21 @@ export async function updateCharacterData(gameIdUpdate = false, attackRoll = fal
     };
   }
   if (attackRoll == true) {
+    let bodyPartName = bodyPart.innerText
+    if (bodyPart.innerText == "Fegyverforgató kar") {
+      bodyPartName = "Jobb kar"
+    }
     data = {
       charName: charName.innerText,
       atkRollResult: parseFloat(charAtkSum.innerText),
-      atkRollDice: `Találati hely: ${originalLightDice}, Sebzés: ${damageResult.innerText}, `,
+      atkRollDice: `${bodyPartName}, Sebzés: ${damageResult.innerText}`,
     };
   }
   if (skillCheckRoll == true) {
     data = {
       charName: charName.innerText,
       skillCheckResult: parseInt(skillCheckResult.innerText),
-      skillCheckDice: `Siker/kudarcszint a dobásból: ${skillCheckCalculatedResultFromRoll}`,
+      skillCheckDice: `Siker/kudarcszint: ${skillCheckCalculatedResultFromRoll}`,
     };
   }
 

@@ -341,14 +341,6 @@ input[type='radio']:checked:after {
   margin: 0vw;
   font-size: 6.5vw;
 }
-#skillCheckResultDm {
-  display: grid;
-  grid-column: span 2;
-  align-self: center;
-  text-align: center;
-  margin: 0vw;
-  font-size: 1.5vw;
-}
 #skillCheckRollResultLabel {
   display: grid;
   grid-row: 3/4;

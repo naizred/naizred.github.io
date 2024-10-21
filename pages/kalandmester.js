@@ -1,5 +1,6 @@
 import styles from "../styles/kalandmester.module.css";
 import { fetchCharacterDataForAdventureMaster, fetchCharacterDataForAdventureMasterFirstIteration } from ".";
+import { CharacterDetailsForAdventureMaster } from "../Components/CharacterDetailsForAdventureMaster";
 
 function Kalandmester() {
   let gameIdInterval;
@@ -44,348 +45,24 @@ function Kalandmester() {
           Betöltés
         </button>
       </div>
-      <div className={styles.adventureMaster}>
         <div
           id="characterDetailsSection"
           className={styles.characterDetailsSection}>
-          <div id="characterDetails1" className={styles.characterDetails}>
-            <div>
-              <label
-                htmlFor="characterName"
-                id="characterNameLabel"
-                className={styles.characterNameLabel}>
-                Keresett karakter neve:
-              </label>
-              <input
-                id="characterName"
-                className={styles.characterName}
-                name="characterName"
-              />
-              <span>
-                <label>Fp:</label>
-                <input
-                  id="currentFp"
-                  name="currentFp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Ép:</label>
-                <input
-                  id="currentEp"
-                  name="currentEp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Pp:</label>
-                <input
-                  id="currentPp"
-                  name="currentPp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Mp:</label>
-                <input
-                  id="currentMp"
-                  name="currentMp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Lp:</label>
-                <input
-                  id="currentLp"
-                  name="currentLp"
-                  className={styles.currentPlayerInput}
-                />
-                <label className={styles.diceLabel}>Kockák:</label>
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>TÉO:</label>
-                <input id="atkRollResult" />
-                <input id="atkRollDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>Próba:</label>
-                <input id="skillCheckResultDm" />
-                <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-            </div>
-          </div>
-          <div id="characterDetails2" className={styles.characterDetails}>
-            <div>
-              <label
-                htmlFor="characterName"
-                id="characterNameLabel"
-                className={styles.characterNameLabel}>
-                Keresett karakter neve:
-              </label>
-              <input
-                id="characterName"
-                className={styles.characterName}
-                name="characterName"
-              />
-              <span>
-                <label>Fp:</label>
-                <input
-                  id="currentFp"
-                  name="currentFp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Ép:</label>
-                <input
-                  id="currentEp"
-                  name="currentEp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Pp:</label>
-                <input
-                  id="currentPp"
-                  name="currentPp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Mp:</label>
-                <input
-                  id="currentMp"
-                  name="currentMp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Lp:</label>
-                <input
-                  id="currentLp"
-                  name="currentLp"
-                  className={styles.currentPlayerInput}
-                />
-                <label className={styles.diceLabel}>Kockák:</label>
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>TÉO:</label>
-                <input id="atkRollResult" />
-                <input id="atkRollDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>Próba:</label>
-                <input id="skillCheckResultDm" />
-                <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-            </div>
-          </div>
-          <div id="characterDetails2" className={styles.characterDetails}>
-            <div>
-              <label
-                htmlFor="characterName"
-                id="characterNameLabel"
-                className={styles.characterNameLabel}>
-                Keresett karakter neve:
-              </label>
-              <input
-                id="characterName"
-                className={styles.characterName}
-                name="characterName"
-              />
-              <span>
-                <label>Fp:</label>
-                <input
-                  id="currentFp"
-                  name="currentFp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Ép:</label>
-                <input
-                  id="currentEp"
-                  name="currentEp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Pp:</label>
-                <input
-                  id="currentPp"
-                  name="currentPp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Mp:</label>
-                <input
-                  id="currentMp"
-                  name="currentMp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Lp:</label>
-                <input
-                  id="currentLp"
-                  name="currentLp"
-                  className={styles.currentPlayerInput}
-                />
-                <label className={styles.diceLabel}>Kockák:</label>
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>TÉO:</label>
-                <input id="atkRollResult" />
-                <input id="atkRollDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>Próba:</label>
-                <input id="skillCheckResultDm" />
-                <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-            </div>
-          </div>
-          <div id="characterDetails2" className={styles.characterDetails}>
-            <div>
-              <label
-                htmlFor="characterName"
-                id="characterNameLabel"
-                className={styles.characterNameLabel}>
-                Keresett karakter neve:
-              </label>
-              <input
-                id="characterName"
-                className={styles.characterName}
-                name="characterName"
-              />
-              <span>
-                <label>Fp:</label>
-                <input
-                  id="currentFp"
-                  name="currentFp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Ép:</label>
-                <input
-                  id="currentEp"
-                  name="currentEp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Pp:</label>
-                <input
-                  id="currentPp"
-                  name="currentPp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Mp:</label>
-                <input
-                  id="currentMp"
-                  name="currentMp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Lp:</label>
-                <input
-                  id="currentLp"
-                  name="currentLp"
-                  className={styles.currentPlayerInput}
-                />
-                <label className={styles.diceLabel}>Kockák:</label>
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>TÉO:</label>
-                <input id="atkRollResult" />
-                <input id="atkRollDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>Próba:</label>
-                <input id="skillCheckResultDm" />
-                <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-            </div>
-          </div>
-          <div id="characterDetails2" className={styles.characterDetails}>
-            <div>
-              <label
-                htmlFor="characterName"
-                id="characterNameLabel"
-                className={styles.characterNameLabel}>
-                Keresett karakter neve:
-              </label>
-              <input
-                id="characterName"
-                className={styles.characterName}
-                name="characterName"
-              />
-              <span>
-                <label>Fp:</label>
-                <input
-                  id="currentFp"
-                  name="currentFp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Ép:</label>
-                <input
-                  id="currentEp"
-                  name="currentEp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Pp:</label>
-                <input
-                  id="currentPp"
-                  name="currentPp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Mp:</label>
-                <input
-                  id="currentMp"
-                  name="currentMp"
-                  className={styles.currentPlayerInput}
-                />
-              </span>
-              <span>
-                <label>Lp:</label>
-                <input
-                  id="currentLp"
-                  name="currentLp"
-                  className={styles.currentPlayerInput}
-                />
-                <label className={styles.diceLabel}>Kockák:</label>
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>TÉO:</label>
-                <input id="atkRollResult" />
-                <input id="atkRollDice" className={styles.lastRollDice} />
-              </span>
-              <span>
-                <label className={styles.skillCheckResultLabel}>Próba:</label>
-                <input id="skillCheckResultDm" />
-                <input id="skillCheckDice" className={styles.lastRollDice} />
-              </span>
-            </div>
-          </div>
+          <CharacterDetailsForAdventureMaster />
+          <CharacterDetailsForAdventureMaster />
+          <CharacterDetailsForAdventureMaster />
+          <CharacterDetailsForAdventureMaster />
+          <CharacterDetailsForAdventureMaster />
+          <CharacterDetailsForAdventureMaster />
+          <CharacterDetailsForAdventureMaster />
           <div
             id="characterDetailsForInit"
             className={styles.characterDetailsForInit}>
             <span>
-              <input
+              <div
                 id="characterNameForInit"
-                className={styles.characterNameForInit}
-              />
+                className={styles.characterNameForInit}>
+                </div>
               <div
                 id="initiativeWithRoll"
                 className={styles.initiativeWithRoll}></div>
@@ -394,10 +71,10 @@ function Kalandmester() {
                 className={styles.numberOfActions}></div>
             </span>
             <span>
-              <input
+            <div
                 id="characterNameForInit"
-                className={styles.characterNameForInit}
-              />
+                className={styles.characterNameForInit}>
+                </div>
               <div
                 id="initiativeWithRoll"
                 className={styles.initiativeWithRoll}></div>
@@ -406,10 +83,10 @@ function Kalandmester() {
                 className={styles.numberOfActions}></div>
             </span>
             <span>
-              <input
+              <div
                 id="characterNameForInit"
-                className={styles.characterNameForInit}
-              />
+                className={styles.characterNameForInit}>
+                </div>
               <div
                 id="initiativeWithRoll"
                 className={styles.initiativeWithRoll}></div>
@@ -418,10 +95,10 @@ function Kalandmester() {
                 className={styles.numberOfActions}></div>
             </span>
             <span>
-              <input
+              <div
                 id="characterNameForInit"
-                className={styles.characterNameForInit}
-              />
+                className={styles.characterNameForInit}>
+                </div>
               <div
                 id="initiativeWithRoll"
                 className={styles.initiativeWithRoll}></div>
@@ -430,10 +107,34 @@ function Kalandmester() {
                 className={styles.numberOfActions}></div>
             </span>
             <span>
-              <input
+              <div
                 id="characterNameForInit"
-                className={styles.characterNameForInit}
-              />
+                className={styles.characterNameForInit}>
+                </div>
+              <div
+                id="initiativeWithRoll"
+                className={styles.initiativeWithRoll}></div>
+              <div
+                id="numberOfActionsAllPlayers"
+                className={styles.numberOfActions}></div>
+            </span>
+            <span>
+              <div
+                id="characterNameForInit"
+                className={styles.characterNameForInit}>
+                </div>
+              <div
+                id="initiativeWithRoll"
+                className={styles.initiativeWithRoll}></div>
+              <div
+                id="numberOfActionsAllPlayers"
+                className={styles.numberOfActions}></div>
+            </span>
+            <span>
+              <div
+                id="characterNameForInit"
+                className={styles.characterNameForInit}>
+                </div>
               <div
                 id="initiativeWithRoll"
                 className={styles.initiativeWithRoll}></div>
@@ -443,7 +144,6 @@ function Kalandmester() {
             </span>
           </div>
         </div>
-      </div>
     </>
   );
 }
