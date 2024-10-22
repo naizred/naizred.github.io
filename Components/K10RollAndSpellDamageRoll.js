@@ -129,6 +129,9 @@ export function multipleDiceRoll(
 
 function K10RollAndSpellDamageRoll() {
   function handleTenSidedDiceRoll() {
+    if (soundToggleCheckbox.checked) {
+      rollDiceSound.play()
+    }
     tenSidedDiceRollResult.innerText = "";
     tenSidedDiceRollResult.innerText = Math.floor(generator.random() * 10);
     tenSidedDiceRollResult.animate(
@@ -138,6 +141,9 @@ function K10RollAndSpellDamageRoll() {
   }
 
   function handleMultipleDiceRoll() {
+    if (soundToggleCheckbox.checked) {
+      rollDiceSound.play()
+    }
     let spellDamage =  multipleDiceRoll(0, 0, 0, numberOfDiceInput.value)
     damageResult.innerText = spellDamage[3];
     damageResult.animate([{ color: "white" }, { color: "black" }], 200);
