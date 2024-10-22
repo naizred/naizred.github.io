@@ -166,6 +166,7 @@ export function handleSkillCheck(
   skillCheckLightDice,
   skillCheckDarkDice
 ) {
+  rollDiceSound.play()
   skillCheckRollButton.disabled = true;
   setTimeout(() => {
     skillCheckRollButton.disabled = false;

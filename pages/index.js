@@ -173,11 +173,11 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
             atkRollDiceNodes[j].value = parsedData[i].atkRollDice;
             skillCheckResultDmNodes[j].value = parsedData[i].skillCheckResult;
             skillCheckDiceNodes[j].value = parsedData[i].skillCheckDice;
-            // utána sorba rendezem kezdeményező és cselekedet szám szerint is
             entryUpdateTimeAtRequestTime.push(Date.parse(parsedData[i].updatedAt))
             HighestTimeStampOfWhenCharWasUpdated = parseInt(Math.max(...entryUpdateTimeAtRequestTime))
           }
         }
+        // utána sorba rendezem kezdeményező és cselekedet szám szerint is
         for (let k = 0; k < characterNameForInitNodes.length; k++) {
           if(parsedData[i].charName == characterNameForInitNodes[k].innerText) {
            characterNameForInitNodes[k].innerText = parsedData[i].charName;
@@ -2070,6 +2070,7 @@ export default function Home(props) {
   //------------------a támadó dobás
   //************************************************************************ */
   async function handleClickOnAttackRollButton(darkDice, lightDice) {
+    rollDiceSound.play()
     //*********************************************************************** */
     //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
     if (defensiveCombatOn && !spellNeedsAimRoll) {
@@ -2424,6 +2425,7 @@ export default function Home(props) {
       </Head>
 
       <main className="main">
+      <audio id="rollDiceSound" src="/rollDiceSound.mp3"></audio>
         <div id="atkRollWrapper">
           <div className={styles.resultContainer}>
             <div className="inText">A dobás eredménye:</div>

@@ -160,6 +160,7 @@ var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0;
 function CharacterDetails() {
   function handleInitiativeRoll() {
+    rollDiceSound.play()
     warningWindow.innerText = ""
     numberOfAttacksInTheRoundNullifier();
     modifierFromNumberOfAttacksInTheRoundNullifier();
