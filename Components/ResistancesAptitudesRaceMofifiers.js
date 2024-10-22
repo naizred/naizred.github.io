@@ -6,6 +6,9 @@ import { checkBoxTurnedFromNotCheckedToCheckedStatus, skillOrAttributeCheckRoll 
 function ResistancesAptitudesRaceMofifiers() {
     // Összetett Fizikai Szellemi Asztrális Mentális Elkerülő
    function rollResistance (event){
+    if (soundToggleCheckbox.checked) {
+        rollDiceSound.play()
+      }
     let stessResist = true
 
     for (let i = 0; i < allActiveBuffs.length; i++) {
