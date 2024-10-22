@@ -198,9 +198,17 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
 
     for (let m = 0; m < characterNameForInitNodes.length; m++) {
       if(characterNameForInitNodes[m].innerText){
-      characterNameForInitNodes[m].innerText = arrayToSortCharacterSequence[m].charName;
-      numberOfActionsAllPlayers[m].innerText = `CS: ${arrayToSortCharacterSequence[m].numberOfActions}`;
-      initiativeWithRollNodes[m].innerText = `CSA: ${arrayToSortCharacterSequence[m].initiativeWithRoll}`;
+        if (characterNameForInitNodes[0].innerText != arrayToSortCharacterSequence[0].charName) {
+          characterNameForInitNodes[0].parentElement.animate([{ backgroundColor: "white" }, { backgroundColor: "black" }], 300);
+          setTimeout(() => {
+            characterNameForInitNodes[0].parentElement.animate([{ backgroundColor: "white" }, { backgroundColor: "black" }], 300);
+          }, 300);
+        }
+        if (characterNameForInitNodes[m].innerText != arrayToSortCharacterSequence[m].charName) {
+          characterNameForInitNodes[m].innerText = arrayToSortCharacterSequence[m].charName;
+          numberOfActionsAllPlayers[m].innerText = `CS: ${arrayToSortCharacterSequence[m].numberOfActions}`;
+          initiativeWithRollNodes[m].innerText = `CSA: ${arrayToSortCharacterSequence[m].initiativeWithRoll}`;
+        }
       } else {
         break
       }
