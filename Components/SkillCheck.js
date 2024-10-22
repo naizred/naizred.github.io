@@ -55,8 +55,7 @@ export async function skillOrAttributeCheckRoll(
       skillCheckLightDice = 1;
     }
     skillCheckLightDiceResultSelect.value = skillCheckLightDice;
-    skillCheckResult.innerText =
-      parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll;
+    skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll;
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
   } else if (stressCheck == true) {
     if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
@@ -71,8 +70,7 @@ export async function skillOrAttributeCheckRoll(
       skillCheckDarkDice = 10;
     }
 
-    let skillCheckLightDicePlusRollMod =
-      skillCheckLightDice + parseInt(rollModifier.value);
+    let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value);
     console.log(
       "módosítóval növelt dobás érték:",
       skillCheckLightDicePlusRollMod
@@ -166,7 +164,9 @@ export function handleSkillCheck(
   skillCheckLightDice,
   skillCheckDarkDice
 ) {
-  rollDiceSound.play()
+  if (soundToggleCheckbox.checked) {
+    rollDiceSound.play()
+  }
   skillCheckRollButton.disabled = true;
   setTimeout(() => {
     skillCheckRollButton.disabled = false;

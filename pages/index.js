@@ -2070,7 +2070,9 @@ export default function Home(props) {
   //------------------a támadó dobás
   //************************************************************************ */
   async function handleClickOnAttackRollButton(darkDice, lightDice) {
-    rollDiceSound.play()
+    if (soundToggleCheckbox.checked) {
+      rollDiceSound.play()
+    }
     //*********************************************************************** */
     //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
     if (defensiveCombatOn && !spellNeedsAimRoll) {
@@ -2427,6 +2429,10 @@ export default function Home(props) {
       <main className="main">
       <audio id="rollDiceSound" src="/rollDiceSound.mp3"></audio>
         <div id="atkRollWrapper">
+          <div id="soundToggleWrapper">
+            Hang Be/Ki
+            <input id="soundToggleCheckbox" type="checkbox"/>
+          </div>
           <div className={styles.resultContainer}>
             <div className="inText">A dobás eredménye:</div>
             <div id="rollResult" className="inNumber"></div>
