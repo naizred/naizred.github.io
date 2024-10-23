@@ -510,9 +510,9 @@ function ActionList() {
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
         findWeakSpotModifier = 0.5;
-        charAtk.value = parseFloat(charAtk.value) + findWeakSpotModifier;
         findWeakSpotOn = true;
         findWeakSpotButton.disabled = true;
+        combatStatRefresher()
       }
       if (
         (nameOfManeuver.includes("töltés") &&

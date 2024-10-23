@@ -2342,7 +2342,6 @@ export default function Home(props) {
       }, 200);
 
       if (findWeakSpotOn == true) {
-        charAtk.value = parseFloat(charAtk.value) - findWeakSpotModifier;
         findWeakSpotModifierNullifier();
         findWeakSpotOnToFalse();
         findWeakSpotButton.disabled = false;
@@ -2417,6 +2416,7 @@ export default function Home(props) {
     }
     updateCharacterData(false, true, false)
     spellNeedsAimRollSetToFalse();
+    combatStatRefresher()
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
   }
 
