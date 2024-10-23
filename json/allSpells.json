@@ -5047,7 +5047,6 @@
     "fok": 1,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslattal a tűzvarázsló egy, a hatótávon belül eső, általa látott fix ponton Erősségnek megfelelő mágikus lángot kelt, amely a hatóidő alatt természetes módon gyújtja meg az éghető anyagokat. (Sebzése - mivel formázatlan elemi hatásról van szó - mindenkor a kockák által kidobható minimumnak felel meg.)",
     "resist": "Elkerülő"
   },
@@ -5063,7 +5062,6 @@
     "fok": 1,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat a hatóterületen belül felfed minden, a varázslat Erősségénél nem nagyobb Erősségű természetes- és őstüzet a tűzvarázsló számára. A varázslat megfelelő Erőssége esetén így tisztában lesz azok számával, irányával, távolságával és Erősségével. A szükségesnél alacsonyabb Erősség esetén csak annyit tud meg, hogy van-e még további tűz a hatóterületen belül.",
     "resist": "Össz./EvE"
   },
@@ -5079,7 +5077,6 @@
     "fok": 2,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat alanya a hatóidő lejártáig az Erősség/2-nek megfelelő értékkel kevesebb sérülést szenved el a közönséges tűz- és hő alapú behatásokkal szemben. A hatás nem terjed ki az alany által viselt tárgyakra.",
     "resist": "Összetett"
   },
@@ -5095,7 +5092,6 @@
     "fok": 2,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat az időtartama alatt a hatóterületen belül felfed minden, Erősségnél nem nagyobb Erősségű őstüzet a tűzvarázsló számára. A varázslat megfelelő Erőssége esetén így tisztában lesz azok számával, irányával, távolságával és Erősségével. A szükségesnél alacsonyabb Erősség esetén csak annyit tud meg, hogy van-e még további őstűz a hatóterületen belül.",
     "resist": "Össz./EvE"
   },
@@ -5113,7 +5109,6 @@
     "fok": 2,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslattal a tűzvarázsló egy általa megérintett ponton Erősségnek megfelelő tüzet kelt, amely a hatóidő alatt természetes módon gyújtja meg az éghető anyagokat. A varázslat egy jövőbeli fixen datált(2), éven belüli(7) időponthoz van kötve, melyet a tűzvarázsló határoz meg a létrejöttekor. Sebzése - mivel formázatlan elemi hatásról van szó - mindenkor a kockák által kidobható minimumnak felel meg.",
     "resist": "nincs"
   },
@@ -5134,7 +5129,6 @@
     "fok": 2,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat két - egyazon lángról meggyújtott - természetes tűz közötti kapcsolaton alapuló komplex varázslat. Lehetővé teszi, hogy a tűzvarázsló oldalán(2) égő tűz hatóterület szerinti fénykörében tartozó dolgok képe(1) a másik tűz lángjai közt tűnjenek fel. A varázslat a képen kívül mást (pl. hangot) nem továbbít. (Összetevő: két szimpatikus viszonyban lévő tűz, melynek egyetlen ismert módja a közös tőről gyújtás)",
     "resist": "nincs"
   },
@@ -5150,7 +5144,6 @@
     "fok": 3,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat kiolt egy hatótávon belüli, erre kijelölt, legfeljebb terület kiterjedésű természetes vagy őstüzet. Őstűz esetében kizárólag akkor lehet sikeres a varázslat, ha az őstűznek az Erőssége nem haladja meg a varázslat Erősségét. Míg a természetes tüzek esetében az Erősség csökkenés is megvalósulhat. A hatóidő lejárta után egy tűz a természetes módon még feltámadhat.",
     "resist": "EvE"
   },
@@ -5166,7 +5159,6 @@
     "fok": 3,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat alanya a hatóidő lejártáig az Erősség/2 értékkel kevesebb sérülést szenved el a hő- és lángalapú természetes és őstüzekből származó behatásokkal szemben. A hatás nem terjed ki az aurájában található tárgyakra.",
     "resist": "Összetett"
   },
@@ -5183,7 +5175,6 @@
     "fok": 3,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására az erre kiválasztott közönséges tűzből egy tűznyíl vágódik ki a hatóterületen belül tartózkodó célpont irányába. A csóva CÉO-ja a tűzvarázslóéval megegyező, a megcélzott szVÉO-ját viszont a tűztől, a Követett célzás szabály szerint kell számolni. A csapás Erőssége a varázslatéval azonos, de sosem magasabb, mint a célpont tűz Erőssége. A tűz az Erősség szerint sebez és +1 CÉO-val(2) rendelkezik.",
     "resist": "CÉOvVÉO"
   },
@@ -5199,7 +5190,6 @@
     "fok": 3,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat segítségével a tűzvarázsló egy természetes tűz terjedési irányát képes befolyásolni. A tűz az Erősségnek megfelelő volumenben terjed, méghozzá a Varázspróba értékével azonos Gyorsaság szerinti körönkénti Mozgástávnak megfelelően. Természetesen útját csak éghető anyagokon képes folytatni. Az esetleges akadályokat az Erősségtől függően képes áthidalni. (Kontrollált)",
     "resist": "Elkerülő"
   },
@@ -5216,7 +5206,6 @@
     "fok": 3,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslattal a tűzvarázsló a hatótávon belül eső, általa látott fix ponton Erősségnek megfelelő lángot idéz, amely természetes módon gyújtja meg az éghető anyagokat. Mivel ez ismétlődő varázslat, így az időtartama alatt körönként újabb tüzek ébreszthetőek vele, melyek azt követően már a természetre lesznek bízva. Minden pont kijelölése 1 CS költségű Akció Manőverbe kerül. Sebzése - mivel formázatlan elemi hatásról van szó - mindenkor a kockák által kidobható minimumnak felel meg. (Ismétlődő)",
     "resist": "Elkerülő"
   },
@@ -5232,7 +5221,6 @@
     "fok": 3,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat 6-os Realizált Erősség mellett a célpont tűzről képes megállapítani minden természetes információt, mint például a létrejöttének körülményeit, illetve eddigi történetét. Ellenállás jellemzően akkor tehető a Tűzelemzéssel szemben, ha a tűz történetesen egy szereplő auráján belül található.",
     "resist": "nincs/Összetett"
   },
@@ -5250,7 +5238,6 @@
     "fok": 4,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat egy, a tűzvarázsló zónáján belüli láng egy, legfeljebb terület léptékű részét(2) képes egy távolságon(5) másik pontra teleportálni. Amennyiben nem őstűzről van szó, akkor a körülményektől függ, hogy a tűz az új helyen milyen intenzitással lángol tovább. A tűz erőssége a varázslat Erősségétől független tényező. A más varázslatok által fenntartott tüzek nem lehetnek a Tűz teleportálás alanyai.",
     "resist": "nincs/Elkerülő"
   },
@@ -5266,7 +5253,6 @@
     "fok": 4,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat nagy tárgy léptékű hatóterületén - mely általában egy szereplő - a hatóidő lejártáig az Erősség/2 értékkel csökken minden ott megtapasztalható természetes- és őstűz Erőssége. A hatás jellemzően kiterjed az aurájában található tárgyakra is.",
     "resist": "Összetett"
   },
@@ -5289,7 +5275,6 @@
     "fok": 4,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A komplex varázslat két természetes tűz között egy átjárót nyit, melynek eredményeként ha valaki az egyik oldalon belép a tűzbe, a másik tűznél fog kilépni belőle. A belépésre csupán 6 kör áll rendelkezésére, a teleportálásért pedig a varázslatba épített, belépéskor(2) aktivizálódó időzítés(2) felel. A tűz okozta sérülések ellen az utazóknak valami módon érdemes védekezniük. Az átjáróként szolgáló tüzeknek legalább 3-as Erősségűnek kell lenniük és elengedhetetlen feltétel a két tűz egyazon lángról történő meggyújtása, azaz a szimpatikus kapcsolat(4) megléte. A kapu egyszeri utazást(3) engedélyez a célpont számára. Az utazás időtartama egy pillanat, azaz eddig teszi ki magát az utazó a tűz hatásának. (Összetevő: két szimpatikus viszonyban lévő tűz, melynek egyetlen ismert módja a közös tőről gyújtás)",
     "resist": "Összetett"
   },
@@ -5307,7 +5292,6 @@
     "fok": 4,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy fizikailag megérintett pontból minden olyan körben, amikor valaki a hatóterületen belülre ér(4), egy Erősségnek megfelelő lángnyelv tör elő. Ennek a láng kitörésnek(2) a kiterjedése hatóterülettel azonos. A Tűzszem ismétlődő hatását csakis az adott körben elsőként belépő személy aktiválja. A tűzvarázslót az időtartam lejártáig csapásra kész varázslat nem informálja a lángnyelv létrejöttéről. (Ismétlődő)",
     "resist": "Elkerülő"
   },
@@ -5323,7 +5307,6 @@
     "fok": 5,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A tűzvarázsló által kijelölt, hatóterület kiterjedésű területen, a hatóidő lejártáig az Erősség/2 értékkel csökken minden hő, illetve természetes és őstüzekből származó hatás Erőssége.",
     "resist": "nincs/Összetett"
   },
@@ -5344,7 +5327,6 @@
     "fok": 5,
     "magicSubclass": "Alap tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A komplex varázslat két természetes tűz között egy átjárót nyit, melynek eredményeként aki az egyik oldalon belép a tűzbe, az a másik tűznél fog kilépni belőle. A tűz okozta sérülések ellen az utazóknak valami módon érdemes védekezniük. A kapuként szolgáló tüzeknek legalább 3-as Erősségűnek kel lenniük és elengedhetetlen feltétel a két tűz egyazon lángról történő meggyújtása, azaz a szimpatikus kapcsolat(4) megléte. A kapu(5) mindkét irányba használható az időtartam(4) lejártáig, az átkelés időtartama pedig egy kör, azaz eddig teszi ki magát az utazó a tűz hatásának. Méretét tekintve legfeljebb nagy tárgy léptékű dolog mozgatására alkalmas. (Összetevő: két szimpatikus viszonyban lévő tűz, melynek egyetlen ismert módja a közös tőről gyújtás)",
     "resist": "Összetett"
   },
@@ -5361,7 +5343,6 @@
     "fok": 1,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat által létrehozott tűznyíllal a célzófegyverekhez hasonló módon eltalálható egy célpont. A tűznyíl(2) az Erősség szerint sebez és +2 CÉO-val(4) rendelkezik.",
     "resist": "CÉOvVÉO"
   },
@@ -5377,7 +5358,6 @@
     "fok": 1,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatótávján belül kijelölhető egy hatóterület kiterjedésű hely, ahol egy vízszintes elhelyezkedésű tűzszőnyeg jön létre. A hatás az időtartam lejártáig tart és az Erősségnek megfelelő tűzsebzést okoz a hatóterületen belül.",
     "resist": "Elkerülő"
   },
@@ -5393,7 +5373,6 @@
     "fok": 2,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására a tűzvarázsló által kijelölt fegyver sebosztó felületén egy tűzből álló burok keletkezik. Minden egyes sikeres találatot követően a fegyver sebzésén felül még külön, egy Erősségnek megfelelő sebzés kóddal bíró tűzsebzés is éri a penge csapását elszenvedő felet.",
     "resist": "nincs"
   },
@@ -5409,7 +5388,6 @@
     "fok": 2,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatótávján belül kijelölhető egy hatóterület kiterjedésű hely, ahol egy robbanásszerű tűzkitörés jön létre. A hatás az Erősségnek megfelelő tűzsebzést okoz a hatóterületen belül.",
     "resist": "Elkerülő"
   },
@@ -5425,7 +5403,6 @@
     "fok": 2,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatótávján belül kijelölhető egy hatóterület kiterjedésű rész, ahol egy függőleges tűzfal jön létre. A hatás az időtartam lejártáig tart és az Erősségnek megfelelő tűzsebzést okoz a hatóterületen belül.",
     "resist": "Elkerülő"
   },
@@ -5442,7 +5419,6 @@
     "fok": 2,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy közepes tárgy léptékű tűzkígyó(8) keletkezik, mely kígyó módjára a földön közlekedik. A lény statisztikái a formasablonnak megfelelően alakulnak. A TÉO és VÉO módosítója(4) +2. A tűzvarázsló az Időtartam alatt irányítja. Erőssége nem haladhatja meg a Terület aspektust. (Irányított)",
     "resist": "TÉOvVÉO"
   },
@@ -5458,7 +5434,6 @@
     "fok": 3,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat alanyán egy tűzaura jön létre, mely minden vele érintkezésbe kerülőn az Erősségnek megfelelő tűzsebzést okoz és az aura az időtartam lejártáig tart.",
     "resist": "Összetett"
   },
@@ -5474,7 +5449,6 @@
     "fok": 3,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat során a tűzvarázsló mellett egy hatóterület kiterjedésű tűzhenger keletkezik. A henger a terepviszonyoknak megfelelően viselkedik. A hatás az időtartam lejártáig tart és az Erősségnek megfelelő tűzsebzést okoz a vele érintkezésbe kerülőkön.",
     "resist": "Elkerülő"
   },
@@ -5490,7 +5464,6 @@
     "fok": 3,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatótávján belül kijelölhető egy hatóterület kiterjedésű sík, ahol e vöröslő felhőből tűzeső záporozik a hatóterület felének megfelelő kiterjedésben. A hatás az időtartam lejártáig tart és az Erősségnek megfelelő tűzsebzést okoz a vele érintkezésbe kerülőkön.",
     "resist": "Elkerülő"
   },
@@ -5507,7 +5480,6 @@
     "fok": 3,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy nagy tárgy léptékű tűzpárduc(8) keletkezik, mely nagymacska módjára a felszínen közlekedik. A lény statisztikái a formasablonnak megfelelően alakulnak. A TÉO és VÉO módosítója(6) +3. A tűzvarázsló az időtartam alatt irányítja. Erőssége nem haladhatja meg a Terület aspektust. (Fenntartott, Irányított)",
     "resist": "TÉOvVÉO"
   },
@@ -5525,7 +5497,6 @@
     "fok": 3,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására a tűzvarázsló bal kezéből 1 CS költségű Akció Manőver keretében egy-egy tűznyíl(2) száll a kiszemelt célpont felé minden körben. A varázslat célzófegyverként kezelendő, melynél az alap CÉ-n felül még +2 CÉO(4) illeti meg a varázstudót. A tűzszórás Erősségnek megfelelő sebzést okoz. A tűznyíl a becsapódást követően kihuny. (Ismétlődő)",
     "resist": "CÉOvVÉO"
   },
@@ -5541,7 +5512,6 @@
     "fok": 4,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására a tűzvarázsló körül két láb sugarú körben egy lángoló gyűrű keletkezik és követi a tűzvarázsló mozgását. A láng minden, a hatóterületén belülre kerülő objektumon Erősségnek megfelelő tűzsebzést okoz az Időtartam lejártáig.",
     "resist": "Elkerülő"
   },
@@ -5559,7 +5529,6 @@
     "fok": 4,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat által létrehozott tűzgömbbel(4) a dobófegyverekhez hasonló módon eltalálható egy célpont. A tűz az Erősség szerint sebez és +3 CÉO-val(6) rendelkezik. A becsapódást követően a Hatóterület(3) szerinti kiterjedésben kitöréssé alakul.",
     "resist": "CÉOvVÉO/Elkerülő"
   },
@@ -5576,7 +5545,6 @@
     "fok": 4,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy apró objektum léptékű tűzmadár(8) keletkezik, mely madár módjára szárnyalhat a levegőben. A lény statisztikái a formasablonnak megfelelően alakulnak. A TÉO és VÉO módosítója(8) +4. A tűzvarázsló az Időtartam alatt irányítja. Erőssége nem haladhatja meg a Terület aspektust. (Irányított)",
     "resist": "TÉOvVÉO"
   },
@@ -5593,7 +5561,6 @@
     "fok": 4,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy kisebb objektum léptékű tűzféreg(8) keletkezik, mely féreg módjára a földön közlekedik. A lény statisztikái a formasablonnak megfelelően alakulnak. A TÉO és VÉO módosítója(9) +4,5. A tűzvarázsló az Időtartam alatt irányítja. Erőssége nem haladhatja meg a Terület aspektust. (Fenntartott, Irányított)",
     "resist": "TÉOvVÉO"
   },
@@ -5610,7 +5577,6 @@
     "fok": 5,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására annak alanya körül egy kifelé terjedő tűzhullám indul útjára minden irányban, a hatóterületnek megfelelő távolságig. Az Időtartam lejártáig minden körben 1 CS-nyi Akció Manőverért újabb hullám indítható. A hullámmal érintkezők az Erősségnek megfelelő tűzsebzést szenvedik el. (Ismétlődő)",
     "resist": "Elkerülő"
   },
@@ -5627,7 +5593,6 @@
     "fok": 5,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy közepes objektum léptékű tűzpolip(8) keletkezik, mely polip módjára a földön közlekedik. A lény statisztikái a formasablonnak megfelelően alakulnak. A TÉO és VÉO módosítója(11) +5,5. A tűzvarázsló az Időtartam alatt irányítja. Erőssége nem haladhatja meg a Terület aspektust. (Irányított)",
     "resist": "TÉOvVÉO"
   },
@@ -5644,7 +5609,6 @@
     "fok": 5,
     "magicSubclass": "Forma tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására nagy objektum léptékű tűzsárkány(8) keletkezik, mely sárkány módjára szárnyalhat a levegőben. A lény statisztikái a formasablonnak megfelelően alakulnak. A TÉO és VÉO módosítója(12) +6. A tűzvarázsló az Időtartam alatt irányítja. Erőssége nem haladhatja meg a Terület aspektust. (Fenntartott, Irányított)",
     "resist": "TÉOvVÉO"
   },
@@ -5660,7 +5624,6 @@
     "fok": 1,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "Ez a varázslat a célpont közönséges tűz Erősségét növeli vagy csökkenti a varázslat Erőssége/2-vel. A növekedés folytán legfeljebb a természetes tűz Erősségének kétszerese érhető el, de legfeljebb 12-es Erősségig. A csökkenés mértéke legfeljebb a természetes tűz Erősségének fele lehet. A hatás az Időtartam lejártáig tart.",
     "resist": "nincs"
   },
@@ -5677,7 +5640,6 @@
     "fok": 2,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A tűzvarázsló ezzel a varázslattal egy adott távolságon belüli legfeljebb Erősségnek megfelelő közönséges tűz fényét vagy hőjét képes áthelyezni egy hatóterületen(5) belüli másik pozícióba.",
     "resist": "nincs/Elkerülő"
   },
@@ -5693,7 +5655,6 @@
     "fok": 2,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "Ez a varázslat az időtartam lejártáig az Erősség/2 értéknek megfelelő mértékben megnöveli a közönséges tűz fényét, de legfeljebb 12-es Erősségig.",
     "resist": "nincs"
   },
@@ -5710,7 +5671,6 @@
     "fok": 2,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat segítségével a tűzvarázsló képes a felforrósodott bal kezének érintésével Erősségnek megfelelő hő alapú sérülést okozni.  Az alap TÉ-n felül még +0,5 TÉO(1) illeti meg a varázstudót.",
     "resist": "TÉOvVÉO"
   },
@@ -5726,7 +5686,6 @@
     "fok": 3,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "Ez a varázslat a célpont közönséges tűz fényét csökkenti az Erősség/2 értéknek megfelelő mértékben, cserében a hőjét növeli ugyanennyivel az időtartam lejártáig. A hő Erőssége nem haladhatja meg a 12 E-et.",
     "resist": "nincs"
   },
@@ -5742,7 +5701,6 @@
     "fok": 3,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "Ez a varázslat a célpont közönséges tűz hőjét csökkenti az Erősség/2 értéknek megfelelő mértékben, cserében a fényét növeli ugyanennyivel az időtartam lejártáig. A fény Erőssége nem haladhatja meg a 12 E-et.",
     "resist": "nincs"
   },
@@ -5758,7 +5716,6 @@
     "fok": 3,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A kék lángfestés hatására egy közönséges vagy őstűz minden víz alapú behatás ellen Erősség/2 értéknek megfelelő védelmet élvez. A védelem azt jelenti, hogy a tűzre a lángfestés Erősség/2 értékével alacsonyabb romboló hatást képes kifejteni a víz. Amennyiben ősvízről van szó, akkor az véglegesen csökkenti a lángfestés Erősségét, ellenben természetes vizek esetében ez a csökkenés csak az adott körben érvényesül. Amennyiben a varázslat célpontja nem egy, a tűzvarázsló által létrehozott varázslat, akkor a lángfestés Erősségének meg kell haladni a tűz Erősségét. A lángfestés legfeljebb az időtartamnak megfelelő ideig hat, de sosem tovább, mint a tűz létezése.",
     "resist": "nincs/EvE"
   },
@@ -5774,7 +5731,6 @@
     "fok": 3,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A fehér lángfestés hatására egy közönséges vagy őstűz Erőssége növekszik a varázslat Erősség/2-vel. Ennek elengedhetetlen követelménye, hogy a hatótávon belül legyen egy, legalább a lángfestés Erősségével azonos méretű természetes tűz. A varázslat hatására e természetes tűz Erőssége a lángfestés Erősségével csökken. Amennyiben a varázslat célpontja nem egy a tűzvarázsló által létrehozott varázslat, akkor a lángfestés Erősségének meg kell haladni a közönséges vagy őstűz Erősségét. A lángfestés legfeljebb az időtartamnak megfelelő ideig hat, de sosem tovább, mint a tűz létezése. A megfestett tűz Erőssége nem haladhatja meg a 12 E-et.",
     "resist": "nincs/EvE"
   },
@@ -5790,7 +5746,6 @@
     "fok": 3,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat célpontjául szolgáló, fémből készült nagyobb használati tárgy három kör alatt felforrósodik, majd a következő három kör során ki is hűl. Az első és második körökben az Erősség alapján egyharmad E és kétharmad E-nek megfelelő hő sebzést okoz az azt megérintő személyeknek. A varázslat végeztével hasonló ütemben csökken a hő sebzés mértéke. Akik magukon viselnek egy ilyen tárgyat, azok értelemszerűen emelt, extra sebzést is elszenvednek. A viselt tárgyak esetében a személyes aura okán +3 extra siker illeti meg a varázslattal szemben Ellenállót.",
     "resist": "nincs/Fizikai"
   },
@@ -5806,7 +5761,6 @@
     "fok": 3,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására a közönséges tűz sötét, maró füstöt áraszt magából. A füst a hatóterületen belül érezteti a hatását. A területen tartózkodók legfeljebb a varázslat Erősség/2 értéknek megfelelő \"fok\"ozatú harci hátrányt és érintett érzékszerveikkel kapcsolatos próbáikra ennyi extra kudarcot szenvednek el az időtartam lejártáig. További korlátozás, hogy a harci hátrány értéke nem haladhatja meg a tűz Erőssége/2 értéket. ",
     "resist": "nincs/Elkerülő"
   },
@@ -5824,7 +5778,6 @@
     "fok": 3,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A tűzvarázsló ezt a varázslatát arra használhatja, hogy egy általa keltett varázslat már eleve megfestett formában jöhessen létre. Az időzítésen(3) belül létrejövő első, a lángecset erősségét meg nem haladó lángfestést befogja(2). Amennyiben e lángfestés varázslat Erőssége meghaladná a Lángecset Erősségét, úgy azt figyelmen kívül hagyja a varázslat. A sikeres befogást követően a hat körös időtartamon (3) belül létrejövő első, megfesthető varázslatra alkalmazza azt.  A varázslatok Mana pont költsége, bevetési ideje és minden jellemzője változatlan marad. A Lángecset a lángfestések mellett Pusztító tűz varázslat befogására is képes lehet.",
     "resist": "nincs"
   },
@@ -5840,7 +5793,6 @@
     "fok": 4,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "Az aranysárga lángfestés hatására egy közönséges vagy őstűz a tűzvarázsló számára a lángfestés Erőssége/2 értékkel alacsonyabb Erősséggel hat. Amennyiben a varázslat célpontja nem egy, a tűzvarázsló által létrehozott varázslat, akkor a lángfestés Erősségének meg kell haladnia a közönséges vagy őstűz Erősségét. A lángfestés legfeljebb az időtartamnak megfelelő ideig hat, de sosem tovább, mint a tűz létezése.",
     "resist": "nincs/EvE"
   },
@@ -5857,7 +5809,6 @@
     "fok": 4,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat segítségével a tűzvarázsló képes a tekintetével egy hőcsóvát létrehozni és célzófegyverként célba juttatni az a hatóterületen belül. Az alap CÉ-n felül még +0,5 CÉO(1) illeti meg a varázstudót. E csóva végpontja a kontrollálás szabályainak megfelelően körönként egy alkalommal 1 CS költségű Akció Manőverért áthelyezhető. A hőcsóvával érintkezésbe kerülőket az Erősségnek megfelelő hő sebzés éri. (Kontrollált)",
     "resist": "Elkerülő"
   },
@@ -5874,7 +5825,6 @@
     "fok": 4,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A méregzöld lángfestés hatására egy közönséges vagy őstűz a tűzvarázsló által kijelölt személyek kivételével – legfeljebb öt(5) fő – minden(ki) másra a lángfestés Erősség/2 értékével alacsonyabb Erősséggel hat. Amennyiben a varázslat célpontja nem egy, a tűzvarázsló által létrehozott varázslat, akkor a lángfestés Erősségének meg kell haladnia a közönséges vagy őstűz Erősségét. A lángfestés legfeljebb az időtartamnak megfelelő ideig hat, de sosem tovább, mint a tűz létezése.",
     "resist": "nincs/EvE"
   },
@@ -5890,7 +5840,6 @@
     "fok": 5,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A bíborvörös lángfestés hatására egy közönséges vagy őstűz létezése legalább addig fennáll, amíg a lángfestés időtartam le nem jár. Természetesen egyéb hatások elpusztíthatják vagy legyengíthetik ezt a tüzet. A lángfestés varázslat Erősségének mindenkor el kell érnie a közönséges vagy őstűz Erősségét, függetlenül attól, hogy az miképp jött lére.",
     "resist": "EvE"
   },
@@ -5906,7 +5855,6 @@
     "fok": 5,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A fekete lángfestés kizárólag egy Erősségnyi léptékű ős- vagy természetes tűzre varázsolható. Amennyiben őstűzről van szó, akkor a lángfestés Erősségének el kell érnie az őstűz Erősségét. A varázslat hatására a célpont tűz és a tüzet létrehozó entitás közt olyan szimpatikus kapcsolat jön létre, melyen keresztül az időtartam lejártáig – vagy a festett tűz kialvásáig – bármilyen tűzmágia tárgykörébe tartozó varázslat alanyává válhat a tűz létrehozója. Itt kizárólag olyan fókusz alapú varázslatok jöhetnek szóba, mint a Tűzaura vagy a Belső tűz. Természetes vagy indirekt módon keletkezett tüzekre a festés hatástalan. A bevetendő varázslat Erőssége sosem haladhatja meg a Fekete lánggal égő tűz Erősségét.",
     "resist": "Összetett"
   },
@@ -5922,7 +5870,6 @@
     "fok": 1,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A tűzvarázsló ezzel a varázslattal intenzívebbé teheti egy tűzzel operáló varázslat pusztítását. A Pusztító tűz hatására a sebzéshez használ kockák sebzéskódja k5-ről k5+1-re módosul. Ha a tűzvarázsló varázslatra használja a Pusztító tűzet, akkor az Erőssége nem lehet alacsonyabb, mint a célpontjául szolgáló tűz alapú varázslaté. Az emelt sebzést a hatóidő lejártáig produkálja a Pusztító tűz.",
     "resist": "nincs"
   },
@@ -5945,7 +5892,6 @@
     "fok": 1,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat a tűzvarázslók szeráfi alkuján alapszik, így utólagos módosítására nincs lehetőség. Amennyiben végrehajtják, a varázslat - hacsak nem destruálják - a tűzvarázsló haláláig fennmarad, egyfajta időzített(8) varázslatként. Ő maga sem szüntetheti meg. A tűzvarázsló halálának pillanatában(2) az elméje a szeráfi kapcsolat révén azonnal feltöltődik Mana ponttal, majd ez a varázserő egy szigorúan zóna méretű pillanatnyi tűzkitörésben(2) ölt testet és okoz minden ott találhatónak Erősségnek megfelelő sérülést. A tűzvarázsló testét a tűz elemészti és lelke ezután mindenképp Sogronhoz kerül. A varázslat és így a tűz Erőssége a max. Mp-től függ: 11Mp=1E, 12Mp=2E, 14Mp=3E, 17Mp=4E, 21Mp=5E, 26Mp=6E, 32Mp=7E, 39Mp=8E, 47Mp=9E, 56Mp=10E, 66Mp=11E, 77Mp=12E",
     "resist": "nincs/Elkerülő"
   },
@@ -5961,7 +5907,6 @@
     "fok": 2,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat egy fáklya méretű lánggömböt hív életre, amelyet a tűzvarázsló a hatótávon belül szabadon pozícionálhat. Ez utóbbi körönként 1 CS Akció Manőver keretében történhet meg. Többnyire felderítésre, világításra használják. A gömb a Varázspróba értékével azonos Gyorsaságnak megfelelő Mozgást képes végezni egy kör alatt. Sebzése az Erősségnek megfelelő és az Időtartam lejártáig marad fenn. (Kontrollált)",
     "resist": "nincs/Elkerülő"
   },
@@ -5978,7 +5923,6 @@
     "fok": 2,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy közepes tárgy léptékű lebegő tűzpenge(8) keletkezik a hatótávon belül. A penge az időtartam lejártáig van jelen és Erősségnek megfelelő pusztítást okoz a formasablon szerinti statisztikák mellett. A tűzvarázsló úgy irányíthatja a hatótávon belül, mintha ő maga forgatná azt. A penge +3-as(6) TÉO-vel rendelkezik. Erőssége nem haladhatja meg a Terület aspektust. (Irányított)",
     "resist": "nincs /TÉOvVÉO"
   },
@@ -5994,7 +5938,6 @@
     "fok": 2,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat célpontjául szolgáló természetes tűz őstűzzé minősül át és az időtartam lejártáig fog égni. Alkalmazásának feltétele, hogy a varázslat Erőssége elérje a célpont tűz Erősségét. Természetes módon a tűz Erőssége akár növelhető is, ám éghető anyag hiányában sem fog az Erősség alá csökkenni.",
     "resist": "nincs"
   },
@@ -6012,7 +5955,6 @@
     "fok": 3,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A tűzvarázsló kijelölhet egy két láb kiterjedésű területet. A kijelölt területtel legközelebb fizikai érintkezésbe kerülő dolog aktiválja(2) az időzített varázslatot. A varázslat egyetlen, egyszeri(1) tűzkitörést(2) produkál, amely Erősségnek megfelelő sebzést okoz a hatóterületen belül. Az időzítés, míg a varázslat lesben áll, 10 óra(3).",
     "resist": "nincs/Elkerülő"
   },
@@ -6028,7 +5970,6 @@
     "fok": 3,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy, a varázsló zónáján belül eső természetes vagy őstűz a szőnyeg, fal, zápor, kupola, tömb, sátor iskolaformák egyikévé(3) alakul át. A kapott forma az időtartam lejártáig legfeljebb a hatóterület szerinti kiterjedéssel bír. E kiterjedésnek legalább részleges átfedésben kell maradnia a formává alakított tűz eredeti pozíciójával. A természetes tüzek akár részben is alanyai lehetnek e varázslatnak, míg az őstüzek esetében azok Erősségét el kell érnie a varázslat Erősségének. (Összetevő: természetes vagy őstűz)",
     "resist": "nincs/Elkerülő"
   },
@@ -6044,7 +5985,6 @@
     "fok": 3,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat alanyán egy különleges, változtatható kiterjedésű tűzaura jön létre, mely minden vele érintkezésbe kerülőn az Erősségnek megfelelő tűzsebzést okoz az időtartam lejártáig. A tűzaura kitágult állapotában akár a varázslat alanyától két és fél lábra is kerülhet, ezzel okozva sérülést vagy tartva távol másokat. Az aura körönkénti módosítása 1 CS-nyi Akció Manőver keretében valósul meg. (Kontrollált)",
     "resist": "nincs/Elkerülő"
   },
@@ -6061,7 +6001,6 @@
     "fok": 3,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A tűzvarázsló alap hatótáv esetén a bal tenyeréből kiindulva egy csodás tűzijátékot képes létrehozni, ami egy terület léptékű, a tűzvarázsló elképzelései szerint váltakozó színekben pompázó, dirregő-durrogó, kénye-kedve szerint repkedő kreálmány. A tűzijáték közvetlen sebzést nem okozhat. (Irányított)",
     "resist": "nincs"
   },
@@ -6078,7 +6017,6 @@
     "fok": 3,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat segítségével a tűzvarázsló egy, az Erősségnek megfelelő Bestia osztályú tűzelementált idéz meg annak saját síkjáról(6). Az elementál teste legfeljebb apró objektum méretű lehet. A megidézéskor kapott egyszerű parancsot hajtja végre az időtartam lejártáig.",
     "resist": "Össz./EvOszt"
   },
@@ -6095,7 +6033,6 @@
     "fok": 4,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A tűzvarázsló az időtartam alatt minden körben egy alkalommal 1 CS-nyi Akció Manőverért képes egy Hatóterületet lefedő lángleheletre, amely a varázslat Erősségének megfelelő mértékű sebzést okozza. A lehelet „V”-alakban jön létre úgy, hogy annak szélessége a végpontjában a Hatóerület fele, ami alapesetben 2,5 láb. (Ismétlődő)",
     "resist": "Elkerülő"
   },
@@ -6111,7 +6048,6 @@
     "fok": 4,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására az égboltot a hatóterületnek megfelelő kiterjedésben izzó fellegek borítják be, melyekből tűzeső hull alá és hőrohamok nyargalnak mindenfelé. A jelenség Erősségnek megfelelő pusztítást okoz. A felhő helyzete fix, azaz nem képes mozogni. A tűzvihart általában pokoli, de természetes tűzvész kíséri a környéken. A varázslat közönséges felhőkre is pusztítólag hat, ám azok átmenetileg gyengíthetik a hatását.",
     "resist": "nincs/Elkerülő"
   },
@@ -6128,7 +6064,6 @@
     "fok": 4,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat hatására egy, a varázsló zónáján belül eső természetes vagy őstűz(3) a kard vagy aura iskolaformák egyikévé(1) alakul át. Az így kapott őstűz forma a tűzvarázsló által kijelölt öt célponton(5) az Időtartam lejártáig fennmarad. Az aurák természetes tüzek esetén, ha nem elégséges az eredeti Erősségük, akkor \"fok\"ozatosan erősödnek fel, míg a célpont a hatótávolságon belül marad. A természetes tüzek visszaerősödése a természetes állapotig általában körönként +1E. A természetes tüzek akár részben is alanyai lehetnek e varázslatnak, míg az őstüzek esetében azok Erősségét el kell érnie a varázslat Erősségének. Őstüzeknél értelemszerűen nem beszélhetünk természetes visszaerősödésről. (Összetevő: természetes vagy őstűz)",
     "resist": "Fizikai/EvE"
   },
@@ -6146,7 +6081,6 @@
     "fok": 4,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "Lappangás: 1 kör (7). Gyógyulás: 1 kör (7). Hatás: (9) az alanyt a Rontás miatt a Stádium szintjének megfelelő harcértékbeli Hátrány és TGT kategória sújtja. Szintén a Stádium szintjének megfelelő sérülés szintnyi Fp veszteség éri minden körben. Amennyiben ez utóbb Ép veszteséggel is jár, az áldozat tüzet hány a földre. Az alany testhője a varázslat hatására az egekbe szökik.",
     "resist": "Egészség"
   },
@@ -6163,7 +6097,6 @@
     "fok": 5,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A varázslat segítségével a tűzvarázsló egy, az Erősségnek megfelelő Bestia osztályú lávadémont idéz meg az alsóbb külső síkok egyikéről(8). A lény, melynek mérete kisebb objektum  léptékű, a megidézéskor kapott egyszerű parancsot hajtja végre az Időtartam lejártáig.",
     "resist": "Össz./EvOszt"
   },
@@ -6179,7 +6112,6 @@
     "fok": 5,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-
     "description": "A Hatóterületnek megfelelő részen  - mely alapesetben egy házikó méretével azonos - a talaj lávává (V. anyagcsoport) változik. A láva természetes módon viselkedik és Erősségnek megfelelő pusztítást okoz az időtartam lejártáig. ",
     "resist": "nincs/Elkerülő"
   },
@@ -9410,6 +9342,460 @@
     "magicType": "Szakrális mágia",
     "god": "Ranagol",
     "description": "A varázslat az oltáron feláldozott halandót - amennyiben elvéti mágiaellenállását - választott, de legfeljebb Erősségnek - mely alapesetben 5-ös - megfelelő Bestia osztályú élőholttá teszi. Az élőholt a feláldozott személynek megfelelő Ép-vel kezdi meg tevékenységét. Szimpatikus viszony fűzi a teremtőjéhez. Ha a hatóidő lejárta előtt megszűnik a varázslat, akkora lélek(7) szabadon távozik, az egy hónap elteltével azonban végleg élőholt marad. (Összetevő: egy értelmes halandó feláldozása)",
+    "resist": "Összetett",
+    "ritual": true
+  },
+  {
+    "name": "A kobra érintése (Sogron)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 1, 0, 0],
+      ["Időtartam", 2, 0, 0],
+      ["Mechanizmus", 1, 0, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "zóna",
+    "areaText": "pontszerű",
+    "durationText": "1 kör",
+    "mechanismText": "mechanizmus nélküli varázslat (elemi)",
+    "description": "A fohásszal a pap egy, a hatótávon belül eső, általa látott fix ponton Erősségnek megfelelő mágikus lángot kelt, amely a hatóidő alatt természetes módon gyújtja meg az éghető anyagokat. (Sebzése – mivel formázatlan elemi hatásról van szó – mindenkor a kockák által kidobható minimumnak felel meg.)",
+    "resist": "Elkerülő"
+  },
+  {
+    "name": "Sziklabőr (Sogron)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "érintés",
+    "areaText": "nagy tárgy",
+    "durationText": "30 perc",
+    "mechanismText": "elem elnyomás (elemi)",
+    "description": "A fohász hatására a nagy tárgy léptékű hatóterületén – mely általában egy szereplő – a hatóidő lejártáig Erősség/2 értékkel csökken minden ott megtapasztalható természetes- és őstűz Erőssége. A hatás jellemzően kiterjed e szereplő aurájában található tárgyakra is.",
+    "resist": "Összetett",
+    "ritual": true
+  },
+  {
+    "name": "A kobra üvöltése (Sogron)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": 3,
+    "magicSubclass": "Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "önmaga",
+    "areaText": "20 láb kiterjedés",
+    "durationText": "6 kör",
+    "mechanismText": "szabálytalan forma teremtés (elemi)",
+    "description": "A pap üvöltésével hőséget teremt maga elé tölcsérformában, elkerülő ellenállásra késztetve az ott tartózkodókat. E tölcsér 10 láb hosszú és a végén 10 láb széles. A hatás az időtartam lejártáig a helyén marad.",
+    "resist": "Elkerülő"
+  },
+  {
+    "name": "Kémzsarátnok (Sogron)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Erősség", 3, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
+      ["Mechanizmus", 2, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": 4,
+    "magicSubclass": "Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "önmaga, önmaga",
+    "areaText": "egy célpont, 20 láb kiterjedés",
+    "durationText": "30 perc, 30 perc",
+    "mechanismText": "szimpatikus kapcsolat létesítés (idő), látás illúzió (elemi), hallás illúzió (elemi)",
+    "description": "A fohász két – egyazon lángról meggyújtott – természetes tűz közötti kapcsolaton alapuló komplex varázslat. Lehetővé teszi, hogy a szimpatikus viszonyban lévő tűz hatóterület szerinti fénykörében tartozó dolgok képe(1) a pap oldalán(2) égő tűz fénykörében tűnjenek fel, amolyan szellemképként, áttetsző illúzióként. A varázslat a képen kívül – ha a tűz ereje eléri a 3E-t – a tűz által hallható hangot is továbbítja, mintha ott lennének. (Összetevő: két szimpatikus viszonyban lévő tűz, melynek egyetlen ismert módja a közös tőről gyújtás)",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Főnix (Sogron)",
+    "aspects": [
+      ["Erősség", 8, 0, -1],
+      ["Erősség", 7, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 2, 0, 0],
+      ["Mechanizmus", 2, 0, 0],
+      ["Mechanizmus", 2, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": 5,
+    "magicSubclass": "Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "érintés, érintés ",
+    "areaText": "nagy tárgy, nagy tárgy",
+    "durationText": "egyszeri, pár órás időzítés, 30 perc",
+    "mechanismText": "II. anyag regenerációja(anyag), iskolaforma teremtés (elemi), iskolaforma teremtése (elemi), varázsintelligencia",
+    "description": "A pap által megérintett célpont az elkövetkező nap során az első alkalommal amikor 0 Ép-re kerül, a kör végén erősségnek megfelelő (8) Ép-t és kétszer annyi Fp-t gyógyul, majd testét és a legközelebbi keze ügyébe eső fegyvert erősségnek megfelelő (7) tűzaura borítja be 30 perc időtartamig.",
+    "resist": "Fizikai",
+    "ritual": true
+  },
+  {
+    "name": "Lángcsapás (Sogron)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 4, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 1, 0, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "zóna",
+    "areaText": "5 láb kiterjedés",
+    "durationText": "egyszeri",
+    "mechanismText": "iskolaformává alakítás (elemi)",
+    "description": "A pap e fohász segítségével a zónáján belül lévő természetes tüzet 5 láb átmérőjű tűzkitöréssé alakítja. Az az Erősség alapján, de legfeljebb a tűz erősségének megfelelő sérülést okoz az általa érintett területen belül.",
+    "resist": "Elkerülő"
+  },
+  {
+    "name": "Fojtogató füst (Sogron)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "önmaga",
+    "areaText": "kisebb objektum",
+    "durationText": "6 kör",
+    "mechanismText": "I. anyag átalakítás (anyag), oszthatatlanság",
+    "description": "A pap e fohásszal sűrű, fekete füstöt idéz meg maga köré, mely megül a talajon. A füstben tartózkodók E/2 negatív HMO módosítót szenvednek el a látási viszonyok romlása miatt (legfeljebb -5, vakság módosítóig). A füst engedelmeskedik a környezeti hatásoknak (szél, lejtő).",
+    "resist": "Fizikai"
+  },
+  {
+    "name": "Tűzkobra (Sogron)",
+    "aspects": [
+      ["Erősség", 5, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 8, -2, 0],
+      ["Mechanizmus", 8, -2, 0]
+    ],
+    "fok": 3,
+    "magicSubclass": "Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "zóna",
+    "areaText": "nagy tárgy",
+    "durationText": "10 óra",
+    "mechanismText": "aktív forma teremtés (elemi), precizitás",
+    "description": "A fohász hatására egy nagy tárgy léptékű tűzkobra(8) keletkezik, mely kígyó módjára a földön közlekedik. A lény statisztikái a formasablonnak megfelelően alakulnak. A TÉO és VÉO módosítója(8) +4. A pap az Időtartam alatt irányítja. Erőssége nem haladhatja meg a Terület aspektust. (Irányított)",
+    "resist": "TÉOvVÉO",
+    "ritual": true
+  },
+  {
+    "name": "Lángoszlopok (Sogron)",
+    "aspects": [
+      ["Erősség", 4, 1, -1],
+      ["Távolság", 4, 1, 0],
+      ["Terület", 4, 1, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 2, 1, 0],
+      ["Mechanizmus", 2, 1, 0]
+    ],
+    "fok": 4,
+    "magicSubclass": "Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "50 láb",
+    "areaText": "5 láb kiterjedés",
+    "durationText": "egyszeri, 6 kör",
+    "mechanismText": "iskolaforma teremtés (elemi), varázsintelligencia",
+    "description": "A pap által hatótávolságon belül kijelölt hat ponton sorban, vagy az általa kijelölt térrészen véletlenszerűen hat körön át körönként létrejön egy tűzkitörés. Minden tűzkitörés Erősségnek megfelelő sérülést okoz az általa érintett területen. (Fenntartott, Ismétlődő)",
+    "resist": "Elkerülő"
+  },
+  {
+    "name": "Sogron temploma (Sogron)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Távolság", 5, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": 5,
+    "magicSubclass": "Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Sogron",
+    "distanceText": "100 láb",
+    "areaText": "100 láb kiterjedés",
+    "durationText": "10 óra",
+    "mechanismText": "szabálytalan forma teremtés (elemi)",
+    "description": "A fohásznak kétféle alkalmazása létezik, de mindkét esetben a forma állandó. Az első egy területnek megfelelő (50x50x50) katedrálist hoz létre, amely menedéket nyújt a benne tartózkodóknak a külvilágtól. A második egy útvesztőt hoz létre (50 láb átmérőjű), amelyből mindig van kijárat. Nehézsége varázspróba eredményétől függ. A hatás mindkét esetben az időtartam lejártáig tart és az Erősségnek megfelelő tűzsebzést okoz a falakat megérintőknek.",
+    "resist": "Elkerülő",
+    "ritual": true
+  },
+  {
+    "name": "Tűzmarok (Uwel)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 1, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "önmaga",
+    "areaText": "önmaga része",
+    "durationText": "6 kör",
+    "mechanismText": "egyszerű működés (elemi)",
+    "description": "Az Uwel pap öklét a varázslat hatására perzselő hő veszi körbe, melynek segítségével E-nek megfelelő sebzést képes okozni.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Kopó (Uwel)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Erősség", 4, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 8, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "önmaga, önmaga",
+    "areaText": "önmaga, önmaga",
+    "durationText": "10 óra, 10 óra",
+    "mechanismText": "részleges tulajdonság bónusz (elemi), fix cselekvéstípusra vonatkozó sorshatás (idő)",
+    "description": "A varázslat felerősíti a pap szaglását. Ha erre az érzékszervére tesz tulajdonság- vagy képzettségpróbát, akkor a próbára +1 sikerszintet, és +2 DM-et kap. A varázslat erősítésével további bónuszok járnak: 6E - +1 siker és +3 DM, 8E - +2 siker és +3DM, 10E - +2 siker és +4DM, 12E +3 siker és +4DM. Ez összeadódik az esetleges faji bónuszokkal, és a pszi Érzékélesítés diszciplínával.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "A bosszú eszköze (Uwel)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Erősség", 6, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 5, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 3,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "önmaga, önmaga",
+    "areaText": "önmaga, önmaga",
+    "durationText": "30 perc, 30 perc",
+    "mechanismText": "szűk területre vonatkozó sorshatás (idő), iskolaforma teremtés (elemi)",
+    "description": "A varázslat hatására a pap az időtartam lejártáig Erősség/2 értékű (alapesetben +3) HMO Előnyt, és Erősség/2-nek megfelelő SFÉ aurát kap, hogy bosszúját beteljesítse.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "A bosszú jogossága (Uwel)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 1, 0, -1],
+      ["Távolság", 10, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 8, 0, 0]
+    ],
+    "fok": 4,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "önmaga, isteni sík",
+    "areaText": "egy célpont",
+    "durationText": "egyszeri",
+    "mechanismText": "felsőbb megismerés (nekro)",
+    "description": "Kizárólag Uwelnek felszentelt rendházban lehetséges végrehajtani a szertartást, mely az adott bosszú jogosságát Uwel szemében egyértelművé teszi a pap számára. (Komponens: Uwel rendház)",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Bosszúangyal (Uwel)",
+    "aspects": [
+      ["Erősség", 9, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 9, 0, 0],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": 5,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "érintés",
+    "areaText": "nagy tárgy",
+    "durationText": "10 óra",
+    "mechanismText": "II. anyag teremtés (anyag), II. anyag átformázás (anyag), V. anyag átformázás (anyag)",
+    "description": "Uwel papjának hátából 5 láb fesztávolságú, fekete madárszárnyak nőnek. A varázslat a papon lévő felszereléseit (pl. a páncélját) az időtartam erejéig úgy formázza át, hogy a szárnyak kinövése ne okozzon bennük kárt, valamint azok ne akadályozzák a szárnyak szabad mozgását. Mozgási sebessége nem változik repülés közben sem. Legfeljebb fizikai adottságainak megfelelő súlyt képes magával vinni. A szárnyak az időtartam lejártáig a pap végtagjainak számítanak, így pl. az azokat ért sérülés közvetlenül a papot sebzi.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "A pillantás hatalma (Uwel)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Erősség", 3, 0, 0],
+      ["Távolság", 3, 0, 0],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 5, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "zóna, zóna",
+    "areaText": "egy célpont, egy célpont",
+    "durationText": "6 kör, 6 kör",
+    "mechanismText": "általánosan az élet egy szűk részére vonatkozó sorshatás (idő), részleges mozgás irányítás (mentál)",
+    "description": "A célpont rákényszerül, hogy farkasszemet nézzen az Uwel pappal. Ez a szemkontaktus mindkettejük számára Érzékelhető (-1 HMO) hátrányt jelent. A varázslat időtartama alatt a célpont erősségtől függő negatív DM-et kap, amikor a pap varázslatainak szeretne ellenállni. Ez a DM alapesetben -2, 6E-nél -3, 10E-nél -4.",
+    "resist": "Mentális"
+  },
+  {
+    "name": "Vallatás (Uwel)",
+    "aspects": [
+      ["Erősség", 5, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Időtartam", 7, 0, 0],
+      ["Mechanizmus", 5, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "érintés",
+    "areaText": "egy célpont",
+    "durationText": "egyszeri, 30 perc, 100 éven belüli időzítés",
+    "mechanismText": "emlékezés olvasás egész (mentál), varázsintelligencia",
+    "description": "Szerencsés helyzetben van a bosszú lovagja, ha a vélt áldozat vagy elkövető még életben van. Bár a tanúvallomások gyakran pontatlanok, ezzel a varázslattal az eset minden releváns részletének birtokába kerülhet. A célpont szemszögéből egy, a bosszú központi elemét adó(4), fél órányi eseménysort él át egy pillanat alatt, megtapasztalva a célpont szubjektív nézőpontját, de nem a gondolatait.",
+    "resist": "Mentális",
+    "ritual": true
+  },
+  {
+    "name": "Tiszta párbaj (Uwel)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 3, -1, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 3,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "zóna",
+    "areaText": "tucatnyi célpont",
+    "durationText": "6 kör",
+    "mechanismText": "önmagához kötődő adott érzelem növelés (asztrál)",
+    "description": "A pap legfeljebb tucatnyi célpontban a tőle való félelmet extrém mértékig fokozza. Ehhez szükséges, hogy azok tartsanak tőle legalább egy kicsit. A varázslat alatt más misztikus tevékenységet nem végezhet, vagy azonnal végetér a hatás. (Fenntartott)",
+    "resist": "Asztrális"
+  },
+  {
+    "name": "Megtorlás (Uwel)",
+    "aspects": [
+      ["Erősség", 3, 1, -1],
+      ["Távolság", 3, 1, 0],
+      ["Terület", 2, 1, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 2, 1, 0],
+      ["Mechanizmus", 4, 1, 0]
+    ],
+    "fok": 4,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "zóna",
+    "areaText": "1 láb kiterjedés",
+    "durationText": "egyszeri, 6 kör",
+    "mechanismText": "iskolaforma teremtés (elemi), varázsintelligencia",
+    "description": "A varázslat 6 körön keresztül, minden körben egy tűzkitörésszerű lángoszlopot (Szent tűz varázslat hatását) idéz meg egy célpont alá a paplovag zónáján belül. Körönként csak egyetlen, méghozzá az első olyan(4) célpont ellen hat, aki a paplovagot közelharci, vagy távolsági támadással, vagy olyan varázslattal eltalálja, ami ellen Elkerülő ellenállás, vagy támadó/célzó dobást igényel. A papot érő találatnak nem kötelező sebeznie. A varázslat elég intelligens ahhoz, hogy a papot semmilyen körülmények között ne sebezze. (Fenntartott, Ismétlődő)",
+    "resist": "Elkerülő"
+  },
+  {
+    "name": "Bosszú a síron túlról (Uwel)",
+    "aspects": [
+      ["Erősség", 5, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Távolság", 10, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 7, 0, 0],
+      ["Időtartam", 7, 0, 0],
+      ["Mechanizmus", 5, 0, 0],
+      ["Mechanizmus", 8, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 5,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Uwel",
+    "distanceText": "érintés, isteni sík",
+    "areaText": "egy célpont",
+    "durationText": "1 hónap, 100 éves időzítés",
+    "mechanismText": "élőholt alkotás (nekro), felsőbb megismerés (nekro), varázsintelligencia",
+    "description": "Akin ezt a varázslatot végrehajtják, száz éven belül bekövetkező halála pillanatában azonnal visszatér(5), legfeljebb Erősségenk megfelelő bestiaosztályú élőholtként, és Uwel iránymutatásával(8) igyekszik bosszút állni az őt elveszejtő(kö)n.",
     "resist": "Összetett",
     "ritual": true
   },

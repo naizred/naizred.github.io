@@ -31,6 +31,7 @@ text-align: right;
 font-size: 0.8vw;
 margin-top: 1vw;
 align-items: center;
+width: 11vw;
 }
 .ResistancesAptitudesRaceMofifiersWrapper li div{
 text-align: center;
@@ -39,4 +40,5 @@ font-size: 0.8vw;
 .ResistancesAptitudesRaceMofifiersWrapper li button{
 text-align: center;
 font-size: 1vw;
+justify-self: end;
 }
