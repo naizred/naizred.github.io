@@ -42,3 +42,13 @@ text-align: center;
 font-size: 1vw;
 justify-self: end;
 }
+.ResistancesAptitudesRaceMofifiersWrapper li button:disabled{
+background-color: black;
+color: white;
+opacity: 0.6;
+}
+.ResistancesAptitudesRaceMofifiersWrapper li button:disabled:hover{
+background-color: black;
+color: white;
+opacity: 0.6;
+}

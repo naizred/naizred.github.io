@@ -34,18 +34,30 @@ function ResistancesAptitudesRaceMofifiers() {
     skillCheckBase.innerText = event.target.parentElement.lastChild.value // ez a li element innerText-je
     skillOrAttributeCheckRoll(stessResist)
         //currentCharFinalAttributes
+        skillCheckRollButton.disabled = true;
+        let selectAllResistButtons = document.querySelectorAll("[id*='ResistButton']")
+        event.target.disabled = true
+        for (let i = 0; i < selectAllResistButtons.length; i++) {
+            selectAllResistButtons[i].disabled = true
+        }
+        setTimeout(() => {
+          skillCheckRollButton.disabled = false;
+          for (let i = 0; i < selectAllResistButtons.length; i++) {
+            selectAllResistButtons[i].disabled = false
+        }
+        }, 5000);
    }
 
     return (
         <>
         <div className={styles.ResistancesAptitudesRaceMofifiersWrapper}>
-           <ul className={styles.Resistances}>Ellenállások:
-           <li>Összetett:<div id='complexResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
-           <li>Fizikai:<div id='physicalResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
-           <li>Szellemi:<div id='spiritualResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
-           <li>Asztrális:<div id='astralResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
-           <li>Mentális:<div id='mentalResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
-           <li>Elkerülő:<div id='evasiveResist'>12</div><button onClick={rollResistance}>Dobj</button></li>
+           <ul id='resistances' className={styles.Resistances}>Ellenállások:
+           <li>Összetett:<div id='complexResist'>12</div><button id='complexResistButton' onClick={rollResistance}>Dobj</button></li>
+           <li>Fizikai:<div id='physicalResist'>12</div><button id='physicalResistButton' onClick={rollResistance}>Dobj</button></li>
+           <li>Szellemi:<div id='spiritualResist'>12</div><button id='spiritualResistButton' onClick={rollResistance}>Dobj</button></li>
+           <li>Asztrális:<div id='astralResist'>12</div><button id='astralResistButton' onClick={rollResistance}>Dobj</button></li>
+           <li>Mentális:<div id='mentalResist'>12</div><button id='mentalResistButton' onClick={rollResistance}>Dobj</button></li>
+           <li>Elkerülő:<div id='evasiveResist'>12</div><button id='evasiveResistButton' onClick={rollResistance}>Dobj</button></li>
            </ul>
            <ul id="aptitudesList" className={styles.Aptitudes}>Adottságok:</ul>
            <ul id="raceModifiersList" className={styles.RaceMofifiers}>Faji módosítók:</ul>
