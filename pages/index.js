@@ -1302,19 +1302,6 @@ export default function Home(props) {
     }
   }
 
-  function removeAllAttributeOptions() {
-    const selectElement = document.getElementById("attributes");
-    while (selectElement.firstChild) {
-      selectElement.removeChild(selectElement.firstChild);
-    }
-  }
-  function removeAllSkillOptions() {
-    const selectElement = document.getElementById("skills");
-    while (selectElement.firstChild) {
-      selectElement.removeChild(selectElement.firstChild);
-    }
-  }
-
   let charAttributes = [
     "Erő",
     "Gyo",
@@ -2504,7 +2491,7 @@ export default function Home(props) {
               step={0.5}
               name="anyOtherHmoModifier"
               id="anyOtherHmoModifier"
-              onChange={handleFileRead}
+              onChange={combatStatRefresher}
               disabled={true}
               defaultValue={0}
             />
@@ -2560,8 +2547,8 @@ export default function Home(props) {
           <K10RollAndSpellDamageRoll />
           <ArmorDetails />
           <CharacterDetails />
-          <ActionList {...props} />
           <PsiDisciplines {...props} />
+          <ActionList {...props} />
           <span id="listOfCurrentlyActiveBuffsLabel">
         Jelenleg aktív diszciplínák és varázslatok
         </span>
