@@ -163,7 +163,7 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
         //először karakter Id szerint sorba rendezzük
         for (let j = 0; j < currentCharNameNodes.length; j++) {
           if (parsedData[i].charName == currentCharNameNodes[j].innerText) {
-            blinkingText(currentCharNameNodes[j], parsedData[i].charName)      
+            currentCharNameNodes[j].animate([{ color: "white" }, { color: "black" }], 300);      
             currentFpNodes[j].value = parsedData[i].currentFp;
             currentEpNodes[j].value = parsedData[i].currentEp;
             currentPpNodes[j].value = parsedData[i].currentPp;
