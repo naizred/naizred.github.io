@@ -284,8 +284,8 @@ function checkSkillCheckStressCheckboxStatus (event){
         className="skillCheckSelect"
         onChange={() => {
           skillCheckResult.innerText = "";
-          skillCheckDarkDiceRerollByCounterLP.style.display = "none";
-          skillCheckLightDiceRerollByCounterLP.style.display = "none";
+          // skillCheckDarkDiceRerollByCounterLP.style.display = "none";
+          // skillCheckLightDiceRerollByCounterLP.style.display = "none";
         }}>
         {skillCheckRollModifiers.map((e) => {
           return <option key={e}>{e}</option>;

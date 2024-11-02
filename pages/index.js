@@ -232,12 +232,17 @@ export const getStaticProps = async () => {
   let classes = JSON.parse(
     fs.readFileSync(jsonDirectory + "/classes.json", "utf8")
   );
-  let gods = JSON.parse(fs.readFileSync(jsonDirectory + "/gods.json", "utf8"));
+  let gods = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/gods.json", "utf8")
+  );
   let psiDisciplines = JSON.parse(
     fs.readFileSync(jsonDirectory + "/psiDisciplines.json", "utf8")
   );
   let races = JSON.parse(
     fs.readFileSync(jsonDirectory + "/races.json", "utf8")
+  );
+  let spellsAspDescript = JSON.parse(
+    fs.readFileSync(jsonDirectory + "/spellsAspDescript.json", "utf8")
   );
   return {
     props: {
@@ -247,6 +252,7 @@ export const getStaticProps = async () => {
       gods,
       psiDisciplines,
       races,
+      spellsAspDescript
     },
   };
 };

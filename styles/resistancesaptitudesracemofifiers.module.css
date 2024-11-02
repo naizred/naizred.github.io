@@ -18,15 +18,18 @@
     padding: 0.3vw;
     justify-items: center;
 }
+.ResistancesAptitudesRaceMofifiersWrapper .Aptitudes {
+    justify-items: left;
+}
 .ResistancesAptitudesRaceMofifiersWrapper li{
-    display: grid;
+display: grid;
 text-align: left;
 font-size: 0.6vw;
 margin-top: 0.5vw;
 }
 .ResistancesAptitudesRaceMofifiersWrapper .Resistances li{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
+display: grid;
+grid-template-columns: repeat(3,1fr);
 text-align: right;
 font-size: 0.8vw;
 margin-top: 1vw;

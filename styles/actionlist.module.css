@@ -69,7 +69,6 @@
   width: 12vw;
   padding: 0.3vw;
   background-color: black;
-  background-size: 25vw 37vw;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -93,17 +92,33 @@
   display: none;
   border: 0.23vw solid white;
   border-radius: 1vw;
-  grid-column: 12/ 21;
+  grid-column: 1/ 22;
   grid-row: 5/12;
   background-color: black;
   background-repeat: no-repeat;
-  background-size: 50vw 50vw;
   background-position: center;
 }
-.advancedSpellInputWrapper .liturgyWrapper {
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper{
+  display: grid;
+}
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li{
+grid-template-columns: repeat(3,1fr);
+  display: grid;
+  width: 60vw;
+}
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li div{
+  display: grid;
+  border: 0.23vw solid white;
+  border-radius: 1vw;
+  padding: 0.2vw;
+  width: 3vw;
+}
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li .liturgyWrapper {
   display: none;
-  border: 1vw white;
-  width: 5vw;
+  padding: 0.2vw;
+  border: 0.23vw solid white;
+  border-radius: 1vw;
+  width: 10vw;
 }
 .advancedSpellInputWrapper .liturgyPowerInfo {
   text-align: center;
@@ -115,63 +130,75 @@
   height: 1vw;
   justify-self: center;
 }
-
+.advancedSpellInputWrapper .allAspectsWrapper {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(5, 1fr);
+}
+.advancedSpellInputWrapper .pillarNamesWrapper {
+  display: grid;
+  grid-auto-flow: column;
+  text-align: center;
+}
+.advancedSpellInputWrapper .pillarNamesWrapper span {
+  display: grid;
+  align-items: center;
+  width: 10vw;
+}
 .advancedSpellInputWrapper li {
   display: grid;
   grid-auto-flow: column;
-  width: 35vw;
-  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   text-align: right;
 }
+.powerAspectPillar .distanceAspectPillar 
+.areaAspectPillar .durationAspectPillar .mechanismAspectPillar 
+
 .advancedSpellInputWrapper li div {
   display: grid;
-  border: 0.23vw solid white;
-  border-radius: 1vw;
-  align-items: center;
-  text-align: center;
-  margin-left: 1vw;
-  font-size: 0.8vw;
-  padding: 0.2vw;
 }
 .spellDescriptionWindow {
   display: none;
   font-size: 1vw;
   border: 0.23vw solid white;
   border-radius: 1vw;
-  grid-column: 13/ 22;
-  grid-row: 6/10;
+  grid-column: 9/ 20;
+  grid-row: 5/10;
   background-color: black;
-  background-repeat: no-repeat;
-  background-position: center;
   padding: 0.5vw;
 }
-.advancedSpellInputWrapper li button {
-  display: grid;
-  width: 3vw;
+.currentManaInAdvancedSpellWrapper {
+  display: none;
+  font-size: 1vw;
+  border: 0.23vw solid white;
+  height: 1.2vw;
+  border-radius: 1vw;
+  grid-column: 2/ 4;
+  grid-row: 10/11;
+  background-color: black;
+  padding: 0.5vw;
 }
 .advancedSpellInputWrapper li input {
-  display: grid;
-  height: 2vw;
-  width: 4vw;
-  text-align: center;
-  font-size: 1.5vw;
+  display: none;
 }
 .advancedSpellInputWrapper li select {
   display: grid;
-  width: 20vw;
+  width: 18vw;
   text-align: left;
-  font-size: 1vw;
-  height: 2vw;
+  font-size: 0.8vw;
+  height: 1.3vw;
 }
 .advancedSpellInputWrapper button {
   display: grid;
+  border: 0.23vw solid white;
   font-size: 1vw;
 }
 .calculatedSpellStatsSpan {
   display: grid;
   grid-auto-flow: column;
   width: 22vw;
+  align-self: center;
+  justify-self: center;
 }
 .ammoWrapper input {
   display: grid;
@@ -221,7 +248,7 @@
   grid-column: 6/7;
   align-self: center;
 }
-.spellTypeQuestionWindow {
+/* .spellTypeQuestionWindow {
   display: none;
   grid-column: 8/12;
   grid-row: 5/7;
@@ -230,8 +257,6 @@
   border-radius: 1vw;
   grid-auto-flow: column;
   background-color: black;
-
-  /* background-position: left; */
   background-repeat: no-repeat;
   background-size: 30vw 20vw;
 }
@@ -244,7 +269,7 @@
 .spellTypeQuestionWindowNoButton {
   display: grid;
   font-size: 2.5vw;
-}
+} */
 .gameIdWrapper {
   display: none;
   padding: 0.5vw;
