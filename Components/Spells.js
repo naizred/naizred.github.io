@@ -903,8 +903,6 @@ function Spells() {
     castBarCurrentWidthEnd = 0;
     if (event.target.id == "advancedStartCastButton") {
       spellManaCost = parseInt(spellManaCostDiv.innerText);
-      // itt visszaállítjuk a spell eredeti aspektusait, amik a parentelement "li"-ben vannak eltárolva
-      spellAspResetter()
 
       if (allPowerAspectSelect[0].value == 1 || allPowerAspectSelect[0].value == 2) {
         numberOfDiceInput.value = allPowerAspectSelect[0].value;
