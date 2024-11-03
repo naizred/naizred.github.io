@@ -490,6 +490,8 @@ export let filteredArrayIfHasExtraReaction;
 export let filteredArrayIfHasAnyAffinity;
 export let filteredArrayForNameOfHighestMagicalSkill;
 export let filteredArrayIfHasAnyMagicSkill;
+export let mainMagicalSkillNamesAndLevels = {}
+export let filteredArrayIfHasAnyMagicSkillSubSkill;
 export let currentGodWorshippedByPlayer;
 export let filteredArrayIfHasManaFlow;
 export let filteredArrayIfHasManaController
@@ -1539,6 +1541,7 @@ export default function Home(props) {
         filteredArrayIfHasAnyMagicSkill = parsedCharacterDataFromJSON.skills.filter(
           (name) => schoolsOfMagicNames.includes(name.name)
         );
+
         for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
           if (filteredArrayIfHasAnyMagicSkill[i].subSkill) {
             currentGodWorshippedByPlayer =
@@ -1546,20 +1549,16 @@ export default function Home(props) {
             break;
           }
         }
-        let filteredArrayIfHasAnyMagicSkillSubSkill = parsedCharacterDataFromJSON.skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
+        filteredArrayIfHasAnyMagicSkillSubSkill = parsedCharacterDataFromJSON.skills.filter((name) => schoolsOfMagicSubClass.includes(name.name));
 
       // --------- objektumba rendezzük a mágiaformákat ahol az érték azoknak a szintje
-      // ------de ha szakrális mágiáról van szó, akkor az speciális lesz, ezért erre kell egy külön függvény
-
+      // ------de ha szakrális mágiáról van szó, akkor az speciális lesz, ezért erre kell egy külön rész a függvényben
+      
         welcomeWindow.style.display = "none";
         rollResultWrapper.style.display = "grid";
         skillCheckRollResultWrapper.style.display = "grid";
 
-        for (
-          let i = 0;
-          i < filteredArrayIfHasAnyMagicSkillSubSkill.length;
-          i++
-        ) {
+        for (let i = 0; i < filteredArrayIfHasAnyMagicSkillSubSkill.length; i++) {
           if (
             filteredArrayIfHasAnyMagicSkillSubSkill[i].name.includes("fohász")
           ) {
@@ -1572,6 +1571,7 @@ export default function Home(props) {
             ] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level;
           }
         }
+        console.log(allMagicSubskillsObject)
        // allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
 
       filteredArrayIfHasParry = parsedCharacterDataFromJSON.skills.filter(

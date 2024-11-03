@@ -1,17 +1,19 @@
 import styles from "../styles/actionlist.module.css";
 import allSpells from '../json/allSpells.json'
-import spellsAspDescript from "../json/spellsAspDescript.json"
 import spellAttributes from "../json/spellAttributes.json"
 import {
   allMagicSubskillsObject,
   allResultsCleaner,
   filteredArrayForNameOfHighestMagicalSkill,
+  filteredArrayIfHasAnyMagicSkill,
   filteredArrayIfHasManaFlow,
   currentGodWorshippedByPlayer,
   allActiveBuffs,
   filteredArrayIfHasManaController,
   CharCompare,
   combatStatRefresher,
+  filteredArrayIfHasAnyMagicSkillSubSkill,
+  mainMagicalSkillNamesAndLevels,
 } from "../pages";
 import { attackRollButtonWasDisabledBeforeSpellCastSetter, blinkingText, defensiveCombatOn, handleIfSpellDoesNotNeedAimRoll, handleIfSpellNeedsAimRoll, setDefensiveCombatVEObonus } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -279,15 +281,13 @@ function manaFactorCalculator(asp) {
   return manaFactor;
 }
 function spellCastTimeFactorCalculator(asp = 0) {
-  let spellCastTimeFactor = 0;
   if (asp <= 1) {
     asp = 1;
   }
-  return (spellCastTimeFactor = asp - 2);
+  return (asp - 2);
 }
 
 function spellCastingCheckSetter(){
-  let spellAttributesArray = Object.entries(spellAttributes[0]);
   let selectAllSkillOptions = document.querySelectorAll(
     "select#skills option"
   );
@@ -295,28 +295,10 @@ function spellCastingCheckSetter(){
     "select#attributes option"
   );
 
-  for (let i = 0; i < spellAttributesArray.length; i++) {
-    let spellSubskillAttributesArray = Object.entries(
-      spellAttributesArray[i][1]
-    );
-    // console.log(spellSubskillAttributesArray);
-    let spellAttribute1name;
-    let spellAttribute2name;
-    if (
-      filteredArrayForNameOfHighestMagicalSkill[0].name.includes(spellAttributesArray[i][0])
-    ) {
-      for (let j = 0; j < spellSubskillAttributesArray.length; j++) {
-        if (
-          spellSubskillAttributesArray[j][0] ==
-          magicSubSkillSelect.value.slice(1)
-        ) {
-          for (let k = 0; k < selectAllAttributeOptions.length; k++) {}
-          spellAttribute1name = spellSubskillAttributesArray[j][1][0];
-          spellAttribute2name = spellSubskillAttributesArray[j][1][1];
-          break;
-        }
-      }
-    }
+    let spellSubskillAttributesArray = spellAttributes[0][currentMainMagicSkillName][magicSubSkillSelect.value.slice(1)]
+    let spellAttribute1name = spellSubskillAttributesArray[0];
+    let spellAttribute2name = spellSubskillAttributesArray[1];
+
     // össze kell hasonlítani, melyik érték a nagyobb
     if (spellAttribute1name || spellAttribute2name) {
       let spellAttribute1value = 0;
@@ -346,13 +328,12 @@ function spellCastingCheckSetter(){
           }`;
         }
       }
-      break;
     }
-  }
+
   for (let j = 0; j < selectAllSkillOptions.length; j++) {
     if (
       selectAllSkillOptions[j].value.includes(
-        filteredArrayForNameOfHighestMagicalSkill[0].name
+        currentMainMagicSkillName
       )
     ) {
       skills.value = selectAllSkillOptions[j].value;
@@ -624,11 +605,23 @@ let allDistanceAspectSelect
 let allAreaAspectSelect 
 let allDurationAspectSelect 
 let allMechanismAspectSelect
+let currentMainMagicSkillName
+let currentMainMagicSkillLevel
 
 function Spells() {
+  function getMainMagicalSkillLevelBasedOnCurrentMagicSubskill (){
+    for (let i = 0; i < filteredArrayIfHasAnyMagicSkill.length; i++) {
+      currentMainMagicSkillName = filteredArrayIfHasAnyMagicSkill[i].name
+      currentMainMagicSkillLevel = filteredArrayIfHasAnyMagicSkill[i].level
+      if(spellAttributes[0][currentMainMagicSkillName][magicSubSkillSelect.value.slice(1)]){
+        break
+      }
+    }
+  }
+
   let manaNeededForTheSpell = 0
   //console.log(spellsThatModifyCombatStats)
-  console.log(spellsThatModifyCombatStatsObject)
+  //console.log(spellsThatModifyCombatStatsObject)
   // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
 
   function handleClickOnSpellCastButton() {
@@ -733,6 +726,7 @@ function Spells() {
           magicSubSkillOption.value = allMagicSubskillsObjectValues[i] + allMagicSubskillsObjectKeys[i];
           magicSubSkillSelect.appendChild(magicSubSkillOption);
         }
+        getMainMagicalSkillLevelBasedOnCurrentMagicSubskill()
         evaluateMagicSubSkill();
       } else {
         spellInputWrapper.style.display = "grid";
@@ -791,7 +785,10 @@ function Spells() {
       allDurationAspectSelect[i].disabled = false;
     }
     // ha megváltoztatja a subSkill-t, akkor visszaállítjuk a "li"-ben eltárolt eredeti értékeket
-      evaluateSpell();
+    if(currentSpell){
+      spellAspResetter()
+    }
+    evaluateSpell();
   }
   function handleSpellChange() {
     for (let i = 0; i < allPowerAspectSelect.length; i++) {
@@ -858,10 +855,11 @@ function Spells() {
         mechanismAspectPillarIndex++
       }
     }
+    getMainMagicalSkillLevelBasedOnCurrentMagicSubskill()
     unusedSelectDisabler()
-    aspOptionDisabler(filteredArrayForNameOfHighestMagicalSkill[0].level);
-    calculateSpellCastTimeAndManaCost();
     spellCastingCheckSetter()
+    aspOptionDisabler(currentMainMagicSkillLevel);
+    calculateSpellCastTimeAndManaCost();
     evaluateSkillOrAttributeCheckBase();
   }
 
