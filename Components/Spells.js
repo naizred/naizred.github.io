@@ -997,7 +997,6 @@ function Spells() {
       if (liturgyCheckBox.checked) {
         liturgyCheckBox.checked = false
       }
-        spellAspResetter()
       warningWindow.innerText = "";
     }
     if (event.target.id == "spellInputWrapperCancelCastButton") {
