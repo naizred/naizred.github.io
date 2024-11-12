@@ -139,11 +139,17 @@ export async function skillOrAttributeCheckRoll(
       skillCheckDarkDice == 1
     ) {
       skillCheckCalculatedResultFromRoll = -6;
+      if (soundToggleCheckbox.checked) {
+        doubleOneRoll.play()
+      }
     } else if (
       skillCheckLightDicePlusRollMod == skillCheckDarkDice &&
       skillCheckDarkDice == 10
     ) {
       skillCheckCalculatedResultFromRoll = 6;
+      if (soundToggleCheckbox.checked) {
+        doubleZeroRoll.play()
+      }
     }
 
     if (skillCheckLightDicePlusRollMod >= 10) {

@@ -716,6 +716,7 @@ let destroyerLevel;
 let damageOfFists = "1k10";
 let fistAtk = 0
 let fistDef = 0
+let thisAttackWasWithCharge = false
 //************************************************ A harci statisztikák frissítése, pl. fegyverváltásnál ***********************************//
 export function combatStatRefresher(){
   currentlySelectedWeapon = allWeapons.find(
@@ -870,7 +871,15 @@ charDef.value = parseFloat(guidedSpellDefense.innerText) - modifierFromNumberOfA
     //   combinationCheckBox.disabled = true;
     // }
   }
+  if (chargeRadioButton.checked == true) {
+    chargeWasUsedThisRound = true;
+    chargeRadioButton.disabled = true;
+    thisAttackWasWithCharge = true
+  }
   if (chargeWasUsedThisRound == true) {
+    if (thisAttackWasWithCharge) {
+      charAtk.value = parseFloat(charAtk.value) + 1;
+    }
     charDef.value = parseFloat(charDef.value) - 1;
     charDefWithParry.value = parseFloat(charDefWithParry.value) - 1;
     charDefWithEvasion.value = parseFloat(charDefWithEvasion.value) - 1;
@@ -962,8 +971,8 @@ export default function Home(props) {
         lightDice = Math.floor(generator.random() * 10);
       }
       /* -- ez a két sor a dobások tesztelésére van  */
-      //lightDice = 0;
-      //darkDice = 0;
+      //lightDice = 1;
+      //darkDice = 1;
       //******************************************* */
       darkDiceResultSelect.value = darkDice;
       lightDiceResultSelect.value = lightDice;
@@ -1012,6 +1021,9 @@ export default function Home(props) {
       }
     } else if (lightDice == darkDice && darkDice == 1) {
       specialEffect.innerText = specialModifiers[0];
+      if (soundToggleCheckbox.checked) {
+        doubleOneRoll.play()
+      }
       if (initRolled == true && 
         disarmRadioButton.checked == false &&
         weaponBreakRadioButton.checked == false) {
@@ -1019,6 +1031,9 @@ export default function Home(props) {
       }
     } else if (lightDice == darkDice && darkDice == 10) {
       specialEffect.innerText = specialModifiers[4];
+      if (soundToggleCheckbox.checked) {
+        doubleZeroRoll.play()
+      }
       if (initRolled == true && 
         disarmRadioButton.checked == false &&
         weaponBreakRadioButton.checked == false) {
@@ -1571,7 +1586,6 @@ export default function Home(props) {
             ] = filteredArrayIfHasAnyMagicSkillSubSkill[i].level;
           }
         }
-        console.log(allMagicSubskillsObject)
        // allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
 
       filteredArrayIfHasParry = parsedCharacterDataFromJSON.skills.filter(
@@ -2076,12 +2090,14 @@ export default function Home(props) {
     if (!spellNeedsAimRoll) {
       numberOfClicksForAttacksForPsiAssault++;
       numberOfAttacksInTheRound++;
-      combatStatRefresher()
     }
 
     if (twoWeaponAttackRadioButton.checked == true) {
+      twoWeaponAttackWasUsedThisRound = true;
       numberOfClicksAtTwoWeaponAttack++;
     }
+
+    combatStatRefresher()
 
     warningWindow.innerText = "";
     bodyPartImg.innerHTML = "";
@@ -2288,13 +2304,7 @@ export default function Home(props) {
       //************************************************************************************************************************** */
       //Ebben a körben volt roham használva, ezért a minusz VÉO-k maradnak, de a +TÉO elveszik, mert csak 1 támadásra volt érvényes
       //*************************************************************************************************************************** */
-      if (chargeRadioButton.checked == true) {
-        chargeWasUsedThisRound = true;
-        chargeRadioButton.disabled = true;
-        setTimeout(() => {
-          charAtk.value = parseFloat(charAtk.value) - 1;
-        }, 1000);
-      }
+
       // kétkezes harc bejelölésével az első kattintásra a twoWeaponAttackWasUsedThisRound változó igaz lesz, ezért ez alapján módosíthatjuk a 2.dobás körülményeit,
       // mintha az lenne a másik kéz
 
@@ -2310,10 +2320,6 @@ export default function Home(props) {
         if (combinationWasUsedThisRound == true) {
           totalActionCostOfAttackSetter(+1);
         }
-        combatStatRefresher()
-      }
-      if (numberOfClicksAtTwoWeaponAttack == 1) {
-        twoWeaponAttackWasUsedThisRound = true;
       }
 
       if (firstAttackInRoundSpent == true && numberOfClicksAtTwoWeaponAttack == 1) {
@@ -2396,6 +2402,11 @@ export default function Home(props) {
         parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
       charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
     }
+
+    if (thisAttackWasWithCharge) {
+      thisAttackWasWithCharge = false
+    }
+
     if (assassinationRadioButton.checked == true) {
       charAtk.value =
         parseFloat(charAtk.value) -
@@ -2421,6 +2432,8 @@ export default function Home(props) {
 
       <main className="main">
       <audio id="rollDiceSound" src="/rollDiceSound.mp3"></audio>
+      <audio id="doubleOneRoll" src="/doubleOneRoll.mp3"></audio>
+      <audio id="doubleZeroRoll" src="/doubleZeroRoll.mp3"></audio>
         <div id="atkRollWrapper">
           <div id="soundToggleWrapper">
             Hang Be/Ki
