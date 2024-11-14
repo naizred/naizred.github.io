@@ -160,10 +160,9 @@ var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0;
 function CharacterDetails() {
   function handleRerollByLP(event) {
-    if (currentLp.value == 0) {
+    if (currentLp.value == 0 || parseInt(numberOfCurrentRound.innerText) != 1) {
       return
     }
-    console.log(event.target.innerText)
     let initiativeLightDice = parseInt(initiativeLightDiceResult.value)
     let initiativeDarkDice = parseInt(initiativeDarkDiceResult.value)
     if (event.target.innerText == "Világos kocka") {
