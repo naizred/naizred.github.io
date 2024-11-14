@@ -534,8 +534,8 @@ export let weaponsOptions;
 export function toggleAllallActionBarButtonsExceptInitRollDisplay(
   display = "none"
 ) {
-  initiativeLightDiceLabel.style.display = display
-  initiativeDarkDiceLabel.style.display = display
+  initiativeLightDiceRerollButton.style.display = display
+  initiativeDarkDiceRerollButton.style.display = display
   const allActionBarButtons = document.querySelectorAll(
     "div#actionsWrapper button"
   );

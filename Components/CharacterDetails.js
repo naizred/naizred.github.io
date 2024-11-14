@@ -159,6 +159,112 @@ var MersenneTwister = require("mersenne-twister");
 var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0;
 function CharacterDetails() {
+  function handleRerollByLP(event) {
+    if (currentLp.value == 0) {
+      return
+    }
+    console.log(event.target.innerText)
+    let initiativeLightDice = parseInt(initiativeLightDiceResult.value)
+    let initiativeDarkDice = parseInt(initiativeDarkDiceResult.value)
+    if (event.target.innerText == "Világos kocka") {
+      initiativeLightDice = Math.floor(generator.random() * 10);
+    }
+    if (event.target.innerText == "Sötét kocka") {
+      initiativeDarkDice = Math.floor(generator.random() * 10);
+    }
+    let initiativeLightDicePlusExtraReaction = 0;
+    initiativeLightDiceResult.value = initiativeLightDice;
+    initiativeDarkDiceResult.value = initiativeDarkDice;
+
+    if (initiativeLightDice == 0) {
+      initiativeLightDice = 10;
+    }
+    if (initiativeDarkDice == 0) {
+      initiativeDarkDice = 10;
+    }
+    let firstRoundActionNumberModifierFromInitRoll = 0;
+
+    if (filteredArrayIfHasExtraReaction.length != 0) {
+      extraReactionLevel = parseInt(filteredArrayIfHasExtraReaction[0].level);
+    }
+          initiativeLightDicePlusExtraReaction =
+        parseInt(initiativeLightDice) + extraReactionLevel;
+      if (initiativeLightDicePlusExtraReaction >= 10) {
+        initiativeLightDicePlusExtraReaction = 10;
+      }
+    ///***************** dobás teszteléshez ****************************/
+    //initiativeLightDice = 2;
+    //initiativeDarkDice = 2;
+
+    console.log(
+      "Kezdeményező dobás DM előtt",
+      initiativeLightDice,
+      initiativeDarkDice
+    );
+    if (initiativeLightDice == initiativeDarkDice) {
+      initiativeLightDicePlusExtraReaction = initiativeLightDice;
+    }
+    console.log(
+      "Kezdeményező dobás DM után",
+      initiativeLightDicePlusExtraReaction,
+      initiativeDarkDice
+    );
+
+    if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      specialCases1.includes(initiativeDarkDice)
+    ) {
+      specialEffect.innerText = "1 ellenfél veszít 1 cselekedetet";
+    } else if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      specialCases2.includes(initiativeDarkDice)
+    ) {
+      specialEffect.innerText = specialModifiers[2];
+      firstRoundActionNumberModifierFromInitRoll = 1;
+    } else if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      specialCases3.includes(initiativeDarkDice)
+    ) {
+      specialEffect.innerText = specialModifiers[3];
+      firstRoundActionNumberModifierFromInitRoll = 2;
+    } else if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      initiativeDarkDice == 1
+    ) {
+      specialEffect.innerText = specialModifiers[0];
+      firstRoundActionNumberModifierFromInitRoll = -3;
+    } else if (
+      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
+      initiativeDarkDice == 10
+    ) {
+      specialEffect.innerText = specialModifiers[4];
+      firstRoundActionNumberModifierFromInitRoll = 3;
+    }
+    if (initiativeLightDicePlusExtraReaction >= initiativeDarkDice) {
+      initiativeWithRoll.innerText =
+        parseInt(initiative.innerText) + initiativeLightDicePlusExtraReaction;
+    } else if (initiativeLightDicePlusExtraReaction < initiativeDarkDice) {
+      initiativeWithRoll.innerText =
+        parseInt(initiative.innerText) - initiativeDarkDice;
+    }
+    numberOfActions.innerText =
+      Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1;
+    adjustActionsPositive.value = parseInt(numberOfActions.innerText); // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
+    // ez ide azért kell, hogy a mentett max akciók ne változzon, mivel a módosító a nevezetes dobásból csak az első körre vonatkozik
+    numberOfActions.innerText =
+      parseInt(numberOfActions.innerText) +
+      firstRoundActionNumberModifierFromInitRoll;
+
+    // az Extra Reackió adottság az első 3 körben +1 akciót is ad. A további körökben ezt a "handleEndOfRound" függvény fogja figyelni
+    if (filteredArrayIfHasExtraReaction.length != 0 && extraReactionLevel > 0) {
+      numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
+    }
+    combinationCheckBox.disabled = true;
+    initiativeLightDiceRerollButton.disabled = true
+    initiativeDarkDiceRerollButton.disabled = true
+    currentLp.value -= 1
+    updateCharacterData();
+  }
   function handleInitiativeRoll() {
     if (soundToggleCheckbox.checked) {
       rollDiceSound.play()
@@ -293,8 +399,8 @@ function CharacterDetails() {
     initRollButton.style.display = "none";
     initiativeLightDiceResult.style.display = "grid";
     initiativeDarkDiceResult.style.display = "grid";
-    initiativeLightDiceLabel.style.display = "grid";
-    initiativeDarkDiceLabel.style.display = "grid";
+    initiativeLightDiceRerollButton.style.display = "grid";
+    initiativeDarkDiceRerollButton.style.display = "grid";
 
     combinationCheckBox.disabled = true;
     updateCharacterData();
@@ -618,6 +724,8 @@ if (defensiveCombatContinueSelected) {
   }
 
   function handleEndOfCombat() {
+    initiativeLightDiceRerollButton.disabled = false
+    initiativeDarkDiceRerollButton.disabled = false
     defensiveCombatButton.disabled = false
     setDefensiveCombatVEObonus(0)
     defensiveCombatOnSetToFalse()
@@ -674,8 +782,8 @@ if (defensiveCombatContinueSelected) {
     initRollButton.style.display = "grid";
     initiativeLightDiceResult.style.display = "none";
     initiativeDarkDiceResult.style.display = "none";
-    initiativeLightDiceLabel.style.display = "none";
-    initiativeDarkDiceLabel.style.display = "none";
+    initiativeLightDiceRerollButton.style.display = "none";
+    initiativeDarkDiceRerollButton.style.display = "none";
     numberOfActions.innerText = "";
     initiativeWithRoll.innerText = "";
     numberOfCurrentRound.innerText = "1.";
@@ -832,8 +940,8 @@ if (defensiveCombatContinueSelected) {
             return <option key={e}>{e}</option>;
           })}
         </select>
-        <div id="initiativeLightDiceLabel" className={styles.initiativeDarkDiceLabel}>Világos kocka</div>
-        <div id="initiativeDarkDiceLabel" className={styles.initiativeDarkDiceLabel}>Sötét kocka</div>
+        <button id="initiativeLightDiceRerollButton" onClick={handleRerollByLP} className={styles.initiativeDarkDiceRerollButton}>Világos kocka</button>
+        <button id="initiativeDarkDiceRerollButton" onClick={handleRerollByLP} className={styles.initiativeDarkDiceRerollButton}>Sötét kocka</button>
       </div>
       <div
         id="chiCombatContinuePopupWindow"

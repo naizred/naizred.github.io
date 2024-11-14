@@ -179,10 +179,10 @@
   grid-row: 2/3;
   height: 1.8vw;
 }
-.initiativeLightDiceLabel{
+.initiativeLightDiceRerollButton{
   font-size: 1vw;
 }
-.initiativeDarkDiceLabel {
+.initiativeDarkDiceRerollButton {
   font-size: 1vw;
 }
 .initiativeRerollByCounterLP {
