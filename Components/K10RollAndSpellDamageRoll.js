@@ -1,5 +1,6 @@
 import styles from "../styles/k10RollAndSpellDamageRoll.module.css";
 import { generator, rollOptions } from "../pages";
+import { updateCharacterData } from "./CharacterDetails";
 export let numberOfSpellDamageDiceAfterLastSpellDamageRoll = 0;
 
 export function multipleDiceRoll(
@@ -160,7 +161,11 @@ function K10RollAndSpellDamageRoll() {
       <li className={styles.middleListItem}>
         <input id="numberOfDiceInput" type="number" defaultValue={1} />
         <div className={styles.k5label}>k5</div>
-        <button onClick={handleMultipleDiceRoll}>Dobj</button>
+        <button onClick={()=>{
+          handleMultipleDiceRoll()
+          updateCharacterData(false, true, false)
+          }
+        }>Dobj</button>
       </li>
       <li
         id="allThreeDiceResultWrapper"
