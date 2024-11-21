@@ -32,6 +32,19 @@ function ResistancesAptitudesRaceMofifiers() {
         skillCheckStressCheckbox.checked = false
     }
     skillCheckBase.innerText = event.target.parentElement.lastChild.value // ez a li element innerText-je
+    let selectAllAttributeOptions = document.querySelectorAll(
+        "select#attributes option"
+      );
+    for (let i = 0; i < selectAllAttributeOptions.length; i++) {
+        if(parseInt(selectAllAttributeOptions[i].value) == parseInt(event.target.parentElement.firstElementChild.innerText))
+        {
+            attributes.value = selectAllAttributeOptions[i].value
+            checkTypeIsAttributeCheck.checked = true
+            break
+        }
+    }
+    skills.value = "";
+    skills.disabled = true;
     skillOrAttributeCheckRoll(stessResist)
         //currentCharFinalAttributes
         skillCheckRollButton.disabled = true;
@@ -44,7 +57,7 @@ function ResistancesAptitudesRaceMofifiers() {
           skillCheckRollButton.disabled = false;
           for (let i = 0; i < selectAllResistButtons.length; i++) {
             selectAllResistButtons[i].disabled = false
-        }
+            }
         }, 5000);
    }
 

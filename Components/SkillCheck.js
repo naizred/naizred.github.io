@@ -177,7 +177,8 @@ export function handleSkillCheck(
   setTimeout(() => {
     skillCheckRollButton.disabled = false;
   }, 5000);
-
+  evaluateSkillOrAttributeCheckBase()
+  manuallySetRollModifier = 0
   if (skillCheckStressCheckbox.checked == true) {
     stressCheck = true;
   } else if (skillCheckStressCheckbox.checked == false) {
@@ -190,17 +191,18 @@ export function handleSkillCheck(
   );
 }
 let allSkillProps;
+let manuallySetRollModifier = 0
 export async function evaluateSkillOrAttributeCheckBase(event) {
   if (checkTypeIsSkillCheck.checked == true) {
-    rollModifier.value = 0;
+    //rollModifier.value = 0;
     skills.disabled = false;
     skillCheckBase.innerText =
       skills.value[0] * 2 +
       Math.floor(parseInt(attributes.value) / 2) +
       parseInt(succFailModifier.value);
-    if (parseInt(attributes.value) % 2 == 1) {
+    if (parseInt(attributes.value) % 2 == 1 && manuallySetRollModifier == 0) {
       rollModifier.value = 1;
-    } else if (parseInt(attributes.value) % 2 == 0) {
+    } else if (parseInt(attributes.value) % 2 == 0 && manuallySetRollModifier == 0) {
       rollModifier.value = 0;
     }
     if (filteredArrayIfHasAnyAffinity.length != 0) {
@@ -290,6 +292,7 @@ function checkSkillCheckStressCheckboxStatus (event){
         className="skillCheckSelect"
         onChange={() => {
           skillCheckResult.innerText = "";
+          manuallySetRollModifier = parseInt(rollModifier.value)
           // skillCheckDarkDiceRerollByCounterLP.style.display = "none";
           // skillCheckLightDiceRerollByCounterLP.style.display = "none";
         }}>
@@ -350,7 +353,7 @@ function checkSkillCheckStressCheckboxStatus (event){
           name="checkType"
           id="checkTypeIsSkillCheck"
           defaultChecked={true}
-          onChange={evaluateSkillOrAttributeCheckBase}
+          onClick={evaluateSkillOrAttributeCheckBase}
         />
         <label
           htmlFor="checkTypeIsAttributeCheck"
@@ -361,7 +364,7 @@ function checkSkillCheckStressCheckboxStatus (event){
           type="radio"
           name="checkType"
           id="checkTypeIsAttributeCheck"
-          onChange={evaluateSkillOrAttributeCheckBase}
+          onClick={evaluateSkillOrAttributeCheckBase}
         />
       </div>
       <div id="skillCheckResultLabel">Próba végső eredménye:</div>
