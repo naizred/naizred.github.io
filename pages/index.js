@@ -1911,13 +1911,16 @@ export default function Home(props) {
                 accumulatedValueToAddToAttributeWhenCaluclatingCostOfPsiShiled+=multiplierWhenCaluclatingCostOfPsiShiled
               }
             }
-    
+           /**************************** Ellenállásokkal kapcsolatos számítások **************************************************/
             astralResist.innerText = `${currentCharFinalAttributes.Asz} + (${psiShieldForAsz})` 
-            astralResist.parentElement.lastChild.value = currentCharFinalAttributes.Asz + psiShieldForAsz // a gomb value értékében van elrejtve az ellenállás
+            astralResistButton.value = currentCharFinalAttributes.Asz + psiShieldForAsz // a gomb value értékében van elrejtve az ellenállás
             mentalResist.innerText = `${currentCharFinalAttributes.Aka} + (${psiShieldForAka})`
-            mentalResist.parentElement.lastChild.value = currentCharFinalAttributes.Aka + psiShieldForAka
+            mentalResistButton.value = currentCharFinalAttributes.Aka + psiShieldForAka
             physicalResist.innerText = Math.min(currentCharFinalAttributes.Egé, currentCharFinalAttributes.Áll)
-            physicalResist.parentElement.lastChild.value = Math.min(currentCharFinalAttributes.Egé, currentCharFinalAttributes.Áll)
+            physicalResistButton.value = Math.min(currentCharFinalAttributes.Egé, currentCharFinalAttributes.Áll)
+            evasiveResist.innerText = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz)
+            evasiveResistButton.value = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz)
+            // itt kezdődnek azok az ellenállások, amik a többi ellenállásból számítódnak
             if (currentCharFinalAttributes.Asz + psiShieldForAsz >=currentCharFinalAttributes.Aka + psiShieldForAka) 
             {
               spiritualResist.innerText = `${currentCharFinalAttributes.Aka} + (${psiShieldForAka})`
@@ -1926,19 +1929,17 @@ export default function Home(props) {
             {
               spiritualResist.innerText = `${currentCharFinalAttributes.Asz} + (${psiShieldForAsz})`
             }
-            spiritualResist.parentElement.lastChild.value = Math.min(currentCharFinalAttributes.Asz + psiShieldForAsz, currentCharFinalAttributes.Aka + psiShieldForAka)
+            spiritualResistButton.value = Math.min(currentCharFinalAttributes.Asz + psiShieldForAsz, currentCharFinalAttributes.Aka + psiShieldForAka)
             
-            if (parseInt(spiritualResist.parentElement.lastChild.value) >= parseInt(physicalResist.parentElement.lastChild.value)) 
+            if (parseInt(spiritualResistButton.value) >= parseInt(physicalResistButton.value)) 
             {
               complexResist.innerText = physicalResist.innerText
             }
-            else if (parseInt(spiritualResist.parentElement.lastChild.value) < parseInt(physicalResist.parentElement.lastChild.value)) 
+            else if (parseInt(spiritualResistButton.value) < parseInt(physicalResistButton.value)) 
             {
               complexResist.innerText = spiritualResist.innerText
             }
-            complexResist.parentElement.lastChild.value = Math.min(parseInt(spiritualResist.parentElement.lastChild.value), parseInt(physicalResist.parentElement.lastChild.value))
-            evasiveResist.innerText = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz)
-            evasiveResist.parentElement.lastChild.value = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz)
+            complexResistButton.value = Math.min(parseInt(spiritualResistButton.value), parseInt(physicalResistButton.value))
             //--------------------fp
             let fpPoints =
               parsedCharacterDataFromJSON.stats.Fp +
