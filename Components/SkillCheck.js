@@ -174,8 +174,15 @@ export function handleSkillCheck(
     rollDiceSound.play()
   }
   skillCheckRollButton.disabled = true;
+  let selectAllResistButtons = document.querySelectorAll("[id*='ResistButton']")
+  for (let i = 0; i < selectAllResistButtons.length; i++) {
+      selectAllResistButtons[i].disabled = true
+  }
   setTimeout(() => {
     skillCheckRollButton.disabled = false;
+    for (let i = 0; i < selectAllResistButtons.length; i++) {
+      selectAllResistButtons[i].disabled = false
+      }
   }, 5000);
   evaluateSkillOrAttributeCheckBase()
   manuallySetRollModifier = 0
