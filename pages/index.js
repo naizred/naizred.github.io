@@ -666,6 +666,7 @@ export function CharCompare(a, b, index) {
 }
 export let skillLevelsMeaning = ["Nf","If", "Af", "Kf", "Mf", "Lf"];
 export let parsedCharacterDataFromJSON
+export let aptitudeObject = {}
 
 function tvcoCalculator(atkAimDef) {
   let calculatedTVCO = 0;
@@ -1373,6 +1374,11 @@ export default function Home(props) {
       observer.observe(listOfCurrentlyActiveBuffs, { childList: true, subtree: true });
       
       parsedCharacterDataFromJSON = JSON.parse(reader.result)
+      
+      for (let i = 0; i < parsedCharacterDataFromJSON.aptitudes.length; i++) {
+       if(parsedCharacterDataFromJSON.aptitudes[i].level)
+        aptitudeObject[parsedCharacterDataFromJSON.aptitudes[i].aptitude] = parsedCharacterDataFromJSON.aptitudes[i].level
+      }
 
       let indexOfFirstWeapon = 0;
       for (

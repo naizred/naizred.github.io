@@ -1,7 +1,7 @@
-import { allActiveBuffs } from '../pages';
+import { allActiveBuffs, aptitudeObject, parsedCharacterDataFromJSON } from '../pages';
 import styles from '../styles/resistancesaptitudesracemofifiers.module.css';
 import { buffTextChecker, dinamicResistanceRollModifier, dinamicResistanceRollModifierChanger } from './PsiDisciplines';
-import { checkBoxTurnedFromNotCheckedToCheckedStatus, skillOrAttributeCheckRoll } from './SkillCheck';
+import { checkBoxTurnedFromNotCheckedToCheckedStatus, manuallySetRollModifier, setManuallySetRollModifierToZero, skillOrAttributeCheckRoll } from './SkillCheck';
 
 function ResistancesAptitudesRaceMofifiers() {
     // Összetett Fizikai Szellemi Asztrális Mentális Elkerülő
@@ -10,6 +10,10 @@ function ResistancesAptitudesRaceMofifiers() {
         rollDiceSound.play()
       }
     let stessResist = true
+
+    if (manuallySetRollModifier == 0) {
+        rollModifier.value = 0
+    }
 
     for (let i = 0; i < allActiveBuffs.length; i++) {
         if (allActiveBuffs[i].innerText.includes("Dinamikus ellenállás")) {
@@ -21,6 +25,19 @@ function ResistancesAptitudesRaceMofifiers() {
             rollModifier.value = dinamicResistanceRollModifier
         }
       }
+
+    function setResistDMfromAptitudes(resistButtonId, aptitude){
+    if (event.target.id == resistButtonId && aptitudeObject[aptitude] && 
+        aptitudeObject[aptitude] > dinamicResistanceRollModifier && 
+        aptitudeObject[aptitude] > manuallySetRollModifier) {
+        rollModifier.value = aptitudeObject[aptitude]
+      }
+    }
+
+    setResistDMfromAptitudes("physicalResistButton", "Masszív")
+    setResistDMfromAptitudes("astralResistButton", "Összeszedett")
+    setResistDMfromAptitudes("mentalResistButton", "Lélekerő")
+    setResistDMfromAptitudes("evasiveResistButton", "Intuitív")
 
     if (checkBoxTurnedFromNotCheckedToCheckedStatus) {
         stessResist=true
@@ -46,6 +63,7 @@ function ResistancesAptitudesRaceMofifiers() {
     skills.value = "";
     skills.disabled = true;
     skillOrAttributeCheckRoll(stessResist)
+    setManuallySetRollModifierToZero()
         //currentCharFinalAttributes
         skillCheckRollButton.disabled = true;
         let selectAllResistButtons = document.querySelectorAll("[id*='ResistButton']")

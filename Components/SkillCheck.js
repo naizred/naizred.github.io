@@ -191,7 +191,11 @@ export function handleSkillCheck(
   );
 }
 let allSkillProps;
-let manuallySetRollModifier = 0
+export let manuallySetRollModifier = 0
+export function setManuallySetRollModifierToZero()
+{
+  manuallySetRollModifier = 0
+}
 export async function evaluateSkillOrAttributeCheckBase(event) {
   if (checkTypeIsSkillCheck.checked == true) {
     //rollModifier.value = 0;
