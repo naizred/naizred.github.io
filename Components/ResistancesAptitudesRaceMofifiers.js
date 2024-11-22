@@ -1,6 +1,6 @@
-import { allActiveBuffs, aptitudeObject, parsedCharacterDataFromJSON } from '../pages';
+import { allActiveBuffs, aptitudeObject } from '../pages';
 import styles from '../styles/resistancesaptitudesracemofifiers.module.css';
-import { buffTextChecker, dinamicResistanceRollModifier, dinamicResistanceRollModifierChanger } from './PsiDisciplines';
+import { dinamicResistanceRollModifier, dinamicResistanceRollModifierChanger } from './PsiDisciplines';
 import { checkBoxTurnedFromNotCheckedToCheckedStatus, manuallySetRollModifier, setManuallySetRollModifierToZero, skillOrAttributeCheckRoll } from './SkillCheck';
 
 function ResistancesAptitudesRaceMofifiers() {
@@ -39,6 +39,22 @@ function ResistancesAptitudesRaceMofifiers() {
     setResistDMfromAptitudes("mentalResistButton", "Lélekerő")
     setResistDMfromAptitudes("evasiveResistButton", "Intuitív")
 
+    if (event.target.id == "spiritualResistButton" && parseInt(event.target.value) == parseInt(astralResistButton.value)) {
+        setResistDMfromAptitudes("spiritualResistButton", "Összeszedett")
+    }
+    if (event.target.id == "spiritualResistButton" && parseInt(event.target.value) == parseInt(mentalResistButton.value)) {
+        setResistDMfromAptitudes("spiritualResistButton", "Lélekerő")
+    }
+    if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(astralResistButton.value)) {
+        setResistDMfromAptitudes("complexResistButton", "Összeszedett")
+    }
+    if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(mentalResistButton.value)) {
+        setResistDMfromAptitudes("complexResistButton", "Lélekerő")
+    }
+    if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(physicalResistButton.value)) {
+        setResistDMfromAptitudes("complexResistButton", "Masszív")
+    }
+
     if (checkBoxTurnedFromNotCheckedToCheckedStatus) {
         stessResist=true
     }
@@ -51,12 +67,39 @@ function ResistancesAptitudesRaceMofifiers() {
     skillCheckBase.innerText = event.target.parentElement.lastChild.value // ez a li element innerText-je
     let selectAllAttributeOptions = document.querySelectorAll(
         "select#attributes option"
-      );
+    );
     for (let i = 0; i < selectAllAttributeOptions.length; i++) {
-        if(parseInt(selectAllAttributeOptions[i].value) == parseInt(event.target.parentElement.firstElementChild.innerText))
-        {
-            attributes.value = selectAllAttributeOptions[i].value
-            checkTypeIsAttributeCheck.checked = true
+        let attributesToSearchFor = []
+        if (event.target.id.includes("complex")) {
+            attributesToSearchFor = ["Asz", "Egé", "Aka", "Áll"]
+        }
+        if (event.target.id.includes("physical")) {
+            attributesToSearchFor = ["Egé", "Áll"]
+        }
+        if (event.target.id.includes("spiritual")) {
+            attributesToSearchFor = ["Asz", "Aka"]
+        }
+        if (event.target.id.includes("astral")) {
+            attributesToSearchFor = ["Asz"]
+        }
+        if (event.target.id.includes("mental")) {
+            attributesToSearchFor = ["Aka"]
+        }
+        if (event.target.id.includes("evasive")) {
+            attributesToSearchFor = ["Gyo", "Érz"]
+        }
+        let breakOuterForCycle = false
+        for (let j = 0; j < attributesToSearchFor.length; j++) {
+            if(selectAllAttributeOptions[i].innerText == attributesToSearchFor[j] && 
+            parseInt(selectAllAttributeOptions[i].value) == parseInt(event.target.parentElement.firstElementChild.innerText))
+            {
+                attributes.value = selectAllAttributeOptions[i].value
+                checkTypeIsAttributeCheck.checked = true
+                breakOuterForCycle = true
+                break
+            }
+        }
+        if (breakOuterForCycle) {
             break
         }
     }
@@ -64,10 +107,8 @@ function ResistancesAptitudesRaceMofifiers() {
     skills.disabled = true;
     skillOrAttributeCheckRoll(stessResist)
     setManuallySetRollModifierToZero()
-        //currentCharFinalAttributes
         skillCheckRollButton.disabled = true;
         let selectAllResistButtons = document.querySelectorAll("[id*='ResistButton']")
-        event.target.disabled = true
         for (let i = 0; i < selectAllResistButtons.length; i++) {
             selectAllResistButtons[i].disabled = true
         }
