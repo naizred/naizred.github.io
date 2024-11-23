@@ -133,9 +133,8 @@
 .currentArmsDmgReduction, .currentLeggingsDmgReduction {
   display: grid;
   font-size: 1vw;
-  color: white;
   text-shadow:none;
-  background-image: url('../public/straightLineBackground.png');
+  background-image: url('../public/straightLineBackgroundWhite.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 5vw 0.1vw;

@@ -6,7 +6,7 @@ let armsWorn = false
 let leggingsWorn = false
 
 export function checkWhereItIsWorn(armorPiece) {
-    if (armorPiece.NAME == 'Teljesvért' || armorPiece.NAME == 'Rákozott félvért') {
+    if (armorPiece.NAME.toLowerCase().includes('teljesvért') || armorPiece.NAME == 'Rákozott félvért') {
         currentArmorImg.style.backgroundImage = "url('./armorParts/fullPlateBackGround.png')"
         currentArmorImg.style.backgroundSize = "7.58vw 12vw"
         currentHelmetImg.src = './armorParts/helmetFullPlate.png'

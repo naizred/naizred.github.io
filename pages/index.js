@@ -704,8 +704,6 @@ let sumPpGainedByLevel
 let sumMpGainedByLevel 
 let sumInitiativeGainedByLevel
 let filteredArrayIfHasWarriorMonk
-let filteredArrayIfHasVigorous 
-let filteredArrayIfHasMagicallyAttuned
 let filteredArrayIfHasNimble
 let filteredArrayIfHasPsionist 
 let filteredArrayIfHasAncientSoul
@@ -1510,12 +1508,6 @@ export default function Home(props) {
         filteredArrayIfHasWarriorMonk = parsedCharacterDataFromJSON.aptitudes.filter(
           (name) => name.aptitude == "Harcművész"
         );
-        filteredArrayIfHasVigorous = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Életerős"
-        );
-        filteredArrayIfHasMagicallyAttuned = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Varázstudó"
-        );
         filteredArrayIfHasNimble = parsedCharacterDataFromJSON.aptitudes.filter(
           (name) => name.aptitude == "Fürge"
         );
@@ -1952,10 +1944,10 @@ export default function Home(props) {
             let highestMagicSkillName = "";
             let modifierByMagicallyAttunedAptitude = 0;
             //------ varázstudó adottságból jövő tulajdonság módosító
-            if (filteredArrayIfHasMagicallyAttuned.length != 0) {
-              if (filteredArrayIfHasMagicallyAttuned[0].level == 2) {
+            if (aptitudeObject["Varázstudó"]) {
+              if (aptitudeObject["Varázstudó"] == 2) {
                 modifierByMagicallyAttunedAptitude = 3;
-              } else if (filteredArrayIfHasMagicallyAttuned[0].level == 3) {
+              } else if (aptitudeObject["Varázstudó"] == 3) {
                 modifierByMagicallyAttunedAptitude = 6;
               }
             }
@@ -2006,17 +1998,14 @@ export default function Home(props) {
               attributeNeededToCalculateManaPoints * highestMagicSkillLevel +
               sumMpGainedByLevel +
               parsedCharacterDataFromJSON.stats.Mp;
-            if (
-              filteredArrayIfHasMagicallyAttuned.length == 0 ||
-              (filteredArrayIfHasMagicallyAttuned.length != 0 &&
-                filteredArrayIfHasMagicallyAttuned[0].level == 0)
-            ) {
-              manaPoints = 0;
+            if (!aptitudeObject["Varázstudó"]) 
+            {
+            manaPoints = 0;
             }
       
             let vigorousModifier = 0;
-            if (filteredArrayIfHasVigorous.length != 0) {
-              vigorousModifier = parseInt(filteredArrayIfHasVigorous[0].level);
+            if (aptitudeObject["Életerős"]) {
+              vigorousModifier = aptitudeObject["Életerős"];
             } else {
               vigorousModifier = 0;
             }
