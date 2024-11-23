@@ -6,14 +6,11 @@ import {
   allResultsCleaner,
   filteredArrayForNameOfHighestMagicalSkill,
   filteredArrayIfHasAnyMagicSkill,
-  filteredArrayIfHasManaFlow,
   currentGodWorshippedByPlayer,
   allActiveBuffs,
-  filteredArrayIfHasManaController,
   CharCompare,
   combatStatRefresher,
-  filteredArrayIfHasAnyMagicSkillSubSkill,
-  mainMagicalSkillNamesAndLevels,
+  aptitudeObject,
 } from "../pages";
 import { attackRollButtonWasDisabledBeforeSpellCastSetter, blinkingText, defensiveCombatOn, handleIfSpellDoesNotNeedAimRoll, handleIfSpellNeedsAimRoll, setDefensiveCombatVEObonus } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -172,7 +169,7 @@ export function spellCastingSuccessful() {
     liturgyWrapper.style.display = "none";
     liturgyPowerInfo.style.display = "none";
     liturgyPowerInfo.innerText = "";
-    currentSpellPower = liturgyPowerInfo.value
+    allPowerAspectSelect[0].value = liturgyPowerInfo.value
     liturgyPowerInfo.value = 0;
     liturgyCheckBox.style.display = "none";
     for (let i = 0; i < allActiveBuffs.length; i++) {
@@ -203,16 +200,16 @@ export function spellCastingSuccessful() {
       {
         buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
         if (currentSpellDuration == 2) {
-          allActiveBuffs[i].innerText = `1 kör - ${currentSpell.name} - ${currentSpellPower}E`
+          allActiveBuffs[i].innerText = `1 kör - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`
         }
         if (currentSpellDuration == 3) {
-          allActiveBuffs[i].innerText = `6 kör - ${currentSpell.name} - ${currentSpellPower}E`
+          allActiveBuffs[i].innerText = `6 kör - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`
         }
         if (currentSpellDuration == 4) {
-          allActiveBuffs[i].innerText = `30 perc - ${currentSpell.name} - ${currentSpellPower}E`
+          allActiveBuffs[i].innerText = `30 perc - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`
         }
         if (currentSpellDuration == 5) {
-          allActiveBuffs[i].innerText = `10 óra - ${currentSpell.name} - ${currentSpellPower}E`
+          allActiveBuffs[i].innerText = `10 óra - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`
         }
         //allActiveBuffs[i].parentElement.lastChild.value = `${parseInt(allActiveBuffs[i].innerText)}, ${numberOfCurrentRound.innerText}` // A törlés gomb value-ben van eltárolva az időtartam adat. Innen fogjuk vizsgálni, hogy mennyi van még hátra belőle
         if (currentCombatSpell.isRecurring) {   // csak egy ismétlődő varázslat lehet
@@ -247,7 +244,7 @@ export function spellCastingSuccessful() {
   updateCharacterData()
 }
 let currentSpellDuration = 0
-let currentSpellPower = 0
+
 export function spellCastingFailure(anyOtherCondition = true) {
   if (
     initRolled == true &&
@@ -413,8 +410,8 @@ export function calculateSpellCastTimeAndManaCost() {
   }
   console.log(theHighestFiveAspectsPerAspectCategory);
 
-  if (filteredArrayIfHasManaFlow.length != 0 && !currentSpell.ritual) {  // manavezető, de rituáléra nem lehet érvényes
-    finalCastTime -= filteredArrayIfHasManaFlow[0].level;
+  if (aptitudeObject["Mana vezető"] && !currentSpell.ritual) {  // manavezető, de rituáléra nem lehet érvényes
+    finalCastTime -= aptitudeObject["Mana vezető"];
   }      
   spellCastingCheckSetter()
   evaluateSkillOrAttributeCheckBase();
@@ -875,13 +872,31 @@ function Spells() {
       setDefensiveCombatVEObonus(1)
       combatStatRefresher()
     }
-    // let stressCheck = false
-    // if(skillCheckStressCheckbox.checked){
-    //   stressCheck=true
-    // }
-    // if (powerAspModified || anyAspExceptPowerAspModified) {
-    //   skillOrAttributeCheckRoll(stressCheck)    
-    // }
+    let stressCheck = false
+    
+    if(skillCheckStressCheckbox.checked){
+      stressCheck=true
+    }
+    skillOrAttributeCheckRoll(stressCheck) 
+    if (powerAspModified || anyAspExceptPowerAspModified) {
+      let currentDifficultyClass = parseInt(warningWindow.innerText.slice(warningWindow.innerText.search(/[0-9]/))) // az elérendő célszám, ami csak akkor érdekes, ha volt aspektus modifikáció
+      let skillCheckResultNumber = parseInt(skillCheckResult.innerText) // próba eredménye
+      let powerValue = allPowerAspectSelect[0].value
+      if (currentDifficultyClass - skillCheckResultNumber == 1) {
+        allPowerAspectSelect[0].value = Math.floor(allPowerAspectSelect[0].value*2/3)
+      }
+      if (currentDifficultyClass - skillCheckResultNumber == 2) {
+        allPowerAspectSelect[0].value = Math.floor(allPowerAspectSelect[0].value*1/3)
+      }
+      let powerValueMod = allPowerAspectSelect[0].value
+    }
+    if (allPowerAspectSelect[0].value == 1 || allPowerAspectSelect[0].value == 2) {
+      numberOfDiceInput.value = allPowerAspectSelect[0].value;
+    }
+    if (allPowerAspectSelect[0].value > 2 && !currentSpell.name.includes("liturgia")) {
+      numberOfDiceInput.value = (parseInt(allPowerAspectSelect[0].value) - 1) * 2;
+    }
+    
     console.log(
       "volt erő mod?",
       powerAspModified,
@@ -896,20 +911,12 @@ function Spells() {
       }
     }
     currentSpellDuration = findFirstAspectNameValue("Időtartam")
-    currentSpellPower = currentSpell.aspects[0][1]
 
     let spellManaCost = 0;
     castBarCurrentWidthStart = 0;
     castBarCurrentWidthEnd = 0;
     if (event.target.id == "advancedStartCastButton") {
       spellManaCost = parseInt(spellManaCostDiv.innerText);
-
-      if (allPowerAspectSelect[0].value == 1 || allPowerAspectSelect[0].value == 2) {
-        numberOfDiceInput.value = allPowerAspectSelect[0].value;
-      }
-      if (allPowerAspectSelect[0].value > 2 && !currentSpell.name.includes("liturgia")) {
-        numberOfDiceInput.value = (parseInt(allPowerAspectSelect[0].value) - 1) * 2;
-      }
     }
     if (event.target.id == "startCastButton") {
       spellManaCost = parseInt(spellManaCostInput.value);
@@ -947,8 +954,8 @@ function Spells() {
     manaNeededForTheSpell = spellManaCost;
     warningWindow.innerText = "";
    
-      if (filteredArrayIfHasManaController.length != 0 && filteredArrayIfHasManaController[0].level != 0) {
-        actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10) - filteredArrayIfHasManaController[0].level;
+      if (aptitudeObject["Mana uraló"]) {
+        actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10) - aptitudeObject["Mana uraló"];
       } else {
         actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10)
       }

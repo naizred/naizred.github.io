@@ -493,8 +493,6 @@ export let filteredArrayIfHasAnyMagicSkill;
 export let mainMagicalSkillNamesAndLevels = {}
 export let filteredArrayIfHasAnyMagicSkillSubSkill;
 export let currentGodWorshippedByPlayer;
-export let filteredArrayIfHasManaFlow;
-export let filteredArrayIfHasManaController
 export let filteredArrayIfHasPsi;
 export let filteredArrayIfHasTwoWeaponAttack;
 export let filteredArrayIfHasAssassination;
@@ -694,7 +692,6 @@ function specialTvcoCalculatorForParry(parryWeaponDef) {
   return parseFloat(calculatedParryWeaponDef/10);
 }
 export let commonModifiers = 0
-let filteredArrayIfHasMasterWep
 let currentlySelectedOffHand
 let baseAtk 
 let baseAim 
@@ -703,13 +700,10 @@ let sumFpGainedByLevel
 let sumPpGainedByLevel 
 let sumMpGainedByLevel 
 let sumInitiativeGainedByLevel
-let filteredArrayIfHasWarriorMonk
 let filteredArrayIfHasNimble
 let filteredArrayIfHasPsionist 
-let filteredArrayIfHasAncientSoul
 let filteredArrayIfHasRunning
 let schoolsOfMagicNames
-let filteredArrayIfHasDestroyer
 let masterWeaponModifier = 0;
 let destroyerLevel;
 let damageOfFists = "1k10";
@@ -725,24 +719,19 @@ export function combatStatRefresher(){
     (name) => name.w_name === `${offHand.value}`
     );
 
-    filteredArrayIfHasMasterWep = parsedCharacterDataFromJSON.aptitudes.filter(
-      (name) =>
-        name.aptitude == "Mesterfegyver" &&
-        parsedCharacterDataFromJSON.masterWeapon ==
-          `${currentlySelectedWeapon.w_name}`
-    );
-
-    if (filteredArrayIfHasMasterWep.length != 0) {
-      masterWeaponModifier = parseInt(filteredArrayIfHasMasterWep[0].level);
+    if (aptitudeObject["Mesterfegyver"] && 
+      parsedCharacterDataFromJSON.masterWeapon == currentlySelectedWeapon.w_name) 
+      {
+      masterWeaponModifier = aptitudeObject["Mesterfegyver"];
     } else {
       masterWeaponModifier = 0;
     }
   
     if (
-      filteredArrayIfHasDestroyer.length != 0 &&
+      aptitudeObject["Pusztító"] &&
       !checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)
     ) {
-      destroyerLevel = parseInt(filteredArrayIfHasDestroyer[0].level);
+      destroyerLevel = aptitudeObject["Pusztító"];
     } else {
       destroyerLevel = 0;
     }
@@ -1499,29 +1488,14 @@ export default function Home(props) {
             }
         }
         //-----szűrés különböző adottságokra
-        filteredArrayIfHasDestroyer = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Pusztító"
-        );
         filteredArrayIfHasExtraReaction = parsedCharacterDataFromJSON.aptitudes.filter(
           (name) => name.aptitude == "Extra reakció"
-        );
-        filteredArrayIfHasWarriorMonk = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Harcművész"
         );
         filteredArrayIfHasNimble = parsedCharacterDataFromJSON.aptitudes.filter(
           (name) => name.aptitude == "Fürge"
         );
         filteredArrayIfHasPsionist = parsedCharacterDataFromJSON.aptitudes.filter(
           (name) => name.aptitude == "Pszionista"
-        );
-        filteredArrayIfHasAncientSoul = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Ősibb lélek"
-        );
-        filteredArrayIfHasManaController = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Mana uraló"
-        );
-        filteredArrayIfHasManaFlow = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Mana vezető"
         );
         filteredArrayIfHasAnyAffinity = parsedCharacterDataFromJSON.aptitudes.filter((name) => {
           if (name.aptitude != null) {
@@ -1808,11 +1782,11 @@ export default function Home(props) {
           let fistAtkDivider = 4;
           let charStrWithWarriorMonkAptitude = currentCharFinalAttributes.Erő;
           // van-e harcművész adottság?
-          if (filteredArrayIfHasWarriorMonk.length != 0) {
-            if (parseInt(filteredArrayIfHasWarriorMonk[0].level) == 2) {
+          if (aptitudeObject["Harcművész"]) {
+            if (aptitudeObject["Harcművész"] == 2) {
               fistAtkDivider = 3;
               charStrWithWarriorMonkAptitude += 1;
-          } else if (parseInt(filteredArrayIfHasWarriorMonk[0].level) == 3) {
+          } else if (aptitudeObject["Harcművész"] == 3) {
             fistAtkDivider = 2;
             charStrWithWarriorMonkAptitude += 3;
             }
@@ -2010,8 +1984,8 @@ export default function Home(props) {
               vigorousModifier = 0;
             }
             let legendPoints = 3;
-            if (filteredArrayIfHasAncientSoul.length != 0) {
-              legendPoints += parseInt(filteredArrayIfHasAncientSoul[0].level);
+            if (aptitudeObject["Ősibb lélek"]) {
+              legendPoints += aptitudeObject["Ősibb lélek"];
             } else {
               legendPoints = 3;
             }
