@@ -28,11 +28,9 @@ import {
   firstAttackInRoundSpent,
   numberOfClicksAtTwoWeaponAttack,
   combatStatRefresher,
-  originalDarkDice,
-  originalLightDice,
+  aptitudeObject,
 } from "../pages";
 import {
-  filteredArrayIfHasExtraReaction,
   arrayOfAllComplexManeuvers,
   allActiveBuffs,
 } from "../pages";
@@ -183,8 +181,8 @@ function CharacterDetails() {
     }
     let firstRoundActionNumberModifierFromInitRoll = 0;
 
-    if (filteredArrayIfHasExtraReaction.length != 0) {
-      extraReactionLevel = parseInt(filteredArrayIfHasExtraReaction[0].level);
+    if (aptitudeObject["Extra reakció"]) {
+      extraReactionLevel = aptitudeObject["Extra reakció"];
     }
           initiativeLightDicePlusExtraReaction =
         parseInt(initiativeLightDice) + extraReactionLevel;
@@ -255,7 +253,7 @@ function CharacterDetails() {
       firstRoundActionNumberModifierFromInitRoll;
 
     // az Extra Reackió adottság az első 3 körben +1 akciót is ad. A további körökben ezt a "handleEndOfRound" függvény fogja figyelni
-    if (filteredArrayIfHasExtraReaction.length != 0 && extraReactionLevel > 0) {
+    if (aptitudeObject["Extra reakció"] && extraReactionLevel > 0) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
     }
     combinationCheckBox.disabled = true;
@@ -319,8 +317,8 @@ function CharacterDetails() {
     }
     let firstRoundActionNumberModifierFromInitRoll = 0;
 
-    if (filteredArrayIfHasExtraReaction.length != 0) {
-      extraReactionLevel = parseInt(filteredArrayIfHasExtraReaction[0].level);
+    if (aptitudeObject["Extra reakció"]) {
+      extraReactionLevel = aptitudeObject["Extra reakció"];
     }
           initiativeLightDicePlusExtraReaction =
         initiativeLightDice + extraReactionLevel;
@@ -391,7 +389,7 @@ function CharacterDetails() {
       firstRoundActionNumberModifierFromInitRoll;
 
     // az Extra Reackió adottság az első 3 körben +1 akciót is ad. A további körökben ezt a "handleEndOfRound" függvény fogja figyelni
-    if (filteredArrayIfHasExtraReaction.length != 0 && extraReactionLevel > 0) {
+    if (aptitudeObject["Extra reakció"] && extraReactionLevel > 0) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
     }
 

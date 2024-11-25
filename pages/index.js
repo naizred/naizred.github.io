@@ -486,7 +486,6 @@ export let professionLevel = 0;
 export let allActiveBuffs = [];
 export let mgtCompensation = 0;
 export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-export let filteredArrayIfHasExtraReaction;
 export let filteredArrayIfHasAnyAffinity;
 export let filteredArrayForNameOfHighestMagicalSkill;
 export let filteredArrayIfHasAnyMagicSkill;
@@ -700,8 +699,6 @@ let sumFpGainedByLevel
 let sumPpGainedByLevel 
 let sumMpGainedByLevel 
 let sumInitiativeGainedByLevel
-let filteredArrayIfHasNimble
-let filteredArrayIfHasPsionist 
 let filteredArrayIfHasRunning
 let schoolsOfMagicNames
 let masterWeaponModifier = 0;
@@ -799,11 +796,11 @@ if (filteredArrayIfHasParry.length != 0) { // ha van hárítás képzettsége
   charDefWithParry.value = tvcoCalculator(defWithProfession) + commonModifiers
   + chiCombatAtkDefModifier + defensiveCombatVEObonus;
 }
-if (filteredArrayIfHasNimble.length != 0) { // ha van Fürge adottsága
+if (aptitudeObject["Fürge"]) { // ha van Fürge adottsága
   charDefWithEvasion.value = tvcoCalculator(defWithProfession) + commonModifiers
-  + 0.5 + 0.5 * parseInt(filteredArrayIfHasNimble[0].level) // itt az első 0,5 alapból jön, ha kitérés manővert vet be valaki
+  + 0.5 + 0.5 * aptitudeObject["Fürge"] // itt az első 0,5 alapból jön, ha kitérés manővert vet be valaki
   + chiCombatAtkDefModifier + defensiveCombatVEObonus;
-} else if (filteredArrayIfHasNimble.length == 0) {
+} else if (!aptitudeObject["Fürge"]) {
   charDefWithEvasion.value = tvcoCalculator(defWithProfession) + commonModifiers
   + 0.5 // ez az érték alapból jön, ha kitérés manővert vet be valaki
   + chiCombatAtkDefModifier + defensiveCombatVEObonus;
@@ -1488,15 +1485,6 @@ export default function Home(props) {
             }
         }
         //-----szűrés különböző adottságokra
-        filteredArrayIfHasExtraReaction = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Extra reakció"
-        );
-        filteredArrayIfHasNimble = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Fürge"
-        );
-        filteredArrayIfHasPsionist = parsedCharacterDataFromJSON.aptitudes.filter(
-          (name) => name.aptitude == "Pszionista"
-        );
         filteredArrayIfHasAnyAffinity = parsedCharacterDataFromJSON.aptitudes.filter((name) => {
           if (name.aptitude != null) {
             return name.aptitude.includes("affinitás");
@@ -1847,9 +1835,9 @@ export default function Home(props) {
             psiMultiplier = parseFloat(filteredArrayIfHasPsi[0].level / 2);
           }
           let statForPsiPoints = 0
-          if (filteredArrayIfHasPsionist.length != 0 && filteredArrayIfHasPsionist[0].level != 0) {
-            statForPsiPoints = highestStatForPsiPoints + filteredArrayIfHasPsionist[0].level *3
-          } else if(filteredArrayIfHasPsionist.length == 0 || filteredArrayIfHasPsionist[0].level == 0){
+          if (aptitudeObject["Pszionista"]) {
+            statForPsiPoints = highestStatForPsiPoints + aptitudeObject["Pszionista"] *3
+          } else if(!aptitudeObject["Pszionista"]){
             statForPsiPoints = lowestStatForPsiPoints
           }
     
