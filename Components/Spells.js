@@ -519,7 +519,7 @@ export function aspOptionDisabler(magicSkillLevel) {
     // }
   }
 }
-
+//let modifiedAspectIndex = {}
 export function handleSpellAspOptionChange(event) {
   let indexOfCurrentAspect = parseInt(event.target.parentElement.firstChild.value[event.target.parentElement.firstChild.value.indexOf(" ")+1])
   if (event.target.parentElement.parentElement.id == "powerAspectPillar") {
@@ -548,6 +548,7 @@ export function handleSpellAspOptionChange(event) {
     }
     if (event.target.value != parseInt(event.target.parentElement.firstChild.value)) {
       anyAspExceptPowerAspModified = true;
+      //modifiedAspectIndex = {"indexOfCurrentAspect":indexOfCurrentAspect}
     }
   }
   calculateSpellCastTimeAndManaCost();
@@ -878,18 +879,26 @@ function Spells() {
       stressCheck=true
     }
     skillOrAttributeCheckRoll(stressCheck) 
-    if (powerAspModified || anyAspExceptPowerAspModified) {
-      let currentDifficultyClass = parseInt(warningWindow.innerText.slice(warningWindow.innerText.search(/[0-9]/))) // az elérendő célszám, ami csak akkor érdekes, ha volt aspektus modifikáció
-      let skillCheckResultNumber = parseInt(skillCheckResult.innerText) // próba eredménye
+    let currentDifficultyClass = parseInt(warningWindow.innerText.slice(warningWindow.innerText.search(/[0-9]/))) // az elérendő célszám, ami csak akkor érdekes, ha volt aspektus modifikáció
+    let skillCheckResultNumber = parseInt(skillCheckResult.innerText) // próba eredménye
+    if (powerAspModified) {
       let powerValue = allPowerAspectSelect[0].value
-      if (currentDifficultyClass - skillCheckResultNumber == 1) {
-        allPowerAspectSelect[0].value = Math.floor(allPowerAspectSelect[0].value*2/3)
+      if (currentDifficultyClass - skillCheckResultNumber > 0) {
+        allPowerAspectSelect[0].value -= (currentDifficultyClass - skillCheckResultNumber)
+        if (allPowerAspectSelect[0].value <= 0) {
+          advancedSpellInputWrapper.style.display = "none";
+          currentManaInAdvancedSpellWrapper.style.display = "none";
+          spellInputWrapper.style.display = "none";
+          blinkingText(warningWindow, "A varázslat nem jött létre!");
+          return
+        }
       }
-      if (currentDifficultyClass - skillCheckResultNumber == 2) {
-        allPowerAspectSelect[0].value = Math.floor(allPowerAspectSelect[0].value*1/3)
-      }
-      let powerValueMod = allPowerAspectSelect[0].value
     }
+    // if (anyAspExceptPowerAspModified) {
+    //     console.log(allAspectSelect[modifiedAspectIndex.indexOfCurrentAspect].value)
+    //     allAspectSelect[modifiedAspectIndex.indexOfCurrentAspect].value = parseInt(allAspectSelect[modifiedAspectIndex.indexOfCurrentAspect].value) - (currentDifficultyClass - skillCheckResultNumber)
+    //     console.log(allAspectSelect[modifiedAspectIndex.indexOfCurrentAspect].value)
+    // }
     if (allPowerAspectSelect[0].value == 1 || allPowerAspectSelect[0].value == 2) {
       numberOfDiceInput.value = allPowerAspectSelect[0].value;
     }
