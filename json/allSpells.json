@@ -9813,5 +9813,379 @@
     "description": "A varázslat 500 láb sugarú gömbön belül felderíti a paphoz legközelebb eső menedékhelyet. Az adott erősség azt mutatja meg, hogy legfeljebb milyen minőségű menedékhelyet találhat a pap. Például: 3E - Kidőlt fa, ami alá befér a pap. 6E - kisebb barlang, ahol legalább 2 ember elfér,  9E - barlangrendszer legalább 1 nagyobb teremmel, ahol vízforrás is van. 12E - fogadó, ahol a papot szívesen látják.",
     "resist": "nincs",
     "ritual": true
+  },
+  {
+    "name": "Álomvizsgálat (Morgena)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 5, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "antiss érzékelés (idő)",
+    "description": "A fohásznak köszönhetően a pap tudomást szerez a környezetében - névleg 50 láb sugárban, bár az antisson a távolságok bizonytalanok - fellelhető antiss jelenségekről, lényekről, amennyiben azok erőssége, illetve bestiaosztálya nem haladja meg a fohász Erősséget.",
+    "resist": "Szellemi",
+    "ritual": true
+  },
+  {
+    "name": "Szóbeszéd (Morgena)",
+    "aspects": [
+      ["Erősség", 5, 0, -1],
+      ["Erősség", 3, 0, 0],
+      ["Távolság", 3, 0, 0],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 5, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "emlékezés irányítás (rész) (mentál), konkrét jelenséghez kötődő érzelem növelése (asztrál)",
+    "description": "A fohász segítségével a pap a célpontban elültet egy információt, amit aztán az időtartam alatt az áldozat kényszeresen terjeszteni próbál majd.",
+    "resist": "Asztrális, Mentális",
+    "ritual": true
+  },
+  {
+    "name": "Álomküldött (Morgena)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Távolság", 5, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 8, 0, -1]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "antiss gólem készítés (idő)",
+    "description": "A fohász segítségével a pap az antisson hoz létre egy álomküldöttet, amely az időtartam lejártáig hajtja végre a létrehozásakor megfogalmazott küldetését. Statisztikái a fohász Erősségétől és Területétől függenek a formasablon alapján. (Komponens: nonfiguratív szakrális tetoválás)",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Farkasszolga (Morgena)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Erősség", 4, 0, 0],
+      ["Távolság", 3, 0, 0],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 6, 0, -1],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "akarat irányítás (rész) (mentál), II. anyag átformázás (anyag), II. anyag átalakítás (anyag)",
+    "description": "A fohász hatására a legfeljebb emberi léptékű célpont átalakul egy hasonló méretekkel bíró farkassá, amely aztán a létrehozáskor meghatározott célt fogja teljesíteni. A célpont tud róla, hogy az akaratát manipulálják. A célpontot a fizikai ellenállás kapcsán +6 extra siker illeti meg. (Komponens: farkas tetoválás)",
+    "resist": "Mentális, Fizikai"
+  },
+  {
+    "name": "Árnyalak (Morgena)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 8, 0, -1]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "alacsony hatalmú működés (elemi)",
+    "description": "A pap teste és az aurájában lévő felszerelési tárgyai a saját árnyékává változnak. Ebben a formában a pap a felületeken (falak, padlók stb) képes mozogni a normál sebességének kétszeresével. A környezetét látja és hallja. Kizárólag mágikus fegyverrel sebezhető,  a környezetére fizikailag hatni, tevékenykedni, szóban kommunikálni nem tud, ellenben pszi-t használhat, szellemi tevékenységet végezhet. A fohász erősségét meghaladó fény sebzi azzal a sebzéskóddal, amennyivel a litánia erősségét meghaladja a fény erőssége. (Komponens: nonfiguratív szakrális tetoválás)",
+    "resist": "nincs"
+  },
+  {
+    "name": "Árnybéklyó (Morgena)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "erősen összetett működés (elemi)",
+    "description": "A fohász a hatóterületen belüli két tárgyat, személyt árnyakból font bilincsekkel köt össze. Kiszabadulás tekintetében Erősségnek megfelelő elemi erőként kezelendő. A bilincsre vetülő fény, mint ellenelem gyengítheti annak Erősségét.",
+    "resist": "Elkerülő"
+  },
+  {
+    "name": "Árnyéküzenet (Morgena)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 9, 0, -1],
+      ["Terület", 4, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "gyengén összetett működés (elemi)",
+    "description": "A pap által látott, vagy jól ismert helyen az árnyékok egy nagyjából területnyi kiterjedésben átformálódnak az általa kívánt formába. Az időtartam lejártáig úgy is maradnak statikus, mozdulatlan állapotukban. (Komponens: farkas tetoválás)",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Álomkontroll (Morgena)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Távolság", 5, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "antiss uralás (idő)",
+    "description": "A fohász a pap által meghatározott állapotot fogja fenntartani az antisson. Az az időtartam lejártáig, legfeljebb 10 láb sugarú körben, a létrehozáskor a pap által \"érintéssel\" kijelölt területen jön létre.",
+    "resist": "nincs"
+  },
+  {
+    "name": "A holló álma (Morgena)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 8, 0, -1]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "jóslás (idő)",
+    "description": "A pap a célpont jövőjéről kap meglehetősen tiszta képet. Ez az alap Erősség (4E) esetén egy hét időtávot jelent. Magasabb Erősség, és ezáltal nagyobb időtávnál a jóslat pontossága az idevágó szabályok szerint arányosan romlik. (Komponens: holló tetoválás)",
+    "resist": "Szellemi",
+    "ritual": true
+  },
+  {
+    "name": "Rajzás (Morgena)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Erősség", 3, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 9, 0, -1],
+      ["Mechanizmus", 4, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Morgena",
+    "mechanismText": "élő lélek uralása (nekro), II. anyag átalakítás (anyag), II. anyag átformázás (anyag)",
+    "description": "A pap tömegének megfelelő, darabonként nagyjából egy font súlyú hollóra válik szét. A lelke mindegyik hollóban jelen van, ezért tudja őket irányítani és érzékelni velük, noha a figyelem megoszlása rendkívül megterhelő lehet. Az időtartam lejártakor a hollók vissza alakulnak a pap formájába. Ha nincs a hollók legalább kétharmada egy helyen, a pap halálát leli. Egyébként a hiányzó hollók arányosan okoznak Ép sérülést a visszaalakult pap testén. (Komponens: holló tetoválás)",
+    "resist": "nincs"
+  },
+  {
+    "name": "Karbantartás (Tooma)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "II. anyag regenerálás (anyag)",
+    "description": "A fohásszal a pap által megérintett legfeljebb Nagy tárgy léptékű tárgy, eszköz (pl. fegyver vagy páncél) eredeti, azaz egy holdhónapnál nem régebbi, állapota állítható vissza. Az Erősség megmutatja, hogy milyen mértékű sérülés állítható helyre. Ez függ egyrészt attól, hogy a regenerálni kívánt tárgyból mekkora rész áll rendelkezésre, valamint attól, hogy a sérülés folytán mennyire változott a tárgy jellege.  Ott, ahol a tárgy kb. fele maradt meg, 10 E szükségeltetik, míg ha maradéktalanul rendelkezésre áll minden darabja, 1 E is elegendő. Egy tiszta sérülés +0 E-et (pl. darabokra tört kard), egy súlyos sérülés (pl. ledarálás) +3 E-et, míg egy katasztrófális sérülés (pl. elégetés) +6 E-et igényel.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Tooma tombolása (Tooma)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "nagyon szűk tevékenységre vonatkozó sorshatás (idő)",
+    "description": "A fohász hatására a pap E/2 pozitív (alapból +2) TÉO módosítót kap.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Tooma áldása (Tooma)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 4, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 7, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "általános bűvölés (idő)",
+    "description": "A fohásszal a pap egy megérintett fegyver harcértékeit (TÉ,VÉ,CÉ) növeli meg E/2 mértékben (lefelé kerekítve). A varázslat mágikus anyagú fegyverre is mondható.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Ősatyák vértje (Tooma)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 7, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "általános bűvölés (anyag)",
+    "description": "A fohásszal a pap egy általa megérintett páncél SFÉ-jét növeli E/4 mértékben (lefelé kerekítve). A hatás - mivel bűvölésről van szó - összeadódik a különböző aurák (pl. Pajzs varázslat) adta SFÉ-vel. A varázslat mágikus anyagú páncélra is mondható.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Tooma parancsa (Tooma)",
+    "aspects": [
+      ["Erősség", 4, 1, -1],
+      ["Távolság", 2, 1, 0],
+      ["Terület", 4, 1, 0],
+      ["Időtartam", 3, 1, 0],
+      ["Időtartam", 1, 1, 0],
+      ["Mechanizmus", 4, 1, 0],
+      ["Mechanizmus", 4, 1, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "III. anyag pusztítás (anyag), varázsintelligencia",
+    "description": "A fohász időtartama alatt a papot érő minden egyes harci kör első sikeres támadása esetén a kérdéses, legfeljebb közepes tárgy léptékű fegyver megsemmisül. Így a sebzést ennek okán nem szenvedi el a pap. A hatás ellen a közelharci fegyver forgatója tehet ellenállást, mely kapcsán +3 extra siker illeti meg a személyes aurája okán. Ellenben a távolsági fegyverek találata esetén nincs helye ellenállásnak, ott a fohász hatása - a lövedék pusztulása - mindenképp bekövetkezik. (Ismétlődő)",
+    "resist": "nincs/Fizikai"
+  },
+  {
+    "name": "Fémérzékelés (Tooma)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "V. anyag érzékelés (anyag)",
+    "description": "A pap a zónáján belül minden fémet érzékel. Ebbe beletartoznak a nemes, és mágikus fémek (pl. mithril, abbit) is. Az Erősség határozza meg azt a léptéket (értsd Terület aspektusok), amelyek közt még képes a varázslat különbséget tenni. A 3 E kisebb tárgy (pl. egy tőr).",
+    "resist": "nincs/Fizikai"
+  },
+  {
+    "name": "Fémelemzés (Tooma)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 7, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "V. anyag elemzés (anyag)",
+    "description": "A fohásszal a pap egy legfeljebb Nagy tárgy léptékű területen belül lévő fémekről tud meg információkat. Az természetes információk felső határa 6E. Alap erősítéssel a fém pontos fajtájáról, összetételéről, több különböző fém, vagy ötvözet esetén azok arányairól értesül. Nagyobb erősségeknél további információk is kiderülnek, mint pl. a tárgy teljes története, hányszor javították, milyen sérüléseket szenvedett, milyen minőségű kovácsmunka, milyen technológiával készült, stb. A varázslat bármilyen fém titkait képes így megismerni, ideértve a mágikus fémeket is.",
+    "resist": "nincs/Fizikai",
+    "ritual": true
+  },
+  {
+    "name": "Tooma ereje (Tooma)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 10, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "általános tulajdonság bónusz (elemi)",
+    "description": "A pap által megérintett célpontok E/4 Tulajdonság bónuszt (sikerszintet) kapnak minden Erő alapú Képzettség- és Tulajdonságpróbájukra. ",
+    "resist": "Fizikai",
+    "ritual": true
+  },
+  {
+    "name": "Tooma bömbölése (Tooma)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 6, 0, -1],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "részleges érzékelés irányítás (mentál)",
+    "description": "A pap és a hozzá legközelebb álló 11 személy Erősségnek megfelelő max Fp csökkenést szenved el a hatóidő lejártáig. (Komponens: önmagán is sebez, Összetevő: üvöltés kíséretében a szent szimbólumot hordozó fegyver földbe vágása)",
+    "resist": "Mentál"
+  },
+  {
+    "name": "Fémtáncoltatás (Tooma)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 4, -1, 0],
+      ["Mechanizmus", 8, -2, 0],
+      ["Mechanizmus", 8, -2, 0],
+      ["Mechanizmus", 5, -2, 0],
+      ["Mechanizmus", 4, -2, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Tooma",
+    "mechanismText": "III. anyag aktív forma (anyag), precizitás, oszthatatlanság, III. anyag átformázás (anyag)",
+    "description": "A varázslat hatására egy Apró objektum léptékű területen belül minden, III. anyagkategóriába tartozó fém egy közös masszába tömörül össze a hatóterület közepén. A varázslat képes az egyszerűbb tárgyak oszthatatlanságának legyőzésére, így pl. hat a bőrvértek láncszemeire, csattjaira vagy a kardok pengéjére is, melyek engedelmesen beleolvadnak a masszába. Természetesen, ha az ilyen fémeket valaki éppen viseli vagy a testében hordja, azokat a megilleti a személyes aura védelme által biztosított +3 vagy +6 sikerszint az ellenállás során. A harcképes masszát - mely +4 HMOval bír - ez után a pap kedve szerint irányíthatja, statiszikái a formasablonnak megfelelően alakulnak. (Fenntartott, Irányított)",
+    "resist": "nincs/Fizikai"
   }
 ]
