@@ -590,9 +590,6 @@ export let reloadIsNeeded = false;
 export function reloadIsNeededSetToFalse() {
   reloadIsNeeded = false;
 }
-export function reloadIsNeededSetToTrue() {
-  reloadIsNeeded = true;
-}
 export function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
   for (let i = 0; i < rangedWeaponsArray.length; i++) {
     if (currentlySelectedWeaponType.includes(rangedWeaponsArray[i])) {
@@ -880,7 +877,7 @@ charDef.value = parseFloat(guidedSpellDefense.innerText) - modifierFromNumberOfA
       arrayOfAllComplexManeuvers[i].disabled = true;
     }
   }
-  if (reloadIsNeeded == false && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
+  if (currentlySelectedWeapon.readyToFireOrThrow && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {
     reloadButton.disabled = true;
     warningWindow.innerText = "";
   }
@@ -888,7 +885,6 @@ charDef.value = parseFloat(guidedSpellDefense.innerText) - modifierFromNumberOfA
       //********************************************************************************************** */
         // Kiszámolja a maximális és cselekedetenkénti mozgás távot. Ez függ az MGT-től, ezért van ennyire lent
         // *********************************************************************************************
-        
         let speedBonusFromRunningSkill = 0;
         if (filteredArrayIfHasRunning.length != 0) {
           speedBonusFromRunningSkill = filteredArrayIfHasRunning[0].level * 2;
@@ -1289,7 +1285,6 @@ export default function Home(props) {
   }
 
   function handleWeaponOrShieldChange() {
-    //handleFileRead();
     combatStatRefresher()
 
     let allAimedBodyParts = document.querySelectorAll(
@@ -1306,7 +1301,33 @@ export default function Home(props) {
       weapons.disabled = true;
       offHand.disabled = true;
       weaponChangeButton.disabled = false;
-      reloadIsNeeded = false;
+      warningWindow.innerText = ""
+      if (
+        checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true &&  // ha az a fegyver, amire épp váltok nincs lőkész állapotban
+        currentlySelectedWeapon.w_type != "MÁGIA" &&
+        !currentlySelectedWeapon.readyToFireOrThrow
+      ) {
+        attackRollButton.disabled = true;
+        reloadButton.disabled = false;
+        if (
+          currentlySelectedWeapon.w_type == "VET" ||
+          currentlySelectedWeapon.w_type == "NYD" ||
+          currentlySelectedWeapon.w_type == "PD"
+        ) {
+          blinkingText(
+            warningWindow,
+            `Elő kell készítened egy új dobófegyvert ${currentlySelectedWeapon.reloadTime} CS`
+          );
+        } else {
+          blinkingText(
+            warningWindow,
+            `Újra kell töltened ${currentlySelectedWeapon.reloadTime} CS`
+          );
+        }
+        // ammoAmountInput.value--
+      } else if (!firstAttackInRoundSpent){
+        attackRollButton.disabled = false
+      }
     }
   }
 
@@ -2331,7 +2352,7 @@ export default function Home(props) {
         currentlySelectedWeapon.w_type != "MÁGIA" &&
         spellNeedsAimRoll == false
       ) {
-        reloadIsNeeded = true;
+        currentlySelectedWeapon.readyToFireOrThrow = false
         attackRollButton.disabled = true;
         reloadButton.disabled = false;
         if (

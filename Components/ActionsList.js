@@ -160,7 +160,7 @@ export function reloadFailed(anyCondition = true) {
   if (
     anyCondition &&
     numberOfActionsSpentReloading >= 1 &&
-    reloadIsNeeded == true
+    !currentlySelectedWeapon.readyToFireOrThrow
   ) {
     numberOfActionsSpentReloading = 0;
     if (
@@ -323,7 +323,7 @@ function ActionList() {
         } 
         if (
           currentlySelectedWeapon.w_type != "MÁGIA" &&
-          reloadIsNeeded == true
+          !currentlySelectedWeapon.readyToFireOrThrow
         ) {
           attackRollButton.disabled = true;
         }
@@ -527,8 +527,7 @@ function ActionList() {
         }
 
         if (
-          currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading >
-            0 ||
+          currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading > 0 ||
           (firstAttackInRoundSpent == true && combinationCheckBox.checked == false) ||
           parseInt(numberOfActions.innerText) < totalActionCostOfAttack
         ) {
@@ -560,7 +559,7 @@ function ActionList() {
           currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading <=
           0
         ) {
-          reloadIsNeededSetToFalse();
+          currentlySelectedWeapon.readyToFireOrThrow = true
           reloadButton.disabled = true;
           warningWindow.innerText = "";
           numberOfActionsSpentReloading = 0;
@@ -577,11 +576,6 @@ function ActionList() {
           ) {
             attackRollButton.disabled = false;
           }
-        }
-        if (
-          currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading >
-          0
-        ) {
         }
       }
       reloadFailed(!nameOfManeuver.includes("töltés"));

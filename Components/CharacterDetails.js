@@ -629,12 +629,11 @@ if (defensiveCombatContinueSelected) {
       if (
         checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true &&
         currentlySelectedWeapon.w_type != "MÁGIA" &&
-        reloadIsNeeded == true
+        !currentlySelectedWeapon.readyToFireOrThrow
       ) {
         attackRollButton.disabled = true;
       }
-      numberOfCurrentRound.innerText =
-        parseInt(numberOfCurrentRound.innerText) + 1 + ".";
+      numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + ".";
       if (
         extraReactionLevel != 0 &&
         extraReactionLevel >= parseInt(numberOfCurrentRound.innerText)
