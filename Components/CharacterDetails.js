@@ -12,8 +12,6 @@ import {
   twoWeaponAttackWasUsedThisRoundToFalse,
   twoWeaponAttackModifiers,
   twoWeaponAttackModifiersIndex,
-  reloadIsNeeded,
-  reloadIsNeededSetToFalse,
   toggleAllallActionBarButtonsExceptInitRollDisplay,
   allResultsCleaner,
   numberOfAttacksInTheRoundNullifier,
@@ -294,7 +292,6 @@ function CharacterDetails() {
         arrayOfAllComplexManeuvers[i].disabled == true;
       }
     }
-
     reloadButton.disabled = true;
     weapons.disabled = true;
     offHand.disabled = true;
@@ -733,7 +730,6 @@ if (defensiveCombatContinueSelected) {
     warningWindow.innerText = "";
     spellCastingActionButton.disabled = false;
     setFirstAttackInRoundSpent(false);
-    reloadIsNeededSetToFalse();
     if (spellIsBeingCast) {
       spellCastingSuccessful();
     } 

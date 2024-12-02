@@ -586,10 +586,6 @@ export let rangedWeaponsArray = [
   "MÁGIA",
   "Tűvető",
 ];
-export let reloadIsNeeded = false;
-export function reloadIsNeededSetToFalse() {
-  reloadIsNeeded = false;
-}
 export function checkIfWeaponIsRanged(currentlySelectedWeaponType) {
   for (let i = 0; i < rangedWeaponsArray.length; i++) {
     if (currentlySelectedWeaponType.includes(rangedWeaponsArray[i])) {
@@ -2401,6 +2397,25 @@ export default function Home(props) {
     spellNeedsAimRollSetToFalse();
     combatStatRefresher()
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
+    if (weaponBeforeCasting &&!weaponBeforeCasting.readyToFireOrThrow) { // vizsgálat a távolharci fegyverre, ha nem volt újratöltve, amikor a varázslat megkezdődött
+        reloadButton.disabled = false;
+        if (
+          weaponBeforeCasting.w_type == "VET" ||
+          weaponBeforeCasting.w_type == "NYD" ||
+          weaponBeforeCasting.w_type == "PD"
+        ) {
+          blinkingText(
+            warningWindow,
+            `Elő kell készítened egy új dobófegyvert ${weaponBeforeCasting.reloadTime} CS`
+          );
+        } else {
+          blinkingText(
+            warningWindow,
+            `Újra kell töltened ${weaponBeforeCasting.reloadTime} CS`
+          );
+        }
+        // ammoAmountInput.value--
+    }
   }
 
   return (

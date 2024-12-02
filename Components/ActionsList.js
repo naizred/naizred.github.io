@@ -7,8 +7,6 @@ import {
   twoWeaponAttackWasUsedThisRound,
   currentlySelectedWeapon,
   weaponsOptions,
-  reloadIsNeededSetToFalse,
-  reloadIsNeeded,
   filteredArrayIfHasAssassination,
   arrayOfAllComplexManeuvers,
   baseAimWithTeoCalculator,
@@ -556,8 +554,7 @@ function ActionList() {
           }
         }
         if (
-          currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading <=
-          0
+          currentlySelectedWeapon.reloadTime - numberOfActionsSpentReloading <= 0
         ) {
           currentlySelectedWeapon.readyToFireOrThrow = true
           reloadButton.disabled = true;
