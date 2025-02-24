@@ -371,8 +371,7 @@ export function PsiDisciplines(props) {
           // allActiveBuffs[i].innerText = `Energiagyűjtés - Átalakítással nyert mana: ${
           //   psiPointCostInput.value
           // }
-          currentMp.value =
-            parseInt(currentMp.value) + parseInt(psiPointCostInput.value);
+          currentMp.value = parseInt(currentMp.value) + parseInt(psiPointCostInput.value);
           if (parseInt(maxMp.innerText) <= parseInt(currentMp.value)) {
             currentMp.value = parseInt(maxMp.innerText);
           }
@@ -383,8 +382,7 @@ export function PsiDisciplines(props) {
           continousDisciplineRemoverAndActionSetter()
         ) {
           //`Energiagyűjtés - Kivonással nyert mana: ${parseInt(psiPointCostInput.value) * 3}
-          currentMp.value =
-            parseInt(currentMp.value) + parseInt(psiPointCostInput.value) * 3;
+          currentMp.value =  parseInt(currentMp.value) + parseInt(psiPointCostInput.value) * 3;
           if (parseInt(maxMp.innerText) <= parseInt(currentMp.value)) {
             currentMp.value = parseInt(maxMp.innerText);
           }

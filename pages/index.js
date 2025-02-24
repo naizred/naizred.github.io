@@ -31,6 +31,7 @@ import ActionList, {
   setDefensiveCombatVEObonus,
   defensiveCombatOn,
   defensiveCombatOnSetToFalse,
+  assassinationOn,
 } from "../Components/ActionsList";
 import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
@@ -709,8 +710,7 @@ export function combatStatRefresher(){
     (name) => name.w_name === `${offHand.value}`
     );
 
-    if (aptitudeObject["Mesterfegyver"] && 
-      parsedCharacterDataFromJSON.masterWeapon == currentlySelectedWeapon.w_name) 
+    if ((aptitudeObject["Mesterfegyver"] && parsedCharacterDataFromJSON.masterWeapon == currentlySelectedWeapon.w_name) && chosenWeapon.innerText != "Kétk.harc másik kéz:") 
       {
       masterWeaponModifier = aptitudeObject["Mesterfegyver"];
     } else {
@@ -761,6 +761,12 @@ if (currentlySelectedWeapon.w_type == "Ököl") {
 
 let reducedMgtByParrySkill = currentlySelectedOffHand.mgt;
 let anyOtherHmoModifierValue = anyOtherHmoModifier.value;
+let assassinationAttackModifier = 0;
+if (assassinationRadioButton.checked == true) {
+  assassinationAttackModifier = 3 + filteredArrayIfHasAssassination[0].level
+  assassinationToFalse()
+}
+
 if (anyOtherHmoModifier.value == "") {
   anyOtherHmoModifierValue = 0;
 }
@@ -803,7 +809,7 @@ charDef.value = tvcoCalculator(defWithProfession) + commonModifiers
 /********************************* TÉO és CÉO számítás ************************************************************************************ */
 if (!checkIfWeaponIsRanged(currentlySelectedWeapon.w_type)) {  // ha az éppen használt fegyver közelharci (TÉO-t használ)
   charAtk.value = tvcoCalculator(atkWithProfession) + commonModifiers
-  + findWeakSpotModifier + chiCombatAtkDefModifier; // gyenge pontok felmérése csak közelharcnál van
+  + findWeakSpotModifier + chiCombatAtkDefModifier + assassinationAttackModifier; // gyenge pontok felmérése csak közelharcnál van
 } else { // ha a használt fegyver távolsági (CÉO-t használ)
   charAtk.value = tvcoCalculator(aimWithProfession) + commonModifiers + currentAimedSpellModifier
 } 
@@ -2382,13 +2388,6 @@ export default function Home(props) {
       thisAttackWasWithCharge = false
     }
 
-    if (assassinationRadioButton.checked == true) {
-      charAtk.value =
-        parseFloat(charAtk.value) -
-        filteredArrayIfHasAssassination[0].level -
-        3;
-      assassinationToFalse();
-    }
     if (firstAttackIsSpellThatNeedsAimRoll) {
       firstAttackInRoundSpent = false;
       firstAttackIsSpellThatNeedsAimRollSetToFalse()
