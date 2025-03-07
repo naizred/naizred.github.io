@@ -1,7 +1,7 @@
 import { allActiveBuffs, aptitudeObject } from '../pages';
 import styles from '../styles/resistancesaptitudesracemofifiers.module.css';
 import { dinamicResistanceRollModifier, dinamicResistanceRollModifierChanger } from './PsiDisciplines';
-import { checkBoxTurnedFromNotCheckedToCheckedStatus, manuallySetRollModifier, setManuallySetRollModifierToZero, skillOrAttributeCheckRoll } from './SkillCheck';
+import { checkBoxTurnedFromNotCheckedToCheckedStatus, evaluateSkillOrAttributeCheckBase, manuallySetRollModifier, setManuallySetRollModifierToZero, skillOrAttributeCheckRoll } from './SkillCheck';
 
 function ResistancesAptitudesRaceMofifiers() {
     // Összetett Fizikai Szellemi Asztrális Mentális Elkerülő
@@ -26,33 +26,31 @@ function ResistancesAptitudesRaceMofifiers() {
         }
       }
 
-    function setResistDMfromAptitudes(resistButtonId, aptitude){
-    if (event.target.id == resistButtonId && aptitudeObject[aptitude] && 
-        aptitudeObject[aptitude] > dinamicResistanceRollModifier && 
-        aptitudeObject[aptitude] > manuallySetRollModifier) {
-        rollModifier.value = aptitudeObject[aptitude]
+    function setResistSuccFailModifierFromAptitudes(resistButtonId, aptitude){
+    if (event.target.id == resistButtonId && aptitudeObject[aptitude]) {
+        succFailModifier.value = aptitudeObject[aptitude]
       }
     }
 
-    setResistDMfromAptitudes("physicalResistButton", "Masszív")
-    setResistDMfromAptitudes("astralResistButton", "Összeszedett")
-    setResistDMfromAptitudes("mentalResistButton", "Lélekerő")
-    setResistDMfromAptitudes("evasiveResistButton", "Intuitív")
+    setResistSuccFailModifierFromAptitudes("physicalResistButton", "Masszív")
+    setResistSuccFailModifierFromAptitudes("astralResistButton", "Összeszedett")
+    setResistSuccFailModifierFromAptitudes("mentalResistButton", "Lélekerő")
+    setResistSuccFailModifierFromAptitudes("evasiveResistButton", "Intuitív")
 
     if (event.target.id == "spiritualResistButton" && parseInt(event.target.value) == parseInt(astralResistButton.value)) {
-        setResistDMfromAptitudes("spiritualResistButton", "Összeszedett")
+        setResistSuccFailModifierFromAptitudes("spiritualResistButton", "Összeszedett")
     }
     if (event.target.id == "spiritualResistButton" && parseInt(event.target.value) == parseInt(mentalResistButton.value)) {
-        setResistDMfromAptitudes("spiritualResistButton", "Lélekerő")
+        setResistSuccFailModifierFromAptitudes("spiritualResistButton", "Lélekerő")
     }
     if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(astralResistButton.value)) {
-        setResistDMfromAptitudes("complexResistButton", "Összeszedett")
+        setResistSuccFailModifierFromAptitudes("complexResistButton", "Összeszedett")
     }
     if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(mentalResistButton.value)) {
-        setResistDMfromAptitudes("complexResistButton", "Lélekerő")
+        setResistSuccFailModifierFromAptitudes("complexResistButton", "Lélekerő")
     }
     if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(physicalResistButton.value)) {
-        setResistDMfromAptitudes("complexResistButton", "Masszív")
+        setResistSuccFailModifierFromAptitudes("complexResistButton", "Masszív")
     }
 
     if (checkBoxTurnedFromNotCheckedToCheckedStatus) {
@@ -88,18 +86,18 @@ function ResistancesAptitudesRaceMofifiers() {
         if (event.target.id.includes("evasive")) {
             attributesToSearchFor = ["Gyo", "Érz"]
         }
-        let breakOuterForCycle = false
+        let breakOuterForLoop = false
         for (let j = 0; j < attributesToSearchFor.length; j++) {
             if(selectAllAttributeOptions[i].innerText == attributesToSearchFor[j] && 
             parseInt(selectAllAttributeOptions[i].value) == parseInt(event.target.parentElement.firstElementChild.innerText))
             {
                 attributes.value = selectAllAttributeOptions[i].value
                 checkTypeIsAttributeCheck.checked = true
-                breakOuterForCycle = true
+                breakOuterForLoop = true
                 break
             }
         }
-        if (breakOuterForCycle) {
+        if (breakOuterForLoop) {
             break
         }
     }

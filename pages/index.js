@@ -31,7 +31,6 @@ import ActionList, {
   setDefensiveCombatVEObonus,
   defensiveCombatOn,
   defensiveCombatOnSetToFalse,
-  assassinationOn,
 } from "../Components/ActionsList";
 import {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
@@ -532,8 +531,7 @@ export let weaponsOptions;
 export function toggleAllallActionBarButtonsExceptInitRollDisplay(
   display = "none"
 ) {
-  initiativeLightDiceRerollButton.style.display = display
-  initiativeDarkDiceRerollButton.style.display = display
+  initiativeBonusButton.style.display = display
   const allActionBarButtons = document.querySelectorAll(
     "div#actionsWrapper button"
   );
@@ -657,7 +655,7 @@ export function CharCompare(a, b, index) {
 }
 export let skillLevelsMeaning = ["Nf","If", "Af", "Kf", "Mf", "Lf"];
 export let parsedCharacterDataFromJSON
-export let aptitudeObject = {}
+export let aptitudeObject = {} // Objektum ahol az Adottságok neve a kulcs, az érték pedig az Adottág szintje
 
 function tvcoCalculator(atkAimDef) {
   let calculatedTVCO = 0;
@@ -1384,7 +1382,7 @@ export default function Home(props) {
       
       for (let i = 0; i < parsedCharacterDataFromJSON.aptitudes.length; i++) {
        if(parsedCharacterDataFromJSON.aptitudes[i].level)
-        aptitudeObject[parsedCharacterDataFromJSON.aptitudes[i].aptitude] = parsedCharacterDataFromJSON.aptitudes[i].level
+        aptitudeObject[parsedCharacterDataFromJSON.aptitudes[i].aptitude] = parsedCharacterDataFromJSON.aptitudes[i].level   // Objektum ahol az Adottságok neve a kulcs, az érték pedig az Adottág szintje
       }
 
       let indexOfFirstWeapon = 0;
@@ -1844,12 +1842,16 @@ export default function Home(props) {
             currentCharFinalAttributes.Aka,
             currentCharFinalAttributes.Asz
           );
-          // --- ha van Pszionista adottság, akkor a legmagasabb Tulajdonság számít a legalacsonyabb helyett
+          // --- ha van Pszionista adottság, akkor az adottság szintjétől függően a középső, vagy a legmagasabb Tulajdonság számít a legalacsonyabb helyett
           let highestStatForPsiPoints = Math.max(
             currentCharFinalAttributes.Int,
             currentCharFinalAttributes.Aka,
             currentCharFinalAttributes.Asz
           )
+          let psiStatsArray = [currentCharFinalAttributes.Int, currentCharFinalAttributes.Aka, currentCharFinalAttributes.Asz]
+          
+          let middleStatForPsiPoints = psiStatsArray.sort()[1]  // mivel minden esetben 3 eleme van ennek az arraynak (a 3 Tulajdonság) ezért rendezés után mindig a középső az ami kell nekünk
+
           let psiMultiplier = 0;
           if (charRace.innerText == "Amund") {
             psiMultiplier = 1
@@ -1858,17 +1860,16 @@ export default function Home(props) {
             psiMultiplier = parseFloat(filteredArrayIfHasPsi[0].level / 2);
           }
           let statForPsiPoints = 0
-          if (aptitudeObject["Pszionista"]) {
-            statForPsiPoints = highestStatForPsiPoints + aptitudeObject["Pszionista"] *3
-          } else if(!aptitudeObject["Pszionista"]){
+          if (aptitudeObject["Pszionista"] == 1) {
+            statForPsiPoints = middleStatForPsiPoints + aptitudeObject["Pszionista"]*2 // a Pszionista adottság szintenként +2-vel növeli az érintett Tul.-t a pszi pontok kiszámításánál, de 1. fokon a középső Tul.-t kell alapul venni
+          } else if(aptitudeObject["Pszionista"] >= 2){
+            statForPsiPoints = highestStatForPsiPoints + aptitudeObject["Pszionista"]*2
+          }
+           else if(!aptitudeObject["Pszionista"]){
             statForPsiPoints = lowestStatForPsiPoints
           }
     
-         let psiPoints =
-            Math.floor(
-              statForPsiPoints * psiMultiplier +
-                parsedCharacterDataFromJSON.stats.Pp
-            ) + sumPpGainedByLevel;
+         let psiPoints = Math.floor(statForPsiPoints * psiMultiplier + parsedCharacterDataFromJSON.stats.Pp) + sumPpGainedByLevel;
           let psiShieldForAsz = 0
           let psiShieldForAka = 0
     
@@ -1889,24 +1890,40 @@ export default function Home(props) {
               }
             }
            /**************************** Ellenállásokkal kapcsolatos számítások **************************************************/
+           let extraAstralResistFromAptitude = 0 // ezek az adottságok extra sikert adnak
+           let extraMentalResistFromAptitude = 0
+           let extraPhysicalResistFromAptitude = 0
+           let extraEvasiveResistFromAptitude = 0
+           if (aptitudeObject["Összeszedett"]) {
+            extraAstralResistFromAptitude = aptitudeObject["Összeszedett"]
+           }
+           if (aptitudeObject["Lélekerő"]) {
+            extraMentalResistFromAptitude = aptitudeObject["Lélekerő"]
+           }
+           if (aptitudeObject["Masszív"]) {
+            extraPhysicalResistFromAptitude = aptitudeObject["Masszív"]
+           }
+           if (aptitudeObject["Intuitív"]) {
+            extraEvasiveResistFromAptitude = aptitudeObject["Intuitív"]
+           }
             astralResist.innerText = `${currentCharFinalAttributes.Asz} + (${psiShieldForAsz})` 
-            astralResistButton.value = currentCharFinalAttributes.Asz + psiShieldForAsz // a gomb value értékében van elrejtve az ellenállás
+            astralResistButton.value = currentCharFinalAttributes.Asz + psiShieldForAsz + extraAstralResistFromAptitude // a gomb value értékében van elrejtve az ellenállás
             mentalResist.innerText = `${currentCharFinalAttributes.Aka} + (${psiShieldForAka})`
-            mentalResistButton.value = currentCharFinalAttributes.Aka + psiShieldForAka
+            mentalResistButton.value = currentCharFinalAttributes.Aka + psiShieldForAka + extraMentalResistFromAptitude
             physicalResist.innerText = Math.min(currentCharFinalAttributes.Egé, currentCharFinalAttributes.Áll)
-            physicalResistButton.value = Math.min(currentCharFinalAttributes.Egé, currentCharFinalAttributes.Áll)
+            physicalResistButton.value = Math.min(currentCharFinalAttributes.Egé, currentCharFinalAttributes.Áll) + extraPhysicalResistFromAptitude
             evasiveResist.innerText = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz)
-            evasiveResistButton.value = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz)
+            evasiveResistButton.value = Math.min(currentCharFinalAttributes.Gyo, currentCharFinalAttributes.Érz) + extraEvasiveResistFromAptitude
             // itt kezdődnek azok az ellenállások, amik a többi ellenállásból számítódnak
-            if (currentCharFinalAttributes.Asz + psiShieldForAsz >=currentCharFinalAttributes.Aka + psiShieldForAka) 
+            if (parseInt(astralResistButton.value) >=parseInt(mentalResistButton.value)) 
             {
               spiritualResist.innerText = `${currentCharFinalAttributes.Aka} + (${psiShieldForAka})`
             } 
-            else if (currentCharFinalAttributes.Asz + psiShieldForAsz < currentCharFinalAttributes.Aka + psiShieldForAka)
+            else if (parseInt(astralResistButton.value) < parseInt(mentalResistButton.value))
             {
               spiritualResist.innerText = `${currentCharFinalAttributes.Asz} + (${psiShieldForAsz})`
             }
-            spiritualResistButton.value = Math.min(currentCharFinalAttributes.Asz + psiShieldForAsz, currentCharFinalAttributes.Aka + psiShieldForAka)
+            spiritualResistButton.value = Math.min(parseInt(astralResistButton.value), parseInt(mentalResistButton.value))
             
             if (parseInt(spiritualResistButton.value) >= parseInt(physicalResistButton.value)) 
             {

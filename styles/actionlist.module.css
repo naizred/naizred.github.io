@@ -24,40 +24,6 @@
   border-radius: 1vw;
   font-size: 0.8vw;
 }
-.spellInputWrapper {
-  display: none;
-  border: 0.23vw solid white;
-  border-radius: 1vw;
-  grid-column: 17 / 20;
-  grid-row: 8/12;
-  width: 12vw;
-  background-color: black;
-  background-repeat: no-repeat;
-  background-size: 20vw 20vw;
-  background-position: center;
-}
-.spellInputWrapper li {
-  display: grid;
-  grid-auto-flow: column;
-  width: 12vw;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-}
-.spellInputWrapper li button {
-  display: grid;
-  width: 3vw;
-}
-.spellInputWrapper li input {
-  display: grid;
-  height: 2vw;
-  width: 4vw;
-  text-align: center;
-  font-size: 1.5vw;
-}
-.spellInputWrapper button {
-  display: grid;
-  font-size: 1vw;
-}
 .spellCastButtonWrapper {
   display: grid;
   font-size: 1vw;

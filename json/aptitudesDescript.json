@@ -30,9 +30,9 @@
   {
     "aptName": "Csábító",
     "levelDescription": [
-      "+1 DM az ellenkező nem tagjaival szembeni pozitív jellegű szociális interakció során. Továbbá előnyös külső megjelenés, melynek mértéke a fokozattal arányos.",
       "+2 DM az ellenkező nem tagjaival szembeni pozitív jellegű szociális interakció során. Továbbá előnyös külső megjelenés, melynek mértéke a fokozattal arányos.",
-      "+3 DM az ellenkező nem tagjaival szembeni pozitív jellegű szociális interakció során. Továbbá előnyös külső megjelenés, melynek mértéke a fokozattal arányos."
+      "+3 DM az ellenkező nem tagjaival szembeni pozitív jellegű szociális interakció során. Továbbá előnyös külső megjelenés, melynek mértéke a fokozattal arányos.",
+      "+4 DM az ellenkező nem tagjaival szembeni pozitív jellegű szociális interakció során. Továbbá előnyös külső megjelenés, melynek mértéke a fokozattal arányos."
     ],
     "longDescriptionRequired": false
   },
@@ -49,9 +49,9 @@
   {
     "aptName": "Ellenálló",
     "levelDescription": [
-      "+1 DM Mérgekkel és Betegségekkel szemben.",
-      "+2 DM Mérgekkel és Betegségekkel szemben.",
-      "+3 DM Mérgekkel és Betegségekkel szemben."
+      "+1 extra siker Mérgekkel és Betegségekkel szemben.",
+      "+2 extra siker Mérgekkel és Betegségekkel szemben.",
+      "+3 extra siker Mérgekkel és Betegségekkel szemben."
     ],
     "longDescriptionRequired": false
   },
@@ -118,27 +118,27 @@
   {
     "aptName": "Ijesztő",
     "levelDescription": [
-      "+1 DM negatív szociális interakció során. Továbbá riasztó kisugárzás, melynek mértéke a fokozattól függ.",
       "+2 DM negatív szociális interakció során. Továbbá riasztó kisugárzás, melynek mértéke a fokozattól függ.",
-      "+3 DM negatív szociális interakció során. Továbbá riasztó kisugárzás, melynek mértéke a fokozattól függ."
+      "+3 DM negatív szociális interakció során. Továbbá riasztó kisugárzás, melynek mértéke a fokozattól függ.",
+      "+4 DM negatív szociális interakció során. Továbbá riasztó kisugárzás, melynek mértéke a fokozattól függ."
     ],
     "longDescriptionRequired": false
   },
   {
     "aptName": "Intuitív",
     "levelDescription": [
-      "+1 DM az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra.",
-      "+2 DM az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra.",
-      "+3 DM az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra."
+      "+1 extra siker az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra.",
+      "+2 extra siker az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra.",
+      "+3 extra siker az Elkerülő mágiaellenállásra, továbbá speciális, nem fizikai Tulajdonságon alapuló (pl. Intelligencia) mágiaellenállásra."
     ],
     "longDescriptionRequired": false
   },
   {
     "aptName": "Lélekerő",
     "levelDescription": [
-      "+1 DM a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi).",
-      "+2 DM a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi).",
-      "+3 DM a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi)."
+      "+1 extra siker a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi).",
+      "+2 extra siker a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi).",
+      "+3 extra siker a Mentális mágiaellenállásra, továbbá nem kívánatos tudati ráhatásra (pl. Pszi)."
     ],
     "longDescriptionRequired": false
   },
@@ -172,9 +172,9 @@
   {
     "aptName": "Masszív",
     "levelDescription": [
-      "+1 DM a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra.",
-      "+2 DM a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra.",
-      "+3 DM a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra."
+      "+1 extra siker a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra.",
+      "+2 extra siker a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra.",
+      "+3 extra siker a Fizikai mágiaellenállásra, továbbá minden speciális, fizikai Tulajdonságon alapuló (pl. Erő) mágiaellenállásra."
     ],
     "longDescriptionRequired": false
   },
@@ -204,9 +204,9 @@
   {
     "aptName": "Összeszedett",
     "levelDescription": [
-      "+1 DM az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi).",
-      "+2 DM az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi).",
-      "+3 DM az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi)."
+      "+1 extra siker az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi).",
+      "+2 extra siker az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi).",
+      "+3 extra siker az Asztrális mágiaellenállásra, továbbá nem kívánt érzelmi behatásra (pl. Pszi)."
     ],
     "longDescriptionRequired": false
   },
@@ -218,9 +218,9 @@
   {
     "aptName": "Pszionista",
     "levelDescription": [
-      "Int, Aka, Asz hármasból a legalacsonyabb helyett a legmagasabb Tulajdonságot veheti alapul a Pszi pontjainak meghatározásakor. Ez a Tulajdonsága +3-mal magasabbnak minősül.",
-      "Pszi pontjainak meghatározásánál az érintett Tulajdonsága +6-tal magasabbnak minősül.",
-      "Pszi pontjainak meghatározásánál az érintett Tulajdonsága +9-cel magasabbnak minősül."
+      "Int, Aka, Asz hármasból a legalacsonyabb helyett a középső Tulajdonságot veheti alapul a Pszi pontjainak meghatározásakor. Ez a Tulajdonsága +2-vel magasabbnak minősül.",
+      "Int, Aka, Asz hármasból a legalacsonyabb helyett a legmagasabb Tulajdonságot veheti alapul a Pszi pontjainak meghatározásakor. Ez a Tulajdonsága +4-el magasabbnak minősül.",
+      "Egy időben két folyamatos diszciplína alkalmazására is képes. Pszi pontjainak meghatározásánál az érintett Tulajdonsága +6-al magasabbnak minősül."
     ],
     "longDescriptionRequired": true
   },
@@ -241,9 +241,9 @@
   {
     "aptName": "Segítőtárs",
     "levelDescription": [
-      "+1 DM mások próbájának Segítőként való támogatása közbeni saját próbadobására.",
       "+2 DM mások próbájának Segítőként való támogatása közbeni saját próbadobására.",
-      "+3 DM mások próbájának Segítőként való támogatása közbeni saját próbadobására."
+      "+3 DM mások próbájának Segítőként való támogatása közbeni saját próbadobására.",
+      "+4 DM mások próbájának Segítőként való támogatása közbeni saját próbadobására."
     ],
     "longDescriptionRequired": false
   },
@@ -273,9 +273,9 @@
   {
     "aptName": "Szívós",
     "levelDescription": [
-      "Leütés harci manőver ellen +1 DM",
-      "Leütés harci manőver ellen +2 DM. Az eszméletvesztés csak a két kritérium (0 Fp és akt. Ép több, mint felének elvesztése) együttes megléte esetén következik be.",
-      "Leütés harci manőver ellen +3 DM. Az eszméletvesztés a fenti két kritérium együttes megléte esetén sem következik be."
+      "Leütés harci manőver ellen +1 DM Az eszméletvesztés 1 körrel később következik be.",
+      "Leütés harci manőver ellen +2 DM. Az eszméletvesztés 2 körrel később következik be.",
+      "Leütés harci manőver ellen +3 DM. Az eszméletvesztés 3 körrel később következik be."
     ],
     "longDescriptionRequired": false
   },
