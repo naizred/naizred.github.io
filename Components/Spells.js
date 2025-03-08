@@ -4,7 +4,6 @@ import spellAttributes from "../json/spellAttributes.json"
 import {
   allMagicSubskillsObject,
   allResultsCleaner,
-  filteredArrayForNameOfHighestMagicalSkill,
   filteredArrayIfHasAnyMagicSkill,
   currentGodWorshippedByPlayer,
   allActiveBuffs,
@@ -263,8 +262,7 @@ export function spellCastingFailure(anyOtherCondition = true) {
   }
 }
 let filteredSpellsBySubSkillAndLevel;
-export let currentSpell;
-
+let currentSpell;
 let powerAspModified = false;
 let anyAspExceptPowerAspModified = false;
 let highestAspectOfUnmodifiedAspects = [];
@@ -456,7 +454,7 @@ export function calculateSpellCastTimeAndManaCost() {
   spellManaCostDiv.innerText = finalManaCost;
 }
 
-function unusedSelectDisabler(){
+function unusedSelectHider(){
   for (let i = 0; i < allAspectSelect.length; i++) { 
     if(!allAspectSelect[i].parentElement.firstChild.value){
       allAspectSelect[i].style.display = "none"
@@ -468,6 +466,9 @@ function unusedSelectDisabler(){
 }
 
 export function aspOptionDisabler(magicSkillLevel) {
+  if (currentMainMagicSkillName == "Magas Mágia") {
+    return
+  }
   if (currentSpell.magicSubclass.includes("fohász")) {
     magicSkillLevel = 2;
   }
@@ -521,10 +522,14 @@ export function aspOptionDisabler(magicSkillLevel) {
 }
 //let modifiedAspectIndex = {}
 export function handleSpellAspOptionChange(event) {
-  let indexOfCurrentAspect = parseInt(event.target.parentElement.firstChild.value[event.target.parentElement.firstChild.value.indexOf(" ")+1])
+  let indexOfCurrentAspect = parseInt(event.target.parentElement.firstChild.value.slice(event.target.parentElement.firstChild.value.indexOf(" ")+1))
+  if (currentMainMagicSkillName == "Magas Mágia") {
+    currentSpell.aspects[indexOfCurrentAspect][1] = parseInt(event.target.value);
+    calculateSpellCastTimeAndManaCost();
+    return
+  }
   if (event.target.parentElement.parentElement.id == "powerAspectPillar") {
     // ez a következő sor azért van itt, hogy beleírja a felhasználó által választott értéket a varázslat értékei közé
-    currentSpell.aspects[indexOfCurrentAspect][1] = parseInt(event.target.value);
     if (event.target.value == parseInt(event.target.parentElement.firstChild.value)) {
       powerAspModified = false;
     }
@@ -685,13 +690,6 @@ function Spells() {
       //***************************************************************************** */
       // itt lesznek betöltve és szűrve a varázslatok
       //******************************************************************************* */
-      if (
-        filteredArrayForNameOfHighestMagicalSkill &&
-        (filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Szakrál") ||
-          filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Tűzvar") ||
-          filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Bárd") || 
-          filteredArrayForNameOfHighestMagicalSkill[0].name.includes("Bosz"))
-      ) {
         advancedSpellInputWrapper.style.display = "grid";
         currentManaInAdvancedSpellWrapper.style.display = "grid";
         currentManaInAdvancedSpellWrapper.innerText = `Aktuális Mp: ${currentMp.value}`
@@ -719,23 +717,38 @@ function Spells() {
           let allMagicSubskillsObjectValues = Object.values(allMagicSubskillsObject) // itt vannak a hozzájuk tartozó fokok
 
         for (let i = 0; i <allMagicSubskillsObjectKeys.length; i++) {
-          let magicSubSkillOption = document.createElement("option");
-          magicSubSkillOption.innerText = allMagicSubskillsObjectKeys[i];
-          magicSubSkillOption.value = allMagicSubskillsObjectValues[i] + allMagicSubskillsObjectKeys[i];
-          magicSubSkillSelect.appendChild(magicSubSkillOption);
+          if (!allMagicSubskillsObjectKeys[i].includes("mozaik")) {
+            let magicSubSkillOption = document.createElement("option");
+            magicSubSkillOption.innerText = allMagicSubskillsObjectKeys[i];
+            magicSubSkillOption.value = allMagicSubskillsObjectValues[i] + allMagicSubskillsObjectKeys[i];
+            magicSubSkillSelect.appendChild(magicSubSkillOption);
+          }
         }
         getMainMagicalSkillLevelBasedOnCurrentMagicSubskill()
-        evaluateMagicSubSkill();
-      } else {
-        spellInputWrapper.style.display = "grid";
-        warningWindow.innerText = "";
-      }
-    }
-    if (initRolled == false) {
-      spellActionCostListItem.style.display = "none";
-    }
-    if (initRolled == true) {
-      spellActionCostListItem.style.display = "grid";
+        if (currentMainMagicSkillName == "Magas Mágia") {
+          for (let i = 0; i < allMechanismAspectSelect.length; i++) {
+            allMechanismAspectSelect[i].disabled = false;
+          }
+          currentSpell = {
+          aspects:[]
+          }
+          for (let i = 0; i < currentMainMagicSkillLevel; i++) {        
+            currentSpell.aspects.push(["Erősség", 1, 0, 0])
+          }
+          for (let i = 0; i < currentMainMagicSkillLevel; i++) {        
+            currentSpell.aspects.push(["Távolság", 1, 0, 0])
+          }
+          for (let i = 0; i < currentMainMagicSkillLevel; i++) {        
+            currentSpell.aspects.push(["Terület", 1, 0, 0])
+          }
+          for (let i = 0; i < currentMainMagicSkillLevel; i++) {        
+            currentSpell.aspects.push(["Időtartam", 1, 0, 0])
+          }
+          for (let i = 0; i < currentMainMagicSkillLevel; i++) {        
+            currentSpell.aspects.push(["Mechanizmus", 1, 0, 0])
+          }
+        }
+          evaluateMagicSubSkill();
     }
   }
   function evaluateMagicSubSkill() {
@@ -783,10 +796,10 @@ function Spells() {
       allDurationAspectSelect[i].disabled = false;
     }
     // ha megváltoztatja a subSkill-t, akkor visszaállítjuk a "li"-ben eltárolt eredeti értékeket
-    if(currentSpell){
+    if(currentSpell && currentMainMagicSkillName != "Magas Mágia"){
       spellAspResetter()
     }
-    evaluateSpell();
+      evaluateSpell()
   }
   function handleSpellChange() {
     for (let i = 0; i < allPowerAspectSelect.length; i++) {
@@ -802,14 +815,18 @@ function Spells() {
       allDurationAspectSelect[i].disabled = false;
     }
     spellAspResetter()
-    evaluateSpell();
+    if(currentMainMagicSkillName != "Magas Mágia"){
+      evaluateSpell()
+    }
   }
 
 
   function evaluateSpell() {
-    currentSpell = filteredSpellsBySubSkillAndLevel.find(
-      (spell) => spell.name == `${spellSelect.value}`
-    );
+    if(currentMainMagicSkillName != "Magas Mágia"){
+      currentSpell = filteredSpellsBySubSkillAndLevel.find(
+        (spell) => spell.name == `${spellSelect.value}`
+      );
+    }
     let powerAspectPillarIndex = 0
     let distanceAspectPillarIndex = 0
     let areaAspectPillarIndex = 0
@@ -854,7 +871,7 @@ function Spells() {
       }
     }
     getMainMagicalSkillLevelBasedOnCurrentMagicSubskill()
-    unusedSelectDisabler()
+    unusedSelectHider()
     spellCastingCheckSetter()
     aspOptionDisabler(currentMainMagicSkillLevel);
     calculateSpellCastTimeAndManaCost();
@@ -888,7 +905,6 @@ function Spells() {
         if (allPowerAspectSelect[0].value <= 0) {
           advancedSpellInputWrapper.style.display = "none";
           currentManaInAdvancedSpellWrapper.style.display = "none";
-          spellInputWrapper.style.display = "none";
           blinkingText(warningWindow, "A varázslat nem jött létre!");
           return
         }
@@ -943,7 +959,6 @@ function Spells() {
     if (initRolled == false) {
       advancedSpellInputWrapper.style.display = "none";
       currentManaInAdvancedSpellWrapper.style.display = "none";
-      spellInputWrapper.style.display = "none";
       spellCastingSuccessful();
       return;
     }
@@ -971,7 +986,6 @@ function Spells() {
 
     advancedSpellInputWrapper.style.display = "none";
     currentManaInAdvancedSpellWrapper.style.display = "none";
-    spellInputWrapper.style.display = "none";
     if (initRolled == true && numberOfActionsNeededForTheSpell > 1) {
       spellIsBeingCast = true;
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
@@ -1015,11 +1029,11 @@ function Spells() {
       }
       warningWindow.innerText = "";
     }
-    if (event.target.id == "spellInputWrapperCancelCastButton") {
-      spellInputWrapper.style.display = "none";
-    }
   }
   function handleSpellSelectMouseEnter() {
+    if (currentMainMagicSkillName == "Magas Mágia") {
+      return
+    }
     spellDescriptionWindow.style.display = "grid";
 
     if (currentSpell.magicSubclass.includes("fohász") && currentSpell.ritual) {
@@ -1055,33 +1069,6 @@ function Spells() {
           id="spellCastingActionButton"
           onClick={handleClickOnSpellCastButton}>
           Végrehajt
-        </button>
-      </div>
-
-      <div id="spellInputWrapper" className={styles.spellInputWrapper}>
-        <li id="spellActionCostListItem">
-          <span>CS:</span>
-          <input id="spellActionCostInput" defaultValue={1} type="number" />
-        </li>
-        <li>
-          <span>MP:</span>
-          <input id="spellManaCostInput" defaultValue={0} type="number" />
-        </li>
-        <li>
-          <span>Seb:</span>
-          <input id="spellDamageInput" defaultValue={1} type="number" /> K5
-        </li>
-        <li>
-          <span>CÉO:</span>
-          <input id="spellAimInput" defaultValue={0} step={0.5} type="number" />
-          <button
-            id="spellInputWrapperCancelCastButton"
-            onClick={handleCancelSpellCast}>
-            Mégse
-          </button>
-        </li>
-        <button id="startCastButton" onClick={handleSpellCast}>
-          Elkezdek varázsolni
         </button>
       </div>
       <div
