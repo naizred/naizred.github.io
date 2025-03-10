@@ -48,11 +48,7 @@
   },
   {
     "aptName": "Ellenálló",
-    "levelDescription": [
-      "+1 extra siker Mérgekkel és Betegségekkel szemben.",
-      "+2 extra siker Mérgekkel és Betegségekkel szemben.",
-      "+3 extra siker Mérgekkel és Betegségekkel szemben."
-    ],
+    "levelDescription": ["+1 extra siker Mérgekkel és Betegségekkel szemben.", "+2 extra siker Mérgekkel és Betegségekkel szemben.", "+3 extra siker Mérgekkel és Betegségekkel szemben."],
     "longDescriptionRequired": false
   },
   {
@@ -66,11 +62,7 @@
   },
   {
     "aptName": "Elpusztíthatatlan",
-    "levelDescription": [
-      "+3 extra siker és +1 DM a Haldoklás próbákra.",
-      "+6 extra siker és +2 DM a Haldoklás próbákra.",
-      "+9 extra siker és +3 DM a Haldoklás próbákra."
-    ],
+    "levelDescription": ["+3 extra siker és +1 DM a Haldoklás próbákra.", "+6 extra siker és +2 DM a Haldoklás próbákra.", "+9 extra siker és +3 DM a Haldoklás próbákra."],
     "longDescriptionRequired": false
   },
   {
@@ -185,11 +177,7 @@
   },
   {
     "aptName": "Megállíthatatlan",
-    "levelDescription": [
-      "Megrendüléskor 1-gyel kevesebb CS-t veszít el.",
-      "Megrendüléskor 2-vel kevesebb CS-t veszít el.",
-      "Megrendüléskor 3-mal kevesebb CS-t veszít el."
-    ],
+    "levelDescription": ["Megrendüléskor 1-gyel kevesebb CS-t veszít el.", "Megrendüléskor 2-vel kevesebb CS-t veszít el.", "Megrendüléskor 3-mal kevesebb CS-t veszít el."],
     "longDescriptionRequired": false
   },
   {
@@ -295,11 +283,7 @@
   },
   {
     "aptName": "Varázstudó",
-    "levelDescription": [
-      "Lehet varázshasználó.",
-      "Max Mp meghatározásánál az érintett Tulajdonsága +3-mal magasabb.",
-      "Max Mp meghatározásánál az érintett Tulajdonsága +6-tal magasabb."
-    ],
+    "levelDescription": ["Lehet varázshasználó.", "Max Mp meghatározásánál az érintett Tulajdonsága +3-mal magasabb.", "Max Mp meghatározásánál az érintett Tulajdonsága +6-tal magasabb."],
     "longDescriptionRequired": false
   },
   {

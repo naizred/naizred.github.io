@@ -28,10 +28,7 @@ import {
   combatStatRefresher,
   aptitudeObject,
 } from "../pages";
-import {
-  arrayOfAllComplexManeuvers,
-  allActiveBuffs,
-} from "../pages";
+import { arrayOfAllComplexManeuvers, allActiveBuffs } from "../pages";
 import {
   theRoundChiCombatWasUsedIn,
   buffRemoverFromActiveBuffArrayAndTextList,
@@ -83,20 +80,17 @@ export let chiCombatEndedDueToLackOfPsiPoints = false;
 export let activeBuffsCounter = 0;
 export async function updateCharacterData(gameIdUpdate = false, attackRoll = false, skillCheckRoll = false) {
   if (charName.innerText == "") {
-    return
+    return;
   }
   let activeBuffsStringToSave = "";
   activeBuffsCounter = 0;
   for (let i = 0; i < allActiveBuffs.length; i++) {
-    if (
-      allActiveBuffs[i].innerText != "" &&
-      !allActiveBuffs[i].innerText.includes("kör")
-    ) {
+    if (allActiveBuffs[i].innerText != "" && !allActiveBuffs[i].innerText.includes("kör")) {
       activeBuffsStringToSave += `${allActiveBuffs[i].innerText}|`;
       activeBuffsCounter++;
     }
   }
- 
+
   activeBuffsStringToSave = activeBuffsCounter + activeBuffsStringToSave;
 
   let data = {
@@ -118,9 +112,9 @@ export async function updateCharacterData(gameIdUpdate = false, attackRoll = fal
     };
   }
   if (attackRoll == true) {
-    let bodyPartName = bodyPart.innerText
+    let bodyPartName = bodyPart.innerText;
     if (bodyPart.innerText == "Fegyverforgató kar") {
-      bodyPartName = "Jobb kar"
+      bodyPartName = "Jobb kar";
     }
     data = {
       charName: charName.innerText,
@@ -147,9 +141,9 @@ export async function updateCharacterData(gameIdUpdate = false, attackRoll = fal
   };
   await fetch(endpoint, options);
 }
-let defensiveCombatContinueSelected = false
-export function defensiveCombatContinueSelectedSetToFalse(){
-  defensiveCombatContinueSelected = false
+let defensiveCombatContinueSelected = false;
+export function defensiveCombatContinueSelectedSetToFalse() {
+  defensiveCombatContinueSelected = false;
 }
 var MersenneTwister = require("mersenne-twister");
 var generator = new MersenneTwister();
@@ -157,26 +151,26 @@ let actionsLostWithTacticsUsed = 0;
 function CharacterDetails() {
   function handleBonusInitByLP() {
     if (currentLp.value == 0 || parseInt(numberOfCurrentRound.innerText) != 1) {
-      return
+      return;
     }
     initiativeWithRoll.innerText = parseInt(initiativeWithRoll.innerText) + 6;
 
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1;
     adjustActionsPositive.value = parseInt(numberOfActions.innerText); // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
-    numberOfActions.innerText = parseInt(numberOfActions.innerText) +  firstRoundActionNumberModifierFromInitRoll; // ez ide azért kell, hogy a mentett max akciók ne változzon, mivel a módosító a nevezetes dobásból csak az első körre vonatkozik
+    numberOfActions.innerText = parseInt(numberOfActions.innerText) + firstRoundActionNumberModifierFromInitRoll; // ez ide azért kell, hogy a mentett max akciók ne változzon, mivel a módosító a nevezetes dobásból csak az első körre vonatkozik
     // az Extra Reackió adottság az első 3 körben +1 akciót is ad. A további körökben ezt a "handleEndOfRound" függvény fogja figyelni
     if (aptitudeObject["Extra reakció"] && extraReactionLevel > 0) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
     }
-    currentLp.value -= 1
+    currentLp.value -= 1;
     updateCharacterData();
   }
   let firstRoundActionNumberModifierFromInitRoll = 0;
   function handleInitiativeRoll() {
     if (soundToggleCheckbox.checked) {
-      rollDiceSound.play()
+      rollDiceSound.play();
     }
-    warningWindow.innerText = ""
+    warningWindow.innerText = "";
     numberOfAttacksInTheRoundNullifier();
     modifierFromNumberOfAttacksInTheRoundNullifier();
     cumulativeCombinationModifierNullifier();
@@ -184,17 +178,9 @@ function CharacterDetails() {
     allResultsCleaner();
 
     for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
-      if (
-        arrayOfAllComplexManeuvers[i].disabled == true &&
-        checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false
-      ) {
+      if (arrayOfAllComplexManeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
         arrayOfAllComplexManeuvers[i].disabled = false;
-        if (
-          weapons.value.includes("kétkézzel") ||
-          weapons.value.includes("Kétkezes") ||
-          weapons.value.includes("Pallos") ||
-          weapons.value.includes("Alabárd")
-        ) {
+        if (weapons.value.includes("kétkézzel") || weapons.value.includes("Kétkezes") || weapons.value.includes("Pallos") || weapons.value.includes("Alabárd")) {
           twoWeaponAttackRadioButton.disabled = true;
         } else {
           twoWeaponAttackRadioButton.disabled = false;
@@ -227,66 +213,42 @@ function CharacterDetails() {
     if (aptitudeObject["Extra reakció"]) {
       extraReactionLevel = aptitudeObject["Extra reakció"];
     }
-          initiativeLightDicePlusExtraReaction =
-        initiativeLightDice + extraReactionLevel;
-      if (initiativeLightDicePlusExtraReaction >= 10) {
-        initiativeLightDicePlusExtraReaction = 10;
-      }
+    initiativeLightDicePlusExtraReaction = initiativeLightDice + extraReactionLevel;
+    if (initiativeLightDicePlusExtraReaction >= 10) {
+      initiativeLightDicePlusExtraReaction = 10;
+    }
     ///***************** dobás teszteléshez ****************************/
     //initiativeLightDice = 2;
     //initiativeDarkDice = 2;
 
-    console.log(
-      "Kezdeményező dobás DM előtt",
-      initiativeLightDice,
-      initiativeDarkDice
-    );
+    console.log("Kezdeményező dobás DM előtt", initiativeLightDice, initiativeDarkDice);
     if (initiativeLightDice == initiativeDarkDice) {
       initiativeLightDicePlusExtraReaction = initiativeLightDice;
     }
-    console.log(
-      "Kezdeményező dobás DM után",
-      initiativeLightDicePlusExtraReaction,
-      initiativeDarkDice
-    );
+    console.log("Kezdeményező dobás DM után", initiativeLightDicePlusExtraReaction, initiativeDarkDice);
 
-    if (
-      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
-      specialCases1.includes(initiativeDarkDice)
-    ) {
+    if (initiativeLightDicePlusExtraReaction == initiativeDarkDice && specialCases1.includes(initiativeDarkDice)) {
       specialEffect.innerText = "1 ellenfél veszít 1 cselekedetet";
-    } else if (
-      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
-      specialCases2.includes(initiativeDarkDice)
-    ) {
+    } else if (initiativeLightDicePlusExtraReaction == initiativeDarkDice && specialCases2.includes(initiativeDarkDice)) {
       specialEffect.innerText = specialModifiers[2];
       firstRoundActionNumberModifierFromInitRoll = 1;
-    } else if (
-      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
-      specialCases3.includes(initiativeDarkDice)
-    ) {
+    } else if (initiativeLightDicePlusExtraReaction == initiativeDarkDice && specialCases3.includes(initiativeDarkDice)) {
       specialEffect.innerText = specialModifiers[3];
       firstRoundActionNumberModifierFromInitRoll = 2;
-    } else if (
-      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
-      initiativeDarkDice == 1
-    ) {
+    } else if (initiativeLightDicePlusExtraReaction == initiativeDarkDice && initiativeDarkDice == 1) {
       specialEffect.innerText = specialModifiers[0];
       firstRoundActionNumberModifierFromInitRoll = -3;
-    } else if (
-      initiativeLightDicePlusExtraReaction == initiativeDarkDice &&
-      initiativeDarkDice == 10
-    ) {
+    } else if (initiativeLightDicePlusExtraReaction == initiativeDarkDice && initiativeDarkDice == 10) {
       specialEffect.innerText = specialModifiers[4];
       firstRoundActionNumberModifierFromInitRoll = 3;
     }
-    let initModifierFromDiceRoll = initiativeLightDicePlusExtraReaction - initiativeDarkDice // új változó mert most már a világos kocka értékéből ki kell vonni a sötétet, és ez adódik hozzá a kezdeményezőhöz
+    let initModifierFromDiceRoll = initiativeLightDicePlusExtraReaction - initiativeDarkDice; // új változó mert most már a világos kocka értékéből ki kell vonni a sötétet, és ez adódik hozzá a kezdeményezőhöz
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + initModifierFromDiceRoll;
-    
+
     numberOfActions.innerText = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1;
     adjustActionsPositive.value = parseInt(numberOfActions.innerText); // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
     // ez ide azért kell, hogy a mentett max akciók ne változzon, mivel a módosító a nevezetes dobásból csak az első körre vonatkozik
-    numberOfActions.innerText = parseInt(numberOfActions.innerText) +  firstRoundActionNumberModifierFromInitRoll;
+    numberOfActions.innerText = parseInt(numberOfActions.innerText) + firstRoundActionNumberModifierFromInitRoll;
     // az Extra Reackió adottság az első 3 körben +1 akciót is ad. A további körökben ezt a "handleEndOfRound" függvény fogja figyelni
     if (aptitudeObject["Extra reakció"] && extraReactionLevel > 0) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
@@ -303,40 +265,38 @@ function CharacterDetails() {
     //*********************************** */
     let observerForActions = new MutationObserver(async () => {
       updateCharacterData();
-      if (initRolled && parseInt(numberOfActions.innerText)<=0) {
-        recurringSpellActionButton.disabled = true
+      if (initRolled && parseInt(numberOfActions.innerText) <= 0) {
+        recurringSpellActionButton.disabled = true;
       }
       if (parseInt(numberOfActions.innerText) < 2) {
         tacticsButton.disabled = true;
       }
       if (
-        ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2 || 
-        (initRolled && firstAttackInRoundSpent && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) && !attackOfOpportunityOn)
+        ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2) || (initRolled && firstAttackInRoundSpent && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) &&
+        !attackOfOpportunityOn
       ) {
         attackRollButton.disabled = true;
       }
       if (numberOfClicksAtTwoWeaponAttack == 1) {
         attackRollButton.disabled = false;
       }
-      if (initRolled && (parseInt(numberOfActions.innerText) < 1) && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0)
-       {
+      if (initRolled && parseInt(numberOfActions.innerText) < 1 && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0) {
         spellCastingActionButton.disabled = true;
       }
     });
     observerForActions.observe(numberOfActions, { childList: true, subtree: true });
     // a körök számát figyeli, és ez alapján követi nyomon mennyi van hátra az adott buffokból
     let observerForCurrentRound = new MutationObserver(async () => {
-       if (initRolled && parseInt(numberOfCurrentRound.innerText) != 1) { 
+      if (initRolled && parseInt(numberOfCurrentRound.innerText) != 1) {
         for (let i = 0; i < allActiveBuffs.length; i++) {
           if (allActiveBuffs[i].innerText.includes("kör")) {
-            let numberOfRoundsLeftFromBuff = parseInt(allActiveBuffs[i].innerText)
-            numberOfRoundsLeftFromBuff--
-            let buffNameWithoutNumberOfRounds = allActiveBuffs[i].innerText.slice(1)
-            allActiveBuffs[i].innerText = numberOfRoundsLeftFromBuff+buffNameWithoutNumberOfRounds
-            if(numberOfRoundsLeftFromBuff == 0)
-              {
-                buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
-              }
+            let numberOfRoundsLeftFromBuff = parseInt(allActiveBuffs[i].innerText);
+            numberOfRoundsLeftFromBuff--;
+            let buffNameWithoutNumberOfRounds = allActiveBuffs[i].innerText.slice(1);
+            allActiveBuffs[i].innerText = numberOfRoundsLeftFromBuff + buffNameWithoutNumberOfRounds;
+            if (numberOfRoundsLeftFromBuff == 0) {
+              buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText);
+            }
           }
         }
       }
@@ -347,10 +307,7 @@ function CharacterDetails() {
   function handleAdjustActionsPositive() {
     if (initRolled == true) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
-      if (
-        parseInt(numberOfActions.innerText) >
-        parseInt(adjustActionsPositive.value) + 1
-      ) {
+      if (parseInt(numberOfActions.innerText) > parseInt(adjustActionsPositive.value) + 1) {
         numberOfActions.innerText = parseInt(adjustActionsPositive.value) + 1;
       }
 
@@ -377,10 +334,7 @@ function CharacterDetails() {
       spellCastingFailure();
       reloadFailed();
     }
-    if (
-      combinationWasUsedThisRound == true &&
-      parseInt(numberOfActions.innerText) < 3
-    ) {
+    if (combinationWasUsedThisRound == true && parseInt(numberOfActions.innerText) < 3) {
       attackRollButton.disabled = true;
     }
   }
@@ -390,16 +344,17 @@ function CharacterDetails() {
   // a kör végének kezelése
   //****************************************************************** */
   function handleEndOfRound() {
-    firstAttackIsSpellThatNeedsAimRollSetToFalse()
-    if(!defensiveCombatOn){
-    defensiveCombatButton.disabled = false
-    setDefensiveCombatVEObonus(0)
+    firstAttackIsSpellThatNeedsAimRollSetToFalse();
+    if (!defensiveCombatOn) {
+      defensiveCombatButton.disabled = false;
+      setDefensiveCombatVEObonus(0);
     }
     if (combinationCheckBox.checked == true) {
       totalActionCostOfAttackSetter(-1);
     }
-    if (warningWindow.innerText.includes("várható")) { // azért csak ebben az esetben, mert ha újra kell tölteni, vagy kell még cselekedet a varázslathoz, akkor az ne tűnjön el
-      warningWindow.innerText = ""
+    if (warningWindow.innerText.includes("várható")) {
+      // azért csak ebben az esetben, mert ha újra kell tölteni, vagy kell még cselekedet a varázslathoz, akkor az ne tűnjön el
+      warningWindow.innerText = "";
     }
 
     if (chargeWasUsedThisRound == true) {
@@ -419,10 +374,7 @@ function CharacterDetails() {
       twoWeaponAttackWasUsedThisRoundToFalse();
       hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex]);
     }
-    if (
-      twoWeaponAttackWasUsedThisRound == false &&
-      twoWeaponAttackRadioButton.checked == true
-    ) {
+    if (twoWeaponAttackWasUsedThisRound == false && twoWeaponAttackRadioButton.checked == true) {
       hmoModifier(-twoWeaponAttackModifiers[twoWeaponAttackModifiersIndex]);
     }
     twoWeaponAttackToFalse();
@@ -434,19 +386,13 @@ function CharacterDetails() {
     }
 
     if (parseInt(numberOfActions.innerText) < 0) {
-      actionsSpentSinceLastCastAdderCheckerAndNullifier(
-        Math.abs(parseInt(numberOfActions.innerText))
-      );
+      actionsSpentSinceLastCastAdderCheckerAndNullifier(Math.abs(parseInt(numberOfActions.innerText)));
     }
     if (parseInt(numberOfActions.innerText) > 0) {
-      actionsSpentSinceLastCastAdderCheckerAndNullifier(
-        parseInt(numberOfActions.innerText)
-      );
+      actionsSpentSinceLastCastAdderCheckerAndNullifier(parseInt(numberOfActions.innerText));
     }
     if (parseInt(numberOfActions.innerText) == 0 && tacticsUsed == true) {
-      actionsSpentSinceLastCastAdderCheckerAndNullifier(
-        actionsLostWithTacticsUsed
-      );
+      actionsSpentSinceLastCastAdderCheckerAndNullifier(actionsLostWithTacticsUsed);
     }
 
     // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat, és újratöltés is megszakad
@@ -454,119 +400,106 @@ function CharacterDetails() {
     reloadFailed(parseInt(numberOfActions.innerText) > 0);
 
     numberOfReactions.innerText = 0;
-      if (parseInt(numberOfActions.innerText) >= 0) {
-        numberOfActions.innerText = adjustActionsPositive.value;
-        //****************************************************************************************************** */
-        // ha az előző körben Megrendülés vagy dupla 1 miatt negatív az akciók száma, az átvivődik a kövi körre
-      } else if (parseInt(numberOfActions.innerText) < 0) {
-        numberOfActions.innerText =
-          parseInt(adjustActionsPositive.value) +
-          parseInt(numberOfActions.innerText);
-      }
-      if (tacticsUsed == true) {
-        numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
-        tacticsUsed = false;
-      }
-      if (parseInt(numberOfActions.innerText) >= 2) {
-        tacticsButton.disabled = false;
-      } else if (parseInt(numberOfActions.innerText) < 2) {
-        tacticsButton.disabled = true;
-      }
-      if (warningWindow.innerText == "A varázslat létrejött!") {
-        warningWindow.innerText = "";
-      }
-if (!defensiveCombatContinueSelected) {
-  attackRollButton.disabled = false;
-  setFirstAttackInRoundSpent(false);
-  combinationCheckBox.checked = false;
-  combinationCheckBox.disabled = true;
-} 
-if (defensiveCombatContinueSelected) {
-  attackRollButton.disabled = true
-  setFirstAttackInRoundSpent(true)
-  combinationCheckBox.checked = false;
-  combinationCheckBox.disabled = false;
-}
+    if (parseInt(numberOfActions.innerText) >= 0) {
+      numberOfActions.innerText = adjustActionsPositive.value;
+      //****************************************************************************************************** */
+      // ha az előző körben Megrendülés vagy dupla 1 miatt negatív az akciók száma, az átvivődik a kövi körre
+    } else if (parseInt(numberOfActions.innerText) < 0) {
+      numberOfActions.innerText = parseInt(adjustActionsPositive.value) + parseInt(numberOfActions.innerText);
+    }
+    if (tacticsUsed == true) {
+      numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
+      tacticsUsed = false;
+    }
+    if (parseInt(numberOfActions.innerText) >= 2) {
+      tacticsButton.disabled = false;
+    } else if (parseInt(numberOfActions.innerText) < 2) {
+      tacticsButton.disabled = true;
+    }
+    if (warningWindow.innerText == "A varázslat létrejött!") {
+      warningWindow.innerText = "";
+    }
+    if (!defensiveCombatContinueSelected) {
+      attackRollButton.disabled = false;
+      setFirstAttackInRoundSpent(false);
+      combinationCheckBox.checked = false;
+      combinationCheckBox.disabled = true;
+    }
+    if (defensiveCombatContinueSelected) {
+      attackRollButton.disabled = true;
+      setFirstAttackInRoundSpent(true);
+      combinationCheckBox.checked = false;
+      combinationCheckBox.disabled = false;
+    }
 
-      // ide kerülnek majd az X körig tartó buffok
-      if (buffTextChecker("Belső idő")) {
-        hmoModifier(-innerTimeNegativeModifier);
-        buffRemoverFromActiveBuffArrayAndTextList("Belső idő");
-      }
-      if (buffTextChecker("ismétlődő")) {
-        recurringSpellActionButton.disabled = false
-      }
-      if (!spellIsBeingCast) {
-        attackRollButtonWasDisabledBeforeSpellCastSetter(false)
-      }
-      if ((parseInt(theRoundChiCombatEnded)+1 <= parseInt(numberOfCurrentRound.innerText))) {
-        setChiCombatDisabledToFalse()
-      } 
-      if (
-        parseInt(theRoundInnerTimeWasUsedIn) + 1 ==
-        parseInt(numberOfCurrentRound.innerText)
-      ) {
-        hmoModifier(+innerTimeNegativeModifier);
-        innerTimeNegativeModifierNullifier();
-      }
+    // ide kerülnek majd az X körig tartó buffok
+    if (buffTextChecker("Belső idő")) {
+      hmoModifier(-innerTimeNegativeModifier);
+      buffRemoverFromActiveBuffArrayAndTextList("Belső idő");
+    }
+    if (buffTextChecker("ismétlődő")) {
+      recurringSpellActionButton.disabled = false;
+    }
+    if (!spellIsBeingCast) {
+      attackRollButtonWasDisabledBeforeSpellCastSetter(false);
+    }
+    if (parseInt(theRoundChiCombatEnded) + 1 <= parseInt(numberOfCurrentRound.innerText)) {
+      setChiCombatDisabledToFalse();
+    }
+    if (parseInt(theRoundInnerTimeWasUsedIn) + 1 == parseInt(numberOfCurrentRound.innerText)) {
+      hmoModifier(+innerTimeNegativeModifier);
+      innerTimeNegativeModifierNullifier();
+    }
 
-      // itt megnézi, volt-e használva a körben kombináció v kapáslövés, és az új körre nem viszi át a módosítókat
-      //******************************************************************************************************* */
-      if (combinationCheckBox.checked == true) {
-        hmoModifier(cumulativeCombinationModifier);
-      }
-      combinationWasUsedThisRoundSetToFalse();
-      hmoModifiedToFalse();
-      allResultsCleaner();
-      numberOfAttacksInTheRoundNullifier();
-      totalModifierForNextAttack.innerText = "0";
-      hmoModifier(modifierFromNumberOfAttacksInTheRound);
-      modifierFromNumberOfAttacksInTheRoundNullifier();
-      cumulativeCombinationModifierNullifier();
-      if (
-        checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true &&
-        currentlySelectedWeapon.w_type != "MÁGIA" &&
-        !currentlySelectedWeapon.readyToFireOrThrow
-      ) {
-        attackRollButton.disabled = true;
-      }
-      numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + ".";
-      if (
-        extraReactionLevel != 0 &&
-        extraReactionLevel >= parseInt(numberOfCurrentRound.innerText)
-      ) {
-        numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
-      }
-    initiativeBonusButton.disabled = false // a Csa-t csak az első körben lehet módosítani
-    firstAttackIsAttackOfOpportunitySetToFalse()
-    combatStatRefresher()
+    // itt megnézi, volt-e használva a körben kombináció v kapáslövés, és az új körre nem viszi át a módosítókat
+    //******************************************************************************************************* */
+    if (combinationCheckBox.checked == true) {
+      hmoModifier(cumulativeCombinationModifier);
+    }
+    combinationWasUsedThisRoundSetToFalse();
+    hmoModifiedToFalse();
+    allResultsCleaner();
+    numberOfAttacksInTheRoundNullifier();
+    totalModifierForNextAttack.innerText = "0";
+    hmoModifier(modifierFromNumberOfAttacksInTheRound);
+    modifierFromNumberOfAttacksInTheRoundNullifier();
+    cumulativeCombinationModifierNullifier();
+    if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true && currentlySelectedWeapon.w_type != "MÁGIA" && !currentlySelectedWeapon.readyToFireOrThrow) {
+      attackRollButton.disabled = true;
+    }
+    numberOfCurrentRound.innerText = parseInt(numberOfCurrentRound.innerText) + 1 + ".";
+    if (extraReactionLevel != 0 && extraReactionLevel >= parseInt(numberOfCurrentRound.innerText)) {
+      numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
+    }
+    initiativeBonusButton.disabled = false; // a Csa-t csak az első körben lehet módosítani
+    firstAttackIsAttackOfOpportunitySetToFalse();
+    combatStatRefresher();
   }
   function handleChiCombatBeforeEndOfRound() {
     if (!buffTextChecker("Chi-harc")) {
-      return
+      return;
     }
-      chiCombatContinuePopupWindowText.innerText = "Folytatod a Chi-harcot?";
-      psiDisciplinesSelect.value = "Chi-harc";
-      psiPointCostInput.value = Math.pow(2, parseInt(numberOfCurrentRound.innerText) - parseInt(theRoundChiCombatWasUsedIn) + 1);
-      chiCombatContinuePopupWindow.style.display = "grid";
-      chiCombatContinuePopupWindowNoButton.style.display = "grid";
-      chiCombatContinuePopupWindowYesButton.style.display = "grid";
-      if (parseInt(currentPp.value) < parseInt(psiPointCostInput.value)) {
-        chiCombatContinuePopupWindowText.innerText =
-          "Nincs elég Pszi pontod a Chi-harc folytatásához.";
-        chiCombatContinuePopupWindowNoButton.style.display = "none";
-        chiCombatContinuePopupWindowYesButton.style.display = "none";
-        chiCombatContinuePopupWindowOKButton.style.display = "grid";
-      }
+    chiCombatContinuePopupWindowText.innerText = "Folytatod a Chi-harcot?";
+    psiDisciplinesSelect.value = "Chi-harc";
+    psiPointCostInput.value = Math.pow(2, parseInt(numberOfCurrentRound.innerText) - parseInt(theRoundChiCombatWasUsedIn) + 1);
+    chiCombatContinuePopupWindow.style.display = "grid";
+    chiCombatContinuePopupWindowNoButton.style.display = "grid";
+    chiCombatContinuePopupWindowYesButton.style.display = "grid";
+    if (parseInt(currentPp.value) < parseInt(psiPointCostInput.value)) {
+      chiCombatContinuePopupWindowText.innerText = "Nincs elég Pszi pontod a Chi-harc folytatásához.";
+      chiCombatContinuePopupWindowNoButton.style.display = "none";
+      chiCombatContinuePopupWindowYesButton.style.display = "none";
+      chiCombatContinuePopupWindowOKButton.style.display = "grid";
+    }
   }
   function handleChiCombatContinue() {
     currentPp.value = parseInt(currentPp.value) - parseInt(psiPointCostInput.value);
     handleEndOfRound();
     chiCombatContinuePopupWindow.style.display = "none";
   }
-  let theRoundChiCombatEnded = 0
+  let theRoundChiCombatEnded = 0;
   function handleChiCombatCancel() {
-    theRoundChiCombatEnded = parseInt(numberOfCurrentRound.innerText)
+    theRoundChiCombatEnded = parseInt(numberOfCurrentRound.innerText);
     hmoModifier(-chiCombatAtkDefModifier);
     chiCombatAtkDefModifierNullifier();
     handleEndOfRound();
@@ -577,30 +510,30 @@ if (defensiveCombatContinueSelected) {
     if (parseInt(currentPp.value) < parseInt(psiPointCostInput.value)) {
       psiActivateButton.disabled = true;
     }
-    setChiCombatDisabledToTrue()
+    setChiCombatDisabledToTrue();
     buffRemoverFromActiveBuffArrayAndTextList("Chi-harc");
   }
   function handleDefensiveCombatBeforeEndOfRound() {
     if (!defensiveCombatOn) {
-      return
+      return;
     }
-      defensiveCombatContinuePopupWindow.style.display = "grid";
-      defensiveCombatPopupWindowNoButton.style.display = "grid";
-      defensiveCombatPopupWindowYesButton.style.display = "grid";
+    defensiveCombatContinuePopupWindow.style.display = "grid";
+    defensiveCombatPopupWindowNoButton.style.display = "grid";
+    defensiveCombatPopupWindowYesButton.style.display = "grid";
   }
-  
+
   function handleDefensiveCombatContinue() {
-    defensiveCombatContinueSelected = true
-    if(!spellIsBeingCast){
-      setDefensiveCombatVEObonus(2)
+    defensiveCombatContinueSelected = true;
+    if (!spellIsBeingCast) {
+      setDefensiveCombatVEObonus(2);
     }
-    handleEndOfRound()
+    handleEndOfRound();
     defensiveCombatContinuePopupWindow.style.display = "none";
   }
   function handleDefensiveCombatCancel() {
-    defensiveCombatContinueSelected = false
-    defensiveCombatOnSetToFalse()
-    setDefensiveCombatVEObonus(0)
+    defensiveCombatContinueSelected = false;
+    defensiveCombatOnSetToFalse();
+    setDefensiveCombatVEObonus(0);
     handleEndOfRound();
     defensiveCombatContinuePopupWindow.style.display = "none";
   }
@@ -618,12 +551,12 @@ if (defensiveCombatContinueSelected) {
   }
 
   function handleEndOfCombat() {
-    initiativeBonusButton.disabled = false
-    defensiveCombatButton.disabled = false
-    setDefensiveCombatVEObonus(0)
-    defensiveCombatOnSetToFalse()
-    attackRollButtonWasDisabledBeforeSpellCastSetter(false)
-    firstAttackIsAttackOfOpportunitySetToFalse()
+    initiativeBonusButton.disabled = false;
+    defensiveCombatButton.disabled = false;
+    setDefensiveCombatVEObonus(0);
+    defensiveCombatOnSetToFalse();
+    attackRollButtonWasDisabledBeforeSpellCastSetter(false);
+    firstAttackIsAttackOfOpportunitySetToFalse();
     innerTimeNegativeModifierNullifier();
     toggleAllallActionBarButtonsExceptInitRollDisplay("none");
     initRolled = false;
@@ -632,8 +565,8 @@ if (defensiveCombatContinueSelected) {
     setFirstAttackInRoundSpent(false);
     if (spellIsBeingCast) {
       spellCastingSuccessful();
-    } 
-    actionsNeededToBeAbleToCastAgainNullifier()
+    }
+    actionsNeededToBeAbleToCastAgainNullifier();
     if (chargeWasUsedThisRound == true) {
       chargeWasUsedThisRoundToFalse();
       charDef.value = parseFloat(charDef.value) + 1;
@@ -685,10 +618,8 @@ if (defensiveCombatContinueSelected) {
     buffRemoverFromActiveBuffArrayAndTextList("Aranyharang");
     dmgReductionByGoldenBellSetter(-dmgReductionByGoldenBell);
     for (let i = 0; i < allActiveBuffs.length; i++) {
-      if (
-        allActiveBuffs[i].innerText.includes("kör")
-      ) {
-        buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText)
+      if (allActiveBuffs[i].innerText.includes("kör")) {
+        buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText);
       }
     }
     numberOfAttacksInTheRoundNullifier();
@@ -697,10 +628,10 @@ if (defensiveCombatContinueSelected) {
     modifierFromNumberOfAttacksInTheRoundNullifier();
     cumulativeCombinationModifierNullifier();
     allResultsCleaner();
-    theRoundChiCombatEnded = 0
-    setChiCombatDisabledToFalse()
-    firstAttackIsSpellThatNeedsAimRollSetToFalse()
-    combatStatRefresher()
+    theRoundChiCombatEnded = 0;
+    setChiCombatDisabledToFalse();
+    firstAttackIsSpellThatNeedsAimRollSetToFalse();
+    combatStatRefresher();
   }
 
   function checkIfPsiIsUseable() {
@@ -733,11 +664,14 @@ if (defensiveCombatContinueSelected) {
         <div>
           <label>Pp:</label>
           <p id="maxPp"></p>
-          <input id="currentPp" onBlur={()=>{
-                checkIfPsiIsUseable()
-                updateCharacterData()
-              }
-            } type="number" />
+          <input
+            id="currentPp"
+            onBlur={() => {
+              checkIfPsiIsUseable();
+              updateCharacterData();
+            }}
+            type="number"
+          />
         </div>
         <div>
           <label>Mp:</label>
@@ -761,129 +695,78 @@ if (defensiveCombatContinueSelected) {
         <div className={styles.stats} id="initiativeWithRoll"></div>
         <div id="numberOfActionsText">CS. száma:</div>
         <div id="numberOfActions" className={styles.numberOfActions}></div>
-        <button
-          id="adjustActionsPositive"
-          className={styles.adjustActions}
-          onClick={handleAdjustActionsPositive}>
+        <button id="adjustActionsPositive" className={styles.adjustActions} onClick={handleAdjustActionsPositive}>
           +
         </button>
-        <button
-          id="adjustActionsNegative"
-          className={styles.adjustActions}
-          onClick={handleAdjustActionsNegative}>
+        <button id="adjustActionsNegative" className={styles.adjustActions} onClick={handleAdjustActionsNegative}>
           -
         </button>
-        <button
-          type=""
-          id="initRollButton"
-          className={styles.initRollButton}
-          onClick={handleInitiativeRoll}
-          disabled={false}>
+        <button type="" id="initRollButton" className={styles.initRollButton} onClick={handleInitiativeRoll} disabled={false}>
           Kezdeményező dobás
         </button>
-        <button
-          id="tacticsButton"
-          onClick={handleWhenTacticsUsed}
-          className={styles.endOfCombatButton}>
+        <button id="tacticsButton" onClick={handleWhenTacticsUsed} className={styles.endOfCombatButton}>
           Taktika
         </button>
         <button
           onClick={handleEndOfRound}
           className={styles.endOfRoundButton}
-          onMouseEnter={()=>{if (buffTextChecker("Chi-harc")) {
-                              handleChiCombatBeforeEndOfRound()
-                            }
-                            if (defensiveCombatOn) {
-                              handleDefensiveCombatBeforeEndOfRound()
-                            }
-                        }
-                      }>
+          onMouseEnter={() => {
+            if (buffTextChecker("Chi-harc")) {
+              handleChiCombatBeforeEndOfRound();
+            }
+            if (defensiveCombatOn) {
+              handleDefensiveCombatBeforeEndOfRound();
+            }
+          }}
+        >
           Kör vége
         </button>
-        <button
-          className={styles.endOfCombatButton}
-          onClick={handleEndOfCombat}>
+        <button className={styles.endOfCombatButton} onClick={handleEndOfCombat}>
           Harc vége
         </button>
         <div id="numberOfReactionsText">Reakc. száma:</div>
         <div id="numberOfReactions" className={styles.numberOfActions}>
           0
         </div>
-        <button
-          id="adjustReactionsPositive"
-          className={styles.adjustReactions}
-          onClick={handleAdjustReactionsPositive}>
+        <button id="adjustReactionsPositive" className={styles.adjustReactions} onClick={handleAdjustReactionsPositive}>
           Tartalékolás / Készenlét
         </button>
-        <select
-          id="initiativeLightDiceResult"
-          className={styles.initiativeLightDiceResult}
-          disabled={true}>
+        <select id="initiativeLightDiceResult" className={styles.initiativeLightDiceResult} disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
         </select>
-        <select
-          id="initiativeDarkDiceResult"
-          className={styles.initiativeDarkDiceResult}
-          disabled={true}>
+        <select id="initiativeDarkDiceResult" className={styles.initiativeDarkDiceResult} disabled={true}>
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
         </select>
-        <button id="initiativeBonusButton" onClick={handleBonusInitByLP} className={styles.initiativeBonusButton}>+6 Csa</button>
+        <button id="initiativeBonusButton" onClick={handleBonusInitByLP} className={styles.initiativeBonusButton}>
+          +6 Csa
+        </button>
       </div>
-      <div
-        id="chiCombatContinuePopupWindow"
-        className={styles.chiCombatContinuePopupWindow}
-        onMouseLeave={
-          () => (chiCombatContinuePopupWindow.style.display = "none")
-        }>
-        <div
-          id="chiCombatContinuePopupWindowText"
-          className={styles.chiCombatContinuePopupWindowText}>
+      <div id="chiCombatContinuePopupWindow" className={styles.chiCombatContinuePopupWindow} onMouseLeave={() => (chiCombatContinuePopupWindow.style.display = "none")}>
+        <div id="chiCombatContinuePopupWindowText" className={styles.chiCombatContinuePopupWindowText}>
           Folytatod a Chi-harcot?
         </div>
-        <button
-          id="chiCombatContinuePopupWindowNoButton"
-          className={styles.chiCombatContinuePopupWindowNoButton}
-          onClick={handleChiCombatCancel}>
+        <button id="chiCombatContinuePopupWindowNoButton" className={styles.chiCombatContinuePopupWindowNoButton} onClick={handleChiCombatCancel}>
           Nem
         </button>
-        <button
-          id="chiCombatContinuePopupWindowYesButton"
-          className={styles.chiCombatContinuePopupWindowYesButton}
-          onClick={handleChiCombatContinue}>
+        <button id="chiCombatContinuePopupWindowYesButton" className={styles.chiCombatContinuePopupWindowYesButton} onClick={handleChiCombatContinue}>
           Igen
         </button>
-        <button
-          id="chiCombatContinuePopupWindowOKButton"
-          className={styles.chiCombatContinuePopupWindowOKButton}
-          onClick={handleChiCombatCancel}>
+        <button id="chiCombatContinuePopupWindowOKButton" className={styles.chiCombatContinuePopupWindowOKButton} onClick={handleChiCombatCancel}>
           OK
         </button>
       </div>
-      <div
-        id="defensiveCombatContinuePopupWindow"
-        className={styles.defensiveCombatContinuePopupWindow}
-        onMouseLeave={
-          () => (defensiveCombatContinuePopupWindow.style.display = "none")
-        }>
-        <div
-          id="defensiveCombatPopupWindowText"
-          className={styles.defensiveCombatPopupWindowText}>
+      <div id="defensiveCombatContinuePopupWindow" className={styles.defensiveCombatContinuePopupWindow} onMouseLeave={() => (defensiveCombatContinuePopupWindow.style.display = "none")}>
+        <div id="defensiveCombatPopupWindowText" className={styles.defensiveCombatPopupWindowText}>
           Folytatod a Védekező harcot?
         </div>
-        <button
-          id="defensiveCombatPopupWindowNoButton"
-          className={styles.defensiveCombatPopupWindowNoButton}
-          onClick={handleDefensiveCombatCancel}>
+        <button id="defensiveCombatPopupWindowNoButton" className={styles.defensiveCombatPopupWindowNoButton} onClick={handleDefensiveCombatCancel}>
           Nem
         </button>
-        <button
-          id="defensiveCombatPopupWindowYesButton"
-          className={styles.defensiveCombatPopupWindowYesButton}
-          onClick={handleDefensiveCombatContinue}>
+        <button id="defensiveCombatPopupWindowYesButton" className={styles.defensiveCombatPopupWindowYesButton} onClick={handleDefensiveCombatContinue}>
           Igen
         </button>
       </div>

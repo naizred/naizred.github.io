@@ -10185,5 +10185,703 @@
     "mechanismText": "III. anyag aktív forma (anyag), precizitás, oszthatatlanság, III. anyag átformázás (anyag)",
     "description": "A varázslat hatására egy Apró objektum léptékű területen belül minden, III. anyagkategóriába tartozó fém egy közös masszába tömörül össze a hatóterület közepén. A varázslat képes az egyszerűbb tárgyak oszthatatlanságának legyőzésére, így pl. hat a bőrvértek láncszemeire, csattjaira vagy a kardok pengéjére is, melyek engedelmesen beleolvadnak a masszába. Természetesen, ha az ilyen fémeket valaki éppen viseli vagy a testében hordja, azokat a megilleti a személyes aura védelme által biztosított +3 vagy +6 sikerszint az ellenállás során. A harcképes masszát - mely +4 HMOval bír - ez után a pap kedve szerint irányíthatja, statiszikái a formasablonnak megfelelően alakulnak. (Fenntartott, Irányított)",
     "resist": "nincs/Fizikai"
+  },
+  {
+    "name": "Biztos kéz (Krad)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 4, -1, 0],
+      ["Mechanizmus", 1, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "A fohász segítségével a pap könnyebben és pontosabban lemásolhat egy olyan szöveget, (esetleg jeleket, rúnákat) melynek sikeressége képzettségpróbától függ.  Ekkor a pap erre a próbára Erősségtől függő (alapesetben +2) DM-et kap. A varázslat erősítésével további bónuszok járnak: 6E - +3 DM, 10E - +4DM. Ha az eredeti rendelkezett is, a másolat semmilyen mágikus tulajdonsággal nem bír. (Fenntartott)",
+    "resist": "nincs"
+  },
+  {
+    "name": "Felderítés (Krad)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "A fohász megmutatja a papnak a területen belüli azon útvonalakat, ahol a pap fizikailag elfér. Magasabb erősítés esetén az útvonalak minőségéről is tájékoztat, csúszós talaj, vizek stb.",
+    "resist": "nincs/Szellemi",
+    "ritual": true
+  },
+  {
+    "name": "Krad útmutatása (Krad)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 10, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "\"E kutató varázslat segítségével a pap 10 mérföldön belül tisztában lesz a keresett tárgy helyzetének irányával és hozzávetőleges távolságával. A varázslat alap erősítésével egy jellegzetes épület kutatható fel. A varázslat erősítésével változik a kutatás tárgya: egy jellegzetes páncél vagy fegyver - 6E; egy jellegzetes könyv: 8E, egy apró családi ékszer - 10E, egy konkrét virág egy nagy kupacban - 12E. Ez az Erősség szerinti skálázás csak irányadó, a keresett célponthoz szükséges Erősség meghatározása a KM feladata, amely leginkább attól függ, hogy mennyire nehezen megtalálható és azonosítható az objektum. Minden esetben érvényes szabály, hogy a papnak pontosan tudnia kell, hogy mit keres, vagy nagyon pontos leírással kell rendelkeznie róla. A tárgyak csak akkor \"\"állnak ellen\"\" a varázslatnak, ha valaki személyes aurájának védelmét élvezik.\"",
+    "resist": "nincs/Szellemi",
+    "ritual": true
+  },
+  {
+    "name": "Elmeszipoly (Krad)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "A fohász egy célpont emlékeiben kutathat legfeljebb egy évre visszamenőleg, fél napnyi intervallumban. Csak az elmondáskor meghatározott egyetlen érzékszervre támaszkodhat, és a 4-es varázsintelligencia korlátain belül kell maradnia a keresésnek.",
+    "resist": "Mentális"
+  },
+  {
+    "name": "A tudás kapuja (Krad)",
+    "aspects": [
+      ["Erősség", 7, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 12, 0, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "Krad kegyelméből a pap kiválaszthat egy képzettséget. A fohász hatására az időtartam lejártáig jártasságot szerez az adott képzettségben. Egy időben a papon csak egy ilyen varázslat hatása érvényesül. A varázslat Erőssége és az összetevőként funkcionáló szereplő képzettségfoka egyaránt limitálja ezt a látens ismeretet. 7-es Erősség esetén ez If-et, 9-esnél Af-et, 12-esnél Kf-ot adhat. (Összetevő: a képzettséget birtokló, a rituáléban tudatosan együttműködő személy megérintése)",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Papirrá formázás (Krad)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 2, 0, 0],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "A fohász segítségével a pap egy legfeljebb Kisebb tárgy méretnek megfelelő, I.anyagcsoportba tartozó anyagot képes ugyanakkora papírrá átalakítani, majd lapokká formázni. A varázslat képes természeti formákból is egy részt leválasztani.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Megértés (Krad)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "A fohász segítségével a pap a célpont minden szavát érteni fogja akkor is, ha nem beszéli azt a nyelvet, amin a varázslat alanya kommunikál. Ugyan így érti minden egyéb kommunikációs tevékenységét (pl. mimika, gesztikulálás). A varázslat bármilyen érdemi mentális szinten lévő lényre alkalmazható. Mivel a fohász közvetlenül a célpont tudatából informálódik, a papnak közvetlenül nem szükséges érzékelni magát a kommunikációs tevékenységet. Viszont fontos leszögezni, hogy ez nem gondolatolvasás!",
+    "resist": "Mentális"
+  },
+  {
+    "name": "Másolás (Krad)",
+    "aspects": [
+      ["Erősség", 8, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 7, 0, 0],
+      ["Mechanizmus", 8, 0, 0],
+      ["Mechanizmus", 7, 0, 0],
+      ["Mechanizmus", 2, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "A fohász segítségével a pap egy legfeljebb Nagy tárgy léptékű célpontot másolhat le tökéletesen. A varázslattal először elemzi a varázslat célpontját anyagmágikus szempontból a legapróbb részletekig. Ez után I. anyagkategóriából teremti meg a másolatot, átformázással és átalakítással. A Másolat küllemében tökéletesen, viszont anyagában csak az I. anyagkategóriáig egyezik meg az eredetivel. Ha élőlényre vagy személyes aurában található tárgyra alkalmazzák, a lény Fizikai ellenállásra jogosult. A varázslat által teremtett Másolat anyaga, ha egy 1 hónapon belül nem destruálják, végleg megmarad. A Másolat fennmaradásáig szimpatikus viszonyban van a pappal.",
+    "resist": "nincs/Fizikai",
+    "ritual": true
+  },
+  {
+    "name": "Menekülés (Krad)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 6, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "\"A fohász befejeztével a pap megérinti a földet, amivel kijelöli a visszatérési pontot. Ettől kezdve a varázslat 1 napon keresztül várja majd az aktiválásához szükséges parancsot, ami \"\"Ki innen!\"\" miközben a Szent jelképet bal kezével megmarkolja. Ha a varázslatot aktiválják, egy apró objektum léptékű területről a visszatérési pontra teleportálja a papot (legfeljebb 1 mérföld távolságig), és minden ezen a területen tartózkodó élőlényt.\"",
+    "resist": "Összetett"
+  },
+  {
+    "name": "Krad könyvtára (Krad)",
+    "aspects": [
+      ["Erősség", 10, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 10, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 10, 0, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Krad",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha nincs korábbi Krad könytára varázslat hatása alatt. A varázslat segítségével a pap egy tetszőleges tapasztalati vagy szakrális varázslat birtokába jut az időtartam erejéig saját Litániaként, ha Krad is jónak látja. A papnak valamilyen módon tudnia kell a varázslat létezéséről. A szent szimbólum által nyújtott Erősség komponens ennél a varázslatnál is érvényesül.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Csatornakém (Tharr)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 4, -1, 0],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A fohász hatására a pap egy patkány mozgása felett nyer kontrollt, illetve használhatja annak érzékszerveit az időtartam lejártáig.(Fentartott; Összetevő: egy patkány)",
+    "resist": "Mentális",
+    "ritual": true
+  },
+  {
+    "name": "Tharr szava (Tharr)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A fohász hatására a pap hangereje dörgedelmessé, hangszíne természetellenessé, Tharr küldötteiéhez hasonlatossá válik. Így képes akár a legnagyobb piaci zsivajt is könnyedén túlharsogni.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Vasvér (Tharr)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 7, 0, 0],
+      ["Mechanizmus", 7, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A védelmező fohász a Nekro- és Anyag mágikus varázslatokkat gátolja. Ezek Erősségét elnyomja E/2 mértékben. A Vasvér az újonnan létrejövő és a már létező mágiákra is hat. Varázsintelligenciájának köszönhetően a pap által létrehozott fohászokra nincs hatással. Hatóterülete maga a pap, így az ő számára biztosít védelmet.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Vércsuklya (Tharr)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A fohász hatására egy szereplő kiontott, de még testén csordogáló vére a bőrén kúszva a szemébe áramlik. Ezzel legfeljebb a vakságnak megfelelő harci hátrányt okoz (-HMO), de sosem többet, mint az érintett friss seb Ép-ben kifejezett értéke. Az áldozatot az ellenállás során +3 extra siker illeti meg. (Összetevő: egy vérző seb a célponton)",
+    "resist": "Fizikai"
+  },
+  {
+    "name": "A hús átka (Tharr)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 2, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A fohász hatására Tharr szolgája egy legfeljebb hatóterület léptékű élőlényt sárrá változtatja 1 körre, mely ennek következtében kupac formát vesz fel. Az időtartam leteltével az anyag visszanyeri eredeti minőségét, mely a gyakorlatban egy véres húskupacot jelent. Természetesen ez azonnali halál. A célpontot az ellenállás során +6 extra siker illeti meg.",
+    "resist": "Fizikai"
+  },
+  {
+    "name": "Vérízlelés (Tharr)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A fohász segítségével hatóterület léptékű kiontott vér vizsgálható meg. A kapott információk mélysége az erősségtől függ. Alap erősítés esetén informál, hogy mikor ontották ki, illetve hogy milyen fajú lényhez tartozik. Ezutóbbi információhoz szükséges, hogy a pap a korábbiakban már elemezte az érintett faj vérét. Amennyiben a területen kiontott vér több különböző lényhez tartozik, magasabb erősségen a varázslat erről is szolgáltat információt. ",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Vérszimpátia (Tharr)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "\"A fohász segítségével szimpatikus kapcsolat éleszthető fel a vér és a \"\"hozzá tartozó\"\" élőlény között. Ehhez elegendő 1-es Erősség mellett realizálódnia a varázslatnak. Amennyiben a megcélzott vér valakinek a személyes auráján belül található akkor az összetett ellenállást tehet ellene. A szimpatikus kapcsolat létesítése után az időtartam lejártáig van mód azon keresztül az áldozatra (de sosem annak környezetére) hatni, mely idő alatt a pap Varázspróbái +3 extra sikert kapnak az Ellenállásokkal szemben. (Összetevő: áldozat vére)\"",
+    "resist": "nincs/Összetett"
+  },
+  {
+    "name": "Rángó hús (Tharr)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 3, -1, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A varázslattal hatására a kijelölt Szakrális mágia képzettségfoknyi számú célpont magatehetetlen, rángatózó bábbá változik a hatóidő lejártáig. (Fenntartott)",
+    "resist": "Mentális"
+  },
+  {
+    "name": "Vérmocsár (Tharr)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 8, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A fohász hatására egy hatóterület léptékű területen a talaj mozgásba kezd, miközben azt alvadt és friss vérré változtatja. Az ellenállásukat elvétőket vagy az érintett objektumokat ez a vérsár elnyelni. Kikecmeregni vagy a felszínen maradni Erő alapú Úszáspróbával lehet (CÉL: 10+Erősség). Ha valakit e mocsár elnyel, a fuldoklás szabályai vonatkoznak rá. A varázslat időtartamának lejárta után 2 perccel visszaalakul a talaj az eredeti állapotba.",
+    "resist": "Elkerülő"
+  },
+  {
+    "name": "Istenalak (Tharr)",
+    "aspects": [
+      ["Erősség", 10, 0, -1],
+      ["Erősség", 9, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 10, 0, 0],
+      ["Mechanizmus", 9, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Tharr",
+    "description": "A fohász hatására a pap feje oroszlánfejjé változik, mely mellől egy bak és egy kígyófej nő. Az alany ruházata és testének többi része változatlan marad. A rituálé további velejárója, hogy a papi Litánia típusú fohászok esetében minden varázslásra költött Cselekedet 3 CS-nek számít, ha a fejek együtt, közös szóval varázsolnak.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Vizek mutatója (Antoh)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 1, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A pap tisztában lesz a legfeljebb 50 lábra található vizek helyével, amennyiben azok mérete nem haladja meg az erősség szerinti léptéket, ellenkező esetben csak a jelenlétüket érzékeli.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Megbúvó zátonyok (Antoh)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A fohásznak köszönhetően a pap az időtartam erejéig tisztában lesz a körülötte lévő, hajókra leselkedő veszélyekkel, amennyiben azok természetes talajképződmények formájában jelentkeznek (sziklák, homokpadok). A terület korlátozottsága miatt érdemes a hajó orrában tartózkodnia a varázslat alatt.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Kristálytiszta víz (Antoh)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A fohász hatására a pap bármilyen mocskos, sötét vízben kristálytisztán lát 50 láb távolságig, cserébe a levegő ilyenkor átláthatatlan, ködös masszaként jelentkezik számára. Az ellenállást sikerrel végrehajtó szereplőknek csupán a körvonalait látja. ",
+    "resist": "Fizikai"
+  },
+  {
+    "name": "Halalak (Antoh)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A fohásznak köszönhetően a megérintett személy teste, amikor ő egy héten belül legközelebb fuldokolni kezd, hibrid hal formát vesz fel. Ez lehetővé teszi számára a vízben való gyors helyváltoztatást és légzést. A körönkénti mozgástávja az Állóképesség/2 + Úszás*2 + 5 - MGT érték kétszerese.",
+    "resist": "Fizikai",
+    "ritual": true
+  },
+  {
+    "name": "Antoh tenyere (Antoh)",
+    "aspects": [
+      ["Erősség", 8, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 10, 0, 0],
+      ["Időtartam", 5, -1, 0],
+      ["Mechanizmus", 6, 1, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A pap által megérintett hajó a fohásznak köszönhetően nem süllyedhet el. Sőt, teljes biztonsággal halad célja felé a legpusztítóbb viharon, akár széllel szemben is. A fohász 10E esetén lehetővé teszi, hogy a hajó a víz felett, akár a jégtáblák tetején, akár a szárazföldön haladjon. A 12E pedig biztosítja, hogy égihajó módjára szárnyaljon. (Kontrollált, Fenntartott)",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Iránytű (Antoh)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A pap a fohász segítségével tisztában lesz vele, merre van észak.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Szelek megfékezése (Antoh)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 6, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 4, -1, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A fohásznak köszönhetően a pap által kijelölt, látótávolságon belül található legfeljebb 50x50 láb területen Erősségnek megfelelően lecsendesül a szél. (Fenntartott)",
+    "resist": "nincs"
+  },
+  {
+    "name": "Örvény (Antoh)",
+    "aspects": [
+      ["Erősség", 9, 0, -1],
+      ["Távolság", 6, 0, 0],
+      ["Terület", 10, 0, 0],
+      ["Időtartam", 3, -1, 0],
+      ["Mechanizmus", 4, 0, 0],
+      ["Mechanizmus", 3, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A fohász hatására a pap által kijelölt hajó alatt örvényleni kezd a víz, erősségnek megfelelő hatást keltve. Az örvény önállóan követi a hozzá legközelebbi hajót az időtartama alatt. (Fenntartott)",
+    "resist": "nincs"
+  },
+  {
+    "name": "Szárazdokk (Antoh)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 10, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 3, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A pap által megérintett hajó visszanyeri eredeti, legfeljebb holdhónapos formáját, de a különleges vagy mágikus hiányzó anyagokat (aranyozás, speciális kémiai kezelés, mágikus vitorla) nem nyeri vissza.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Hullámsír (Antoh)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Távolság", 6, 0, 0],
+      ["Terület", 10, 0, 0],
+      ["Időtartam", 4, -1, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Antoh",
+    "description": "A fohász hatására az Erősségnek megfelelő hullámok tombolnak a hatóterületen az időtartam lejártáig. Ez a 6-os Erősség - az Erősség léptéknek megfelelő magasságú hullámok okán - már elegendő ahhoz, hogy a vízfelszínen található, apró objektum léptékű lélekvesztők elsüllyedjenek. Míg a szárazföldön az ekkora tereptárgyakat szétrombolja és messzire sodorja a fohász. Természetesen a nagyobb objektumok is erősen megsínylik a tomboló hullámok ostromát. (Fenntartott)",
+    "resist": "nincs/változó"
+  },
+  {
+    "name": "Ragyogás (Adron)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohász hatására a pap által megérintett, legfeljebb közepes tárgy egyenletes, fehér fényt áraszt az időtartam alatt az Erősségnek megfelelő intenzitással.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Tudaterő (Adron)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohász segítségével a pap E/4-nyi bónuszt ad az általa megérintett szereplő mentális ellenállására az időtartam lejártáig.",
+    "resist": "Mentális"
+  },
+  {
+    "name": "Árnyak kizárása (Adron)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 5, 0, 0],
+      ["Mechanizmus", 5, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohász hatására a pap által megérintett személy, az Időtartam lejártáig Erősségnek megfelelő ellenmágikus hatásra tesz szert három mágiatípussal szemben, melyek közül az egyik mindig a Nekromágia.",
+    "resist": "Összetett"
+  },
+  {
+    "name": "Adron adománya (Adron)",
+    "aspects": [
+      ["Erősség", 9, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 9, 0, -1]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohász hatására a pap a következő napkeltéig minden, a mana pontjának visszaszerzését célzó imáját a könyörgő ima szabályainak megfelelően mondhatja el. (Komponens: legalább 1 karátos, mágiatiszta smaragd porrá morzsolása(1))",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Adron pajzsa (Adron)",
+    "aspects": [
+      ["Erősség", 6, 1, -1],
+      ["Távolság", 1, 1, 0],
+      ["Terület", 5, 1, 0],
+      ["Időtartam", 1, 1, 0],
+      ["Időtartam", 5, 1, 0],
+      ["Mechanizmus", 10, 1, 0],
+      ["Mechanizmus", 4, 1, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohász hatására minden körben az első, a pap személyes aurájában ható varázslat, amibe nem egyezett bele (4), még a hatásának kifejtése előtt destrukciónak esik áldozatul, annak szokásos szabályai szerint. A sikeres destrukciót a megsemmisített varázslat erősségével arányos fényjelenség kíséri a pap szent szimbólumából. (Ismétlődő)",
+    "resist": "nincs"
+  },
+  {
+    "name": "Fényár (Adron)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 6, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": "If",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohász eredményeképp a pap körül akarata szerinti, de legfeljebb 50x50x50-es fix térrészen Erősségnek megfelelő intenzitású fény keletkezik.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Gonosz felfedése (Adron)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 1, 0, 0],
+      ["Mechanizmus", 1, 0, 0],
+      ["Mechanizmus", 2, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": "Af",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A pap ezzel a fohásszal felfedi a jelenlétét minden leplezetlen (vagy leplezett, de varázspróbán alulmaradó) érintett hatásnak, élőholtnak, démonnak. Ezek helyzetével és számával csak akkor lesz tisztában, ha erősségük vagy bestia osztályuk nem haladja meg az erősítést.",
+    "resist": "Össz./Szell."
+  },
+  {
+    "name": "Adron lehelete (Adron)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 8, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 8, 0, 0]
+    ],
+    "fok": "Kf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohász hatására a fix hatóterületen a manaháló minősége a következő napkeltéig E/4 kategóriával elmozdul a koncentrált-sűrű-közepes-vékony-híg-manamentes sávon a pap által választott irányban.",
+    "resist": "nincs",
+    "ritual": true
+  },
+  {
+    "name": "Adron köpönyege (Adron)",
+    "aspects": [
+      ["Erősség", 6, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 12, 0, 0]
+    ],
+    "fok": "Mf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohásznak köszönhetően a pap által megérintett személyen létrejövő vagy rajta már ható varázslatok a hatóidő alatt E/2-vel gyengébben fejtik ki a hatásukat.",
+    "resist": "Összetett",
+    "ritual": true
+  },
+  {
+    "name": "Adron emlékezete (Adron)",
+    "aspects": [
+      ["Erősség", 8, 0, -1],
+      ["Erősség", 6, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, -1, 0],
+      ["Időtartam", 4, -1, 0],
+      ["Mechanizmus", 8, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": "Lf",
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
+    "magicType": "Szakrális mágia",
+    "god": "Adron",
+    "description": "A fohász hatására a pap képes feltérképezni egy terület mágikus múltját. Az első erősség felel meg az időzítésnek megfelelő időszakig, ameddig vissza tud nézni a múltba, a második pedig a mágikus jelenségek fürkészésének mélységét adja meg a fürkészésnél ismertetett módon. A szerzett információk mélysége a jóslásnál ismertetett módon arányosodik a varázslat tényleges időtartamával: minél távolabbra tekintünk vissza az időben, annál kevesebb részlet szűrődik át az időtartam alatt. Ha a pap elhagyja a területet vagy nem a varázslatra koncentrál, az információnyerés végleg megszakad. (Fenntartott)",
+    "resist": "nincs/Szellemi",
+    "ritual": true
   }
 ]
