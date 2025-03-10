@@ -530,6 +530,7 @@ export function handleSpellAspOptionChange(event) {
   }
   if (event.target.parentElement.parentElement.id == "powerAspectPillar") {
     // ez a következő sor azért van itt, hogy beleírja a felhasználó által választott értéket a varázslat értékei közé
+    currentSpell.aspects[indexOfCurrentAspect][1] = parseInt(event.target.value);
     if (event.target.value == parseInt(event.target.parentElement.firstChild.value)) {
       powerAspModified = false;
     }

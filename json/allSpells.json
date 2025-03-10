@@ -6118,7 +6118,7 @@
   {
     "name": "Kutatás - átok (Általános)",
     "aspects": [
-      ["Erősség", 3, 0, -1],
+      ["Erősség", 2, 0, -1],
       ["Távolság", 2, 0, 0],
       ["Terület", 3, 0, 0],
       ["Időtartam", 1, 0, 0],
@@ -6172,7 +6172,6 @@
       ["Terület", 3, 0, 0],
       ["Időtartam", 1, 0, 0],
       ["Időtartam", 4, 0, 0],
-      ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
@@ -6207,7 +6206,6 @@
       ["Terület", 3, 0, 0],
       ["Időtartam", 1, 0, 0],
       ["Időtartam", 6, 0, 0],
-      ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
