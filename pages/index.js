@@ -2,7 +2,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
-import path from "path";
 import allWeapons from "../json/allWeapons.json";
 import aptitudesDescript from "../json/aptitudesDescript.json";
 import CharacterDetails, { defensiveCombatContinueSelectedSetToFalse, initRolled, updateCharacterData } from "../Components/CharacterDetails";
@@ -211,28 +210,12 @@ export async function fetchCharacterDataForAdventureMaster(gameId) {
     });
 }
 
-export const getStaticProps = async () => {
-  const fs = require("fs");
-  const jsonDirectory = path.join(process.cwd(), "json");
-  let allSkills = JSON.parse(fs.readFileSync(jsonDirectory + "/allSkills.json", "utf8"));
-  let armors = JSON.parse(fs.readFileSync(jsonDirectory + "/armors.json", "utf8"));
-  let classes = JSON.parse(fs.readFileSync(jsonDirectory + "/classes.json", "utf8"));
-  let gods = JSON.parse(fs.readFileSync(jsonDirectory + "/gods.json", "utf8"));
-  let psiDisciplines = JSON.parse(fs.readFileSync(jsonDirectory + "/psiDisciplines.json", "utf8"));
-  let races = JSON.parse(fs.readFileSync(jsonDirectory + "/races.json", "utf8"));
-  let spellsAspDescript = JSON.parse(fs.readFileSync(jsonDirectory + "/spellsAspDescript.json", "utf8"));
-  return {
-    props: {
-      allSkills,
-      armors,
-      classes,
-      gods,
-      psiDisciplines,
-      races,
-      spellsAspDescript,
-    },
-  };
-};
+// összes json import a getstaticProps helyett
+
+import classes from "../json/classes.json";
+import gods from "../json/gods.json";
+import races from "../json/races.json";
+
 export async function fetchCharacterData(currentCharName) {
   await fetch(`../api/characterStatsThatChange/${currentCharName}`)
     .then((response) => {
@@ -1324,8 +1307,8 @@ export default function Home(props) {
         filteredArrayIfHasParry = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Hárítás");
         filteredArrayIfHasRunning = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Futás");
         filteredArrayIfHasAssassination = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Orvtámadás");
-        let currentChar = props.classes.find((name) => name.classKey == parsedCharacterDataFromJSON.classKey);
-        let currentRace = props.races.find((name) => name.raceKey == parsedCharacterDataFromJSON.raceKey);
+        let currentChar = classes.find((name) => name.classKey == parsedCharacterDataFromJSON.classKey);
+        let currentRace = races.find((name) => name.raceKey == parsedCharacterDataFromJSON.raceKey);
         // faji egyedi jellemzők megjelenítése
         for (let i = 0; i < currentRace.uniqueAbilities.length; i++) {
           let currentuniqueAbility = currentRace.uniqueAbilities[i];
@@ -1658,9 +1641,9 @@ export default function Home(props) {
           if (highestMagicSkillName == schoolsOfMagicNames[i]) {
             let variable1 = schoolsOfMagicNamesAndAttributes[schoolsOfMagicNames[i]];
             attributeNeededToCalculateManaPoints = currentCharFinalAttributes[variable1] + modifierByMagicallyAttunedAptitude;
-            for (let j = 0; j < props.gods.length; j++) {
-              if (props.gods[j].nameOfGod == currentGodWorshippedByPlayer) {
-                attributeNeededToCalculateManaPoints = currentCharFinalAttributes[props.gods[j].attribute] + modifierByMagicallyAttunedAptitude;
+            for (let j = 0; j < gods.length; j++) {
+              if (gods[j].nameOfGod == currentGodWorshippedByPlayer) {
+                attributeNeededToCalculateManaPoints = currentCharFinalAttributes[gods[j].attribute] + modifierByMagicallyAttunedAptitude;
                 break;
               }
             }

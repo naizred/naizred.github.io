@@ -1,6 +1,7 @@
 import { rollOptions, generator, filteredArrayIfHasAnyAffinity } from "../pages";
 import { specialCases1, specialCases2, specialCases3 } from "../pages";
 import { updateCharacterData } from "./CharacterDetails";
+import allSkills from "../json/allSkills.json";
 let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
 let skillCheckSuccFailModifiers = [0, 1, 2, 3, 4, 5, -1, -2, -3, -4, -5];
 
@@ -139,7 +140,7 @@ export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDar
   }
   skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice);
 }
-let allSkillProps;
+
 export let manuallySetRollModifier = 0;
 export function setManuallySetRollModifierToZero() {
   manuallySetRollModifier = 0;
@@ -155,10 +156,10 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
       rollModifier.value = 0;
     }
     if (filteredArrayIfHasAnyAffinity.length != 0) {
-      for (let i = 0; i < allSkillProps.length; i++) {
+      for (let i = 0; i < allSkills.length; i++) {
         let categoryOfCurrentSkill = "";
-        if (skills.value.includes(allSkillProps[i].nameOfSkill)) {
-          categoryOfCurrentSkill = allSkillProps[i].category;
+        if (skills.value.includes(allSkills[i].nameOfSkill)) {
+          categoryOfCurrentSkill = allSkills[i].category;
           for (let j = 0; j < filteredArrayIfHasAnyAffinity.length; j++) {
             if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill) && rollModifier.value < filteredArrayIfHasAnyAffinity[j].level) {
               rollModifier.value = filteredArrayIfHasAnyAffinity[j].level;
@@ -181,7 +182,6 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
 }
 export let checkBoxTurnedFromNotCheckedToCheckedStatus = false;
 function SkillCheck(props) {
-  allSkillProps = props.allSkills;
   let checkBoxStatusCheckedOnClick = false;
   let checkBoxStatusCheckedOnMouseEnter = false;
   function handleSkillCheckStressCheckbox(event) {

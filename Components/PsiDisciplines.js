@@ -3,6 +3,8 @@ import { filteredArrayIfHasPsi, allActiveBuffs, currentlySelectedWeaponChanger, 
 import { blinkingText, defensiveCombatOn, hmoModifier, setDefensiveCombatVEObonus, weaponBeforeCasting } from "./ActionsList";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import { allDmgReductionListItems } from "../pages";
+import psiDisciplines from "../json/psiDisciplines.json";
+
 export let specialAtkModifierFromPsiAssault = 0;
 export let availableNumberOfAttacksFromPsiAssault = 0;
 export let bonusDamageFromChiCombat = 0;
@@ -124,14 +126,14 @@ let selectedPsiDisciplineObj;
 export function PsiDisciplines(props) {
   let filteredPsiDisciplines = [];
   function handleListPsi() {
-    for (let i = 0; i < props.psiDisciplines.length; i++) {
+    for (let i = 0; i < psiDisciplines.length; i++) {
       for (let j = 1; j < filteredArrayIfHasPsi.length; j++) {
         if (
           filteredArrayIfHasPsi[j].name.slice(5) != "" &&
-          props.psiDisciplines[i].psiSchool.includes(filteredArrayIfHasPsi[j].name.slice(5)) &&
-          props.psiDisciplines[i].requiredPsiSkillLevel <= filteredArrayIfHasPsi[j].level
+          psiDisciplines[i].psiSchool.includes(filteredArrayIfHasPsi[j].name.slice(5)) &&
+          psiDisciplines[i].requiredPsiSkillLevel <= filteredArrayIfHasPsi[j].level
         ) {
-          filteredPsiDisciplines.push(props.psiDisciplines[i]);
+          filteredPsiDisciplines.push(psiDisciplines[i]);
           break;
         }
       }
