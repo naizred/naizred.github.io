@@ -1,3 +1,4 @@
+import { filteredArrayIfHasHeavyArmorSkill } from "../pages";
 import styles from "../styles/armordetails.module.css";
 let helmetWorn = false;
 let upperTorsoWorn = false;
@@ -6,6 +7,10 @@ let armsWorn = false;
 let leggingsWorn = false;
 
 export function checkWhereItIsWorn(armorPiece) {
+  let heavyArmorSkillLevel = 0;
+  if (filteredArrayIfHasHeavyArmorSkill.length != 0) {
+    heavyArmorSkillLevel = parseInt(filteredArrayIfHasHeavyArmorSkill[0].level);
+  }
   if (armorPiece.NAME.toLowerCase().includes("teljesvért") || armorPiece.NAME == "Rákozott félvért") {
     currentArmorImg.style.backgroundImage = "url('./armorParts/fullPlateBackGround.png')";
     currentArmorImg.style.backgroundSize = "7.58vw 12vw";
@@ -34,31 +39,56 @@ export function checkWhereItIsWorn(armorPiece) {
   if (armorPiece.KIT.includes(10) && helmetWorn == false) {
     currentHelmetName.innerText = `Fej: ${armorPiece.NAME}`;
     currentHelmetImg.style.opacity = 1;
-    currentHelmetDmgReduction.innerText = armorPiece.SFE;
+    if (armorPiece.SFE <= heavyArmorSkillLevel) {
+      currentHelmetDmgReduction.innerText = armorPiece.SFE + armorPiece.SFE;
+    }
+    if (armorPiece.SFE > heavyArmorSkillLevel) {
+      currentHelmetDmgReduction.innerText = armorPiece.SFE + heavyArmorSkillLevel;
+    }
     helmetWorn = true;
   }
   if (armorPiece.KIT.includes(8) && upperTorsoWorn == false) {
     currentUpperTorsoName.innerText = `Mellkas: ${armorPiece.NAME}`;
     currentUpperTorsoImg.style.opacity = 1;
-    currentUpperTorsoDmgReduction.innerText = armorPiece.SFE;
+    if (armorPiece.SFE <= heavyArmorSkillLevel) {
+      currentUpperTorsoDmgReduction.innerText = armorPiece.SFE + armorPiece.SFE;
+    }
+    if (armorPiece.SFE > heavyArmorSkillLevel) {
+      currentUpperTorsoDmgReduction.innerText = armorPiece.SFE + heavyArmorSkillLevel;
+    }
     upperTorsoWorn = true;
   }
   if (armorPiece.KIT.includes(6) && lowerTorsoWorn == false) {
     currentLowerTorsoName.innerText = `Has: ${armorPiece.NAME}`;
     currentLowerTorsoImg.style.opacity = 1;
-    currentLowerTorsoDmgReduction.innerText = armorPiece.SFE;
+    if (armorPiece.SFE <= heavyArmorSkillLevel) {
+      currentLowerTorsoDmgReduction.innerText = armorPiece.SFE + armorPiece.SFE;
+    }
+    if (armorPiece.SFE > heavyArmorSkillLevel) {
+      currentLowerTorsoDmgReduction.innerText = armorPiece.SFE + heavyArmorSkillLevel;
+    }
     lowerTorsoWorn = true;
   }
   if (armorPiece.KIT.includes(3) && armsWorn == false) {
     currentArmsName.innerText = `Karok: ${armorPiece.NAME}`;
     currentArmsImg.style.opacity = 1;
-    currentArmsDmgReduction.innerText = armorPiece.SFE;
+    if (armorPiece.SFE <= heavyArmorSkillLevel) {
+      currentArmsDmgReduction.innerText = armorPiece.SFE + armorPiece.SFE;
+    }
+    if (armorPiece.SFE > heavyArmorSkillLevel) {
+      currentArmsDmgReduction.innerText = armorPiece.SFE + heavyArmorSkillLevel;
+    }
     armsWorn = true;
   }
   if (armorPiece.KIT.includes(2) && leggingsWorn == false) {
     currentLeggingsName.innerText = `Lábak: ${armorPiece.NAME}`;
     currentLeggingsImg.style.opacity = 1;
-    currentLeggingsDmgReduction.innerText = armorPiece.SFE;
+    if (armorPiece.SFE <= heavyArmorSkillLevel) {
+      currentLeggingsDmgReduction.innerText = armorPiece.SFE + armorPiece.SFE;
+    }
+    if (armorPiece.SFE > heavyArmorSkillLevel) {
+      currentLeggingsDmgReduction.innerText = armorPiece.SFE + heavyArmorSkillLevel;
+    }
     leggingsWorn = true;
   }
 }

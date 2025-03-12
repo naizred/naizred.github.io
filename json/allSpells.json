@@ -524,7 +524,7 @@
     "fok": 1,
     "magicSubclass": "Fénymágia",
     "magicType": "Bárdmágia",
-    "description": "A varázslat hatására a célpontot egy Erősségnek megfelelő fényaura veszi körül a hatóidő lejártáig. Ennek a varázslatnak a gyakorlati következményeit a Mesélő határozza meg. Ilyen lehet például a célzó dobásokkal szembeni láthatósági módosítók enyhítése. Ezen kívül bizonyos körülmények (látási viszonyok) között megkönnyítheti egy szereplő felkutatását vagy nyomon követését. Míg jelentős erősség esetén akár azt is ellehetetleníti, hogy a fényárban úszó szereplőre valaki rátekintsen.",
+    "description": "A varázslat hatására a célpontot egy Erősségnek megfelelő fényaura veszi körül a hatóidő lejártáig. Ellenállás során a célpontot +3 extra siker illeti meg. Ennek a varázslatnak a gyakorlati következményeit a Mesélő határozza meg. Ilyen lehet például a célzó dobásokkal szembeni láthatósági módosítók enyhítése. Ezen kívül bizonyos körülmények (látási viszonyok) között megkönnyítheti egy szereplő felkutatását vagy nyomon követését. Míg jelentős erősség esetén akár azt is ellehetetleníti, hogy a fényárban úszó szereplőre valaki rátekintsen.",
     "resist": "Összetett"
   },
   {
@@ -540,6 +540,51 @@
     "magicSubclass": "Fénymágia",
     "magicType": "Bárdmágia",
     "description": "A varázslat a bárd által megérintett, legfeljebb hatóterület kiterjedésű felület színét változtatja meg tetszés szerint, egyszeri alkalommal. A változás a hatóidő lejártáig tart.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Fáklya",
+    "aspects": [
+      ["Erősség", 2, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Fénymágia",
+    "magicType": "Bárdmágia",
+    "description": "A varázslat egy a bárd által megérintett közepes tárgyat ruház fel fényaurával az időtartam lejártáig. A fény ereje nagyságrendileg egy fáklyáénak felel meg.",
+    "resist": "nincs"
+  },
+  {
+    "name": "Fegyver",
+    "aspects": [
+      ["Erősség", 2, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 4, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 2, 1, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Fénymágia",
+    "magicType": "Bárdmágia",
+    "description": "A varázslattal a bárd körönként, 1 CS-nyi Akció Manőverért megváltoztathatja a kezében lévő közelharci fegyver típusát egy, a valódinál nagyobb fegyverére. A hatóidő alatt e jelenség az Erősségnek megfelelő léptékű Előnyt biztosít a bárdnak, a vele szemben közelharcot folytató intelligens ellenféllel szemben, ám ennek mértéke sosem haladhatja meg a Számottevő (-2-es) szintet. Az előny megtartása érdekében két támadás közt köteles változatni fegyverének megjelenésén. (Kontrollált)",
+    "resist": "nincs"
+  },
+  {
+    "name": "Kép",
+    "aspects": [
+      ["Erősség", 3, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Fénymágia",
+    "magicType": "Bárdmágia",
+    "description": "A varázslat segítségével egy adott, legfeljebb hatóterület kiterjedésű kép vagy irat tökéletes másolatát hozza létre a kívánt sík felületen. A másolat a hatóidő lejártáig marad fenn, de csak korlátozottan képes követni a felületet esetleges változásait.",
     "resist": "nincs"
   },
   {
@@ -559,48 +604,18 @@
     "resist": "nincs"
   },
   {
-    "name": "Fegyver",
-    "aspects": [
-      ["Erősség", 2, 0, 0],
-      ["Távolság", 2, 0, 0],
-      ["Terület", 4, 0, 0],
-      ["Időtartam", 3, 0, 0],
-      ["Mechanizmus", 2, 1, 0]
-    ],
-    "fok": 2,
-    "magicSubclass": "Fénymágia",
-    "magicType": "Bárdmágia",
-    "description": "A varázslattal a bárd körönként, 1 CS-nyi Akció Manőverért megváltoztathatja a kezében lévő közelharci fegyver típusát egy, a valódinál nagyobb fegyverére. A hatóidő alatt e jelenség az Erősségnek megfelelő léptékű Előnyt biztosít a bárdnak, a vele szemben közelharcot folytató intelligens ellenféllel szemben. Ám ennek mértéke sosem haladhatja meg a Számottevő (-2-es) szintet. Az előny megtartása érdekében két támadás közt köteles változatni fegyverének megjelenésén. (Kontrollált)",
-    "resist": "nincs"
-  },
-  {
-    "name": "Kép",
-    "aspects": [
-      ["Erősség", 3, 0, 0],
-      ["Távolság", 2, 0, 0],
-      ["Terület", 2, 0, 0],
-      ["Időtartam", 5, 0, 0],
-      ["Mechanizmus", 2, 0, 0]
-    ],
-    "fok": 2,
-    "magicSubclass": "Fénymágia",
-    "magicType": "Bárdmágia",
-    "description": "A varázslat segítségével egy adott, legfeljebb hatóterület kiterjedésű kép vagy irat tökéletes másolatát hozza létre a kívánt sík felületen. A másolat a hatóidő lejártáig marad fenn, de csak korlátozottan képes követni a felületet esetleges változásait.",
-    "resist": "nincs"
-  },
-  {
     "name": "Fényvarázs",
     "aspects": [
       ["Erősség", 4, 0, 0],
       ["Távolság", 3, 0, 0],
       ["Terület", 5, 0, 0],
       ["Időtartam", 4, 0, 0],
-      ["Mechanizmus", 6, 0, 0]
+      ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 2,
     "magicSubclass": "Fénymágia",
     "magicType": "Bárdmágia",
-    "description": "A varázslat a hatóterület fényviszonyait módosítja egyetlen alkalommal a bárd szándékai szerint. A változás mértéke, a varázstudó által megadott irányban Erősség/2 léptékű. ",
+    "description": "A varázslat egy legfeljebb 10x10x10 lábnyi térrész fényviszonyait módosítja egyetlen alkalommal a bárd szándékai szerint. A változás mértéke a varázstudó által megadott irányban Erősség léptékű.",
     "resist": "nincs"
   },
   {
@@ -1323,7 +1338,7 @@
   {
     "name": "Füstidézés",
     "aspects": [
-      ["Erősség", 3, 0, 0],
+      ["Erősség", 2, 0, 0],
       ["Távolság", 3, 0, 0],
       ["Terület", 5, 0, 0],
       ["Időtartam", 3, 0, 0],
@@ -1332,7 +1347,7 @@
     "fok": 2,
     "magicSubclass": "Misztikummágia",
     "magicType": "Boszorkánymágia",
-    "description": "Egy nagy tárgy léptékű területen a látást megnehezítő, hömpölygő füstfelhő keletkezik, ami a félhomálynak megfelelő körülményeket okoz. Utóbbit a különleges látások sem képesek kompenzálni. A füstöt a boszorkány jellemzően egy személy - akit jellemzően Elkerülő ellenállás illet meg - vagy akár önmaga köré idézi. Utóbbi esetben, bár a látásban zavarhatja, segíti az elrejtőzését vagy növeli a szituációs VÉO-ját +2-es mértékben. ",
+    "description": "Egy nagy tárgy léptékű területen a látást megnehezítő, hömpölygő füstfelhő keletkezik, ami Erősség/2 mértéknek megfelelő (de legfeljebb számottevő, azaz 2-es) körülményeket okoz, melyet a különleges látások sem képesek kompenzálni. A füstöt a boszorkány általában egy személy - akit jellemzően Elkerülő ellenállás illet meg - vagy akár önmaga köré idézi. Utóbbi esetben, bár a látásban zavarhatja, segíti az elrejtőzését vagy növeli a szituációs VÉO-ját +2-es mértékben. A létrejöttét követően ez a sűrű, nehéz füst természtes módon viselkedik.",
     "resist": "nincs/Elkerülő"
   },
   {
@@ -1357,12 +1372,12 @@
       ["Távolság", 1, 0, 0],
       ["Terület", 5, 0, 0],
       ["Időtartam", 4, 0, 0],
-      ["Mechanizmus", 6, 1, 0]
+      ["Mechanizmus", 5, 1, 0]
     ],
     "fok": 3,
     "magicSubclass": "Misztikummágia",
     "magicType": "Boszorkánymágia",
-    "description": "A boszorkány sebessége a Varázspróbájából adódik úgy, hogy a próba értékét kell megfeleltetni a Mozgási távolság tábla Sebesség képletében szereplő Gyorsaság értéknek. A boszorkány lebegéssel képes helyet változtatni, amely tőle nem igényel semmilyen mozdulatot. Az ilyen lényeket ekkor -2 HMO és -2 extra kudarc sújtja minden egyes fizikai tevékenységük kapcsán. (Kontrollált)",
+    "description": "A boszorkány lebegéssel képes helyet változtatni, amely tőle nem igényel semmilyen mozdulatot. Ebben az állapotban őt -2 HMO és -2 extra kudarc sújtja a legtöbb fizikai tevékenysége kapcsán. A boszorkány sebessége a Varázspróbájából adódik úgy, hogy a próba értékét kell megfeleltetni a Sebesség statisztikának, míg a körönkénti maximális Mozgási távolság ennek háromszorosa lesz. (Kontrollált)",
     "resist": "Összetett"
   },
   {
@@ -1473,6 +1488,21 @@
     "resist": "EvE"
   },
   {
+    "name": "Szárnyalás",
+    "aspects": [
+      ["Erősség", 5, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 8, -2, 0]
+    ],
+    "fok": 4,
+    "magicSubclass": "Misztikummágia",
+    "magicType": "Boszorkánymágia",
+    "description": "A boszorkány elemi levegő szárnyak segítségével utazik. Legfeljebb fizikai adottságainak megfelelő súlyt képes magával vinni. A boszorkány sebessége a Varázspróbájából adódik úgy, hogy a próba értékét kell megfeleltetni a Sebesség statisztikának, míg a körönkénti maximális Mozgási távolság ennek hatszorosa lesz. Maga a repülve haladás számára 1 CS-nyi Manőver keretében történik meg. Erőssége nem haladhatja meg a Terület aspektust. (Irányított)",
+    "resist": "nincs"
+  },
+  {
     "name": "Holdfényjárás",
     "aspects": [
       ["Erősség", 7, 0, 0],
@@ -1485,21 +1515,6 @@
     "magicSubclass": "Misztikummágia",
     "magicType": "Boszorkánymágia",
     "description": "A boszorkány a holdfényen és mindvégig lehunyt szemmel képes a levegőben gyalogosan közlekedni. Bármely követelmény sérül, a varázslat működése felfüggesztődik és így a boszorkány lezuhan. (Komponens: holdfény(1), lehunyt szem(1))",
-    "resist": "nincs"
-  },
-  {
-    "name": "Repülés",
-    "aspects": [
-      ["Erősség", 5, 0, 0],
-      ["Távolság", 1, 0, 0],
-      ["Terület", 5, 0, 0],
-      ["Időtartam", 4, 0, 0],
-      ["Mechanizmus", 8, -2, 0]
-    ],
-    "fok": 4,
-    "magicSubclass": "Misztikummágia",
-    "magicType": "Boszorkánymágia",
-    "description": "A boszorkány elemi erő segítségével utazik. Mozgási sebessége a boszorkány Varázspróbájából adódik úgy, hogy a próba értékét kell megfeleltetni a Mozgási távolság tábla Gyorsaság értékével. Legfeljebb fizikai adottságainak megfelelő súlyt képes magával vinni. Maga a repülve haladás számára 1 CS-nyi Manőver keretében történik meg. Erőssége nem haladhatja meg a Terület aspektust. (Irányított)",
     "resist": "nincs"
   },
   {
@@ -1537,7 +1552,7 @@
     "resist": "nincs"
   },
   {
-    "name": "Szárnyalás",
+    "name": "Repülés",
     "aspects": [
       ["Erősség", 5, 0, 0],
       ["Távolság", 1, 0, 0],
@@ -1548,7 +1563,7 @@
     "fok": 5,
     "magicSubclass": "Misztikummágia",
     "magicType": "Boszorkánymágia",
-    "description": "A boszorkány elemi erő segítségével utazik. Mozgási sebessége a boszorkány Varázspróbájából adódik úgy, hogy a próba értékét kell megfeleltetni a Mozgási távolság tábla Gyorsaság értékével. Legfeljebb fizikai adottságainak megfelelő súlyt képes magával vinni. Maga a haladás nem, csak az új úti cél kijelölése kerül számára 1 CS-nyi Akció Manőverbe. Erőssége nem haladhatja meg a Terület aspektust. (Kontrollált)",
+    "description": "A boszorkány dinamikus elemi erő segítségével utazik. Legfeljebb fizikai adottságainak megfelelő súlyt képes magával vinni. A boszorkány sebessége a Varázspróbájából adódik úgy, hogy a próba értékét kell megfeleltetni a Sebesség statisztikának, míg a körönkénti maximális Mozgási távolság ennek hatszorosa lesz. Maga a haladás nem, csak az új útirány kijelölése kerül számára 1 CS-nyi Akció Manőverbe. (Kontrollált)",
     "resist": "nincs"
   },
   {
@@ -1594,7 +1609,7 @@
     "fok": 2,
     "magicSubclass": "Lángmágia",
     "magicType": "Boszorkánymágia",
-    "description": "A hatóterületen belül lévő világítóeszközök (gyertya, fáklya, lámpás stb.) meggyulladnak, amennyiben egy gyertya lángjának (értsd 1 E) 1 környi érintése képes lenne a meggyújtásukra. A varázs csakis azokra az eszközökre van hatással, melyek létéről és helyzetéről a boszorkány tud és szándékában is áll azokat meggyújtani.",
+    "description": "A hatóterületen belül lévő azon könnyen éghető, mozdulatlan tárgyak (gyertya, fáklya, lámpás stb.) meggyulladnak, amennyiben egy gyertya lángjának (értsd 1 E) 1 környi érintése képes lenne a meggyújtásukra. A varázs csakis azokra az eszközökre van hatással, melyek létéről és helyzetéről a boszorkány tud és szándékában is áll azokat meggyújtani.",
     "resist": "nincs/Elkerülő"
   },
   {
@@ -2797,7 +2812,7 @@
       ["Távolság", 2, 0, 0],
       ["Terület", 3, 0, 0],
       ["Időtartam", 6, 0, 0],
-      ["Mechanizmus", 5, 0, -1]
+      ["Mechanizmus", 5, 1, -1]
     ],
     "fok": 4,
     "magicSubclass": "Szexuálmágia",
@@ -2962,8 +2977,9 @@
     "aspects": [
       ["Erősség", 3, 0, 0],
       ["Távolság", 3, 0, 0],
-      ["Terület", 7, 0, 0],
+      ["Terület", 8, 0, 0],
       ["Időtartam", 2, 0, 0],
+      ["Mechanizmus", 2, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
     "fok": 3,
@@ -3089,7 +3105,9 @@
       ["Erősség", 3, 0, 0],
       ["Erősség", 5, 0, 0],
       ["Távolság", 2, 0, 0],
+      ["Távolság", 1, 0, 0],
       ["Terület", 3, 0, 0],
+      ["Terület", 2, 0, 0],
       ["Időtartam", 9, 0, 0],
       ["Mechanizmus", 10, 1, 0],
       ["Mechanizmus", 6, 1, 0]
@@ -3107,13 +3125,12 @@
       ["Távolság", 1, 0, 0],
       ["Terület", 1, 0, 0],
       ["Időtartam", 3, 0, 0],
-      ["Mechanizmus", 4, 0, 0],
-      ["Mechanizmus", 1, 0, 0]
+      ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 1,
     "magicSubclass": "Villámmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A varázslat hatására villámenergia kezd felhalmozódni a boszorkánymester bal kezében. A villám kezdeti Erőssége minden teljes kör elteltekor eggyel növekszik, ám sosem haladhatja meg a Villámmágia fokának kétszeresét. A varázslat időtartama 6 kör, melyet követően az energia nyomtalanul elvész. Ez idő alatt a bal kéz érintésével kisül az abban felhalmozott energia. Ilyenkor a felhalmozást az alap Erősségtől kezdődően újra kell kezdeni, tehát az energiagyűjtés a varázslat időtartama alatt töretlenül zajlik.  A  pusztakezes támadó készségén felül még +0,5 TÉO(1) illeti meg a varázstudót.",
+    "description": "A varázslat hatására villámenergia kezd felhalmozódni a boszorkánymester bal kezében. A villám kezdeti Erőssége minden teljes kör elteltekor eggyel növekszik, ám sosem haladhatja meg a Villámmágia fokának kétszeresét. A varázslat időtartama 6 kör, melyet követően az energia nyomtalanul elvész. Ez idő alatt a bal kéz érintésével kisül az abban felhalmozott energia. Ilyenkor a felhalmozást az alap Erősségtől kezdődően újra kell kezdeni, tehát az energiagyűjtés a varázslat időtartama alatt töretlenül zajlik.",
     "resist": "TÉOvVÉO"
   },
   {
@@ -3305,7 +3322,7 @@
     "fok": 4,
     "magicSubclass": "Villámmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A varázslat egy 1 láb sugarú villámokból és elemi erőből font ketrecbe zárja a célpontját. Bárki, aki kintről vagy bentről megérinti ezt a ketrecet, elszenvedi az Erősségnek megfelelő sebzést. Mivel a ketrecből való kijutás is az Erősségtől függ, így ez a tevékenység a rabnak extra sebzést okozhat. (Fenntartott)",
+    "description": "A varázslat egy 1 láb sugarú villámokból és elemi erőből font ketrecbe zárja a célpontját. Bárki, aki kintről vagy bentről megérinti ezt a ketrecet, elszenvedi az Erősségnek megfelelő sebzést. Mivel a ketrecből való kijutás is az Erősségtől függ, így ez a tevékenység a rabnak extra sebzést okozhat. Ha a varázslat áldozatának fizikai méretei meghaladhatják a Hatóterületet, akkor a varázslat nem zárhatja magába az áldozatot. (Fenntartott)",
     "resist": "Elkerülő"
   },
   {
@@ -3743,7 +3760,7 @@
     "resist": "Szellemi/EvE"
   },
   {
-    "name": "Láthatatlanság felfedez.",
+    "name": "Tudat felfedezése",
     "aspects": [
       ["Erősség", 2, 0, 0],
       ["Távolság", 1, 0, 0],
@@ -3754,7 +3771,7 @@
     "fok": 2,
     "magicSubclass": "Átokmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A varázslattal a boszorkánymester a zónáján belül minden aktív, mentál testtel bíró tudatot(2) érzékel. Az időtartam lejártáig azok hozzávetőleges irányáról és távolságáról is tájékoztat. A varázslat a Mentál sík lakóit is képes felfedni.",
+    "description": "A varázslattal a boszorkánymester a zónáján belül minden aktív, mentál testtel bíró szereplőt(2) érzékel. Az időtartam lejártáig azok hozzávetőleges irányáról és távolságáról is tájékoztat.",
     "resist": "Mentális"
   },
   {
@@ -3880,7 +3897,7 @@
   {
     "name": "Tulajdonság átok",
     "aspects": [
-      ["Erősség", 4, 0, 0],
+      ["Erősség", 6, 0, 0],
       ["Távolság", 3, 0, 0],
       ["Terület", 3, 0, 0],
       ["Időtartam", 6, 0, 0],
@@ -3889,7 +3906,7 @@
     "fok": 4,
     "magicSubclass": "Átokmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A boszorkánymester átkot szórhat egy zónáján belül tartózkodó személyre. A varázslat az áldozat egyik, a boszorkánymester által választott Tulajdonságára vonatkozik. A Tulajdonság bármiféle használata során az alanyt az átok Erősség/4 értékének megfelelő mértékű extra kudarc sújtja. Ha ez a boszorkánymester életének utolsó Jelenetében létrejövő varázslat volt, az átok időtartama Maradandóra módosul.",
+    "description": "A boszorkánymester átkot szórhat egy zónáján belül tartózkodó személyre. A varázslat az áldozat egyik, a boszorkánymester által választott Tulajdonságára vonatkozik. A Tulajdonság bármiféle használata során az alanyt az átok Erősségtől függő (6E esetén -3-as) negatív DM sújtja. Ha ez a boszorkánymester életének utolsó Jelenetében létrejövő varázslat volt, az átok időtartama Maradandóra módosul.",
     "resist": "Összetett"
   },
   {
@@ -4905,7 +4922,7 @@
   {
     "name": "Azonosítás",
     "aspects": [
-      ["Erősség", 3, 0, 0],
+      ["Erősség", 4, 0, 0],
       ["Távolság", 2, 0, 0],
       ["Terület", 3, 0, 0],
       ["Időtartam", 1, 0, 0],
@@ -4915,7 +4932,7 @@
     "fok": 3,
     "magicSubclass": "Nekromancia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A varázslat egy elhunyt személy holttestét vagy annak egy részét vizsgálja meg. A vizsgálat során a boszorkánymester megismeri az elhunyt rövid - de egy évszázadnál(9) nem régebbi - élettörténetét. A kapott információ az Erősségtől függ, ami 1-es esetén felületes, 3-asnál érdemi, míg 6-osnál részletes lehet.",
+    "description": "A varázslat egy elhunyt személy holttestét vagy annak egy részét vizsgálja meg. A vizsgálat során a boszorkánymester megismeri az elhunyt rövid - de egy évszázadnál(9) nem régebbi - élettörténetét. . A kapott információ az Erősségtől függ az erre vonatkozó általános szabályok szerint. Amennyiben a holttesthez tartozó lélek még itt tartózkodik, az ellenállásra jogosult a varázslattal szemben.",
     "resist": "nincs"
   },
   {
@@ -5665,13 +5682,12 @@
       ["Távolság", 1, 0, 0],
       ["Terület", 1, 0, 0],
       ["Időtartam", 3, 0, 0],
-      ["Mechanizmus", 4, 0, 0],
-      ["Mechanizmus", 1, 0, 0]
+      ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 2,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-    "description": "A varázslat segítségével a tűzvarázsló képes a felforrósodott bal kezének érintésével Erősségnek megfelelő hő alapú sérülést okozni.  Az alap TÉ-n felül még +0,5 TÉO(1) illeti meg a varázstudót.",
+    "description": "A varázslat segítségével a tűzvarázsló képes a felforrósodott bal kezének érintésével Erősségnek megfelelő hő alapú sérülést okozni.",
     "resist": "TÉOvVÉO"
   },
   {
@@ -5870,7 +5886,7 @@
     "fok": 1,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-    "description": "A tűzvarázsló ezzel a varázslattal intenzívebbé teheti egy tűzzel operáló varázslat pusztítását. A Pusztító tűz hatására a sebzéshez használ kockák sebzéskódja k5-ről k5+1-re módosul. Ha a tűzvarázsló varázslatra használja a Pusztító tűzet, akkor az Erőssége nem lehet alacsonyabb, mint a célpontjául szolgáló tűz alapú varázslaté. Az emelt sebzést a hatóidő lejártáig produkálja a Pusztító tűz.",
+    "description": "A tűzvarázsló ezzel a varázslattal intenzívebbé teheti egy korábban létrejött, tűzzel operáló varázslat pusztítását. A Pusztító tűz hatására a sebzés megállapításakor használt k5-ös kockák 3 alatti értékeit 5-ösnek kell tekinteni. A Pusztító tűz Erőssége nem lehet alacsonyabb, mint a célpontjául szolgáló tűz alapú varázslaté. Az emelt sebzést a hatóidő lejártáig produkálja a Pusztító tűz.",
     "resist": "nincs"
   },
   {
@@ -5907,7 +5923,7 @@
     "fok": 2,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-    "description": "A varázslat egy fáklya méretű lánggömböt hív életre, amelyet a tűzvarázsló a hatótávon belül szabadon pozícionálhat. Ez utóbbi körönként 1 CS Akció Manőver keretében történhet meg. Többnyire felderítésre, világításra használják. A gömb a Varázspróba értékével azonos Gyorsaságnak megfelelő Mozgást képes végezni egy kör alatt. Sebzése az Erősségnek megfelelő és az Időtartam lejártáig marad fenn. (Kontrollált)",
+    "description": "A varázslat egy fáklya méretű lánggömböt hív életre, amelyet a tűzvarázsló a hatótávon belül szabadon kelthet és az Időtartam lejártáig marad fenn. Többnyire felderítésre, világításra használják. A gömb sebessége a Varázspróbából adódik úgy, hogy a próba értékét kell megfeleltetni a Sebesség statisztikának, míg a körönkénti maximális Mozgási távolság ennek hatszorosa lesz. Mozgási jellemzőinek módosítása körönként 1 CS Akció Manőver keretében történhet meg, ezért támadásra nehezen használható. Sebzése az Erősségnek megfelelő. (Kontrollált)",
     "resist": "nincs/Elkerülő"
   },
   {
@@ -6028,7 +6044,7 @@
       ["Terület", 4, 1, 0],
       ["Időtartam", 4, 1, 0],
       ["Időtartam", 1, 1, 0],
-      ["Mechanizmus", 6, 1, 0]
+      ["Mechanizmus", 3, 1, 0]
     ],
     "fok": 4,
     "magicSubclass": "Felső tűzmágia",
@@ -6054,17 +6070,17 @@
   {
     "name": "Tűzrablás",
     "aspects": [
-      ["Erősség", 3, 0, 0],
+      ["Erősség", 2, 0, 0],
       ["Távolság", 3, 0, 0],
-      ["Terület", 5, 0, 0],
-      ["Terület", 3, 0, 0],
+      ["Terület", 6, 0, 0],
       ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 1, 0, 0],
       ["Mechanizmus", 1, 0, 0]
     ],
     "fok": 4,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-    "description": "A varázslat hatására egy, a varázsló zónáján belül eső természetes vagy őstűz(3) a kard vagy aura iskolaformák egyikévé(1) alakul át. Az így kapott őstűz forma a tűzvarázsló által kijelölt öt célponton(5) az Időtartam lejártáig fennmarad. Az aurák természetes tüzek esetén, ha nem elégséges az eredeti Erősségük, akkor \"fok\"ozatosan erősödnek fel, míg a célpont a hatótávolságon belül marad. A természetes tüzek visszaerősödése a természetes állapotig általában körönként +1E. A természetes tüzek akár részben is alanyai lehetnek e varázslatnak, míg az őstüzek esetében azok Erősségét el kell érnie a varázslat Erősségének. Őstüzeknél értelemszerűen nem beszélhetünk természetes visszaerősödésről. (Összetevő: természetes vagy őstűz)",
+    "description": "A varázslat feltétele egy, a hatótávolságon belüli természetes tűz. A kiválasztott legfeljebb hat célpont mindegyike az időtartam lejártáig Erősségnek megfelelő tűzaurát és fegyverére - amennyiben kezében tart olyat - tűzkard iskolaformát kap, de legfeljebb olyan erősségűt, mint az összetevőként funkcionáló tűz. Az arról le nem mondó szereplők ellenállását +3 extra siker illeti meg. A természetes tűz visszaerősödése a természetes állapotig általában körönként +1E. (Összetevő: természetes tűz)",
     "resist": "Fizikai/EvE"
   },
   {
@@ -6090,14 +6106,14 @@
       ["Erősség", 8, 0, 0],
       ["Távolság", 3, 0, 0],
       ["Távolság", 8, 0, 0],
-      ["Terület", 7, 0, 0],
-      ["Időtartam", 4, 0, 0],
+      ["Terület", 8, 0, 0],
+      ["Időtartam", 5, 0, 0],
       ["Mechanizmus", 10, 0, 0]
     ],
     "fok": 5,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-    "description": "A varázslat segítségével a tűzvarázsló egy, az Erősségnek megfelelő Bestia osztályú lávadémont idéz meg az alsóbb külső síkok egyikéről(8). A lény, melynek mérete kisebb objektum  léptékű, a megidézéskor kapott egyszerű parancsot hajtja végre az Időtartam lejártáig.",
+    "description": "A varázslat segítségével a tűzvarázsló egy, az Erősségnek megfelelő Bestia osztályú lávadémont idéz meg az alsóbb külső síkok egyikéről(8). A lény, melynek mérete kisebb objektum léptékű, a megidézéskor kapott egyszerű parancsot hajtja végre az Időtartam lejártáig.",
     "resist": "Össz./EvOszt"
   },
   {
@@ -6128,7 +6144,7 @@
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat bármilyen Sorshatás jellegű jelenség működését kutatja a célponton. Ha a célpont nem egyezett bele a varázslatba, akkor a varázstudónak az ő Ellenállását is le kell gyűrnie a sikeres kutakodáshoz. A vizsgálat Erőssége a vizsgált hatásról kapott információk mélységét szimbolizálja, ahol 1 E esetén csak felületes, 3 E-nél érdemi, míg 6 E-ű varázslatnál minden közvetlen részlet kiderül. A varázslat hatóterületnek megfelelő tárgyak esetében is használható.",
+    "description": "A varázslat bármilyen Sorshatás jellegű jelenség működését kutatja a célponton. Ha a célpont nem egyezett bele a varázslatba, akkor a varázstudónak az ő Ellenállását is le kell gyűrnie a sikeres kutakodáshoz. A vizsgálat Erőssége a vizsgált hatásról kapott információk mélységét szimbolizálja, az általános szabályok szerint. A varázslat hatóterületnek megfelelő tárgyak esetében is használható.",
     "resist": "Szellemi",
     "ritual": true
   },
@@ -6421,6 +6437,22 @@
     "ritual": true
   },
   {
+    "name": "Mágiaoltalom (Általános)",
+    "aspects": [
+      ["Erősség", 2, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 4, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál, Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Általános",
+    "description": "A fohász célpontjául szolgáló karakterre ható, egy a pap által választott mágiaformába tartozó, újonnan létrejövő varázslat Erőssége e fohász Erősségének felével alacsonyabb értéken jön létre.",
+    "resist": "nincs/EvE"
+  },
+  {
     "name": "Áldás - személy (Általános)",
     "aspects": [
       ["Erősség", 2, 0, -1],
@@ -6644,11 +6676,11 @@
   {
     "name": "Vízlégzés (Általános)",
     "aspects": [
-      ["Erősség", 3, 0, -1],
+      ["Erősség", 4, 0, -1],
       ["Távolság", 2, 0, 0],
       ["Terület", 5, 0, 0],
       ["Időtartam", 4, 0, 0],
-      ["Mechanizmus", 3, 0, 0]
+      ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 3,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
@@ -7275,13 +7307,14 @@
       ["Terület", 3, 0, 0],
       ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 1,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 3-asra, feltéve, hogy az a varázslat a hatóidőn belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Egyetlen, a pap zónáján belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jára is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 3-asra, feltéve, hogy az a varázslat az időzítésen(1) belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Egyetlen, a pap zónáján belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jára is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "Szellemi",
     "ritual": true
   },
@@ -7360,14 +7393,16 @@
       ["Erősség", 4, 0, -1],
       ["Távolság", 1, 0, 0],
       ["Terület", 1, 0, 0],
-      ["Időtartam", 3, 0, 0],
-      ["Mechanizmus", 6, 0, 0]
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
     ],
     "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 4-esre - feltéve, hogy a varázslat 6 körön belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 4-esre - feltéve, hogy a varázslat 1 percen belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "nincs"
   },
   {
@@ -7413,15 +7448,17 @@
       ["Távolság", 3, 0, 0],
       ["Terület", 1, 0, 0],
       ["Terület", 4, 0, 0],
-      ["Időtartam", 4, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 2, 0, 0],
       ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 5-ösre, feltéve, hogy az a varázslat a hatóidőn belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Kettő, a pap zónáján belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 5-ösre, feltéve, hogy az a varázslat az időzítésen(2) belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Kettő, a pap zónáján belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "Szellemi",
     "ritual": true
   },
@@ -7492,6 +7529,24 @@
     "god": "Általános",
     "description": "A varázslat a pap által kijelölt célpontban lakozó asztrál(3) lénynek okoz Erősségnek megfelelő sebzést. Több lény esetén csak akkor képes a sebzésre megfelelőt kiválasztani, ha előtte egy Asztrálpillantás vagy egyéb módszer segítségével azonosította azt.",
     "resist": "Asztrális",
+    "ritual": true
+  },
+  {
+    "name": "Megtisztítás (Általános)",
+    "aspects": [
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
+    ],
+    "fok": 3,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Általános",
+    "description": "A varázslat kísérletet tesz arra, hogy gyakorlatilag az összes varázslatot eltávolítsa egy tetszőleges méretű tárgyról, objektumról, helyszínről, esetleg személyről. A sikeresség feltétele, hogy a megtisztítás Erőssége elérje a varázslatok erősségét. A fohász a kiszemelt célponton lévő öt leggyengébb(2) varázslatot kísérli meg destruálni. Ha a célpont személy nem egyezett bele a varázslatba, akkor a megtisztításnak az ő Ellenállását is le kell gyűrnie a sikerhez",
+    "resist": "Szell./EvE",
     "ritual": true
   },
   {
@@ -7595,7 +7650,7 @@
     "magicSubclass": "Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A hatóidő lejártáig a megérintett tárgy vagy személy központtal a teljes csend illúziója keletkezik. E csend kiterjedésének területe apró objektum léptékű és Erősségéből(3) fakadóan legfeljebb emberi volumenű hanghatások kapcsán érvényesül.",
+    "description": "A hatóidő lejártáig a megérintett tárgy vagy személy központtal a teljes csend illúziója keletkezik. E csend kiterjedésének területe apró objektum léptékű és Erősségéből(3) fakadóan legfeljebb emberi volumenű hanghatások kapcsán érvényesül. A varázslatok hang alapú procedúráit csak akkor képes ellehetetleníteni, ha a Csend Erőssége meghaladja az érintett varázslat Erősségét.",
     "resist": "nincs"
   },
   {
@@ -7621,14 +7676,16 @@
       ["Erősség", 6, 0, -1],
       ["Távolság", 1, 0, 0],
       ["Terület", 1, 0, 0],
-      ["Időtartam", 3, 0, 0],
-      ["Mechanizmus", 6, 0, 0]
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
     ],
     "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 6-osra - feltéve, hogy a varázslat 6 körön belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 6-osra - feltéve, hogy a varázslat 1 percen belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "nincs"
   },
   {
@@ -7690,15 +7747,17 @@
       ["Távolság", 3, 0, 0],
       ["Terület", 1, 0, 0],
       ["Terület", 5, 0, 0],
-      ["Időtartam", 5, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 7-esre, feltéve, hogy az a varázslat a hatóidőn belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Öt, a pap zónáján belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 7-esre, feltéve, hogy az a varázslat az időzítésen(3) belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Öt, a pap zónáján belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "Szellemi",
     "ritual": true
   },
@@ -7722,18 +7781,19 @@
   {
     "name": "Vérgyűjtés (Általános)",
     "aspects": [
-      ["Erősség", 2, 0, -1],
+      ["Erősség", 3, 0, -1],
       ["Távolság", 3, 0, 0],
       ["Távolság", 2, 0, 0],
       ["Terület", 3, 0, 0],
       ["Időtartam", 3, 0, 0],
-      ["Mechanizmus", 8, 0, 0]
+      ["Mechanizmus", 8, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Halál",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat zónán belüli alanyának kiontott vére a hatóidő alatt egy adott, érintéssel kijelölt ponton gyűlik össze és nem alvad meg. Mindez elemi erő segítségével történik. A vér 10+Erősség alapú sebességgel tart a célja felé. Mivel a varázslat csak a kiontott vérre hat, így a Személyes aura nem véd ellene.",
+    "description": "A fohász, a zónán belüli célpontjának kiontott vérét, a hatóidő alatt egy adott, az érintéssel kijelölt pontra gyűjti össze és ott hátráltatja annak megalvadását. Mindez aktív elemi erő forma segítségével történik. A vér begyűjtési sebessége a Varázspróbából adódik úgy, hogy a próba értékét kell megfeleltetni a Sebesség statisztikának, míg a körönkénti maximális Mozgási távolság ennek hatszorosa lesz. Mivel a varázslat csak a kiontott vérre hat, így a Személyes aura nem véd ellene.",
     "resist": "nincs"
   },
   {
@@ -7804,22 +7864,20 @@
     "ritual": true
   },
   {
-    "name": "Megtisztítás (Általános)",
+    "name": "Varázstárgy kifürkészése (Általános)",
     "aspects": [
-      ["Erősség", 3, 1, -1],
-      ["Távolság", 3, 1, 0],
-      ["Terület", 12, 1, 0],
-      ["Időtartam", 4, 1, 0],
-      ["Időtartam", 1, 1, 0],
-      ["Mechanizmus", 4, 1, 0],
-      ["Mechanizmus", 2, 1, 0]
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Terület", 1, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
     ],
-    "fok": 3,
-    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
+    "fok": 4,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat kísérletet tesz arra, hogy gyakorlatilag az összes varázslatot eltávolítsa egy tetszőleges méretű tárgyról, objektumról, helyszínről, esetleg személyről. A sikeresség feltétele, hogy a megtisztítás Erőssége elérje a varázslatok erősségét. A hat körön keresztül tartó megtisztítás körről körre halad, kezdve(2) a legerősebb varázslattal. Ha a célpont személy nem egyezett bele a varázslatba, akkor a megtisztításnak az ő Ellenállását is le kell gyűrnie a sikerhez. (Ismétlődő)",
-    "resist": "Szell./EvE",
+    "description": "A fohász segítségével a pap egyetlen varázstárgyról kaphat információt, melynek mélysége az Erősségtől függ: 1 E esetén a tárgy varázstárgy mivoltáról, mágikus hagyományáról; 2 E központi mágiaformájáról; 4 E alapvető mechanizmusáról; 6 E minden aspektusáról; 8 E használatának módjáról; 10 E további esetleges titkairól nyújt tájékoztatást.",
+    "resist": "nincs/Szellemi",
     "ritual": true
   },
   {
@@ -7920,14 +7978,16 @@
       ["Erősség", 8, 0, -1],
       ["Távolság", 1, 0, 0],
       ["Terület", 1, 0, 0],
-      ["Időtartam", 3, 0, 0],
-      ["Mechanizmus", 6, 0, 0]
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
     ],
     "fok": 4,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 8-asra - feltéve, hogy a varázslat 6 körön belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 8-asra - feltéve, hogy a varázslat 1 percen belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "nincs"
   },
   {
@@ -7959,15 +8019,17 @@
       ["Távolság", 3, 0, 0],
       ["Terület", 1, 0, 0],
       ["Terület", 6, 0, 0],
-      ["Időtartam", 6, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 4,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 9-esre, feltéve, hogy az a varázslat a hatóidőn belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Tizenkettő, a pap zónáján belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 9-esre, feltéve, hogy az a varázslat az időzítésen(4) belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Tizenkettő, a pap zónáján belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "Szellemi",
     "ritual": true
   },
@@ -7987,6 +8049,25 @@
     "god": "Általános",
     "description": "A varázslat segítségével egyetlen tetszőleges típusba tartozó elementált(6) idéz meg a pap. Az elementál, melynek mérete legfeljebb apró objektum léptékű lehet, a megidézéskor kapott egyszerű parancsot hajtja végre az időtartam lejártáig. A Bestia osztálya nem haladhatja meg a varázslat Erősségét.",
     "resist": "Össz./EvOszt",
+    "ritual": true
+  },
+  {
+    "name": "Mágiatilalom (Általános)",
+    "aspects": [
+      ["Erősség", 4, 0, -1],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 5, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 7, 0, 0],
+      ["Mechanizmus", 7, 0, 0],
+      ["Mechanizmus", 7, 0, 0]
+    ],
+    "fok": 4,
+    "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
+    "magicType": "Szakrális mágia",
+    "god": "Általános",
+    "description": "A fohász az érintéssel kijelölt hatóterületen belül három, a pap által kiválasztott mágiaformába tartozó összes varázslat kifejtett Erősségét a fohász Erősségének felével csökkenti.",
+    "resist": "EvE",
     "ritual": true
   },
   {
@@ -8011,12 +8092,8 @@
     "name": "Természeti lény idézése (Általános)",
     "aspects": [
       ["Erősség", 4, 0, -1],
-      ["Erősség", 4, 0, 0],
-      ["Távolság", 7, 0, 0],
       ["Távolság", 7, 0, 0],
       ["Terület", 3, 0, 0],
-      ["Terület", 3, 0, 0],
-      ["Időtartam", 5, 0, 0],
       ["Időtartam", 5, 0, 0],
       ["Mechanizmus", 4, 0, -1],
       ["Mechanizmus", 4, 0, 0]
@@ -8063,7 +8140,7 @@
     "magicSubclass": "Nagyobb fohászok - Halál",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat végrehajtásához nagy tárgy léptékű vérmennyiség szükségeltetik, ami vérgólemmé változik(6). A varázslat Erőssége határozza meg a vérgólem statisztikáit a formasablon alapján. A vérgólem különleges képessége(10), hogy minden általa kiosztott Ép sebzéssel regenerálódik a saját Ép értéke, de csak a maximumig. A szolgálatba állított gólemet +2 HMO(4) illeti meg és hétköznapi(6) kommunikációra képes.",
+    "description": "A varázslat végrehajtásához nagy tárgy léptékű vérmennyiség szükségeltetik, ami vérgólemmé változik(6). A varázslat Erőssége határozza meg a vérgólem statisztikáit a formasablon alapján. A vérgólem különleges képessége(10), hogy minden általa kiosztott Ép sebzéssel regenerálódik a saját Ép értéke, de csak a maximumig. A szolgálatba állított gólemet +2 HMO(4) illeti meg és hétköznapi(6) kommunikációra képes. (Összetevő: frissen kiontott, nagy tárgy léptékű vérmennyiség)",
     "resist": "nincs",
     "ritual": true
   },
@@ -8092,14 +8169,16 @@
       ["Erősség", 10, 0, -1],
       ["Távolság", 1, 0, 0],
       ["Terület", 1, 0, 0],
-      ["Időtartam", 3, 0, 0],
-      ["Mechanizmus", 6, 0, 0]
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 2, 0, 0]
     ],
     "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 10-esre - feltéve, hogy a varázslat 6 körön belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik. ",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 10-esre - feltéve, hogy a varázslat 1 percen belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik. ",
     "resist": "nincs"
   },
   {
@@ -8115,7 +8194,7 @@
     "magicSubclass": "Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat egy elemi erőből álló égi szekeret idéz meg, amelyen a pap által kiválasztott személyek, összesen legfeljebb apró objektumnyi léptékű tömege utazhat a pappal együtt. A szekér sebesség az Erősségtől függ, ahol a 6E sétáló ember, 9E rohanó ember, míg a 12E leggyorsabban vágtázó illanori telivér sebességének felel meg. Irányítani kontrollált varázslatként körönként 1 CS Akció Manőver keretében képes a pap. (Kontrollált)",
+    "description": "A varázslat egy elemi erőből álló égi szekeret idéz meg, amelyen a pap által kiválasztott személyek, összesen legfeljebb apró objektumnyi léptékű tömege utazhat a pappal együtt. A szekér sebessége a Varázspróbából adódik úgy, hogy a próba értékét kell megfeleltetni a Sebesség statisztikának, míg a körönkénti maximális Mozgási távolság ennek hatszorosa lesz. Irányítani kontrollált varázslatként körönként 1 CS Akció Manőver keretében képes a pap. (Kontrollált)",
     "resist": "nincs"
   },
   {
@@ -8124,7 +8203,7 @@
       ["Erősség", 5, 0, -1],
       ["Távolság", 3, 0, 0],
       ["Távolság", 10, 0, 0],
-      ["Terület", 7, 0, 0],
+      ["Terület", 8, 0, 0],
       ["Időtartam", 5, 0, 0],
       ["Mechanizmus", 6, 0, 0]
     ],
@@ -8161,15 +8240,17 @@
       ["Távolság", 4, 0, 0],
       ["Terület", 1, 0, 0],
       ["Terület", 7, 0, 0],
-      ["Időtartam", 7, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 5, 0, 0],
       ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 11-esre, feltéve, hogy az a varázslat a hatóidőn belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Harminc, a paptól legfeljebb 50 láb távolságon belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 11-esre, feltéve, hogy az a varázslat az időzítésen(5) belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Harminc, a paptól legfeljebb 50 láb távolságon belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "Szellemi",
     "ritual": true
   },
@@ -8233,15 +8314,17 @@
       ["Távolság", 4, 0, 0],
       ["Terület", 1, 0, 0],
       ["Terület", 8, 0, 0],
-      ["Időtartam", 8, 0, 0],
+      ["Időtartam", 1, 0, 0],
+      ["Időtartam", 6, 0, 0],
       ["Mechanizmus", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 12-esre, feltéve, hogy az a varázslat a hatóidőn belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Száz, a paptól legfeljebb 50 láb távolságon belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap egyik elkövetkező fohászának tetszőleges számú Erősségét 12-esre, feltéve, hogy az a varázslat az időzítésen(6) belül létrejön. Arról, hogy a liturgia hatása érvénybe lépjen, a fohász létrejöttének pillanatában kell dönteni. Száz, a paptól legfeljebb 50 láb távolságon belül tartózkodó, vele azonos istenséget követő, szakrális mágiában jártas személy közreműködőként vehet részt a varázslásban, így ezáltal az ő aktuális Mp-jukra is szabadon támaszkodhat majd a szertartást vezető beavatott, amikor az adott varázslatot létrehozza. Ennek egyetlen feltétele csupán, hogy a közreműködő akkor is a zónáján belül tartózkodjon. A közreműködőnek nem kell ismernie az adott varázslatot - a fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "Szellemi",
     "ritual": true
   },
@@ -8562,13 +8645,13 @@
       ["Távolság", 3, 0, 0],
       ["Terület", 5, 0, 0],
       ["Időtartam", 4, -1, 0],
-      ["Mechanizmus", 6, 0, -1]
+      ["Mechanizmus", 5, 0, -1]
     ],
     "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Darton",
-    "description": "A fohász hatására egy,  a pap zónáján belül lévő, legfeljebb nagy tárgy léptékű objektum arasznyival a szilárd talaj fölé emelkedik, majd egy sétáló ember sebességével mozog a pap által kísérve. Mindez az időtartam lejártáig él és a pap érintésének mindvégig fenn kell maradnia. Darton papjai jellemzően koporsók mozgatására használják. (Komponens: megszakítás nélküli érintés(1); Fenntartott)",
+    "description": "A fohász hatására egy, a pap zónáján belül lévő, legfeljebb nagy tárgy léptékű objektum arasznyival a szilárd talaj fölé emelkedik, majd egy sétáló ember sebességével mozog a pap által kísérve. Mindez az időtartam lejártáig él és a pap érintésének mindvégig fenn kell maradnia. Darton papjai jellemzően koporsók mozgatására használják. (Komponens: megszakítás nélküli érintés(1); Fenntartott)",
     "resist": "nincs",
     "ritual": true
   },
@@ -8884,14 +8967,10 @@
     "aspects": [
       ["Erősség", 4, 0, -1],
       ["Erősség", 4, 0, 0],
-      ["Erősség", 4, 0, 0],
-      ["Távolság", 2, 0, 0],
       ["Távolság", 2, 0, 0],
       ["Távolság", 2, 0, 0],
       ["Terület", 3, 0, 0],
       ["Terület", 3, 0, 0],
-      ["Terület", 3, 0, 0],
-      ["Időtartam", 4, 0, 0],
       ["Időtartam", 4, 0, 0],
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 7, 0, 0],
@@ -9256,11 +9335,11 @@
   {
     "name": "Kosfej (Ranagol)",
     "aspects": [
-      ["Erősség", 3, 0, -1],
+      ["Erősség", 4, 0, -1],
       ["Távolság", 1, 0, 0],
       ["Terület", 3, 0, 0],
       ["Időtartam", 4, 0, 0],
-      ["Mechanizmus", 3, 0, 0]
+      ["Mechanizmus", 4, 0, 0]
     ],
     "fok": 1,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
@@ -10741,15 +10820,15 @@
     "resist": "Mentális"
   },
   {
-    "name": "Árnyak kizárása (Adron)",
+    "name": "Mana feloldozás (Adron)",
     "aspects": [
-      ["Erősség", 4, 0, -1],
-      ["Távolság", 2, 0, 0],
-      ["Terület", 5, 0, 0],
-      ["Időtartam", 6, 0, 0],
-      ["Mechanizmus", 5, 0, 0],
-      ["Mechanizmus", 5, 0, 0],
-      ["Mechanizmus", 5, 0, 0]
+      ["Erősség", 3, 0, -1],
+      ["Távolság", 3, 0, 0],
+      ["Távolság", 1, 0, 0],
+      ["Terület", 3, 0, 0],
+      ["Terület", 2, 0, 0],
+      ["Időtartam", 3, 0, 0],
+      ["Mechanizmus", 8, 0, 0]
     ],
     "fok": "Kf",
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
