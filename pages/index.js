@@ -1,4 +1,3 @@
-"use client";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
@@ -802,25 +801,10 @@ export function combatStatRefresher() {
   movePerAction.innerText = `/akció táv: ${Math.ceil((correctedSpeedValueForMovementCalculation * 3) / (1 + Math.ceil((parseInt(initiative.innerText) + 1) / 10)))} láb`;
 }
 
-import { useEffect } from "react";
-import io from "socket.io-client";
-
 //********************************************* */
 // --- itt kezdődik az oldal maga
 //********************************************************* */
 export default function Home(props) {
-  useEffect(() => {
-    const socket = io();
-
-    socket.on("connect", () => {
-      console.log("Connected to server");
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
   //egyedi rendező function kellett, mert a sort nem rendezte a fegyverek nevét valamiért. Valószínűleg a karakterkódolással van gondja a fájl beolvasása után
 
   function OrderFunctionForAllWeapons() {
