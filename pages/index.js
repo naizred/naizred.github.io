@@ -815,7 +815,7 @@ export default function Home(props) {
     });
   }
   useEffect(() => {
-    const socket = io("wss://ttk-rolldice.fly.dev", {
+    const socket = io("wss://ttk-rolldice.fly.dev/socket.io", {
       transports: ["websocket"],
     });
 
