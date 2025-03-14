@@ -827,7 +827,7 @@ export default function Home(props) {
       socket.disconnect();
     };
   }, []);
-  //egyedi sorba rendező function hívás
+  //egyedi sorba rendező function hívás *
   OrderFunctionForAllWeapons();
   let schoolsOfMagicNamesAndAttributes = {
     "Magas Mágia": "Int",
