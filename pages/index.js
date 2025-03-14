@@ -815,7 +815,9 @@ export default function Home(props) {
     });
   }
   useEffect(() => {
-    const socket = io();
+    const socket = io("wss://ttk-rolldice.fly.dev", {
+      transports: ["websocket"],
+    });
 
     socket.on("connect", () => {
       console.log("Connected to server");
