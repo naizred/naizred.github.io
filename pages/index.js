@@ -1,3 +1,4 @@
+"use client";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
@@ -800,7 +801,8 @@ export function combatStatRefresher() {
   maxMove.innerText = `Max táv: ${correctedSpeedValueForMovementCalculation * 3} láb`;
   movePerAction.innerText = `/akció táv: ${Math.ceil((correctedSpeedValueForMovementCalculation * 3) / (1 + Math.ceil((parseInt(initiative.innerText) + 1) / 10)))} láb`;
 }
-
+import { useEffect } from "react";
+import io from "socket.io-client";
 //********************************************* */
 // --- itt kezdődik az oldal maga
 //********************************************************* */
@@ -812,7 +814,17 @@ export default function Home(props) {
       return CharCompare(a.w_name, b.w_name, 0);
     });
   }
+  useEffect(() => {
+    const socket = io();
 
+    socket.on("connect", () => {
+      console.log("Connected to server");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
   //egyedi sorba rendező function hívás
   OrderFunctionForAllWeapons();
   let schoolsOfMagicNamesAndAttributes = {
