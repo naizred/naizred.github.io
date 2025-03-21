@@ -551,9 +551,7 @@ function ActionList() {
       <div className={styles.actionsWrapper}>
         Manőverek listája
         <li>
-          <span id="gameIdLabel" className={styles.gameIdLabel}>
-            Játékazonosító:
-          </span>
+          <span id="gameIdLabel" className={styles.gameIdLabel}></span>
         </li>
         <li>
           <span>Kombináció/Kapáslövés/Kapásdobás - Akció - +1 CS </span>

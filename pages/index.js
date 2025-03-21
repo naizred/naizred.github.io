@@ -36,7 +36,7 @@ import { actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingFailure,
 import ArmorDetails from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
-import SkillCheck, { handleSkillCheck, evaluateSkillOrAttributeCheckBase } from "../Components/SkillCheck";
+import SkillCheck, { handleSkillCheck, evaluateSkillOrAttributeCheckBase, skillCheckCalculatedResultFromRoll } from "../Components/SkillCheck";
 import PsiDisciplines, {
   specialAtkModifierFromPsiAssault,
   availableNumberOfAttacksFromPsiAssault,
@@ -226,9 +226,9 @@ export async function fetchCharacterData(currentCharName) {
         return;
       }
       if (parsedData.gameId) {
-        gameIdLabel.innerText = `Játékazonosító: "${parsedData.gameId}"`;
+        gameIdLabel.innerText = parsedData.gameId;
       } else {
-        gameIdLabel.innerText = "Játékazonosító: nincs";
+        gameIdLabel.innerText = "nincs";
       }
       currentFp.value = parsedData.currentFp;
       currentEp.value = parsedData.currentEp;
@@ -261,6 +261,46 @@ export async function fetchCharacterData(currentCharName) {
       }
     });
 }
+
+let charId;
+
+export function updateCharacterSocketData() {
+  let activeBuffsStringToSave = "";
+  let activeBuffsCounter = 0;
+  for (let i = 0; i < allActiveBuffs.length; i++) {
+    if (allActiveBuffs[i].innerText != "" && !allActiveBuffs[i].innerText.includes("kör")) {
+      activeBuffsStringToSave += `${allActiveBuffs[i].innerText}|`;
+      activeBuffsCounter++;
+    }
+  }
+
+  activeBuffsStringToSave = activeBuffsCounter + activeBuffsStringToSave;
+
+  let bodyPartName = bodyPart.innerText;
+  if (bodyPart.innerText == "Fegyverforgató kar") {
+    bodyPartName = "Jobb kar";
+  }
+
+  let dataForSocket = {
+    gameId: gameIdLabel.innerText,
+    charId: charId,
+    charName: charName.innerText,
+    currentFp: parseInt(currentFp.value),
+    currentEp: parseInt(currentEp.value),
+    currentPp: parseInt(currentPp.value),
+    currentMp: parseInt(currentMp.value),
+    currentLp: parseInt(currentLp.value),
+    atkRollResult: parseFloat(charAtkSum.innerText),
+    atkRollDice: `${bodyPartName}, Sebzés: ${damageResult.innerText}`,
+    activeBuffs: activeBuffsStringToSave,
+    skillCheckResult: parseInt(skillCheckResult.innerText),
+    skillCheckDice: `Siker/kudarcszint: ${skillCheckCalculatedResultFromRoll}`,
+    numberOfActions: numberOfActions.innerText,
+    initiativeWithRoll: parseInt(initiativeWithRoll.innerText),
+  };
+  socket.emit("character updated", dataForSocket);
+}
+
 export async function fetchCharacterDataOnlyGameId(currentCharName) {
   await fetch(`../api/characterStatsThatChange/${currentCharName}`)
     .then((response) => {
@@ -271,9 +311,9 @@ export async function fetchCharacterDataOnlyGameId(currentCharName) {
         return;
       }
       if (parsedData.gameId) {
-        gameIdLabel.innerText = `Játékazonosító: "${parsedData.gameId}"`;
+        gameIdLabel.innerText = parsedData.gameId;
       } else {
-        gameIdLabel.innerText = "Játékazonosító: nincs";
+        gameIdLabel.innerText = "nincs";
       }
     });
 }
@@ -806,27 +846,15 @@ import io from "socket.io-client";
 //********************************************* */
 // --- itt kezdődik az oldal maga
 //********************************************************* */
+export let socket;
 export default function Home(props) {
+  function hideOrRevealAdventureMasterComponent() {}
   //egyedi rendező function kellett, mert a sort nem rendezte a fegyverek nevét valamiért. Valószínűleg a karakterkódolással van gondja a fájl beolvasása után
-
   function OrderFunctionForAllWeapons() {
     allWeapons.sort(function (a, b) {
       return CharCompare(a.w_name, b.w_name, 0);
     });
   }
-  useEffect(() => {
-    const socket = io("wss://ttk-rolldice.fly.dev", {
-      transports: ["websocket"],
-    });
-
-    socket.on("connect", () => {
-      console.log("Connected to server");
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
   //egyedi sorba rendező function hívás *
   OrderFunctionForAllWeapons();
   let schoolsOfMagicNamesAndAttributes = {
@@ -1691,8 +1719,47 @@ export default function Home(props) {
           body: JSONdata,
         };
 
+        socket = io("wss://ttk-rolldice.fly.dev", {
+          transports: ["websocket"],
+        });
+
+        socket.on("connect", async () => {
+          // a karakter betöltésénél lekéri az adatokat a szerverről
+          console.log("Connected to server", charName.innerText);
+          let data = {};
+          await fetch(`../api/characterStatsThatChange/${charName.innerText}`)
+            .then((response) => {
+              return response.json();
+            })
+            .then((parsedData) => {
+              if (!parsedData) {
+                return;
+              }
+              charId = parsedData.charId;
+              data = {
+                gameId: parsedData.gameId,
+                charId: parsedData.charId,
+                charName: charName.innerText,
+                currentFp: parsedData.currentFp,
+                currentEp: parsedData.currentEp,
+                currentPp: parsedData.currentPp,
+                currentMp: parsedData.currentMp,
+                currentLp: parsedData.currentLp,
+                atkRollResult: parsedData.atkRollResult,
+                atkRollDice: parsedData.atkRollDice,
+                activeBuffs: parsedData.activeBuffs,
+                skillCheckResult: parsedData.skillCheckResult,
+                skillCheckDice: parsedData.skillCheckDice,
+                numberOfActions: parsedData.numberOfActions,
+                initiativeWithRoll: parsedData.initiativeWithRoll,
+              };
+            });
+          socket.emit("create new player", data);
+        });
+
         const response = await fetch(endpoint, options);
         fetchCharacterData(charName.innerText);
+
         // itt feltöltjük a weaponTypeAndLevelAndStyleArray-t a fegyverkategóriával és a hozzá tartozó képzettség szintekkel
         for (let i = 0; i < filteredArrayByWeaponSkills.length; i++) {
           checkAndModifyCurrentWeaponStyles(filteredArrayByWeaponSkills[i].subSkill);
@@ -1706,7 +1773,18 @@ export default function Home(props) {
         combatStatRefresher();
       }
       fileFirstLoaded = false;
+      window.addEventListener("beforeunload", () => {
+        updateCharacterData(false);
+      });
     });
+
+    // socket.on("new user connected", (usersObject, socketId) => {
+    //   usersObject[socketId] = charName.innerText;
+    //   socket.emit("new user added to usersObject", usersObject);
+    //   console.log(usersObject);
+    // });
+
+    //socket.emit("chat message", "this is a log message");
 
     if (file) {
       reader.readAsText(file);
@@ -1722,6 +1800,7 @@ export default function Home(props) {
   //------------------a támadó dobás
   //************************************************************************ */
   async function handleClickOnAttackRollButton(darkDice, lightDice) {
+    updateCharacterSocketData();
     if (soundToggleCheckbox.checked) {
       rollDiceSound.play();
     }
@@ -2013,7 +2092,7 @@ export default function Home(props) {
       firstAttackInRoundSpent = false;
       firstAttackIsSpellThatNeedsAimRollSetToFalse();
     }
-    updateCharacterData(false, true, false);
+    updateCharacterSocketData();
     spellNeedsAimRollSetToFalse();
     combatStatRefresher();
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
@@ -2147,7 +2226,7 @@ export default function Home(props) {
           </div>
           <K10RollAndSpellDamageRoll />
           <ArmorDetails />
-          <CharacterDetails />
+          <CharacterDetails {...socket} />
           <PsiDisciplines {...props} />
           <ActionList {...props} />
           <span id="listOfCurrentlyActiveBuffsLabel">Jelenleg aktív diszciplínák és varázslatok</span>

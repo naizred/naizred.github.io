@@ -58,7 +58,7 @@ li {
   margin-top: -5vw;
   padding: 0vw;
   font-family: Arial, Helvetica, sans-serif, cursive;
- color: white;
+  color: white;
   font-size: 1.4vw;
   text-align: center;
   align-items: center;
@@ -120,13 +120,7 @@ li {
   -moz-box-shadow: 0vw 0vw 1.5vw 1vw rgba(255, 255, 255, 0.83);
   border-radius: 1vw;
   background: rgb(106, 247, 229);
-  background: linear-gradient(
-    0deg,
-    rgba(106, 247, 229, 1) 0%,
-    rgba(54, 100, 235, 1) 40%,
-    rgba(37, 81, 209, 1) 72%,
-    rgba(106, 247, 229, 1) 100%
-  );
+  background: linear-gradient(0deg, rgba(106, 247, 229, 1) 0%, rgba(54, 100, 235, 1) 40%, rgba(37, 81, 209, 1) 72%, rgba(106, 247, 229, 1) 100%);
   height: 2.5vw;
   width: 17vw;
   background-repeat: no-repeat;
@@ -528,27 +522,25 @@ input[type='radio']:checked:after {
 }
 
 a:link {
-    text-decoration: none;
-    color: blue;
-    /* text-shadow: 0.1vw 0.1vw 0.35vw white;; */
+  text-decoration: none;
+  color: blue;
+  /* text-shadow: 0.1vw 0.1vw 0.35vw white;; */
 }
 
 a:visited {
-    text-decoration: none;
-    color: purple;
-    /* text-shadow: 0.1vw 0.1vw 0.35vw white;; */
-
+  text-decoration: none;
+  color: purple;
+  /* text-shadow: 0.1vw 0.1vw 0.35vw white;; */
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 a:active {
-    text-decoration: none;
-    color: blue;
-    /* text-shadow: 0.1vw 0.1vw 0.35vw white;; */
-
+  text-decoration: none;
+  color: blue;
+  /* text-shadow: 0.1vw 0.1vw 0.35vw white;; */
 }
 
 input,
@@ -556,7 +548,7 @@ select {
   background-color: black;
   background-size: 40vw 10vw;
   font-family: Arial, Helvetica, sans-serif, cursive;
- color: white;
+  color: white;
 }
 
 select:disabled {
@@ -676,6 +668,10 @@ button:disabled {
 #charClass {
   display: grid;
   grid-row: 5 / 6;
+}
+#adventureMasterButton {
+  display: grid;
+  height: 1vw;
 }
 
 #charMovementWrapper {
@@ -1036,7 +1032,7 @@ img {
   text-align: center;
 }
 
-#listOfCurrentlyActiveBuffsLabel{
+#listOfCurrentlyActiveBuffsLabel {
   font-size: 1vw;
   grid-column: 18/22;
   grid-row: 12/13;

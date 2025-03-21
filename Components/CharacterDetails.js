@@ -27,6 +27,7 @@ import {
   numberOfClicksAtTwoWeaponAttack,
   combatStatRefresher,
   aptitudeObject,
+  updateCharacterSocketData,
 } from "../pages";
 import { arrayOfAllComplexManeuvers, allActiveBuffs } from "../pages";
 import {
@@ -74,11 +75,14 @@ import {
   actionsNeededToBeAbleToCastAgain,
 } from "./Spells";
 import { skillCheckCalculatedResultFromRoll } from "./SkillCheck";
+import { socket } from "../pages";
 export let initRolled = false;
 export let extraReactionLevel = 0;
 export let chiCombatEndedDueToLackOfPsiPoints = false;
 export let activeBuffsCounter = 0;
-export async function updateCharacterData(gameIdUpdate = false, attackRoll = false, skillCheckRoll = false) {
+let dataForSocket;
+
+export async function updateCharacterData(gameIdUpdate = false) {
   if (charName.innerText == "") {
     return;
   }
@@ -93,6 +97,10 @@ export async function updateCharacterData(gameIdUpdate = false, attackRoll = fal
 
   activeBuffsStringToSave = activeBuffsCounter + activeBuffsStringToSave;
 
+  let bodyPartName = bodyPart.innerText;
+  if (bodyPart.innerText == "Fegyverforgató kar") {
+    bodyPartName = "Jobb kar";
+  }
   let data = {
     charName: charName.innerText,
     currentFp: parseInt(currentFp.value),
@@ -102,6 +110,10 @@ export async function updateCharacterData(gameIdUpdate = false, attackRoll = fal
     currentLp: parseInt(currentLp.value),
     activeBuffs: activeBuffsStringToSave,
     numberOfActions: numberOfActions.innerText,
+    atkRollResult: parseFloat(charAtkSum.innerText),
+    atkRollDice: `${bodyPartName}, Sebzés: ${damageResult.innerText}`,
+    skillCheckResult: parseInt(skillCheckResult.innerText),
+    skillCheckDice: `Siker/kudarcszint: ${skillCheckCalculatedResultFromRoll}`,
     initiativeWithRoll: parseInt(initiativeWithRoll.innerText),
   };
 
@@ -111,24 +123,8 @@ export async function updateCharacterData(gameIdUpdate = false, attackRoll = fal
       gameId: gameIdInput.value,
     };
   }
-  if (attackRoll == true) {
-    let bodyPartName = bodyPart.innerText;
-    if (bodyPart.innerText == "Fegyverforgató kar") {
-      bodyPartName = "Jobb kar";
-    }
-    data = {
-      charName: charName.innerText,
-      atkRollResult: parseFloat(charAtkSum.innerText),
-      atkRollDice: `${bodyPartName}, Sebzés: ${damageResult.innerText}`,
-    };
-  }
-  if (skillCheckRoll == true) {
-    data = {
-      charName: charName.innerText,
-      skillCheckResult: parseInt(skillCheckResult.innerText),
-      skillCheckDice: `Siker/kudarcszint: ${skillCheckCalculatedResultFromRoll}`,
-    };
-  }
+
+  //socket.emit("sending data to update", data);
 
   const JSONdata = JSON.stringify(data);
   const endpoint = "/api/updateCharacter";
@@ -163,7 +159,7 @@ function CharacterDetails() {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
     }
     currentLp.value -= 1;
-    updateCharacterData();
+    updateCharacterSocketData();
   }
   let firstRoundActionNumberModifierFromInitRoll = 0;
   function handleInitiativeRoll() {
@@ -259,12 +255,12 @@ function CharacterDetails() {
     initiativeDarkDiceResult.style.display = "grid";
     initiativeBonusButton.style.display = "grid";
     combinationCheckBox.disabled = true;
-    updateCharacterData();
+    updateCharacterSocketData();
 
     // megfigyeli az akciók változását
     //*********************************** */
     let observerForActions = new MutationObserver(async () => {
-      updateCharacterData();
+      updateCharacterSocketData();
       if (initRolled && parseInt(numberOfActions.innerText) <= 0) {
         recurringSpellActionButton.disabled = true;
       }
@@ -654,12 +650,12 @@ function CharacterDetails() {
         <div>
           <label>Fp:</label>
           <p id="maxFp"></p>
-          <input id="currentFp" onBlur={updateCharacterData} type="number" />
+          <input id="currentFp" onBlur={updateCharacterSocketData} type="number" />
         </div>
         <div>
           <label>Ép:</label>
           <p id="maxEp"></p>
-          <input id="currentEp" onBlur={updateCharacterData} type="number" />
+          <input id="currentEp" onBlur={updateCharacterSocketData} type="number" />
         </div>
         <div>
           <label>Pp:</label>
@@ -668,7 +664,7 @@ function CharacterDetails() {
             id="currentPp"
             onBlur={() => {
               checkIfPsiIsUseable();
-              updateCharacterData();
+              updateCharacterSocketData();
             }}
             type="number"
           />
@@ -676,12 +672,12 @@ function CharacterDetails() {
         <div>
           <label>Mp:</label>
           <p id="maxMp"></p>
-          <input id="currentMp" onBlur={updateCharacterData} type="number" />
+          <input id="currentMp" onBlur={updateCharacterSocketData} type="number" />
         </div>
         <div>
           <label>Lp:</label>
           <p id="maxLp"></p>
-          <input id="currentLp" onBlur={updateCharacterData} type="number" />
+          <input id="currentLp" onBlur={updateCharacterSocketData} type="number" />
         </div>
       </div>
       <div id="actionsWrapper" className={styles.actionsWrapper}>

@@ -1,7 +1,17 @@
 import styles from "../styles/actionlist.module.css";
 import allSpells from "../json/allSpells.json";
 import spellAttributes from "../json/spellAttributes.json";
-import { allMagicSubskillsObject, allResultsCleaner, filteredArrayIfHasAnyMagicSkill, currentGodWorshippedByPlayer, allActiveBuffs, CharCompare, combatStatRefresher, aptitudeObject } from "../pages";
+import {
+  allMagicSubskillsObject,
+  allResultsCleaner,
+  filteredArrayIfHasAnyMagicSkill,
+  currentGodWorshippedByPlayer,
+  allActiveBuffs,
+  CharCompare,
+  combatStatRefresher,
+  aptitudeObject,
+  updateCharacterSocketData,
+} from "../pages";
 import {
   attackRollButtonWasDisabledBeforeSpellCastSetter,
   blinkingText,
@@ -10,7 +20,7 @@ import {
   handleIfSpellNeedsAimRoll,
   setDefensiveCombatVEObonus,
 } from "./ActionsList";
-import { initRolled, updateCharacterData } from "./CharacterDetails";
+import { initRolled } from "./CharacterDetails";
 import { evaluateSkillOrAttributeCheckBase, handleSkillCheck, skillOrAttributeCheckRoll } from "./SkillCheck";
 import { buffRemoverFromActiveBuffArrayAndTextList } from "./PsiDisciplines";
 import AspectComponentPower from "./AspectComponentPower";
@@ -147,7 +157,7 @@ export function spellCastingSuccessful() {
     for (let i = 0; i < allActiveBuffs.length; i++) {
       if (allActiveBuffs[i].innerText == "" || (allActiveBuffs[i].innerText != "" && allActiveBuffs[i].innerText.includes("liturgia"))) {
         allActiveBuffs[i].innerText = `${currentSpell.name}`;
-        updateCharacterData();
+        updateCharacterSocketData();
         break;
       }
     }
@@ -163,7 +173,7 @@ export function spellCastingSuccessful() {
     for (let i = 0; i < allActiveBuffs.length; i++) {
       if (allActiveBuffs[i].innerText.includes("liturgia")) {
         buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText);
-        updateCharacterData();
+        updateCharacterSocketData();
         break;
       }
     }
@@ -229,7 +239,7 @@ export function spellCastingSuccessful() {
   } else if (currentCombatSpell.spellName) {
     handleIfSpellNeedsAimRoll();
   }
-  updateCharacterData();
+  updateCharacterSocketData();
 }
 let currentSpellDuration = 0;
 

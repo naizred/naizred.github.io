@@ -1,7 +1,7 @@
 import styles from "../styles/psiDisciplines.module.css";
-import { filteredArrayIfHasPsi, allActiveBuffs, currentlySelectedWeaponChanger, combatStatRefresher } from "../pages";
+import { filteredArrayIfHasPsi, allActiveBuffs, currentlySelectedWeaponChanger, combatStatRefresher, updateCharacterSocketData } from "../pages";
 import { blinkingText, defensiveCombatOn, hmoModifier, setDefensiveCombatVEObonus, weaponBeforeCasting } from "./ActionsList";
-import { initRolled, updateCharacterData } from "./CharacterDetails";
+import { initRolled } from "./CharacterDetails";
 import { allDmgReductionListItems } from "../pages";
 import psiDisciplines from "../json/psiDisciplines.json";
 
@@ -321,12 +321,12 @@ export function PsiDisciplines(props) {
       }
     }
     psiPointCostCheckerAndSetter();
-    updateCharacterData();
+    updateCharacterSocketData();
   }
 
   function handleDeleteBuff(event) {
     buffRemoverFromActiveBuffArrayAndTextList(event.target.parentElement.firstChild.innerText);
-    updateCharacterData();
+    updateCharacterSocketData();
   }
   function handlePsiRecovery(event) {
     if (event.target.parentElement.firstChild.id == "amountOfMinutesMeditating") {
@@ -341,7 +341,7 @@ export function PsiDisciplines(props) {
     if (parseInt(currentPp.value) >= parseInt(maxPp.innerText)) {
       currentPp.value = parseInt(maxPp.innerText);
     }
-    updateCharacterData();
+    updateCharacterSocketData();
   }
 
   return (
