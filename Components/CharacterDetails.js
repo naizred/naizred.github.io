@@ -467,7 +467,7 @@ function CharacterDetails() {
     if (extraReactionLevel != 0 && extraReactionLevel >= parseInt(numberOfCurrentRound.innerText)) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
     }
-    initiativeBonusButton.disabled = false; // a Csa-t csak az első körben lehet módosítani
+    initiativeBonusButton.style.display = "none"; // a Csa-t csak az első körben lehet módosítani
     firstAttackIsAttackOfOpportunitySetToFalse();
     combatStatRefresher();
   }
@@ -547,7 +547,7 @@ function CharacterDetails() {
   }
 
   function handleEndOfCombat() {
-    initiativeBonusButton.disabled = false;
+    // initiativeBonusButton.disabled = false;
     defensiveCombatButton.disabled = false;
     setDefensiveCombatVEObonus(0);
     defensiveCombatOnSetToFalse();

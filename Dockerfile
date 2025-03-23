@@ -45,6 +45,7 @@ FROM base
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y openssl && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    chmod +x /app/docker-entrypoint.js
 
 # Copy built application
 COPY --from=build /app /app
