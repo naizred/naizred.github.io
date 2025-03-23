@@ -159,6 +159,7 @@ function CharacterDetails() {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
     }
     currentLp.value -= 1;
+    initiativeBonusButton.style.display = "none";
     updateCharacterSocketData();
   }
   let firstRoundActionNumberModifierFromInitRoll = 0;
