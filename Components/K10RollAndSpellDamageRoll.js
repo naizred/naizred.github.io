@@ -1,5 +1,5 @@
 import styles from "../styles/k10RollAndSpellDamageRoll.module.css";
-import { generator, rollOptions } from "../pages";
+import { generator, rollOptions, updateCharacterSocketData } from "../pages";
 import { updateCharacterData } from "./CharacterDetails";
 export let numberOfSpellDamageDiceAfterLastSpellDamageRoll = 0;
 
@@ -128,7 +128,7 @@ function K10RollAndSpellDamageRoll() {
         <button
           onClick={() => {
             handleMultipleDiceRoll();
-            updateCharacterData(false, true, false);
+            updateCharacterSocketData();
           }}
         >
           Dobj

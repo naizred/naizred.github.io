@@ -1,4 +1,4 @@
-import { rollOptions, generator, filteredArrayIfHasAnyAffinity } from "../pages";
+import { rollOptions, generator, filteredArrayIfHasAnyAffinity, updateCharacterSocketData } from "../pages";
 import { specialCases1, specialCases2, specialCases3 } from "../pages";
 import { updateCharacterData } from "./CharacterDetails";
 import allSkills from "../json/allSkills.json";
@@ -113,7 +113,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll;
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
   }
-  updateCharacterData(false, false, true);
+  updateCharacterSocketData();
 }
 
 export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
