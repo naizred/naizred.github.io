@@ -12,7 +12,7 @@
     "fok": 1,
     "magicSubclass": "Dalmágia",
     "magicType": "Bárdmágia",
-    "description": "A hallgatóság megcélzott, hatóterületnyi részének a varázslat miatt az Erősségnek(2) megfelelő sebzéskódnyi értékkel csökken a Fájdalom pont maximuma, míg a dalt hallja. Természetesen a dal hatással van az aktuális Fp-okra is.  A jelenség Ép vesztéssel nem járhat. ",
+    "description": "A hallgatóság megcélzott, hatóterületnyi részének a varázslat miatt az Erősségnek(2) megfelelő sebzéskódnyi értékkel csökken a Fájdalom pont maximuma, míg a dalt hallja. Természetesen a dal hatással van az aktuális Fp-okra is.  A jelenség Ép vesztéssel nem járhat.",
     "resist": "Mentális"
   },
   {
@@ -102,7 +102,7 @@
     "fok": 3,
     "magicSubclass": "Dalmágia",
     "magicType": "Bárdmágia",
-    "description": "A hallgatóság megcélzott, hatóterületnyi részét teljes mozdulatlanságra kárhoztatja, amíg hallja a dalt. ",
+    "description": "A hallgatóság megcélzott, hatóterületnyi részét teljes mozdulatlanságra kárhoztatja, amíg hallja a dalt.",
     "resist": "Mentális"
   },
   {
@@ -185,7 +185,7 @@
     "resist": "Asztrális"
   },
   {
-    "name": "Feledés dala ",
+    "name": "Feledés dala",
     "aspects": [
       ["Erősség", 6, 0, 0],
       ["Távolság", 5, 0, -1],
@@ -217,7 +217,7 @@
     "resist": "Szellemi"
   },
   {
-    "name": "Emlékek dala ",
+    "name": "Emlékek dala",
     "aspects": [
       ["Erősség", 6, 0, 0],
       ["Távolság", 5, 0, -1],
@@ -786,7 +786,7 @@
     "fok": 4,
     "magicSubclass": "Fénymágia",
     "magicType": "Bárdmágia",
-    "description": "A varázslat segítségével a bárd önmaga körül - a talaj kivételével -, hatóterület (tömb forma) kiterjedésben látszólag eltüntet (I. fokú láthatatlanság) minden ott található objektumot és tereptárgyat a hatóidő lejártáig. A hatóterületbe utóbb beérkező objektumokra a varázslat nincs hatással. ",
+    "description": "A varázslat segítségével a bárd önmaga körül - a talaj kivételével -, hatóterület (tömb forma) kiterjedésben látszólag eltüntet (I. fokú láthatatlanság) minden ott található objektumot és tereptárgyat a hatóidő lejártáig. A hatóterületbe utóbb beérkező objektumokra a varázslat nincs hatással.",
     "resist": "nincs"
   },
   {
@@ -951,7 +951,7 @@
     "fok": 2,
     "magicSubclass": "Illúziómágia",
     "magicType": "Bárdmágia",
-    "description": "A bárd a hatóidő lejártáig egy kisebb tárgy léptékű fény és hang alapú aktív illúziót hoz létre a varázslat segítségével az általa megérintett ponton. Ez az illúzió egyszerű reakciókat képes adni a környezetéből érkező behatásokra. ",
+    "description": "A bárd a hatóidő lejártáig egy kisebb tárgy léptékű fény és hang alapú aktív illúziót hoz létre a varázslat segítségével az általa megérintett ponton. Ez az illúzió egyszerű reakciókat képes adni a környezetéből érkező behatásokra.",
     "resist": "nincs"
   },
   {
@@ -988,7 +988,7 @@
     "fok": 2,
     "magicSubclass": "Illúziómágia",
     "magicType": "Bárdmágia",
-    "description": "Az illúzió hatására a bárd fegyverforgató karjának képe(2) külön életet él(2) a hatóidő lejártáig, míg valódi karjainak mozgása(3) I. fokon láthatatlanná válik(2). Ennek köszönhetően a bárdot az Erősség/2 értéknek(2) megfelelő közelharci előny (HMO) illeti meg, melynek mértéke legfeljebb Súlyos (+3-as) mértékű lehet. ",
+    "description": "Az illúzió hatására a bárd fegyverforgató karjának képe(2) külön életet él(2) a hatóidő lejártáig, míg valódi karjainak mozgása(3) I. fokon láthatatlanná válik(2). Ennek köszönhetően a bárdot az Erősség/2 értéknek(2) megfelelő közelharci előny (HMO) illeti meg, melynek mértéke legfeljebb Súlyos (+3-as) mértékű lehet.",
     "resist": "nincs"
   },
   {
@@ -1054,7 +1054,7 @@
     "fok": 3,
     "magicSubclass": "Illúziómágia",
     "magicType": "Bárdmágia",
-    "description": "E személyes illúzió hatására az alany a hatóidő lejártáig csakis Erősség intenzitású sötétséget lát és fülzúgást hall. ",
+    "description": "E személyes illúzió hatására az alany a hatóidő lejártáig csakis Erősség intenzitású sötétséget lát és fülzúgást hall.",
     "resist": "Össz./nincs"
   },
   {
@@ -1212,7 +1212,7 @@
     "fok": 4,
     "magicSubclass": "Illúziómágia",
     "magicType": "Bárdmágia",
-    "description": "Az alany azt a személyes illúziót tapasztalja meg, hogy a környezetében mindenkit a bárd által előre meghatározott fajú, jellegű lénynek lát és hall. ",
+    "description": "Az alany azt a személyes illúziót tapasztalja meg, hogy a környezetében mindenkit a bárd által előre meghatározott fajú, jellegű lénynek lát és hall.",
     "resist": "Össz./nincs"
   },
   {
@@ -1548,7 +1548,7 @@
     "fok": 4,
     "magicSubclass": "Misztikummágia",
     "magicType": "Boszorkánymágia",
-    "description": "A boszorkány fizikai jellemzői jelentős mértékben megváltoztathatóak, melynek segítségével képes közelebb kerülni egy adott férfi nőideáljához. Persze az ehhez szükséges információkat a varázslat nem biztosítja. Azokra a boszorkánynak magának kell valamiképp szert tennie. Itt olyan változtatásokra kell gondolni, mint például teltebb idomok, fitos orr, eltérő haj és szemszín, keskenyebb ajkak stb. Ám a varázslat akár arra is alkalmazható, hogy egy konkrét asszonyt megformázzon néha több, néha kevesebb sikerrel. ",
+    "description": "A boszorkány fizikai jellemzői jelentős mértékben megváltoztathatóak, melynek segítségével képes közelebb kerülni egy adott férfi nőideáljához. Persze az ehhez szükséges információkat a varázslat nem biztosítja. Azokra a boszorkánynak magának kell valamiképp szert tennie. Itt olyan változtatásokra kell gondolni, mint például teltebb idomok, fitos orr, eltérő haj és szemszín, keskenyebb ajkak stb. Ám a varázslat akár arra is alkalmazható, hogy egy konkrét asszonyt megformázzon néha több, néha kevesebb sikerrel.",
     "resist": "nincs"
   },
   {
@@ -1579,7 +1579,7 @@
     "fok": 5,
     "magicSubclass": "Misztikummágia",
     "magicType": "Boszorkánymágia",
-    "description": "A varázslat egy használati tárgy múltbéli, de 1000 esztendőnél(10) nem régebbi emlékeit(8) adja át a boszorkánynak. Ennek segítségével megismerhető, hogy hozzávetőleg mikor és ki által jött létre a tárgy. Kik és milyen módon, mire használták. A tárgy ezt emocionális formában, azaz sosem képekben, hangokban vagy szagokban adja át. A tulajdonosainak nevét és kilétét sosem képes elárulni, legfeljebb azt, hogy valakivel szimpatikus viszonyba került anno. ",
+    "description": "A varázslat egy használati tárgy múltbéli, de 1000 esztendőnél(10) nem régebbi emlékeit(8) adja át a boszorkánynak. Ennek segítségével megismerhető, hogy hozzávetőleg mikor és ki által jött létre a tárgy. Kik és milyen módon, mire használták. A tárgy ezt emocionális formában, azaz sosem képekben, hangokban vagy szagokban adja át. A tulajdonosainak nevét és kilétét sosem képes elárulni, legfeljebb azt, hogy valakivel szimpatikus viszonyba került anno.",
     "resist": "nincs"
   },
   {
@@ -1889,7 +1889,7 @@
     "fok": 3,
     "magicSubclass": "Asztrálmágia",
     "magicType": "Boszorkánymágia",
-    "description": "A célpont az igazság eszményével szemben Erősségnek megfelelő léptékben válik elhivatottá, így jobbára az összes kérdésére az általa vélt igazságot adja válaszként az időtartam lejártáig. ",
+    "description": "A célpont az igazság eszményével szemben Erősségnek megfelelő léptékben válik elhivatottá, így jobbára az összes kérdésére az általa vélt igazságot adja válaszként az időtartam lejártáig.",
     "resist": "Asztrális"
   },
   {
@@ -2429,7 +2429,7 @@
     "fok": 3,
     "magicSubclass": "Mentálmágia",
     "magicType": "Boszorkánymágia",
-    "description": "A varázslat megcélzott, hatóterületnyi részének a varázslat miatt az Erősségnek(3) megfelelő sebzéskódnyi értékkel csökken a Fájdalom pont maximuma az időtartam lejártáig. Természetesen a működő varázslat az aktuális Fp-ok számára is kihatással van.  A jelenség, mely jellemzően szűnni nem akaró fejfájásként érződik, Ép vesztéssel nem járhat. ",
+    "description": "A varázslat megcélzott, hatóterületnyi részének a varázslat miatt az Erősségnek(3) megfelelő sebzéskódnyi értékkel csökken a Fájdalom pont maximuma az időtartam lejártáig. Természetesen a működő varázslat az aktuális Fp-ok számára is kihatással van.  A jelenség, mely jellemzően szűnni nem akaró fejfájásként érződik, Ép vesztéssel nem járhat.",
     "resist": "Mentális"
   },
   {
@@ -2524,7 +2524,7 @@
     "fok": 4,
     "magicSubclass": "Mentálmágia",
     "magicType": "Boszorkánymágia",
-    "description": "A varázslat megcélzott, hatóterületnyi részének a varázslat miatt az Erősségnek(4) megfelelő sebzéskódnyi értékkel csökken a Fájdalom pont maximuma az időtartam lejártáig. Természetesen a működő varázslat az aktuális Fp-ok számára is kihatással van.  A jelenség, mely jellemzően szűnni nem akaró fejfájásként érződik, Ép vesztéssel nem járhat. ",
+    "description": "A varázslat megcélzott, hatóterületnyi részének a varázslat miatt az Erősségnek(4) megfelelő sebzéskódnyi értékkel csökken a Fájdalom pont maximuma az időtartam lejártáig. Természetesen a működő varázslat az aktuális Fp-ok számára is kihatással van.  A jelenség, mely jellemzően szűnni nem akaró fejfájásként érződik, Ép vesztéssel nem járhat.",
     "resist": "Mentális"
   },
   {
@@ -2540,7 +2540,7 @@
     "fok": 4,
     "magicSubclass": "Mentálmágia",
     "magicType": "Boszorkánymágia",
-    "description": "A varázslat hatása alatt állók nem vesznek tudomást a boszorkány létezéséről. Nem látják, nem hallják és semmilyen más érzékszervük számára sem lesz közvetlenül észlelhető. Ha nekisétálnak, sem tudják mire vélni a dolgot. A tudatuk folyamatos kontroll alatt áll és annak tapasztalása, hogy a boszorkány létezik, azonnal törlődik az elméjükből. ",
+    "description": "A varázslat hatása alatt állók nem vesznek tudomást a boszorkány létezéséről. Nem látják, nem hallják és semmilyen más érzékszervük számára sem lesz közvetlenül észlelhető. Ha nekisétálnak, sem tudják mire vélni a dolgot. A tudatuk folyamatos kontroll alatt áll és annak tapasztalása, hogy a boszorkány létezik, azonnal törlődik az elméjükből.",
     "resist": "Mentális"
   },
   {
@@ -2878,7 +2878,7 @@
     "fok": 1,
     "magicSubclass": "Térmágia",
     "magicType": "Boszorkánymágia",
-    "description": "A boszorkány a zónáján belül érzékelhet és lokalizálhat minden önálló varázslatot és varázstárgyat, illetve az ellenállását elvétő Varázstudó adottsággal bíró szereplőt. Továbbá az egyes szereplőkre ható, birtokában lévő önálló varázslatot és varázstárgyat. Azaz minden olyan tényezőt, ami vagy aki rendelkezik szabad vagy kötött Mana ponttal. A varázslat az Erősségénél magasabb Erősségű varázslatok, varázstárgyak közt képtelen különbséget tenni. Másfelől a varázstudók által birtokolt varázserő (Mp-ok száma) közt is csak 20Mp/E léptékben tud különbséget tenni. Mindezek hozzávetőleges irányáról is csak azonos vagy annál magasabb Erősség esetén szerez információt. ",
+    "description": "A boszorkány a zónáján belül érzékelhet és lokalizálhat minden önálló varázslatot és varázstárgyat, illetve az ellenállását elvétő Varázstudó adottsággal bíró szereplőt. Továbbá az egyes szereplőkre ható, birtokában lévő önálló varázslatot és varázstárgyat. Azaz minden olyan tényezőt, ami vagy aki rendelkezik szabad vagy kötött Mana ponttal. A varázslat az Erősségénél magasabb Erősségű varázslatok, varázstárgyak közt képtelen különbséget tenni. Másfelől a varázstudók által birtokolt varázserő (Mp-ok száma) közt is csak 20Mp/E léptékben tud különbséget tenni. Mindezek hozzávetőleges irányáról is csak azonos vagy annál magasabb Erősség esetén szerez információt.",
     "resist": "Összetett/E"
   },
   {
@@ -3273,7 +3273,7 @@
     "fok": 3,
     "magicSubclass": "Villámmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "Az időzített varázslat 1 CS-nyi Akció Manőver végrehajtásával(2) kezdi meg működését, mely a varázslat létrehozását követő öt napon belül(4) történhet meg.  Hatóideje alatt az általa keltett villámvarázslatok a boszorkánymestert is sebzik és a kötelező Ép vesztéssel is számolnia kell. Ennek folyományaként a boszorkánymester által így elszenvedett Fp sérüléssel azonos Mp visszatérítést kap a bevetett villámvarázslatai után, ám sosem többet, mint amibe számára a varázslat ténylegesen kerül. ",
+    "description": "Az időzített varázslat 1 CS-nyi Akció Manőver végrehajtásával(2) kezdi meg működését, mely a varázslat létrehozását követő öt napon belül(4) történhet meg.  Hatóideje alatt az általa keltett villámvarázslatok a boszorkánymestert is sebzik és a kötelező Ép vesztéssel is számolnia kell. Ennek folyományaként a boszorkánymester által így elszenvedett Fp sérüléssel azonos Mp visszatérítést kap a bevetett villámvarázslatai után, ám sosem többet, mint amibe számára a varázslat ténylegesen kerül.",
     "resist": "Összetett"
   },
   {
@@ -3503,7 +3503,7 @@
     "fok": 2,
     "magicSubclass": "Rontásmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A varázslat hatására a célponton lévő Rontás képes tovaterjedni. Minden olyan karakter, amely közvetlenül megérinti a Rontás hordozóját a betegségeknél taglalt módon megfertőződhet. Az időtartam lejártáig a célponttal érintkezésbe kerülő első száz személy fertőződhet meg a rontással. A Bűvragály kizárólag maga a boszorkánymester által létrehozott Rontásokra hat és a Rontás szintje a továbbfertőzésekkor nem haladhatja meg a Bűvragály Erősségét. ",
+    "description": "A varázslat hatására a célponton lévő Rontás képes tovaterjedni. Minden olyan karakter, amely közvetlenül megérinti a Rontás hordozóját a betegségeknél taglalt módon megfertőződhet. Az időtartam lejártáig a célponttal érintkezésbe kerülő első száz személy fertőződhet meg a rontással. A Bűvragály kizárólag maga a boszorkánymester által létrehozott Rontásokra hat és a Rontás szintje a továbbfertőzésekkor nem haladhatja meg a Bűvragály Erősségét.",
     "resist": "Összetett"
   },
   {
@@ -3520,7 +3520,7 @@
     "fok": 3,
     "magicSubclass": "Rontásmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "Lappangás: k5 hónap (2). Gyógyulás: k5 nap (3). Hatás: (9) az alany Erő, Gyorsaság, Állóképesség és Intelligencia alapú próbák esetében a Stádium értékének megfelelő extra kudarc sújtja a beteget. ",
+    "description": "Lappangás: k5 hónap (2). Gyógyulás: k5 nap (3). Hatás: (9) az alany Erő, Gyorsaság, Állóképesség és Intelligencia alapú próbák esetében a Stádium értékének megfelelő extra kudarc sújtja a beteget.",
     "resist": "Egészség"
   },
   {
@@ -4028,7 +4028,7 @@
     "fok": 2,
     "magicSubclass": "Méregmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A boszorkánymester az általa megérintett célpontról, amely lehet akár tárgy, akár élőlény képes megmondani, hogy milyen típusú (pl. légi, étel stb) mérget tartalmaz. Utóbbihoz elegendő 1-es realizált Erősségen létrejönnie a varázslatnak. A 2-es Erősség esetén már a méreg szintje, míg 3-as Erősségnél a fő hatása is kiderül. Ennél magasabb Erősség kell a különféle egyéb jellemzőinek feltárásához. ",
+    "description": "A boszorkánymester az általa megérintett célpontról, amely lehet akár tárgy, akár élőlény képes megmondani, hogy milyen típusú (pl. légi, étel stb) mérget tartalmaz. Utóbbihoz elegendő 1-es realizált Erősségen létrejönnie a varázslatnak. A 2-es Erősség esetén már a méreg szintje, míg 3-as Erősségnél a fő hatása is kiderül. Ennél magasabb Erősség kell a különféle egyéb jellemzőinek feltárásához.",
     "resist": "Fizikai/nincs"
   },
   {
@@ -4232,7 +4232,7 @@
     "fok": 1,
     "magicSubclass": "Természetmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A boszorkánymester a zónáján belül érzékelhet és lokalizálhat minden önálló varázslatot és varázstárgyat, illetve az ellenállását elvétő Varázstudó adottsággal bíró szereplőt. Továbbá az egyes szereplőkre ható, birtokában lévő önálló varázslatot és varázstárgyat. Azaz minden olyan tényezőt, ami vagy aki rendelkezik szabad vagy kötött Mana ponttal. A varázslat az Erősségénél magasabb Erősségű varázslatok, varázstárgyak közt képtelen különbséget tenni. Másfelől a varázstudók által birtokolt varázserő (Mp-ok száma) közt is csak 20Mp/E léptékben tud különbséget tenni. Mindezek hozzávetőleges irányáról is csak azonos vagy annál magasabb Erősség esetén szerez információt. ",
+    "description": "A boszorkánymester a zónáján belül érzékelhet és lokalizálhat minden önálló varázslatot és varázstárgyat, illetve az ellenállását elvétő Varázstudó adottsággal bíró szereplőt. Továbbá az egyes szereplőkre ható, birtokában lévő önálló varázslatot és varázstárgyat. Azaz minden olyan tényezőt, ami vagy aki rendelkezik szabad vagy kötött Mana ponttal. A varázslat az Erősségénél magasabb Erősségű varázslatok, varázstárgyak közt képtelen különbséget tenni. Másfelől a varázstudók által birtokolt varázserő (Mp-ok száma) közt is csak 20Mp/E léptékben tud különbséget tenni. Mindezek hozzávetőleges irányáról is csak azonos vagy annál magasabb Erősség esetén szerez információt.",
     "resist": "Összetett/E"
   },
   {
@@ -4277,7 +4277,7 @@
     "fok": 2,
     "magicSubclass": "Természetmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A varázslat hatására a boszorkánymester szeme a bagolyéhoz válik hasonlóvá, így a legkisebb fény mellett is úgy lát, mintha nappali világosság lenne. Ellenben, ha a szemét erős fényhatás éri, akár meg is vakulhat tőle. ",
+    "description": "A varázslat hatására a boszorkánymester szeme a bagolyéhoz válik hasonlóvá, így a legkisebb fény mellett is úgy lát, mintha nappali világosság lenne. Ellenben, ha a szemét erős fényhatás éri, akár meg is vakulhat tőle.",
     "resist": "nincs"
   },
   {
@@ -4513,7 +4513,7 @@
     "fok": 2,
     "magicSubclass": "Kórmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A boszorkánymester az általa megérintett célpontról - amely lehet tárgy vagy élőlény - képes megmondani, hogy milyen jellegű (pl. idegrendszeri, keringési stb) betegséget rejt. Utóbbihoz elegendő 1-es realizált Erősségen létrejönnie a varázslatnak. A 2-es Erősség esetén már a betegség Szintje, míg 3-as Erősségnél a fő hatása is kiderül. Ennél magasabb Erősség kell a különféle egyéb jellemzőinek feltárásához. ",
+    "description": "A boszorkánymester az általa megérintett célpontról - amely lehet tárgy vagy élőlény - képes megmondani, hogy milyen jellegű (pl. idegrendszeri, keringési stb) betegséget rejt. Utóbbihoz elegendő 1-es realizált Erősségen létrejönnie a varázslatnak. A 2-es Erősség esetén már a betegség Szintje, míg 3-as Erősségnél a fő hatása is kiderül. Ennél magasabb Erősség kell a különféle egyéb jellemzőinek feltárásához.",
     "resist": "Fiz./nincs/EvSzint"
   },
   {
@@ -4543,7 +4543,7 @@
     "fok": 2,
     "magicSubclass": "Kórmágia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A boszorkánymester magára terjeszt át egy választott betegséget a célpont testben lévők közül. A tudatos választáshoz előbb azonosítani érdemes a testben rejlő kórokat. Az elnyelt betegség Szintje nem haladhatja meg a varázslat Erősségét. ",
+    "description": "A boszorkánymester magára terjeszt át egy választott betegséget a célpont testben lévők közül. A tudatos választáshoz előbb azonosítani érdemes a testben rejlő kórokat. Az elnyelt betegség Szintje nem haladhatja meg a varázslat Erősségét.",
     "resist": "Fizikai/EvSzint"
   },
   {
@@ -4760,7 +4760,7 @@
     "fok": 2,
     "magicSubclass": "Nekromancia",
     "magicType": "Boszorkánymesteri mágia",
-    "description": "A boszorkánymester által az időtartamon belül megérintett soron következő személy az Erősséggel megegyező számú Ép sérülést szenved el. ",
+    "description": "A boszorkánymester által az időtartamon belül megérintett soron következő személy az Erősséggel megegyező számú Ép sérülést szenved el.",
     "resist": "TÉOvVÉO/Fizikai"
   },
   {
@@ -5777,7 +5777,7 @@
     "fok": 3,
     "magicSubclass": "Manipuláló tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-    "description": "A varázslat hatására a közönséges tűz sötét, maró füstöt áraszt magából. A füst a hatóterületen belül érezteti a hatását. A területen tartózkodók legfeljebb a varázslat Erősség/2 értéknek megfelelő \"fok\"ozatú harci hátrányt és érintett érzékszerveikkel kapcsolatos próbáikra ennyi extra kudarcot szenvednek el az időtartam lejártáig. További korlátozás, hogy a harci hátrány értéke nem haladhatja meg a tűz Erőssége/2 értéket. ",
+    "description": "A varázslat hatására a közönséges tűz sötét, maró füstöt áraszt magából. A füst a hatóterületen belül érezteti a hatását. A területen tartózkodók legfeljebb a varázslat Erősség/2 értéknek megfelelő \"fok\"ozatú harci hátrányt és érintett érzékszerveikkel kapcsolatos próbáikra ennyi extra kudarcot szenvednek el az időtartam lejártáig. További korlátozás, hogy a harci hátrány értéke nem haladhatja meg a tűz Erőssége/2 értéket.",
     "resist": "nincs/Elkerülő"
   },
   {
@@ -6128,7 +6128,7 @@
     "fok": 5,
     "magicSubclass": "Felső tűzmágia",
     "magicType": "Tűzvarázslói mágia",
-    "description": "A Hatóterületnek megfelelő részen  - mely alapesetben egy házikó méretével azonos - a talaj lávává (V. anyagcsoport) változik. A láva természetes módon viselkedik és Erősségnek megfelelő pusztítást okoz az időtartam lejártáig. ",
+    "description": "A Hatóterületnek megfelelő részen  - mely alapesetben egy házikó méretével azonos - a talaj lávává (V. anyagcsoport) változik. A láva természetes módon viselkedik és Erősségnek megfelelő pusztítást okoz az időtartam lejártáig.",
     "resist": "nincs/Elkerülő"
   },
   {
@@ -6161,7 +6161,7 @@
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál, Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat fizikai sérülést gyógyít egy hatóterület léptékű élőlényen, méghozzá Erősségenként 1 Ép és 2 Fp mértékben, mely alap esetben 2 Ép-t és 4 Fp-t jelent. Ez teljes mértékben egy azonnali, természetes regenerációt jelent, tehát a sebek a lehető legkisebb heg keletkezése mellett gyógyulnak. Az elvesztett testrészek viszont nem nőnek vissza. ",
+    "description": "A varázslat fizikai sérülést gyógyít egy hatóterület léptékű élőlényen, méghozzá Erősségenként 1 Ép és 2 Fp mértékben, mely alap esetben 2 Ép-t és 4 Fp-t jelent. Ez teljes mértékben egy azonnali, természetes regenerációt jelent, tehát a sebek a lehető legkisebb heg keletkezése mellett gyógyulnak. Az elvesztett testrészek viszont nem nőnek vissza.",
     "resist": "Fizikai"
   },
   {
@@ -6279,7 +6279,7 @@
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat hatására Erősségnek megfelelő fehér fényaura ragyogja körül a pap szent szimbólumát az időtartam lejártáig. ",
+    "description": "A varázslat hatására Erősségnek megfelelő fehér fényaura ragyogja körül a pap szent szimbólumát az időtartam lejártáig.",
     "resist": "nincs"
   },
   {
@@ -6465,7 +6465,7 @@
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál, Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat célpontja Erősség/2 értékű pozitív HMO-t kap a varázslat hatóidejének lejártáig. ",
+    "description": "A varázslat célpontja Erősség/2 értékű pozitív HMO-t kap a varázslat hatóidejének lejártáig.",
     "resist": "Szellemi"
   },
   {
@@ -6581,7 +6581,7 @@
     "magicSubclass": "Kisebb fohászok - Halál",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat segítségével a pap a célpontjára mutatva, annak testén sebet ejt. A seb Erősségnyi Ép és kétszer annyi Fp sebzést okoz. ",
+    "description": "A varázslat segítségével a pap a célpontjára mutatva, annak testén sebet ejt. A seb Erősségnyi Ép és kétszer annyi Fp sebzést okoz.",
     "resist": "Fizikai"
   },
   {
@@ -6597,7 +6597,7 @@
     "magicSubclass": "Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap és az általa megérintett személy közös Asztrális, Mentális és Szellemi ellenállást élvez az időtartam lejártáig. Azaz, minden ilyen ellenállás alkalmával a kettőjük rendelkezésére álló védelmek közül a legmagasabb lép fel a misztikus behatással szemben. ",
+    "description": "A pap és az általa megérintett személy közös Asztrális, Mentális és Szellemi ellenállást élvez az időtartam lejártáig. Azaz, minden ilyen ellenállás alkalmával a kettőjük rendelkezésére álló védelmek közül a legmagasabb lép fel a misztikus behatással szemben.",
     "resist": "Szellemi"
   },
   {
@@ -6839,7 +6839,7 @@
     "magicSubclass": "Kisebb fohászok - Élet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat az időtartam lejártáig Erősségétől függően jelezi azon tényezők irányát a paphoz képest, melyek a papra nézve fizikailag fenyegető veszélyt jelentenek. A jelzéshez a veszély forrásának a varázslat hatóterületén belül kell lennie. A varázslat jelzése az egyszeri papot az álmából is felébreszti. A varázslat hatékonysága az Erősségtől függ, ahol az alap 6-os Erősségen a legtöbb veszélyforrás képtelen kifogni. Ahol ez mérvadó, ott a varázslat 10+Erősség(6) Érzékeléssel rendelkezik. ",
+    "description": "A varázslat az időtartam lejártáig Erősségétől függően jelezi azon tényezők irányát a paphoz képest, melyek a papra nézve fizikailag fenyegető veszélyt jelentenek. A jelzéshez a veszély forrásának a varázslat hatóterületén belül kell lennie. A varázslat jelzése az egyszeri papot az álmából is felébreszti. A varázslat hatékonysága az Erősségtől függ, ahol az alap 6-os Erősségen a legtöbb veszélyforrás képtelen kifogni. Ahol ez mérvadó, ott a varázslat 10+Erősség(6) Érzékeléssel rendelkezik.",
     "resist": "nincs",
     "ritual": true
   },
@@ -6964,7 +6964,7 @@
     "magicSubclass": "Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat hatására a hatóidő lejártáig a pap tisztában lesz az általa keresett személy aktuális - hatótávon belüli - helyzetének irányával és a hozzávetőleges távolságával. A fohász végrehajtásához vagy ismernie kell az illetőt, vagy tudnia kell a nevét és rendkívül pontos leírással is rendelkeznie kell róla. ",
+    "description": "A varázslat hatására a hatóidő lejártáig a pap tisztában lesz az általa keresett személy aktuális - hatótávon belüli - helyzetének irányával és a hozzávetőleges távolságával. A fohász végrehajtásához vagy ismernie kell az illetőt, vagy tudnia kell a nevét és rendkívül pontos leírással is rendelkeznie kell róla.",
     "resist": "Szellemi",
     "ritual": true
   },
@@ -7277,7 +7277,7 @@
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap a zónáján belül érzékelhet és lokalizálhat minden önálló varázslatot és varázstárgyat, az ellenállását elvétő Varázstudó adottsággal bíró szereplőt, továbbá az egyes szereplőkre ható, birtokában lévő önálló varázslatot és varázstárgyat. Azaz minden olyan tényezőt, ami vagy aki rendelkezik szabad vagy kötött Mana ponttal. A varázslat az Erősségénél magasabb Erősségű varázslatok, varázstárgyak közt képtelen különbséget tenni. Másfelől a varázstudók által birtokolt varázserő (Mp-ok száma) közt is csak 20Mp/E léptékben képes különbségtételre. Mindezek hozzávetőleges irányáról is csak azonos vagy annál magasabb Erősség esetén szerez információt. ",
+    "description": "A pap a zónáján belül érzékelhet és lokalizálhat minden önálló varázslatot és varázstárgyat, az ellenállását elvétő Varázstudó adottsággal bíró szereplőt, továbbá az egyes szereplőkre ható, birtokában lévő önálló varázslatot és varázstárgyat. Azaz minden olyan tényezőt, ami vagy aki rendelkezik szabad vagy kötött Mana ponttal. A varázslat az Erősségénél magasabb Erősségű varázslatok, varázstárgyak közt képtelen különbséget tenni. Másfelől a varázstudók által birtokolt varázserő (Mp-ok száma) közt is csak 20Mp/E léptékben képes különbségtételre. Mindezek hozzávetőleges irányáról is csak azonos vagy annál magasabb Erősség esetén szerez információt.",
     "resist": "Össz./EvE"
   },
   {
@@ -7701,7 +7701,7 @@
     "magicSubclass": "Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat során a pap kiválaszt tucatnyi személyt, akiknek száját – a pap tudta nélkül – tudatos hazugság (vagy féligazság) nem hagyhatja el a hatóidő lejárta előtt. Másfelől viszont a varázslat nem kötelezi őket válaszadásra. ",
+    "description": "A varázslat során a pap kiválaszt tucatnyi személyt, akiknek száját – a pap tudta nélkül – tudatos hazugság (vagy féligazság) nem hagyhatja el a hatóidő lejárta előtt. Másfelől viszont a varázslat nem kötelezi őket válaszadásra.",
     "resist": "Mentális"
   },
   {
@@ -7809,7 +7809,7 @@
     "magicSubclass": "Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat hatására száz, a pap zónáján belül található állat a papot fajtársának tekinti és a védelmére kel az időtartam lejártáig. ",
+    "description": "A varázslat hatására száz, a pap zónáján belül található állat a papot fajtársának tekinti és a védelmére kel az időtartam lejártáig.",
     "resist": "Asztrális"
   },
   {
@@ -8178,7 +8178,7 @@
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 10-esre - feltéve, hogy a varázslat 1 percen belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik. ",
+    "description": "A pap kizárólag akkor használhatja ezt a fohászt, ha épp nincs egy korábbi liturgia fohász hatása alatt. E speciális fohász megváltoztatja a pap soron következő fohászának tetszőleges számú Erősségét 10-esre - feltéve, hogy a varázslat 1 percen belül létrejön. A soron következő fohász Varázslási ideje és Mana pont költsége sem változik.",
     "resist": "nincs"
   },
   {
@@ -8228,7 +8228,7 @@
     "magicSubclass": "Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Általános",
-    "description": "A varázslat végrehajtását követően, a hatótávon belül kijelölt nagy objektumnyi földterületen az időtartam lejártáig rengeni fog a föld. Ez a jelenség az Erősségnek megfelelő hatást fejt ki. ",
+    "description": "A varázslat végrehajtását követően, a hatótávon belül kijelölt nagy objektumnyi földterületen az időtartam lejártáig rengeni fog a föld. Ez a jelenség az Erősségnek megfelelő hatást fejt ki.",
     "resist": "nincs/változó",
     "ritual": true
   },
@@ -8600,7 +8600,7 @@
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Darton",
-    "description": "A pap kezében tartott fegyverolajjal kezelt fegyveren fekete méreg(6) serken, melynek hatására a fegyver mérgezetté válik. A méreg szintje a varázslat Erősségével(4) azonos, alapesetben 4 E. Áldozatának Főhatásként azonnal, Erősségnek megfelelő, egyszeri Fp sérülést okoz. Mellékhatása nincs. Az áldozatból vagy a tárgyról a méreg nem kinyerhető. ",
+    "description": "A pap kezében tartott fegyverolajjal kezelt fegyveren fekete méreg(6) serken, melynek hatására a fegyver mérgezetté válik. A méreg szintje a varázslat Erősségével(4) azonos, alapesetben 4 E. Áldozatának Főhatásként azonnal, Erősségnek megfelelő, egyszeri Fp sérülést okoz. Mellékhatása nincs. Az áldozatból vagy a tárgyról a méreg nem kinyerhető.",
     "resist": "nincs/Egészs."
   },
   {
@@ -8855,7 +8855,7 @@
     "magicSubclass": "Nagyobb fohászok - Lélek, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Della",
-    "description": "A megérintett műtárgy megalkotásának körülményeiről ad érzelmi alapú információt(5) a fohász, ha az alkotás 1000 éven(10) belül keletkezett. Segít megérteni a kontextust, amelyben a műalkotás elkészült, a miértekről és kifejezni kívánt érzésekről tájékoztat. ",
+    "description": "A megérintett műtárgy megalkotásának körülményeiről ad érzelmi alapú információt(5) a fohász, ha az alkotás 1000 éven(10) belül keletkezett. Segít megérteni a kontextust, amelyben a műalkotás elkészült, a miértekről és kifejezni kívánt érzésekről tájékoztat.",
     "resist": "nincs",
     "ritual": true
   },
@@ -8922,7 +8922,7 @@
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Domvik",
-    "description": "A fohásznak köszönhetően a pap a hatóterületen belül tisztában lesz az egyes feketemágiával érintett helyek, dolgok és személyek aktuális pozíciójával és irányával. A varázslat az Erősségénél magasabb Erősségű jelenségek közt képtelen különbséget tenni. ",
+    "description": "A fohásznak köszönhetően a pap a hatóterületen belül tisztában lesz az egyes feketemágiával érintett helyek, dolgok és személyek aktuális pozíciójával és irányával. A varázslat az Erősségénél magasabb Erősségű jelenségek közt képtelen különbséget tenni.",
     "resist": "Szell./EvE",
     "ritual": true
   },
@@ -9118,7 +9118,7 @@
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Halál",
     "magicType": "Szakrális mágia",
     "god": "Dreina",
-    "description": "A varázslat során a pap kiválaszt tucatnyi, a zónáján belül tartózkodó személyt, akiknek száját – a pap tudta nélkül – tudatos hazugság (vagy féligazság) nem hagyhatja el a hatóidő lejárta előtt. Másfelől viszont a varázslat nem kötelezi őket válaszadásra. ",
+    "description": "A varázslat során a pap kiválaszt tucatnyi, a zónáján belül tartózkodó személyt, akiknek száját – a pap tudta nélkül – tudatos hazugság (vagy féligazság) nem hagyhatja el a hatóidő lejárta előtt. Másfelől viszont a varázslat nem kötelezi őket válaszadásra.",
     "resist": "Mentális"
   },
   {
@@ -9217,7 +9217,7 @@
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Halál",
     "magicType": "Szakrális mágia",
     "god": "Dreina",
-    "description": "A varázslat a természetes talajból egy, a külső hatásokkal szemben Erősségnek megfelelő védelmet biztosító menedéket formál az Időtartam lejártáig. A menedék mérete a hatóterületnek megfelelően egy apró kunyhónak felel meg, de formájában a pap szándékai szerint módosítható. ",
+    "description": "A varázslat a természetes talajból egy, a külső hatásokkal szemben Erősségnek megfelelő védelmet biztosító menedéket formál az Időtartam lejártáig. A menedék mérete a hatóterületnek megfelelően egy apró kunyhónak felel meg, de formájában a pap szándékai szerint módosítható.",
     "resist": "nincs/EvE "
   },
   {
@@ -9276,7 +9276,7 @@
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Ranagol",
-    "description": "A komplex varázslat hatására a hatótávon belül tartózkodó személyek közül egynél egy Erősségnek(2) megfelelő tűz kitörés(2) keletkezik. A személyek közül arra(2) az egy személyre irányul a kitörés, aki az Asztrális ellenállást elvétők közül(6) épp a legintenzívebb érzelmeket(3) éli meg. Több lehetséges célpont esetén a paphoz legközelebb tartózkodó lesz az áldozat. ",
+    "description": "A komplex varázslat hatására a hatótávon belül tartózkodó személyek közül egynél egy Erősségnek(2) megfelelő tűz kitörés(2) keletkezik. A személyek közül arra(2) az egy személyre irányul a kitörés, aki az Asztrális ellenállást elvétők közül(6) épp a legintenzívebb érzelmeket(3) éli meg. Több lehetséges célpont esetén a paphoz legközelebb tartózkodó lesz az áldozat.",
     "resist": "Aszt./Elker."
   },
   {
@@ -10224,7 +10224,7 @@
     "magicType": "Szakrális mágia",
     "god": "Tooma",
     "mechanismText": "általános tulajdonság bónusz (elemi)",
-    "description": "A pap által megérintett célpontok E/4 Tulajdonság bónuszt (sikerszintet) kapnak minden Erő alapú Képzettség- és Tulajdonságpróbájukra. ",
+    "description": "A pap által megérintett célpontok E/4 Tulajdonság bónuszt (sikerszintet) kapnak minden Erő alapú Képzettség- és Tulajdonságpróbájukra.",
     "resist": "Fizikai",
     "ritual": true
   },
@@ -10542,7 +10542,7 @@
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
-    "description": "A fohász segítségével hatóterület léptékű kiontott vér vizsgálható meg. A kapott információk mélysége az erősségtől függ. Alap erősítés esetén informál, hogy mikor ontották ki, illetve hogy milyen fajú lényhez tartozik. Ezutóbbi információhoz szükséges, hogy a pap a korábbiakban már elemezte az érintett faj vérét. Amennyiben a területen kiontott vér több különböző lényhez tartozik, magasabb erősségen a varázslat erről is szolgáltat információt. ",
+    "description": "A fohász segítségével hatóterület léptékű kiontott vér vizsgálható meg. A kapott információk mélysége az erősségtől függ. Alap erősítés esetén informál, hogy mikor ontották ki, illetve hogy milyen fajú lényhez tartozik. Ezutóbbi információhoz szükséges, hogy a pap a korábbiakban már elemezte az érintett faj vérét. Amennyiben a területen kiontott vér több különböző lényhez tartozik, magasabb erősségen a varázslat erről is szolgáltat információt.",
     "resist": "nincs",
     "ritual": true
   },
@@ -10665,7 +10665,7 @@
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
-    "description": "A fohász hatására a pap bármilyen mocskos, sötét vízben kristálytisztán lát 50 láb távolságig, cserébe a levegő ilyenkor átláthatatlan, ködös masszaként jelentkezik számára. Az ellenállást sikerrel végrehajtó szereplőknek csupán a körvonalait látja. ",
+    "description": "A fohász hatására a pap bármilyen mocskos, sötét vízben kristálytisztán lát 50 láb távolságig, cserébe a levegő ilyenkor átláthatatlan, ködös masszaként jelentkezik számára. Az ellenállást sikerrel végrehajtó szereplőknek csupán a körvonalait látja.",
     "resist": "Fizikai"
   },
   {

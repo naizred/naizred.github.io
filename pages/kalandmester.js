@@ -35,6 +35,7 @@ function Kalandmester() {
     numberOfActionsAllPlayers = document.querySelectorAll("div#numberOfActionsAllPlayers");
     initiativeWithRollNodes = document.querySelectorAll("div#initiativeWithRoll");
     characterNameForInitNodes = document.querySelectorAll("div#characterNameForInit");
+    clearAllNodes();
     socket.emit("need sockets", gameIdRequest.value);
     socket.on("there you go", (allPlayersArray) => {
       console.log(allPlayersArray);
@@ -105,6 +106,23 @@ function Kalandmester() {
     clearInterval(gameIdInterval);
     setIntervalButton.disabled = false;
   }
+  function clearAllNodes() {
+    for (let i = 0; i < currentCharNameNodes.length; i++) {
+      currentCharNameNodes[i].innerText = "";
+      currentFpNodes[i].value = "";
+      currentEpNodes[i].value = "";
+      currentPpNodes[i].value = "";
+      currentMpNodes[i].value = "";
+      currentLpNodes[i].value = "";
+      atkRollResultNodes[i].value = "";
+      atkRollDiceNodes[i].value = "";
+      skillCheckResultDmNodes[i].value = "";
+      skillCheckDiceNodes[i].value = "";
+      characterNameForInitNodes[i].innerText = "";
+      numberOfActionsAllPlayers[i].innerText = "";
+      initiativeWithRollNodes[i].innerText = "";
+    }
+  }
   function handleFirstIteration() {
     currentCharNameNodes = document.querySelectorAll("div#characterName");
     currentFpNodes = document.querySelectorAll("input#currentFp");
@@ -119,17 +137,16 @@ function Kalandmester() {
     numberOfActionsAllPlayers = document.querySelectorAll("div#numberOfActionsAllPlayers");
     initiativeWithRollNodes = document.querySelectorAll("div#initiativeWithRoll");
     characterNameForInitNodes = document.querySelectorAll("div#characterNameForInit");
+    clearAllNodes();
+    let data = {
+      gameId: gameIdRequest.value,
+    };
+    socket.emit("create new player", data);
+    socket.emit("join room", gameIdRequest.value);
     socket.emit("need sockets", gameIdRequest.value);
     socket.on("there you go", (allPlayersArray) => {
-      let data = {
-        gameId: gameIdRequest.value,
-      };
-      socket.emit("create new player", data);
       for (let i = 0; i < allPlayersArray.length; i++) {
         //először karakter Id szerint sorba rendezzük
-        if (!allPlayersArray[i].charName) {
-          continue;
-        }
         allPlayersArray.sort((a, b) => a.charId - b.charId);
         currentCharNameNodes[i].innerText = allPlayersArray[i].charName;
         currentFpNodes[i].value = allPlayersArray[i].currentFp;
@@ -155,17 +172,17 @@ function Kalandmester() {
     <>
       <div>
         <div className={styles.namesOfPlayers}>
-          <input id="gameIdRequest" className={styles.characterName} />
+          <input id="gameIdRequest" onBlur={handleFirstIteration} className={styles.characterName} />
           <li id="dataStorageLi"></li>
-          <button id="setIntervalButton" className={styles.saveButton} type="button">
+          {/* <button id="setIntervalButton" className={styles.saveButton} type="button">
             Harc!
           </button>
           <button id="removeIntervalButton" className={styles.saveButton} onClick={removeGameIdInputInterval} type="button">
             Harc vége!
-          </button>
-          <button id="firstIteraionButton" className={styles.saveButton} onClick={handleFirstIteration} type="button">
+          </button> */}
+          {/* <button id="firstIteraionButton" className={styles.saveButton} onClick={handleFirstIteration} type="button">
             Betöltés
-          </button>
+          </button> */}
         </div>
         <div id="characterDetailsSection" className={styles.characterDetailsSection}>
           <CharacterDetailsForAdventureMaster />

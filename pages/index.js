@@ -294,7 +294,7 @@ export function updateCharacterSocketData() {
     atkRollDice: `${bodyPartName}, Sebzés: ${damageResult.innerText}`,
     activeBuffs: activeBuffsStringToSave,
     skillCheckResult: parseInt(skillCheckResult.innerText),
-    skillCheckDice: `Siker/kudarcszint: ${skillCheckCalculatedResultFromRoll}`,
+    skillCheckDice: `Dobás kihatása: ${skillCheckCalculatedResultFromRoll}`,
     numberOfActions: numberOfActions.innerText,
     initiativeWithRoll: parseInt(initiativeWithRoll.innerText),
   };
@@ -1755,6 +1755,7 @@ export default function Home(props) {
               };
             });
           socket.emit("create new player", data);
+          socket.emit("join room", data.gameId);
         });
 
         const response = await fetch(endpoint, options);
@@ -1775,6 +1776,7 @@ export default function Home(props) {
       fileFirstLoaded = false;
       window.addEventListener("beforeunload", () => {
         updateCharacterData(false);
+        socket.emit("leave room", gameIdLabel.innerText);
       });
     });
 

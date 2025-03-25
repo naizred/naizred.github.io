@@ -273,7 +273,7 @@
     "resist": "Szellemi"
   },
   {
-    "name": "Emlékek dala ",
+    "name": "Emlékek dala",
     "aspects": [
       ["Erősség", 6, 0, 0],
       ["Távolság", 5, 0, -1],

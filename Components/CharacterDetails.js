@@ -86,6 +86,7 @@ export async function updateCharacterData(gameIdUpdate = false) {
   if (charName.innerText == "") {
     return;
   }
+  let data = {};
   let activeBuffsStringToSave = "";
   activeBuffsCounter = 0;
   for (let i = 0; i < allActiveBuffs.length; i++) {
@@ -101,7 +102,7 @@ export async function updateCharacterData(gameIdUpdate = false) {
   if (bodyPart.innerText == "Fegyverforgató kar") {
     bodyPartName = "Jobb kar";
   }
-  let data = {
+  data = {
     charName: charName.innerText,
     currentFp: parseInt(currentFp.value),
     currentEp: parseInt(currentEp.value),
@@ -113,15 +114,12 @@ export async function updateCharacterData(gameIdUpdate = false) {
     atkRollResult: parseFloat(charAtkSum.innerText),
     atkRollDice: `${bodyPartName}, Sebzés: ${damageResult.innerText}`,
     skillCheckResult: parseInt(skillCheckResult.innerText),
-    skillCheckDice: `Siker/kudarcszint: ${skillCheckCalculatedResultFromRoll}`,
+    skillCheckDice: `Dobás kihatása: ${skillCheckCalculatedResultFromRoll}`,
     initiativeWithRoll: parseInt(initiativeWithRoll.innerText),
   };
 
   if (gameIdUpdate == true) {
-    data = {
-      charName: charName.innerText,
-      gameId: gameIdInput.value,
-    };
+    data.gameId = gameIdInput.value;
   }
 
   //socket.emit("sending data to update", data);
@@ -478,7 +476,7 @@ function CharacterDetails() {
     }
     chiCombatContinuePopupWindowText.innerText = "Folytatod a Chi-harcot?";
     psiDisciplinesSelect.value = "Chi-harc";
-    psiPointCostInput.value = Math.pow(2, parseInt(numberOfCurrentRound.innerText) - parseInt(theRoundChiCombatWasUsedIn) + 1);
+    psiPointCostInput.value = 3 * Math.pow(2, parseInt(numberOfCurrentRound.innerText) - parseInt(theRoundChiCombatWasUsedIn) + 1);
     chiCombatContinuePopupWindow.style.display = "grid";
     chiCombatContinuePopupWindowNoButton.style.display = "grid";
     chiCombatContinuePopupWindowYesButton.style.display = "grid";
@@ -503,7 +501,7 @@ function CharacterDetails() {
     chiCombatContinuePopupWindow.style.display = "none";
     chiCombatContinuePopupWindowOKButton.style.display = "none";
     chiCombatEndedDueToLackOfPsiPoints = true;
-    psiPointCostInput.value = 1;
+    psiPointCostInput.value = 3;
     if (parseInt(currentPp.value) < parseInt(psiPointCostInput.value)) {
       psiActivateButton.disabled = true;
     }

@@ -18,6 +18,30 @@ app.prepare().then(() => {
   io.on("connection", async (socket) => {
     console.log("A client connected");
 
+    async function refreshPlayerArray(gameId) {
+      await io
+        .in(gameId)
+        .fetchSockets()
+        .then((parsedData) => {
+          if (!parsedData) {
+            return;
+          }
+          let allPlayersArray = [];
+          let charNamesForRoom = [];
+          for (let i = 0; i < parsedData.length; i++) {
+            if (Object.entries(parsedData[i].data).length != 0) {
+              if (parsedData[i].data.charName && !charNamesForRoom.includes(parsedData[i].data.charName)) {
+                allPlayersArray.push(parsedData[i].data);
+                charNamesForRoom.push(parsedData[i].data.charName);
+              } else {
+                continue;
+              }
+            }
+          }
+          socket.emit("there you go", allPlayersArray);
+        });
+    }
+
     //socket.emit("new user connected", playersObject, socket.id);
 
     // socket.on("chat message", (arg1) => {
@@ -26,7 +50,18 @@ app.prepare().then(() => {
 
     socket.on("create new player", (data) => {
       socket.data = data;
-      socket.join(`${data.gameId}`);
+    });
+
+    socket.on("join room", (gameId) => {
+      socket.join(`${gameId}`);
+      console.log("bejött a szobába", gameId, socket.data);
+      io.to(`${gameId}`).emit("character updated from server", socket.data.charName);
+    });
+
+    socket.on("leave room", (gameId) => {
+      socket.leave(`${gameId}`);
+      console.log("elhagyta a szobát", gameId, socket.data);
+      io.to(`${gameId}`).emit("character updated from server", socket.data.charName);
     });
 
     socket.on("character updated", (updatedData) => {
@@ -46,37 +81,38 @@ app.prepare().then(() => {
         socket.data.initiativeWithRoll != updatedData.initiativeWithRoll
       ) {
         dataChanged = true;
+        console.log("változás volt", socket.data.charName);
         socket.data = updatedData;
       }
-      console.log(socket.data);
       if (dataChanged) {
+        console.log(dataChanged);
         io.to(`${socket.data.gameId}`).emit("character updated from server", socket.data.charName);
       }
       console.log(socket.data);
     });
 
     socket.on("need sockets", async (gameId) => {
-      await io
-        .in(gameId)
-        .fetchSockets()
-        .then((parsedData) => {
-          if (!parsedData) {
-            return;
-          }
-          let allPlayersArray = [];
-          let charNamesForRoom = [];
-          for (let i = 0; i < parsedData.length; i++) {
-            if (Object.entries(parsedData[i].data).length != 0) {
-              if (!charNamesForRoom.includes(parsedData[i].data.charName)) {
-                allPlayersArray.push(parsedData[i].data);
-                charNamesForRoom.push(parsedData[i].data.charName);
-              } else {
-                continue;
-              }
-            }
-          }
-          socket.emit("there you go", allPlayersArray);
-        });
+      refreshPlayerArray(gameId);
+      // await io
+      //   .in(gameId)
+      //   .fetchSockets()
+      //   .then((parsedData) => {
+      //     if (!parsedData) {
+      //       return;
+      //     }
+      //     let allPlayersArray = [];
+      //     let charNamesForRoom = [];
+      //     for (let i = 0; i < parsedData.length; i++) {
+      //       if (Object.entries(parsedData[i].data).length != 0) {
+      //         if (parsedData[i].data.charName && !charNamesForRoom.includes(parsedData[i].data.charName)) {
+      //           allPlayersArray.push(parsedData[i].data);
+      //           charNamesForRoom.push(parsedData[i].data.charName);
+      //         } else {
+      //           continue;
+      //         }
+      //       }
+      //     }
+      //   });
     });
 
     // socket.on("sending data to update", async (data) => {
@@ -93,8 +129,9 @@ app.prepare().then(() => {
     //   await fetch(endpoint, options);
     // });
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       console.log("A client disconnected", socket.data.charName);
+      refreshPlayerArray(socket.data.gameId);
     });
   });
 

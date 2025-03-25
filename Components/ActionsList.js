@@ -26,6 +26,8 @@ import {
   commonModifiers,
   currentAimedSpellModifier,
   currentAimedSpellModifierSetter,
+  updateCharacterSocketData,
+  socket,
 } from "../pages";
 import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
@@ -512,6 +514,7 @@ function ActionList() {
     if (gameIdInput.value == "") {
       return;
     }
+    socket.emit("join room", gameIdInput.value);
     updateCharacterData(true);
     // az update után kell egy kis késleltetés hogy legyen ideje megjönni az adatnak
     setTimeout(() => {
@@ -519,6 +522,9 @@ function ActionList() {
     }, 500);
     gameIdWrapper.style.display = "none";
     gameIdWrapperRevealButton.style.display = "grid";
+    socket.emit("leave room", gameIdLabel.innerText);
+    //updateCharacterSocketData();
+    // socket.emit("create new player");
   }
   function handleGameIdWrapperRevealButton() {
     gameIdWrapper.style.display = "grid";

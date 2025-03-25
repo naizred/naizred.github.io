@@ -1010,6 +1010,7 @@ function Spells() {
             <AspectComponentMechanism />
             <AspectComponentMechanism />
             <AspectComponentMechanism />
+            <AspectComponentMechanism />
           </div>
         </div>
         <span className={styles.calculatedSpellStatsSpan}>
