@@ -32,7 +32,14 @@ import ActionList, {
   defensiveCombatOn,
   defensiveCombatOnSetToFalse,
 } from "../Components/ActionsList";
-import { actionsSpentSinceLastCastAdderCheckerAndNullifier, spellCastingFailure, numberOfActionsSpentOnCastingCurrentSpellNullifier, spellIsBeingCast } from "../Components/Spells";
+import {
+  actionsSpentSinceLastCastAdderCheckerAndNullifier,
+  spellCastingFailure,
+  numberOfActionsSpentOnCastingCurrentSpellNullifier,
+  spellIsBeingCast,
+  currentCombatSpell,
+  currentCombatSpellChanger,
+} from "../Components/Spells";
 import ArmorDetails from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
@@ -487,7 +494,6 @@ export let rollOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export let filteredArrayIfHasAnyAffinity;
 export let filteredArrayForNameOfHighestMagicalSkill;
 export let filteredArrayIfHasAnyMagicSkill;
-export let mainMagicalSkillNamesAndLevels = {};
 export let filteredArrayIfHasAnyMagicSkillSubSkill;
 export let currentGodWorshippedByPlayer;
 export let filteredArrayIfHasPsi;
@@ -1050,7 +1056,7 @@ export default function Home(props) {
     for (let i = 0; i < allActiveBuffs.length; i++) {
       if ((allActiveBuffs[i].innerText.includes("Villámpenge") || allActiveBuffs[i].innerText.includes("Tűzkard")) && currentlySelectedWeapon.w_type != "MÁGIA") {
         numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) - 1) * 2;
-        spellDamage = multipleDiceRoll(0, 0, 0, parseInt(numberOfDiceInput.value));
+        spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, 0, parseInt(numberOfDiceInput.value));
         damageResult.innerText = `${damageResult.innerText} + ${spellDamage[3]}`;
         firstAccumulatedDiceResultSelect.value = spellDamage[0];
         secondAccumulatedDiceResultSelect.value = spellDamage[1];
@@ -1329,6 +1335,7 @@ export default function Home(props) {
           }
         }
         // allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
+        //console.log(allMagicSubskillsObject["Villámmágia"]);
 
         filteredArrayIfHasParry = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Hárítás");
         filteredArrayIfHasRunning = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Futás");
@@ -1801,11 +1808,20 @@ export default function Home(props) {
   //************************************************************************ */
   //------------------a támadó dobás
   //************************************************************************ */
+
+  let numberOfChainLightningCharges = 0;
+
   async function handleClickOnAttackRollButton(darkDice, lightDice) {
     updateCharacterSocketData();
     if (soundToggleCheckbox.checked) {
       rollDiceSound.play();
     }
+
+    if (Object.values(currentCombatSpell).length && (currentCombatSpell.spellName.includes("Visszaverődő") || currentCombatSpell.spellName.includes("Villámlánc"))) {
+      numberOfChainLightningCharges = allMagicSubskillsObject["Villámmágia"] - 1;
+      currentCombatSpellChanger({});
+    }
+
     //*********************************************************************** */
     //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
     if (defensiveCombatOn && !spellNeedsAimRoll) {
@@ -1827,7 +1843,7 @@ export default function Home(props) {
 
     warningWindow.innerText = "";
     bodyPartImg.innerHTML = "";
-    charAtkSumText.innerText = "Össz TÉO";
+    charAtkSumText.innerText = "Össz TÉO/CÉO";
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
     chosenWeapon.innerText = "Választott fegyver:";
@@ -1874,7 +1890,7 @@ export default function Home(props) {
     firstAttackInRoundSpent = true;
     combinationCheckBox.disabled = false;
 
-    if (spellNeedsAimRoll == true) {
+    if (spellNeedsAimRoll == true && numberOfChainLightningCharges == 0) {
       setTimeout(() => {
         currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
         currentAimedSpellModifier = 0;
@@ -1969,7 +1985,7 @@ export default function Home(props) {
     //   break;
     // }
     //}
-    if (initRolled && combinationCheckBox.checked == false && firstAttackIsSpellThatNeedsAimRoll == false && firstAttackIsAttackOfOpportunity == false) {
+    if (initRolled && combinationCheckBox.checked == false && firstAttackIsSpellThatNeedsAimRoll == false && firstAttackIsAttackOfOpportunity == false && numberOfChainLightningCharges == 0) {
       attackRollButton.disabled = true;
     }
     if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) >= 3) {
@@ -1981,7 +1997,7 @@ export default function Home(props) {
     if (numberOfClicksAtTwoWeaponAttack == 1) {
       attackRollButton.disabled = false;
     }
-    if (attackRollButtonWasDisabledBeforeSpellCast == true) {
+    if (attackRollButtonWasDisabledBeforeSpellCast == true && numberOfChainLightningCharges == 0) {
       attackRollButton.disabled = true;
     }
 
@@ -2092,10 +2108,17 @@ export default function Home(props) {
 
     if (firstAttackIsSpellThatNeedsAimRoll) {
       firstAttackInRoundSpent = false;
-      firstAttackIsSpellThatNeedsAimRollSetToFalse();
+      if (numberOfChainLightningCharges == 0) {
+        firstAttackIsSpellThatNeedsAimRollSetToFalse();
+      }
     }
     updateCharacterSocketData();
-    spellNeedsAimRollSetToFalse();
+    if (numberOfChainLightningCharges == 0) {
+      spellNeedsAimRollSetToFalse();
+    }
+    if (numberOfChainLightningCharges > 0) {
+      numberOfChainLightningCharges--;
+    }
     combatStatRefresher();
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
     if (weaponBeforeCasting && !weaponBeforeCasting.readyToFireOrThrow) {
@@ -2126,9 +2149,9 @@ export default function Home(props) {
             <input id="soundToggleCheckbox" type="checkbox" />
           </div>
           <div className={styles.resultContainer}>
-            <div className="inText">A dobás eredménye:</div>
+            <div className="inText">TÉO/CÉO a dobásból:</div>
             <div id="rollResult" className="inNumber"></div>
-            <div className="damage inText">A sebzés:</div>
+            <div className="damage inText">Sebzés:</div>
             <div id="damageResult" className="inNumber"></div>
             <div className="hitCheck">A találat helye:</div>
             <div id="bodyPart" className={styles.bodyPart}></div>
@@ -2216,7 +2239,7 @@ export default function Home(props) {
           <span id="castBarFlashEffect"></span>
           <div className={styles.charSumAtkContainer}>
             <div className="result inText" id="charAtkSumText">
-              Össz TÉO
+              Össz TÉO/CÉO
             </div>
             <div id="charAtkSum" className={"result inNumber"}></div>
             <div id="specialEffectText" className="result inText">

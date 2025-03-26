@@ -9901,7 +9901,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -9924,7 +9924,7 @@
       ["Mechanizmus", 5, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -9943,7 +9943,7 @@
       ["Időtartam", 6, 0, 0],
       ["Mechanizmus", 8, 0, -1]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -9967,7 +9967,7 @@
       ["Mechanizmus", 3, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -9984,7 +9984,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 8, 0, -1]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -10001,7 +10001,7 @@
       ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 5, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -10018,7 +10018,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -10037,7 +10037,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 5, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -10054,7 +10054,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 8, 0, -1]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -10078,7 +10078,7 @@
       ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Morgena",
@@ -10095,7 +10095,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 5, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10113,7 +10113,7 @@
       ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10130,7 +10130,7 @@
       ["Időtartam", 5, 0, 0],
       ["Mechanizmus", 7, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10147,7 +10147,7 @@
       ["Időtartam", 5, 0, 0],
       ["Mechanizmus", 7, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10167,7 +10167,7 @@
       ["Mechanizmus", 4, 1, 0],
       ["Mechanizmus", 4, 1, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10184,7 +10184,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 5, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10201,7 +10201,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 7, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10219,7 +10219,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 10, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10237,7 +10237,7 @@
       ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10257,7 +10257,7 @@
       ["Mechanizmus", 5, -2, 0],
       ["Mechanizmus", 4, -2, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Tooma",
@@ -10274,7 +10274,7 @@
       ["Időtartam", 4, -1, 0],
       ["Mechanizmus", 1, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10290,7 +10290,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 6, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10307,7 +10307,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 6, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10326,7 +10326,7 @@
       ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10342,7 +10342,7 @@
       ["Időtartam", 6, 0, 0],
       ["Mechanizmus", 12, 0, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10361,7 +10361,7 @@
       ["Mechanizmus", 3, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10378,7 +10378,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10398,7 +10398,7 @@
       ["Mechanizmus", 2, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10418,7 +10418,7 @@
       ["Mechanizmus", 3, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10435,7 +10435,7 @@
       ["Időtartam", 6, 0, 0],
       ["Mechanizmus", 10, 0, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Krad",
@@ -10453,7 +10453,7 @@
       ["Mechanizmus", 3, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10471,7 +10471,7 @@
       ["Mechanizmus", 3, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10489,7 +10489,7 @@
       ["Mechanizmus", 7, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10506,7 +10506,7 @@
       ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10522,7 +10522,7 @@
       ["Időtartam", 2, 0, 0],
       ["Mechanizmus", 5, 0, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Kisebb fohászok - Halál, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10538,7 +10538,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10555,7 +10555,7 @@
       ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10571,7 +10571,7 @@
       ["Időtartam", 3, -1, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10589,7 +10589,7 @@
       ["Mechanizmus", 3, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10611,7 +10611,7 @@
       ["Mechanizmus", 9, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Halál, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Tharr",
@@ -10628,7 +10628,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 1, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10644,7 +10644,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10661,7 +10661,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10679,7 +10679,7 @@
       ["Mechanizmus", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10696,7 +10696,7 @@
       ["Időtartam", 5, -1, 0],
       ["Mechanizmus", 6, 1, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10713,7 +10713,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10729,7 +10729,7 @@
       ["Időtartam", 4, -1, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10747,7 +10747,7 @@
       ["Mechanizmus", 3, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10763,7 +10763,7 @@
       ["Időtartam", 1, 0, 0],
       ["Mechanizmus", 3, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10780,7 +10780,7 @@
       ["Időtartam", 4, -1, 0],
       ["Mechanizmus", 6, 0, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Természet",
     "magicType": "Szakrális mágia",
     "god": "Antoh",
@@ -10796,7 +10796,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 2, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10812,7 +10812,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 6, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10830,7 +10830,7 @@
       ["Időtartam", 3, 0, 0],
       ["Mechanizmus", 8, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10846,7 +10846,7 @@
       ["Időtartam", 6, 0, 0],
       ["Mechanizmus", 9, 0, -1]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10865,7 +10865,7 @@
       ["Mechanizmus", 10, 1, 0],
       ["Mechanizmus", 4, 1, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Kisebb fohászok - Élet, Kisebb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10881,7 +10881,7 @@
       ["Időtartam", 4, 0, 0],
       ["Mechanizmus", 4, 0, 0]
     ],
-    "fok": "If",
+    "fok": 1,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10900,7 +10900,7 @@
       ["Mechanizmus", 2, 0, 0],
       ["Mechanizmus", 5, 0, 0]
     ],
-    "fok": "Af",
+    "fok": 2,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10916,7 +10916,7 @@
       ["Időtartam", 6, 0, 0],
       ["Mechanizmus", 8, 0, 0]
     ],
-    "fok": "Kf",
+    "fok": 3,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10933,7 +10933,7 @@
       ["Időtartam", 5, 0, 0],
       ["Mechanizmus", 12, 0, 0]
     ],
-    "fok": "Mf",
+    "fok": 4,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
@@ -10955,7 +10955,7 @@
       ["Mechanizmus", 8, 0, 0],
       ["Mechanizmus", 6, 0, 0]
     ],
-    "fok": "Lf",
+    "fok": 5,
     "magicSubclass": "Nagyobb fohászok - Élet, Nagyobb fohászok - Lélek",
     "magicType": "Szakrális mágia",
     "god": "Adron",
