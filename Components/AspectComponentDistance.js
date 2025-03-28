@@ -10,7 +10,7 @@ function AspectComponentDistance() {
           {spellsAspDescript[1].map((distance, i) => {
             return (
               <option value={i + 1} key={distance}>
-                {distance}
+                {`${i + 1} [${distance}]`}
               </option>
             );
           })}

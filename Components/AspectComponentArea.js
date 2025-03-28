@@ -10,7 +10,7 @@ function AspectComponentArea() {
           {spellsAspDescript[2].map((area, i) => {
             return (
               <option value={i + 1} key={area}>
-                {area}
+                {`${i + 1} [${area}]`}
               </option>
             );
           })}

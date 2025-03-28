@@ -137,10 +137,6 @@ export function blinkingText(elementId, text) {
     elementId.animate([{ color: "white" }, { color: "black" }], 300);
   }, 600);
 }
-
-export function disableAllActionButtons() {
-  document.querySelectorAll();
-}
 export function toggleTwoHandedWeaponsDisplay(display) {
   for (let i = 0; i < weaponsOptions.length; i++) {
     if (

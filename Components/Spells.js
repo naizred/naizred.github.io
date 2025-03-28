@@ -1,5 +1,6 @@
 import styles from "../styles/actionlist.module.css";
 import allSpells from "../json/allSpells.json";
+import spellsWizard from "../json/spellsWizard.json";
 import spellAttributes from "../json/spellAttributes.json";
 import {
   allMagicSubskillsObject,
@@ -147,7 +148,7 @@ export function spellCastingSuccessful() {
   }
   actionsSpentSinceLastCast = 0;
 
-  if (currentSpell && currentSpell.name.includes("liturgia")) {
+  if (currentSpell && currentSpell.name && currentSpell.name.includes("liturgia")) {
     currentActiveLiturgy = currentSpell.name;
     liturgyWrapper.style.display = "grid";
     liturgyPowerInfo.style.display = "grid";
@@ -259,7 +260,6 @@ let filteredSpellsBySubSkillAndLevel;
 let currentSpell;
 let powerAspModified = false;
 let anyAspExceptPowerAspModified = false;
-let highestAspectOfUnmodifiedAspects = [];
 
 function manaFactorCalculator(asp) {
   let manaFactor = 0;
@@ -318,6 +318,7 @@ export function calculateSpellCastTimeAndManaCost() {
   let theHighestFiveAspectsPerAspectCategory = [];
   let theHighestFiveAspects = [];
   let highestAspectPerCategory = [];
+  let highestAspectOfUnmodifiedAspects = [];
 
   for (let i = 0; i < currentSpell.aspects.length; i++) {
     let calculatedAspect = currentSpell.aspects[i][1] + currentSpell.aspects[i][2] + currentSpell.aspects[i][3];
@@ -359,7 +360,7 @@ export function calculateSpellCastTimeAndManaCost() {
     finalManaCost += manaFactorCalculator(highestFiveAspectDesc[i]);
     finalCastTime += spellCastTimeFactorCalculator(theHighestFiveAspectsPerAspectCategory[i]);
   }
-  console.log(theHighestFiveAspectsPerAspectCategory);
+  console.log(theHighestFiveAspectsPerAspectCategory, highestAspectOfUnmodifiedAspects);
 
   if (aptitudeObject["Mana vezető"] && !currentSpell.ritual) {
     // manavezető, de rituáléra nem lehet érvényes
@@ -367,8 +368,7 @@ export function calculateSpellCastTimeAndManaCost() {
   }
   spellCastingCheckSetter();
   evaluateSkillOrAttributeCheckBase();
-  //handleSkillCheck(false);
-  blinkingText(warningWindow, `A varázspróba célszáma: ${10 + Math.max(...theHighestFiveAspectsPerAspectCategory)}`);
+  blinkingText(warningWindow, `A varázspróba célszáma: ${10 + Math.max(...highestAspectOfUnmodifiedAspects)}`);
 
   // if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
   //   warningWindow.innerText = "";
@@ -507,6 +507,89 @@ export function handleSpellAspOptionChange(event) {
   console.log("volt erő mod?", powerAspModified, "volt más asp mod?", anyAspExceptPowerAspModified);
 }
 
+function spellAspModifier(event) {
+  if (event.target.id == "veiledAspModifierCheckBox") {
+    if (event.target.checked) {
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        currentSpell.aspects[i][2]++;
+      }
+    }
+    if (!event.target.checked) {
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        currentSpell.aspects[i][2]--;
+      }
+    }
+  }
+  if (event.target.id == "maintainedAspModifierCheckBox") {
+    if (event.target.checked) {
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        if (currentSpell.aspects[i][0] == "Időtartam") {
+          // a min. asp érték 1. Ilyenkor a fenntartott ne vonjon le.
+          currentSpell.aspects[i][3]--;
+        }
+      }
+    }
+    if (!event.target.checked) {
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        if (currentSpell.aspects[i][0] == "Időtartam") {
+          currentSpell.aspects[i][3]++;
+        }
+      }
+    }
+  }
+  if (event.target.id == "controlledAspModifierCheckBox") {
+    if (event.target.checked) {
+      guidedAspModifierCheckBox.disabled = true;
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        if (currentSpell.aspects[i][0] == "Mechanizmus") {
+          // a min. asp érték 1. Ilyenkor a fenntartott ne vonjon le.
+          currentSpell.aspects[i][3]++;
+        }
+      }
+    }
+    if (!event.target.checked) {
+      guidedAspModifierCheckBox.disabled = false;
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        if (currentSpell.aspects[i][0] == "Mechanizmus") {
+          currentSpell.aspects[i][3]--;
+        }
+      }
+    }
+  }
+  if (event.target.id == "guidedAspModifierCheckBox") {
+    if (event.target.checked) {
+      controlledAspModifierCheckBox.disabled = true;
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        if (currentSpell.aspects[i][0] == "Mechanizmus") {
+          // a min. asp érték 1. Ilyenkor a fenntartott ne vonjon le.
+          currentSpell.aspects[i][3] -= 2;
+        }
+      }
+    }
+    if (!event.target.checked) {
+      controlledAspModifierCheckBox.disabled = false;
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        if (currentSpell.aspects[i][0] == "Mechanizmus") {
+          currentSpell.aspects[i][3] += 2;
+        }
+      }
+    }
+  }
+  if (event.target.id == "repeatedAspModifierCheckBox") {
+    if (event.target.checked) {
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        currentSpell.aspects[i][2]++;
+      }
+    }
+    if (!event.target.checked) {
+      for (let i = 0; i < currentSpell.aspects.length; i++) {
+        currentSpell.aspects[i][2]--;
+      }
+    }
+  }
+  calculateSpellCastTimeAndManaCost();
+}
+
 function spellAspResetter() {
   let powerAspectPillarIndex = 0;
   let distanceAspectPillarIndex = 0;
@@ -568,6 +651,19 @@ function Spells() {
   //console.log(spellsThatModifyCombatStats)
   //console.log(spellsThatModifyCombatStatsObject)
   // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
+
+  function getWizardSpellMechanismAspectNamesAndLoadThemToMechanisms() {
+    if (currentMainMagicSkillName != "Magas Mágia") {
+      return;
+    }
+    let currentWizardMagicType = magicSubSkillSelect.value.slice(1);
+    for (let i = 0; i < allMechanismAspectSelect.length; i++) {
+      let currentMechanismOptions = allMechanismAspectSelect[i].children;
+      for (let j = 0; j < currentMechanismOptions.length; j++) {
+        currentMechanismOptions[j].innerText = `${j + 1} [${spellsWizard[0][currentWizardMagicType][j]}]`;
+      }
+    }
+  }
 
   function handleClickOnSpellCastButton() {
     powerAspModified = false;
@@ -662,8 +758,20 @@ function Spells() {
         for (let i = 0; i < currentMainMagicSkillLevel; i++) {
           currentSpell.aspects.push(["Mechanizmus", 1, 0, 0]);
         }
+        getWizardSpellMechanismAspectNamesAndLoadThemToMechanisms();
       }
       evaluateMagicSubSkill();
+    }
+  }
+  function changeAdvancedSpellInputWrapperElementsForWizard() {
+    if (magicSubSkillSelect.value.includes("Mágia")) {
+      spellAspModifiersWrapper.style.display = "grid";
+      spellSelectWrapper.style.display = "none";
+      spellDescriptionLabel.style.display = "none";
+    } else {
+      spellAspModifiersWrapper.style.display = "none";
+      spellSelectWrapper.style.display = "grid";
+      spellDescriptionLabel.style.display = "grid";
     }
   }
   function evaluateMagicSubSkill() {
@@ -686,7 +794,8 @@ function Spells() {
       });
     }
     OrderFunctionForFilteredSpellsBySubSkillAndLevel();
-
+    changeAdvancedSpellInputWrapperElementsForWizard();
+    getWizardSpellMechanismAspectNamesAndLoadThemToMechanisms();
     for (let i = 0; i < filteredSpellsBySubSkillAndLevel.length; i++) {
       let spellSkillOption = document.createElement("option");
       spellSkillOption.innerText = filteredSpellsBySubSkillAndLevel[i].name;
@@ -825,7 +934,7 @@ function Spells() {
     if (allPowerAspectSelect[0].value == 1 || allPowerAspectSelect[0].value == 2) {
       numberOfDiceInput.value = allPowerAspectSelect[0].value;
     }
-    if (allPowerAspectSelect[0].value > 2 && !currentSpell.name.includes("liturgia")) {
+    if (allPowerAspectSelect[0].value > 2 && currentSpell.name && !currentSpell.name.includes("liturgia")) {
       numberOfDiceInput.value = (parseInt(allPowerAspectSelect[0].value) - 1) * 2;
     }
 
@@ -903,14 +1012,17 @@ function Spells() {
       spellCastingSuccessful();
     }
   }
-  function handleCancelSpellCast(event) {
-    if (event.target.id == "advancedSpellInputWrapperCancelCastButton") {
-      advancedSpellInputWrapper.style.display = "none";
-      currentManaInAdvancedSpellWrapper.style.display = "none";
-      if (liturgyCheckBox.checked) {
-        liturgyCheckBox.checked = false;
-      }
-      warningWindow.innerText = "";
+  function handleCancelSpellCast() {
+    advancedSpellInputWrapper.style.display = "none";
+    currentManaInAdvancedSpellWrapper.style.display = "none";
+    if (liturgyCheckBox.checked) {
+      liturgyCheckBox.checked = false;
+    }
+    warningWindow.innerText = "";
+    let selectAllAspModifierCheckBoxes = document.querySelectorAll("[id*='ModifierCheckBox']");
+    for (let i = 0; i < selectAllAspModifierCheckBoxes.length; i++) {
+      selectAllAspModifierCheckBoxes[i].checked = false;
+      selectAllAspModifierCheckBoxes[i].disabled = false;
     }
   }
   function handleSpellSelectMouseEnter() {
@@ -953,8 +1065,10 @@ function Spells() {
       <div id="advancedSpellInputWrapper" className={styles.advancedSpellInputWrapper}>
         <div className={styles.subSkillSpellAndDescriptWrapper}>
           <li>
-            Mágiaforma:
-            <select id="magicSubSkillSelect" onChange={evaluateMagicSubSkill}></select>
+            <span>
+              Mágiaforma:
+              <select id="magicSubSkillSelect" onChange={evaluateMagicSubSkill}></select>
+            </span>
             <div className={styles.liturgyWrapper} id="liturgyWrapper">
               <ul className={styles.liturgyPowerInfo} id="liturgyPowerInfo">
                 Liturgia
@@ -963,9 +1077,25 @@ function Spells() {
             </div>
           </li>
           <li>
-            Varázslat:
-            <select id="spellSelect" onChange={handleSpellChange}></select>
-            <div onMouseEnter={handleSpellSelectMouseEnter}>Leírás</div>
+            <span id="spellSelectWrapper">
+              Varázslat:
+              <select id="spellSelect" onChange={handleSpellChange}></select>
+            </span>
+            <span id="spellDescriptionLabel" className={styles.spellDescriptionSpan} onMouseEnter={handleSpellSelectMouseEnter}>
+              Leírás
+            </span>
+            <span id="spellAspModifiersWrapper">
+              <input id="veiledAspModifierCheckBox" type="checkBox" onChange={spellAspModifier} />
+              Leplezett
+              <input id="maintainedAspModifierCheckBox" type="checkBox" onChange={spellAspModifier} />
+              Fenntartott
+              <input id="controlledAspModifierCheckBox" type="checkBox" onChange={spellAspModifier} />
+              Kontrollált
+              <input id="guidedAspModifierCheckBox" type="checkBox" onChange={spellAspModifier} />
+              Irányított
+              <input id="repeatedAspModifierCheckBox" type="checkBox" onChange={spellAspModifier} />
+              Ismétlődő
+            </span>
           </li>
         </div>
         <div className={styles.pillarNamesWrapper}>
@@ -973,7 +1103,7 @@ function Spells() {
           <span>Távolság:</span>
           <span>Terület:</span>
           <span>Időtartam:</span>
-          <span>Mechanizmus:</span>
+          <span className={styles.mechanismAspLabel}>Mechanizmus:</span>
         </div>
         <div id="allAspectsWrapper" className={styles.allAspectsWrapper}>
           <div id="powerAspectPillar" className={styles.powerAspectPillar}>

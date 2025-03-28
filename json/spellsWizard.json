@@ -1,4 +1,5 @@
-[{"Mechanizmus": {
+[
+  {
     "Anyag Mágia": [
       "I. anyag regenerálás, érzékelés",
       "I. anyag átformázás, pusztítás; II. anyag regenerálás, érzékelés",
@@ -15,26 +16,26 @@
     ],
     "Elemi Mágia": [
       "Iskolaformává alakítás. Elem érzékelés",
-      "Iskolaforma teremtés. Elem pusztítás. Látás illúzió (dinamikus)",
-      "Szabálytalan formává alakítás. Elem elemzés. Látás illúzió (aktív). Hallás illúzió (dinamikus). I. fokú láthatatlanság",
-      "Szabálytalan forma teremtés. Hallás illúzió (aktív). Szaglás illúzió (dinamikus)",
-      "Dinamikus formává alakítás. Szaglás illúzió (aktív). Ízlelés illúzió (dinamikus). II. fokú láthatatlanság",
-      "Dinamikus forma teremtés, telekinézis. Ízlelés illúzió (aktív). Tapintás illúzió (dinamikus)",
-      "Aktív formává alakítás. Tapintás illúzió (aktív)",
-      "Aktív forma teremtés. III. fokú láthatatlanság",
+      "Iskolaforma teremtés. Elem pusztítás. Látás illúzió",
+      "Szabálytalan formává alakítás. Elem elemzés. Hallás illúzió",
+      "Szabálytalan forma teremtés. Elem elfojtás",
+      "Dinamikus formává alakítás. Szaglás illúzió",
+      "Dinamikus forma teremtés, telekinézis. Elem elnyomás",
+      "Aktív formává alakítás.",
+      "Aktív forma teremtés. Ízlés illúzió",
       "",
       "",
-      "",
+      "Tapintás illúzió",
       ""
     ],
     "Asztrál Mágia": [
       "Konkrét érzőhöz (önmagához) kötődő adott érzelem érzékelés, átirányítás",
       "Konkrét érzőhöz (önmagához) kötődő adott érzelem növelés, csökkentés. Általánosan érzőkhöz kötődő adott érzelem érzékelés, átirányítás. Konkrét tárgyhoz vagy jelenséghez kötődő adott érzelem érzékelés, átirányítás. Asztrál érzékelés",
-      "Konkrét érzőhöz (önmagához) kötődő adott érzelem gátlás, megszüntetés. Általánosan érzőkhöz kötődő adott érzelem növelés, csökkentés. Konkrét tárgyhoz vagy jelenséghez kötődő adott érzelem növelés, csökkentés. Általánosan tárgyakhoz vagy jelenségekhez kötődő adott érzelem érzékelés, átirányítás. Konkrét eszményhez vagy elvont fogalomhoz kötődő adott érzelem érzékelés, átirányítás. Asztrál vizsgálat",
-      "Konkrét érzőhöz (önmagához) kötődő adott érzelem keltés, átadás. Általánosan érzőkhöz kötődő adott érzelem gátlás, megszüntetés. Konkrét tárgyhoz vagy jelenséghez kötődő adott érzelem gátlás, megszüntetés. Általánosan tárgyakhoz vagy jelenségekhez kötődő adott érzelem növelés, csökkentés. Konkrét eszményhez vagy elvont fogalomhoz kötődő adott érzelem növelés, csökkentés. Általános eszményekhez vagy elvont fogalmakhoz kötődő adott érzelem érzékelés, átirányítás",
-      "Általánosan érzőkhöz kötődő adott érzelem keltés, átadás. Konkrét tárgyhoz vagy jelenséghez kötődő adott érzelem keltés, átadás. Általánosan tárgyakhoz vagy jelenségekhez kötődő adott érzelem gátlás, megszüntetés. Konkrét eszményhez vagy elvont fogalomhoz kötődő adott érzelem gátlás, megszüntetés. Általános eszményekhez vagy elvont fogalmakhoz kötődő adott érzelem növelés, csökkentés",
-      "Általánosan tárgyakhoz vagy jelenségekhez kötődő adott érzelem keltés, átadás. Konkrét eszményhez vagy elvont fogalomhoz kötődő adott érzelem keltés, átadás. Általános eszményekhez vagy elvont fogalmakhoz kötődő adott érzelem gátlás, megszüntetés",
-      "Általános eszményekhez vagy elvont fogalmakhoz kötődő adott érzelem keltés, átadás",
+      "Konkrét érzőhöz (önmagához) kötődő adott érzelem gátlás, kivetítés. Általánosan érzőkhöz kötődő adott érzelem növelés, csökkentés. Konkrét tárgyhoz vagy jelenséghez kötődő adott érzelem növelés, csökkentés. Általánosan tárgyakhoz vagy jelenségekhez kötődő adott érzelem érzékelés, átirányítás. Konkrét eszményhez vagy elvont fogalomhoz kötődő adott érzelem érzékelés, átirányítás. Asztrál vizsgálat",
+      "Konkrét érzőhöz (önmagához) kötődő adott érzelem keltés, megszüntetés. Általánosan érzőkhöz kötődő adott érzelem gátlás, kivetítés. Konkrét tárgyhoz vagy jelenséghez kötődő adott érzelem gátlás, kivetítés. Általánosan tárgyakhoz vagy jelenségekhez kötődő adott érzelem növelés, csökkentés. Konkrét eszményhez vagy elvont fogalomhoz kötődő adott érzelem növelés, csökkentés. Általános eszményekhez vagy elvont fogalmakhoz kötődő adott érzelem érzékelés, átirányítás",
+      "Általánosan érzőkhöz kötődő adott érzelem keltés, megszüntetés. Konkrét tárgyhoz vagy jelenséghez kötődő adott érzelem keltés, megszüntetés. Általánosan tárgyakhoz vagy jelenségekhez kötődő adott érzelem gátlás, kivetítés. Konkrét eszményhez vagy elvont fogalomhoz kötődő adott érzelem gátlás, kivetítés. Általános eszményekhez vagy elvont fogalmakhoz kötődő adott érzelem növelés, csökkentés",
+      "Általánosan tárgyakhoz vagy jelenségekhez kötődő adott érzelem keltés, megszüntetés. Konkrét eszményhez vagy elvont fogalomhoz kötődő adott érzelem keltés, megszüntetés. Általános eszményekhez vagy elvont fogalmakhoz kötődő adott érzelem gátlás, kivetítés",
+      "Általános eszményekhez vagy elvont fogalmakhoz kötődő adott érzelem keltés, megszüntetés",
       "",
       "",
       "Asztrál gólem készítés",
@@ -58,14 +59,14 @@
     "Nekro Mágia": [
       "Nekro és élőholt felfedés",
       "Nekro és élőholt megismerés. Démoni hatás felfedés",
-      "Nekro és élőholt uralás. Démoni hatás megismerés. Életerő felfedés",
-      "Nekro és élőholt eltörlés. Démoni hatás uralás. Életerő megismerés. Holt lélek felfedés",
-      "Nekro és élőholt alkotás. Démoni hatás eltörlés. Életerő uralás. Holt lélek megismerés. Külső síkok lénye felfedés",
-      "Démoni hatás alkotás. Életerő eltörlés. Holt lélek uralás. Külső síkok lénye megismerés",
-      "Életerő alkotás. Holt lélek eltörlés. Külső síkok lénye uralás. Élő lélek felfedés. Felsőbb felfedés",
-      "Élő lélek megismerés. Felsőbb megismerés",
-      "Élő lélek uralás",
+      "Nekro és élőholt eltörlés. Démoni hatás megismerés. Életerő felfedés",
+      "Nekro és élőholt uralás. Démoni hatás eltörlés. Életerő megismerés. Holt lélek felfedés",
+      "Nekro és élőholt alkotás. Démoni hatás uralás. Életerő eltörlés. Holt lélek megismerés. Külső síkok lénye felfedés",
+      "Démoni hatás alkotás. Életerő uralás. Holt lélek eltörlés. Külső síkok lénye megismerés",
+      "Életerő alkotás. Holt lélek uralás. Élő lélek felfedés. Felsőbb felfedés",
+      "Külső síkok lénye uralás. Élő lélek megismerés. Felsőbb megismerés",
       "Élő lélek eltörlés",
+      "Élő lélek uralás",
       "",
       ""
     ],
@@ -75,7 +76,7 @@
       "Egy fix cselekvéstípusra irányuló vagy egy adott Képzettségre járó sorshatás. Sorshatás vizsgálat. Antiss vizsgálat",
       "Sorshatás eltörlése. Szimpatikus kapcsolat létesítése",
       "Általánosan az élet egy szűk részére (pl. harc) vonatkozó sorshatás. Antiss uralás",
-      "Időbeli áthelyezés",
+      "Kutatás. Időbeli áthelyezés",
       "Képzettség csoportra vagy egy adott Tulajdonságra vonatkozó sorshatás",
       "Jóslás. Öregítés. Antiss gólem készítés",
       "Általánosan az élet egy meghatározó részére vonatkozó sorshatás",
@@ -90,12 +91,12 @@
       "Varázslat nyers destrukció. Zóna másolás. Mágikus kapcsolat létesítés",
       "Térkapu. Részleges ellenmágia",
       "Varázsfeltörés",
-      "",
+      "Részleges mágiagát",
       "Mana manipuláció",
       "",
       "Abszolút ellenmágia. Mana pusztítás",
       "Síkkapu",
-      ""
+      "Teljes mágiagát"
     ],
     "default": [
       "Minden mechanizmus nélküli varázslat, kutatás",
@@ -112,4 +113,4 @@
       "Abszolút hatalmú működés, kutatás"
     ]
   }
-}]
+]

@@ -64,20 +64,34 @@
   background-repeat: no-repeat;
   background-position: center;
 }
-.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper{
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper {
   display: grid;
 }
-.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li{
-grid-template-columns: repeat(3,1fr);
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li {
+  grid-template-columns: repeat(6, 1fr);
   display: grid;
-  width: 60vw;
 }
-.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li div{
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li div {
   display: grid;
   border: 0.23vw solid white;
   border-radius: 1vw;
   padding: 0.2vw;
   width: 3vw;
+}
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li span {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column: 3/4;
+  justify-content: left;
+}
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li .spellDescriptionSpan {
+  display: grid;
+  grid-column: 4/5;
+  justify-content: left;
+  width: 3vw;
+}
+.advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li span input {
+  display: grid;
 }
 .advancedSpellInputWrapper .subSkillSpellAndDescriptWrapper li .liturgyWrapper {
   display: none;
@@ -99,16 +113,22 @@ grid-template-columns: repeat(3,1fr);
 .advancedSpellInputWrapper .allAspectsWrapper {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: repeat(5, 1fr);
+  gap: 1vw;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 .advancedSpellInputWrapper .pillarNamesWrapper {
   display: grid;
   grid-auto-flow: column;
-  text-align: center;
+  gap: 1vw;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 .advancedSpellInputWrapper .pillarNamesWrapper span {
   display: grid;
   align-items: center;
+}
+.advancedSpellInputWrapper .pillarNamesWrapper .mechanismAspLabel {
   width: 10vw;
 }
 .advancedSpellInputWrapper li {
@@ -117,18 +137,12 @@ grid-template-columns: repeat(3,1fr);
   align-items: center;
   text-align: right;
 }
-.powerAspectPillar .distanceAspectPillar 
-.areaAspectPillar .durationAspectPillar .mechanismAspectPillar 
-
-.advancedSpellInputWrapper li div {
-  display: grid;
-}
 .spellDescriptionWindow {
   display: none;
   font-size: 1vw;
   border: 0.23vw solid white;
   border-radius: 1vw;
-  grid-column: 9/ 20;
+  grid-column: 11/ 20;
   grid-row: 5/10;
   background-color: black;
   padding: 0.5vw;
@@ -149,10 +163,15 @@ grid-template-columns: repeat(3,1fr);
 }
 .advancedSpellInputWrapper li select {
   display: grid;
-  width: 18vw;
   text-align: left;
   font-size: 0.8vw;
   height: 1.3vw;
+}
+.powerAspectPillar .distanceAspectPillar .areaAspectPillar .durationAspectPillar .mechanismAspectPillar .advancedSpellInputWrapper li div {
+  display: grid;
+}
+.mechanismAspectPillar select {
+  width: 25vw;
 }
 .advancedSpellInputWrapper button {
   display: grid;
@@ -262,19 +281,19 @@ grid-template-columns: repeat(3,1fr);
   font-size: 0.8vw;
   grid-auto-flow: column;
 }
-.gameIdWrapperRevealButton{
-display: grid;
-grid-column: 20/22;
-grid-row: 1/2;
-width: 6vw;
-font-size: 0.8vw;
+.gameIdWrapperRevealButton {
+  display: grid;
+  grid-column: 20/22;
+  grid-row: 1/2;
+  width: 6vw;
+  font-size: 0.8vw;
 }
-.recurringSpellActionButton{
-display: none;
-grid-column: 14/16;
-grid-row: 3/4;
-width: 6vw;
-font-size: 0.8vw;
+.recurringSpellActionButton {
+  display: none;
+  grid-column: 14/16;
+  grid-row: 3/4;
+  width: 6vw;
+  font-size: 0.8vw;
 }
 .recurringSpellActionButton:disabled {
   background-color: black;
@@ -286,49 +305,49 @@ font-size: 0.8vw;
   color: white;
   opacity: 0.6;
 }
-.guidedSpellWrapper{
+.guidedSpellWrapper {
   display: none;
   font-size: 1vw;
   border: 0.23vw solid white;
   border-radius: 1vw;
   grid-column: 14/ 17;
   grid-row: 3/9;
-  grid-template-rows: repeat(13,1fr);
-  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: repeat(13, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   background-color: black;
   background-repeat: no-repeat;
   background-position: center;
   padding: 0.5vw;
 }
-.guidedSpellWrapper input{
-width: 3vw;
+.guidedSpellWrapper input {
+  width: 3vw;
 }
-.guidedSpellRevealButton{
+.guidedSpellRevealButton {
   display: none;
-grid-column: 14/16;
-grid-row: 5/7;
-width: 6vw;
-font-size: 0.8vw;
+  grid-column: 14/16;
+  grid-row: 5/7;
+  width: 6vw;
+  font-size: 0.8vw;
 }
-.guidedSpellButton{
+.guidedSpellButton {
   display: grid;
   font-size: 0.8vw;
 }
-.guidedSpellLabel{
-  width:5vw;
+.guidedSpellLabel {
+  width: 5vw;
   text-align: right;
 }
 .guidedSpellName {
   text-decoration: underline;
 }
-.guidedSpellCheckboxLabel{
+.guidedSpellCheckboxLabel {
   display: grid;
   grid-auto-flow: column;
   font-size: 0.6vw;
   text-align: right;
   align-items: center;
 }
-.guidedSpellCheckboxLabel .guidedSpellCheckbox{
+.guidedSpellCheckboxLabel .guidedSpellCheckbox {
   display: grid;
   width: 1vw;
 }

@@ -10,7 +10,7 @@ function AspectComponentDuration() {
           {spellsAspDescript[3].map((duration, i) => {
             return (
               <option value={i + 1} key={duration}>
-                {duration}
+                {`${i + 1} [${duration}]`}
               </option>
             );
           })}
