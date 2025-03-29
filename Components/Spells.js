@@ -75,6 +75,9 @@ for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
 }
 spellsThatModifyCombatStatsObject = Object.values(spellsThatModifyCombatStatsObject);
 export function checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(currentSpellName) {
+  if (!currentSpellName) {
+    return;
+  }
   // összeveti a jelenleg elvarázsolt spell nevét az összes olyan spellel amik valamilyen statot adnak
   for (let i = 0; i < spellsThatModifyCombatStatsObject.length; i++) {
     if (currentSpellName.includes(spellsThatModifyCombatStatsObject[i].spellName)) {
@@ -182,7 +185,7 @@ export function spellCastingSuccessful() {
   if (currentSpell) {
     currentCombatSpell = checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(currentSpell.name);
   }
-  if (currentSpell && !currentSpell.name.includes("liturgia")) {
+  if (currentSpell && currentSpell.name && !currentSpell.name.includes("liturgia")) {
     // a currentSpellDuration > 3 azt jelenti, hogy legalább fél óráig tart a buff,
     for (let i = 0; i < allActiveBuffs.length; i++) {
       // ezt harc előtt is felrakhatja, ezért nem kell, hogy legyen initRolled
@@ -235,9 +238,9 @@ export function spellCastingSuccessful() {
   if (initRolled == true && attackRollButton.disabled == false) {
     attackRollButtonWasDisabledBeforeSpellCastSetter(false);
   }
-  if (!currentCombatSpell.spellName || currentCombatSpell.isGuided) {
+  if (currentCombatSpell && (!currentCombatSpell.spellName || currentCombatSpell.isGuided)) {
     handleIfSpellDoesNotNeedAimRoll();
-  } else if (currentCombatSpell.spellName) {
+  } else if (currentCombatSpell && currentCombatSpell.spellName) {
     handleIfSpellNeedsAimRoll();
   }
   updateCharacterSocketData();
@@ -653,7 +656,7 @@ function Spells() {
   // mana tényező táblázatból és varázsidő tényező táblázat alapján írt függvények az egyes aspektusok mana értékének kiszámításához
 
   function getWizardSpellMechanismAspectNamesAndLoadThemToMechanisms() {
-    if (currentMainMagicSkillName != "Magas Mágia") {
+    if (currentMainMagicSkillName != "Magas Mágia" || !magicSubSkillSelect.value.includes("Mágia")) {
       return;
     }
     let currentWizardMagicType = magicSubSkillSelect.value.slice(1);
@@ -1025,7 +1028,7 @@ function Spells() {
       selectAllAspModifierCheckBoxes[i].disabled = false;
     }
   }
-  function handleSpellSelectMouseEnter() {
+  function handleSpellDescriptMouseEnter() {
     if (currentMainMagicSkillName == "Magas Mágia") {
       return;
     }
@@ -1081,7 +1084,7 @@ function Spells() {
               Varázslat:
               <select id="spellSelect" onChange={handleSpellChange}></select>
             </span>
-            <span id="spellDescriptionLabel" className={styles.spellDescriptionSpan} onMouseEnter={handleSpellSelectMouseEnter}>
+            <span id="spellDescriptionLabel" className={styles.spellDescriptionSpan} onMouseEnter={handleSpellDescriptMouseEnter}>
               Leírás
             </span>
             <span id="spellAspModifiersWrapper">
