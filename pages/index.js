@@ -4,7 +4,7 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import allWeapons from "../json/allWeapons.json";
 import aptitudesDescript from "../json/aptitudesDescript.json";
-import CharacterDetails, { defensiveCombatContinueSelectedSetToFalse, initRolled, updateCharacterData } from "../Components/CharacterDetails";
+import CharacterDetails, { defensiveCombatContinueSelectedSetToFalse, initRolled, setInitRolled, updateCharacterData } from "../Components/CharacterDetails";
 import ActionList, {
   assassinationToFalse,
   attackOfOpportunityOn,
@@ -242,6 +242,16 @@ export async function fetchCharacterData(currentCharName) {
       currentPp.value = parsedData.currentPp;
       currentMp.value = parsedData.currentMp;
       currentLp.value = parsedData.currentLp;
+      if (parsedData.numberOfActions != "") {
+        initRollButton.style.display = "none";
+        setInitRolled(true);
+        toggleAllallActionBarButtonsExceptInitRollDisplay("grid");
+        initiativeBonusButton.style.display = "none";
+        numberOfActions.innerText = parsedData.numberOfActions;
+        initiativeWithRoll.innerText = parsedData.initiativeWithRoll;
+      } else {
+        toggleAllallActionBarButtonsExceptInitRollDisplay();
+      }
       let activeBuffsCounter = parseInt(parsedData.activeBuffs.charAt(0));
       let activeBuffsStringArray = parsedData.activeBuffs.slice(1).split("|", activeBuffsCounter);
       for (let i = 0; i < activeBuffsStringArray.length; i++) {
@@ -1352,7 +1362,7 @@ export default function Home(props) {
 
         //---------------------- betölti a tul. értékeket és képzettségeket
         //------------------------------------------------------------
-        toggleAllallActionBarButtonsExceptInitRollDisplay();
+        //toggleAllallActionBarButtonsExceptInitRollDisplay();
 
         // itt rakja be az összes skillt a skillCheck komponensbe
         let allSkillsArray = [];

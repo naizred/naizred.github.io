@@ -77,6 +77,9 @@ import {
 import { skillCheckCalculatedResultFromRoll } from "./SkillCheck";
 import { socket } from "../pages";
 export let initRolled = false;
+export function setInitRolled(trueOrFalse = false) {
+  initRolled = trueOrFalse;
+}
 export let extraReactionLevel = 0;
 export let chiCombatEndedDueToLackOfPsiPoints = false;
 export let activeBuffsCounter = 0;
