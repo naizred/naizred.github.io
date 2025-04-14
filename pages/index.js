@@ -248,6 +248,7 @@ export async function fetchCharacterData(currentCharName) {
         toggleAllallActionBarButtonsExceptInitRollDisplay("grid");
         initiativeBonusButton.style.display = "none";
         numberOfActions.innerText = parsedData.numberOfActions;
+        adjustActionsPositive.value = parsedData.numberOfActions;
         initiativeWithRoll.innerText = parsedData.initiativeWithRoll;
       } else {
         toggleAllallActionBarButtonsExceptInitRollDisplay();
