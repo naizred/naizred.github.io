@@ -652,19 +652,19 @@ function CharacterDetails() {
         <div>
           <label>Fp:</label>
           <p id="maxFp"></p>
-          <input id="currentFp" onBlur={updateCharacterSocketData} type="number" />
+          <input id="currentFp" onClick={updateCharacterSocketData} type="number" />
         </div>
         <div>
           <label>Ép:</label>
           <p id="maxEp"></p>
-          <input id="currentEp" onBlur={updateCharacterSocketData} type="number" />
+          <input id="currentEp" onClick={updateCharacterSocketData} type="number" />
         </div>
         <div>
           <label>Pp:</label>
           <p id="maxPp"></p>
           <input
             id="currentPp"
-            onBlur={() => {
+            onClick={() => {
               checkIfPsiIsUseable();
               updateCharacterSocketData();
             }}
@@ -674,12 +674,12 @@ function CharacterDetails() {
         <div>
           <label>Mp:</label>
           <p id="maxMp"></p>
-          <input id="currentMp" onBlur={updateCharacterSocketData} type="number" />
+          <input id="currentMp" onClick={updateCharacterSocketData} type="number" />
         </div>
         <div>
           <label>Lp:</label>
           <p id="maxLp"></p>
-          <input id="currentLp" onBlur={updateCharacterSocketData} type="number" />
+          <input id="currentLp" onClick={updateCharacterSocketData} type="number" />
         </div>
       </div>
       <div id="actionsWrapper" className={styles.actionsWrapper}>
