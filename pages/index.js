@@ -1186,6 +1186,49 @@ export default function Home(props) {
         });
         observer.observe(listOfCurrentlyActiveBuffs, { childList: true, subtree: true });
 
+        // megfigyeli az akciók változását
+        //*********************************** */
+        let observerForActions = new MutationObserver(async () => {
+          updateCharacterSocketData();
+          if (initRolled && parseInt(numberOfActions.innerText) <= 0) {
+            recurringSpellActionButton.disabled = true;
+          }
+          if (parseInt(numberOfActions.innerText) < 2) {
+            tacticsButton.disabled = true;
+          }
+          if (
+            ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2) ||
+              (initRolled && firstAttackInRoundSpent && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) &&
+            !attackOfOpportunityOn
+          ) {
+            attackRollButton.disabled = true;
+          }
+          if (numberOfClicksAtTwoWeaponAttack == 1) {
+            attackRollButton.disabled = false;
+          }
+          if (initRolled && parseInt(numberOfActions.innerText) < 1 && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0) {
+            spellCastingActionButton.disabled = true;
+          }
+        });
+        observerForActions.observe(numberOfActions, { childList: true, subtree: true });
+        // a körök számát figyeli, és ez alapján követi nyomon mennyi van hátra az adott buffokból
+        let observerForCurrentRound = new MutationObserver(async () => {
+          if (initRolled && parseInt(numberOfCurrentRound.innerText) != 1) {
+            for (let i = 0; i < allActiveBuffs.length; i++) {
+              if (allActiveBuffs[i].innerText.includes("kör")) {
+                let numberOfRoundsLeftFromBuff = parseInt(allActiveBuffs[i].innerText);
+                numberOfRoundsLeftFromBuff--;
+                let buffNameWithoutNumberOfRounds = allActiveBuffs[i].innerText.slice(1);
+                allActiveBuffs[i].innerText = numberOfRoundsLeftFromBuff + buffNameWithoutNumberOfRounds;
+                if (numberOfRoundsLeftFromBuff == 0) {
+                  buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText);
+                }
+              }
+            }
+          }
+        });
+        observerForCurrentRound.observe(numberOfCurrentRound, { childList: true, subtree: true });
+
         parsedCharacterDataFromJSON = JSON.parse(reader.result);
 
         for (let i = 0; i < parsedCharacterDataFromJSON.aptitudes.length; i++) {

@@ -88,7 +88,9 @@ app.prepare().then(() => {
         console.log(dataChanged);
         io.to(`${socket.data.gameId}`).emit("character updated from server", socket.data.charName);
       }
-      console.log(socket.data);
+      if (!dataChanged) {
+        console.log("nem volt változás");
+      }
     });
 
     socket.on("need sockets", async (gameId) => {
@@ -131,6 +133,8 @@ app.prepare().then(() => {
 
     socket.on("disconnect", async () => {
       console.log("A client disconnected", socket.data.charName);
+      socket.leave(`${socket.data.gameId}`);
+      console.log("elhagyta a szobát", socket.data.gameId, socket.data);
       refreshPlayerArray(socket.data.gameId);
     });
   });
