@@ -78,9 +78,6 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     if (manuallySetRollModifier < 0) {
       // ha kisebb mint 0, akkor az azt jelenti, hogy nem elhagyható ez a módosító. Ilyen, negatív módosítót jelenleg csak kézzel lehet bevinni
       skillCheckLightDice += parseInt(rollModifier.value);
-      if (skillCheckLightDice <= 0) {
-        skillCheckLightDice = 1;
-      }
     }
     let skillCheckLightDicePlusRollMod = skillCheckLightDice; // módosított világos kocka értéke. Kezdő értéke a világos kocka dobott értéke
 
@@ -89,7 +86,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
       // ha a módosítóval megnövelt érték nem eleve egyenlő a sötét kocka értékével (itt ez még a világos kocka dobott értéke)
       allRollModifiersArray.sort();
       for (let i = 0; i < allRollModifiersArray.length; i++) {
-        if (parseInt(rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray) != 0) {
+        if (parseInt(rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray) != 0 && skillCheckLightDicePlusRollMod > 2) {
           // ha van olyan módosító, ami legalább kétszer fordul elő akkor a pozitív módosítót negatívra válthatjuk, ha az előnyösebb a stresszpróbánál
           skillCheckLightDicePlusRollMod = skillCheckLightDice - parseInt(rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray);
           if (skillCheckLightDicePlusRollMod <= 0) {
@@ -102,6 +99,9 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
         skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(allRollModifiersArray[i]);
         if (skillCheckLightDicePlusRollMod >= 10) {
           skillCheckLightDicePlusRollMod = 10;
+        }
+        if (skillCheckLightDicePlusRollMod <= 1) {
+          skillCheckLightDicePlusRollMod = 1;
         }
         //akkor végigmegyünk a Dobásmódosítók tömbjén, és minden esetben megnézzük, hogy nem lenne-e előnyösebb elhagyni azt
         if (skillCheckLightDicePlusRollMod == skillCheckDarkDice) {

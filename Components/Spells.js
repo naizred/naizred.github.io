@@ -34,10 +34,11 @@ import AspectComponentMechanism from "./AspectComponentMechanism";
 // minden varázslat, ami növeli a TÉO-t vagy CÉO-t
 let spellsThatModifyCombatStats = allSpells.filter(
   (spell) =>
-    (spell.description.includes("CÉO") || spell.description.includes("TÉO") || spell.description.includes("HMO")) &&
-    !spell.description.toLowerCase().includes("negatív") &&
-    !spell.description.toLowerCase().includes("hátrány") &&
-    spell.description.toLowerCase().includes("+")
+    ((spell.description.includes("CÉO") || spell.description.includes("TÉO") || spell.description.includes("HMO")) &&
+      !spell.description.toLowerCase().includes("negatív") &&
+      !spell.description.toLowerCase().includes("hátrány") &&
+      spell.description.toLowerCase().includes("+")) ||
+    spell.description.toLowerCase().includes("kontrollált")
 );
 export let spellsThatModifyCombatStatsObject = {};
 for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
@@ -66,8 +67,8 @@ for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
   }
   spellsThatModifyCombatStatsObject[i] = {
     spellName: spellsThatModifyCombatStats[i].name,
-    whatDoesItModify: whatDoesItModify,
-    modifier: parseFloat(spellsThatModifyCombatStats[i].description.slice(indexOfPositiveCombatModifier).replace(",", ".")),
+    whatDoesItModify: whatDoesItModify || "",
+    modifier: parseFloat(spellsThatModifyCombatStats[i].description.slice(indexOfPositiveCombatModifier).replace(",", ".")) || 0,
     isRecurring: isRecurring,
     isControlled: isControlled,
     isGuided: isGuided,
@@ -238,7 +239,7 @@ export function spellCastingSuccessful() {
   if (initRolled == true && attackRollButton.disabled == false) {
     attackRollButtonWasDisabledBeforeSpellCastSetter(false);
   }
-  if (currentCombatSpell && (!currentCombatSpell.spellName || currentCombatSpell.isGuided)) {
+  if (currentCombatSpell && (!currentCombatSpell.spellName || currentCombatSpell.isGuided || !currentCombatSpell.modifier)) {
     handleIfSpellDoesNotNeedAimRoll();
   } else if (currentCombatSpell && currentCombatSpell.spellName) {
     handleIfSpellNeedsAimRoll();
