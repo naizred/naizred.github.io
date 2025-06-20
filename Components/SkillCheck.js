@@ -21,7 +21,6 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     }
     console.log("módosító nélkül:", skillCheckLightDice);
     skillCheckLightDice += parseInt(rollModifier.value);
-    console.log("módosítóval növelt dobás érték:", skillCheckLightDice);
 
     if (skillCheckLightDice >= 10) {
       skillCheckCalculatedResultFromRoll = 3;
@@ -38,9 +37,11 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     } else if (skillCheckLightDice <= 0) {
       skillCheckLightDice = 1;
     }
+    console.log("dobás érték módosítóval:", skillCheckLightDice);
     skillCheckLightDiceResultSelect.value = skillCheckLightDice;
     skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll;
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
+    // stresszpróba esetén
   } else if (stressCheck == true) {
     if (skillCheckLightDice == undefined || skillCheckDarkDice == undefined) {
       skillCheckLightDice = Math.floor(generator.random() * 10);
@@ -54,16 +55,59 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
       skillCheckDarkDice = 10;
     }
 
-    let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value);
-    console.log("módosítóval növelt dobás érték:", skillCheckLightDicePlusRollMod);
-    if (skillCheckLightDicePlusRollMod >= 10) {
-      skillCheckLightDicePlusRollMod = 10;
-    }
-    //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka? Ez dupla 1 esetén is jól működik, mivel olyankor a pozitív módosító nem érvényesül
+    // let skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(rollModifier.value);
+    // console.log("módosítóval növelt dobás érték:", skillCheckLightDicePlusRollMod);
 
-    console.log("Stresszpróba DM előtt", skillCheckLightDice, skillCheckDarkDice);
-    if (skillCheckLightDice == skillCheckDarkDice && parseInt(rollModifier.value) > 0) {
-      skillCheckLightDicePlusRollMod = skillCheckLightDice;
+    //---megnézi, hogy pozitív DM nélkül nem-e egyenlő a két kocka? Ez dupla 1 esetén is jól működik, mivel olyankor a pozitív módosító nem érvényesül
+    //--- bonyolítani kellett a logikát, mert előfordul, hogy több pozitív DM is van. Ha ezek közül 2 egyenlő, akkor akár -1 el is lehet befolyásolni a stresszpróbát, ha az kedvezőbb a játékosnak
+
+    let allRollModifiersObject = {}; // objektum kizárólag a módosítók megszámolására
+    let rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray = 0; // az a dobásmódosító, amiből legalább 2 van a módosítók tömbjében
+
+    for (let rollModifier of allRollModifiersArray) {
+      allRollModifiersObject[rollModifier] = (allRollModifiersObject[rollModifier] || 0) + 1;
+      if (allRollModifiersObject[rollModifier] >= 2) {
+        rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray = rollModifier;
+      }
+    }
+
+    console.log(allRollModifiersObject, rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray);
+
+    console.log("Eredeti dobás eredménye", skillCheckLightDice, skillCheckDarkDice);
+
+    if (manuallySetRollModifier < 0) {
+      // ha kisebb mint 0, akkor az azt jelenti, hogy nem elhagyható ez a módosító. Ilyen, negatív módosítót jelenleg csak kézzel lehet bevinni
+      skillCheckLightDice += parseInt(rollModifier.value);
+      if (skillCheckLightDice <= 0) {
+        skillCheckLightDice = 1;
+      }
+    }
+    let skillCheckLightDicePlusRollMod = skillCheckLightDice; // módosított világos kocka értéke. Kezdő értéke a világos kocka dobott értéke
+
+    console.log("Stresszpróba negatív DM levonva", skillCheckLightDicePlusRollMod, skillCheckDarkDice);
+    if (skillCheckLightDicePlusRollMod != skillCheckDarkDice) {
+      // ha a módosítóval megnövelt érték nem eleve egyenlő a sötét kocka értékével (itt ez még a világos kocka dobott értéke)
+      allRollModifiersArray.sort();
+      for (let i = 0; i < allRollModifiersArray.length; i++) {
+        if (parseInt(rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray) != 0) {
+          // ha van olyan módosító, ami legalább kétszer fordul elő akkor a pozitív módosítót negatívra válthatjuk, ha az előnyösebb a stresszpróbánál
+          skillCheckLightDicePlusRollMod = skillCheckLightDice - parseInt(rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray);
+          if (skillCheckLightDicePlusRollMod <= 0) {
+            skillCheckLightDicePlusRollMod = 1;
+          }
+          if (skillCheckLightDicePlusRollMod == skillCheckDarkDice) {
+            break;
+          }
+        }
+        skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(allRollModifiersArray[i]);
+        if (skillCheckLightDicePlusRollMod >= 10) {
+          skillCheckLightDicePlusRollMod = 10;
+        }
+        //akkor végigmegyünk a Dobásmódosítók tömbjén, és minden esetben megnézzük, hogy nem lenne-e előnyösebb elhagyni azt
+        if (skillCheckLightDicePlusRollMod == skillCheckDarkDice) {
+          break;
+        }
+      }
     }
     console.log("Stresszpróba DM után", skillCheckLightDicePlusRollMod, skillCheckDarkDice);
     if (skillCheckLightDicePlusRollMod > skillCheckDarkDice) {
@@ -116,9 +160,14 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
   updateCharacterSocketData();
 }
 
+let allRollModifiersArray = []; // ebbe az array-ba fogjuk berakni az összes Dobásmódosítót, hogy lássuk, miből lehet válogatni stresszpróbánál
 export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
   if (soundToggleCheckbox.checked) {
     rollDiceSound.play();
+  }
+  allRollModifiersArray = [];
+  if (manuallySetRollModifier > 0) {
+    allRollModifiersArray.push(`+${manuallySetRollModifier}`);
   }
   skillCheckRollButton.disabled = true;
   let selectAllResistButtons = document.querySelectorAll("[id*='ResistButton']");
@@ -132,13 +181,14 @@ export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDar
     }
   }, 5000);
   evaluateSkillOrAttributeCheckBase();
-  manuallySetRollModifier = 0;
   if (skillCheckStressCheckbox.checked == true) {
     stressCheck = true;
   } else if (skillCheckStressCheckbox.checked == false) {
     stressCheck = false;
   }
   skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice);
+  console.log(allRollModifiersArray);
+  manuallySetRollModifier = 0;
 }
 
 export let manuallySetRollModifier = 0;
@@ -149,9 +199,17 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
   if (checkTypeIsSkillCheck.checked == true) {
     //rollModifier.value = 0;
     skills.disabled = false;
+    if (skills.value == "") {
+      skills.value = 0;
+    }
     skillCheckBase.innerText = skills.value[0] * 2 + Math.floor(parseInt(attributes.value) / 2) + parseInt(succFailModifier.value);
-    if (parseInt(attributes.value) % 2 == 1 && manuallySetRollModifier == 0) {
-      rollModifier.value = 1;
+    if (parseInt(attributes.value) % 2 == 1) {
+      if (manuallySetRollModifier == 0 || manuallySetRollModifier == 1)
+        if (manuallySetRollModifier >= 0) {
+          // ha nem volt kézi állítás, akkor írja át 1 -re
+          rollModifier.value = 1;
+        }
+      allRollModifiersArray.push("+1");
     } else if (parseInt(attributes.value) % 2 == 0 && manuallySetRollModifier == 0) {
       rollModifier.value = 0;
     }
@@ -161,8 +219,12 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
         if (skills.value.includes(allSkills[i].nameOfSkill)) {
           categoryOfCurrentSkill = allSkills[i].category;
           for (let j = 0; j < filteredArrayIfHasAnyAffinity.length; j++) {
-            if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill) && rollModifier.value < filteredArrayIfHasAnyAffinity[j].level) {
-              rollModifier.value = filteredArrayIfHasAnyAffinity[j].level;
+            if (filteredArrayIfHasAnyAffinity[j].aptitude.includes(categoryOfCurrentSkill)) {
+              if (manuallySetRollModifier >= 0 && filteredArrayIfHasAnyAffinity[j].level >= manuallySetRollModifier) {
+                // ha nem volt kézi állítás, csak akkor írja át
+                rollModifier.value = filteredArrayIfHasAnyAffinity[j].level;
+              }
+              allRollModifiersArray.push(`+${filteredArrayIfHasAnyAffinity[j].level}`);
               break;
             }
           }
@@ -201,7 +263,7 @@ function SkillCheck(props) {
       <label htmlFor="skills" id="skillsLabel" className="skillCheckLabel">
         Választott képzettség:
       </label>
-      <select defaultValue="" id="skills" name="skills" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
+      <select defaultValue="" id="skills" name="skills" className="skillCheckSelect" disabled={true} onChange={evaluateSkillOrAttributeCheckBase}>
         <option value="" disabled>
           Válassz képzettséget
         </option>
@@ -266,11 +328,11 @@ function SkillCheck(props) {
         <label htmlFor="checkTypeIsSkillCheck" id="checkTypeIsSkillCheckLabel">
           Képzettségpróba
         </label>
-        <input type="radio" name="checkType" id="checkTypeIsSkillCheck" defaultChecked={true} onClick={evaluateSkillOrAttributeCheckBase} />
+        <input type="radio" name="checkType" id="checkTypeIsSkillCheck" onClick={evaluateSkillOrAttributeCheckBase} />
         <label htmlFor="checkTypeIsAttributeCheck" id="checkTypeIsAttributeCheckLabel">
           Tulajdonságpróba
         </label>
-        <input type="radio" name="checkType" id="checkTypeIsAttributeCheck" onClick={evaluateSkillOrAttributeCheckBase} />
+        <input type="radio" name="checkType" id="checkTypeIsAttributeCheck" defaultChecked={true} onClick={evaluateSkillOrAttributeCheckBase} />
       </div>
       <div id="skillCheckResultLabel">Próba végső eredménye:</div>
       <div id="skillCheckResult"></div>
