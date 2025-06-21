@@ -43,7 +43,7 @@ import {
 import ArmorDetails from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
 import { checkWhereItIsWorn } from "../Components/ArmorDetails";
-import SkillCheck, { handleSkillCheck, evaluateSkillOrAttributeCheckBase, skillCheckCalculatedResultFromRoll } from "../Components/SkillCheck";
+import SkillCheck, { handleSkillCheck, evaluateSkillOrAttributeCheckBase, skillCheckCalculatedResultFromRoll, manuallySetRollModifier, setManuallySetRollModifier } from "../Components/SkillCheck";
 import PsiDisciplines, {
   specialAtkModifierFromPsiAssault,
   availableNumberOfAttacksFromPsiAssault,
@@ -1339,10 +1339,12 @@ export default function Home(props) {
         }
         //-----szűrés különböző adottságokra
         filteredArrayIfHasAnyAffinity = parsedCharacterDataFromJSON.aptitudes.filter((name) => {
-          if (name.aptitude != null) {
-            return name.aptitude.includes("affinitás");
-          }
+          if (name.aptitude != null)
+            if (name.level != 0) {
+              return name.aptitude.includes("affinitás");
+            }
         });
+        console.log(filteredArrayIfHasAnyAffinity);
         //----szűrés képzettségekre
         filteredArrayIfHasPsi = parsedCharacterDataFromJSON.skills.filter((name) => {
           if (name.name != null) {
@@ -1817,6 +1819,12 @@ export default function Home(props) {
             });
           socket.emit("create new player", data);
           socket.emit("join room", data.gameId);
+        });
+
+        socket.on("skillCheckRollModifier sent your way", (skillCheckRollModifier) => {
+          rollModifier.value = parseInt(skillCheckRollModifier);
+          setManuallySetRollModifier(parseInt(skillCheckRollModifier));
+          console.log(skillCheckRollModifier);
         });
 
         const response = await fetch(endpoint, options);

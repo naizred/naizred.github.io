@@ -3,6 +3,7 @@ import { CharacterDetailsForAdventureMaster } from "../Components/CharacterDetai
 import io from "socket.io-client";
 import { socket } from ".";
 
+let skillCheckRollModifiers = [0, 1, 2, 3, 4, -1, -2, -3, -4];
 let currentCharNameNodes;
 let currentFpNodes;
 let currentEpNodes;
@@ -20,7 +21,6 @@ let characterNameForInitNodes;
 function Kalandmester() {
   let socket = io();
   let gameIdInterval;
-
   socket.on("character updated from server", (updatedCharName) => {
     currentCharNameNodes = document.querySelectorAll("div#characterName");
     currentFpNodes = document.querySelectorAll("input#currentFp");
@@ -100,12 +100,7 @@ function Kalandmester() {
       }
     });
   });
-  //setIntervalButton.disabled = true;
 
-  function removeGameIdInputInterval() {
-    clearInterval(gameIdInterval);
-    setIntervalButton.disabled = false;
-  }
   function clearAllNodes() {
     for (let i = 0; i < currentCharNameNodes.length; i++) {
       currentCharNameNodes[i].innerText = "";
@@ -168,21 +163,45 @@ function Kalandmester() {
     });
     //fetchCharacterDataForAdventureMasterFirstIteration(gameIdRequest.value);
   }
+  function sendDataToAplayer() {
+    let dataForSocket = {
+      gameId: gameIdRequest.value,
+      charName: recieverCharacterName.innerText,
+      skillCheckRollModifier: rollModifierInputToSend.value,
+    };
+    socket.emit("sending rollModifier data to player", dataForSocket);
+  }
   return (
     <>
       <div>
         <div className={styles.namesOfPlayers}>
           <input id="gameIdRequest" onBlur={handleFirstIteration} className={styles.characterName} />
-          <li id="dataStorageLi"></li>
-          {/* <button id="setIntervalButton" className={styles.saveButton} type="button">
-            Harc!
-          </button>
-          <button id="removeIntervalButton" className={styles.saveButton} onClick={removeGameIdInputInterval} type="button">
-            Harc vége!
-          </button> */}
-          {/* <button id="firstIteraionButton" className={styles.saveButton} onClick={handleFirstIteration} type="button">
-            Betöltés
-          </button> */}
+          <div id="recieverCharacterDiv" className={styles.recieverCharacterDiv}>
+            <div className={styles.recieverCharacterDivLine}>
+              <div>Karekter Neve:</div>
+              <div id="recieverCharacterName"></div>
+            </div>
+            <div className={styles.recieverCharacterDivLine}>
+              <div>Dobásmódosító:</div>
+              <select id="rollModifierInputToSend">
+                {skillCheckRollModifiers.map((e) => {
+                  return <option key={e}>{e}</option>;
+                })}
+              </select>
+            </div>
+            <div className={styles.recieverCharacterDivLine}>
+              <button onClick={sendDataToAplayer}>Elküld</button>
+              <button
+                onClick={() => {
+                  recieverCharacterDiv.style.display = "none";
+                  rollModifierInputToSend.value = "";
+                  recieverCharacterName.innerText = "";
+                }}
+              >
+                Mégse
+              </button>
+            </div>
+          </div>
         </div>
         <div id="characterDetailsSection" className={styles.characterDetailsSection}>
           <CharacterDetailsForAdventureMaster />

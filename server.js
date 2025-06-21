@@ -81,7 +81,7 @@ app.prepare().then(() => {
         socket.data.initiativeWithRoll != updatedData.initiativeWithRoll
       ) {
         dataChanged = true;
-        console.log("változás volt", socket.data.charName);
+        console.log("változás volt", socket.data);
         socket.data = updatedData;
       }
       if (dataChanged) {
@@ -89,8 +89,25 @@ app.prepare().then(() => {
         io.to(`${socket.data.gameId}`).emit("character updated from server", socket.data.charName);
       }
       if (!dataChanged) {
-        console.log("nem volt változás");
+        console.log("nem volt változás", socket.data);
       }
+    });
+
+    socket.on("sending rollModifier data to player", async (dataFromAdventureMaster) => {
+      await io
+        .in(dataFromAdventureMaster.gameId)
+        .fetchSockets()
+        .then((parsedData) => {
+          if (!parsedData) {
+            return;
+          }
+          for (let i = 0; i < parsedData.length; i++) {
+            if (dataFromAdventureMaster.charName == parsedData[i].data.charName) {
+              parsedData[i].emit("skillCheckRollModifier sent your way", dataFromAdventureMaster.skillCheckRollModifier);
+              break;
+            }
+          }
+        });
     });
 
     socket.on("need sockets", async (gameId) => {

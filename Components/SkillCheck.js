@@ -8,6 +8,10 @@ let skillCheckSuccFailModifiers = [0, 1, 2, 3, 4, 5, -1, -2, -3, -4, -5];
 export let skillCheckCalculatedResultFromRoll = 0;
 
 export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+  if (manuallySetRollModifier > 0) {
+    allRollModifiersArray.push(`+${manuallySetRollModifier}`);
+  }
+
   let zeroArray = [1, 2, 3, 4];
   let oneArray = [5, 6, 7];
   let twoArray = [8, 9];
@@ -20,7 +24,12 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
       skillCheckLightDice = 10;
     }
     console.log("módosító nélkül:", skillCheckLightDice);
-    skillCheckLightDice += parseInt(rollModifier.value);
+    console.log(allRollModifiersArray.sort((a, b) => parseInt(b) - parseInt(a)));
+    skillCheckLightDice += parseInt(allRollModifiersArray[0]) || 0;
+
+    if (manuallySetRollModifier < 0) {
+      skillCheckLightDice += manuallySetRollModifier;
+    }
 
     if (skillCheckLightDice >= 10) {
       skillCheckCalculatedResultFromRoll = 3;
@@ -77,7 +86,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
 
     if (manuallySetRollModifier < 0) {
       // ha kisebb mint 0, akkor az azt jelenti, hogy nem elhagyható ez a módosító. Ilyen, negatív módosítót jelenleg csak kézzel lehet bevinni
-      skillCheckLightDice += parseInt(rollModifier.value);
+      skillCheckLightDice += parseInt(manuallySetRollModifier);
     }
     let skillCheckLightDicePlusRollMod = skillCheckLightDice; // módosított világos kocka értéke. Kezdő értéke a világos kocka dobott értéke
 
@@ -85,6 +94,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     if (skillCheckLightDicePlusRollMod != skillCheckDarkDice) {
       // ha a módosítóval megnövelt érték nem eleve egyenlő a sötét kocka értékével (itt ez még a világos kocka dobott értéke)
       allRollModifiersArray.sort();
+      console.log(allRollModifiersArray);
       for (let i = 0; i < allRollModifiersArray.length; i++) {
         if (parseInt(rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray) != 0 && skillCheckLightDicePlusRollMod > 2) {
           // ha van olyan módosító, ami legalább kétszer fordul elő akkor a pozitív módosítót negatívra válthatjuk, ha az előnyösebb a stresszpróbánál
@@ -158,17 +168,18 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
   }
   updateCharacterSocketData();
+  console.log(allRollModifiersArray);
 }
 
-let allRollModifiersArray = []; // ebbe az array-ba fogjuk berakni az összes Dobásmódosítót, hogy lássuk, miből lehet válogatni stresszpróbánál
+export let allRollModifiersArray = []; // ebbe az array-ba fogjuk berakni az összes Dobásmódosítót, hogy lássuk, miből lehet válogatni stresszpróbánál
+export function emptyAllRollModifiersArray() {
+  allRollModifiersArray = [];
+}
 export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
   if (soundToggleCheckbox.checked) {
     rollDiceSound.play();
   }
   allRollModifiersArray = [];
-  if (manuallySetRollModifier > 0) {
-    allRollModifiersArray.push(`+${manuallySetRollModifier}`);
-  }
   skillCheckRollButton.disabled = true;
   let selectAllResistButtons = document.querySelectorAll("[id*='ResistButton']");
   for (let i = 0; i < selectAllResistButtons.length; i++) {
@@ -179,7 +190,7 @@ export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDar
     for (let i = 0; i < selectAllResistButtons.length; i++) {
       selectAllResistButtons[i].disabled = false;
     }
-  }, 5000);
+  }, 3000);
   evaluateSkillOrAttributeCheckBase();
   if (skillCheckStressCheckbox.checked == true) {
     stressCheck = true;
@@ -187,13 +198,12 @@ export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDar
     stressCheck = false;
   }
   skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice);
-  console.log(allRollModifiersArray);
   manuallySetRollModifier = 0;
 }
 
 export let manuallySetRollModifier = 0;
-export function setManuallySetRollModifierToZero() {
-  manuallySetRollModifier = 0;
+export function setManuallySetRollModifier(modifier = 0) {
+  manuallySetRollModifier = modifier;
 }
 export async function evaluateSkillOrAttributeCheckBase(event) {
   if (checkTypeIsSkillCheck.checked == true) {
@@ -238,7 +248,9 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
     skills.value = "";
     skillCheckBase.innerText = parseInt(attributes.value) + parseInt(succFailModifier.value);
     skills.disabled = true;
-    rollModifier.value = 0;
+    if (manuallySetRollModifier == 0) {
+      rollModifier.value = 0;
+    }
   }
   skillCheckResult.innerText = "";
 }

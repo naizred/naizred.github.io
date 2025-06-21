@@ -4,7 +4,14 @@ export function CharacterDetailsForAdventureMaster() {
   return (
     <>
       <div id="characterDetails1" className={styles.characterDetails}>
-        <div id="characterName" className={styles.characterName}></div>
+        <div
+          id="characterName"
+          onClick={(event) => {
+            recieverCharacterDiv.style.display = "grid";
+            recieverCharacterName.innerText = event.target.innerText;
+          }}
+          className={styles.characterName}
+        ></div>
         <div className={styles.currentPlayerWrapper}>
           <label>Fp:</label>
           <label>Ép:</label>

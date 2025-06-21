@@ -1,12 +1,21 @@
 import { allActiveBuffs, aptitudeObject } from "../pages";
 import styles from "../styles/resistancesaptitudesracemofifiers.module.css";
 import { dinamicResistanceRollModifier, dinamicResistanceRollModifierChanger } from "./PsiDisciplines";
-import { checkBoxTurnedFromNotCheckedToCheckedStatus, evaluateSkillOrAttributeCheckBase, manuallySetRollModifier, setManuallySetRollModifierToZero, skillOrAttributeCheckRoll } from "./SkillCheck";
+import {
+  allRollModifiersArray,
+  checkBoxTurnedFromNotCheckedToCheckedStatus,
+  emptyAllRollModifiersArray,
+  evaluateSkillOrAttributeCheckBase,
+  manuallySetRollModifier,
+  setManuallySetRollModifier,
+  skillOrAttributeCheckRoll,
+} from "./SkillCheck";
 import { spellCastingFailure } from "./Spells";
 
 function ResistancesAptitudesRaceMofifiers() {
   // Összetett Fizikai Szellemi Asztrális Mentális Elkerülő
   function rollResistance(event) {
+    emptyAllRollModifiersArray();
     if (soundToggleCheckbox.checked) {
       rollDiceSound.play();
     }
@@ -25,6 +34,8 @@ function ResistancesAptitudesRaceMofifiers() {
           )
         );
         rollModifier.value = dinamicResistanceRollModifier;
+        allRollModifiersArray.push(`+${dinamicResistanceRollModifier}`);
+        break;
       }
     }
 
@@ -102,7 +113,7 @@ function ResistancesAptitudesRaceMofifiers() {
     skills.value = "";
     skills.disabled = true;
     skillOrAttributeCheckRoll(stessResist);
-    setManuallySetRollModifierToZero();
+    setManuallySetRollModifier();
     skillCheckRollButton.disabled = true;
     let selectAllResistButtons = document.querySelectorAll("[id*='ResistButton']");
     for (let i = 0; i < selectAllResistButtons.length; i++) {
@@ -114,7 +125,7 @@ function ResistancesAptitudesRaceMofifiers() {
       for (let i = 0; i < selectAllResistButtons.length; i++) {
         selectAllResistButtons[i].disabled = false;
       }
-    }, 5000);
+    }, 3000);
   }
 
   return (
