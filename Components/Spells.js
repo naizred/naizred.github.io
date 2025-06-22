@@ -310,6 +310,7 @@ function spellCastingCheckSetter() {
 
   for (let j = 0; j < selectAllSkillOptions.length; j++) {
     if (selectAllSkillOptions[j].value.includes(currentMainMagicSkillName)) {
+      checkTypeIsSkillCheck.checked = true;
       skills.value = selectAllSkillOptions[j].value;
       break;
     }
