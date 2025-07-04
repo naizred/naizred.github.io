@@ -7,7 +7,9 @@ import {
   emptyAllRollModifiersArray,
   evaluateSkillOrAttributeCheckBase,
   manuallySetRollModifier,
+  manuallySetSuccFailModifer,
   setManuallySetRollModifier,
+  setManuallySetSuccFailModifer,
   skillOrAttributeCheckRoll,
 } from "./SkillCheck";
 import { spellCastingFailure } from "./Spells";
@@ -24,6 +26,9 @@ function ResistancesAptitudesRaceMofifiers() {
     if (manuallySetRollModifier == 0) {
       rollModifier.value = 0;
     }
+    if (manuallySetSuccFailModifer == 0) {
+      succFailModifier.value = 0;
+    }
 
     for (let i = 0; i < allActiveBuffs.length; i++) {
       if (allActiveBuffs[i].innerText.includes("Dinamikus ellenállás")) {
@@ -39,32 +44,32 @@ function ResistancesAptitudesRaceMofifiers() {
       }
     }
 
-    function setResistSuccFailModifierFromAptitudes(resistButtonId, aptitude) {
-      if (event.target.id == resistButtonId && aptitudeObject[aptitude]) {
-        succFailModifier.value = aptitudeObject[aptitude];
-      }
-    }
+    // function setResistSuccFailModifierFromAptitudes(resistButtonId, aptitude) {
+    //   if (event.target.id == resistButtonId && aptitudeObject[aptitude] && manuallySetSuccFailModifer <= aptitudeObject[aptitude]) {
+    //     succFailModifier.value = aptitudeObject[aptitude];
+    //   }
+    // }
 
-    setResistSuccFailModifierFromAptitudes("physicalResistButton", "Masszív");
-    setResistSuccFailModifierFromAptitudes("astralResistButton", "Összeszedett");
-    setResistSuccFailModifierFromAptitudes("mentalResistButton", "Lélekerő");
-    setResistSuccFailModifierFromAptitudes("evasiveResistButton", "Intuitív");
+    // setResistSuccFailModifierFromAptitudes("physicalResistButton", "Masszív");
+    // setResistSuccFailModifierFromAptitudes("astralResistButton", "Összeszedett");
+    // setResistSuccFailModifierFromAptitudes("mentalResistButton", "Lélekerő");
+    // setResistSuccFailModifierFromAptitudes("evasiveResistButton", "Intuitív");
 
-    if (event.target.id == "spiritualResistButton" && parseInt(event.target.value) == parseInt(astralResistButton.value)) {
-      setResistSuccFailModifierFromAptitudes("spiritualResistButton", "Összeszedett");
-    }
-    if (event.target.id == "spiritualResistButton" && parseInt(event.target.value) == parseInt(mentalResistButton.value)) {
-      setResistSuccFailModifierFromAptitudes("spiritualResistButton", "Lélekerő");
-    }
-    if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(astralResistButton.value)) {
-      setResistSuccFailModifierFromAptitudes("complexResistButton", "Összeszedett");
-    }
-    if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(mentalResistButton.value)) {
-      setResistSuccFailModifierFromAptitudes("complexResistButton", "Lélekerő");
-    }
-    if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(physicalResistButton.value)) {
-      setResistSuccFailModifierFromAptitudes("complexResistButton", "Masszív");
-    }
+    // if (event.target.id == "spiritualResistButton" && parseInt(event.target.value) == parseInt(astralResistButton.value)) {
+    //   setResistSuccFailModifierFromAptitudes("spiritualResistButton", "Összeszedett");
+    // }
+    // if (event.target.id == "spiritualResistButton" && parseInt(event.target.value) == parseInt(mentalResistButton.value)) {
+    //   setResistSuccFailModifierFromAptitudes("spiritualResistButton", "Lélekerő");
+    // }
+    // if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(astralResistButton.value)) {
+    //   setResistSuccFailModifierFromAptitudes("complexResistButton", "Összeszedett");
+    // }
+    // if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(mentalResistButton.value)) {
+    //   setResistSuccFailModifierFromAptitudes("complexResistButton", "Lélekerő");
+    // }
+    // if (event.target.id == "complexResistButton" && parseInt(event.target.value) == parseInt(physicalResistButton.value)) {
+    //   setResistSuccFailModifierFromAptitudes("complexResistButton", "Masszív");
+    // }
 
     if (checkBoxTurnedFromNotCheckedToCheckedStatus) {
       stessResist = true;
@@ -75,7 +80,12 @@ function ResistancesAptitudesRaceMofifiers() {
     if (!stessResist) {
       skillCheckStressCheckbox.checked = false;
     }
-    skillCheckBase.innerText = event.target.parentElement.lastChild.value; // ez a li element innerText-je
+    skillCheckBase.innerText = event.target.value; // ez a Button value-ja. A karakter betöltésénél kap értéket, a pszi pajzsok és ellenállások módosíthatják
+
+    if (manuallySetSuccFailModifer) {
+      skillCheckBase.innerText = parseInt(skillCheckBase.innerText) + parseInt(succFailModifier.value);
+    }
+
     let selectAllAttributeOptions = document.querySelectorAll("select#attributes option");
     for (let i = 0; i < selectAllAttributeOptions.length; i++) {
       let attributesToSearchFor = [];
@@ -114,6 +124,7 @@ function ResistancesAptitudesRaceMofifiers() {
     skills.disabled = true;
     skillOrAttributeCheckRoll(stessResist);
     setManuallySetRollModifier();
+    setManuallySetSuccFailModifer();
     skillCheckRollButton.disabled = true;
     let selectAllResistButtons = document.querySelectorAll("[id*='ResistButton']");
     for (let i = 0; i < selectAllResistButtons.length; i++) {

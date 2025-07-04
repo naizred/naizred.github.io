@@ -39,6 +39,7 @@ import {
   spellIsBeingCast,
   currentCombatSpell,
   currentCombatSpellChanger,
+  actionsNeededToBeAbleToCastAgain,
 } from "../Components/Spells";
 import ArmorDetails from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
@@ -1209,6 +1210,10 @@ export default function Home(props) {
           if (initRolled && parseInt(numberOfActions.innerText) < 1 && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0) {
             spellCastingActionButton.disabled = true;
           }
+          if (initRolled && !firstAttackInRoundSpent && parseInt(numberOfActions.innerText) >= 2 && currentlySelectedWeapon.readyToFireOrThrow) {
+            // új feltétel arra, ha az akciók száma nagyobb lesz mint 2. Ez akkorra kellett, ha ez 1-re csökken, aztán megnő. Ilyen esetet csak kézzel, a +/- gombok nyomogatásával lehet előidézni a kezdeményező panelen
+            attackRollButton.disabled = false;
+          }
         });
         observerForActions.observe(numberOfActions, { childList: true, subtree: true });
         // a körök számát figyeli, és ez alapján követi nyomon mennyi van hátra az adott buffokból
@@ -1655,7 +1660,7 @@ export default function Home(props) {
           }
         }
         /**************************** Ellenállásokkal kapcsolatos számítások **************************************************/
-        let extraAstralResistFromAptitude = 0; // ezek az adottságok extra sikert adnak
+        let extraAstralResistFromAptitude = 0; // ezek az adottságok extra sikert adnak. Ezek összeadódhatnak egyéb extra sikerekkel, nem úgy, mint a DM-ek
         let extraMentalResistFromAptitude = 0;
         let extraPhysicalResistFromAptitude = 0;
         let extraEvasiveResistFromAptitude = 0;

@@ -168,7 +168,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
   }
   updateCharacterSocketData();
-  console.log(allRollModifiersArray);
+  //console.log(allRollModifiersArray);
 }
 
 export let allRollModifiersArray = []; // ebbe az array-ba fogjuk berakni az összes Dobásmódosítót, hogy lássuk, miből lehet válogatni stresszpróbánál
@@ -199,11 +199,16 @@ export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDar
   }
   skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice);
   manuallySetRollModifier = 0;
+  manuallySetSuccFailModifer = 0;
 }
 
 export let manuallySetRollModifier = 0;
+export let manuallySetSuccFailModifer = 0;
 export function setManuallySetRollModifier(modifier = 0) {
   manuallySetRollModifier = modifier;
+}
+export function setManuallySetSuccFailModifer(modifier = 0) {
+  manuallySetSuccFailModifer = modifier;
 }
 export async function evaluateSkillOrAttributeCheckBase(event) {
   if (checkTypeIsSkillCheck.checked == true) {
@@ -306,7 +311,15 @@ function SkillCheck(props) {
       <label htmlFor="succFailModifier" id="succFailModifierLabel" className="skillCheckLabel">
         Extra Siker-/Kudarcszint:
       </label>
-      <select id="succFailModifier" name="succFailModifier" className="skillCheckSelect" onChange={evaluateSkillOrAttributeCheckBase}>
+      <select
+        id="succFailModifier"
+        name="succFailModifier"
+        className="skillCheckSelect"
+        onChange={() => {
+          manuallySetSuccFailModifer = succFailModifier.value;
+          evaluateSkillOrAttributeCheckBase();
+        }}
+      >
         {skillCheckSuccFailModifiers.map((e) => {
           return <option key={e}>{e}</option>;
         })}
