@@ -1,7 +1,7 @@
 import styles from "../styles/psiDisciplines.module.css";
 import { filteredArrayIfHasPsi, allActiveBuffs, currentlySelectedWeaponChanger, combatStatRefresher, updateCharacterSocketData } from "../pages";
 import { blinkingText, defensiveCombatOn, hmoModifier, setDefensiveCombatVEObonus, weaponBeforeCasting } from "./ActionsList";
-import { initRolled } from "./CharacterDetails";
+import { checkIfPsiIsUseable, initRolled } from "./CharacterDetails";
 import { allDmgReductionListItems } from "../pages";
 import psiDisciplines from "../json/psiDisciplines.json";
 
@@ -398,15 +398,39 @@ export function PsiDisciplines(props) {
         <span>Pszi visszatöltés</span>
         <span>
           <input id="amountOfMinutesMeditating" type="number" defaultValue={0} />
-          <button onClick={handlePsiRecovery}>Perc meditáció</button>
+          <button
+            onClick={(event) => {
+              handlePsiRecovery(event);
+              checkIfPsiIsUseable();
+              event.target.parentElement.firstChild.value = 0; // kinullázza az input mezőbe beírt időt
+            }}
+          >
+            Perc meditáció
+          </button>
         </span>
         <span>
           <input id="amountOfHoursPassiveRecovery" type="number" defaultValue={0} />
-          <button onClick={handlePsiRecovery}>Óra passzívan kapott</button>
+          <button
+            onClick={(event) => {
+              handlePsiRecovery(event);
+              checkIfPsiIsUseable();
+              event.target.parentElement.firstChild.value = 0; // kinullázza az input mezőbe beírt időt
+            }}
+          >
+            Óra passzívan kapott
+          </button>
         </span>
         <span>
           <input id="amountOfHoursSlept" type="number" defaultValue={0} />
-          <button onClick={handlePsiRecovery}>Óra alvás</button>
+          <button
+            onClick={(event) => {
+              handlePsiRecovery(event);
+              checkIfPsiIsUseable();
+              event.target.parentElement.firstChild.value = 0; // kinullázza az input mezőbe beírt időt
+            }}
+          >
+            Óra alvás
+          </button>
         </span>
       </div>
     </>

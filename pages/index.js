@@ -251,6 +251,19 @@ export async function fetchCharacterData(currentCharName) {
         numberOfActions.innerText = parsedData.numberOfActions;
         adjustActionsPositive.value = parsedData.numberOfActions;
         initiativeWithRoll.innerText = parsedData.initiativeWithRoll;
+        for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+          if (arrayOfAllComplexManeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
+            arrayOfAllComplexManeuvers[i].disabled = false;
+            if (weapons.value.includes("kétkézzel") || weapons.value.includes("Kétkezes") || weapons.value.includes("Pallos") || weapons.value.includes("Alabárd")) {
+              twoWeaponAttackRadioButton.disabled = true;
+            } else {
+              twoWeaponAttackRadioButton.disabled = false;
+            }
+          }
+          if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
+            arrayOfAllComplexManeuvers[i].disabled == true;
+          }
+        }
       } else {
         toggleAllallActionBarButtonsExceptInitRollDisplay();
       }
@@ -491,6 +504,7 @@ export function setSkillForManeuver() {
         if (arrayOfAllComplexManeuvers[i].value == "Belharc") {
           attributeFinderForManeuver("Gyo");
         }
+        checkTypeIsSkillCheck.checked = true;
         evaluateSkillOrAttributeCheckBase();
         break;
       }

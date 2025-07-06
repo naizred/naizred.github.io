@@ -142,6 +142,16 @@ let defensiveCombatContinueSelected = false;
 export function defensiveCombatContinueSelectedSetToFalse() {
   defensiveCombatContinueSelected = false;
 }
+
+export function checkIfPsiIsUseable() {
+  if (parseInt(currentPp.value) >= parseInt(psiPointCostInput.value)) {
+    psiActivateButton.disabled = false;
+  }
+  if (listPsiButton.style.display == "none") {
+    psiPointCostCheckerAndSetter();
+  }
+}
+
 var MersenneTwister = require("mersenne-twister");
 var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0;
@@ -630,15 +640,6 @@ function CharacterDetails() {
     setChiCombatDisabledToFalse();
     firstAttackIsSpellThatNeedsAimRollSetToFalse();
     combatStatRefresher();
-  }
-
-  function checkIfPsiIsUseable() {
-    if (parseInt(currentPp.value) >= parseInt(psiPointCostInput.value)) {
-      psiActivateButton.disabled = false;
-    }
-    if (listPsiButton.style.display == "none") {
-      psiPointCostCheckerAndSetter();
-    }
   }
 
   return (
