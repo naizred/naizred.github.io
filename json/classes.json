@@ -1054,5 +1054,27 @@
     "fpPerLvl": 1,
     "ppPerLvl": 2,
     "mpPerLvl": 3
+  },
+  {
+    "classKey": "Void",
+    "baseAttributes": {
+      "Erő": 10,
+      "Gyo": 10,
+      "Ügy": 10,
+      "Áll": 10,
+      "Egé": 10,
+      "Kar": 10,
+      "Int": 10,
+      "Aka": 10,
+      "Asz": 10,
+      "Érz": 10
+    },
+    "atkPerLvl": 0,
+    "defPerLvl": 0,
+    "aimPerLvl": 0,
+    "initPerLvl": 0,
+    "fpPerLvl": 0,
+    "ppPerLvl": 0,
+    "mpPerLvl": 0
   }
 ]

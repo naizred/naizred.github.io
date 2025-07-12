@@ -321,7 +321,6 @@ export function PsiDisciplines(props) {
       }
     }
     psiPointCostCheckerAndSetter();
-    updateCharacterSocketData();
   }
 
   function handleDeleteBuff(event) {
@@ -355,7 +354,15 @@ export function PsiDisciplines(props) {
         <button id="listPsiButton" className={styles.listPsiButton} onClick={handleListPsi}>
           Listázás
         </button>
-        <button id="psiActivateButton" className={styles.psiActivateButton} onClick={handleDisciplineActivation} onMouseEnter={psiPointCostCheckerAndSetter}>
+        <button
+          id="psiActivateButton"
+          className={styles.psiActivateButton}
+          onClick={() => {
+            handleDisciplineActivation();
+            updateCharacterSocketData();
+          }}
+          onMouseEnter={psiPointCostCheckerAndSetter}
+        >
           Mehet
         </button>
         <div className={styles.psiPoints}>Pp</div>

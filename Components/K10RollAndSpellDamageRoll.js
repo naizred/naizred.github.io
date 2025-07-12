@@ -35,17 +35,6 @@ export function multipleDiceRoll(firstAccumulatedDiceRollResult, secondAccumulat
   secondAccumulatedDiceResultSelectLabel.innerText = "Második kocka";
   thirdAccumulatedDiceResultSelectLabel.innerText = "Harmadik kocka";
 
-  if (numberOfDice == 1) {
-    secondAccumulatedDiceResultSelect.style.opacity = 0;
-    secondAccumulatedDiceResultSelectLabel.innerText = "";
-    thirdAccumulatedDiceResultSelect.style.opacity = 0;
-    thirdAccumulatedDiceResultSelectLabel.innerText = "";
-  }
-  if (numberOfDice == 2) {
-    thirdAccumulatedDiceResultSelect.style.opacity = 0;
-    thirdAccumulatedDiceResultSelectLabel.innerText = "";
-  }
-
   let firstAccumulatedDice = Math.ceil(firstAccumulatedDiceRollResult / 2);
   let secondAccumulatedDice = Math.ceil(secondAccumulatedDiceRollResult / 2);
   let thirdAccumulatedDice = Math.ceil(thirdAccumulatedDiceRollResult / 2);
@@ -74,12 +63,24 @@ export function multipleDiceRoll(firstAccumulatedDiceRollResult, secondAccumulat
 
   if (numberOfDice == 1) {
     spellDamageSum = firstAccumulatedDice;
+    secondAccumulatedDiceResultSelect.style.opacity = 0;
+    secondAccumulatedDiceResultSelectLabel.innerText = "";
+    thirdAccumulatedDiceResultSelect.style.opacity = 0;
+    thirdAccumulatedDiceResultSelectLabel.innerText = "";
   }
   if (numberOfDice == 2) {
     spellDamageSum = firstAccumulatedDice + secondAccumulatedDice;
+    secondAccumulatedDiceResultSelect.style.opacity = 1;
+    secondAccumulatedDiceResultSelectLabel.innerText = "Második kocka";
+    thirdAccumulatedDiceResultSelect.style.opacity = 0;
+    thirdAccumulatedDiceResultSelectLabel.innerText = "";
   }
   if (numberOfDice > 2) {
     spellDamageSum = firstAccumulatedDice + secondAccumulatedDice + thirdAccumulatedDice;
+    secondAccumulatedDiceResultSelect.style.opacity = 1;
+    secondAccumulatedDiceResultSelectLabel.innerText = "Második kocka";
+    thirdAccumulatedDiceResultSelect.style.opacity = 1;
+    thirdAccumulatedDiceResultSelectLabel.innerText = "Harmadik kocka";
   }
   if (firstAccumulatedDiceRollResult == 10) {
     firstAccumulatedDiceRollResult = 0;
