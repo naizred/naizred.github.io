@@ -54,13 +54,13 @@ app.prepare().then(() => {
 
     socket.on("join room", (gameId) => {
       socket.join(`${gameId}`);
-      console.log("bejött a szobába", gameId, socket.data);
+      //console.log("bejött a szobába", gameId, socket.data);
       io.to(`${gameId}`).emit("character updated from server", socket.data.charName);
     });
 
     socket.on("leave room", (gameId) => {
       socket.leave(`${gameId}`);
-      console.log("elhagyta a szobát", gameId, socket.data);
+      //console.log("elhagyta a szobát", gameId, socket.data);
       io.to(`${gameId}`).emit("character updated from server", socket.data.charName);
     });
 

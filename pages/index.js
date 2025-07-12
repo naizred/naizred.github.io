@@ -1893,7 +1893,7 @@ export default function Home(props) {
   let numberOfChainLightningCharges = 0;
 
   async function handleClickOnAttackRollButton(darkDice, lightDice) {
-    updateCharacterSocketData();
+    //updateCharacterSocketData();
     if (soundToggleCheckbox.checked) {
       rollDiceSound.play();
     }
@@ -2193,7 +2193,6 @@ export default function Home(props) {
         firstAttackIsSpellThatNeedsAimRollSetToFalse();
       }
     }
-    updateCharacterSocketData();
     if (numberOfChainLightningCharges == 0) {
       spellNeedsAimRollSetToFalse();
     }
@@ -2212,6 +2211,7 @@ export default function Home(props) {
       }
       // ammoAmountInput.value--
     }
+    updateCharacterSocketData();
   }
 
   return (

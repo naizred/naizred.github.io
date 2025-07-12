@@ -22,6 +22,9 @@ function Kalandmester() {
   let socket = io();
   let gameIdInterval;
   socket.on("character updated from server", (updatedCharName) => {
+    if (updatedCharName == "") {
+      return;
+    }
     currentCharNameNodes = document.querySelectorAll("div#characterName");
     currentFpNodes = document.querySelectorAll("input#currentFp");
     currentEpNodes = document.querySelectorAll("input#currentEp");

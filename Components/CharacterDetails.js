@@ -151,7 +151,11 @@ export function checkIfPsiIsUseable() {
     psiPointCostCheckerAndSetter();
   }
 }
-
+export let firstRoundActionNumberModifierFromInitRoll = 0;
+export function setFirstRoundActionNumberModifierFromInitRoll(value = 0) {
+  // nevezetes dobás
+  firstRoundActionNumberModifierFromInitRoll = value;
+}
 var MersenneTwister = require("mersenne-twister");
 var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0;
@@ -173,7 +177,7 @@ function CharacterDetails() {
     initiativeBonusButton.style.display = "none";
     updateCharacterSocketData();
   }
-  let firstRoundActionNumberModifierFromInitRoll = 0;
+
   function handleInitiativeRoll() {
     if (soundToggleCheckbox.checked) {
       rollDiceSound.play();
@@ -206,7 +210,7 @@ function CharacterDetails() {
     let initiativeLightDice = Math.floor(generator.random() * 10);
     let initiativeDarkDice = Math.floor(generator.random() * 10);
     initRolled = true;
-    console.log("kezdeményező", initiativeLightDice, initiativeDarkDice);
+
     let initiativeLightDicePlusExtraReaction = 0;
 
     initiativeLightDiceResult.value = initiativeLightDice;
@@ -640,6 +644,7 @@ function CharacterDetails() {
     setChiCombatDisabledToFalse();
     firstAttackIsSpellThatNeedsAimRollSetToFalse();
     combatStatRefresher();
+    setFirstRoundActionNumberModifierFromInitRoll();
   }
 
   return (
