@@ -241,7 +241,6 @@ export function handleIfSpellDoesNotNeedAimRoll() {
   } else if (!attackRollButtonWasDisabledBeforeSpellCast) {
     attackRollButton.disabled = false;
   }
-  numberOfDiceInput.disabled = false;
 }
 export function handleIfSpellNeedsAimRoll() {
   spellNeedsAimRoll = true;

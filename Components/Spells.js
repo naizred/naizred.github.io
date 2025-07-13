@@ -972,7 +972,6 @@ function Spells() {
     currentMp.value = parseInt(currentMp.value) - spellManaCost;
     spellIsBeingCast = true;
 
-    numberOfDiceInput.disabled = true;
     if (initRolled == false) {
       advancedSpellInputWrapper.style.display = "none";
       currentManaInAdvancedSpellWrapper.style.display = "none";

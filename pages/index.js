@@ -1472,6 +1472,22 @@ export default function Home(props) {
         let currentRaceAttrModifiersObj = currentRace.attributeModifiers;
         //--------------------------------------------------------------------------------
         // tulajdonságok számítása, ami kasztból, fajból, és öregedésből jön
+        let voidClassSpecialModifier = 0;
+        if (currentChar.classKey == "Void" && parsedCharacterDataFromJSON.talentIdx != 0) {
+          if (parsedCharacterDataFromJSON.talentIdx == 1) {
+            voidClassSpecialModifier = -1;
+          } else if (parsedCharacterDataFromJSON.talentIdx == 2) {
+            voidClassSpecialModifier = -2;
+          } else if (parsedCharacterDataFromJSON.talentIdx == 3) {
+            voidClassSpecialModifier = -3;
+          } else if (parsedCharacterDataFromJSON.talentIdx == 4) {
+            voidClassSpecialModifier = -4;
+          } else if (parsedCharacterDataFromJSON.talentIdx == 5) {
+            voidClassSpecialModifier = 1;
+          } else if (parsedCharacterDataFromJSON.talentIdx == 6) {
+            voidClassSpecialModifier = 2;
+          }
+        }
         for (let i = 0; i < charAttributes.length; i++) {
           // 10-ig megy, mert összesen 10 tulajdonság van
           let currentAttribute =
@@ -1479,7 +1495,8 @@ export default function Home(props) {
             attrSpreadObject[charAttributes[i]] +
             findAndCountAttributesThatModifyStats(`${charAttributes[i]}`) +
             currentRaceAttrModifiersObj[charAttributes[i]] -
-            ageingObject[charAttributes[i]];
+            ageingObject[charAttributes[i]] +
+            voidClassSpecialModifier;
           let attrOption = document.createElement("option");
           attrOption.innerText = charAttributes[i];
           attrOption.value = [currentAttribute, charAttributes[i]];

@@ -1058,16 +1058,16 @@
   {
     "classKey": "Void",
     "baseAttributes": {
-      "Erő": 10,
-      "Gyo": 10,
-      "Ügy": 10,
-      "Áll": 10,
-      "Egé": 10,
-      "Kar": 10,
-      "Int": 10,
-      "Aka": 10,
-      "Asz": 10,
-      "Érz": 10
+      "Erő": 11,
+      "Gyo": 11,
+      "Ügy": 11,
+      "Áll": 11,
+      "Egé": 11,
+      "Kar": 11,
+      "Int": 11,
+      "Aka": 11,
+      "Asz": 11,
+      "Érz": 11
     },
     "atkPerLvl": 0,
     "defPerLvl": 0,
