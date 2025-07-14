@@ -497,8 +497,8 @@ export function handleSpellAspOptionChange(event) {
     event.target.disabled = false;
 
     if (event.target.value == parseInt(event.target.parentElement.firstChild.value)) {
-      for (let j = 5; j < allAspectSelect.length - 5; j++) {
-        // length - 5 azért kell, hogy a Mechanizmus Apektus maradjon letiltva
+      for (let j = 5; j < allAspectSelect.length - 6; j++) {
+        // length - 6 azért kell, hogy a Mechanizmus Apektus maradjon letiltva
         allAspectSelect[j].disabled = false;
       }
       anyAspExceptPowerAspModified = false;
