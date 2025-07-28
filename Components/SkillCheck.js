@@ -57,6 +57,10 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
       skillCheckDarkDice = Math.floor(generator.random() * 10);
       skillCheckDarkDiceResultSelect.value = skillCheckDarkDice;
     }
+    // teszteléshez:
+    // skillCheckLightDice = 8
+    // skillCheckDarkDice = 7
+
     if (skillCheckLightDice == 0) {
       skillCheckLightDice = 10;
     }
@@ -74,6 +78,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     let rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray = 0; // az a dobásmódosító, amiből legalább 2 van a módosítók tömbjében
 
     for (let rollModifier of allRollModifiersArray) {
+      // ez az egész művelet csak azért kell, hogy találjon 2 db azonos DM-et. Ha megvan, akkor a "rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray" változó értékét egyenlővé teszi ezzel (az elsővel amit talál)
       allRollModifiersObject[rollModifier] = (allRollModifiersObject[rollModifier] || 0) + 1;
       if (allRollModifiersObject[rollModifier] >= 2) {
         rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray = rollModifier;

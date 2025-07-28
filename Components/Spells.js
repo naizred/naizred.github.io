@@ -22,7 +22,7 @@ import {
   setDefensiveCombatVEObonus,
 } from "./ActionsList";
 import { initRolled } from "./CharacterDetails";
-import { evaluateSkillOrAttributeCheckBase, handleSkillCheck, skillOrAttributeCheckRoll } from "./SkillCheck";
+import { emptyAllRollModifiersArray, evaluateSkillOrAttributeCheckBase, handleSkillCheck, skillOrAttributeCheckRoll } from "./SkillCheck";
 import { buffRemoverFromActiveBuffArrayAndTextList } from "./PsiDisciplines";
 import AspectComponentPower from "./AspectComponentPower";
 import AspectComponentDistance from "./AspectComponentDistance";
@@ -372,6 +372,7 @@ export function calculateSpellCastTimeAndManaCost() {
     finalCastTime -= aptitudeObject["Mana vezető"];
   }
   spellCastingCheckSetter();
+  emptyAllRollModifiersArray();
   evaluateSkillOrAttributeCheckBase();
   blinkingText(warningWindow, `A varázspróba célszáma: ${10 + Math.max(...highestAspectOfUnmodifiedAspects)}`);
 
@@ -896,6 +897,7 @@ function Spells() {
     spellCastingCheckSetter();
     aspOptionDisabler(currentMainMagicSkillLevel);
     calculateSpellCastTimeAndManaCost();
+    emptyAllRollModifiersArray();
     evaluateSkillOrAttributeCheckBase();
   }
 
