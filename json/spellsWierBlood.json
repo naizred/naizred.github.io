@@ -1,0 +1,94 @@
+[
+  {
+    "name": "Billogzó harapás",
+    "aspects": [
+      ["Erősség", 3, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, -1],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Wier vérmágia",
+    "magicType": "Speciális",
+    "description": "A vérvarázslat hatására a wier effektív Erősségnyi napig, ha szeme elé kerül, akkor azonnal felismeri azt, akinek a vérét e vérvarázshoz megízlelte. (Összetevő: az áldozat egy percnél nem régebben kiontott vére)",
+    "resist": "Összetett"
+  },
+  {
+    "name": "Iszonytató harapás",
+    "aspects": [
+      ["Erősség", 3, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, -1],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Wier vérmágia",
+    "magicType": "Speciális",
+    "description": "A vérvarázslat célpontja az effektív Erősségtől függően retteg a wiertől. Általában képtelen ellene tenni és ha csak megpillantja, bénító félelem lesz úrrá rajta. Ha teheti, mindenképp elkerüli a vele való találkozást és konfrontációt. (Összetevő: az áldozat egy percnél nem régebben kiontott vére)",
+    "resist": "Asztrális"
+  },
+  {
+    "name": "Izzó harapás",
+    "aspects": [
+      ["Erősség", 3, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 1, 0, 0],
+      ["Időtartam", 2, 0, 0],
+      ["Mechanizmus", 4, 0, 0]
+    ],
+    "fok": 1,
+    "magicSubclass": "Wier vérmágia",
+    "magicType": "Speciális",
+    "description": "A vérvarázslat célpontja effektív Erősségnek megfelelő Fp-nyi hősebzést szenved el testének azon pontján, ahonnan a megízlelt vér származik. (Összetevő: az áldozat egy percnél nem régebben kiontott vére)",
+    "resist": "Elkerülő"
+  },
+  {
+    "name": "Éltető harapás",
+    "aspects": [
+      ["Erősség", 4, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, -1],
+      ["Időtartam", 1, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Wier vérmágia",
+    "magicType": "Speciális",
+    "description": "A vérvarázslattal a wier effektív Erősséggel azonos számú életerőt (Ép) képes elszívni az áldozatától, amit aztán saját Ép-i vagy Fp-i visszanyerésére használhat fel. Minden elszívott Ép-ért 1 Ép vagy/és 2 Fp nyerhető vissza. (Összetevő: az áldozat egy percnél nem régebben kiontott vére)",
+    "resist": "Fizikai"
+  },
+  {
+    "name": "Feledtető harapás",
+    "aspects": [
+      ["Erősség", 4, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, -1],
+      ["Időtartam", 4, 0, 0],
+      ["Időtartam", 8, 0, 0],
+      ["Időtartam", 6, 0, 0],
+      ["Mechanizmus", 5, 0, 0]
+    ],
+    "fok": 2,
+    "magicSubclass": "Wier vérmágia",
+    "magicType": "Speciális",
+    "description": "A vérvarázslat hatására effektív Erősségnyi napig a célpont képtelen visszaemlékezni életének egy, a wier által kiválasztott epizódjára. Ez az epizód egy, legfeljebb egy óra hosszúságú időtartamot ölelhet fel (Összetevő: az áldozat egy percnél nem régebben kiontott vére)",
+    "resist": "Mentális"
+  },
+  {
+    "name": "Rabszolgaság harapása",
+    "aspects": [
+      ["Erősség", 5, 0, 0],
+      ["Távolság", 2, 0, 0],
+      ["Terület", 3, 0, -1],
+      ["Időtartam", 5, 0, 0],
+      ["Mechanizmus", 6, 0, 0]
+    ],
+    "fok": 3,
+    "magicSubclass": "Wier vérmágia",
+    "magicType": "Speciális",
+    "description": "A vérvarázslat hatására effektív Erősségnyi órán át a célpont a wier minden parancsát kérdés és gondolkodás nélkül végrehajtja, ám tudat alatt a reá ható kényszerrel mindvégig tisztában van. (Összetevő: az áldozat egy percnél nem régebben kiontott vére)",
+    "resist": "Mentális"
+  }
+]

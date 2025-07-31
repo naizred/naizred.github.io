@@ -40,6 +40,7 @@ import {
   currentCombatSpell,
   currentCombatSpellChanger,
   actionsNeededToBeAbleToCastAgain,
+  currentSpell,
 } from "../Components/Spells";
 import ArmorDetails from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
@@ -468,7 +469,7 @@ export function checkWhatBonusYouGetForSelectedManeuver(selectedManeuverValue, p
   }
 }
 
-function attributeFinderForManeuver(attribute = "Erő") {
+export function attributeFinder(attribute = "Erő") {
   // alapból erő, mert a legtöbb képzettségpróba ezt használja
   let selectAllAttributeOptions = document.querySelectorAll("select#attributes option");
   for (let i = 0; i < selectAllAttributeOptions.length; i++) {
@@ -496,13 +497,13 @@ export function setSkillForManeuver() {
           }
           skills.value = 0;
         }
-        attributeFinderForManeuver();
+        attributeFinder();
         // speciális esetek
         if (arrayOfAllComplexManeuvers[i].value == "Lefegyverzés") {
-          attributeFinderForManeuver("Ügy");
+          attributeFinder("Ügy");
         }
         if (arrayOfAllComplexManeuvers[i].value == "Belharc") {
-          attributeFinderForManeuver("Gyo");
+          attributeFinder("Gyo");
         }
         checkTypeIsSkillCheck.checked = true;
         evaluateSkillOrAttributeCheckBase();
@@ -1221,9 +1222,9 @@ export default function Home(props) {
           if (numberOfClicksAtTwoWeaponAttack == 1) {
             attackRollButton.disabled = false;
           }
-          if (initRolled && parseInt(numberOfActions.innerText) < 1 && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0) {
-            spellCastingActionButton.disabled = true;
-          }
+          // if (initRolled && parseInt(numberOfActions.innerText) < 1 && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0) {
+          //   spellCastingActionButton.disabled = true;
+          // }
           if (initRolled && !firstAttackInRoundSpent && parseInt(numberOfActions.innerText) >= 2 && currentlySelectedWeapon.readyToFireOrThrow) {
             // új feltétel arra, ha az akciók száma nagyobb lesz mint 2. Ez akkorra kellett, ha ez 1-re csökken, aztán megnő. Ilyen esetet csak kézzel, a +/- gombok nyomogatásával lehet előidézni a kezdeményező panelen
             attackRollButton.disabled = false;
@@ -1348,6 +1349,26 @@ export default function Home(props) {
                 if (allAptitudes[i].aptitude == "Tehetség") {
                   aptitudeListItem.innerText = `${aptitudeListItem.innerText} (${parsedCharacterDataFromJSON.talent.skill})`;
                 }
+                if (allAptitudes[i].aptitude == "Wier vér") {
+                  let wierBloodPointsPerLevelOfWierBloodAptitude = [1, 3, 5]; // vérpontok száma az adottság szintjének függvényében
+                  let wierBloodPointSpanForMaxBloodPoint = document.createElement("span");
+                  let wierBloodPointSpanForCurrentBloodPoint = document.createElement("span");
+                  let wierBloodPointTextElementMax = document.createElement("div");
+                  wierBloodPointTextElementMax.innerText = "Max Vérpontok:";
+                  let wierBloodPointNumberElementMax = document.createElement("div");
+                  wierBloodPointNumberElementMax.innerText = wierBloodPointsPerLevelOfWierBloodAptitude[allAptitudes[i].level - 1];
+                  let wierBloodPointTextElementCurrent = document.createElement("div");
+                  wierBloodPointTextElementCurrent.innerText = "Akt Vérpontok:";
+                  let wierBloodPointNumberElementCurrent = document.createElement("input");
+                  wierBloodPointNumberElementCurrent.id = "currentBloodPoints";
+                  wierBloodPointNumberElementCurrent.value = "0";
+                  wierBloodPointSpanForMaxBloodPoint.appendChild(wierBloodPointTextElementMax);
+                  wierBloodPointSpanForMaxBloodPoint.appendChild(wierBloodPointNumberElementMax);
+                  wierBloodPointSpanForCurrentBloodPoint.appendChild(wierBloodPointTextElementCurrent);
+                  wierBloodPointSpanForCurrentBloodPoint.appendChild(wierBloodPointNumberElementCurrent);
+                  aptitudeListItem.appendChild(wierBloodPointSpanForMaxBloodPoint);
+                  aptitudeListItem.appendChild(wierBloodPointSpanForCurrentBloodPoint);
+                }
               } else {
                 aptitudeListItem.innerText = `${aptitudesDescript[j].levelDescription[allAptitudes[i].level - 1]}`;
               }
@@ -1411,6 +1432,10 @@ export default function Home(props) {
         }
         // allMagicSubskillsObject = Object.entries(allMagicSubskillsObject);
         //console.log(allMagicSubskillsObject["Villámmágia"]);
+
+        if (parsedCharacterDataFromJSON.raceKey == "Wier") {
+          allMagicSubskillsObject["Wier vérmágia"] = aptitudeObject["Wier vér"];
+        }
 
         filteredArrayIfHasParry = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Hárítás");
         filteredArrayIfHasRunning = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Futás");
@@ -1871,7 +1896,7 @@ export default function Home(props) {
           checkAndModifyCurrentWeaponStyles(filteredArrayByWeaponSkills[i].subSkill);
           weaponTypeAndLevelAndStyleArray.push([filteredArrayByWeaponSkills[i].subSkill, filteredArrayByWeaponSkills[i].level, maneuverAttachedToWeaponType[0]]);
         }
-        if (maxMp.innerText == 0) {
+        if (maxMp.innerText == 0 && parsedCharacterDataFromJSON.raceKey != "Wier") {
           spellCastButtonWrapper.style.display = "none";
         }
         weaponStyles = Object.entries(weaponStyles);
@@ -2114,7 +2139,7 @@ export default function Home(props) {
       }
 
       if (spellNeedsAimRoll == false && attackOfOpportunityOn == false) {
-        spellCastingFailure();
+        spellCastingFailure(true, currentSpell);
         numberOfActionsSpentOnCastingCurrentSpellNullifier();
         numberOfActions.innerText = parseInt(numberOfActions.innerText) - totalActionCostOfAttack;
         actionsSpentSinceLastCastAdderCheckerAndNullifier(totalActionCostOfAttack);

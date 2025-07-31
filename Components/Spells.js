@@ -12,6 +12,7 @@ import {
   combatStatRefresher,
   aptitudeObject,
   updateCharacterSocketData,
+  attributeFinder,
 } from "../pages";
 import {
   attackRollButtonWasDisabledBeforeSpellCastSetter,
@@ -104,32 +105,38 @@ export let castBarCurrentWidthEnd = 0;
 export function spellIsBeingCastSetToFalse() {
   spellIsBeingCast = false;
 }
-export function actionsSpentSinceLastCastAdder(numberOfActions = 0) {
-  actionsSpentSinceLastCast += numberOfActions;
-}
+// export function actionsSpentSinceLastCastAdder(numberOfActions = 0) {
+//   actionsSpentSinceLastCast += numberOfActions;
+// }
 export function actionsSpentSinceLastCastAdderCheckerAndNullifier(numberOfActions = 0) {
-  if (actionsNeededToBeAbleToCastAgain == 0) {
-    spellCastingActionButton.disabled = false;
-    actionsSpentSinceLastCast = 0;
+  if (actionsNeededToBeAbleToCastAgain <= 0) {
+    // előfordulhat, hogy negativ szám lesz, ha a Mana Uraló adottság magas fokon van
+    //spellCastingActionButton.disabled = false;
+    //actionsSpentSinceLastCast = 0;
     return;
   }
-  actionsSpentSinceLastCast += numberOfActions;
-  if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
-    spellCastingActionButton.disabled = false;
-    actionsSpentSinceLastCast = 0;
-    actionsNeededToBeAbleToCastAgain = 0;
-  }
-  console.log("utolsó varázslás óta akciók elköltve:", actionsSpentSinceLastCast, "lecsengés", actionsNeededToBeAbleToCastAgain);
+  actionsNeededToBeAbleToCastAgain -= numberOfActions;
+  // if (actionsSpentSinceLastCast >= actionsNeededToBeAbleToCastAgain) {
+  //   //spellCastingActionButton.disabled = false;
+  //   actionsSpentSinceLastCast = 0;
+  //   actionsNeededToBeAbleToCastAgain = 0;
+  // }
+  console.log("lecsengés", actionsNeededToBeAbleToCastAgain);
 }
 export let numberOfActionsSpentOnCastingCurrentSpell = 0;
 export function numberOfActionsSpentOnCastingCurrentSpellNullifier() {
   numberOfActionsSpentOnCastingCurrentSpell = 0;
 }
 let currentActiveLiturgy = "";
-export function spellCastingSuccessful() {
+export function spellCastingSuccessful(currentSpell) {
   spellIsBeingCast = false;
+
+  if (currentSpell.magicSubclass == "Wier vérmágia") {
+    currentBloodPoints.value = parseInt(currentBloodPoints.value) - currentSpell.fok;
+  }
+
   numberOfActionsSpentOnCastingCurrentSpell = 0;
-  blinkingText(warningWindow, "A varázslat létrejött!");
+  blinkingText(warningWindow, `A létrejött varázslat: "${currentSpell.name}"`);
   castBarFlashEffect.style.display = "grid";
   castBarFlashEffect.animate([{ height: "0vw" }, { height: "5vw" }], 200);
   castBarFlashEffect.animate([{ width: "0vw" }, { width: "18vw" }], 200);
@@ -147,10 +154,10 @@ export function spellCastingSuccessful() {
   }, 390);
   //spellTypeQuestionWindow.style.display = "grid";
 
-  if (initRolled == true && actionsNeededToBeAbleToCastAgain > 0) {
-    spellCastingActionButton.disabled = true;
-  }
-  actionsSpentSinceLastCast = 0;
+  // if (initRolled == true && actionsNeededToBeAbleToCastAgain > 0) {
+  //   spellCastingActionButton.disabled = true;
+  // }
+  //actionsSpentSinceLastCast = 0;
 
   if (currentSpell && currentSpell.name && currentSpell.name.includes("liturgia")) {
     currentActiveLiturgy = currentSpell.name;
@@ -248,10 +255,12 @@ export function spellCastingSuccessful() {
 }
 let currentSpellDuration = 0;
 
-export function spellCastingFailure(anyOtherCondition = true) {
+export let currentSpellBloodPointCost = 0;
+
+export function spellCastingFailure(anyOtherCondition = true, currentSpell) {
   if (initRolled == true && numberOfActionsSpentOnCastingCurrentSpell >= 1 && anyOtherCondition && spellIsBeingCast == true) {
     numberOfActionsSpentOnCastingCurrentSpell = 0;
-    blinkingText(warningWindow, "A varázslat megszakadt!");
+    blinkingText(warningWindow, `A megszakadt varázslat: "${currentSpell.name}"`);
     spellIsBeingCast = false;
     castBar.animate([{ opacity: 1 }, { opacity: 0 }], 400);
     setTimeout(() => {
@@ -260,8 +269,8 @@ export function spellCastingFailure(anyOtherCondition = true) {
     actionsNeededToBeAbleToCastAgain = 0;
   }
 }
+export let currentSpell;
 let filteredSpellsBySubSkillAndLevel;
-let currentSpell;
 let powerAspModified = false;
 let anyAspExceptPowerAspModified = false;
 
@@ -281,6 +290,11 @@ function spellCastTimeFactorCalculator(asp = 0) {
 }
 
 function spellCastingCheckSetter() {
+  if (magicSubSkillSelect.value.slice(1) == "Wier vérmágia") {
+    checkTypeIsAttributeCheck.checked = true;
+    attributeFinder("Aka");
+    return;
+  }
   let selectAllSkillOptions = document.querySelectorAll("select#skills option");
   let selectAllAttributeOptions = document.querySelectorAll("select#attributes option");
 
@@ -374,7 +388,15 @@ export function calculateSpellCastTimeAndManaCost() {
   spellCastingCheckSetter();
   emptyAllRollModifiersArray();
   evaluateSkillOrAttributeCheckBase();
-  blinkingText(warningWindow, `A varázspróba célszáma: ${10 + Math.max(...highestAspectOfUnmodifiedAspects)}`);
+  if (magicSubSkillSelect.value.slice(1) == "Wier vérmágia") {
+    finalManaCost = currentSpell.fok;
+    finalCastTime = aptitudeObject["Wier vér"] + 2;
+    spellManaCostDivText.innerText = "Vér pont költség:";
+    warningWindow.innerText = "";
+  } else {
+    spellManaCostDivText.innerText = "Mana költség:";
+    blinkingText(warningWindow, `A varázspróba célszáma: ${10 + Math.max(...highestAspectOfUnmodifiedAspects)}`);
+  }
 
   // if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
   //   warningWindow.innerText = "";
@@ -383,23 +405,23 @@ export function calculateSpellCastTimeAndManaCost() {
     finalCastTime = 1;
   }
   if (finalCastTime <= 10) {
-    spellCastTime.innerText = `${finalCastTime} CS`;
+    spellCastTimeDiv.innerText = `${finalCastTime} CS`;
   } else if (finalCastTime > 10 && finalCastTime <= 20) {
-    spellCastTime.innerText = `${finalCastTime - 10} Perc`;
+    spellCastTimeDiv.innerText = `${finalCastTime - 10} Perc`;
   } else if (finalCastTime > 20 && finalCastTime <= 30) {
-    spellCastTime.innerText = `${finalCastTime - 20} Óra`;
+    spellCastTimeDiv.innerText = `${finalCastTime - 20} Óra`;
   } else if (finalCastTime > 30) {
-    spellCastTime.innerText = `${finalCastTime - 30} Nap`;
+    spellCastTimeDiv.innerText = `${finalCastTime - 30} Nap`;
   }
   if (currentSpell.ritual) {
     if (finalCastTime <= 10) {
-      spellCastTime.innerText = `${finalCastTime * 3} CS`;
+      spellCastTimeDiv.innerText = `${finalCastTime * 3} CS`;
     } else if (finalCastTime > 10 && finalCastTime <= 20) {
-      spellCastTime.innerText = `${(finalCastTime - 10) * 3} Perc`;
+      spellCastTimeDiv.innerText = `${(finalCastTime - 10) * 3} Perc`;
     } else if (finalCastTime > 20 && finalCastTime <= 30) {
-      spellCastTime.innerText = `${(finalCastTime - 20) * 3} Óra`;
+      spellCastTimeDiv.innerText = `${(finalCastTime - 20) * 3} Óra`;
     } else if (finalCastTime > 30) {
-      spellCastTime.innerText = `${(finalCastTime - 30) * 3} Nap`;
+      spellCastTimeDiv.innerText = `${(finalCastTime - 30) * 3} Nap`;
     }
     finalManaCost = Math.floor((finalManaCost * 2) / 3);
     if (finalManaCost <= 0) {
@@ -424,7 +446,7 @@ export function aspOptionDisabler(magicSkillLevel) {
   if (currentMainMagicSkillName == "Magas Mágia") {
     return;
   }
-  if (currentSpell.magicSubclass.includes("fohász")) {
+  if (currentSpell.magicSubclass.includes("fohász") || currentSpell.magicSubclass.includes("Wier")) {
     magicSkillLevel = 2;
   }
   if (magicSkillLevel <= 2) {
@@ -688,9 +710,13 @@ function Spells() {
     if (parseInt(numberOfActions.innerText) != 0) {
       warningWindow.innerText = "";
 
-      if (initRolled == true && spellIsBeingCast == true && parseInt(numberOfActions.innerText) != 0) {
+      if (initRolled == true && spellIsBeingCast == true && parseInt(numberOfActions.innerText) > 0) {
+        let currentSpellName = "varázslat"; // az ideiglenes változó csak azért, mert a varázslónál nincs neve a varázslatoknak egyenlőre
+        if (currentSpell.name) {
+          currentSpellName = currentSpell.name;
+        }
         numberOfActionsSpentOnCastingCurrentSpell++;
-        blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell - numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`);
+        blinkingText(warningWindow, `${numberOfActionsNeededForTheSpell - numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön: "${currentSpellName}"`);
         castBarCurrentWidthStart += (1 / numberOfActionsNeededForTheSpell) * 17.1;
         castBarCurrentWidthEnd = (numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1;
         castBar.animate([{ backgroundSize: `${castBarCurrentWidthStart}vw` }, { backgroundSize: `${castBarCurrentWidthEnd}vw` }], 200);
@@ -699,11 +725,12 @@ function Spells() {
 
         if (numberOfActionsSpentOnCastingCurrentSpell == numberOfActionsNeededForTheSpell) {
           spellIsBeingCast = false;
-          spellCastingSuccessful();
+          spellCastingSuccessful(currentSpell);
+          return;
         }
       }
     }
-    if (spellIsBeingCast == false && actionsNeededToBeAbleToCastAgain == 0) {
+    if (spellIsBeingCast == false) {
       //***************************************************************************** */
       // itt lesznek betöltve és szűrve a varázslatok
       //******************************************************************************* */
@@ -908,7 +935,15 @@ function Spells() {
     }
   }
 
-  function handleSpellCast(event) {
+  function handleSpellCast() {
+    if (parseInt(numberOfActions.innerText) < 1) {
+      blinkingText(warningWindow, "1-nél kevesebb CS-d van!");
+      return;
+    }
+    if (actionsNeededToBeAbleToCastAgain > 0) {
+      blinkingText(warningWindow, `A lecsengési időszakból még hátravan: ${actionsNeededToBeAbleToCastAgain} CS`);
+      return;
+    }
     if (defensiveCombatOn) {
       setDefensiveCombatVEObonus(1);
       combatStatRefresher();
@@ -959,37 +994,34 @@ function Spells() {
     let spellManaCost = 0;
     castBarCurrentWidthStart = 0;
     castBarCurrentWidthEnd = 0;
-    if (event.target.id == "advancedStartCastButton") {
-      spellManaCost = parseInt(spellManaCostDiv.innerText);
-    }
-    if (event.target.id == "startCastButton") {
-      spellManaCost = parseInt(spellManaCostInput.value);
-      numberOfDiceInput.value = spellDamageInput.value;
-    }
+
+    spellManaCost = parseInt(spellManaCostDiv.innerText);
+
     allResultsCleaner();
-    if (parseInt(currentMp.value) < spellManaCost) {
+    if (parseInt(currentMp.value) < spellManaCost && magicSubSkillSelect.value.slice(1) != "Wier vérmágia") {
       blinkingText(warningWindow, "Nincs elég manád!");
       return;
     }
-    currentMp.value = parseInt(currentMp.value) - spellManaCost;
+    if (magicSubSkillSelect.value.slice(1) == "Wier vérmágia" && parseInt(currentBloodPoints.value) < spellManaCost) {
+      blinkingText(warningWindow, "Nincs elég vérpontod!");
+      return;
+    }
+    if (magicSubSkillSelect.value.slice(1) != "Wier vérmágia") {
+      currentMp.value = parseInt(currentMp.value) - spellManaCost;
+    }
     spellIsBeingCast = true;
 
     if (initRolled == false) {
       advancedSpellInputWrapper.style.display = "none";
       currentManaInAdvancedSpellWrapper.style.display = "none";
-      spellCastingSuccessful();
+      spellCastingSuccessful(currentSpell);
       return;
     }
-    if (event.target.id == "advancedStartCastButton") {
-      if (spellCastTime.innerText.includes("CS")) {
-        numberOfActionsNeededForTheSpell = parseInt(spellCastTime.innerText);
-      }
-      if (spellCastTime.innerText.includes("Perc")) {
-        numberOfActionsNeededForTheSpell = parseInt(spellCastTime.innerText) * 24;
-      }
+    if (spellCastTimeDiv.innerText.includes("CS")) {
+      numberOfActionsNeededForTheSpell = parseInt(spellCastTimeDiv.innerText);
     }
-    if (event.target.id == "startCastButton") {
-      numberOfActionsNeededForTheSpell = parseInt(spellActionCostInput.value);
+    if (spellCastTimeDiv.innerText.includes("Perc")) {
+      numberOfActionsNeededForTheSpell = parseInt(spellCastTimeDiv.innerText) * 24;
     }
 
     manaNeededForTheSpell = spellManaCost;
@@ -1000,6 +1032,9 @@ function Spells() {
     } else {
       actionsNeededToBeAbleToCastAgain = 1 + Math.floor(spellManaCost / 10);
     }
+    if (magicSubSkillSelect.value.slice(1) == "Wier vérmágia") {
+      actionsNeededToBeAbleToCastAgain = 0; // felülirjuk, mert a wier vérmágia különleges varázslat kategória
+    }
 
     advancedSpellInputWrapper.style.display = "none";
     currentManaInAdvancedSpellWrapper.style.display = "none";
@@ -1007,7 +1042,12 @@ function Spells() {
       spellIsBeingCast = true;
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       numberOfActionsSpentOnCastingCurrentSpell++;
-      blinkingText(warningWindow, `A varázslat ${numberOfActionsNeededForTheSpell - numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön`);
+      let currentSpellName = "varázslat"; // az ideiglenes változó csak azért, mert a varázslónál nincs neve a varázslatoknak egyenlőre
+      if (currentSpell.name) {
+        currentSpellName = currentSpell.name;
+      }
+
+      blinkingText(warningWindow, `${numberOfActionsNeededForTheSpell - numberOfActionsSpentOnCastingCurrentSpell} CS múlva létrejön: "${currentSpellName}"`);
       castBar.style.display = "grid";
       castBarCurrentWidthEnd = (numberOfActionsSpentOnCastingCurrentSpell / numberOfActionsNeededForTheSpell) * 17.1;
       castBar.animate([{ backgroundSize: `${castBarCurrentWidthStart}vw` }, { backgroundSize: `${castBarCurrentWidthEnd}vw` }], 200);
@@ -1015,7 +1055,7 @@ function Spells() {
     }
     if (initRolled == true && numberOfActionsNeededForTheSpell == 1) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
-      spellCastingSuccessful();
+      spellCastingSuccessful(currentSpell);
     }
   }
   function handleCancelSpellCast() {
@@ -1151,8 +1191,8 @@ function Spells() {
         </div>
         <span className={styles.calculatedSpellStatsSpan}>
           <div>Varázslási idő:</div>
-          <div id="spellCastTime"></div>
-          <div>Mana költség:</div>
+          <div id="spellCastTimeDiv"></div>
+          <div id="spellManaCostDivText">Mana költség:</div>
           <div id="spellManaCostDiv"></div>
         </span>
         <button id="advancedSpellInputWrapperCancelCastButton" onClick={handleCancelSpellCast}>

@@ -36,6 +36,7 @@ import Spells, {
   checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier,
   currentCombatSpell,
   currentCombatSpellChanger,
+  currentSpell,
   spellsThatModifyCombatStatsObject,
 } from "./Spells";
 import { spellCastingFailure } from "./Spells";
@@ -455,7 +456,7 @@ function ActionList() {
     }
     // ************************* Ha az akció, amire kattintottak nem varázslás, és épp van varázslás folyamatban, akkor a varázslat megszakad
     //*********************************************************************************** */
-    spellCastingFailure(!nameOfManeuver.includes("Varázslás"));
+    spellCastingFailure(!nameOfManeuver.includes("Varázslás"), currentSpell);
 
     if ((initRolled == true && parseInt(numberOfActions.innerText) != 0 && (nameOfManeuver.includes("Elterelés") || nameOfManeuver.includes("Mozgás"))) || nameOfManeuver.includes("Manipuláció")) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;

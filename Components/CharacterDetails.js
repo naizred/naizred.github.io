@@ -66,14 +66,7 @@ import {
   defensiveCombatVEObonus,
   defensiveCombatOnSetToFalse,
 } from "./ActionsList";
-import {
-  spellCastingSuccessful,
-  spellCastingFailure,
-  actionsSpentSinceLastCastAdderCheckerAndNullifier,
-  spellIsBeingCast,
-  actionsNeededToBeAbleToCastAgainNullifier,
-  actionsNeededToBeAbleToCastAgain,
-} from "./Spells";
+import { spellCastingSuccessful, spellCastingFailure, actionsSpentSinceLastCastAdderCheckerAndNullifier, spellIsBeingCast, actionsNeededToBeAbleToCastAgainNullifier, currentSpell } from "./Spells";
 import { skillCheckCalculatedResultFromRoll } from "./SkillCheck";
 import { socket } from "../pages";
 export let initRolled = false;
@@ -271,49 +264,6 @@ function CharacterDetails() {
     initiativeDarkDiceResult.style.display = "grid";
     initiativeBonusButton.style.display = "grid";
     combinationCheckBox.disabled = true;
-    //updateCharacterSocketData();
-
-    // // megfigyeli az akciók változását
-    // //*********************************** */
-    // let observerForActions = new MutationObserver(async () => {
-    //   updateCharacterSocketData();
-    //   if (initRolled && parseInt(numberOfActions.innerText) <= 0) {
-    //     recurringSpellActionButton.disabled = true;
-    //   }
-    //   if (parseInt(numberOfActions.innerText) < 2) {
-    //     tacticsButton.disabled = true;
-    //   }
-    //   if (
-    //     ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2) || (initRolled && firstAttackInRoundSpent && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) &&
-    //     !attackOfOpportunityOn
-    //   ) {
-    //     attackRollButton.disabled = true;
-    //   }
-    //   if (numberOfClicksAtTwoWeaponAttack == 1) {
-    //     attackRollButton.disabled = false;
-    //   }
-    //   if (initRolled && parseInt(numberOfActions.innerText) < 1 && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0) {
-    //     spellCastingActionButton.disabled = true;
-    //   }
-    // });
-    // observerForActions.observe(numberOfActions, { childList: true, subtree: true });
-    // // a körök számát figyeli, és ez alapján követi nyomon mennyi van hátra az adott buffokból
-    // let observerForCurrentRound = new MutationObserver(async () => {
-    //   if (initRolled && parseInt(numberOfCurrentRound.innerText) != 1) {
-    //     for (let i = 0; i < allActiveBuffs.length; i++) {
-    //       if (allActiveBuffs[i].innerText.includes("kör")) {
-    //         let numberOfRoundsLeftFromBuff = parseInt(allActiveBuffs[i].innerText);
-    //         numberOfRoundsLeftFromBuff--;
-    //         let buffNameWithoutNumberOfRounds = allActiveBuffs[i].innerText.slice(1);
-    //         allActiveBuffs[i].innerText = numberOfRoundsLeftFromBuff + buffNameWithoutNumberOfRounds;
-    //         if (numberOfRoundsLeftFromBuff == 0) {
-    //           buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText);
-    //         }
-    //       }
-    //     }
-    //   }
-    // });
-    // observerForCurrentRound.observe(numberOfCurrentRound, { childList: true, subtree: true });
   }
 
   function handleAdjustActionsPositive() {
@@ -333,7 +283,7 @@ function CharacterDetails() {
     if (initRolled == true) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
-      spellCastingFailure();
+      spellCastingFailure(true, currentSpell);
       reloadFailed();
     }
   }
@@ -343,7 +293,7 @@ function CharacterDetails() {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       numberOfReactions.innerText = parseInt(numberOfReactions.innerText) + 1;
       actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
-      spellCastingFailure();
+      spellCastingFailure(true, currentSpell);
       reloadFailed();
     }
     if (combinationWasUsedThisRound == true && parseInt(numberOfActions.innerText) < 3) {
@@ -408,7 +358,7 @@ function CharacterDetails() {
     }
 
     // Ha a cselekedetek száma nagyobb mint 0, akkor a varázslat, és újratöltés is megszakad
-    spellCastingFailure(parseInt(numberOfActions.innerText) > 0);
+    spellCastingFailure(parseInt(numberOfActions.innerText) > 0, currentSpell);
     reloadFailed(parseInt(numberOfActions.innerText) > 0);
 
     numberOfReactions.innerText = 0;
@@ -428,7 +378,7 @@ function CharacterDetails() {
     } else if (parseInt(numberOfActions.innerText) < 2) {
       tacticsButton.disabled = true;
     }
-    if (warningWindow.innerText == "A varázslat létrejött!") {
+    if (warningWindow.innerText != "") {
       warningWindow.innerText = "";
     }
     if (!defensiveCombatContinueSelected) {
@@ -532,6 +482,7 @@ function CharacterDetails() {
     defensiveCombatContinuePopupWindow.style.display = "grid";
     defensiveCombatPopupWindowNoButton.style.display = "grid";
     defensiveCombatPopupWindowYesButton.style.display = "grid";
+    tacticsButton.style.display = "none";
   }
 
   function handleDefensiveCombatContinue() {
@@ -540,6 +491,7 @@ function CharacterDetails() {
       setDefensiveCombatVEObonus(2);
     }
     handleEndOfRound();
+    tacticsButton.style.display = "grid";
     defensiveCombatContinuePopupWindow.style.display = "none";
   }
   function handleDefensiveCombatCancel() {
@@ -547,13 +499,14 @@ function CharacterDetails() {
     defensiveCombatOnSetToFalse();
     setDefensiveCombatVEObonus(0);
     handleEndOfRound();
+    tacticsButton.style.display = "grid";
     defensiveCombatContinuePopupWindow.style.display = "none";
   }
 
   function handleWhenTacticsUsed() {
     if (initRolled == true) {
       attackRollButton.disabled = true;
-      spellCastingFailure();
+      spellCastingFailure(true, currentSpell);
       reloadFailed();
       actionsLostWithTacticsUsed = parseInt(numberOfActions.innerText);
       numberOfActions.innerText = 0;
@@ -573,10 +526,10 @@ function CharacterDetails() {
     toggleAllallActionBarButtonsExceptInitRollDisplay("none");
     initRolled = false;
     warningWindow.innerText = "";
-    spellCastingActionButton.disabled = false;
+    //spellCastingActionButton.disabled = false;
     setFirstAttackInRoundSpent(false);
     if (spellIsBeingCast) {
-      spellCastingSuccessful();
+      spellCastingSuccessful(currentSpell);
     }
     actionsNeededToBeAbleToCastAgainNullifier();
     if (chargeWasUsedThisRound == true) {
@@ -762,7 +715,14 @@ function CharacterDetails() {
           OK
         </button>
       </div>
-      <div id="defensiveCombatContinuePopupWindow" className={styles.defensiveCombatContinuePopupWindow} onMouseLeave={() => (defensiveCombatContinuePopupWindow.style.display = "none")}>
+      <div
+        id="defensiveCombatContinuePopupWindow"
+        className={styles.defensiveCombatContinuePopupWindow}
+        onMouseLeave={() => {
+          tacticsButton.style.display = "grid";
+          defensiveCombatContinuePopupWindow.style.display = "none";
+        }}
+      >
         <div id="defensiveCombatPopupWindowText" className={styles.defensiveCombatPopupWindowText}>
           Folytatod a Védekező harcot?
         </div>

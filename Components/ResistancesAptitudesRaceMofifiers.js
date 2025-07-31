@@ -1,5 +1,6 @@
 import { allActiveBuffs, aptitudeObject } from "../pages";
 import styles from "../styles/resistancesaptitudesracemofifiers.module.css";
+import { initRolled } from "./CharacterDetails";
 import { dinamicResistanceRollModifier, dinamicResistanceRollModifierChanger } from "./PsiDisciplines";
 import {
   allRollModifiersArray,
@@ -12,7 +13,7 @@ import {
   setManuallySetSuccFailModifer,
   skillOrAttributeCheckRoll,
 } from "./SkillCheck";
-import { spellCastingFailure } from "./Spells";
+import { currentSpell, spellCastingFailure } from "./Spells";
 
 function ResistancesAptitudesRaceMofifiers() {
   // Összetett Fizikai Szellemi Asztrális Mentális Elkerülő
@@ -130,13 +131,16 @@ function ResistancesAptitudesRaceMofifiers() {
     for (let i = 0; i < selectAllResistButtons.length; i++) {
       selectAllResistButtons[i].disabled = true;
     }
-    spellCastingFailure(event.target.id.includes("evasive"));
+    spellCastingFailure(event.target.id.includes("evasive"), currentSpell);
     setTimeout(() => {
       skillCheckRollButton.disabled = false;
       for (let i = 0; i < selectAllResistButtons.length; i++) {
         selectAllResistButtons[i].disabled = false;
       }
     }, 3000);
+    if (initRolled && event.target.id.includes("evasive")) {
+      numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
+    }
   }
 
   return (

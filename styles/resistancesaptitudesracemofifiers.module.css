@@ -1,57 +1,74 @@
 .ResistancesAptitudesRaceMofifiersWrapper {
-    display: grid;
-    grid-column: 16 / 22;
-    grid-row: 13 / 23;
-    grid-template-rows: repeat(2,1fr);
-    grid-template-columns: repeat(2,1fr);
-    font-size: 1vw;
-    text-align: center;
-    background-color: black;
-    margin-top: 3vw;
-    padding: 0.6vw;
+  display: grid;
+  grid-column: 16 / 22;
+  grid-row: 13 / 23;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  font-size: 1vw;
+  text-align: center;
+  background-color: black;
+  margin-top: 3vw;
+  padding: 0.6vw;
 }
 .ResistancesAptitudesRaceMofifiersWrapper ul {
-    border: 0.23vw solid white;
-    border-radius: 1vw;
-    background-color: black;
-    margin: 0.2vw;
-    padding: 0.3vw;
-    justify-items: center;
+  border: 0.23vw solid white;
+  border-radius: 1vw;
+  background-color: black;
+  margin: 0.2vw;
+  padding: 0.3vw;
+  justify-items: center;
 }
 .ResistancesAptitudesRaceMofifiersWrapper .Aptitudes {
-    justify-items: left;
+  justify-items: left;
 }
-.ResistancesAptitudesRaceMofifiersWrapper li{
-display: grid;
-text-align: left;
-font-size: 0.6vw;
-margin-top: 0.5vw;
+.ResistancesAptitudesRaceMofifiersWrapper .Aptitudes span {
+  display: grid;
+  grid-auto-flow: column;
 }
-.ResistancesAptitudesRaceMofifiersWrapper .Resistances li{
-display: grid;
-grid-template-columns: repeat(3,1fr);
-text-align: right;
-font-size: 0.8vw;
-margin-top: 1vw;
-align-items: center;
-width: 11vw;
+.ResistancesAptitudesRaceMofifiersWrapper .Aptitudes div {
+  font-size: 0.5vw;
+  display: grid;
+  justify-items: left;
+  align-items: center;
 }
-.ResistancesAptitudesRaceMofifiersWrapper li div{
-text-align: center;
-font-size: 0.8vw;
+.ResistancesAptitudesRaceMofifiersWrapper .Aptitudes input {
+  font-size: 0.5vw;
+  display: grid;
+  text-align: center;
+  width: 1vw;
+  margin-left: 0.2vw;
 }
-.ResistancesAptitudesRaceMofifiersWrapper li button{
-text-align: center;
-font-size: 1vw;
-justify-self: end;
+.ResistancesAptitudesRaceMofifiersWrapper li {
+  display: grid;
+  text-align: left;
+  font-size: 0.6vw;
+  margin-top: 0.5vw;
 }
-.ResistancesAptitudesRaceMofifiersWrapper li button:disabled{
-background-color: black;
-color: white;
-opacity: 0.6;
+.ResistancesAptitudesRaceMofifiersWrapper .Resistances li {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: right;
+  font-size: 0.8vw;
+  margin-top: 1vw;
+  align-items: center;
+  width: 11vw;
 }
-.ResistancesAptitudesRaceMofifiersWrapper li button:disabled:hover{
-background-color: black;
-color: white;
-opacity: 0.6;
+.ResistancesAptitudesRaceMofifiersWrapper li div {
+  text-align: center;
+  font-size: 0.8vw;
+}
+.ResistancesAptitudesRaceMofifiersWrapper li button {
+  text-align: center;
+  font-size: 1vw;
+  justify-self: end;
+}
+.ResistancesAptitudesRaceMofifiersWrapper li button:disabled {
+  background-color: black;
+  color: white;
+  opacity: 0.6;
+}
+.ResistancesAptitudesRaceMofifiersWrapper li button:disabled:hover {
+  background-color: black;
+  color: white;
+  opacity: 0.6;
 }
