@@ -21,10 +21,7 @@ let characterNameForInitNodes;
 function Kalandmester() {
   let socket = io();
   let gameIdInterval;
-  socket.on("character updated from server", (updatedCharName) => {
-    if (updatedCharName == "") {
-      return;
-    }
+  function saveAllNodes() {
     currentCharNameNodes = document.querySelectorAll("div#characterName");
     currentFpNodes = document.querySelectorAll("input#currentFp");
     currentEpNodes = document.querySelectorAll("input#currentEp");
@@ -38,7 +35,12 @@ function Kalandmester() {
     numberOfActionsAllPlayers = document.querySelectorAll("div#numberOfActionsAllPlayers");
     initiativeWithRollNodes = document.querySelectorAll("div#initiativeWithRoll");
     characterNameForInitNodes = document.querySelectorAll("div#characterNameForInit");
-    clearAllNodes();
+  }
+  socket.on("character updated from server", (updatedCharName) => {
+    if (updatedCharName == "") {
+      return;
+    }
+    //clearAllNodes();
     socket.emit("need sockets", gameIdRequest.value);
     socket.on("there you go", (allPlayersArray) => {
       console.log(allPlayersArray);
@@ -122,20 +124,23 @@ function Kalandmester() {
     }
   }
   function handleFirstIteration() {
-    currentCharNameNodes = document.querySelectorAll("div#characterName");
-    currentFpNodes = document.querySelectorAll("input#currentFp");
-    currentEpNodes = document.querySelectorAll("input#currentEp");
-    currentPpNodes = document.querySelectorAll("input#currentPp");
-    currentMpNodes = document.querySelectorAll("input#currentMp");
-    currentLpNodes = document.querySelectorAll("input#currentLp");
-    atkRollResultNodes = document.querySelectorAll("input#atkRollResult");
-    skillCheckResultDmNodes = document.querySelectorAll("input#skillCheckResultDm");
-    atkRollDiceNodes = document.querySelectorAll("input#atkRollDice");
-    skillCheckDiceNodes = document.querySelectorAll("input#skillCheckDice");
-    numberOfActionsAllPlayers = document.querySelectorAll("div#numberOfActionsAllPlayers");
-    initiativeWithRollNodes = document.querySelectorAll("div#initiativeWithRoll");
-    characterNameForInitNodes = document.querySelectorAll("div#characterNameForInit");
-    clearAllNodes();
+    saveAllNodes();
+    //let currentCharNodes = document.querySelectorAll("div#characterDetails");
+    //console.log(currentCharNodes[0].firstChild.nextSibling.innerText);
+    // currentCharNameNodes = document.querySelectorAll("div#characterName");
+    // currentFpNodes = document.querySelectorAll("input#currentFp");
+    // currentEpNodes = document.querySelectorAll("input#currentEp");
+    // currentPpNodes = document.querySelectorAll("input#currentPp");
+    // currentMpNodes = document.querySelectorAll("input#currentMp");
+    // currentLpNodes = document.querySelectorAll("input#currentLp");
+    // atkRollResultNodes = document.querySelectorAll("input#atkRollResult");
+    // skillCheckResultDmNodes = document.querySelectorAll("input#skillCheckResultDm");
+    // atkRollDiceNodes = document.querySelectorAll("input#atkRollDice");
+    // skillCheckDiceNodes = document.querySelectorAll("input#skillCheckDice");
+    // numberOfActionsAllPlayers = document.querySelectorAll("div#numberOfActionsAllPlayers");
+    // initiativeWithRollNodes = document.querySelectorAll("div#initiativeWithRoll");
+    // characterNameForInitNodes = document.querySelectorAll("div#characterNameForInit");
+    // clearAllNodes();
     let data = {
       gameId: gameIdRequest.value,
     };
@@ -207,14 +212,26 @@ function Kalandmester() {
           </div>
         </div>
         <div id="characterDetailsSection" className={styles.characterDetailsSection}>
-          <CharacterDetailsForAdventureMaster />
-          <CharacterDetailsForAdventureMaster />
-          <CharacterDetailsForAdventureMaster />
-          <CharacterDetailsForAdventureMaster />
-          <CharacterDetailsForAdventureMaster />
-          <CharacterDetailsForAdventureMaster />
-          <CharacterDetailsForAdventureMaster />
+          <CharacterDetailsForAdventureMaster {...{ id: 1 }} />
+          <CharacterDetailsForAdventureMaster {...{ id: 2 }} />
+          <CharacterDetailsForAdventureMaster {...{ id: 3 }} />
+          <CharacterDetailsForAdventureMaster {...{ id: 4 }} />
+          <CharacterDetailsForAdventureMaster {...{ id: 5 }} />
+          <CharacterDetailsForAdventureMaster {...{ id: 6 }} />
+          <CharacterDetailsForAdventureMaster {...{ id: 7 }} />
+          <CharacterDetailsForAdventureMaster {...{ id: 8 }} />
+          <CharacterDetailsForAdventureMaster {...{ id: 9 }} />
           <div id="characterDetailsForInit" className={styles.characterDetailsForInit}>
+            <span>
+              <div id="characterNameForInit" className={styles.characterNameForInit}></div>
+              <div id="initiativeWithRoll" className={styles.initiativeWithRoll}></div>
+              <div id="numberOfActionsAllPlayers" className={styles.numberOfActions}></div>
+            </span>
+            <span>
+              <div id="characterNameForInit" className={styles.characterNameForInit}></div>
+              <div id="initiativeWithRoll" className={styles.initiativeWithRoll}></div>
+              <div id="numberOfActionsAllPlayers" className={styles.numberOfActions}></div>
+            </span>
             <span>
               <div id="characterNameForInit" className={styles.characterNameForInit}></div>
               <div id="initiativeWithRoll" className={styles.initiativeWithRoll}></div>

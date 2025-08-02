@@ -874,13 +874,12 @@ export function combatStatRefresher() {
   maxMove.innerText = `Max táv: ${correctedSpeedValueForMovementCalculation * 3} láb`;
   movePerAction.innerText = `/akció táv: ${Math.ceil((correctedSpeedValueForMovementCalculation * 3) / (1 + Math.ceil((parseInt(initiative.innerText) + 1) / 10)))} láb`;
 }
-import { useEffect } from "react";
 import io from "socket.io-client";
 //********************************************* */
 // --- itt kezdődik az oldal maga
 //********************************************************* */
 export let socket;
-export default function Home(props) {
+export default function Home() {
   function hideOrRevealAdventureMasterComponent() {}
   //egyedi rendező function kellett, mert a sort nem rendezte a fegyverek nevét valamiért. Valószínűleg a karakterkódolással van gondja a fájl beolvasása után
   function OrderFunctionForAllWeapons() {
@@ -2375,12 +2374,12 @@ export default function Home(props) {
           <K10RollAndSpellDamageRoll />
           <ArmorDetails />
           <CharacterDetails {...socket} />
-          <PsiDisciplines {...props} />
-          <ActionList {...props} />
+          <PsiDisciplines />
+          <ActionList />
           <span id="listOfCurrentlyActiveBuffsLabel">Jelenleg aktív diszciplínák és varázslatok</span>
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}
-        <SkillCheck {...props} />
+        <SkillCheck />
         <ResistancesAptitudesRaceMofifiers />
         <div id="welcomeWindow">
           <div id="welcomeText">

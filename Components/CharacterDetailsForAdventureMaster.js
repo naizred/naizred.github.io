@@ -1,9 +1,14 @@
 import styles from "../styles/kalandmester.module.css";
 
-export function CharacterDetailsForAdventureMaster() {
+export function CharacterDetailsForAdventureMaster(indexFromKalandmester) {
+  function valueExtractFunction() {
+    console.log(indexFromKalandmester);
+  }
+  valueExtractFunction();
   return (
     <>
-      <div id="characterDetails1" className={styles.characterDetails}>
+      <div id="characterDetails" className={styles.characterDetails}>
+        <li value={indexFromKalandmester.id}></li>
         <div
           id="characterName"
           onClick={(event) => {

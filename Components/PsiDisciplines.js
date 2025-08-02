@@ -123,7 +123,7 @@ export function innerTimeNegativeModifierNullifier() {
 }
 let selectedPsiDisciplineObj;
 
-export function PsiDisciplines(props) {
+export function PsiDisciplines() {
   let filteredPsiDisciplines = [];
   function handleListPsi() {
     for (let i = 0; i < psiDisciplines.length; i++) {

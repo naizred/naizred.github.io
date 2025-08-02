@@ -159,7 +159,7 @@ export function spellCastingSuccessful(currentSpell) {
   // }
   //actionsSpentSinceLastCast = 0;
 
-  if (currentSpell && currentSpell.name && currentSpell.name.includes("liturgia")) {
+  if (currentSpell && currentSpell.name && currentSpell.name.includes("liturgia") && currentSpell.magicSubclass.includes("fohász")) {
     currentActiveLiturgy = currentSpell.name;
     liturgyWrapper.style.display = "grid";
     liturgyPowerInfo.style.display = "grid";
@@ -331,6 +331,8 @@ function spellCastingCheckSetter() {
   }
 }
 
+let spellCastingTimeMultiplier = 1; // változó a rejtett varázs (később esetleg a manaháló) miatti varázslási idő duplázódásra
+
 export function calculateSpellCastTimeAndManaCost() {
   let finalManaCost = 0;
   let finalCastTime = 0;
@@ -338,6 +340,18 @@ export function calculateSpellCastTimeAndManaCost() {
   let theHighestFiveAspects = [];
   let highestAspectPerCategory = [];
   let highestAspectOfUnmodifiedAspects = [];
+
+  if (magicSubSkillSelect.value.slice(1) == "Wier vérmágia" || currentSpell.ritual) {
+    hiddenSpellCastWrapper.style.display = "none";
+  } else {
+    if (aptitudeObject["Rejtett varázs"]) {
+      hiddenSpellCastWrapper.style.display = "grid";
+      hiddenSpellCastNoHandMotion.parentElement.style.display = "grid";
+      if (currentSpell.magicSubclass.includes("fohász")) {
+        hiddenSpellCastNoHandMotion.parentElement.style.display = "none";
+      }
+    }
+  }
 
   for (let i = 0; i < currentSpell.aspects.length; i++) {
     let calculatedAspect = currentSpell.aspects[i][1] + currentSpell.aspects[i][2] + currentSpell.aspects[i][3];
@@ -388,6 +402,7 @@ export function calculateSpellCastTimeAndManaCost() {
   spellCastingCheckSetter();
   emptyAllRollModifiersArray();
   evaluateSkillOrAttributeCheckBase();
+
   if (magicSubSkillSelect.value.slice(1) == "Wier vérmágia") {
     finalManaCost = currentSpell.fok;
     finalCastTime = aptitudeObject["Wier vér"] + 2;
@@ -395,7 +410,13 @@ export function calculateSpellCastTimeAndManaCost() {
     warningWindow.innerText = "";
   } else {
     spellManaCostDivText.innerText = "Mana költség:";
-    blinkingText(warningWindow, `A varázspróba célszáma: ${10 + Math.max(...highestAspectOfUnmodifiedAspects)}`);
+    let specialModifierFromHiddenSpellCast = 0;
+    if (hiddenSpellCastNoHandMotion.checked || hiddenSpellCastNoVocalComponent.checked) {
+      specialModifierFromHiddenSpellCast = 3;
+    }
+    blinkingText(warningWindow, `A varázspróba célszáma: ${10 + specialModifierFromHiddenSpellCast + Math.max(...highestAspectOfUnmodifiedAspects)}`);
+    // megnézzük, hogy van-e rejtett varázs adottsága, és az ehhez tartozó ablakot elrejtjük vagy megjelenítjük
+    // a wier vérmágia miatt kell ezt a vizsgálatot ide tenni.
   }
 
   // if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
@@ -405,14 +426,15 @@ export function calculateSpellCastTimeAndManaCost() {
     finalCastTime = 1;
   }
   if (finalCastTime <= 10) {
-    spellCastTimeDiv.innerText = `${finalCastTime} CS`;
+    spellCastTimeDiv.innerText = `${spellCastingTimeMultiplier * finalCastTime} CS`;
   } else if (finalCastTime > 10 && finalCastTime <= 20) {
-    spellCastTimeDiv.innerText = `${finalCastTime - 10} Perc`;
+    spellCastTimeDiv.innerText = `${spellCastingTimeMultiplier * (finalCastTime - 10)} Perc`;
   } else if (finalCastTime > 20 && finalCastTime <= 30) {
-    spellCastTimeDiv.innerText = `${finalCastTime - 20} Óra`;
+    spellCastTimeDiv.innerText = `${spellCastingTimeMultiplier * (finalCastTime - 20)} Óra`;
   } else if (finalCastTime > 30) {
-    spellCastTimeDiv.innerText = `${finalCastTime - 30} Nap`;
+    spellCastTimeDiv.innerText = `${spellCastingTimeMultiplier * (finalCastTime - 30)} Nap`;
   }
+
   if (currentSpell.ritual) {
     if (finalCastTime <= 10) {
       spellCastTimeDiv.innerText = `${finalCastTime * 3} CS`;
@@ -693,6 +715,36 @@ function Spells() {
     }
   }
 
+  function handleHiddenSpellCast(event) {
+    if (aptitudeObject["Rejtett varázs"] == 1) {
+      // rejtett varázs 1. fokkal csak az egyik komponens hagyható el, a varázsidő dupla
+      if (hiddenSpellCastNoHandMotion.checked && event.target.id == "hiddenSpellCastNoHandMotion") {
+        hiddenSpellCastNoVocalComponent.checked = false;
+      } else if (hiddenSpellCastNoVocalComponent.checked && event.target.id == "hiddenSpellCastNoVocalComponent") {
+        hiddenSpellCastNoHandMotion.checked = false;
+      }
+      spellCastingTimeMultiplier = 2;
+      if (!hiddenSpellCastNoHandMotion.checked && !hiddenSpellCastNoVocalComponent.checked) {
+        spellCastingTimeMultiplier = 1;
+      }
+      calculateSpellCastTimeAndManaCost();
+    }
+    if (aptitudeObject["Rejtett varázs"] == 2) {
+      // rejtett varázs 2. fokkal elhagyható mindkét komponens, a varázsidő ekkor dupla, csak az egyik elhagyásakor nem.
+      if (hiddenSpellCastNoHandMotion.checked && hiddenSpellCastNoVocalComponent.checked) {
+        spellCastingTimeMultiplier = 2;
+        calculateSpellCastTimeAndManaCost();
+      } else {
+        spellCastingTimeMultiplier = 1;
+        calculateSpellCastTimeAndManaCost();
+      }
+    }
+    // if (aptitudeObject["Rejtett varázs"] == 3) {
+    //   // rejtett varázs 3. fokkal elhagyható mindkét komponens, a varázsidő soha nem dupla
+    //   spellCastingTimeMultiplier = false;
+    // }
+  }
+
   function handleClickOnSpellCastButton() {
     powerAspModified = false;
     anyAspExceptPowerAspModified = false;
@@ -737,20 +789,10 @@ function Spells() {
       advancedSpellInputWrapper.style.display = "grid";
       currentManaInAdvancedSpellWrapper.style.display = "grid";
       currentManaInAdvancedSpellWrapper.innerText = `Aktuális Mp: ${currentMp.value}`;
+      hiddenSpellCastWrapper.style.display = "grid";
       warningWindow.innerText = "";
       removeAllOptions("magicSubSkillSelect");
 
-      for (let i = 0; i < allActiveBuffs.length; i++) {
-        if (allActiveBuffs[i].innerText.includes("liturgia")) {
-          let currentLirurgy = allSpells.find((spell) => allActiveBuffs[i].innerText.includes(spell.name));
-          //console.log(currentLirurgy, allActiveBuffs[i].innerText)
-          liturgyWrapper.style.display = "grid";
-          liturgyPowerInfo.style.display = "grid";
-          liturgyPowerInfo.innerText = `Liturgia Erőssége: ${currentLirurgy.aspects[0][1]}`;
-          liturgyPowerInfo.value = currentLirurgy.aspects[0][1];
-          liturgyCheckBox.style.display = "grid";
-        }
-      }
       // function OrderFunctionForAllMagicSubskillsObject() {
       //   allMagicSubskillsObject.sort(function (a, b) {
       //   return CharCompare(b[0], a[0], 0);
@@ -812,6 +854,18 @@ function Spells() {
     // az adott mágikus képzettség foka a 0. indexen van elrejtve
     // console.log(magicSubSkillSelect.value[0], magicSubSkillSelect.value.slice(1))
     if (magicSubSkillSelect.value.slice(1).includes("fohász")) {
+      for (let i = 0; i < allActiveBuffs.length; i++) {
+        if (allActiveBuffs[i].innerText.includes("liturgia")) {
+          let currentLirurgy = allSpells.find((spell) => allActiveBuffs[i].innerText.includes(spell.name));
+          //console.log(currentLirurgy, allActiveBuffs[i].innerText)
+          liturgyWrapper.style.display = "grid";
+          liturgyPowerInfo.style.display = "grid";
+          liturgyPowerInfo.innerText = `Liturgia Erőssége: ${currentLirurgy.aspects[0][1]}`;
+          liturgyPowerInfo.value = currentLirurgy.aspects[0][1];
+          liturgyCheckBox.style.display = "grid";
+          break;
+        }
+      }
       filteredSpellsBySubSkillAndLevel = allSpells.filter(
         (spell) =>
           spell.magicSubclass.includes(magicSubSkillSelect.value.slice(1)) &&
@@ -819,6 +873,7 @@ function Spells() {
           (spell.god == "Általános" || spell.god == currentGodWorshippedByPlayer)
       );
     } else {
+      liturgyWrapper.style.display = "none";
       filteredSpellsBySubSkillAndLevel = allSpells.filter((spell) => magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) && spell.fok <= parseInt(magicSubSkillSelect.value[0]));
     }
     function OrderFunctionForFilteredSpellsBySubSkillAndLevel() {
@@ -873,6 +928,8 @@ function Spells() {
   }
 
   function evaluateSpell() {
+    hiddenSpellCastNoHandMotion.checked = false;
+    hiddenSpellCastNoVocalComponent.checked = false;
     if (currentMainMagicSkillName != "Magas Mágia") {
       currentSpell = filteredSpellsBySubSkillAndLevel.find((spell) => spell.name == `${spellSelect.value}`);
     }
@@ -956,13 +1013,14 @@ function Spells() {
     skillOrAttributeCheckRoll(stressCheck);
     let currentDifficultyClass = parseInt(warningWindow.innerText.slice(warningWindow.innerText.search(/[0-9]/))); // az elérendő célszám, ami csak akkor érdekes, ha volt aspektus modifikáció
     let skillCheckResultNumber = parseInt(skillCheckResult.innerText); // próba eredménye
-    if (powerAspModified) {
+    if (powerAspModified || hiddenSpellCastNoHandMotion.checked || hiddenSpellCastNoVocalComponent.checked) {
       let powerValue = allPowerAspectSelect[0].value;
       if (currentDifficultyClass - skillCheckResultNumber > 0) {
         allPowerAspectSelect[0].value -= currentDifficultyClass - skillCheckResultNumber;
         if (allPowerAspectSelect[0].value <= 0) {
           advancedSpellInputWrapper.style.display = "none";
           currentManaInAdvancedSpellWrapper.style.display = "none";
+          hiddenSpellCastWrapper.style.display = "none";
           blinkingText(warningWindow, "A varázslat nem jött létre!");
           return;
         }
@@ -1014,6 +1072,7 @@ function Spells() {
     if (initRolled == false) {
       advancedSpellInputWrapper.style.display = "none";
       currentManaInAdvancedSpellWrapper.style.display = "none";
+      hiddenSpellCastWrapper.style.display = "none";
       spellCastingSuccessful(currentSpell);
       return;
     }
@@ -1038,6 +1097,7 @@ function Spells() {
 
     advancedSpellInputWrapper.style.display = "none";
     currentManaInAdvancedSpellWrapper.style.display = "none";
+    hiddenSpellCastWrapper.style.display = "none";
     if (initRolled == true && numberOfActionsNeededForTheSpell > 1) {
       spellIsBeingCast = true;
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
@@ -1061,6 +1121,7 @@ function Spells() {
   function handleCancelSpellCast() {
     advancedSpellInputWrapper.style.display = "none";
     currentManaInAdvancedSpellWrapper.style.display = "none";
+    hiddenSpellCastWrapper.style.display = "none";
     if (liturgyCheckBox.checked) {
       liturgyCheckBox.checked = false;
     }
@@ -1204,6 +1265,16 @@ function Spells() {
       </div>
       <div id="spellDescriptionWindow" className={styles.spellDescriptionWindow} onMouseLeave={handleSpellDescriptionMouseLeave}></div>
       <div id="currentManaInAdvancedSpellWrapper" className={styles.currentManaInAdvancedSpellWrapper}></div>
+      <div id="hiddenSpellCastWrapper" className={styles.hiddenSpellCastWrapper}>
+        <span>
+          Mozdulat elhagyása
+          <input id="hiddenSpellCastNoHandMotion" name="hiddenSpellCast" onChange={handleHiddenSpellCast} type="checkBox" />
+        </span>
+        <span>
+          Hang elhagyása
+          <input id="hiddenSpellCastNoVocalComponent" name="hiddenSpellCast" onChange={handleHiddenSpellCast} type="checkBox" />
+        </span>
+      </div>
     </>
   );
 }

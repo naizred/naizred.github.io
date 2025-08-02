@@ -159,6 +159,26 @@
   background-color: black;
   padding: 0.5vw;
 }
+.hiddenSpellCastWrapper {
+  display: none;
+  font-size: 1vw;
+  border: 0.23vw solid white;
+  border-radius: 1vw;
+  height: 3vw;
+  grid-column: 18/21;
+  grid-row: 9/11;
+  background-color: black;
+  padding: 0.5vw;
+  align-items: center;
+}
+.hiddenSpellCastWrapper span {
+  display: grid;
+  grid-auto-flow: column;
+}
+.hiddenSpellCastWrapper input {
+  height: 0.8vw;
+  width: 0.8vw;
+}
 .advancedSpellInputWrapper li input {
   display: none;
 }

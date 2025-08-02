@@ -265,7 +265,7 @@ export async function evaluateSkillOrAttributeCheckBase(event) {
   skillCheckResult.innerText = "";
 }
 export let checkBoxTurnedFromNotCheckedToCheckedStatus = false;
-function SkillCheck(props) {
+function SkillCheck() {
   let checkBoxStatusCheckedOnClick = false;
   let checkBoxStatusCheckedOnMouseEnter = false;
   function handleSkillCheckStressCheckbox(event) {
