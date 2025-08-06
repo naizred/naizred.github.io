@@ -250,8 +250,8 @@ export async function fetchCharacterData(currentCharName) {
         toggleAllallActionBarButtonsExceptInitRollDisplay("grid");
         initiativeBonusButton.style.display = "none";
         numberOfActions.innerText = parsedData.numberOfActions;
-        adjustActionsPositive.value = parsedData.numberOfActions;
         initiativeWithRoll.innerText = parsedData.initiativeWithRoll;
+        adjustActionsPositive.value = Math.floor(parseInt(parseInt(initiativeWithRoll.innerText)) / 10) + 1;
         for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
           if (arrayOfAllComplexManeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
             arrayOfAllComplexManeuvers[i].disabled = false;
@@ -292,12 +292,15 @@ export async function fetchCharacterData(currentCharName) {
           guidedSpellActiveFormLoader();
         }
       }
+      if (document.getElementById("currentBloodPoints")) {
+        currentBloodPoints.value = parsedData.currentBloodPoints;
+      }
     });
 }
 
 let charId;
 
-export function updateCharacterSocketData() {
+export function updateCharacterSocketData(event) {
   let activeBuffsStringToSave = "";
   let activeBuffsCounter = 0;
   for (let i = 0; i < allActiveBuffs.length; i++) {
@@ -331,6 +334,10 @@ export function updateCharacterSocketData() {
     numberOfActions: numberOfActions.innerText,
     initiativeWithRoll: parseInt(initiativeWithRoll.innerText),
   };
+  if (event && event.target.id == "tenSidedDiceRollResultButton") {
+    dataForSocket.atkRollDice = "K10 dobás eredménye";
+    dataForSocket.atkRollResult = `${tenSidedDiceRollResult.innerText}`;
+  }
   socket.emit("character updated", dataForSocket);
 }
 
@@ -674,6 +681,7 @@ let damageOfFists = "1k10";
 let fistAtk = 0;
 let fistDef = 0;
 let thisAttackWasWithCharge = false;
+let numberOfChainLightningCharges = 0;
 //************************************************ A harci statisztikák frissítése, pl. fegyverváltásnál ***********************************//
 export function combatStatRefresher() {
   currentlySelectedWeapon = allWeapons.find((name) => name.w_name === `${weapons.value}`);
@@ -873,6 +881,25 @@ export function combatStatRefresher() {
     10 + Math.floor(currentCharFinalAttributes.Gyo / 2) + speedBonusFromRunningSkill - currentlySelectedWeapon.mgt - reducedMgtByParrySkill - parseInt(totalMgtOfArmorSet.innerText);
   maxMove.innerText = `Max táv: ${correctedSpeedValueForMovementCalculation * 3} láb`;
   movePerAction.innerText = `/akció táv: ${Math.ceil((correctedSpeedValueForMovementCalculation * 3) / (1 + Math.ceil((parseInt(initiative.innerText) + 1) / 10)))} láb`;
+
+  if (initRolled && combinationCheckBox.checked == false && firstAttackIsSpellThatNeedsAimRoll == false && firstAttackIsAttackOfOpportunity == false && numberOfChainLightningCharges == 0) {
+    attackRollButton.disabled = true;
+  }
+  if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) >= 3) {
+    attackRollButton.disabled = false;
+  }
+  if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) < 3) {
+    attackRollButton.disabled = true;
+  }
+  if (numberOfClicksAtTwoWeaponAttack == 1) {
+    attackRollButton.disabled = false;
+  }
+  if (attackRollButtonWasDisabledBeforeSpellCast == true && numberOfChainLightningCharges == 0) {
+    attackRollButton.disabled = true;
+  }
+  if (!spellNeedsAimRoll && currentlySelectedWeapon.w_name == "Célzott mágia") {
+    attackRollButton.disabled = true;
+  }
 }
 import io from "socket.io-client";
 //********************************************* */
@@ -904,7 +931,7 @@ export default function Home() {
 
   let darkDiceWasChangedToHalfOfStr = false;
 
-  function ttkRoll(strBonus, darkDice, lightDice) {
+  function ttkRoll(darkDice, lightDice) {
     let result = 0;
 
     if (darkDice == undefined || lightDice == undefined) {
@@ -918,6 +945,9 @@ export default function Home() {
       //******************************************* */
       darkDiceResultSelect.value = darkDice;
       lightDiceResultSelect.value = lightDice;
+    } else {
+      darkDice = parseInt(darkDice);
+      lightDice = parseInt(lightDice);
     }
 
     if (darkDice > lightDice) {
@@ -975,7 +1005,7 @@ export default function Home() {
       }
     }
     console.log("Sötét eredeti:", originalDarkDice, "Világos:", originalLightDice);
-    if (strBonus == true) {
+    if (currentlySelectedWeapon.strBonusDmg) {
       if (Math.floor(parseInt(Erő.innerText) / 2) > darkDice) {
         originalDarkDice = Math.floor(parseInt(Erő.innerText) / 2);
         darkDiceWasChangedToHalfOfStr = true;
@@ -1001,7 +1031,40 @@ export default function Home() {
 
   //-------------- Megnézi a sebzéskódot, és számol sebzést ------------
 
-  async function damageEvaluator() {
+  function bodypartHitEvaluator() {
+    damageResult.innerText = "";
+    bodyPart.innerText = "";
+    bodyPart.innerText = bodyParts[originalLightDice - 1];
+
+    tempImg = document.createElement("img");
+    tempImg.classList.add("tempImg");
+    bodyPartImg.appendChild(tempImg);
+    function bodypartHit(bodypart) {
+      tempImg.src = "";
+      tempImg.src = `./bodyParts/${bodypart}`;
+    }
+    if (bodyPart.innerText == "Bal láb") {
+      bodypartHit("LeftLeg.png");
+    }
+    if (bodyPart.innerText == "Jobb láb") {
+      bodypartHit("RightLeg.png");
+    }
+    if (bodyPart.innerText == "Bal kar") {
+      bodypartHit("LeftArm.png");
+    }
+    if (bodyPart.innerText == "Fegyverforgató kar") {
+      bodypartHit("RightArm.png");
+    }
+    if (bodyPart.innerText == "Törzs") {
+      bodypartHit("Torso.png");
+    }
+    if (bodyPart.innerText == "Fej") {
+      bodypartHit("Head.png");
+    }
+    bodyPart.animate([{ color: "white" }, { color: "black" }], 200);
+  }
+
+  function damageEvaluator(event) {
     console.log("Fegyver típus:", currentlySelectedWeapon.w_type);
     console.log("Fegyver sebzéskód:", currentlySelectedWeapon.w_damage);
     console.log("Erősebzés?:", currentlySelectedWeapon.strBonusDmg);
@@ -1070,8 +1133,13 @@ export default function Home() {
       damageResult.innerText = 1;
     }
     let spellDamage = 0;
+    let thirdDiceInMultipleDiceRoll = "needRoll";
     if (weapons.value == "Célzott mágia" || weapons.value == "Irányított mágia") {
-      spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, 0, parseInt(numberOfDiceInput.value));
+      if (event.target.id == "lightDiceResultSelect" || event.target.id == "darkDiceResultSelect") {
+        // ha célzott varázslat esetén megváltoztatjuk valamelyik kockát, akkor a 3.sebző kockát ne dobja újra
+        thirdDiceInMultipleDiceRoll = thirdAccumulatedDiceResultSelect.value;
+      }
+      spellDamage = multipleDiceRoll(event, originalDarkDice, originalLightDice, thirdDiceInMultipleDiceRoll, parseInt(numberOfDiceInput.value));
 
       damageResult.innerText = spellDamage[3];
       firstAccumulatedDiceResultSelect.value = spellDamage[0];
@@ -1081,8 +1149,12 @@ export default function Home() {
 
     for (let i = 0; i < allActiveBuffs.length; i++) {
       if ((allActiveBuffs[i].innerText.includes("Villámpenge") || allActiveBuffs[i].innerText.includes("Tűzkard")) && currentlySelectedWeapon.w_type != "MÁGIA") {
+        if (event.target.id == "lightDiceResultSelect" || event.target.id == "darkDiceResultSelect") {
+          // ha célzott varázslat esetén megváltoztatjuk valamelyik kockát, akkor a 3.sebző kockát ne dobja újra
+          thirdDiceInMultipleDiceRoll = thirdAccumulatedDiceResultSelect.value;
+        }
         numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) - 1) * 2;
-        spellDamage = multipleDiceRoll(originalDarkDice, originalLightDice, 0, parseInt(numberOfDiceInput.value));
+        spellDamage = multipleDiceRoll(event, originalDarkDice, originalLightDice, thirdDiceInMultipleDiceRoll, parseInt(numberOfDiceInput.value));
         damageResult.innerText = `${damageResult.innerText} + ${spellDamage[3]}`;
         firstAccumulatedDiceResultSelect.value = spellDamage[0];
         secondAccumulatedDiceResultSelect.value = spellDamage[1];
@@ -1211,6 +1283,12 @@ export default function Home() {
           if (parseInt(numberOfActions.innerText) < 2) {
             tacticsButton.disabled = true;
           }
+          if (parseInt(numberOfActions.innerText) >= 2) {
+            tacticsButton.disabled = false;
+          }
+          if (initRolled && firstAttackInRoundSpent && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) >= 3 && combinationCheckBox.checked) {
+            attackRollButton.disabled = false;
+          }
           if (
             ((initRolled && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 2) ||
               (initRolled && firstAttackInRoundSpent && !spellNeedsAimRoll && parseInt(numberOfActions.innerText) < 3)) &&
@@ -1227,6 +1305,9 @@ export default function Home() {
           if (initRolled && !firstAttackInRoundSpent && parseInt(numberOfActions.innerText) >= 2 && currentlySelectedWeapon.readyToFireOrThrow) {
             // új feltétel arra, ha az akciók száma nagyobb lesz mint 2. Ez akkorra kellett, ha ez 1-re csökken, aztán megnő. Ilyen esetet csak kézzel, a +/- gombok nyomogatásával lehet előidézni a kezdeményező panelen
             attackRollButton.disabled = false;
+          }
+          if (!spellNeedsAimRoll && currentlySelectedWeapon.w_name == "Célzott mágia") {
+            attackRollButton.disabled = true;
           }
         });
         observerForActions.observe(numberOfActions, { childList: true, subtree: true });
@@ -1338,6 +1419,7 @@ export default function Home() {
         charName.innerText = parsedCharacterDataFromJSON.charName;
         //-----adottságok és faji módosítók leírása az infó ablakba
         let allAptitudes = parsedCharacterDataFromJSON.aptitudes;
+        let wierBloodPointsPerLevelOfWierBloodAptitude = [1, 3, 5]; // vérpontok száma az adottság szintjének függvényében
         for (let i = 0; i < allAptitudes.length; i++) {
           let romanNumbers = ["I.", "II.", "III."];
           for (let j = 0; j < aptitudesDescript.length; j++) {
@@ -1349,7 +1431,6 @@ export default function Home() {
                   aptitudeListItem.innerText = `${aptitudeListItem.innerText} (${parsedCharacterDataFromJSON.talent.skill})`;
                 }
                 if (allAptitudes[i].aptitude == "Wier vér") {
-                  let wierBloodPointsPerLevelOfWierBloodAptitude = [1, 3, 5]; // vérpontok száma az adottság szintjének függvényében
                   let wierBloodPointSpanForMaxBloodPoint = document.createElement("span");
                   let wierBloodPointSpanForCurrentBloodPoint = document.createElement("span");
                   let wierBloodPointTextElementMax = document.createElement("div");
@@ -1360,7 +1441,6 @@ export default function Home() {
                   wierBloodPointTextElementCurrent.innerText = "Akt Vérpontok:";
                   let wierBloodPointNumberElementCurrent = document.createElement("input");
                   wierBloodPointNumberElementCurrent.id = "currentBloodPoints";
-                  wierBloodPointNumberElementCurrent.value = "0";
                   wierBloodPointSpanForMaxBloodPoint.appendChild(wierBloodPointTextElementMax);
                   wierBloodPointSpanForMaxBloodPoint.appendChild(wierBloodPointNumberElementMax);
                   wierBloodPointSpanForCurrentBloodPoint.appendChild(wierBloodPointTextElementCurrent);
@@ -1825,6 +1905,9 @@ export default function Home() {
           currentMp: manaPoints,
           currentLp: legendPoints,
         };
+        if (document.getElementById("currentBloodPoints")) {
+          data.currentBloodPoints = wierBloodPointsPerLevelOfWierBloodAptitude[aptitudeObject["Wier vér"] - 1];
+        }
 
         (maxFp.innerText = fpPoints),
           (maxEp.innerText = currentCharFinalAttributes.Egé + vigorousModifier * 2),
@@ -1931,34 +2014,34 @@ export default function Home() {
   //------------------a támadó dobás
   //************************************************************************ */
 
-  let numberOfChainLightningCharges = 0;
-
-  async function handleClickOnAttackRollButton(darkDice, lightDice) {
+  async function handleClickOnAttackRollButton(event, darkDice, lightDice) {
     //updateCharacterSocketData();
+    //console.log(event.target.id);
     if (soundToggleCheckbox.checked) {
       rollDiceSound.play();
     }
 
-    if (Object.values(currentCombatSpell).length && (currentCombatSpell.spellName.includes("Visszaverődő") || currentCombatSpell.spellName.includes("Villámlánc"))) {
-      numberOfChainLightningCharges = allMagicSubskillsObject["Villámmágia"] - 1;
-      currentCombatSpellChanger({});
-    }
-
     //*********************************************************************** */
-    //** Ne számoljon, ha legendapont használat volt, ez az if több helyen is megjelenik ugyanezen okból */
-    if (defensiveCombatOn && !spellNeedsAimRoll) {
-      setDefensiveCombatVEObonus(0); // támadás esetén a Védekező harcból adódó bónusz 0 lesz, függetlenül attól, hogy ez milyen támadás
-      defensiveCombatOnSetToFalse();
-      defensiveCombatContinueSelectedSetToFalse(); // ha az előző kör végén úgy dönött, folytatja a védekező harcot
-    }
-    if (!spellNeedsAimRoll) {
-      numberOfClicksForAttacksForPsiAssault++;
-      numberOfAttacksInTheRound++;
-    }
+    //Csak ha az event.target a fő támadó gomb volt, csak akkor számoljon ezekkel. Egyéb esetekben feltételezhető hogy Lp használat vagy Szerencsés alkalmazása történt */
+    if (event.target.id == "attackRollButton") {
+      if (defensiveCombatOn && !spellNeedsAimRoll) {
+        setDefensiveCombatVEObonus(0); // támadás esetén a Védekező harcból adódó bónusz 0 lesz, függetlenül attól, hogy ez milyen támadás
+        defensiveCombatOnSetToFalse();
+        defensiveCombatContinueSelectedSetToFalse(); // ha az előző kör végén úgy dönött, folytatja a védekező harcot
+      }
+      if (!spellNeedsAimRoll) {
+        numberOfClicksForAttacksForPsiAssault++;
+        numberOfAttacksInTheRound++;
+      }
 
-    if (twoWeaponAttackRadioButton.checked == true) {
-      twoWeaponAttackWasUsedThisRound = true;
-      numberOfClicksAtTwoWeaponAttack++;
+      if (twoWeaponAttackRadioButton.checked == true) {
+        twoWeaponAttackWasUsedThisRound = true;
+        numberOfClicksAtTwoWeaponAttack++;
+      }
+    }
+    if (Object.values(currentCombatSpell).length && (currentCombatSpell.spellName.includes("Visszaverődő") || currentCombatSpell.spellName.includes("Villámlánc"))) {
+      numberOfChainLightningCharges = allMagicSubskillsObject["Villámmágia"];
+      currentCombatSpellChanger({});
     }
 
     combatStatRefresher();
@@ -1983,15 +2066,12 @@ export default function Home() {
         }
       }
     }
+
     //-----------------------megnézni, hogy van-e erő sebzés
 
-    if (currentlySelectedWeapon.strBonusDmg == false) {
-      rollResult.innerText = ttkRoll(false, darkDice, lightDice);
-      rollResult.animate([{ color: "white" }, { color: "black" }], 200);
-    } else if (currentlySelectedWeapon.strBonusDmg == true) {
-      rollResult.innerText = ttkRoll(true, darkDice, lightDice);
-      rollResult.animate([{ color: "white" }, { color: "black" }], 200);
-    }
+    rollResult.innerText = ttkRoll(darkDice, lightDice);
+    rollResult.animate([{ color: "white" }, { color: "black" }], 200);
+
     //************************************************************************************************************************** */
     //Ebben a körben volt kombináció vagy kapáslövés használva, ezért a minusz HMO-k maradnak
     //*************************************************************************************************************************** */
@@ -2005,52 +2085,23 @@ export default function Home() {
       combinationWasUsedThisRound = true;
       cumulativeCombinationModifier -= combinationModifiers[combinationModifiersIndex];
       hmoModifier(combinationModifiers[combinationModifiersIndex]);
-      console.log("halmozódó komb mod", cumulativeCombinationModifier);
-      console.log("halmozódó tám mod", modifierFromNumberOfAttacksInTheRound);
+      // console.log("halmozódó komb mod", cumulativeCombinationModifier);
+      // console.log("halmozódó tám mod", modifierFromNumberOfAttacksInTheRound);
     }
 
     firstAttackInRoundSpent = true;
     combinationCheckBox.disabled = false;
 
-    if (spellNeedsAimRoll == true && numberOfChainLightningCharges == 0) {
-      setTimeout(() => {
-        currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
-        currentAimedSpellModifier = 0;
-        combatStatRefresher();
-      }, 500);
-    }
+    // if (spellNeedsAimRoll == true && numberOfChainLightningCharges == 0) {
+    //   setTimeout(() => {
+    //     currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
+    //     currentAimedSpellModifier = 0;
+    //     combatStatRefresher();
+    //   }, 500);
+    // }
 
-    damageResult.innerText = "";
-    bodyPart.innerText = "";
-    bodyPart.innerText = bodyParts[originalLightDice - 1];
-
-    tempImg = document.createElement("img");
-    tempImg.classList.add("tempImg");
-    bodyPartImg.appendChild(tempImg);
-    function currentBodypartHit(bodypart) {
-      tempImg.src = "";
-      tempImg.src = `./bodyParts/${bodypart}`;
-    }
-    if (bodyPart.innerText == "Bal láb") {
-      currentBodypartHit("LeftLeg.png");
-    }
-    if (bodyPart.innerText == "Jobb láb") {
-      currentBodypartHit("RightLeg.png");
-    }
-    if (bodyPart.innerText == "Bal kar") {
-      currentBodypartHit("LeftArm.png");
-    }
-    if (bodyPart.innerText == "Fegyverforgató kar") {
-      currentBodypartHit("RightArm.png");
-    }
-    if (bodyPart.innerText == "Törzs") {
-      currentBodypartHit("Torso.png");
-    }
-    if (bodyPart.innerText == "Fej") {
-      currentBodypartHit("Head.png");
-    }
-    bodyPart.animate([{ color: "white" }, { color: "black" }], 200);
-    damageEvaluator();
+    bodypartHitEvaluator();
+    damageEvaluator(event);
 
     // ********************************************************************************************************************
     // ---- megnézi, hogy van-e kiválasztva összetett manőver és először a képzettségeket veszi figyelembe, és próbát is dob
@@ -2107,21 +2158,21 @@ export default function Home() {
     //   break;
     // }
     //}
-    if (initRolled && combinationCheckBox.checked == false && firstAttackIsSpellThatNeedsAimRoll == false && firstAttackIsAttackOfOpportunity == false && numberOfChainLightningCharges == 0) {
-      attackRollButton.disabled = true;
-    }
-    if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) >= 3) {
-      attackRollButton.disabled = false;
-    }
-    if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) < 3) {
-      attackRollButton.disabled = true;
-    }
-    if (numberOfClicksAtTwoWeaponAttack == 1) {
-      attackRollButton.disabled = false;
-    }
-    if (attackRollButtonWasDisabledBeforeSpellCast == true && numberOfChainLightningCharges == 0) {
-      attackRollButton.disabled = true;
-    }
+    // if (initRolled && combinationCheckBox.checked == false && firstAttackIsSpellThatNeedsAimRoll == false && firstAttackIsAttackOfOpportunity == false && numberOfChainLightningCharges == 0) {
+    //   attackRollButton.disabled = true;
+    // }
+    // if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) >= 3) {
+    //   attackRollButton.disabled = false;
+    // }
+    // if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) < 3) {
+    //   attackRollButton.disabled = true;
+    // }
+    // if (numberOfClicksAtTwoWeaponAttack == 1) {
+    //   attackRollButton.disabled = false;
+    // }
+    // if (attackRollButtonWasDisabledBeforeSpellCast == true && numberOfChainLightningCharges == 0) {
+    //   attackRollButton.disabled = true;
+    // }
 
     if (initRolled == true && !spellNeedsAimRoll) {
       if (currentlySelectedWeapon.atkPerRound < numberOfAttacksInTheRound + 1 && !spellNeedsAimRoll) {
@@ -2130,7 +2181,6 @@ export default function Home() {
         totalModifierForNextAttack.innerText = `${combinationModifiers[combinationModifiersIndex]}`;
       }
 
-      //ha volt kezdeményező dobás
       for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
         if (arrayOfAllComplexManeuvers[i].checked == true) {
           totalActionCostOfAttackSetter(arrayOfAllComplexManeuvers[i].parentElement.value);
@@ -2216,6 +2266,7 @@ export default function Home() {
         // ammoAmountInput.value--
       }
     }
+
     if (charAtk.value < 0) {
       charAtkSum.innerText = rollResult.innerText;
       charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
@@ -2223,22 +2274,19 @@ export default function Home() {
       charAtkSum.innerText = parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
       charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
     }
-
     if (thisAttackWasWithCharge) {
       thisAttackWasWithCharge = false;
     }
 
     if (firstAttackIsSpellThatNeedsAimRoll) {
       firstAttackInRoundSpent = false;
-      if (numberOfChainLightningCharges == 0) {
-        firstAttackIsSpellThatNeedsAimRollSetToFalse();
-      }
-    }
-    if (numberOfChainLightningCharges == 0) {
-      spellNeedsAimRollSetToFalse();
     }
     if (numberOfChainLightningCharges > 0) {
       numberOfChainLightningCharges--;
+    }
+    if (numberOfChainLightningCharges == 0) {
+      spellNeedsAimRollSetToFalse();
+      firstAttackIsSpellThatNeedsAimRollSetToFalse();
     }
     combatStatRefresher();
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
@@ -2332,7 +2380,25 @@ export default function Home() {
             <label htmlFor="lightDiceResultSelect" id="lightDiceResult">
               Világos kocka:
             </label>
-            <select id="lightDiceResultSelect" name="" disabled={true}>
+            <select
+              id="lightDiceResultSelect"
+              name=""
+              onChange={(event) => {
+                allResultsCleaner();
+                rollResult.innerText = ttkRoll(darkDiceResultSelect.value, lightDiceResultSelect.value);
+                rollResult.animate([{ color: "white" }, { color: "black" }], 200);
+                bodypartHitEvaluator();
+                damageEvaluator(event);
+                if (charAtk.value < 0) {
+                  charAtkSum.innerText = rollResult.innerText;
+                  charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+                } else {
+                  charAtkSum.innerText = parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
+                  charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+                }
+                updateCharacterSocketData();
+              }}
+            >
               {rollOptions.map((e) => {
                 return <option key={e}>{e}</option>;
               })}
@@ -2340,7 +2406,25 @@ export default function Home() {
             <label htmlFor="darkDiceResultSelect" id="darkDiceResult">
               Sötét kocka:
             </label>
-            <select id="darkDiceResultSelect" name="" disabled={true}>
+            <select
+              id="darkDiceResultSelect"
+              name=""
+              onChange={(event) => {
+                allResultsCleaner();
+                rollResult.innerText = ttkRoll(darkDiceResultSelect.value, lightDiceResultSelect.value);
+                rollResult.animate([{ color: "white" }, { color: "black" }], 200);
+                bodypartHitEvaluator();
+                damageEvaluator(event);
+                if (charAtk.value < 0) {
+                  charAtkSum.innerText = rollResult.innerText;
+                  charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+                } else {
+                  charAtkSum.innerText = parseFloat(rollResult.innerText) + parseFloat(charAtk.value);
+                  charAtkSum.animate([{ color: "white" }, { color: "black" }], 200);
+                }
+                updateCharacterSocketData();
+              }}
+            >
               {rollOptions.map((e) => {
                 return <option key={e}>{e}</option>;
               })}

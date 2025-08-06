@@ -789,7 +789,10 @@ function Spells() {
       advancedSpellInputWrapper.style.display = "grid";
       currentManaInAdvancedSpellWrapper.style.display = "grid";
       currentManaInAdvancedSpellWrapper.innerText = `Aktuális Mp: ${currentMp.value}`;
-      hiddenSpellCastWrapper.style.display = "grid";
+      if (aptitudeObject["Rejtett varázs"]) {
+        hiddenSpellCastWrapper.style.display = "grid";
+      }
+
       warningWindow.innerText = "";
       removeAllOptions("magicSubSkillSelect");
 
@@ -992,7 +995,7 @@ function Spells() {
     }
   }
 
-  function handleSpellCast() {
+  function handleSpellCast(event) {
     if (parseInt(numberOfActions.innerText) < 1) {
       blinkingText(warningWindow, "1-nél kevesebb CS-d van!");
       return;
@@ -1010,7 +1013,7 @@ function Spells() {
     if (skillCheckStressCheckbox.checked) {
       stressCheck = true;
     }
-    skillOrAttributeCheckRoll(stressCheck);
+    skillOrAttributeCheckRoll(event, stressCheck);
     let currentDifficultyClass = parseInt(warningWindow.innerText.slice(warningWindow.innerText.search(/[0-9]/))); // az elérendő célszám, ami csak akkor érdekes, ha volt aspektus modifikáció
     let skillCheckResultNumber = parseInt(skillCheckResult.innerText); // próba eredménye
     if (powerAspModified || hiddenSpellCastNoHandMotion.checked || hiddenSpellCastNoVocalComponent.checked) {

@@ -123,7 +123,7 @@ function ResistancesAptitudesRaceMofifiers() {
     }
     skills.value = "";
     skills.disabled = true;
-    skillOrAttributeCheckRoll(stessResist);
+    skillOrAttributeCheckRoll(event, stessResist);
     setManuallySetRollModifier();
     setManuallySetSuccFailModifer();
     skillCheckRollButton.disabled = true;

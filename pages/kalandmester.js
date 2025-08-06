@@ -36,8 +36,13 @@ function Kalandmester() {
     initiativeWithRollNodes = document.querySelectorAll("div#initiativeWithRoll");
     characterNameForInitNodes = document.querySelectorAll("div#characterNameForInit");
   }
+  socket.on("refresh needed", () => {
+    clearAllNodes();
+    handleFirstIteration();
+    return;
+  });
   socket.on("character updated from server", (updatedCharName) => {
-    if (updatedCharName == "") {
+    if (updatedCharName == "" || updatedCharName == null || updatedCharName == undefined) {
       return;
     }
     //clearAllNodes();

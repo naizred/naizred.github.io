@@ -18,6 +18,7 @@ const newCharStats = async (req, res) => {
         currentLp: req.body.currentLp,
         currentPp: req.body.currentPp,
         currentMp: req.body.currentMp,
+        currentBloodPoints: req.body.currentBloodPoints,
       },
     });
 

@@ -61,7 +61,7 @@ app.prepare().then(() => {
     socket.on("leave room", (gameId) => {
       socket.leave(`${gameId}`);
       //console.log("elhagyta a szobát", gameId, socket.data);
-      io.to(`${gameId}`).emit("character updated from server", socket.data.charName);
+      io.to(`${gameId}`).emit("refresh needed");
     });
 
     socket.on("character updated", (updatedData) => {

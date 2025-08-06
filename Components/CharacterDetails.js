@@ -112,12 +112,17 @@ export async function updateCharacterData(gameIdUpdate = false) {
     skillCheckResult: parseInt(skillCheckResult.innerText),
     skillCheckDice: `Dobás kihatása: ${skillCheckCalculatedResultFromRoll}`,
     initiativeWithRoll: parseInt(initiativeWithRoll.innerText),
+    combatLog: "",
+    notes: "",
   };
 
   if (gameIdUpdate == true) {
     data.gameId = gameIdInput.value;
   }
 
+  if (document.getElementById("currentBloodPoints")) {
+    data.currentBloodPoints = parseInt(currentBloodPoints.value);
+  }
   //socket.emit("sending data to update", data);
 
   const JSONdata = JSON.stringify(data);
@@ -145,15 +150,16 @@ export function checkIfPsiIsUseable() {
   }
 }
 export let firstRoundActionNumberModifierFromInitRoll = 0;
+let firstRoundActionNumberModifierFromInitRollSave = 0;
 export function setFirstRoundActionNumberModifierFromInitRoll(value = 0) {
-  // nevezetes dobás
+  // nevezetes kezdeményező dobás miatti extra akció az első körben
   firstRoundActionNumberModifierFromInitRoll = value;
 }
 var MersenneTwister = require("mersenne-twister");
 var generator = new MersenneTwister();
 let actionsLostWithTacticsUsed = 0;
 function CharacterDetails() {
-  function handleBonusInitByLP() {
+  function handleBonusInitByLP(event) {
     if (currentLp.value == 0 || parseInt(numberOfCurrentRound.innerText) != 1) {
       return;
     }
@@ -168,13 +174,14 @@ function CharacterDetails() {
     }
     currentLp.value -= 1;
     initiativeBonusButton.style.display = "none";
-    updateCharacterSocketData();
+    updateCharacterSocketData(event);
   }
 
-  function handleInitiativeRoll() {
+  function handleInitiativeRoll(event, initiativeLightDice, initiativeDarkDice) {
     if (soundToggleCheckbox.checked) {
       rollDiceSound.play();
     }
+    numberOfActions.innerText = parseInt(numberOfActions.innerText) - firstRoundActionNumberModifierFromInitRollSave;
     warningWindow.innerText = "";
     numberOfAttacksInTheRoundNullifier();
     modifierFromNumberOfAttacksInTheRoundNullifier();
@@ -200,14 +207,20 @@ function CharacterDetails() {
     offHand.disabled = true;
     setFirstAttackInRoundSpent(false);
     tacticsButton.disabled = false;
-    let initiativeLightDice = Math.floor(generator.random() * 10);
-    let initiativeDarkDice = Math.floor(generator.random() * 10);
+    if (initiativeLightDice == undefined) {
+      initiativeLightDice = Math.floor(generator.random() * 10);
+    }
+    if (initiativeDarkDice == undefined) {
+      initiativeDarkDice = Math.floor(generator.random() * 10);
+    }
     initRolled = true;
 
     let initiativeLightDicePlusExtraReaction = 0;
 
-    initiativeLightDiceResult.value = initiativeLightDice;
-    initiativeDarkDiceResult.value = initiativeDarkDice;
+    if (event.target.id == "initRollButton") {
+      initiativeLightDiceResult.value = initiativeLightDice;
+      initiativeDarkDiceResult.value = initiativeDarkDice;
+    }
 
     if (initiativeLightDice == 0) {
       initiativeLightDice = 10;
@@ -218,7 +231,13 @@ function CharacterDetails() {
     if (aptitudeObject["Extra reakció"]) {
       extraReactionLevel = aptitudeObject["Extra reakció"];
     }
-    initiativeLightDicePlusExtraReaction = initiativeLightDice + extraReactionLevel;
+    if (event.target.id == "initRollButton") {
+      initiativeLightDicePlusExtraReaction = initiativeLightDice + extraReactionLevel;
+    }
+    if (event.target.id != "initRollButton") {
+      // ha módosították a kockák eredményét, akkor arra ne jöjjön rá a módosító
+      initiativeLightDicePlusExtraReaction = initiativeLightDice;
+    }
     if (initiativeLightDicePlusExtraReaction >= 10) {
       initiativeLightDicePlusExtraReaction = 10;
     }
@@ -247,6 +266,8 @@ function CharacterDetails() {
       specialEffect.innerText = specialModifiers[4];
       firstRoundActionNumberModifierFromInitRoll = 3;
     }
+    firstRoundActionNumberModifierFromInitRollSave = firstRoundActionNumberModifierFromInitRoll;
+
     let initModifierFromDiceRoll = initiativeLightDicePlusExtraReaction - initiativeDarkDice; // új változó mert most már a világos kocka értékéből ki kell vonni a sötétet, és ez adódik hozzá a kezdeményezőhöz
     initiativeWithRoll.innerText = parseInt(initiative.innerText) + initModifierFromDiceRoll;
 
@@ -254,6 +275,7 @@ function CharacterDetails() {
     adjustActionsPositive.value = parseInt(numberOfActions.innerText); // a adjustActionsPositive gomb value értékébe van elmentve a max cselekedetszám
     // ez ide azért kell, hogy a mentett max akciók ne változzon, mivel a módosító a nevezetes dobásból csak az első körre vonatkozik
     numberOfActions.innerText = parseInt(numberOfActions.innerText) + firstRoundActionNumberModifierFromInitRoll;
+    firstRoundActionNumberModifierFromInitRoll = 0;
     // az Extra Reackió adottság az első 3 körben +1 akciót is ad. A további körökben ezt a "handleEndOfRound" függvény fogja figyelni
     if (aptitudeObject["Extra reakció"] && extraReactionLevel > 0) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) + 1;
@@ -623,9 +645,9 @@ function CharacterDetails() {
           <p id="maxPp"></p>
           <input
             id="currentPp"
-            onBlur={() => {
+            onBlur={(event) => {
               checkIfPsiIsUseable();
-              updateCharacterSocketData();
+              updateCharacterSocketData(event);
             }}
           />
         </div>
@@ -687,12 +709,24 @@ function CharacterDetails() {
         <button id="adjustReactionsPositive" className={styles.adjustReactions} onClick={handleAdjustReactionsPositive}>
           Tartalékolás / Készenlét
         </button>
-        <select id="initiativeLightDiceResult" className={styles.initiativeLightDiceResult} disabled={true}>
+        <select
+          id="initiativeLightDiceResult"
+          className={styles.initiativeLightDiceResult}
+          onChange={(event) => {
+            handleInitiativeRoll(event, parseInt(initiativeLightDiceResult.value), parseInt(initiativeDarkDiceResult.value));
+          }}
+        >
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
         </select>
-        <select id="initiativeDarkDiceResult" className={styles.initiativeDarkDiceResult} disabled={true}>
+        <select
+          id="initiativeDarkDiceResult"
+          className={styles.initiativeDarkDiceResult}
+          onChange={(event) => {
+            handleInitiativeRoll(event, parseInt(initiativeLightDiceResult.value), parseInt(initiativeDarkDiceResult.value));
+          }}
+        >
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}

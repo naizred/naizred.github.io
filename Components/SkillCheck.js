@@ -7,7 +7,7 @@ let skillCheckSuccFailModifiers = [0, 1, 2, 3, 4, 5, -1, -2, -3, -4, -5];
 
 export let skillCheckCalculatedResultFromRoll = 0;
 
-export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+export async function skillOrAttributeCheckRoll(event, stressCheck, skillCheckLightDice, skillCheckDarkDice) {
   if (manuallySetRollModifier > 0) {
     allRollModifiersArray.push(`+${manuallySetRollModifier}`);
   }
@@ -24,8 +24,10 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
       skillCheckLightDice = 10;
     }
     console.log("módosító nélkül:", skillCheckLightDice);
-    console.log(allRollModifiersArray.sort((a, b) => parseInt(b) - parseInt(a)));
-    skillCheckLightDice += parseInt(allRollModifiersArray[0]) || 0;
+    allRollModifiersArray.sort((a, b) => parseInt(b) - parseInt(a));
+    if (event.target.id == "skillCheckRollButton") {
+      skillCheckLightDice += parseInt(allRollModifiersArray[0]) || 0;
+    }
 
     if (manuallySetRollModifier < 0) {
       skillCheckLightDice += manuallySetRollModifier;
@@ -89,7 +91,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
 
     console.log("Eredeti dobás eredménye", skillCheckLightDice, skillCheckDarkDice);
 
-    if (manuallySetRollModifier < 0) {
+    if (manuallySetRollModifier < 0 && event.target.id == "skillCheckRollButton") {
       // ha kisebb mint 0, akkor az azt jelenti, hogy nem elhagyható ez a módosító. Ilyen, negatív módosítót jelenleg csak kézzel lehet bevinni
       skillCheckLightDice += parseInt(manuallySetRollModifier);
     }
@@ -104,14 +106,16 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
         if (parseInt(rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray) != 0 && skillCheckLightDicePlusRollMod > 2) {
           // ha van olyan módosító, ami legalább kétszer fordul elő akkor a pozitív módosítót negatívra válthatjuk, ha az előnyösebb a stresszpróbánál
           skillCheckLightDicePlusRollMod = skillCheckLightDice - parseInt(rollModifierThatOccuredAtLeastTwoTimesInTheRollModifiersArray);
-          if (skillCheckLightDicePlusRollMod <= 0) {
-            skillCheckLightDicePlusRollMod = 1;
-          }
+          // if (skillCheckLightDicePlusRollMod <= 0) {
+          //   skillCheckLightDicePlusRollMod = 1;
+          // }
           if (skillCheckLightDicePlusRollMod == skillCheckDarkDice) {
             break;
           }
         }
-        skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(allRollModifiersArray[i]);
+        if (event.target.id == "skillCheckRollButton") {
+          skillCheckLightDicePlusRollMod = skillCheckLightDice + parseInt(allRollModifiersArray[i]);
+        }
         if (skillCheckLightDicePlusRollMod >= 10) {
           skillCheckLightDicePlusRollMod = 10;
         }
@@ -172,7 +176,7 @@ export async function skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice
     skillCheckResult.innerText = parseInt(skillCheckBase.innerText) + skillCheckCalculatedResultFromRoll;
     skillCheckResult.animate([{ color: "white" }, { color: "black" }], 200);
   }
-  updateCharacterSocketData();
+  updateCharacterSocketData(event);
   //console.log(allRollModifiersArray);
 }
 
@@ -180,7 +184,7 @@ export let allRollModifiersArray = []; // ebbe az array-ba fogjuk berakni az ös
 export function emptyAllRollModifiersArray() {
   allRollModifiersArray = [];
 }
-export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDarkDice) {
+export function handleSkillCheck(event, stressCheck, skillCheckLightDice, skillCheckDarkDice) {
   if (soundToggleCheckbox.checked) {
     rollDiceSound.play();
   }
@@ -202,7 +206,7 @@ export function handleSkillCheck(stressCheck, skillCheckLightDice, skillCheckDar
   } else if (skillCheckStressCheckbox.checked == false) {
     stressCheck = false;
   }
-  skillOrAttributeCheckRoll(stressCheck, skillCheckLightDice, skillCheckDarkDice);
+  skillOrAttributeCheckRoll(event, stressCheck, skillCheckLightDice, skillCheckDarkDice);
   manuallySetRollModifier = 0;
   manuallySetSuccFailModifer = 0;
 }
@@ -336,7 +340,13 @@ function SkillCheck() {
         <label htmlFor="skillCheckLightDiceResultSelect" id="skillCheckLightDiceResultLabel">
           Világos kocka:
         </label>
-        <select id="skillCheckLightDiceResultSelect" name="" disabled={true}>
+        <select
+          id="skillCheckLightDiceResultSelect"
+          name=""
+          onChange={(event) => {
+            skillOrAttributeCheckRoll(event, skillCheckStressCheckbox.checked, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value));
+          }}
+        >
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}
@@ -344,7 +354,13 @@ function SkillCheck() {
         <label htmlFor="skillCheckDarkDiceResultSelect" id="skillCheckDarkDiceResultLabel">
           Sötét kocka:
         </label>
-        <select id="skillCheckDarkDiceResultSelect" name="" disabled={true}>
+        <select
+          id="skillCheckDarkDiceResultSelect"
+          name=""
+          onChange={(event) => {
+            skillOrAttributeCheckRoll(event, skillCheckStressCheckbox.checked, parseInt(skillCheckLightDiceResultSelect.value), parseInt(skillCheckDarkDiceResultSelect.value));
+          }}
+        >
           {rollOptions.map((e) => {
             return <option key={e}>{e}</option>;
           })}

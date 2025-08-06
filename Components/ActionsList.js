@@ -396,14 +396,24 @@ function ActionList() {
       if (totalActionCostOfAttack <= parseInt(numberOfActions.innerText)) {
         attackRollButton.disabled == true;
       }
-      if (nameOfManeuver.includes("Fegyverváltás") && parseInt(numberOfActions.innerText) != 0) {
-        weapons.disabled = false;
-        offHand.disabled = false;
-        numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
-        actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
-        event.target.disabled = true;
-        for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
-          arrayOfAllComplexManeuvers[i].checked = false;
+      if (nameOfManeuver.includes("Fegyverváltás")) {
+        if (parseInt(numberOfActions.innerText) != 0 && currentlySelectedWeapon.w_name != "Célzott mágia") {
+          weapons.disabled = false;
+          offHand.disabled = false;
+          numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
+          actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
+          event.target.disabled = true;
+          for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
+            arrayOfAllComplexManeuvers[i].checked = false;
+          }
+        }
+        if (currentlySelectedWeapon.w_name == "Célzott mágia") {
+          currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
+          currentAimedSpellModifierSetter(0);
+          combatStatRefresher();
+          if (!firstAttackInRoundSpent) {
+            attackRollButton.disabled = false;
+          }
         }
       }
       if (

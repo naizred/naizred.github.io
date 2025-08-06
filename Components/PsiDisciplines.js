@@ -325,7 +325,7 @@ export function PsiDisciplines() {
 
   function handleDeleteBuff(event) {
     buffRemoverFromActiveBuffArrayAndTextList(event.target.parentElement.firstChild.innerText);
-    updateCharacterSocketData();
+    updateCharacterSocketData(event);
   }
   function handlePsiRecovery(event) {
     if (event.target.parentElement.firstChild.id == "amountOfMinutesMeditating") {
@@ -340,7 +340,7 @@ export function PsiDisciplines() {
     if (parseInt(currentPp.value) >= parseInt(maxPp.innerText)) {
       currentPp.value = parseInt(maxPp.innerText);
     }
-    updateCharacterSocketData();
+    updateCharacterSocketData(event);
   }
 
   return (
@@ -357,9 +357,9 @@ export function PsiDisciplines() {
         <button
           id="psiActivateButton"
           className={styles.psiActivateButton}
-          onClick={() => {
+          onClick={(event) => {
             handleDisciplineActivation();
-            updateCharacterSocketData();
+            updateCharacterSocketData(event);
           }}
           onMouseEnter={psiPointCostCheckerAndSetter}
         >
