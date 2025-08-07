@@ -133,6 +133,7 @@ export async function updateCharacterData(gameIdUpdate = false) {
       "Content-Type": "application/json",
     },
     body: JSONdata,
+    keepalive: true,
   };
   await fetch(endpoint, options);
 }

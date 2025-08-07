@@ -1986,9 +1986,11 @@ export default function Home() {
         combatStatRefresher();
       }
       fileFirstLoaded = false;
-      window.addEventListener("beforeunload", () => {
-        updateCharacterData(false);
-        socket.emit("leave room", gameIdLabel.innerText);
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          updateCharacterData(false);
+          socket.emit("leave room", gameIdLabel.innerText);
+        }
       });
     });
 
