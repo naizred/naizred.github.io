@@ -2,6 +2,7 @@ import styles from "../styles/actionlist.module.css";
 import allSpells from "../json/allSpells.json";
 import spellsWizard from "../json/spellsWizard.json";
 import spellAttributes from "../json/spellAttributes.json";
+import { socket } from "../pages";
 import {
   allMagicSubskillsObject,
   allResultsCleaner,
@@ -37,10 +38,12 @@ let spellsThatModifyCombatStats = allSpells.filter(
   (spell) =>
     ((spell.description.includes("CÉO") || spell.description.includes("TÉO") || spell.description.includes("HMO")) &&
       !spell.description.toLowerCase().includes("negatív") &&
-      !spell.description.toLowerCase().includes("hátrány") &&
-      spell.description.toLowerCase().includes("+")) ||
-    spell.description.toLowerCase().includes("kontrollált")
+      !spell.description.toLowerCase().includes("hátrány")) ||
+    // && spell.description.toLowerCase().includes("+")
+    spell.description.toLowerCase().includes("kontrollált") ||
+    spell.description.toLowerCase().includes("ismétlődő")
 );
+
 export let spellsThatModifyCombatStatsObject = {};
 for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
   let indexOfPositiveCombatModifier = spellsThatModifyCombatStats[i].description.lastIndexOf("+");
@@ -48,6 +51,10 @@ for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
   let isControlled = false;
   let isGuided = false;
   let whatDoesItModify;
+  let spellType;
+  if (spellsThatModifyCombatStats[i].resist.includes("TÉOvVÉO") || spellsThatModifyCombatStats[i].resist.includes("CÉOvVÉO")) {
+    spellType = "attackSpell";
+  }
   if (spellsThatModifyCombatStats[i].description.toLowerCase().includes("ismétlődő")) {
     isRecurring = true;
   }
@@ -63,8 +70,27 @@ for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
   if (spellsThatModifyCombatStats[i].description.includes("TÉO")) {
     whatDoesItModify = "TÉO";
   }
-  if (spellsThatModifyCombatStats[i].description.includes("TÉO és VÉO") || spellsThatModifyCombatStats[i].description.includes("HMO")) {
+  if (spellsThatModifyCombatStats[i].description.includes("TÉO és VÉO")) {
     whatDoesItModify = "TÉO, VÉO";
+  }
+  if (spellsThatModifyCombatStats[i].description.includes("HMO")) {
+    whatDoesItModify = "HMO";
+  }
+  if (
+    !spellsThatModifyCombatStats[i].resist.includes("TÉOvVÉO") &&
+    !spellsThatModifyCombatStats[i].resist.includes("CÉOvVÉO") &&
+    !spellsThatModifyCombatStats[i].description.toLowerCase().includes("irányított") &&
+    !spellsThatModifyCombatStats[i].description.toLowerCase().includes("ismétlődő")
+  ) {
+    for (let j = 0; j < spellsThatModifyCombatStats[i].aspects.length; j++) {
+      if (spellsThatModifyCombatStats[i].aspects[j][0] == "Időtartam") {
+        if (spellsThatModifyCombatStats[i].aspects[j][1] > 1) {
+          if (!spellType) {
+            spellType = "buffSpell";
+          }
+        }
+      }
+    }
   }
   spellsThatModifyCombatStatsObject[i] = {
     spellName: spellsThatModifyCombatStats[i].name,
@@ -73,22 +99,24 @@ for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
     isRecurring: isRecurring,
     isControlled: isControlled,
     isGuided: isGuided,
+    spellType: spellType || "",
   };
 }
 spellsThatModifyCombatStatsObject = Object.values(spellsThatModifyCombatStatsObject);
-export function checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(currentSpellName) {
+export let currentCombatSpell = {};
+export function currentCombatSpellFinderAndChanger(currentSpellName) {
   if (!currentSpellName) {
     return;
   }
+  currentCombatSpell = {};
   // összeveti a jelenleg elvarázsolt spell nevét az összes olyan spellel amik valamilyen statot adnak
   for (let i = 0; i < spellsThatModifyCombatStatsObject.length; i++) {
     if (currentSpellName.includes(spellsThatModifyCombatStatsObject[i].spellName)) {
-      return spellsThatModifyCombatStatsObject[i];
+      currentCombatSpell = spellsThatModifyCombatStatsObject[i];
+      break;
     }
   }
-  return {};
 }
-export let currentCombatSpell = {};
 export function currentCombatSpellChanger(input) {
   currentCombatSpell = input;
 }
@@ -128,6 +156,8 @@ export function numberOfActionsSpentOnCastingCurrentSpellNullifier() {
   numberOfActionsSpentOnCastingCurrentSpell = 0;
 }
 let currentActiveLiturgy = "";
+let currentSpellTargetingAnotherMemberInRoom;
+let allLiOfPlayerAndEnemyListInSocketRoom;
 export function spellCastingSuccessful(currentSpell) {
   spellIsBeingCast = false;
 
@@ -191,9 +221,26 @@ export function spellCastingSuccessful(currentSpell) {
     }
   }
   if (currentSpell) {
-    currentCombatSpell = checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(currentSpell.name);
+    currentCombatSpellFinderAndChanger(currentSpell.name);
+    allLiOfPlayerAndEnemyListInSocketRoom = document.querySelectorAll("ul#playerAndEnemyListInSocketRoom li");
+    for (let i = 0; i < allLiOfPlayerAndEnemyListInSocketRoom.length; i++) {
+      // elöször törlünk mindent arra az esetre ha időközben változott volna a résztvevők száma
+      allLiOfPlayerAndEnemyListInSocketRoom[i].innerText = "";
+      allLiOfPlayerAndEnemyListInSocketRoom[i].value = 0;
+      allLiOfPlayerAndEnemyListInSocketRoom[i].style.color = "white";
+    }
+    socket.emit("need sockets", gameIdLabel.innerText); // lehetséges célpontok felsorolása
+    socket.on("there you go", (allPlayersArray) => {
+      for (let i = 0; i < allPlayersArray.length; i++) {
+        if (allPlayersArray[i].charName) {
+          allLiOfPlayerAndEnemyListInSocketRoom[i].innerText = allPlayersArray[i].charName;
+        } else {
+          break;
+        }
+      }
+    });
   }
-  if (currentSpell && currentSpell.name && !currentSpell.name.includes("liturgia")) {
+  if (currentSpell && currentSpell.name && currentSpellDuration > 1 && !currentSpell.name.includes("liturgia")) {
     // a currentSpellDuration > 3 azt jelenti, hogy legalább fél óráig tart a buff,
     for (let i = 0; i < allActiveBuffs.length; i++) {
       // ezt harc előtt is felrakhatja, ezért nem kell, hogy legyen initRolled
@@ -209,31 +256,53 @@ export function spellCastingSuccessful(currentSpell) {
       ) {
         buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText);
         if (currentSpellDuration == 2) {
-          allActiveBuffs[i].innerText = `1 kör - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
+          currentSpellTargetingAnotherMemberInRoom = `1 kör - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
         }
         if (currentSpellDuration == 3) {
-          allActiveBuffs[i].innerText = `6 kör - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
+          currentSpellTargetingAnotherMemberInRoom = `6 kör - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
         }
         if (currentSpellDuration == 4) {
-          allActiveBuffs[i].innerText = `30 perc - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
+          currentSpellTargetingAnotherMemberInRoom = `30 perc - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
         }
         if (currentSpellDuration == 5) {
-          allActiveBuffs[i].innerText = `10 óra - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
+          currentSpellTargetingAnotherMemberInRoom = `10 óra - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
+        }
+        if (currentSpellDuration == 6) {
+          currentSpellTargetingAnotherMemberInRoom = `1 hét - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
+        }
+        if (currentSpellDuration == 7) {
+          currentSpellTargetingAnotherMemberInRoom = `1 hónap - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
         }
         //allActiveBuffs[i].parentElement.lastChild.value = `${parseInt(allActiveBuffs[i].innerText)}, ${numberOfCurrentRound.innerText}` // A törlés gomb value-ben van eltárolva az időtartam adat. Innen fogjuk vizsgálni, hogy mennyi van még hátra belőle
         if (currentCombatSpell.isRecurring) {
           // csak egy ismétlődő varázslat lehet
-          allActiveBuffs[i].innerText = `${allActiveBuffs[i].innerText} - ismétlődő`;
+          currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - ismétlődő`;
           recurringSpellActionButton.style.display = "grid";
           if (initRolled) {
             recurringSpellActionButton.disabled = true;
           }
         }
         if (currentCombatSpell.isControlled) {
-          allActiveBuffs[i].innerText = `${allActiveBuffs[i].innerText} - kontrollált`;
+          currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - kontrollált`;
         }
         if (currentCombatSpell.isGuided) {
-          allActiveBuffs[i].innerText = `${allActiveBuffs[i].innerText} - irányított`;
+          currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - irányított`;
+        }
+        if (currentSpellDistance >= 2 && !currentCombatSpell.isControlled && !currentCombatSpell.isGuided && !currentCombatSpell.isRecurring) {
+          playerAndEnemyListInSocketRoom.style.display = "grid";
+          if (gameIdLabel.innerText == "nincs") {
+            return;
+          }
+        }
+        if (currentCombatSpell.isControlled || currentCombatSpell.isGuided || currentCombatSpell.isRecurring || currentSpellDistance == 1) {
+          playerAndEnemyListInSocketRoom.style.display = "none";
+          let data = {
+            charName: charName.innerText,
+            gameId: gameIdLabel.innerText,
+            spellActiveBuffText: currentSpellTargetingAnotherMemberInRoom,
+            spellData: currentCombatSpell,
+          };
+          socket.emit("send spell data from player to player", data);
         }
         //activeBuffsArray.push(allActiveBuffs[i].innerText);
         break;
@@ -246,14 +315,15 @@ export function spellCastingSuccessful(currentSpell) {
   if (initRolled == true && attackRollButton.disabled == false) {
     attackRollButtonWasDisabledBeforeSpellCastSetter(false);
   }
-  if (currentCombatSpell && (!currentCombatSpell.spellName || currentCombatSpell.isGuided || !currentCombatSpell.modifier)) {
-    handleIfSpellDoesNotNeedAimRoll();
-  } else if (currentCombatSpell && currentCombatSpell.spellName) {
+  if (currentCombatSpell && currentCombatSpell.spellName && currentCombatSpell.spellType == "attackSpell" && !currentCombatSpell.isGuided) {
     handleIfSpellNeedsAimRoll();
+  } else {
+    handleIfSpellDoesNotNeedAimRoll();
   }
   updateCharacterSocketData();
 }
 let currentSpellDuration = 0;
+let currentSpellDistance = 0;
 
 export let currentSpellBloodPointCost = 0;
 
@@ -270,6 +340,14 @@ export function spellCastingFailure(anyOtherCondition = true, currentSpell) {
   }
 }
 export let currentSpell;
+function findFirstAspectNameValue(aspectName) {
+  // erre azért van szükség, mert lehet, hogy egy keresett Aspektus (pl. Időtartam) előtt van két terület, ezért az index elcsúszik
+  for (let i = 0; i < currentSpell.aspects.length; i++) {
+    if (currentSpell.aspects[i][0] == aspectName) {
+      return currentSpell.aspects[i][1];
+    }
+  }
+}
 let filteredSpellsBySubSkillAndLevel;
 let powerAspModified = false;
 let anyAspExceptPowerAspModified = false;
@@ -697,6 +775,47 @@ function Spells() {
     }
   }
 
+  function handleSpellTagetSelection(event) {
+    if (event.target.value == 0) {
+      event.target.value = 1;
+      event.target.style.color = "blue";
+      return;
+    }
+    if (event.target.value == 1) {
+      event.target.value = 0;
+      event.target.style.color = "white";
+      return;
+    }
+  }
+
+  function handleSelectedSpellTargets() {
+    let atLeastOneTargetWasSelected = false;
+
+    for (let i = 0; i < allLiOfPlayerAndEnemyListInSocketRoom.length; i++) {
+      if (allLiOfPlayerAndEnemyListInSocketRoom[i].value == 1) {
+        let data = {
+          charName: allLiOfPlayerAndEnemyListInSocketRoom[i].innerText,
+          gameId: gameIdLabel.innerText,
+          spellActiveBuffText: currentSpellTargetingAnotherMemberInRoom,
+          spellData: currentCombatSpell,
+        };
+        atLeastOneTargetWasSelected = true;
+        socket.emit("send spell data from player to player", data);
+      }
+    }
+    if (!atLeastOneTargetWasSelected) {
+      // ha nem volt egyetlen célpont sem kiválasztva, akkor magára nyomja
+      let data = {
+        charName: charName.innerText,
+        gameId: gameIdLabel.innerText,
+        spellActiveBuffText: currentSpellTargetingAnotherMemberInRoom,
+        spellData: currentCombatSpell,
+      };
+      socket.emit("send spell data from player to player", data);
+    }
+    playerAndEnemyListInSocketRoom.style.display = "none";
+  }
+
   let manaNeededForTheSpell = 0;
   //console.log(spellsThatModifyCombatStats)
   //console.log(spellsThatModifyCombatStatsObject)
@@ -1042,15 +1161,8 @@ function Spells() {
     }
 
     console.log("volt erő mod?", powerAspModified, "volt más asp mod?", anyAspExceptPowerAspModified);
-    function findFirstAspectNameValue(aspectName) {
-      // erre azért van szükség, mert lehet, hogy egy keresett Aspektus (pl. Időtartam) előtt van két terület, ezért az index elcsúszik
-      for (let i = 0; i < currentSpell.aspects.length; i++) {
-        if (currentSpell.aspects[i][0] == aspectName) {
-          return currentSpell.aspects[i][1];
-        }
-      }
-    }
     currentSpellDuration = findFirstAspectNameValue("Időtartam");
+    currentSpellDistance = findFirstAspectNameValue("Távolság");
 
     let spellManaCost = 0;
     castBarCurrentWidthStart = 0;
@@ -1278,6 +1390,19 @@ function Spells() {
           <input id="hiddenSpellCastNoVocalComponent" name="hiddenSpellCast" onChange={handleHiddenSpellCast} type="checkBox" />
         </span>
       </div>
+      <ul id="playerAndEnemyListInSocketRoom" className={styles.playerAndEnemyListInSocketRoom}>
+        Lehetséges célpontok
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <li onClick={handleSpellTagetSelection} value={0}></li>
+        <button onClick={handleSelectedSpellTargets}>Kész</button>
+      </ul>
     </>
   );
 }

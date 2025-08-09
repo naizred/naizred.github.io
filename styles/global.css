@@ -1031,16 +1031,3 @@ img {
   font-size: 1.2vw;
   text-align: center;
 }
-
-#listOfCurrentlyActiveBuffsLabel {
-  font-size: 1vw;
-  grid-column: 18/22;
-  grid-row: 12/13;
-  background-color: #000000;
-  text-align: center;
-  margin-left: 2vw;
-  margin-right: 2vw;
-  margin-top: 1.2vw;
-  border: 0.1vw solid rgb(255, 255, 255);
-  text-decoration: underline;
-}

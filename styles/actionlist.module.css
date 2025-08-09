@@ -206,6 +206,31 @@
   align-self: center;
   justify-self: center;
 }
+.playerAndEnemyListInSocketRoom {
+  display: none;
+  grid-column: 17/22;
+  grid-row: 10/15;
+  grid-auto-rows: min-content;
+  font-size: 1vw;
+  padding: 0.5vw;
+  border: 0.23vw solid white;
+  background-color: black;
+  border-radius: 1vw;
+  text-align: center;
+}
+.playerAndEnemyListInSocketRoom li {
+  display: grid;
+  margin-top: 0.5vw;
+}
+.playerAndEnemyListInSocketRoom li:hover {
+  cursor: pointer;
+  background-color: gray;
+}
+.playerAndEnemyListInSocketRoom button {
+  display: grid;
+  font-size: 1vw;
+  margin-top: 0.3vw;
+}
 .ammoWrapper input {
   display: grid;
   width: 3vw;
@@ -254,28 +279,6 @@
   grid-column: 6/7;
   align-self: center;
 }
-/* .spellTypeQuestionWindow {
-  display: none;
-  grid-column: 8/12;
-  grid-row: 5/7;
-  grid-template-rows: repeat(2, 1fr);
-  border: 0.23vw solid white;
-  border-radius: 1vw;
-  grid-auto-flow: column;
-  background-color: black;
-  background-repeat: no-repeat;
-  background-size: 30vw 20vw;
-}
-.spellTypeQuestionWindowText {
-  display: grid;
-  grid-column: span 2;
-  text-align: center;
-}
-.spellTypeQuestionWindowYesButton,
-.spellTypeQuestionWindowNoButton {
-  display: grid;
-  font-size: 2.5vw;
-} */
 .gameIdWrapper {
   display: none;
   padding: 0.5vw;

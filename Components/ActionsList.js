@@ -33,7 +33,7 @@ import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import Spells, {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
-  checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier,
+  currentCombatSpellFinderAndChanger,
   currentCombatSpell,
   currentCombatSpellChanger,
   currentSpell,
@@ -194,12 +194,7 @@ export function guidedSpellActiveFormLoader() {
   for (let i = 0; i < allActiveBuffs.length; i++) {
     if (allActiveBuffs[i].innerText.includes("irányított")) {
       powerIndex = parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2));
-      for (let j = 0; j < spellsThatModifyCombatStatsObject.length; j++) {
-        if (allActiveBuffs[i].innerText.includes(spellsThatModifyCombatStatsObject[j].spellName) && !currentCombatSpell.length) {
-          currentCombatSpellChanger(spellsThatModifyCombatStatsObject[j]);
-          break;
-        }
-      }
+      currentCombatSpellFinderAndChanger(allActiveBuffs[i].innerText);
       break;
     }
   }
@@ -245,7 +240,9 @@ export function handleIfSpellDoesNotNeedAimRoll() {
 }
 export function handleIfSpellNeedsAimRoll() {
   spellNeedsAimRoll = true;
-  weaponBeforeCasting = currentlySelectedWeapon;
+  if (currentlySelectedWeapon.w_name != "Célzott mágia") {
+    weaponBeforeCasting = currentlySelectedWeapon;
+  }
   currentlySelectedWeaponChanger("Célzott mágia");
   if (currentCombatSpell.whatDoesItModify && currentCombatSpell.whatDoesItModify.includes("CÉO")) {
     // 0.index: melyik spell, 1.index: mire ad pluszt, 2.index: mennyit
@@ -271,16 +268,20 @@ function ActionList() {
   function handleRecurringActionButton() {
     for (let i = 0; i < allActiveBuffs.length; i++) {
       if (allActiveBuffs[i].innerText.includes("ismétlődő")) {
-        currentCombatSpellChanger(checkIfCurrentSpellNeedsAimOrAttackRollAndReturnTheModifier(allActiveBuffs[i].innerText));
+        currentCombatSpellFinderAndChanger(allActiveBuffs[i].innerText);
         numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) - 1) * 2;
         break;
       }
     }
-    handleIfSpellNeedsAimRoll();
     if (initRolled) {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       recurringSpellActionButton.disabled = true;
     }
+    if (currentCombatSpell.whatDoesItModify == "") {
+      handleIfSpellDoesNotNeedAimRoll();
+      return;
+    }
+    handleIfSpellNeedsAimRoll();
   }
 
   function handleExtraAttackRadio(event) {
@@ -392,6 +393,17 @@ function ActionList() {
   }
   function handleOtherManeuvers(event) {
     let nameOfManeuver = event.target.parentElement.firstChild.innerText;
+    if (nameOfManeuver.includes("Fegyverváltás")) {
+      if (currentlySelectedWeapon.w_name == "Célzott mágia") {
+        currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
+        currentAimedSpellModifierSetter(0);
+        combatStatRefresher();
+        if (!firstAttackInRoundSpent || !initRolled) {
+          attackRollButton.disabled = false;
+        }
+        return;
+      }
+    }
     if (initRolled == true) {
       if (totalActionCostOfAttack <= parseInt(numberOfActions.innerText)) {
         attackRollButton.disabled == true;

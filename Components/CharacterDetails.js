@@ -663,12 +663,14 @@ function CharacterDetails() {
           <input id="currentLp" onBlur={updateCharacterSocketData} />
         </div>
       </div>
-      <div id="actionsWrapper" className={styles.actionsWrapper}>
-        <label className={styles.currentRound}>Kör</label>
+      <div id="initiativeWrapper" className={styles.initiativeWrapper}>
+        <div className={styles.currentRound}>Kör</div>
         <div id="numberOfCurrentRound" className={styles.currentRound}>
           1.
         </div>
-        <div className={styles.init}>KÉ:</div>
+        <div id="initiativeText" className={styles.init}>
+          KÉ:
+        </div>
         <div className={styles.stats}>CSA:</div>
         <div className={styles.stats} id="initiative"></div>
         <div className={styles.stats} id="initiativeWithRoll"></div>
@@ -710,6 +712,7 @@ function CharacterDetails() {
         <button id="adjustReactionsPositive" className={styles.adjustReactions} onClick={handleAdjustReactionsPositive}>
           Tartalékolás / Készenlét
         </button>
+        <div id="initiativeLightDiceText">V.</div>
         <select
           id="initiativeLightDiceResult"
           className={styles.initiativeLightDiceResult}
@@ -721,6 +724,7 @@ function CharacterDetails() {
             return <option key={e}>{e}</option>;
           })}
         </select>
+        <div id="initiativeDarkDiceText">S.</div>
         <select
           id="initiativeDarkDiceResult"
           className={styles.initiativeDarkDiceResult}

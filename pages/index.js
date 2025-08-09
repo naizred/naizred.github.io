@@ -41,6 +41,7 @@ import {
   currentCombatSpellChanger,
   actionsNeededToBeAbleToCastAgain,
   currentSpell,
+  currentCombatSpellFinderAndChanger,
 } from "../Components/Spells";
 import ArmorDetails from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
@@ -290,6 +291,13 @@ export async function fetchCharacterData(currentCharName) {
           guidedSpellWrapper.style.display = "grid";
           spellCastButtonWrapper.style.display = "none";
           guidedSpellActiveFormLoader();
+        }
+        currentCombatSpellFinderAndChanger(activeBuffsStringArray[i]);
+        if (currentCombatSpell) {
+          if (currentCombatSpell.spellType == "buffSpell" && currentCombatSpell.whatDoesItModify == "HMO") {
+            anyOtherHmoModifier.value = parseFloat(anyOtherHmoModifier.value) + parseFloat(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) / 2);
+            combatStatRefresher();
+          }
         }
       }
       if (document.getElementById("currentBloodPoints")) {
@@ -560,11 +568,26 @@ export function currentlySelectedWeaponChanger(newWeapon) {
 export let weaponsOptions;
 export function toggleAllallActionBarButtonsExceptInitRollDisplay(display = "none") {
   initiativeBonusButton.style.display = display;
-  const allActionBarButtons = document.querySelectorAll("div#actionsWrapper button");
+  const allActionBarButtons = document.querySelectorAll("div#initiativeWrapper button");
+  const allActionBarDivs = document.querySelectorAll("div#initiativeWrapper div");
+  const allActionBarSelects = document.querySelectorAll("div#initiativeWrapper select");
   for (let i = 0; i < allActionBarButtons.length; i++) {
     if (allActionBarButtons[i].id != "initRollButton") {
       allActionBarButtons[i].style.display = display;
     }
+  }
+  for (let i = 0; i < allActionBarDivs.length; i++) {
+    if (allActionBarDivs[i].id != "initiativeText" && allActionBarDivs[i].id != "initiative") {
+      allActionBarDivs[i].style.display = display;
+    }
+  }
+  for (let i = 0; i < allActionBarSelects.length; i++) {
+    allActionBarSelects[i].style.display = display;
+  }
+  if (display == "none") {
+    initiativeWrapper.style.gridColumn = "6/12";
+  } else {
+    initiativeWrapper.style.gridColumn = "4/18";
   }
 }
 export function allResultsCleaner() {
@@ -1256,7 +1279,7 @@ export default function Home() {
         allActiveBuffs = document.querySelectorAll("ul#listOfCurrentlyActiveBuffs li");
         anyOtherHmoModifier.disabled = false;
         skillCheckRollButton.style.display = "grid";
-        actionsWrapper.style.display = "grid";
+        initiativeWrapper.style.display = "grid";
 
         // ***** berakunk egy observert, hogy figyelje az első buff helyét, és ha üres, akkor töltse oda az alatta lévőt
         let observer = new MutationObserver(async (event) => {
@@ -1967,7 +1990,19 @@ export default function Home() {
         socket.on("skillCheckRollModifier sent your way", (skillCheckRollModifier) => {
           rollModifier.value = parseInt(skillCheckRollModifier);
           setManuallySetRollModifier(parseInt(skillCheckRollModifier));
-          console.log(skillCheckRollModifier);
+        });
+
+        socket.on("spell data sent your way", (data) => {
+          for (let i = 0; i < allActiveBuffs.length; i++) {
+            if (allActiveBuffs[i].innerText == "") {
+              allActiveBuffs[i].innerText = data.spellActiveBuffText;
+              if (data.spellData.spellType == "buffSpell" && data.spellData.whatDoesItModify == "HMO") {
+                anyOtherHmoModifier.value = parseFloat(anyOtherHmoModifier.value) + parseFloat(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) / 2);
+                combatStatRefresher();
+              }
+              break;
+            }
+          }
         });
 
         const response = await fetch(endpoint, options);
@@ -1989,7 +2024,7 @@ export default function Home() {
       document.addEventListener("visibilitychange", () => {
         if (document.visibilityState === "hidden") {
           updateCharacterData(false);
-          socket.emit("leave room", gameIdLabel.innerText);
+          //socket.emit("leave room", gameIdLabel.innerText);
         }
       });
     });
@@ -2462,7 +2497,6 @@ export default function Home() {
           <CharacterDetails {...socket} />
           <PsiDisciplines />
           <ActionList />
-          <span id="listOfCurrentlyActiveBuffsLabel">Jelenleg aktív diszciplínák és varázslatok</span>
         </div>
         {/* <img id="dividingLine" src="/divider.png"></img> */}
         <SkillCheck />

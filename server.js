@@ -54,6 +54,7 @@ app.prepare().then(() => {
 
     socket.on("join room", (gameId) => {
       socket.join(`${gameId}`);
+      refreshPlayerArray(gameId);
       //console.log("bejött a szobába", gameId, socket.data);
       io.to(`${gameId}`).emit("character updated from server", socket.data.charName);
     });
@@ -81,16 +82,16 @@ app.prepare().then(() => {
         socket.data.initiativeWithRoll != updatedData.initiativeWithRoll
       ) {
         dataChanged = true;
-        console.log("változás volt", socket.data);
+        // console.log("változás volt", socket.data);
         socket.data = updatedData;
       }
       if (dataChanged) {
-        console.log(dataChanged);
+        // console.log(dataChanged);
         io.to(`${socket.data.gameId}`).emit("character updated from server", socket.data.charName);
       }
-      if (!dataChanged) {
-        console.log("nem volt változás", socket.data);
-      }
+      // if (!dataChanged) {
+      //   console.log("nem volt változás", socket.data);
+      // }
     });
 
     socket.on("sending rollModifier data to player", async (dataFromAdventureMaster) => {
@@ -112,47 +113,32 @@ app.prepare().then(() => {
 
     socket.on("need sockets", async (gameId) => {
       refreshPlayerArray(gameId);
-      // await io
-      //   .in(gameId)
-      //   .fetchSockets()
-      //   .then((parsedData) => {
-      //     if (!parsedData) {
-      //       return;
-      //     }
-      //     let allPlayersArray = [];
-      //     let charNamesForRoom = [];
-      //     for (let i = 0; i < parsedData.length; i++) {
-      //       if (Object.entries(parsedData[i].data).length != 0) {
-      //         if (parsedData[i].data.charName && !charNamesForRoom.includes(parsedData[i].data.charName)) {
-      //           allPlayersArray.push(parsedData[i].data);
-      //           charNamesForRoom.push(parsedData[i].data.charName);
-      //         } else {
-      //           continue;
-      //         }
-      //       }
-      //     }
-      //   });
     });
 
-    // socket.on("sending data to update", async (data) => {
-    //   console.log("data recieved", data);
-    //   const JSONdata = JSON.stringify(data);
-    //   const endpoint = "wss://localhost:3000/pages/api/updateCharacter";
-    //   const options = {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSONdata,
-    //   };
-    //   await fetch(endpoint, options);
-    // });
+    socket.on("send spell data from player to player", async (dataSentByOtherPlayer) => {
+      await io
+        .in(dataSentByOtherPlayer.gameId)
+        .fetchSockets()
+        .then((parsedData) => {
+          if (!parsedData) {
+            return;
+          }
+          for (let i = 0; i < parsedData.length; i++) {
+            if (dataSentByOtherPlayer.charName == parsedData[i].data.charName) {
+              parsedData[i].emit("spell data sent your way", dataSentByOtherPlayer);
+              console.log(dataSentByOtherPlayer);
+              break;
+            }
+          }
+        });
+    });
 
     socket.on("disconnect", async () => {
       console.log("A client disconnected", socket.data.charName);
       socket.leave(`${socket.data.gameId}`);
       console.log("elhagyta a szobát", socket.data.gameId, socket.data);
       refreshPlayerArray(socket.data.gameId);
+      io.to(`${socket.data.gameId}`).emit("refresh needed");
     });
   });
 

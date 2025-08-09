@@ -9,7 +9,7 @@
     "@prisma/client": "^5.15.0",
     "component-emitter": "^2.0.0",
     "mersenne-twister": "^1.1.0",
-    "next": "^15.0.0",
+    "next": "^15.4.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "socket.io": "^4.8.1",
