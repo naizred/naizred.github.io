@@ -2,7 +2,7 @@ import styles from "../styles/actionlist.module.css";
 import allSpells from "../json/allSpells.json";
 import spellsWizard from "../json/spellsWizard.json";
 import spellAttributes from "../json/spellAttributes.json";
-import { socket } from "../pages";
+import { allSpellsFilteredByAllSubskillsObject, socket } from "../pages";
 import {
   allMagicSubskillsObject,
   allResultsCleaner,
@@ -34,57 +34,83 @@ import AspectComponentMechanism from "./AspectComponentMechanism";
 // ismétlődő varázslatok, amik növelik a TÉO-t vagy CÉO-t
 //let recurringSpellsThatRequireAttackOrAimRoll = allSpells.filter((spell)=>spell.description.toLowerCase().includes("ismétlődő") && spell.resist.includes("vVÉO"))
 // minden varázslat, ami növeli a TÉO-t vagy CÉO-t
-let spellsThatModifyCombatStats = allSpells.filter(
-  (spell) =>
-    ((spell.description.includes("CÉO") || spell.description.includes("TÉO") || spell.description.includes("HMO")) &&
-      !spell.description.toLowerCase().includes("negatív") &&
-      !spell.description.toLowerCase().includes("hátrány")) ||
-    // && spell.description.toLowerCase().includes("+")
-    spell.description.toLowerCase().includes("kontrollált") ||
-    spell.description.toLowerCase().includes("ismétlődő")
-);
+// let spellsThatModifyCombatStats = allSpells.filter(
+//   (spell) =>
+//     ((spell.description.includes("CÉO") || spell.description.includes("TÉO") || spell.description.includes("HMO")) &&
+//       !spell.description.toLowerCase().includes("negatív") &&
+//       !spell.description.toLowerCase().includes("hátrány")) ||
+//     // && spell.description.toLowerCase().includes("+")
+//     spell.description.toLowerCase().includes("kontrollált") ||
+//     spell.description.toLowerCase().includes("ismétlődő")
+// );
 
-export let spellsThatModifyCombatStatsObject = {};
-for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
-  let indexOfPositiveCombatModifier = spellsThatModifyCombatStats[i].description.lastIndexOf("+");
-  let isRecurring = false;
-  let isControlled = false;
-  let isGuided = false;
+// export let spellsThatModifyCombatStatsObject = {};
+
+// vizsgáló függvények a varázslatok különböző jellemzőire
+export let currentSpell;
+export function currentSpellChanger(spellObject = {}) {
+  currentSpell = spellObject;
+}
+export function currentSpellFinderInFilteredSpells(string) {
+  // megnézi, hogy a string-ben benne van-e bármelyik varázslat neve.
+  for (let i = 0; i < allSpellsFilteredByAllSubskillsObject.length; i++) {
+    if (string.includes(allSpellsFilteredByAllSubskillsObject[i].name)) {
+      return allSpellsFilteredByAllSubskillsObject[i];
+    }
+  }
+  return {};
+}
+export function currentSpellFinderInAllSpells(string) {
+  // megnézi, hogy a string-ben benne van-e bármelyik varázslat neve.
+  for (let i = 0; i < allSpells.length; i++) {
+    if (string.includes(allSpells[i].name)) {
+      return allSpells[i];
+    }
+  }
+  return {};
+}
+export function checkCurrentSpellAspectModificationType(spellToCheck, aspectModType) {
+  // a varázslat ismétlődő, fenntartott, kontrollált, vagy irányított?
+  if (spellToCheck.description.toLowerCase().includes(aspectModType)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+export function checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(spellToCheck) {
   let whatDoesItModify;
-  let spellType;
-  if (spellsThatModifyCombatStats[i].resist.includes("TÉOvVÉO") || spellsThatModifyCombatStats[i].resist.includes("CÉOvVÉO")) {
-    spellType = "attackSpell";
-  }
-  if (spellsThatModifyCombatStats[i].description.toLowerCase().includes("ismétlődő")) {
-    isRecurring = true;
-  }
-  if (spellsThatModifyCombatStats[i].description.toLowerCase().includes("kontrollált")) {
-    isControlled = true;
-  }
-  if (spellsThatModifyCombatStats[i].description.toLowerCase().includes("irányított")) {
-    isGuided = true;
-  }
-  if (spellsThatModifyCombatStats[i].description.includes("CÉO")) {
+  let indexOfPositiveCombatModifier = spellToCheck.description.lastIndexOf("+");
+
+  if (spellToCheck.description.includes("CÉO")) {
     whatDoesItModify = "CÉO";
   }
-  if (spellsThatModifyCombatStats[i].description.includes("TÉO")) {
+  if (spellToCheck.description.includes("TÉO")) {
     whatDoesItModify = "TÉO";
   }
-  if (spellsThatModifyCombatStats[i].description.includes("TÉO és VÉO")) {
+  if (spellToCheck.description.includes("TÉO és VÉO")) {
     whatDoesItModify = "TÉO, VÉO";
   }
-  if (spellsThatModifyCombatStats[i].description.includes("HMO")) {
+  if (spellToCheck.description.includes("HMO")) {
     whatDoesItModify = "HMO";
   }
+  let modifierData = {
+    whatDoesItModify: whatDoesItModify,
+    modifier: parseFloat(spellToCheck.description.slice(indexOfPositiveCombatModifier).replace(",", ".")) || 0,
+  };
+  return modifierData;
+}
+export function checkCurrentSpellType(spellToCheck) {
+  let spellType = "";
   if (
-    !spellsThatModifyCombatStats[i].resist.includes("TÉOvVÉO") &&
-    !spellsThatModifyCombatStats[i].resist.includes("CÉOvVÉO") &&
-    !spellsThatModifyCombatStats[i].description.toLowerCase().includes("irányított") &&
-    !spellsThatModifyCombatStats[i].description.toLowerCase().includes("ismétlődő")
+    !spellToCheck.resist.includes("TÉOvVÉO") &&
+    !spellToCheck.resist.includes("CÉOvVÉO") &&
+    !spellToCheck.description.toLowerCase().includes("irányított") &&
+    !spellToCheck.description.toLowerCase().includes("ismétlődő") &&
+    !spellToCheck.description.toLowerCase().includes("kontrollált")
   ) {
-    for (let j = 0; j < spellsThatModifyCombatStats[i].aspects.length; j++) {
-      if (spellsThatModifyCombatStats[i].aspects[j][0] == "Időtartam") {
-        if (spellsThatModifyCombatStats[i].aspects[j][1] > 1) {
+    for (let j = 0; j < spellToCheck.aspects.length; j++) {
+      if (spellToCheck.aspects[j][0] == "Időtartam") {
+        if (spellToCheck.aspects[j][1] > 1) {
           if (!spellType) {
             spellType = "buffSpell";
           }
@@ -92,33 +118,10 @@ for (let i = 0; i < spellsThatModifyCombatStats.length; i++) {
       }
     }
   }
-  spellsThatModifyCombatStatsObject[i] = {
-    spellName: spellsThatModifyCombatStats[i].name,
-    whatDoesItModify: whatDoesItModify || "",
-    modifier: parseFloat(spellsThatModifyCombatStats[i].description.slice(indexOfPositiveCombatModifier).replace(",", ".")) || 0,
-    isRecurring: isRecurring,
-    isControlled: isControlled,
-    isGuided: isGuided,
-    spellType: spellType || "",
-  };
-}
-spellsThatModifyCombatStatsObject = Object.values(spellsThatModifyCombatStatsObject);
-export let currentCombatSpell = {};
-export function currentCombatSpellFinderAndChanger(currentSpellName) {
-  if (!currentSpellName) {
-    return;
+  if (spellToCheck.resist.includes("TÉOvVÉO") || spellToCheck.resist.includes("CÉOvVÉO")) {
+    spellType = "attackSpell";
   }
-  currentCombatSpell = {};
-  // összeveti a jelenleg elvarázsolt spell nevét az összes olyan spellel amik valamilyen statot adnak
-  for (let i = 0; i < spellsThatModifyCombatStatsObject.length; i++) {
-    if (currentSpellName.includes(spellsThatModifyCombatStatsObject[i].spellName)) {
-      currentCombatSpell = spellsThatModifyCombatStatsObject[i];
-      break;
-    }
-  }
-}
-export function currentCombatSpellChanger(input) {
-  currentCombatSpell = input;
+  return spellType;
 }
 export let actionsSpentSinceLastCast = 0;
 export let spellIsBeingCast = false;
@@ -182,12 +185,6 @@ export function spellCastingSuccessful(currentSpell) {
   setTimeout(() => {
     castBarFlashEffect.style.display = "none";
   }, 390);
-  //spellTypeQuestionWindow.style.display = "grid";
-
-  // if (initRolled == true && actionsNeededToBeAbleToCastAgain > 0) {
-  //   spellCastingActionButton.disabled = true;
-  // }
-  //actionsSpentSinceLastCast = 0;
 
   if (currentSpell && currentSpell.name && currentSpell.name.includes("liturgia") && currentSpell.magicSubclass.includes("fohász")) {
     currentActiveLiturgy = currentSpell.name;
@@ -221,7 +218,6 @@ export function spellCastingSuccessful(currentSpell) {
     }
   }
   if (currentSpell) {
-    currentCombatSpellFinderAndChanger(currentSpell.name);
     allLiOfPlayerAndEnemyListInSocketRoom = document.querySelectorAll("ul#playerAndEnemyListInSocketRoom li");
     for (let i = 0; i < allLiOfPlayerAndEnemyListInSocketRoom.length; i++) {
       // elöször törlünk mindent arra az esetre ha időközben változott volna a résztvevők száma
@@ -248,11 +244,11 @@ export function spellCastingSuccessful(currentSpell) {
         allActiveBuffs[i].innerText == "" ||
         (allActiveBuffs[i].innerText != "" &&
           allActiveBuffs[i].innerText.includes("folyamatos") &&
-          (currentCombatSpell.isControlled || // csak a kontrollált és irányított varázslatok szakítják meg a folyamatos diszciplínát
-            currentCombatSpell.isGuided)) ||
+          (checkCurrentSpellAspectModificationType(currentSpell, "kontrollált") || // csak a kontrollált és irányított varázslatok szakítják meg a folyamatos diszciplínát
+            checkCurrentSpellAspectModificationType(currentSpell, "irányított"))) ||
         (allActiveBuffs[i].innerText != "" &&
           allActiveBuffs[i].innerText.toLowerCase().includes("ismétlődő") && // egyszerre csak 1 ismétlődő varázslat lehet aktív, így ami épp van, azt felülírja
-          currentCombatSpell.isRecurring)
+          checkCurrentSpellAspectModificationType(currentSpell, "ismétlődő"))
       ) {
         buffRemoverFromActiveBuffArrayAndTextList(allActiveBuffs[i].innerText);
         if (currentSpellDuration == 2) {
@@ -274,7 +270,7 @@ export function spellCastingSuccessful(currentSpell) {
           currentSpellTargetingAnotherMemberInRoom = `1 hónap - ${currentSpell.name} - ${allPowerAspectSelect[0].value}E`;
         }
         //allActiveBuffs[i].parentElement.lastChild.value = `${parseInt(allActiveBuffs[i].innerText)}, ${numberOfCurrentRound.innerText}` // A törlés gomb value-ben van eltárolva az időtartam adat. Innen fogjuk vizsgálni, hogy mennyi van még hátra belőle
-        if (currentCombatSpell.isRecurring) {
+        if (checkCurrentSpellAspectModificationType(currentSpell, "ismétlődő")) {
           // csak egy ismétlődő varázslat lehet
           currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - ismétlődő`;
           recurringSpellActionButton.style.display = "grid";
@@ -282,25 +278,35 @@ export function spellCastingSuccessful(currentSpell) {
             recurringSpellActionButton.disabled = true;
           }
         }
-        if (currentCombatSpell.isControlled) {
+        if (checkCurrentSpellAspectModificationType(currentSpell, "kontrollált")) {
           currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - kontrollált`;
         }
-        if (currentCombatSpell.isGuided) {
+        if (checkCurrentSpellAspectModificationType(currentSpell, "irányított")) {
           currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - irányított`;
         }
-        if (currentSpellDistance >= 2 && !currentCombatSpell.isControlled && !currentCombatSpell.isGuided && !currentCombatSpell.isRecurring) {
+        if (
+          currentSpellDistance >= 2 &&
+          !checkCurrentSpellAspectModificationType(currentSpell, "kontrollált") &&
+          !checkCurrentSpellAspectModificationType(currentSpell, "irányított") &&
+          !checkCurrentSpellAspectModificationType(currentSpell, "ismétlődő")
+        ) {
           playerAndEnemyListInSocketRoom.style.display = "grid";
           if (gameIdLabel.innerText == "nincs") {
             return;
           }
         }
-        if (currentCombatSpell.isControlled || currentCombatSpell.isGuided || currentCombatSpell.isRecurring || currentSpellDistance == 1) {
+        if (
+          checkCurrentSpellAspectModificationType(currentSpell, "kontrollált") ||
+          checkCurrentSpellAspectModificationType(currentSpell, "irányított") ||
+          checkCurrentSpellAspectModificationType(currentSpell, "ismétlődő") ||
+          currentSpellDistance == 1
+        ) {
           playerAndEnemyListInSocketRoom.style.display = "none";
           let data = {
             charName: charName.innerText,
             gameId: gameIdLabel.innerText,
             spellActiveBuffText: currentSpellTargetingAnotherMemberInRoom,
-            spellData: currentCombatSpell,
+            spellData: currentSpell,
           };
           socket.emit("send spell data from player to player", data);
         }
@@ -315,7 +321,7 @@ export function spellCastingSuccessful(currentSpell) {
   if (initRolled == true && attackRollButton.disabled == false) {
     attackRollButtonWasDisabledBeforeSpellCastSetter(false);
   }
-  if (currentCombatSpell && currentCombatSpell.spellName && currentCombatSpell.spellType == "attackSpell" && !currentCombatSpell.isGuided) {
+  if (currentSpell && currentSpell.name && checkCurrentSpellType(currentSpell) == "attackSpell" && !currentSpell.isGuided) {
     handleIfSpellNeedsAimRoll();
   } else {
     handleIfSpellDoesNotNeedAimRoll();
@@ -324,6 +330,7 @@ export function spellCastingSuccessful(currentSpell) {
 }
 let currentSpellDuration = 0;
 let currentSpellDistance = 0;
+export let currentSpellArea = 0;
 
 export let currentSpellBloodPointCost = 0;
 
@@ -339,7 +346,6 @@ export function spellCastingFailure(anyOtherCondition = true, currentSpell) {
     actionsNeededToBeAbleToCastAgain = 0;
   }
 }
-export let currentSpell;
 function findFirstAspectNameValue(aspectName) {
   // erre azért van szükség, mert lehet, hogy egy keresett Aspektus (pl. Időtartam) előtt van két terület, ezért az index elcsúszik
   for (let i = 0; i < currentSpell.aspects.length; i++) {
@@ -718,7 +724,56 @@ function spellAspModifier(event) {
   calculateSpellCastTimeAndManaCost();
 }
 
+function spellAspSetter() {
+  let powerAspectPillarIndex = 0;
+  let distanceAspectPillarIndex = 0;
+  let areaAspectPillarIndex = 0;
+  let durationAspectPillarIndex = 0;
+  let mechanismAspectPillarIndex = 0;
+
+  for (let i = 0; i < currentSpell.aspects.length; i++) {
+    if (currentSpell.aspects[i][0] == "Erősség") {
+      if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+        allPowerAspectSelect[powerAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`; // ez a felső "parentElement" az a select-et tartalmazó Li
+      }
+      allPowerAspectSelect[powerAspectPillarIndex].value = currentSpell.aspects[i][1];
+      powerAspectPillarIndex++;
+    }
+    if (currentSpell.aspects[i][0] == "Távolság") {
+      if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+        allDistanceAspectSelect[distanceAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`;
+      }
+      allDistanceAspectSelect[distanceAspectPillarIndex].value = currentSpell.aspects[i][1];
+      distanceAspectPillarIndex++;
+    }
+    if (currentSpell.aspects[i][0] == "Terület") {
+      if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+        allAreaAspectSelect[areaAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`;
+      }
+      allAreaAspectSelect[areaAspectPillarIndex].value = currentSpell.aspects[i][1];
+      areaAspectPillarIndex++;
+    }
+    if (currentSpell.aspects[i][0] == "Időtartam") {
+      if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+        allDurationAspectSelect[durationAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`;
+      }
+      allDurationAspectSelect[durationAspectPillarIndex].value = currentSpell.aspects[i][1];
+      durationAspectPillarIndex++;
+    }
+    if (currentSpell.aspects[i][0] == "Mechanizmus") {
+      if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
+        allMechanismAspectSelect[mechanismAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`;
+      }
+      allMechanismAspectSelect[mechanismAspectPillarIndex].value = currentSpell.aspects[i][1];
+      mechanismAspectPillarIndex++;
+    }
+  }
+}
+
 function spellAspResetter() {
+  if (!allPowerAspectSelect[0].parentElement.firstChild.value) {
+    return;
+  }
   let powerAspectPillarIndex = 0;
   let distanceAspectPillarIndex = 0;
   let areaAspectPillarIndex = 0;
@@ -797,7 +852,7 @@ function Spells() {
           charName: allLiOfPlayerAndEnemyListInSocketRoom[i].innerText,
           gameId: gameIdLabel.innerText,
           spellActiveBuffText: currentSpellTargetingAnotherMemberInRoom,
-          spellData: currentCombatSpell,
+          spellData: currentSpell,
         };
         atLeastOneTargetWasSelected = true;
         socket.emit("send spell data from player to player", data);
@@ -809,7 +864,7 @@ function Spells() {
         charName: charName.innerText,
         gameId: gameIdLabel.innerText,
         spellActiveBuffText: currentSpellTargetingAnotherMemberInRoom,
-        spellData: currentCombatSpell,
+        spellData: currentSpell,
       };
       socket.emit("send spell data from player to player", data);
     }
@@ -978,7 +1033,7 @@ function Spells() {
     if (magicSubSkillSelect.value.slice(1).includes("fohász")) {
       for (let i = 0; i < allActiveBuffs.length; i++) {
         if (allActiveBuffs[i].innerText.includes("liturgia")) {
-          let currentLirurgy = allSpells.find((spell) => allActiveBuffs[i].innerText.includes(spell.name));
+          let currentLirurgy = allSpellsFilteredByAllSubskillsObject.find((spell) => allActiveBuffs[i].innerText.includes(spell.name));
           //console.log(currentLirurgy, allActiveBuffs[i].innerText)
           liturgyWrapper.style.display = "grid";
           liturgyPowerInfo.style.display = "grid";
@@ -988,15 +1043,10 @@ function Spells() {
           break;
         }
       }
-      filteredSpellsBySubSkillAndLevel = allSpells.filter(
-        (spell) =>
-          spell.magicSubclass.includes(magicSubSkillSelect.value.slice(1)) &&
-          spell.fok <= parseInt(magicSubSkillSelect.value[0]) &&
-          (spell.god == "Általános" || spell.god == currentGodWorshippedByPlayer)
-      );
+      filteredSpellsBySubSkillAndLevel = allSpellsFilteredByAllSubskillsObject.filter((spell) => spell.magicSubclass.includes(magicSubSkillSelect.value.slice(1)));
     } else {
       liturgyWrapper.style.display = "none";
-      filteredSpellsBySubSkillAndLevel = allSpells.filter((spell) => magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass) && spell.fok <= parseInt(magicSubSkillSelect.value[0]));
+      filteredSpellsBySubSkillAndLevel = allSpellsFilteredByAllSubskillsObject.filter((spell) => magicSubSkillSelect.value.slice(1).includes(spell.magicSubclass));
     }
     function OrderFunctionForFilteredSpellsBySubSkillAndLevel() {
       filteredSpellsBySubSkillAndLevel.sort(function (a, b) {
@@ -1055,49 +1105,7 @@ function Spells() {
     if (currentMainMagicSkillName != "Magas Mágia") {
       currentSpell = filteredSpellsBySubSkillAndLevel.find((spell) => spell.name == `${spellSelect.value}`);
     }
-    let powerAspectPillarIndex = 0;
-    let distanceAspectPillarIndex = 0;
-    let areaAspectPillarIndex = 0;
-    let durationAspectPillarIndex = 0;
-    let mechanismAspectPillarIndex = 0;
-
-    for (let i = 0; i < currentSpell.aspects.length; i++) {
-      if (currentSpell.aspects[i][0] == "Erősség") {
-        if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
-          allPowerAspectSelect[powerAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`; // ez a felső "parentElement" az a select-et tartalmazó Li
-        }
-        allPowerAspectSelect[powerAspectPillarIndex].value = currentSpell.aspects[i][1];
-        powerAspectPillarIndex++;
-      }
-      if (currentSpell.aspects[i][0] == "Távolság") {
-        if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
-          allDistanceAspectSelect[distanceAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`;
-        }
-        allDistanceAspectSelect[distanceAspectPillarIndex].value = currentSpell.aspects[i][1];
-        distanceAspectPillarIndex++;
-      }
-      if (currentSpell.aspects[i][0] == "Terület") {
-        if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
-          allAreaAspectSelect[areaAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`;
-        }
-        allAreaAspectSelect[areaAspectPillarIndex].value = currentSpell.aspects[i][1];
-        areaAspectPillarIndex++;
-      }
-      if (currentSpell.aspects[i][0] == "Időtartam") {
-        if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
-          allDurationAspectSelect[durationAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`;
-        }
-        allDurationAspectSelect[durationAspectPillarIndex].value = currentSpell.aspects[i][1];
-        durationAspectPillarIndex++;
-      }
-      if (currentSpell.aspects[i][0] == "Mechanizmus") {
-        if (powerAspModified == false && anyAspExceptPowerAspModified == false) {
-          allMechanismAspectSelect[mechanismAspectPillarIndex].parentElement.firstChild.value = `${currentSpell.aspects[i][1]} ${i}`;
-        }
-        allMechanismAspectSelect[mechanismAspectPillarIndex].value = currentSpell.aspects[i][1];
-        mechanismAspectPillarIndex++;
-      }
-    }
+    spellAspSetter();
     getMainMagicalSkillLevelBasedOnCurrentMagicSubskill();
     unusedSelectHider();
     spellCastingCheckSetter();
@@ -1163,6 +1171,7 @@ function Spells() {
     console.log("volt erő mod?", powerAspModified, "volt más asp mod?", anyAspExceptPowerAspModified);
     currentSpellDuration = findFirstAspectNameValue("Időtartam");
     currentSpellDistance = findFirstAspectNameValue("Távolság");
+    currentSpellArea = findFirstAspectNameValue("Terület");
 
     let spellManaCost = 0;
     castBarCurrentWidthStart = 0;

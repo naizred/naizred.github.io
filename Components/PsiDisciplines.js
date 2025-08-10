@@ -4,7 +4,14 @@ import { blinkingText, defensiveCombatOn, hmoModifier, setDefensiveCombatVEObonu
 import { checkIfPsiIsUseable, initRolled } from "./CharacterDetails";
 import { allDmgReductionListItems } from "../pages";
 import psiDisciplines from "../json/psiDisciplines.json";
-import { currentCombatSpell, currentCombatSpellChanger, currentCombatSpellFinderAndChanger } from "./Spells";
+import {
+  checkCurrentSpellType,
+  checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier,
+  currentSpell,
+  currentSpellChanger,
+  currentSpellFinderInAllSpells,
+  currentSpellFinderInFilteredSpells,
+} from "./Spells";
 
 export let specialAtkModifierFromPsiAssault = 0;
 export let availableNumberOfAttacksFromPsiAssault = 0;
@@ -35,7 +42,6 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
     return;
   }
   for (let i = 0; i < allActiveBuffs.length; i++) {
-    currentCombatSpellFinderAndChanger(allActiveBuffs[i].innerText);
     if (allActiveBuffs[i].innerText.includes(buffName)) {
       if (allActiveBuffs[i].innerText.includes("Chi-harc")) {
         hmoModifier(-chiCombatAtkDefModifier);
@@ -64,8 +70,11 @@ export function buffRemoverFromActiveBuffArrayAndTextList(buffName) {
         //   currentlySelectedWeaponChanger(weaponBeforeCasting.w_name);
         //   combatStatRefresher();
         // }
-      } else if (currentCombatSpell) {
-        if (currentCombatSpell.spellType == "buffSpell" && currentCombatSpell.whatDoesItModify == "HMO") {
+      } else if (currentSpellFinderInAllSpells(allActiveBuffs[i].innerText)) {
+        if (
+          checkCurrentSpellType(currentSpellFinderInAllSpells(allActiveBuffs[i].innerText)) == "buffSpell" &&
+          checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpellFinderInAllSpells(allActiveBuffs[i].innerText)).whatDoesItModify == "HMO"
+        ) {
           anyOtherHmoModifier.value = parseFloat(anyOtherHmoModifier.value) - parseFloat(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) / 2);
           combatStatRefresher();
         }

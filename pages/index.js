@@ -4,6 +4,7 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import allWeapons from "../json/allWeapons.json";
 import aptitudesDescript from "../json/aptitudesDescript.json";
+import allSpells from "../json/allSpells.json";
 import CharacterDetails, { defensiveCombatContinueSelectedSetToFalse, initRolled, setInitRolled, updateCharacterData } from "../Components/CharacterDetails";
 import ActionList, {
   assassinationToFalse,
@@ -37,11 +38,12 @@ import {
   spellCastingFailure,
   numberOfActionsSpentOnCastingCurrentSpellNullifier,
   spellIsBeingCast,
-  currentCombatSpell,
-  currentCombatSpellChanger,
   actionsNeededToBeAbleToCastAgain,
   currentSpell,
-  currentCombatSpellFinderAndChanger,
+  currentSpellChanger,
+  checkCurrentSpellType,
+  checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier,
+  currentSpellFinderInAllSpells,
 } from "../Components/Spells";
 import ArmorDetails from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
@@ -292,9 +294,9 @@ export async function fetchCharacterData(currentCharName) {
           spellCastButtonWrapper.style.display = "none";
           guidedSpellActiveFormLoader();
         }
-        currentCombatSpellFinderAndChanger(activeBuffsStringArray[i]);
-        if (currentCombatSpell) {
-          if (currentCombatSpell.spellType == "buffSpell" && currentCombatSpell.whatDoesItModify == "HMO") {
+        currentSpellChanger(currentSpellFinderInAllSpells(activeBuffsStringArray[i]));
+        if (currentSpell) {
+          if (checkCurrentSpellType(currentSpell) == "buffSpell" && checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpell).whatDoesItModify == "HMO") {
             anyOtherHmoModifier.value = parseFloat(anyOtherHmoModifier.value) + parseFloat(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) / 2);
             combatStatRefresher();
           }
@@ -559,6 +561,7 @@ let filteredArrayIfHasParry;
 let mainHandWeaponWhenTwoWeaponAttackIsUsed;
 let bonusDamageFromAssassination = 0;
 export let allMagicSubskillsObject = {};
+export let allSpellsFilteredByAllSubskillsObject = {};
 export let arrayOfAllComplexManeuvers;
 export let currentlySelectedWeapon;
 export function currentlySelectedWeaponChanger(newWeapon) {
@@ -1538,6 +1541,18 @@ export default function Home() {
         if (parsedCharacterDataFromJSON.raceKey == "Wier") {
           allMagicSubskillsObject["Wier vérmágia"] = aptitudeObject["Wier vér"];
         }
+        allSpellsFilteredByAllSubskillsObject = allSpells.filter((spell) => {
+          // a rendelkezésre álló összes varázslat a mágiaformák alapján
+          const subclasses = spell.magicSubclass.split(",").map((s) => s.trim());
+          const subclassMatch = subclasses.some((subclass) => allMagicSubskillsObject[subclass] !== undefined && spell.fok <= allMagicSubskillsObject[subclass]);
+
+          if (!subclassMatch) return false;
+          const isFohasz = subclasses.some((subclass) => subclass.toLowerCase().includes("fohász"));
+          if (isFohasz) {
+            return spell.god === currentGodWorshippedByPlayer || spell.god === "Általános";
+          }
+          return true;
+        });
 
         filteredArrayIfHasParry = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Hárítás");
         filteredArrayIfHasRunning = parsedCharacterDataFromJSON.skills.filter((name) => name.name == "Futás");
@@ -1948,7 +1963,7 @@ export default function Home() {
           body: JSONdata,
         };
 
-        socket = io("wss://ttk-rolldice.fly.dev", {
+        socket = io("localhost:3000", {
           transports: ["websocket"],
         });
 
@@ -2076,9 +2091,9 @@ export default function Home() {
         numberOfClicksAtTwoWeaponAttack++;
       }
     }
-    if (Object.values(currentCombatSpell).length && (currentCombatSpell.spellName.includes("Visszaverődő") || currentCombatSpell.spellName.includes("Villámlánc"))) {
+    if (currentSpell.name && (currentSpell.name.includes("Visszaverődő") || currentSpell.name.includes("Villámlánc"))) {
       numberOfChainLightningCharges = allMagicSubskillsObject["Villámmágia"];
-      currentCombatSpellChanger({});
+      currentSpellChanger();
     }
 
     combatStatRefresher();

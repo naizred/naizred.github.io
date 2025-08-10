@@ -18,13 +18,10 @@ import {
   baseAtkWithTeoCalculator,
   baseDefWithTeoCalculator,
   allActiveBuffs,
-  combinationModifiersIndex,
-  combinationModifiersIndexChanger,
   setFirstAttackInRoundSpent,
   checkIfWeaponIsRanged,
   combatStatRefresher,
   commonModifiers,
-  currentAimedSpellModifier,
   currentAimedSpellModifierSetter,
   updateCharacterSocketData,
   socket,
@@ -33,28 +30,43 @@ import styles from "../styles/actionlist.module.css";
 import { initRolled, updateCharacterData } from "./CharacterDetails";
 import Spells, {
   actionsSpentSinceLastCastAdderCheckerAndNullifier,
-  currentCombatSpellFinderAndChanger,
-  currentCombatSpell,
-  currentCombatSpellChanger,
+  checkCurrentSpellAspectModificationType,
+  checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier,
   currentSpell,
-  spellsThatModifyCombatStatsObject,
+  currentSpellChanger,
+  currentSpellFinderInFilteredSpells,
 } from "./Spells";
 import { spellCastingFailure } from "./Spells";
 
-export let activeFormsTableBase = {
+export let activeFormsTableBaseForSpellPower = {
   // formasablon táblázat
-  power: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-  Ép: [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26],
+  //power: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  //Ép: [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26],
   init: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110],
+  //atkPerRound: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6],
+  atk: [-2, -0.5, 1, 2.5, 4, 5.5, 7, 8.5, 10, 11.5, 13, 14.5],
+  def: [4, 5.5, 7, 8.5, 10, 11.5, 13, 14.5, 16, 17.5, 19, 20.5],
+  //SFÉ: [0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  //movement: [12, 20, 28, 36, 44, 52, 60, 68, 76, 84, 92, 100],
+  //physicalResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
+  evasiveResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
+  spiritualResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
+  professionLevel: [0, 0, 0, 1, 2, 2, 3, 3, 3, 4, 4, 4],
+};
+export let activeFormsTableBaseForSpellArea = {
+  // formasablon táblázat
+  //power: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  Ép: [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26],
+  //init: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110],
   atkPerRound: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6],
   atk: [-2, -0.5, 1, 2.5, 4, 5.5, 7, 8.5, 10, 11.5, 13, 14.5],
   def: [4, 5.5, 7, 8.5, 10, 11.5, 13, 14.5, 16, 17.5, 19, 20.5],
   SFÉ: [0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   movement: [12, 20, 28, 36, 44, 52, 60, 68, 76, 84, 92, 100],
   physicalResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
-  evasiveResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
-  spiritualResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
-  professionLevel: [0, 0, 0, 1, 2, 2, 3, 3, 3, 4, 4, 4],
+  //evasiveResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
+  //spiritualResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
+  //professionLevel: [0, 0, 0, 1, 2, 2, 3, 3, 3, 4, 4, 4],
 };
 export let activeFormsElementalCreatures = {
   fire: { atk: 1, SFÉ: false, spiritualResist: -1 },
@@ -194,19 +206,25 @@ export function guidedSpellActiveFormLoader() {
   for (let i = 0; i < allActiveBuffs.length; i++) {
     if (allActiveBuffs[i].innerText.includes("irányított")) {
       powerIndex = parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2));
-      currentCombatSpellFinderAndChanger(allActiveBuffs[i].innerText);
+      currentSpellChanger(currentSpellFinderInFilteredSpells(allActiveBuffs[i].innerText));
       break;
     }
   }
+  let areaIndex = currentSpellArea;
   numberOfDiceInput.value = (powerIndex - 1) * 2;
   let currentActiveFormObj = {};
-  let activeFormsTableBaseKeys = Object.keys(activeFormsTableBase);
-  let activeFormsTableBaseValue = Object.values(activeFormsTableBase);
+  let activeFormsTableBaseForSpellPowerKeys = Object.keys(activeFormsTableBaseForSpellPower);
+  let activeFormsTableBaseForSpellPowerValue = Object.values(activeFormsTableBaseForSpellPower);
+  let activeFormsTableBaseForSpellAreaKeys = Object.keys(activeFormsTableBaseForSpellArea);
+  let activeFormsTableBaseForSpellAreaValue = Object.values(activeFormsTableBaseForSpellArea);
 
-  for (let k = 0; k < activeFormsTableBaseKeys.length; k++) {
-    currentActiveFormObj[activeFormsTableBaseKeys[k]] = activeFormsTableBaseValue[k][powerIndex - 1];
+  for (let k = 0; k < activeFormsTableBaseForSpellPowerKeys.length; k++) {
+    currentActiveFormObj[activeFormsTableBaseForSpellPowerKeys[k]] = activeFormsTableBaseForSpellPowerValue[k][powerIndex - 1];
   }
-  elementalModifierAdder(currentActiveFormObj, currentCombatSpell.spellName);
+  elementalModifierAdder(currentActiveFormObj, currentSpell.name);
+
+  // *Az Erősség felel a KÉ, CÉ, Reakció, Szellemi, Képzettség, míg a Terület a Sebzés, Tám, Ép, SFÉ, Mozgás, Fizikai
+  //statisztikákért. A TÉ és VÉ értékeknél a magasabb számít.
 
   if (baseAtkWithTeoCalculator > currentActiveFormObj.atk) {
     // ha a varázshasználó alap statja nagyobb, mint amit a varázslat a formasablon tábla alapján kapna
@@ -214,12 +232,12 @@ export function guidedSpellActiveFormLoader() {
     currentActiveFormObj.def = baseDefWithTeoCalculator;
   }
   guidedSpellRevealButton.style.display = "grid";
-  guidedSpellName.innerText = currentCombatSpell.spellName;
+  guidedSpellName.innerText = currentSpell.name;
   guidedSpellEp.value = currentActiveFormObj.Ép;
   guidedSpellInit.innerText = currentActiveFormObj.init;
   guidedSpellAttackPerRound.innerText = currentActiveFormObj.atkPerRound;
-  guidedSpellAttack.innerText = currentActiveFormObj.atk + currentCombatSpell.modifier;
-  guidedSpellDefense.innerText = currentActiveFormObj.def + currentCombatSpell.modifier;
+  guidedSpellAttack.innerText = currentActiveFormObj.atk + checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpell).modifier;
+  guidedSpellDefense.innerText = currentActiveFormObj.def + checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpell).modifier;
   guidedSpellMovement.innerText = currentActiveFormObj.movement;
   guidedSpellSFE.innerText = currentActiveFormObj.SFÉ;
   guidedSpellPhysical.innerText = currentActiveFormObj.physicalResist;
@@ -228,7 +246,7 @@ export function guidedSpellActiveFormLoader() {
   guidedSpellProfession.innerText = currentActiveFormObj.professionLevel;
 }
 export function handleIfSpellDoesNotNeedAimRoll() {
-  if (currentCombatSpell.isGuided) {
+  if (checkCurrentSpellAspectModificationType(currentSpell, "irányított")) {
     guidedSpellActiveFormLoader();
   }
   // spellTypeQuestionWindow.style.display = "none";
@@ -244,9 +262,12 @@ export function handleIfSpellNeedsAimRoll() {
     weaponBeforeCasting = currentlySelectedWeapon;
   }
   currentlySelectedWeaponChanger("Célzott mágia");
-  if (currentCombatSpell.whatDoesItModify && currentCombatSpell.whatDoesItModify.includes("CÉO")) {
+  if (
+    checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpell).whatDoesItModify &&
+    checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpell).whatDoesItModify == "CÉO"
+  ) {
     // 0.index: melyik spell, 1.index: mire ad pluszt, 2.index: mennyit
-    currentAimedSpellModifierSetter(parseFloat(currentCombatSpell.modifier));
+    currentAimedSpellModifierSetter(parseFloat(checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpell).modifier));
     combatStatRefresher();
   } else if (spellAimInput.value) {
     charAtk.value = baseAimWithTeoCalculator + commonModifiers + parseFloat(spellAimInput.value);
@@ -268,7 +289,7 @@ function ActionList() {
   function handleRecurringActionButton() {
     for (let i = 0; i < allActiveBuffs.length; i++) {
       if (allActiveBuffs[i].innerText.includes("ismétlődő")) {
-        currentCombatSpellFinderAndChanger(allActiveBuffs[i].innerText);
+        currentSpellChanger(currentSpellFinderInFilteredSpells(allActiveBuffs[i].innerText));
         numberOfDiceInput.value = parseInt(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) - 1) * 2;
         break;
       }
@@ -277,7 +298,7 @@ function ActionList() {
       numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
       recurringSpellActionButton.disabled = true;
     }
-    if (currentCombatSpell.whatDoesItModify == "") {
+    if (checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpell).whatDoesItModify == "") {
       handleIfSpellDoesNotNeedAimRoll();
       return;
     }
