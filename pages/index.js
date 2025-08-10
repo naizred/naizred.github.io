@@ -2091,7 +2091,7 @@ export default function Home() {
         numberOfClicksAtTwoWeaponAttack++;
       }
     }
-    if (currentSpell.name && (currentSpell.name.includes("Visszaverődő") || currentSpell.name.includes("Villámlánc"))) {
+    if (currentSpell && currentSpell.name && (currentSpell.name.includes("Visszaverődő") || currentSpell.name.includes("Villámlánc"))) {
       numberOfChainLightningCharges = allMagicSubskillsObject["Villámmágia"];
       currentSpellChanger();
     }
