@@ -2011,7 +2011,7 @@ export default function Home() {
           for (let i = 0; i < allActiveBuffs.length; i++) {
             if (allActiveBuffs[i].innerText == "") {
               allActiveBuffs[i].innerText = data.spellActiveBuffText;
-              if (data.spellData.spellType == "buffSpell" && data.spellData.whatDoesItModify == "HMO") {
+              if (checkCurrentSpellType(data.spellData) == "buffSpell" && checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(data.spellData).whatDoesItModify == "HMO") {
                 anyOtherHmoModifier.value = parseFloat(anyOtherHmoModifier.value) + parseFloat(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) / 2);
                 combatStatRefresher();
               }
