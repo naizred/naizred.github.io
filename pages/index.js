@@ -1963,7 +1963,7 @@ export default function Home() {
           body: JSONdata,
         };
 
-        socket = io("localhost:3000", {
+        socket = io("wss://ttk-rolldice.fly.dev", {
           transports: ["websocket"],
         });
 
