@@ -282,7 +282,7 @@ export function spellCastingSuccessful(currentSpell) {
           currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - kontrollált`;
         }
         if (checkCurrentSpellAspectModificationType(currentSpell, "irányított")) {
-          currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - irányított`;
+          currentSpellTargetingAnotherMemberInRoom = `${currentSpellTargetingAnotherMemberInRoom} - irányított(Terület:${findFirstAspectNameValue("Terület")})`;
         }
         if (
           currentSpellDistance >= 2 &&
@@ -321,7 +321,7 @@ export function spellCastingSuccessful(currentSpell) {
   if (initRolled == true && attackRollButton.disabled == false) {
     attackRollButtonWasDisabledBeforeSpellCastSetter(false);
   }
-  if (currentSpell && currentSpell.name && checkCurrentSpellType(currentSpell) == "attackSpell" && !currentSpell.isGuided) {
+  if (currentSpell && currentSpell.name && checkCurrentSpellType(currentSpell) == "attackSpell" && !checkCurrentSpellAspectModificationType(currentSpell, "irányított")) {
     handleIfSpellNeedsAimRoll();
   } else {
     handleIfSpellDoesNotNeedAimRoll();
@@ -346,7 +346,7 @@ export function spellCastingFailure(anyOtherCondition = true, currentSpell) {
     actionsNeededToBeAbleToCastAgain = 0;
   }
 }
-function findFirstAspectNameValue(aspectName) {
+export function findFirstAspectNameValue(aspectName) {
   // erre azért van szükség, mert lehet, hogy egy keresett Aspektus (pl. Időtartam) előtt van két terület, ezért az index elcsúszik
   for (let i = 0; i < currentSpell.aspects.length; i++) {
     if (currentSpell.aspects[i][0] == aspectName) {

@@ -64,15 +64,18 @@
 }
 .currentlyActiveBuffsWrapper {
   display: grid;
-  padding: 0;
   margin-left: 1vw;
-  grid-column: 18/23;
+  grid-column: 18/22;
   grid-row: 13/15;
-  font-size: 0.8vw;
+  font-size: 0.7vw;
   padding: 0.5vw;
   border: 0.23vw solid white;
   border-radius: 1vw;
   height: 7vw;
+}
+.currentlyActiveBuffsWrapper li {
+  display: grid;
+  padding-bottom: 0.2vw;
 }
 .listOfCurrentlyActiveBuffsLabel {
   font-size: 1vw;

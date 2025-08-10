@@ -33,40 +33,31 @@ import Spells, {
   checkCurrentSpellAspectModificationType,
   checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier,
   currentSpell,
+  currentSpellArea,
   currentSpellChanger,
   currentSpellFinderInFilteredSpells,
+  findFirstAspectNameValue,
 } from "./Spells";
 import { spellCastingFailure } from "./Spells";
 
 export let activeFormsTableBaseForSpellPower = {
   // formasablon táblázat
-  //power: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-  //Ép: [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26],
   init: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110],
-  //atkPerRound: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6],
   atk: [-2, -0.5, 1, 2.5, 4, 5.5, 7, 8.5, 10, 11.5, 13, 14.5],
   def: [4, 5.5, 7, 8.5, 10, 11.5, 13, 14.5, 16, 17.5, 19, 20.5],
-  //SFÉ: [0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  //movement: [12, 20, 28, 36, 44, 52, 60, 68, 76, 84, 92, 100],
-  //physicalResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
   evasiveResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
   spiritualResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
   professionLevel: [0, 0, 0, 1, 2, 2, 3, 3, 3, 4, 4, 4],
 };
 export let activeFormsTableBaseForSpellArea = {
   // formasablon táblázat
-  //power: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   Ép: [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26],
-  //init: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110],
   atkPerRound: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6],
   atk: [-2, -0.5, 1, 2.5, 4, 5.5, 7, 8.5, 10, 11.5, 13, 14.5],
   def: [4, 5.5, 7, 8.5, 10, 11.5, 13, 14.5, 16, 17.5, 19, 20.5],
   SFÉ: [0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   movement: [12, 20, 28, 36, 44, 52, 60, 68, 76, 84, 92, 100],
   physicalResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
-  //evasiveResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
-  //spiritualResist: [3, 5, 7, 9, 11, 13, 15, 16, 17, 18, 19, 20],
-  //professionLevel: [0, 0, 0, 1, 2, 2, 3, 3, 3, 4, 4, 4],
 };
 export let activeFormsElementalCreatures = {
   fire: { atk: 1, SFÉ: false, spiritualResist: -1 },
@@ -201,25 +192,37 @@ export function elementalModifierAdder(activeFormsObjToModify, spellName) {
 }
 
 let powerIndex = 0;
+let areaIndex = 0;
 export function guidedSpellActiveFormLoader() {
   // aktív formák adatait betöltő függvény
   for (let i = 0; i < allActiveBuffs.length; i++) {
     if (allActiveBuffs[i].innerText.includes("irányított")) {
+      // ha megtalálta az "E"-t kettővel előtte vágjon, így a return-olt string számmal fog kezdődni, úgyhogy a parseInt mindent törölni fog ami utána van és számot csinál belőle
       powerIndex = parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2));
+      // ha megtalálta a ":"-ot egyel utána vágjon, így a return-olt string számmal fog kezdődni, úgyhogy a parseInt mindent törölni fog ami utána van és számot csinál belőle
+      areaIndex = parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf(":") + 1));
       currentSpellChanger(currentSpellFinderInFilteredSpells(allActiveBuffs[i].innerText));
       break;
     }
   }
-  let areaIndex = currentSpellArea;
   numberOfDiceInput.value = (powerIndex - 1) * 2;
   let currentActiveFormObj = {};
   let activeFormsTableBaseForSpellPowerKeys = Object.keys(activeFormsTableBaseForSpellPower);
-  let activeFormsTableBaseForSpellPowerValue = Object.values(activeFormsTableBaseForSpellPower);
+  let activeFormsTableBaseForSpellPowerValues = Object.values(activeFormsTableBaseForSpellPower);
   let activeFormsTableBaseForSpellAreaKeys = Object.keys(activeFormsTableBaseForSpellArea);
-  let activeFormsTableBaseForSpellAreaValue = Object.values(activeFormsTableBaseForSpellArea);
+  let activeFormsTableBaseForSpellAreaValues = Object.values(activeFormsTableBaseForSpellArea);
 
   for (let k = 0; k < activeFormsTableBaseForSpellPowerKeys.length; k++) {
-    currentActiveFormObj[activeFormsTableBaseForSpellPowerKeys[k]] = activeFormsTableBaseForSpellPowerValue[k][powerIndex - 1];
+    currentActiveFormObj[activeFormsTableBaseForSpellPowerKeys[k]] = activeFormsTableBaseForSpellPowerValues[k][powerIndex - 1];
+    if (activeFormsTableBaseForSpellPowerKeys[k + 1] == "atk" && areaIndex > powerIndex) {
+      k += 2;
+    }
+  }
+  for (let l = 0; l < activeFormsTableBaseForSpellAreaKeys.length; l++) {
+    currentActiveFormObj[activeFormsTableBaseForSpellAreaKeys[l]] = activeFormsTableBaseForSpellAreaValues[l][areaIndex - 1];
+    if (activeFormsTableBaseForSpellAreaKeys[l + 1] == "atk" && areaIndex <= powerIndex) {
+      l += 2;
+    }
   }
   elementalModifierAdder(currentActiveFormObj, currentSpell.name);
 
@@ -229,9 +232,11 @@ export function guidedSpellActiveFormLoader() {
   if (baseAtkWithTeoCalculator > currentActiveFormObj.atk) {
     // ha a varázshasználó alap statja nagyobb, mint amit a varázslat a formasablon tábla alapján kapna
     currentActiveFormObj.atk = baseAtkWithTeoCalculator;
+  }
+  if (baseDefWithTeoCalculator > currentActiveFormObj.def) {
+    // ha a varázshasználó alap statja nagyobb, mint amit a varázslat a formasablon tábla alapján kapna
     currentActiveFormObj.def = baseDefWithTeoCalculator;
   }
-  guidedSpellRevealButton.style.display = "grid";
   guidedSpellName.innerText = currentSpell.name;
   guidedSpellEp.value = currentActiveFormObj.Ép;
   guidedSpellInit.innerText = currentActiveFormObj.init;
@@ -247,9 +252,8 @@ export function guidedSpellActiveFormLoader() {
 }
 export function handleIfSpellDoesNotNeedAimRoll() {
   if (checkCurrentSpellAspectModificationType(currentSpell, "irányított")) {
-    guidedSpellActiveFormLoader();
+    guidedSpellRevealButton.style.display = "grid";
   }
-  // spellTypeQuestionWindow.style.display = "none";
   if (attackRollButtonWasDisabledBeforeSpellCast) {
     attackRollButton.disabled = true;
   } else if (!attackRollButtonWasDisabledBeforeSpellCast) {
@@ -282,7 +286,6 @@ export function handleIfSpellNeedsAimRoll() {
   if (initRolled && !firstAttackInRoundSpent) {
     firstAttackIsSpellThatNeedsAimRoll = true;
   }
-  // spellTypeQuestionWindow.style.display = "none";
 }
 let currentActionExtraCost = 0;
 function ActionList() {
@@ -745,6 +748,7 @@ function ActionList() {
         onClick={() => {
           guidedSpellWrapper.style.display = "grid";
           spellCastButtonWrapper.style.display = "none";
+          guidedSpellActiveFormLoader();
         }}
         className={styles.guidedSpellRevealButton}
       >
