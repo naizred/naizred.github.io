@@ -250,6 +250,8 @@ export async function fetchCharacterData(currentCharName) {
       if (parsedData.numberOfActions != "") {
         initRollButton.style.display = "none";
         setInitRolled(true);
+        mainHandWeapon.disabled = true;
+        offHandWeapon.disabled = true;
         toggleAllallActionBarButtonsExceptInitRollDisplay("grid");
         initiativeBonusButton.style.display = "none";
         numberOfActions.innerText = parsedData.numberOfActions;
@@ -258,7 +260,7 @@ export async function fetchCharacterData(currentCharName) {
         for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
           if (arrayOfAllComplexManeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
             arrayOfAllComplexManeuvers[i].disabled = false;
-            if (weapons.value.includes("kétkézzel") || weapons.value.includes("Kétkezes") || weapons.value.includes("Pallos") || weapons.value.includes("Alabárd")) {
+            if (mainHandWeapon.value.includes("kétkézzel") || mainHandWeapon.value.includes("Kétkezes") || mainHandWeapon.value.includes("Pallos") || mainHandWeapon.value.includes("Alabárd")) {
               twoWeaponAttackRadioButton.disabled = true;
             } else {
               twoWeaponAttackRadioButton.disabled = false;
@@ -290,8 +292,7 @@ export async function fetchCharacterData(currentCharName) {
           recurringSpellActionButton.style.display = "grid";
         }
         if (activeBuffsStringArray[i].includes("irányított")) {
-          guidedSpellWrapper.style.display = "grid";
-          spellCastButtonWrapper.style.display = "none";
+          guidedSpellRevealButton.style.display = "grid";
           guidedSpellActiveFormLoader();
         }
         currentSpellChanger(currentSpellFinderInAllSpells(activeBuffsStringArray[i]));
@@ -565,7 +566,7 @@ export let allSpellsFilteredByAllSubskillsObject = {};
 export let arrayOfAllComplexManeuvers;
 export let currentlySelectedWeapon;
 export function currentlySelectedWeaponChanger(newWeapon) {
-  weapons.value = newWeapon;
+  mainHandWeapon.value = newWeapon;
   currentlySelectedWeapon = allWeapons.find((name) => name.w_name === `${newWeapon}`);
 }
 export let weaponsOptions;
@@ -680,6 +681,9 @@ function tvcoCalculator(atkAimDef) {
 // -- ide kellett egy másik függvény, mert itt felfelé kerekítünk 0,5 ig a többi TÉ/VÉ/CÉO-val ellentétben, ahol lefelé kerekítünk
 function specialTvcoCalculatorForParry(parryWeaponDef) {
   let calculatedParryWeaponDef = 0;
+  if (currentlySelectedOffHand.w_type != "PAJ") {
+    return 0;
+  }
   if (parryWeaponDef % 5 == 0) {
     calculatedParryWeaponDef = parryWeaponDef;
   } else if (parryWeaponDef % 5 != 0 && parryWeaponDef % 10 < 5) {
@@ -709,11 +713,15 @@ let fistDef = 0;
 let thisAttackWasWithCharge = false;
 let numberOfChainLightningCharges = 0;
 //************************************************ A harci statisztikák frissítése, pl. fegyverváltásnál ***********************************//
-export function combatStatRefresher() {
-  currentlySelectedWeapon = allWeapons.find((name) => name.w_name === `${weapons.value}`);
-  currentlySelectedOffHand = allWeapons.find((name) => name.w_name === `${offHand.value}`);
+export function combatStatRefresher(weaponToRefresh = "mainHandWeapon") {
+  if (weaponToRefresh == "mainHandWeapon") {
+    currentlySelectedWeapon = allWeapons.find((name) => name.w_name === `${mainHandWeapon.value}`);
+  } else if (weaponToRefresh == "offHandWeapon") {
+    blinkingText(warningWindow, "Most a másik kézben forgatott fegyver statjait látod");
+    currentlySelectedWeapon = allWeapons.find((name) => name.w_name === `${offHandWeapon.value}`);
+  }
 
-  if (aptitudeObject["Mesterfegyver"] && parsedCharacterDataFromJSON.masterWeapon == currentlySelectedWeapon.w_name && chosenWeapon.innerText != "Kétk.harc másik kéz:") {
+  if (aptitudeObject["Mesterfegyver"] && parsedCharacterDataFromJSON.masterWeapon == currentlySelectedWeapon.w_name && weaponToRefresh != "offHandWeapon") {
     masterWeaponModifier = aptitudeObject["Mesterfegyver"];
   } else {
     masterWeaponModifier = 0;
@@ -755,6 +763,7 @@ export function combatStatRefresher() {
     defWithProfession = baseDef + parseInt(professionLevel) * fistDef;
   }
 
+  currentlySelectedOffHand = allWeapons.find((name) => name.w_name === `${offHandWeapon.value}`);
   let reducedMgtByParrySkill = currentlySelectedOffHand.mgt;
   let anyOtherHmoModifierValue = anyOtherHmoModifier.value;
   let assassinationAttackModifier = 0;
@@ -776,7 +785,7 @@ export function combatStatRefresher() {
   if (theRoundInnerTimeWasUsedIn == parseInt(numberOfCurrentRound.innerText)) {
     // ha ez az a kör, amikor a Belső időt használta valaki, akkor a módosító még ne érvényesüljön
     commonModifiers =
-      -reducedMgtByParrySkill / 2 -
+      -reducedMgtByParrySkill / 2 - // azért kell oszani 2-vel, mert az MGT felével csökken a HMO
       currentlySelectedWeapon.mgt / 2 +
       parseFloat(anyOtherHmoModifierValue) -
       parseFloat(totalMgtOfArmorSet.innerText / 2) -
@@ -844,7 +853,7 @@ export function combatStatRefresher() {
 
   //*Az összes komplex manőver kiválasztása, és ha a fegyver távolsági, akkor azok letiltása. Ezen felül a kétkezes harc letiltása, ha a fegyvert két kézzel kell forgatni
   arrayOfAllComplexManeuvers = document.querySelectorAll("ul#selectableComplexManeuversList li input");
-  weaponsOptions = document.querySelectorAll("select#weapons option");
+  weaponsOptions = document.querySelectorAll("select#mainHandWeapon option");
 
   if (checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == true) {
     for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
@@ -860,7 +869,7 @@ export function combatStatRefresher() {
     }
     findWeakSpotButton.disabled = false;
     attackOfOpportunityButton.disabled = false;
-    if (weapons.value.includes("kétkézzel") || weapons.value.includes("Kétkezes") || weapons.value.includes("Pallos") || weapons.value.includes("Alabárd")) {
+    if (mainHandWeapon.value.includes("kétkézzel") || mainHandWeapon.value.includes("Kétkezes") || mainHandWeapon.value.includes("Pallos") || mainHandWeapon.value.includes("Alabárd")) {
       twoWeaponAttackRadioButton.disabled = true;
     } else {
       twoWeaponAttackRadioButton.disabled = false;
@@ -908,7 +917,7 @@ export function combatStatRefresher() {
   maxMove.innerText = `Max táv: ${correctedSpeedValueForMovementCalculation * 3} láb`;
   movePerAction.innerText = `/akció táv: ${Math.ceil((correctedSpeedValueForMovementCalculation * 3) / (1 + Math.ceil((parseInt(initiative.innerText) + 1) / 10)))} láb`;
 
-  if (initRolled && combinationCheckBox.checked == false && firstAttackIsSpellThatNeedsAimRoll == false && firstAttackIsAttackOfOpportunity == false && numberOfChainLightningCharges == 0) {
+  if (initRolled && !combinationCheckBox.checked && firstAttackInRoundSpent && !firstAttackIsSpellThatNeedsAimRoll && !firstAttackIsAttackOfOpportunity && numberOfChainLightningCharges == 0) {
     attackRollButton.disabled = true;
   }
   if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) >= 3) {
@@ -917,14 +926,14 @@ export function combatStatRefresher() {
   if (combinationCheckBox.checked && parseInt(numberOfActions.innerText) < 3) {
     attackRollButton.disabled = true;
   }
-  if (numberOfClicksAtTwoWeaponAttack == 1) {
-    attackRollButton.disabled = false;
-  }
   if (attackRollButtonWasDisabledBeforeSpellCast == true && numberOfChainLightningCharges == 0) {
     attackRollButton.disabled = true;
   }
   if (!spellNeedsAimRoll && currentlySelectedWeapon.w_name == "Célzott mágia") {
     attackRollButton.disabled = true;
+  }
+  if (numberOfClicksAtTwoWeaponAttack == 1) {
+    attackRollButton.disabled = false;
   }
 }
 import io from "socket.io-client";
@@ -966,8 +975,8 @@ export default function Home() {
         lightDice = Math.floor(generator.random() * 10);
       }
       /* -- ez a két sor a dobások tesztelésére van  */
-      //lightDice = 1;
-      //darkDice = 1;
+      // lightDice = 1;
+      // darkDice = 1;
       //******************************************* */
       darkDiceResultSelect.value = darkDice;
       lightDiceResultSelect.value = lightDice;
@@ -1160,7 +1169,7 @@ export default function Home() {
     }
     let spellDamage = 0;
     let thirdDiceInMultipleDiceRoll = "needRoll";
-    if (weapons.value == "Célzott mágia" || weapons.value == "Irányított mágia") {
+    if (mainHandWeapon.value == "Célzott mágia" || mainHandWeapon.value == "Irányított mágia") {
       if (event.target.id == "lightDiceResultSelect" || event.target.id == "darkDiceResultSelect") {
         // ha célzott varázslat esetén megváltoztatjuk valamelyik kockát, akkor a 3.sebző kockát ne dobja újra
         thirdDiceInMultipleDiceRoll = thirdAccumulatedDiceResultSelect.value;
@@ -1244,8 +1253,8 @@ export default function Home() {
     skillCheckBase.innerText = "";
 
     if (initRolled == true) {
-      weapons.disabled = true;
-      offHand.disabled = true;
+      mainHandWeapon.disabled = true;
+      offHandWeapon.disabled = true;
       weaponChangeButton.disabled = false;
       warningWindow.innerText = "";
       if (
@@ -1322,9 +1331,6 @@ export default function Home() {
           ) {
             attackRollButton.disabled = true;
           }
-          if (numberOfClicksAtTwoWeaponAttack == 1) {
-            attackRollButton.disabled = false;
-          }
           // if (initRolled && parseInt(numberOfActions.innerText) < 1 && !spellIsBeingCast && actionsNeededToBeAbleToCastAgain != 0) {
           //   spellCastingActionButton.disabled = true;
           // }
@@ -1334,6 +1340,10 @@ export default function Home() {
           }
           if (!spellNeedsAimRoll && currentlySelectedWeapon.w_name == "Célzott mágia") {
             attackRollButton.disabled = true;
+          }
+          if (numberOfClicksAtTwoWeaponAttack == 1) {
+            // új feltétel arra, ha valaki a kétkezes harc első támadásával dupla 1-et dob, és emiatt kifut a cselekedetekből a második támadásra
+            attackRollButton.disabled = false;
           }
         });
         observerForActions.observe(numberOfActions, { childList: true, subtree: true });
@@ -1368,33 +1378,36 @@ export default function Home() {
           }
         }
 
-        let parryWeaponToSelectAtImport;
+        let offHandWeaponToSelectAtImport;
         if (parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon]) {
-          parryWeaponToSelectAtImport = parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon].leftWeapon;
+          offHandWeaponToSelectAtImport = parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon].leftWeapon;
         }
 
         for (let i = 0; i < allWeapons.length; i++) {
-          if (parryWeaponToSelectAtImport && allWeapons[i].w_name.includes(parryWeaponToSelectAtImport) && parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon].detailsMode == "parry") {
-            offHand.value = allWeapons[i].w_name;
+          if (offHandWeaponToSelectAtImport && allWeapons[i].w_name.includes(offHandWeaponToSelectAtImport)) {
+            offHandWeapon.value = allWeapons[i].w_name;
             break;
           }
+        }
+        if (!offHandWeaponToSelectAtImport) {
+          offHandWeapon.value = "Alkarvédő";
         }
 
         if (parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon] != null) {
           for (let i = 0; i < allWeapons.length; i++) {
             if (allWeapons[i].w_name.includes(parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon].rightWeapon)) {
-              weapons.value = allWeapons[i].w_name;
+              mainHandWeapon.value = allWeapons[i].w_name;
               if ((allWeapons[i].w_name.includes("egykézzel") || allWeapons[i].w_name.includes("dobva")) && parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon].detailsMode != "parry") {
                 for (let j = i; j < allWeapons.length; j++) {
                   if (allWeapons[j].w_name.includes("kétkézzel")) {
-                    weapons.value = allWeapons[j].w_name;
+                    mainHandWeapon.value = allWeapons[j].w_name;
                     break;
                   }
                 }
               } else if (allWeapons[i].w_name.includes("dobva")) {
                 for (let k = i; k < allWeapons.length; k++) {
                   if (allWeapons[k].w_name.includes("egykézzel")) {
-                    weapons.value = allWeapons[k].w_name;
+                    mainHandWeapon.value = allWeapons[k].w_name;
                     break;
                   }
                 }
@@ -2103,7 +2116,7 @@ export default function Home() {
     charAtkSumText.innerText = "Össz TÉO/CÉO";
     charAtkSum.innerText = "";
     specialEffect.innerText = "nincs";
-    chosenWeapon.innerText = "Választott fegyver:";
+    //mainHandWeaponLabel.innerText = "Domináns kéz:";
 
     // -------- támadások számából adódó módosító
     if (initRolled == true) {
@@ -2253,9 +2266,9 @@ export default function Home() {
       // mintha az lenne a másik kéz
 
       if (numberOfClicksAtTwoWeaponAttack == 2 && twoWeaponAttackWasUsedThisRound == true) {
-        weapons.disabled = true;
+        //mainHandWeapon.disabled = true;
         twoWeaponAttackRadioButton.disabled = false;
-        weapons.value = mainHandWeaponWhenTwoWeaponAttackIsUsed;
+        //mainHandWeapon.value = mainHandWeaponWhenTwoWeaponAttackIsUsed;
 
         numberOfClicksAtTwoWeaponAttack = 0;
         if (combinationWasUsedThisRound == true) {
@@ -2264,21 +2277,21 @@ export default function Home() {
       }
 
       if (firstAttackInRoundSpent == true && numberOfClicksAtTwoWeaponAttack == 1) {
-        weapons.disabled = false;
-        chosenWeapon.innerText = "Kétk.harc másik kéz:";
+        // mainHandWeapon.disabled = false;
+        // mainHandWeaponLabel.innerText = "Kétk.harc másik kéz:";
         twoWeaponAttackRadioButton.disabled = true;
 
-        mainHandWeaponWhenTwoWeaponAttackIsUsed = currentlySelectedWeapon.w_name;
+        //mainHandWeaponWhenTwoWeaponAttackIsUsed = currentlySelectedWeapon.w_name;
         if (combinationWasUsedThisRound == true) {
           totalActionCostOfAttackSetter(-1);
         }
       }
 
-      setTimeout(() => {
-        if (parseInt(numberOfActions.innerText) < totalActionCostOfAttack) {
-          attackRollButton.disabled = true;
-        }
-      }, 200);
+      // setTimeout(() => {
+      //   if (parseInt(numberOfActions.innerText) < totalActionCostOfAttack) {
+      //     attackRollButton.disabled = true;
+      //   }
+      // }, 200);
 
       if (findWeakSpotOn == true) {
         findWeakSpotModifierNullifier();
@@ -2340,7 +2353,11 @@ export default function Home() {
       spellNeedsAimRollSetToFalse();
       firstAttackIsSpellThatNeedsAimRollSetToFalse();
     }
-    combatStatRefresher();
+    if (numberOfClicksAtTwoWeaponAttack == 1 && twoWeaponAttackRadioButton.disabled) {
+      combatStatRefresher("offHandWeapon");
+    } else {
+      combatStatRefresher();
+    }
     console.log("totalActionCostOfAttack", totalActionCostOfAttack);
     if (weaponBeforeCasting && !weaponBeforeCasting.readyToFireOrThrow) {
       // vizsgálat a távolharci fegyverre, ha nem volt újratöltve, amikor a varázslat megkezdődött
@@ -2389,10 +2406,8 @@ export default function Home() {
             <span id="movePerAction"></span>
           </div>
           <div className={styles.weaponsContainer}>
-            <label htmlFor="weapons" id="chosenWeapon">
-              Választott fegyver:
-            </label>
-            <select id="weapons" name="weapons" onChange={handleWeaponOrShieldChange}>
+            <label id="mainHandWeaponLabel">Domináns kéz:</label>
+            <select id="mainHandWeapon" name="mainHandWeapon" onChange={handleWeaponOrShieldChange}>
               {allWeapons.map((e) => {
                 return <option key={e.w_id}>{e.w_name}</option>;
               })}
@@ -2413,15 +2428,13 @@ export default function Home() {
               Karakter VÉO (hárítás)
             </label>
             <input type="text" name="charDefWithParry" id="charDefWithParry" />
-            <label htmlFor="offHand" id="chosenOffHand">
-              Választott hárítófegyver:
+            <label htmlFor="offHandWeapon" id="offHandWeaponLabel">
+              Másik kéz:
             </label>
-            <select id="offHand" name="offHand" onChange={handleWeaponOrShieldChange}>
-              {allWeapons
-                .filter((e) => e.w_type == "PAJ")
-                .map((e) => {
-                  return <option key={e.w_id}>{e.w_name}</option>;
-                })}
+            <select id="offHandWeapon" name="offHandWeapon" onChange={handleWeaponOrShieldChange}>
+              {allWeapons.map((e) => {
+                return <option key={e.w_id}>{e.w_name}</option>;
+              })}
             </select>
             <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel">
               Egyéb +/- HMO:

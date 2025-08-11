@@ -826,7 +826,7 @@ button:disabled {
   justify-content: center;
 }
 
-#chosenWeapon {
+#mainHandWeaponLabel {
   font-size: 1.2vw;
   display: grid;
   grid-column: 1 / 9;
@@ -835,7 +835,7 @@ button:disabled {
   margin-bottom: 0.5vw;
 }
 
-#weapons {
+#mainHandWeapon {
   grid-column: 1 / 9;
   grid-row: 2 / 3;
   align-self: center;
@@ -934,7 +934,7 @@ button:disabled {
   font-family: Arial, Helvetica, sans-serif, cursive;
 }
 
-#chosenOffHand {
+#offHandWeaponLabel {
   font-size: 1.2vw;
   display: grid;
   grid-column: 1 / 9;
@@ -943,7 +943,7 @@ button:disabled {
   margin-bottom: 0.5vw;
 }
 
-#offHand {
+#offHandWeapon {
   display: grid;
   grid-column: 1 / 9;
   grid-row: 8 / 9;

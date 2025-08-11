@@ -193,7 +193,7 @@ function CharacterDetails() {
     for (let i = 0; i < arrayOfAllComplexManeuvers.length; i++) {
       if (arrayOfAllComplexManeuvers[i].disabled == true && checkIfWeaponIsRanged(currentlySelectedWeapon.w_type) == false) {
         arrayOfAllComplexManeuvers[i].disabled = false;
-        if (weapons.value.includes("kétkézzel") || weapons.value.includes("Kétkezes") || weapons.value.includes("Pallos") || weapons.value.includes("Alabárd")) {
+        if (mainHandWeapon.value.includes("kétkézzel") || mainHandWeapon.value.includes("Kétkezes") || mainHandWeapon.value.includes("Pallos") || mainHandWeapon.value.includes("Alabárd")) {
           twoWeaponAttackRadioButton.disabled = true;
         } else {
           twoWeaponAttackRadioButton.disabled = false;
@@ -204,8 +204,8 @@ function CharacterDetails() {
       }
     }
     reloadButton.disabled = true;
-    weapons.disabled = true;
-    offHand.disabled = true;
+    mainHandWeapon.disabled = true;
+    offHandWeapon.disabled = true;
     setFirstAttackInRoundSpent(false);
     tacticsButton.disabled = false;
     if (initiativeLightDice == undefined) {
@@ -589,8 +589,8 @@ function CharacterDetails() {
     hmoModifiedToFalse();
     combinationWasUsedThisRoundSetToFalse();
     attackRollButton.disabled = false;
-    weapons.disabled = false;
-    offHand.disabled = false;
+    mainHandWeapon.disabled = false;
+    offHandWeapon.disabled = false;
     numberOfReactions.innerText = 0;
     initRollButton.style.display = "grid";
     initiativeLightDiceResult.style.display = "none";

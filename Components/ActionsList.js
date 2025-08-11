@@ -434,8 +434,8 @@ function ActionList() {
       }
       if (nameOfManeuver.includes("Fegyverváltás")) {
         if (parseInt(numberOfActions.innerText) != 0 && currentlySelectedWeapon.w_name != "Célzott mágia") {
-          weapons.disabled = false;
-          offHand.disabled = false;
+          mainHandWeapon.disabled = false;
+          offHandWeapon.disabled = false;
           numberOfActions.innerText = parseInt(numberOfActions.innerText) - 1;
           actionsSpentSinceLastCastAdderCheckerAndNullifier(1);
           event.target.disabled = true;
