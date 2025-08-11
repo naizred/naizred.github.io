@@ -71,7 +71,7 @@ export function currentSpellFinderInAllSpells(string) {
 }
 export function checkCurrentSpellAspectModificationType(spellToCheck, aspectModType) {
   // a varázslat ismétlődő, fenntartott, kontrollált, vagy irányított?
-  if (spellToCheck.description.toLowerCase().includes(aspectModType)) {
+  if (spellToCheck.description && spellToCheck.description.toLowerCase().includes(aspectModType)) {
     return true;
   } else {
     return false;
@@ -641,6 +641,13 @@ export function handleSpellAspOptionChange(event) {
   console.log("volt erő mod?", powerAspModified, "volt más asp mod?", anyAspExceptPowerAspModified);
 }
 
+export function removeAllOptions(selectElementId) {
+  const selectElement = document.getElementById(selectElementId);
+  while (selectElement.firstChild) {
+    selectElement.removeChild(selectElement.firstChild);
+  }
+}
+
 function spellAspModifier(event) {
   if (event.target.id == "veiledAspModifierCheckBox") {
     if (event.target.checked) {
@@ -1113,13 +1120,6 @@ function Spells() {
     calculateSpellCastTimeAndManaCost();
     emptyAllRollModifiersArray();
     evaluateSkillOrAttributeCheckBase();
-  }
-
-  function removeAllOptions(selectElementId) {
-    const selectElement = document.getElementById(selectElementId);
-    while (selectElement.firstChild) {
-      selectElement.removeChild(selectElement.firstChild);
-    }
   }
 
   function handleSpellCast(event) {

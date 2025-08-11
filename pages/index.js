@@ -44,6 +44,7 @@ import {
   checkCurrentSpellType,
   checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier,
   currentSpellFinderInAllSpells,
+  removeAllOptions,
 } from "../Components/Spells";
 import ArmorDetails from "../Components/ArmorDetails";
 import K10RollAndSpellDamageRoll, { multipleDiceRoll } from "../Components/K10RollAndSpellDamageRoll";
@@ -408,6 +409,31 @@ let filteredArrayByWeaponSkills;
 let filteredArrayByCurrentlySelectedWeaponType;
 // erre azon fegyverek miatt van szükség, amik több típusba is beletartoznak
 let weaponTypeAndLevelAndStyleArray = [];
+let favouriteWeaponsArray = [];
+let allWeaponsNameArray = [];
+
+function fillSelectElementWeaponsArray(array, selectId) {
+  removeAllOptions(selectId);
+  const selectElement = document.getElementById(selectId);
+  for (let i = 0; i < array.length; i++) {
+    let weaponOption = document.createElement("option");
+    weaponOption.innerText = array[i];
+    selectElement.appendChild(weaponOption);
+  }
+}
+
+function handleTriggerShownWeapons() {
+  if (triggerShownWeaponsCheckBox.checked) {
+    fillSelectElementWeaponsArray(allWeaponsNameArray, "mainHandWeapon");
+    fillSelectElementWeaponsArray(allWeaponsNameArray, "offHandWeapon");
+    return;
+  }
+  if (!triggerShownWeaponsCheckBox.checked) {
+    fillSelectElementWeaponsArray(favouriteWeaponsArray, "mainHandWeapon");
+    fillSelectElementWeaponsArray(favouriteWeaponsArray, "offHandWeapon");
+    return;
+  }
+}
 
 function checkAndReturnProficiencyLevelInWeapon(weaponType) {
   for (let i = 0; i < filteredArrayByWeaponSkills.length; i++) {
@@ -559,7 +585,6 @@ export function combinationModifiersIndexChanger(newCombinationModifiersIndex) {
   combinationModifiersIndex = newCombinationModifiersIndex;
 }
 let filteredArrayIfHasParry;
-let mainHandWeaponWhenTwoWeaponAttackIsUsed;
 let bonusDamageFromAssassination = 0;
 export let allMagicSubskillsObject = {};
 export let allSpellsFilteredByAllSubskillsObject = {};
@@ -764,6 +789,7 @@ export function combatStatRefresher(weaponToRefresh = "mainHandWeapon") {
   }
 
   currentlySelectedOffHand = allWeapons.find((name) => name.w_name === `${offHandWeapon.value}`);
+
   let reducedMgtByParrySkill = currentlySelectedOffHand.mgt;
   let anyOtherHmoModifierValue = anyOtherHmoModifier.value;
   let assassinationAttackModifier = 0;
@@ -1370,6 +1396,39 @@ export default function Home() {
         for (let i = 0; i < parsedCharacterDataFromJSON.aptitudes.length; i++) {
           if (parsedCharacterDataFromJSON.aptitudes[i].level) aptitudeObject[parsedCharacterDataFromJSON.aptitudes[i].aptitude] = parsedCharacterDataFromJSON.aptitudes[i].level; // Objektum ahol az Adottságok neve a kulcs, az érték pedig az Adottág szintje
         }
+        // a kedvenc fegyverekbe, minden a karakteralkotóban berakott fegyver benne van
+        favouriteWeaponsArray = [];
+        for (let i = 0; i < parsedCharacterDataFromJSON.weaponSets.length; i++) {
+          if (!favouriteWeaponsArray.includes(parsedCharacterDataFromJSON.weaponSets[i].rightWeapon)) {
+            favouriteWeaponsArray.push(parsedCharacterDataFromJSON.weaponSets[i].rightWeapon);
+          }
+          if (!favouriteWeaponsArray.includes(parsedCharacterDataFromJSON.weaponSets[i].leftWeapon)) {
+            favouriteWeaponsArray.push(parsedCharacterDataFromJSON.weaponSets[i].leftWeapon);
+          }
+        }
+        for (let i = 0; i < allWeapons.length; i++) {
+          // az összes fegyver neve
+          allWeaponsNameArray.push(allWeapons[i].w_name);
+        }
+        let canCastSpells = false;
+        for (let i = 0; i < parsedCharacterDataFromJSON.aptitudes.length; i++) {
+          if (parsedCharacterDataFromJSON.aptitudes[i].aptitude == "Varázstudó" && parsedCharacterDataFromJSON.aptitudes[i].level > 0) {
+            canCastSpells = true;
+            break;
+          }
+        }
+        if (favouriteWeaponsArray.length > 0) {
+          if (canCastSpells) {
+            favouriteWeaponsArray.push("Célzott mágia");
+            favouriteWeaponsArray.push("Irányított mágia");
+          }
+          fillSelectElementWeaponsArray(favouriteWeaponsArray, "mainHandWeapon");
+          fillSelectElementWeaponsArray(favouriteWeaponsArray, "offHandWeapon");
+        } else {
+          fillSelectElementWeaponsArray(allWeaponsNameArray, "mainHandWeapon");
+          fillSelectElementWeaponsArray(allWeaponsNameArray, "offHandWeapon");
+          triggerShownWeaponsCheckBox.disabled = true;
+        }
 
         let indexOfFirstWeapon = 0;
         for (indexOfFirstWeapon; indexOfFirstWeapon < parsedCharacterDataFromJSON.weaponSets.length; indexOfFirstWeapon++) {
@@ -1383,13 +1442,13 @@ export default function Home() {
           offHandWeaponToSelectAtImport = parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon].leftWeapon;
         }
 
-        for (let i = 0; i < allWeapons.length; i++) {
+        for (let i = 0; i < allWeapons.length && offHandWeaponToSelectAtImport; i++) {
           if (offHandWeaponToSelectAtImport && allWeapons[i].w_name.includes(offHandWeaponToSelectAtImport)) {
             offHandWeapon.value = allWeapons[i].w_name;
             break;
           }
         }
-        if (!offHandWeaponToSelectAtImport) {
+        if (!offHandWeaponToSelectAtImport && favouriteWeaponsArray.includes("Alkarvédő")) {
           offHandWeapon.value = "Alkarvédő";
         }
 
@@ -2406,40 +2465,48 @@ export default function Home() {
             <span id="movePerAction"></span>
           </div>
           <div className={styles.weaponsContainer}>
-            <label id="mainHandWeaponLabel">Domináns kéz:</label>
-            <select id="mainHandWeapon" name="mainHandWeapon" onChange={handleWeaponOrShieldChange}>
-              {allWeapons.map((e) => {
-                return <option key={e.w_id}>{e.w_name}</option>;
-              })}
-            </select>
-            <label htmlFor="charAtk" id="charAtkLabel">
-              Karakter TÉO/CÉO
+            <span className={styles.triggerShownWeapons}>
+              Összes fegyver betöltése
+              <input type="checkbox" id="triggerShownWeaponsCheckBox" onChange={handleTriggerShownWeapons} />
+            </span>
+            <label id="mainHandWeaponLabel" className={styles.mainHandWeaponLabel}>
+              Domináns kéz:
             </label>
-            <input type="text" name="charAtk" id="charAtk" />
-            <label htmlFor="charDef" id="charDefLabel">
-              Karakter VÉO
-            </label>
-            <input type="text" name="charDef" id="charDef" />
-            <label htmlFor="charDefWithEvasion" id="charDefWithEvasionLabel">
-              Karakter VÉO (kitérés)
-            </label>
-            <input type="text" name="charDefWithEvasion" id="charDefWithEvasion" />
-            <label htmlFor="charDefWithParry" id="charDefWithParryLabel">
-              Karakter VÉO (hárítás)
-            </label>
-            <input type="text" name="charDefWithParry" id="charDefWithParry" />
-            <label htmlFor="offHandWeapon" id="offHandWeaponLabel">
+            <select id="mainHandWeapon" name="mainHandWeapon" className={styles.mainHandWeapon} onChange={handleWeaponOrShieldChange}></select>
+            <label htmlFor="offHandWeapon" id="offHandWeaponLabel" className={styles.offHandWeaponLabel}>
               Másik kéz:
             </label>
-            <select id="offHandWeapon" name="offHandWeapon" onChange={handleWeaponOrShieldChange}>
-              {allWeapons.map((e) => {
-                return <option key={e.w_id}>{e.w_name}</option>;
-              })}
-            </select>
-            <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel">
+            <select id="offHandWeapon" name="offHandWeapon" className={styles.offHandWeapon} onChange={handleWeaponOrShieldChange}></select>
+            <label htmlFor="charAtk" id="charAtkLabel" className={styles.charAtkLabel}>
+              Karakter TÉO/CÉO
+            </label>
+            <input type="text" name="charAtk" id="charAtk" className={styles.charAtk} />
+            <label htmlFor="charDef" id="charDefLabel" className={styles.charDefLabel}>
+              Karakter VÉO
+            </label>
+            <input type="text" name="charDef" id="charDef" className={styles.charDef} />
+            <label htmlFor="charDefWithEvasion" id="charDefWithEvasionLabel" className={styles.charDefWithEvasionLabel}>
+              Karakter VÉO (kitérés)
+            </label>
+            <input type="text" name="charDefWithEvasion" id="charDefWithEvasion" className={styles.charDefWithEvasion} />
+            <label htmlFor="charDefWithParry" id="charDefWithParryLabel" className={styles.charDefWithParryLabel}>
+              Karakter VÉO (hárítás)
+            </label>
+            <input type="text" name="charDefWithParry" id="charDefWithParry" className={styles.charDefWithParry} />
+
+            <label htmlFor="anyOtherHmoModifier" id="anyOtherHmoModifierLabel" className={styles.anyOtherHmoModifierLabel}>
               Egyéb +/- HMO:
             </label>
-            <input type="number" step={0.5} name="anyOtherHmoModifier" id="anyOtherHmoModifier" onChange={combatStatRefresher} disabled={true} defaultValue={0} />
+            <input
+              type="number"
+              step={0.5}
+              name="anyOtherHmoModifier"
+              id="anyOtherHmoModifier"
+              className={styles.anyOtherHmoModifier}
+              onChange={combatStatRefresher}
+              disabled={true}
+              defaultValue={0}
+            />
           </div>
           <div id="rollResultWrapper">
             <label htmlFor="lightDiceResultSelect" id="lightDiceResult">

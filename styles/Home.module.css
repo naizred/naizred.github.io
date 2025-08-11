@@ -5,14 +5,143 @@
   grid-column: 4 / 8;
   grid-row: 1 / 11;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-auto-flow: column;
   align-items: center;
   justify-content: center;
   border: 0.23vw solid white;
+  row-gap: 0.4vw;
   /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   -moz-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
   box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75); */
   border-radius: 1vw;
+}
+
+.mainHandWeaponLabel {
+  font-size: 1.2vw;
+  display: grid;
+  grid-column: 1 / 9;
+}
+
+.mainHandWeapon {
+  grid-column: 1 / 9;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width: 13vw;
+  font-size: 1.2vw;
+  font-family: Arial, Helvetica, sans-serif, cursive;
+}
+
+.offHandWeaponLabel {
+  font-size: 1.2vw;
+  display: grid;
+  grid-column: 1 / 9;
+}
+
+.offHandWeapon {
+  display: grid;
+  grid-column: 1 / 9;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  height: 2.2vw;
+  width: 13vw;
+  font-size: 1.2vw;
+  margin-bottom: 1.5vw;
+  font-family: Arial, Helvetica, sans-serif, cursive;
+}
+
+.charAtkLabel {
+  font-size: 1.2vw;
+  display: grid;
+  grid-column: 1 / 5;
+}
+
+.charAtk {
+  display: grid;
+  grid-column: 1 / 5;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+  height: 2.2vw;
+  width: 5vw;
+  font-size: 2vw;
+  font-family: Arial, Helvetica, sans-serif, cursive;
+}
+.charDefLabel {
+  font-size: 1.2vw;
+  display: grid;
+  grid-column: 5 / 9;
+}
+
+.charDef {
+  display: grid;
+  grid-column: 5 / 9;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+  height: 2.2vw;
+  width: 5vw;
+  font-size: 2vw;
+  font-family: Arial, Helvetica, sans-serif, cursive;
+}
+
+.charDefWithEvasionLabel {
+  font-size: 1.2vw;
+  display: grid;
+  grid-column: 1 / 5;
+}
+
+.charDefWithEvasion {
+  display: grid;
+  grid-column: 1 / 5;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+  height: 2.2vw;
+  width: 5vw;
+  font-size: 2vw;
+  margin-bottom: 1.5vw;
+  font-family: Arial, Helvetica, sans-serif, cursive;
+}
+.charDefWithParryLabel {
+  font-size: 1.2vw;
+  display: grid;
+  grid-column: 5 / 9;
+}
+
+.charDefWithParry {
+  display: grid;
+  grid-column: 5 / 9;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+  height: 2.2vw;
+  width: 5vw;
+  font-size: 2vw;
+  margin-bottom: 1.5vw;
+  font-family: Arial, Helvetica, sans-serif, cursive;
+}
+
+.anyOtherHmoModifierLabel {
+  display: grid;
+  grid-column: 1 / 5;
+}
+.anyOtherHmoModifier {
+  display: grid;
+  grid-column: 5 / 9;
+  height: 2.2vw;
+  width: 5vw;
+  font-size: 2vw;
+  font-family: Arial, Helvetica, sans-serif, cursive;
+}
+
+.triggerShownWeapons {
+  display: grid;
+  grid-column: 1/9;
+  font-size: 0.8vw;
+  grid-auto-flow: column;
 }
 
 .resultContainer {
@@ -90,7 +219,7 @@
   justify-content: center;
   background-size: inherit;
   background-repeat: no-repeat;
-  margin:1vw 2vw;
+  margin: 1vw 2vw;
   padding-bottom: 0.5vw;
   border: 0.23vw solid white;
   /* -webkit-box-shadow: 0.15vw 0.15vw 0.3vw 0.15vw rgba(255, 255, 255, 0.75);
