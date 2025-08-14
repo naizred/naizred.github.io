@@ -297,7 +297,7 @@ export async function fetchCharacterData(currentCharName) {
           guidedSpellActiveFormLoader();
         }
         currentSpellChanger(currentSpellFinderInAllSpells(activeBuffsStringArray[i]));
-        if (currentSpell) {
+        if (Object.keys(currentSpell).length > 0) {
           if (checkCurrentSpellType(currentSpell) == "buffSpell" && checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(currentSpell).whatDoesItModify == "HMO") {
             anyOtherHmoModifier.value = parseFloat(anyOtherHmoModifier.value) + parseFloat(parseInt(allActiveBuffs[i].innerText.slice(allActiveBuffs[i].innerText.lastIndexOf("E") - 2)) / 2);
             combatStatRefresher();
@@ -387,6 +387,11 @@ let weaponStyles = [
   { SZÁ: ["Távoltartás", "Lefegyverzés"] },
   { LOV: ["Taszítás", "Távoltartás"] },
   { PAJ: ["Taszítás", "Belharc"] },
+  { "Láncos sarló": ["Távoltartás", "Kínokozás"] },
+  { "Korbács, Ostor": ["Távoltartás", "Lefegyverzés"] },
+  { Tonfa: ["Belharc", "Birkózás"] },
+  { "Többrészes bot": ["Távoltartás", "Pusztítás"] },
+  { Vaskígyó: ["Lefegyverzés", "Pusztítás"] },
   { Kardművész: ["Lefegyverzés", "Pusztítás", "Fegyvertörés", "Távoltartás", "Belharc"] },
   { "Fekete láng": ["Távoltartás", "Fegyvertörés", "Taszítás", "Lefegyverzés", "Pusztítás"] },
   { "Ezer víz útja": ["Belharc", "Birkózás", "Lefegyverzés", "Taszítás", "Kínokozás"] },
@@ -1393,17 +1398,32 @@ export default function Home() {
 
         parsedCharacterDataFromJSON = JSON.parse(reader.result);
 
+        let indexOfFirstWeapon = 0;
+        for (indexOfFirstWeapon; indexOfFirstWeapon < parsedCharacterDataFromJSON.weaponSets.length; indexOfFirstWeapon++) {
+          if (parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon] != null) {
+            break;
+          }
+        }
+
         for (let i = 0; i < parsedCharacterDataFromJSON.aptitudes.length; i++) {
           if (parsedCharacterDataFromJSON.aptitudes[i].level) aptitudeObject[parsedCharacterDataFromJSON.aptitudes[i].aptitude] = parsedCharacterDataFromJSON.aptitudes[i].level; // Objektum ahol az Adottságok neve a kulcs, az érték pedig az Adottág szintje
         }
         // a kedvenc fegyverekbe, minden a karakteralkotóban berakott fegyver benne van
         favouriteWeaponsArray = [];
         for (let i = 0; i < parsedCharacterDataFromJSON.weaponSets.length; i++) {
-          if (!favouriteWeaponsArray.includes(parsedCharacterDataFromJSON.weaponSets[i].rightWeapon)) {
-            favouriteWeaponsArray.push(parsedCharacterDataFromJSON.weaponSets[i].rightWeapon);
+          for (let j = 0; j < allWeapons.length; j++) {
+            if (!favouriteWeaponsArray.includes(allWeapons[j].w_name)) {
+              if (allWeapons[j].w_name.includes(parsedCharacterDataFromJSON.weaponSets[i].rightWeapon)) {
+                favouriteWeaponsArray.push(allWeapons[j].w_name);
+              }
+            }
           }
-          if (!favouriteWeaponsArray.includes(parsedCharacterDataFromJSON.weaponSets[i].leftWeapon)) {
-            favouriteWeaponsArray.push(parsedCharacterDataFromJSON.weaponSets[i].leftWeapon);
+          for (let k = 0; k < allWeapons.length; k++) {
+            if (!favouriteWeaponsArray.includes(allWeapons[k].w_name)) {
+              if (allWeapons[k].w_name.includes(parsedCharacterDataFromJSON.weaponSets[i].leftWeapon)) {
+                favouriteWeaponsArray.push(allWeapons[k].w_name);
+              }
+            }
           }
         }
         for (let i = 0; i < allWeapons.length; i++) {
@@ -1428,13 +1448,6 @@ export default function Home() {
           fillSelectElementWeaponsArray(allWeaponsNameArray, "mainHandWeapon");
           fillSelectElementWeaponsArray(allWeaponsNameArray, "offHandWeapon");
           triggerShownWeaponsCheckBox.disabled = true;
-        }
-
-        let indexOfFirstWeapon = 0;
-        for (indexOfFirstWeapon; indexOfFirstWeapon < parsedCharacterDataFromJSON.weaponSets.length; indexOfFirstWeapon++) {
-          if (parsedCharacterDataFromJSON.weaponSets[indexOfFirstWeapon] != null) {
-            break;
-          }
         }
 
         let offHandWeaponToSelectAtImport;

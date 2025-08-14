@@ -70,6 +70,9 @@ export function currentSpellFinderInAllSpells(string) {
   return {};
 }
 export function checkCurrentSpellAspectModificationType(spellToCheck, aspectModType) {
+  if (Object.keys(spellToCheck).length == 0) {
+    return;
+  }
   // a varázslat ismétlődő, fenntartott, kontrollált, vagy irányított?
   if (spellToCheck.description && spellToCheck.description.toLowerCase().includes(aspectModType)) {
     return true;
@@ -78,6 +81,9 @@ export function checkCurrentSpellAspectModificationType(spellToCheck, aspectModT
   }
 }
 export function checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModifier(spellToCheck) {
+  if (Object.keys(spellToCheck).length == 0) {
+    return;
+  }
   let whatDoesItModify;
   let indexOfPositiveCombatModifier = spellToCheck.description.lastIndexOf("+");
 
@@ -100,6 +106,9 @@ export function checkWhatCombatStatDoesCurrentSpellModifyAndReturnItWithTheModif
   return modifierData;
 }
 export function checkCurrentSpellType(spellToCheck) {
+  if (Object.keys(spellToCheck).length == 0) {
+    return;
+  }
   let spellType = "";
   if (
     !spellToCheck.resist.includes("TÉOvVÉO") &&
