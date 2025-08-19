@@ -50,7 +50,7 @@ function Kalandmester() {
     socket.on("there you go", (allPlayersArray) => {
       console.log(allPlayersArray);
       let arrayToSortCharacterSequence = [];
-      allPlayersArray.sort((a, b) => a.charId - b.charId);
+      allPlayersArray.sort((a, b) => b.charId - a.charId);
       for (let i = 0; i < allPlayersArray.length; i++) {
         if (allPlayersArray[i].charName == updatedCharName) {
           //először karakter Id szerint sorba rendezzük
@@ -155,7 +155,7 @@ function Kalandmester() {
     socket.on("there you go", (allPlayersArray) => {
       for (let i = 0; i < allPlayersArray.length; i++) {
         //először karakter Id szerint sorba rendezzük
-        allPlayersArray.sort((a, b) => a.charId - b.charId);
+        allPlayersArray.sort((a, b) => b.charId - a.charId);
         currentCharNameNodes[i].innerText = allPlayersArray[i].charName;
         currentFpNodes[i].value = allPlayersArray[i].currentFp;
         currentEpNodes[i].value = allPlayersArray[i].currentEp;
